@@ -1,0 +1,3419 @@
+# $Revision: 1.1.6.3 $
+Library {
+  Name			  "aerolibtransform2"
+  Version		  5.0
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  off
+  StatusBar		  off
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Tue Aug 21 14:09:54 2001"
+  Creator		  "sgage"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "sgage"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Thu Jun 26 11:04:48 2003"
+  ModelVersionFormat	  "1.%<AutoIncrement:31>"
+  ConfigurationManager	  "None"
+  SimParamPage		  "Solver"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeMexFile	  "ext_comm"
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock off
+  ConsistencyChecking	  "none"
+  ArrayBoundsChecking	  "none"
+  AlgebraicLoopMsg	  "warning"
+  BlockPriorityViolationMsg "warning"
+  MinStepSizeMsg	  "warning"
+  InheritedTsInSrcMsg	  "warning"
+  DiscreteInheritContinuousMsg "warning"
+  MultiTaskRateTransMsg	  "error"
+  SingleTaskRateTransMsg  "none"
+  CheckForMatrixSingularity "none"
+  IntegerOverflowMsg	  "warning"
+  Int32ToFloatConvMsg	  "warning"
+  ParameterDowncastMsg	  "error"
+  ParameterOverflowMsg	  "error"
+  ParameterPrecisionLossMsg "warning"
+  UnderSpecifiedDataTypeMsg "none"
+  UnnecessaryDatatypeConvMsg "none"
+  VectorMatrixConversionMsg "none"
+  InvalidFcnCallConnMsg	  "error"
+  SignalLabelMismatchMsg  "none"
+  UnconnectedInputMsg	  "warning"
+  UnconnectedOutputMsg	  "warning"
+  UnconnectedLineMsg	  "warning"
+  SfunCompatibilityCheckMsg "none"
+  ProdHWDeviceType	  "Microprocessor"
+  ProdHWWordLengths	  "8,16,32,32"
+  TargetHWChar		  2
+  TargetHWWordLengths	  "8,16,32,32"
+  RTWMakeCommand	  "make_rtw"
+  RTWGenerateCodeOnly	  off
+  RTWRetainRTWFile	  off
+  TLCProfiler		  off
+  TLCDebug		  off
+  TLCCoverage		  off
+  TLCAssertion		  off
+  SimulationMode	  "normal"
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      ActionPort
+      InitializeStates	      "held"
+      ActionType	      "unset"
+    }
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      ShowAdditionalParam     off
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "sfix(16)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Demux
+      Outputs		      "4"
+      DisplayOption	      "none"
+      BusSelectionMode	      off
+    }
+    Block {
+      BlockType		      Fcn
+      Expr		      "sin(u[1])"
+    }
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ShowAdditionalParam     off
+      ParameterDataTypeMode   "Same as input"
+      ParameterDataType	      "sfix(16)"
+      ParameterScalingMode    "Best Precision: Matrix-wise"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      If
+      NumInputs		      "1"
+      IfExpression	      "u1 > 0"
+      ShowElse		      on
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      ShowAdditionalParam     off
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      LatchInput	      off
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Math
+      Operator		      "exp"
+      OutputSignalType	      "auto"
+    }
+    Block {
+      BlockType		      Merge
+      Inputs		      "2"
+      InitialOutput	      "[]"
+      AllowUnequalInputPortWidths off
+      InputPortOffsets	      "[]"
+    }
+    Block {
+      BlockType		      Mux
+      Inputs		      "4"
+      DisplayOption	      "none"
+      NonVirtualBus	      off
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      Product
+      Inputs		      "2"
+      Multiplication	      "Element-wise(.*)"
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      RelationalOperator
+      Operator		      ">="
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      LogicOutDataTypeMode    "Logical (see Advanced Sim. Parameters)"
+      LogicDataType	      "uint(8)"
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      PortCounts	      "[]"
+      SFunctionModules	      "''"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      RTWSystemCode	      "Auto"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Sum
+      IconShape		      "rectangular"
+      Inputs		      "++"
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Switch
+      Criteria		      "u2 >= Threshold"
+      Threshold		      "0"
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      OutDataTypeMode	      "Inherit via internal rule"
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      Trigonometry
+      Operator		      "sin"
+      OutputSignalType	      "auto"
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "aerolibtransform2"
+    Location		    [1022, 489, 1504, 742]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      "Direction Cosine Matrix \nto Quaternions"
+      Ports		      [1, 1]
+      Position		      [195, 140, 260, 190]
+      TreatAsAtomicUnit	      off
+      MaskType		      "DCM2Quaternion"
+      MaskDescription	      "Determine the 4x1 quaternion orientation vector"
+" from a 3-by-3 direction cosine matrix (DCM). The input DCM transforms vector"
+"s from inertial axes to body axes."
+      MaskHelp		      "web(asbhelp('directioncosinematrixtoquaternions"
+"'));"
+      MaskDisplay	      "disp('DCM2Quat')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"Direction Cosine Matrix \nto Quaternions"
+	Location		[158, 205, 933, 427]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "DCM"
+	  Position		  [20, 103, 50, 117]
+	}
+	Block {
+	  BlockType		  If
+	  Name			  "If"
+	  Ports			  [1, 2]
+	  Position		  [295, 30, 375, 70]
+	}
+	Block {
+	  BlockType		  Merge
+	  Name			  "Merge"
+	  Ports			  [2, 1]
+	  Position		  [625, 105, 665, 145]
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Negative Trace"
+	  Ports			  [1, 1, 0, 0, 0, 0, 0, 1]
+	  Position		  [340, 130, 445, 170]
+	  TreatAsAtomicUnit	  on
+	  System {
+	    Name		    "Negative Trace"
+	    Location		    [136, 183, 932, 552]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "DCM"
+	      Position		      [25, 113, 55, 127]
+	    }
+	    Block {
+	      BlockType		      ActionPort
+	      Name		      "Action Port"
+	      Position		      [350, 15, 409, 43]
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "Fcn"
+	      Position		      [115, 75, 145, 105]
+	      ShowName		      off
+	      Expr		      "u(1)"
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "Fcn1"
+	      Position		      [115, 105, 145, 135]
+	      ShowName		      off
+	      Expr		      "u(5)"
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "Fcn2"
+	      Position		      [115, 135, 145, 165]
+	      ShowName		      off
+	      Expr		      "u(9)"
+	    }
+	    Block {
+	      BlockType		      If
+	      Name		      "Find Maximum\nDiagonal Value"
+	      Ports		      [3, 3]
+	      Position		      [210, 75, 310, 165]
+	      NumInputs		      "3"
+	      IfExpression	      "((u2 > u1) & (u2 > u3))"
+	      ElseIfExpressions	      "u3 > u1"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Maximum Value\nat DCM(1,1)"
+	      Ports		      [1, 1, 0, 0, 0, 0, 0, 1]
+	      Position		      [315, 285, 415, 325]
+	      TreatAsAtomicUnit	      on
+	      System {
+		Name			"Maximum Value\nat DCM(1,1)"
+		Location		[114, 161, 804, 465]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "DCM"
+		  Position		  [15, 203, 45, 217]
+		}
+		Block {
+		  BlockType		  ActionPort
+		  Name			  "Action Port"
+		  Position		  [290, 15, 349, 43]
+		}
+		Block {
+		  BlockType		  Fcn
+		  Name			  " sin(phi)sin(theta)cos(psi) - cos(p"
+"hi)sin(psi) + cos(theta)sin(psi)"
+		  Position		  [205, 150, 265, 180]
+		  Expr			  "u(2) + u(4)"
+		}
+		Block {
+		  BlockType		  Demux
+		  Name			  "Demux"
+		  Ports			  [1, 3]
+		  Position		  [510, 172, 520, 238]
+		  BackgroundColor	  "black"
+		  ShowName		  off
+		  Outputs		  "3"
+		}
+		Block {
+		  BlockType		  Fcn
+		  Name			  "Fcn3"
+		  Position		  [135, 105, 240, 135]
+		  ShowName		  off
+		  Expr			  "u(1) - (u(5) +u(9)) +1"
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain"
+		  Position		  [450, 80, 495, 110]
+		  ShowName		  off
+		  Gain			  "0.5"
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain1"
+		  Position		  [555, 182, 560, 188]
+		  ShowName		  off
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain2"
+		  Position		  [555, 201, 560, 209]
+		  ShowName		  off
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain3"
+		  Position		  [555, 142, 560, 148]
+		  ShowName		  off
+		}
+		Block {
+		  BlockType		  Math
+		  Name			  "Math\nFunction"
+		  Ports			  [1, 1]
+		  Position		  [275, 105, 305, 135]
+		  ShowName		  off
+		  Operator		  "sqrt"
+		}
+		Block {
+		  BlockType		  Mux
+		  Name			  "Mux"
+		  Ports			  [4, 1]
+		  Position		  [580, 135, 590, 215]
+		  ShowName		  off
+		  DisplayOption		  "bar"
+		}
+		Block {
+		  BlockType		  Mux
+		  Name			  "Mux1"
+		  Ports			  [3, 1]
+		  Position		  [395, 140, 405, 280]
+		  ShowName		  off
+		  Inputs		  "3"
+		  DisplayOption		  "bar"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product"
+		  Ports			  [2, 1]
+		  Position		  [445, 186, 490, 219]
+		  ShowName		  off
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Fcn
+		  Name			  "cos(phi)sin(theta)cos(psi) + sin(ph"
+"i)sin(psi) - sin(theta)"
+		  Position		  [205, 195, 265, 225]
+		  Expr			  "u(3) + u(7)"
+		}
+		Block {
+		  BlockType		  Fcn
+		  Name			  "cos(theta)sin(phi) - (cos(phi)sin(t"
+"heta)sin(psi) - sin(phi)cos(psi))"
+		  Position		  [205, 240, 265, 270]
+		  Expr			  "u(8) - u(6)"
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "if s~=0; s=0.5/s"
+		  Ports			  [1, 1]
+		  Position		  [340, 109, 385, 131]
+		  TreatAsAtomicUnit	  off
+		  System {
+		    Name		    "if s~=0; s=0.5/s"
+		    Location		    [448, 297, 843, 450]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "s"
+		    Position		    [15, 62, 45, 78]
+		    }
+		    Block {
+		    BlockType		    Constant
+		    Name		    "Constant"
+		    Position		    [80, 75, 110, 105]
+		    ShowName		    off
+		    Value		    "0"
+		    ShowAdditionalParam	    on
+		    OutDataTypeMode	    "Inherit via back propagation"
+		    }
+		    Block {
+		    BlockType		    Gain
+		    Name		    "Gain2"
+		    Position		    [125, 25, 170, 55]
+		    ShowName		    off
+		    Gain		    "0.5"
+		    }
+		    Block {
+		    BlockType		    Math
+		    Name		    "Math\nFunction1"
+		    Ports		    [1, 1]
+		    Position		    [80, 25, 110, 55]
+		    ShowName		    off
+		    Operator		    "reciprocal"
+		    }
+		    Block {
+		    BlockType		    RelationalOperator
+		    Name		    "Relational\nOperator"
+		    Position		    [135, 60, 165, 100]
+		    ShowName		    off
+		    Operator		    "~="
+		    }
+		    Block {
+		    BlockType		    Switch
+		    Name		    "Switch"
+		    Position		    [220, 65, 250, 95]
+		    ShowName		    off
+		    Threshold		    "0.5"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "s "
+		    Position		    [275, 73, 305, 87]
+		    }
+		    Line {
+		    SrcBlock		    "Switch"
+		    SrcPort		    1
+		    DstBlock		    "s "
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "s"
+		    SrcPort		    1
+		    Points		    [10, 0; 0, -5]
+		    Branch {
+		    Points		    [0, 5]
+		    Branch {
+		    Points		    [0, 55; 145, 0]
+		    DstBlock		    "Switch"
+		    DstPort		    3
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator"
+		    DstPort		    1
+		    }
+		    }
+		    Branch {
+		    Points		    [0, -25]
+		    DstBlock		    "Math\nFunction1"
+		    DstPort		    1
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Constant"
+		    SrcPort		    1
+		    DstBlock		    "Relational\nOperator"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "Relational\nOperator"
+		    SrcPort		    1
+		    DstBlock		    "Switch"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "Gain2"
+		    SrcPort		    1
+		    Points		    [30, 0]
+		    DstBlock		    "Switch"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Math\nFunction1"
+		    SrcPort		    1
+		    DstBlock		    "Gain2"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "qw\nqx\nqy\nqz"
+		  Position		  [620, 168, 650, 182]
+		}
+		Line {
+		  SrcBlock		  "DCM"
+		  SrcPort		  1
+		  Points		  [0, 0; 15, 0]
+		  Branch {
+		    Points		    [0, 45]
+		    Branch {
+		    Points		    [0, -45]
+		    Branch {
+		    Points		    [0, -45]
+		    DstBlock		    " sin(phi)sin(theta)cos(psi) - cos"
+"(phi)sin(psi) + cos(theta)sin(psi)"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "cos(phi)sin(theta)cos(psi) + sin("
+"phi)sin(psi) - sin(theta)"
+		    DstPort		    1
+		    }
+		    }
+		    Branch {
+		    DstBlock		    "cos(theta)sin(phi) - (cos(phi)sin"
+"(theta)sin(psi) - sin(phi)cos(psi))"
+		    DstPort		    1
+		    }
+		  }
+		  Branch {
+		    Points		    [0, -90]
+		    DstBlock		    "Fcn3"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  " sin(phi)sin(theta)cos(psi) - cos(p"
+"hi)sin(psi) + cos(theta)sin(psi)"
+		  SrcPort		  1
+		  DstBlock		  "Mux1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "cos(phi)sin(theta)cos(psi) + sin(ph"
+"i)sin(psi) - sin(theta)"
+		  SrcPort		  1
+		  DstBlock		  "Mux1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "cos(theta)sin(phi) - (cos(phi)sin(t"
+"heta)sin(psi) - sin(phi)cos(psi))"
+		  SrcPort		  1
+		  DstBlock		  "Mux1"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Mux"
+		  SrcPort		  1
+		  DstBlock		  "qw\nqx\nqy\nqz"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Fcn3"
+		  SrcPort		  1
+		  DstBlock		  "Math\nFunction"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Math\nFunction"
+		  SrcPort		  1
+		  Points		  [10, 0]
+		  Branch {
+		    DstBlock		    "if s~=0; s=0.5/s"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, -25]
+		    DstBlock		    "Gain"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Mux1"
+		  SrcPort		  1
+		  DstBlock		  "Product"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Demux"
+		  SrcPort		  1
+		  DstBlock		  "Gain1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Demux"
+		  SrcPort		  3
+		  Points		  [5, 0; 0, -80]
+		  DstBlock		  "Gain3"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Demux"
+		  SrcPort		  2
+		  DstBlock		  "Gain2"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Gain1"
+		  SrcPort		  1
+		  DstBlock		  "Mux"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Gain2"
+		  SrcPort		  1
+		  DstBlock		  "Mux"
+		  DstPort		  4
+		}
+		Line {
+		  SrcBlock		  "Gain3"
+		  SrcPort		  1
+		  DstBlock		  "Mux"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Product"
+		  SrcPort		  1
+		  DstBlock		  "Demux"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Gain"
+		  SrcPort		  1
+		  Points		  [15, 0; 0, 70]
+		  DstBlock		  "Mux"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "if s~=0; s=0.5/s"
+		  SrcPort		  1
+		  Points		  [30, 0; 0, 75]
+		  DstBlock		  "Product"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Maximum Value\nat DCM(2,2)"
+	      Ports		      [1, 1, 0, 0, 0, 0, 0, 1]
+	      Position		      [535, 175, 630, 215]
+	      TreatAsAtomicUnit	      on
+	      System {
+		Name			"Maximum Value\nat DCM(2,2)"
+		Location		[105, 702, 796, 1086]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "DCM"
+		  Position		  [25, 133, 55, 147]
+		}
+		Block {
+		  BlockType		  ActionPort
+		  Name			  "Action Port"
+		  Position		  [305, 15, 364, 43]
+		}
+		Block {
+		  BlockType		  Fcn
+		  Name			  " sin(phi)sin(theta)cos(psi) - cos(p"
+"hi)sin(psi) + cos(theta)sin(psi)"
+		  Position		  [215, 80, 275, 110]
+		  Expr			  "u(2) + u(4)"
+		}
+		Block {
+		  BlockType		  Demux
+		  Name			  "Demux"
+		  Ports			  [1, 3]
+		  Position		  [520, 117, 530, 183]
+		  BackgroundColor	  "black"
+		  ShowName		  off
+		  Outputs		  "3"
+		}
+		Block {
+		  BlockType		  Fcn
+		  Name			  "Fcn3"
+		  Position		  [155, 245, 260, 275]
+		  ShowName		  off
+		  Expr			  "u(5) - (u(9) +u(1)) +1"
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain"
+		  Position		  [460, 245, 505, 275]
+		  ShowName		  off
+		  Gain			  "0.5"
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain1"
+		  Position		  [570, 127, 575, 133]
+		  ShowName		  off
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain3"
+		  Position		  [570, 167, 575, 173]
+		  ShowName		  off
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain4"
+		  Position		  [570, 107, 575, 113]
+		  ShowName		  off
+		}
+		Block {
+		  BlockType		  Math
+		  Name			  "Math\nFunction"
+		  Ports			  [1, 1]
+		  Position		  [280, 245, 310, 275]
+		  ShowName		  off
+		  Operator		  "sqrt"
+		}
+		Block {
+		  BlockType		  Mux
+		  Name			  "Mux"
+		  Ports			  [4, 1]
+		  Position		  [595, 100, 605, 180]
+		  ShowName		  off
+		  DisplayOption		  "bar"
+		}
+		Block {
+		  BlockType		  Mux
+		  Name			  "Mux1"
+		  Ports			  [3, 1]
+		  Position		  [405, 70, 415, 210]
+		  ShowName		  off
+		  Inputs		  "3"
+		  DisplayOption		  "bar"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product"
+		  Ports			  [2, 1]
+		  Position		  [455, 131, 500, 164]
+		  ShowName		  off
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Fcn
+		  Name			  "cos(phi)sin(theta)cos(psi) + sin(ph"
+"i)sin(psi) +sin(theta)"
+		  Position		  [215, 170, 275, 200]
+		  Expr			  "u(3) - u(7)"
+		}
+		Block {
+		  BlockType		  Fcn
+		  Name			  "cos(theta)sin(phi) + (cos(phi)sin(t"
+"heta)sin(psi) - sin(phi)cos(psi))"
+		  Position		  [215, 125, 275, 155]
+		  Expr			  "u(8) + u(6)"
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "if s~=0; s=0.5/s"
+		  Ports			  [1, 1]
+		  Position		  [365, 224, 410, 246]
+		  TreatAsAtomicUnit	  off
+		  System {
+		    Name		    "if s~=0; s=0.5/s"
+		    Location		    [448, 297, 843, 450]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "s"
+		    Position		    [15, 62, 45, 78]
+		    }
+		    Block {
+		    BlockType		    Constant
+		    Name		    "Constant"
+		    Position		    [80, 75, 110, 105]
+		    ShowName		    off
+		    Value		    "0"
+		    ShowAdditionalParam	    on
+		    OutDataTypeMode	    "Inherit via back propagation"
+		    }
+		    Block {
+		    BlockType		    Gain
+		    Name		    "Gain2"
+		    Position		    [125, 25, 170, 55]
+		    ShowName		    off
+		    Gain		    "0.5"
+		    }
+		    Block {
+		    BlockType		    Math
+		    Name		    "Math\nFunction1"
+		    Ports		    [1, 1]
+		    Position		    [80, 25, 110, 55]
+		    ShowName		    off
+		    Operator		    "reciprocal"
+		    }
+		    Block {
+		    BlockType		    RelationalOperator
+		    Name		    "Relational\nOperator"
+		    Position		    [135, 60, 165, 100]
+		    ShowName		    off
+		    Operator		    "~="
+		    }
+		    Block {
+		    BlockType		    Switch
+		    Name		    "Switch"
+		    Position		    [220, 65, 250, 95]
+		    ShowName		    off
+		    Threshold		    "0.5"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "s "
+		    Position		    [275, 73, 305, 87]
+		    }
+		    Line {
+		    SrcBlock		    "Math\nFunction1"
+		    SrcPort		    1
+		    DstBlock		    "Gain2"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Gain2"
+		    SrcPort		    1
+		    Points		    [30, 0]
+		    DstBlock		    "Switch"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Relational\nOperator"
+		    SrcPort		    1
+		    DstBlock		    "Switch"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "Constant"
+		    SrcPort		    1
+		    DstBlock		    "Relational\nOperator"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "s"
+		    SrcPort		    1
+		    Points		    [10, 0; 0, -5]
+		    Branch {
+		    Points		    [0, -25]
+		    DstBlock		    "Math\nFunction1"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [0, 5]
+		    Branch {
+		    DstBlock		    "Relational\nOperator"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [0, 55; 145, 0]
+		    DstBlock		    "Switch"
+		    DstPort		    3
+		    }
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Switch"
+		    SrcPort		    1
+		    DstBlock		    "s "
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "qw\nqx\nqy\nqz"
+		  Position		  [630, 133, 660, 147]
+		}
+		Line {
+		  SrcBlock		  "Mux1"
+		  SrcPort		  1
+		  DstBlock		  "Product"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "DCM"
+		  SrcPort		  1
+		  Points		  [0, 0; 15, 0]
+		  Branch {
+		    Points		    [0, 120]
+		    DstBlock		    "Fcn3"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 0]
+		    Branch {
+		    Points		    [0, 45]
+		    Branch {
+		    DstBlock		    "cos(phi)sin(theta)cos(psi) + sin("
+"phi)sin(psi) +sin(theta)"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [0, -90]
+		    DstBlock		    " sin(phi)sin(theta)cos(psi) - cos"
+"(phi)sin(psi) + cos(theta)sin(psi)"
+		    DstPort		    1
+		    }
+		    }
+		    Branch {
+		    DstBlock		    "cos(theta)sin(phi) + (cos(phi)sin"
+"(theta)sin(psi) - sin(phi)cos(psi))"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Line {
+		  SrcBlock		  " sin(phi)sin(theta)cos(psi) - cos(p"
+"hi)sin(psi) + cos(theta)sin(psi)"
+		  SrcPort		  1
+		  DstBlock		  "Mux1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "cos(theta)sin(phi) + (cos(phi)sin(t"
+"heta)sin(psi) - sin(phi)cos(psi))"
+		  SrcPort		  1
+		  DstBlock		  "Mux1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "cos(phi)sin(theta)cos(psi) + sin(ph"
+"i)sin(psi) +sin(theta)"
+		  SrcPort		  1
+		  DstBlock		  "Mux1"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Mux"
+		  SrcPort		  1
+		  DstBlock		  "qw\nqx\nqy\nqz"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Fcn3"
+		  SrcPort		  1
+		  DstBlock		  "Math\nFunction"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Gain"
+		  SrcPort		  1
+		  Points		  [70, 0]
+		  DstBlock		  "Mux"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Product"
+		  SrcPort		  1
+		  DstBlock		  "Demux"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Demux"
+		  SrcPort		  1
+		  DstBlock		  "Gain1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Demux"
+		  SrcPort		  2
+		  Points		  [20, 0]
+		  DstBlock		  "Gain3"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Demux"
+		  SrcPort		  3
+		  Points		  [10, 0; 0, -60]
+		  DstBlock		  "Gain4"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Gain1"
+		  SrcPort		  1
+		  DstBlock		  "Mux"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Gain3"
+		  SrcPort		  1
+		  DstBlock		  "Mux"
+		  DstPort		  4
+		}
+		Line {
+		  SrcBlock		  "Gain4"
+		  SrcPort		  1
+		  DstBlock		  "Mux"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "if s~=0; s=0.5/s"
+		  SrcPort		  1
+		  Points		  [15, 0; 0, -80]
+		  DstBlock		  "Product"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Math\nFunction"
+		  SrcPort		  1
+		  Points		  [25, 0]
+		  Branch {
+		    Points		    [0, -25]
+		    DstBlock		    "if s~=0; s=0.5/s"
+		    DstPort		    1
+		  }
+		  Branch {
+		    DstBlock		    "Gain"
+		    DstPort		    1
+		  }
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Maximum Value\nat DCM(3,3)"
+	      Ports		      [1, 1, 0, 0, 0, 0, 0, 1]
+	      Position		      [425, 230, 520, 270]
+	      TreatAsAtomicUnit	      on
+	      System {
+		Name			"Maximum Value\nat DCM(3,3)"
+		Location		[114, 327, 804, 621]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "DCM"
+		  Position		  [15, 133, 45, 147]
+		}
+		Block {
+		  BlockType		  ActionPort
+		  Name			  "Action Port"
+		  Position		  [290, 20, 349, 48]
+		}
+		Block {
+		  BlockType		  Demux
+		  Name			  "Demux"
+		  Ports			  [1, 3]
+		  Position		  [510, 117, 520, 183]
+		  BackgroundColor	  "black"
+		  ShowName		  off
+		  Outputs		  "3"
+		}
+		Block {
+		  BlockType		  Fcn
+		  Name			  "Fcn3"
+		  Position		  [135, 255, 240, 285]
+		  ShowName		  off
+		  Expr			  "u(9) - (u(1) +u(5)) +1"
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain"
+		  Position		  [450, 255, 495, 285]
+		  ShowName		  off
+		  Gain			  "0.5"
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain1"
+		  Position		  [555, 127, 560, 133]
+		  ShowName		  off
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain2"
+		  Position		  [555, 146, 560, 154]
+		  ShowName		  off
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain3"
+		  Position		  [555, 107, 560, 113]
+		  ShowName		  off
+		}
+		Block {
+		  BlockType		  Math
+		  Name			  "Math\nFunction"
+		  Ports			  [1, 1]
+		  Position		  [275, 255, 305, 285]
+		  ShowName		  off
+		  Operator		  "sqrt"
+		}
+		Block {
+		  BlockType		  Mux
+		  Name			  "Mux"
+		  Ports			  [4, 1]
+		  Position		  [570, 100, 580, 180]
+		  ShowName		  off
+		  DisplayOption		  "bar"
+		}
+		Block {
+		  BlockType		  Mux
+		  Name			  "Mux1"
+		  Ports			  [3, 1]
+		  Position		  [395, 70, 405, 210]
+		  ShowName		  off
+		  Inputs		  "3"
+		  DisplayOption		  "bar"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product"
+		  Ports			  [2, 1]
+		  Position		  [445, 131, 490, 164]
+		  ShowName		  off
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Fcn
+		  Name			  "cos(phi)sin(theta)cos(psi) + sin(ph"
+"i)sin(psi) - sin(theta)"
+		  Position		  [205, 80, 265, 110]
+		  Expr			  "u(3) + u(7)"
+		}
+		Block {
+		  BlockType		  Fcn
+		  Name			  "cos(theta)sin(phi) + (cos(phi)sin(t"
+"heta)sin(psi) - sin(phi)cos(psi))"
+		  Position		  [205, 125, 265, 155]
+		  Expr			  "u(8) + u(6)"
+		}
+		Block {
+		  BlockType		  Fcn
+		  Name			  "cos(theta)sin(psi) - (sin(phi)sin(t"
+"heta)cos(psi) - cos(phi)sin(psi))"
+		  Position		  [205, 170, 265, 200]
+		  Expr			  "u(4) - u(2)"
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "if s~=0; s=0.5/s"
+		  Ports			  [1, 1]
+		  Position		  [360, 229, 405, 251]
+		  TreatAsAtomicUnit	  off
+		  System {
+		    Name		    "if s~=0; s=0.5/s"
+		    Location		    [448, 297, 843, 450]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "s"
+		    Position		    [15, 62, 45, 78]
+		    }
+		    Block {
+		    BlockType		    Constant
+		    Name		    "Constant"
+		    Position		    [80, 75, 110, 105]
+		    ShowName		    off
+		    Value		    "0"
+		    ShowAdditionalParam	    on
+		    OutDataTypeMode	    "Inherit via back propagation"
+		    }
+		    Block {
+		    BlockType		    Gain
+		    Name		    "Gain2"
+		    Position		    [125, 25, 170, 55]
+		    ShowName		    off
+		    Gain		    "0.5"
+		    }
+		    Block {
+		    BlockType		    Math
+		    Name		    "Math\nFunction1"
+		    Ports		    [1, 1]
+		    Position		    [80, 25, 110, 55]
+		    ShowName		    off
+		    Operator		    "reciprocal"
+		    }
+		    Block {
+		    BlockType		    RelationalOperator
+		    Name		    "Relational\nOperator"
+		    Position		    [135, 60, 165, 100]
+		    ShowName		    off
+		    Operator		    "~="
+		    }
+		    Block {
+		    BlockType		    Switch
+		    Name		    "Switch"
+		    Position		    [220, 65, 250, 95]
+		    ShowName		    off
+		    Threshold		    "0.5"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "s "
+		    Position		    [275, 73, 305, 87]
+		    }
+		    Line {
+		    SrcBlock		    "Switch"
+		    SrcPort		    1
+		    DstBlock		    "s "
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "s"
+		    SrcPort		    1
+		    Points		    [10, 0; 0, -5]
+		    Branch {
+		    Points		    [0, 5]
+		    Branch {
+		    Points		    [0, 55; 145, 0]
+		    DstBlock		    "Switch"
+		    DstPort		    3
+		    }
+		    Branch {
+		    DstBlock		    "Relational\nOperator"
+		    DstPort		    1
+		    }
+		    }
+		    Branch {
+		    Points		    [0, -25]
+		    DstBlock		    "Math\nFunction1"
+		    DstPort		    1
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "Constant"
+		    SrcPort		    1
+		    DstBlock		    "Relational\nOperator"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "Relational\nOperator"
+		    SrcPort		    1
+		    DstBlock		    "Switch"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "Gain2"
+		    SrcPort		    1
+		    Points		    [30, 0]
+		    DstBlock		    "Switch"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Math\nFunction1"
+		    SrcPort		    1
+		    DstBlock		    "Gain2"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "qw\nqx\nqy\nqz"
+		  Position		  [615, 133, 645, 147]
+		}
+		Line {
+		  SrcBlock		  "Mux1"
+		  SrcPort		  1
+		  DstBlock		  "Product"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "DCM"
+		  SrcPort		  1
+		  Points		  [0, 0; 15, 0]
+		  Branch {
+		    Points		    [0, 45]
+		    Branch {
+		    Points		    [0, -45]
+		    Branch {
+		    Points		    [0, -45]
+		    DstBlock		    "cos(phi)sin(theta)cos(psi) + sin("
+"phi)sin(psi) - sin(theta)"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "cos(theta)sin(phi) + (cos(phi)sin"
+"(theta)sin(psi) - sin(phi)cos(psi))"
+		    DstPort		    1
+		    }
+		    }
+		    Branch {
+		    DstBlock		    "cos(theta)sin(psi) - (sin(phi)sin"
+"(theta)cos(psi) - cos(phi)sin(psi))"
+		    DstPort		    1
+		    }
+		  }
+		  Branch {
+		    Points		    [0, 130]
+		    DstBlock		    "Fcn3"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "cos(phi)sin(theta)cos(psi) + sin(ph"
+"i)sin(psi) - sin(theta)"
+		  SrcPort		  1
+		  DstBlock		  "Mux1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "cos(theta)sin(phi) + (cos(phi)sin(t"
+"heta)sin(psi) - sin(phi)cos(psi))"
+		  SrcPort		  1
+		  DstBlock		  "Mux1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "cos(theta)sin(psi) - (sin(phi)sin(t"
+"heta)cos(psi) - cos(phi)sin(psi))"
+		  SrcPort		  1
+		  DstBlock		  "Mux1"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Mux"
+		  SrcPort		  1
+		  DstBlock		  "qw\nqx\nqy\nqz"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Fcn3"
+		  SrcPort		  1
+		  DstBlock		  "Math\nFunction"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Math\nFunction"
+		  SrcPort		  1
+		  Points		  [25, 0]
+		  Branch {
+		    Points		    [0, 0; 0, -30]
+		    DstBlock		    "if s~=0; s=0.5/s"
+		    DstPort		    1
+		  }
+		  Branch {
+		    DstBlock		    "Gain"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Product"
+		  SrcPort		  1
+		  DstBlock		  "Demux"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Demux"
+		  SrcPort		  1
+		  DstBlock		  "Gain1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Demux"
+		  SrcPort		  3
+		  Points		  [5, 0; 0, -60]
+		  DstBlock		  "Gain3"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Demux"
+		  SrcPort		  2
+		  DstBlock		  "Gain2"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Gain"
+		  SrcPort		  1
+		  Points		  [40, 0; 0, -100]
+		  DstBlock		  "Mux"
+		  DstPort		  4
+		}
+		Line {
+		  SrcBlock		  "Gain1"
+		  SrcPort		  1
+		  DstBlock		  "Mux"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Gain2"
+		  SrcPort		  1
+		  DstBlock		  "Mux"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Gain3"
+		  SrcPort		  1
+		  DstBlock		  "Mux"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "if s~=0; s=0.5/s"
+		  SrcPort		  1
+		  Points		  [5, 0; 0, -85]
+		  DstBlock		  "Product"
+		  DstPort		  2
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Merge
+	      Name		      "Merge1"
+	      Ports		      [3, 1]
+	      Position		      [670, 230, 710, 270]
+	      Inputs		      "3"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "qw\nqx\nqy\nqz"
+	      Position		      [740, 243, 770, 257]
+	    }
+	    Line {
+	      SrcBlock		      "Fcn2"
+	      SrcPort		      1
+	      DstBlock		      "Find Maximum\nDiagonal Value"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Fcn1"
+	      SrcPort		      1
+	      DstBlock		      "Find Maximum\nDiagonal Value"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Fcn"
+	      SrcPort		      1
+	      DstBlock		      "Find Maximum\nDiagonal Value"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "DCM"
+	      SrcPort		      1
+	      Points		      [0, 0; 30, 0]
+	      Branch {
+		Points			[0, 30]
+		Branch {
+		  Points		  [0, 0]
+		  DstBlock		  "Fcn2"
+		  DstPort		  1
+		}
+		Branch {
+		  Points		  [0, 45; 210, 0]
+		  Branch {
+		    DstBlock		    "Maximum Value\nat DCM(2,2)"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 55]
+		    Branch {
+		    DstBlock		    "Maximum Value\nat DCM(3,3)"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "Maximum Value\nat DCM(1,1)"
+		    DstPort		    1
+		    }
+		  }
+		}
+	      }
+	      Branch {
+		DstBlock		"Fcn1"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, -30]
+		DstBlock		"Fcn"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Find Maximum\nDiagonal Value"
+	      SrcPort		      3
+	      Points		      [50, 0]
+	      DstBlock		      "Maximum Value\nat DCM(1,1)"
+	      DstPort		      ifaction
+	    }
+	    Line {
+	      SrcBlock		      "Maximum Value\nat DCM(2,2)"
+	      SrcPort		      1
+	      Points		      [10, 0; 0, 40]
+	      DstBlock		      "Merge1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Maximum Value\nat DCM(3,3)"
+	      SrcPort		      1
+	      DstBlock		      "Merge1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Maximum Value\nat DCM(1,1)"
+	      SrcPort		      1
+	      Points		      [225, 0; 0, -40]
+	      DstBlock		      "Merge1"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Merge1"
+	      SrcPort		      1
+	      DstBlock		      "qw\nqx\nqy\nqz"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Find Maximum\nDiagonal Value"
+	      SrcPort		      1
+	      Points		      [265, 0]
+	      DstBlock		      "Maximum Value\nat DCM(2,2)"
+	      DstPort		      ifaction
+	    }
+	    Line {
+	      SrcBlock		      "Find Maximum\nDiagonal Value"
+	      SrcPort		      2
+	      Points		      [155, 0]
+	      DstBlock		      "Maximum Value\nat DCM(3,3)"
+	      DstPort		      ifaction
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Positive Trace"
+	  Ports			  [2, 1, 0, 0, 0, 0, 0, 1]
+	  Position		  [430, 79, 565, 121]
+	  TreatAsAtomicUnit	  on
+	  System {
+	    Name		    "Positive Trace"
+	    Location		    [49, 74, 861, 339]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "trace(DCM)"
+	      Position		      [80, 23, 110, 37]
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "DCM"
+	      Position		      [50, 148, 80, 162]
+	      Port		      "2"
+	    }
+	    Block {
+	      BlockType		      ActionPort
+	      Name		      "Action Port"
+	      Position		      [260, 15, 319, 43]
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant"
+	      Position		      [60, 55, 90, 85]
+	      ShowName		      off
+	      ShowAdditionalParam     on
+	      OutDataTypeMode	      "Inherit via back propagation"
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Gain"
+	      Position		      [590, 55, 635, 85]
+	      ShowName		      off
+	      Gain		      "0.5"
+	      ShowAdditionalParam     on
+	      OutDataTypeMode	      "Inherit via back propagation"
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Gain1"
+	      Position		      [535, 165, 570, 195]
+	      ShowName		      off
+	      Gain		      "0.5"
+	      ShowAdditionalParam     on
+	      OutDataTypeMode	      "Inherit via back propagation"
+	    }
+	    Block {
+	      BlockType		      Math
+	      Name		      "Math\nFunction"
+	      Ports		      [1, 1]
+	      Position		      [260, 55, 290, 85]
+	      ShowName		      off
+	      Operator		      "sqrt"
+	    }
+	    Block {
+	      BlockType		      Math
+	      Name		      "Math\nFunction1"
+	      Ports		      [1, 1]
+	      Position		      [490, 165, 520, 195]
+	      ShowName		      off
+	      Operator		      "reciprocal"
+	    }
+	    Block {
+	      BlockType		      Mux
+	      Name		      "Mux"
+	      Ports		      [2, 1]
+	      Position		      [705, 75, 715, 170]
+	      ShowName		      off
+	      Inputs		      "2"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      Mux
+	      Name		      "Mux1"
+	      Ports		      [3, 1]
+	      Position		      [435, 87, 440, 223]
+	      ShowName		      off
+	      Inputs		      "3"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product"
+	      Ports		      [2, 1]
+	      Position		      [595, 142, 635, 193]
+	      ShowName		      off
+	      ShowAdditionalParam     on
+	      RndMeth		      "Floor"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum"
+	      Ports		      [2, 1]
+	      Position		      [155, 60, 175, 80]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "++|"
+	      ShowAdditionalParam     on
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "cos(phi)sin(theta)cos(psi) + sin(phi)si"
+"n(psi) +sin(theta)"
+	      Position		      [245, 140, 305, 170]
+	      Expr		      "u(3) - u(7)"
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "cos(theta)sin(phi) - (cos(phi)sin(theta"
+")sin(psi) - sin(phi)cos(psi))"
+	      Position		      [245, 95, 305, 125]
+	      Expr		      " u(8) - u(6) "
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "cos(theta)sin(psi) - (sin(phi)sin(theta"
+")cos(psi) - cos(phi)sin(psi))"
+	      Position		      [245, 185, 305, 215]
+	      Expr		      "u(4) - u(2)"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "qw\nqx\nqy\nqz"
+	      Position		      [740, 118, 770, 132]
+	    }
+	    Line {
+	      SrcBlock		      "Math\nFunction"
+	      SrcPort		      1
+	      Points		      [180, 0]
+	      Branch {
+		DstBlock		"Gain"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"Math\nFunction1"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Sum"
+	      SrcPort		      1
+	      DstBlock		      "Math\nFunction"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Mux"
+	      SrcPort		      1
+	      DstBlock		      "qw\nqx\nqy\nqz"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "cos(theta)sin(psi) - (sin(phi)sin(theta"
+")cos(psi) - cos(phi)sin(psi))"
+	      SrcPort		      1
+	      DstBlock		      "Mux1"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "cos(phi)sin(theta)cos(psi) + sin(phi)si"
+"n(psi) +sin(theta)"
+	      SrcPort		      1
+	      DstBlock		      "Mux1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "cos(theta)sin(phi) - (cos(phi)sin(theta"
+")sin(psi) - sin(phi)cos(psi))"
+	      SrcPort		      1
+	      DstBlock		      "Mux1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "DCM"
+	      SrcPort		      1
+	      Points		      [30, 0; 0, 45]
+	      Branch {
+		Points			[0, -45]
+		Branch {
+		  Points		  [0, -45]
+		  DstBlock		  "cos(theta)sin(phi) - (cos(phi)sin(t"
+"heta)sin(psi) - sin(phi)cos(psi))"
+		  DstPort		  1
+		}
+		Branch {
+		  DstBlock		  "cos(phi)sin(theta)cos(psi) + sin(ph"
+"i)sin(psi) +sin(theta)"
+		  DstPort		  1
+		}
+	      }
+	      Branch {
+		DstBlock		"cos(theta)sin(psi) - (sin(phi)sin(the"
+"ta)cos(psi) - cos(phi)sin(psi))"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Math\nFunction1"
+	      SrcPort		      1
+	      DstBlock		      "Gain1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Gain"
+	      SrcPort		      1
+	      Points		      [10, 0; 0, 30]
+	      DstBlock		      "Mux"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Mux1"
+	      SrcPort		      1
+	      DstBlock		      "Product"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Gain1"
+	      SrcPort		      1
+	      DstBlock		      "Product"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Constant"
+	      SrcPort		      1
+	      DstBlock		      "Sum"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "trace(DCM)"
+	      SrcPort		      1
+	      Points		      [50, 0]
+	      DstBlock		      "Sum"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Product"
+	      SrcPort		      1
+	      Points		      [10, 0; 0, -25]
+	      DstBlock		      "Mux"
+	      DstPort		      2
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Reshape\n3x3 -> 9x1"
+	  Ports			  [1, 1]
+	  Position		  [65, 95, 125, 125]
+	  SourceBlock		  "simulink/Math\nOperations/Reshape"
+	  SourceType		  "Reshape"
+	  OutputDimensionality	  "Customize"
+	  OutputDimensions	  "[9,1]"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "trace(DCM)"
+	  Position		  [165, 34, 255, 66]
+	  Expr			  "u(1)+u(5)+u(9)"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Quat"
+	  Position		  [695, 118, 725, 132]
+	}
+	Line {
+	  SrcBlock		  "If"
+	  SrcPort		  2
+	  Points		  [10, 0]
+	  DstBlock		  "Negative Trace"
+	  DstPort		  ifaction
+	}
+	Line {
+	  SrcBlock		  "If"
+	  SrcPort		  1
+	  Points		  [115, 0]
+	  DstBlock		  "Positive Trace"
+	  DstPort		  ifaction
+	}
+	Line {
+	  SrcBlock		  "Negative Trace"
+	  SrcPort		  1
+	  Points		  [130, 0; 0, -15]
+	  DstBlock		  "Merge"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "DCM"
+	  SrcPort		  1
+	  DstBlock		  "Reshape\n3x3 -> 9x1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Reshape\n3x3 -> 9x1"
+	  SrcPort		  1
+	  Points		  [0, 0; 10, 0]
+	  Branch {
+	    Points		    [0, -60]
+	    DstBlock		    "trace(DCM)"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 0]
+	    Branch {
+	      DstBlock		      "Positive Trace"
+	      DstPort		      2
+	    }
+	    Branch {
+	      Points		      [0, 40]
+	      DstBlock		      "Negative Trace"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Line {
+	  SrcBlock		  "trace(DCM)"
+	  SrcPort		  1
+	  Points		  [0, 0; 10, 0]
+	  Branch {
+	    DstBlock		    "If"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 40]
+	    DstBlock		    "Positive Trace"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Positive Trace"
+	  SrcPort		  1
+	  Points		  [10, 0; 0, 15]
+	  DstBlock		  "Merge"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Merge"
+	  SrcPort		  1
+	  DstBlock		  "Quat"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Direction Cosine Matrix to\nEuler Angles"
+      Ports		      [1, 1]
+      Position		      [350, 141, 415, 189]
+      ShowPortLabels	      off
+      TreatAsAtomicUnit	      off
+      MaskType		      "DCM2Euler"
+      MaskDescription	      "Determine an euler orientation (roll, pitch, ya"
+"w) from the 3-by-3 direction cosine matrix (DCM). The input DCM transforms ve"
+"ctors from inertial axes to body axes."
+      MaskHelp		      "web(asbhelp('directioncosinematrixtoeulerangles"
+"'));"
+      MaskDisplay	      "disp('DCM2Eul')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"Direction Cosine Matrix to\nEuler Angles"
+	Location		[26, 73, 530, 376]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "DCM"
+	  Position		  [20, 143, 50, 157]
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux2"
+	  Ports			  [3, 1]
+	  Position		  [380, 22, 385, 278]
+	  ShowName		  off
+	  Inputs		  "3"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Reshape\n3x3 -> 9x1"
+	  Ports			  [1, 1]
+	  Position		  [75, 132, 130, 168]
+	  SourceBlock		  "simulink/Math\nOperations/Reshape"
+	  SourceType		  "Reshape"
+	  OutputDimensionality	  "Customize"
+	  OutputDimensions	  "[9, 1]"
+	}
+	Block {
+	  BlockType		  Trigonometry
+	  Name			  "Trigonometric\nFunction1"
+	  Ports			  [2, 1]
+	  Position		  [290, 15, 325, 110]
+	  ShowName		  off
+	  Operator		  "atan2"
+	  Port {
+	    PortNumber		    1
+	    Name		    "phi"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Trigonometry
+	  Name			  "Trigonometric\nFunction2"
+	  Ports			  [1, 1]
+	  Position		  [290, 135, 325, 165]
+	  ShowName		  off
+	  Operator		  "asin"
+	  Port {
+	    PortNumber		    1
+	    Name		    "theta"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Trigonometry
+	  Name			  "Trigonometric\nFunction3"
+	  Ports			  [2, 1]
+	  Position		  [290, 184, 325, 286]
+	  ShowName		  off
+	  Operator		  "atan2"
+	  Port {
+	    PortNumber		    1
+	    Name		    "psi"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "cos(phi)cos(theta)"
+	  Position		  [170, 70, 230, 100]
+	  Expr			  "u(9)"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "cos(psi)cos(theta)"
+	  Position		  [170, 245, 230, 275]
+	  Expr			  "u(1)"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "sin(phi)cos(theta)"
+	  Position		  [170, 25, 230, 55]
+	  Expr			  "u(8)"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "sin(psi)cos(theta)"
+	  Position		  [170, 195, 230, 225]
+	  Expr			  "u(4)"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "sin(theta)"
+	  Position		  [170, 135, 230, 165]
+	  Expr			  "-u(7)"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Euler\nRoll\nPitch\nYaw"
+	  Position		  [415, 143, 445, 157]
+	  InitialOutput		  "0"
+	}
+	Line {
+	  SrcBlock		  "Mux2"
+	  SrcPort		  1
+	  DstBlock		  "Euler\nRoll\nPitch\nYaw"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "psi"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Trigonometric\nFunction3"
+	  SrcPort		  1
+	  DstBlock		  "Mux2"
+	  DstPort		  3
+	}
+	Line {
+	  Name			  "theta"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Trigonometric\nFunction2"
+	  SrcPort		  1
+	  DstBlock		  "Mux2"
+	  DstPort		  2
+	}
+	Line {
+	  Name			  "phi"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Trigonometric\nFunction1"
+	  SrcPort		  1
+	  DstBlock		  "Mux2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "cos(psi)cos(theta)"
+	  SrcPort		  1
+	  DstBlock		  "Trigonometric\nFunction3"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "sin(psi)cos(theta)"
+	  SrcPort		  1
+	  DstBlock		  "Trigonometric\nFunction3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "cos(phi)cos(theta)"
+	  SrcPort		  1
+	  DstBlock		  "Trigonometric\nFunction1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "sin(phi)cos(theta)"
+	  SrcPort		  1
+	  DstBlock		  "Trigonometric\nFunction1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "sin(theta)"
+	  SrcPort		  1
+	  DstBlock		  "Trigonometric\nFunction2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Reshape\n3x3 -> 9x1"
+	  SrcPort		  1
+	  Points		  [10, 0]
+	  Branch {
+	    Points		    [0, 60]
+	    Branch {
+	      Points		      [0, 50]
+	      DstBlock		      "cos(psi)cos(theta)"
+	      DstPort		      1
+	    }
+	    Branch {
+	      DstBlock		      "sin(psi)cos(theta)"
+	      DstPort		      1
+	    }
+	  }
+	  Branch {
+	    Points		    [0, -65]
+	    Branch {
+	      DstBlock		      "cos(phi)cos(theta)"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [0, -45]
+	      DstBlock		      "sin(phi)cos(theta)"
+	      DstPort		      1
+	    }
+	  }
+	  Branch {
+	    DstBlock		    "sin(theta)"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "DCM"
+	  SrcPort		  1
+	  DstBlock		  "Reshape\n3x3 -> 9x1"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Euler Angles to \nDirection Cosine Matrix"
+      Ports		      [1, 1]
+      Position		      [350, 43, 420, 97]
+      ShowPortLabels	      off
+      TreatAsAtomicUnit	      off
+      MaskType		      "Euler2DCM"
+      MaskDescription	      "Determine the 3-by-3 direction cosine matrix (D"
+"CM) from an Euler orientation (roll, pitch, yaw). The output DCM transforms v"
+"ectors from inertial axes to body axes."
+      MaskHelp		      "web(asbhelp('euleranglestodirectioncosinematrix"
+"'));"
+      MaskDisplay	      "disp('Eul2DCM')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"Euler Angles to \nDirection Cosine Matrix"
+	Location		[4, 51, 578, 446]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Euler\nRoll\nPitch\nYaw"
+	  Position		  [25, 183, 55, 197]
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "11"
+	  Position		  [235, 21, 300, 39]
+	  Expr			  "u(6)*u(5)"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "12"
+	  Position		  [235, 142, 310, 158]
+	  Expr			  "u(3)*u(5)"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "13"
+	  Position		  [250, 259, 295, 281]
+	  Expr			  "-u(2)"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "21"
+	  Position		  [210, 59, 325, 81]
+	  Expr			  "u(6)*u(2)*u(1)-u(3)*u(4)"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "22"
+	  Position		  [210, 178, 335, 202]
+	  Expr			  "u(3)*u(2)*u(1)+u(6)*u(4)"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "23"
+	  Position		  [240, 299, 310, 321]
+	  Expr			  "u(5)*u(1)"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "31"
+	  Position		  [205, 100, 335, 120]
+	  Expr			  "u(4)*u(2)*u(6)+u(3)*u(1)"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "32"
+	  Position		  [210, 221, 340, 239]
+	  Expr			  "u(3)*u(2)*u(4)-u(6)*u(1)"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "33"
+	  Position		  [240, 339, 315, 361]
+	  Expr			  "u(5)*u(4)"
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  Ports			  [2, 1]
+	  Position		  [155, 121, 160, 259]
+	  ShowName		  off
+	  Inputs		  "2"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux2"
+	  Ports			  [9, 1]
+	  Position		  [370, 12, 375, 368]
+	  ShowName		  off
+	  Inputs		  "9"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Reshape\n9x1->3x3"
+	  Ports			  [1, 1]
+	  Position		  [415, 172, 470, 208]
+	  SourceBlock		  "simulink/Math\nOperations/Reshape"
+	  SourceType		  "Reshape"
+	  OutputDimensionality	  "Customize"
+	  OutputDimensions	  "[3,3]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "SinCos"
+	  Ports			  [1, 2]
+	  Position		  [90, 120, 125, 260]
+	  SourceBlock		  "aerolibutil/SinCos"
+	  SourceType		  "SinCos"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "DCM"
+	  Position		  [510, 183, 540, 197]
+	  InitialOutput		  "0"
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  Points		  [0, 0; 20, 0]
+	  Branch {
+	    Points		    [0, 40]
+	    Branch {
+	      Points		      [0, 40]
+	      Branch {
+		Points			[0, 40]
+		Branch {
+		  Points		  [0, 40]
+		  DstBlock		  "33"
+		  DstPort		  1
+		}
+		Branch {
+		  DstBlock		  "23"
+		  DstPort		  1
+		}
+	      }
+	      Branch {
+		DstBlock		"13"
+		DstPort			1
+	      }
+	    }
+	    Branch {
+	      DstBlock		      "32"
+	      DstPort		      1
+	    }
+	  }
+	  Branch {
+	    Points		    [0, -40]
+	    Branch {
+	      DstBlock		      "12"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [0, -40]
+	      Branch {
+		DstBlock		"31"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, -40]
+		Branch {
+		  DstBlock		  "21"
+		  DstPort		  1
+		}
+		Branch {
+		  Points		  [0, -40]
+		  DstBlock		  "11"
+		  DstPort		  1
+		}
+	      }
+	    }
+	  }
+	  Branch {
+	    DstBlock		    "22"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Euler\nRoll\nPitch\nYaw"
+	  SrcPort		  1
+	  DstBlock		  "SinCos"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "SinCos"
+	  SrcPort		  2
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "SinCos"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Reshape\n9x1->3x3"
+	  SrcPort		  1
+	  DstBlock		  "DCM"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Mux2"
+	  SrcPort		  1
+	  DstBlock		  "Reshape\n9x1->3x3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "11"
+	  SrcPort		  1
+	  DstBlock		  "Mux2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "21"
+	  SrcPort		  1
+	  DstBlock		  "Mux2"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "31"
+	  SrcPort		  1
+	  DstBlock		  "Mux2"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "12"
+	  SrcPort		  1
+	  DstBlock		  "Mux2"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "22"
+	  SrcPort		  1
+	  DstBlock		  "Mux2"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "32"
+	  SrcPort		  1
+	  DstBlock		  "Mux2"
+	  DstPort		  6
+	}
+	Line {
+	  SrcBlock		  "13"
+	  SrcPort		  1
+	  DstBlock		  "Mux2"
+	  DstPort		  7
+	}
+	Line {
+	  SrcBlock		  "23"
+	  SrcPort		  1
+	  DstBlock		  "Mux2"
+	  DstPort		  8
+	}
+	Line {
+	  SrcBlock		  "33"
+	  SrcPort		  1
+	  DstBlock		  "Mux2"
+	  DstPort		  9
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Euler Angles to Quaternions"
+      Ports		      [1, 1]
+      Position		      [45, 140, 110, 190]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Euler2Quaternion"
+      MaskDescription	      "Calculate quaternion (q0,q1,q2,q3) from Euler a"
+"ngles (roll, pitch, yaw) "
+      MaskHelp		      "web(asbhelp('euleranglestoquaternions'));"
+      MaskDisplay	      "disp('Eul2Quat')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"Euler Angles to Quaternions"
+	Location		[114, 161, 862, 388]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Euler\nRoll\nPitch\nYaw"
+	  Position		  [40, 98, 70, 112]
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "1/2"
+	  Position		  [95, 89, 135, 121]
+	  Gain			  "1/2"
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  Ports			  [2, 1]
+	  Position		  [270, 36, 275, 174]
+	  ShowName		  off
+	  Inputs		  "2"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux1"
+	  Ports			  [4, 1]
+	  Position		  [550, 16, 555, 199]
+	  ShowName		  off
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "SinCos"
+	  Ports			  [1, 2]
+	  Position		  [190, 35, 225, 175]
+	  SourceBlock		  "aerolibutil/SinCos"
+	  SourceType		  "SinCos"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "e0"
+	  Position		  [345, 28, 515, 52]
+	  Expr			  "u(1)*u(2)*u(3)+u(4)*u(5)*u(6)"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "e1"
+	  Position		  [345, 73, 515, 97]
+	  Expr			  "-u(2)*u(3)*u(4)+u(1)*u(5)*u(6)"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "e2"
+	  Position		  [345, 118, 515, 142]
+	  Expr			  "u(1)*u(5)*u(3)+u(2)*u(4)*u(6)"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "e3"
+	  Position		  [345, 163, 515, 187]
+	  Expr			  "u(3)*u(4)*u(5)-u(1)*u(2)*u(6)"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Quat"
+	  Position		  [595, 103, 625, 117]
+	  InitialOutput		  "0"
+	}
+	Line {
+	  SrcBlock		  "Mux1"
+	  SrcPort		  1
+	  DstBlock		  "Quat"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "e3"
+	  SrcPort		  1
+	  DstBlock		  "Mux1"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "e2"
+	  SrcPort		  1
+	  DstBlock		  "Mux1"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "e1"
+	  SrcPort		  1
+	  DstBlock		  "Mux1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "e0"
+	  SrcPort		  1
+	  DstBlock		  "Mux1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  Points		  [0, 0; 20, 0]
+	  Branch {
+	    Points		    [0, -20]
+	    Branch {
+	      Points		      [0, -45]
+	      DstBlock		      "e0"
+	      DstPort		      1
+	    }
+	    Branch {
+	      DstBlock		      "e1"
+	      DstPort		      1
+	    }
+	  }
+	  Branch {
+	    Points		    [0, 25]
+	    Branch {
+	      Points		      [0, 45]
+	      DstBlock		      "e3"
+	      DstPort		      1
+	    }
+	    Branch {
+	      DstBlock		      "e2"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Line {
+	  SrcBlock		  "SinCos"
+	  SrcPort		  2
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "SinCos"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "1/2"
+	  SrcPort		  1
+	  DstBlock		  "SinCos"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Euler\nRoll\nPitch\nYaw"
+	  SrcPort		  1
+	  DstBlock		  "1/2"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Quaternions to \nDirection Cosine Matrix"
+      Ports		      [1, 1]
+      Position		      [195, 43, 260, 97]
+      ShowPortLabels	      off
+      TreatAsAtomicUnit	      off
+      MaskType		      "Quaternion2DCM"
+      MaskDescription	      "Determine the 3-by-3 direction cosine matrix (D"
+"CM) from a 4-by-1 quaternion orientation vector. The output DCM transforms ve"
+"ctors from inertial axes to body axes."
+      MaskHelp		      "web(asbhelp('quaternionstodirectioncosinematrix"
+"'));"
+      MaskDisplay	      "disp('Quat2DCM')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"Quaternions to \nDirection Cosine Matrix"
+	Location		[180, 227, 691, 617]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Quat"
+	  Position		  [15, 23, 45, 37]
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "11"
+	  Position		  [130, 18, 320, 42]
+	  Expr			  "u[1]*u[1]+u[2]*u[2]-u[3]*u[3]-u[4]*u[4]"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "12"
+	  Position		  [155, 138, 290, 162]
+	  Expr			  "2*(u[2]*u[3] + u[1]*u[4])"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "13"
+	  Position		  [155, 258, 285, 282]
+	  Expr			  "2*(u[2]*u[4]-u[1]*u[3])"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "21"
+	  Position		  [155, 60, 290, 80]
+	  Expr			  "2*(u[2]*u[3]-u[1]*u[4])"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "22"
+	  Position		  [135, 178, 320, 202]
+	  Expr			  "u[1]*u[1]-u[2]*u[2]+u[3]*u[3]-u[4]*u[4]"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "23"
+	  Position		  [155, 299, 290, 321]
+	  Expr			  "2*(u[3]*u[4]+u[1]*u[2])"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "31"
+	  Position		  [155, 99, 290, 121]
+	  Expr			  "2*(u[1]*u[3]+u[2]*u[4])"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "32"
+	  Position		  [155, 218, 290, 242]
+	  Expr			  "2*(u[3]*u[4]-u[1]*u[2])"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "33"
+	  Position		  [125, 338, 320, 362]
+	  Expr			  "u[1]*u[1]-u[2]*u[2]-u[3]*u[3]+u[4]*u[4]"
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux2"
+	  Ports			  [9, 1]
+	  Position		  [340, 13, 345, 367]
+	  ShowName		  off
+	  Inputs		  "9"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Normalize"
+	  Ports			  [1, 1]
+	  Position		  [65, 13, 95, 47]
+	  ShowPortLabels	  off
+	  TreatAsAtomicUnit	  off
+	  System {
+	    Name		    "Normalize"
+	    Location		    [180, 227, 514, 376]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In1"
+	      Position		      [25, 38, 55, 52]
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Dot Product"
+	      Ports		      [2, 1]
+	      Position		      [95, 61, 125, 94]
+	      ShowName		      off
+	      SourceBlock	      "simulink/Math\nOperations/Dot Product"
+	      SourceType	      "Dot Product"
+	      InputSameDT	      off
+	      OutputDataTypeScalingMode	"Inherit via internal rule"
+	      OutDataType	      "sfix(16)"
+	      OutScaling	      "2^-10"
+	      LockScale		      off
+	      RndMeth		      "Floor"
+	      DoSatur		      off
+	    }
+	    Block {
+	      BlockType		      Math
+	      Name		      "Math\nFunction"
+	      Ports		      [1, 1]
+	      Position		      [140, 65, 170, 95]
+	      ShowName		      off
+	      Operator		      "sqrt"
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Normalize\nQuaternion\nMagnitude"
+	      Ports		      [2, 1]
+	      Position		      [195, 29, 240, 96]
+	      Inputs		      "*/"
+	      RndMeth		      "Floor"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [265, 58, 295, 72]
+	    }
+	    Line {
+	      SrcBlock		      "In1"
+	      SrcPort		      1
+	      Points		      [0, 0; 15, 0]
+	      Branch {
+		DstBlock		"Normalize\nQuaternion\nMagnitude"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 25]
+		Branch {
+		  Points		  [0, 15]
+		  DstBlock		  "Dot Product"
+		  DstPort		  2
+		}
+		Branch {
+		  DstBlock		  "Dot Product"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Dot Product"
+	      SrcPort		      1
+	      DstBlock		      "Math\nFunction"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Math\nFunction"
+	      SrcPort		      1
+	      DstBlock		      "Normalize\nQuaternion\nMagnitude"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Normalize\nQuaternion\nMagnitude"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Reshape\n9x1->3x3"
+	  Ports			  [1, 1]
+	  Position		  [370, 173, 430, 207]
+	  SourceBlock		  "simulink/Math\nOperations/Reshape"
+	  SourceType		  "Reshape"
+	  OutputDimensionality	  "Customize"
+	  OutputDimensions	  "[3,3]"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "DCM"
+	  Position		  [460, 183, 490, 197]
+	  InitialOutput		  "0"
+	}
+	Line {
+	  SrcBlock		  "Mux2"
+	  SrcPort		  1
+	  DstBlock		  "Reshape\n9x1->3x3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Reshape\n9x1->3x3"
+	  SrcPort		  1
+	  DstBlock		  "DCM"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "11"
+	  SrcPort		  1
+	  DstBlock		  "Mux2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "21"
+	  SrcPort		  1
+	  DstBlock		  "Mux2"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "31"
+	  SrcPort		  1
+	  DstBlock		  "Mux2"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "12"
+	  SrcPort		  1
+	  DstBlock		  "Mux2"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "22"
+	  SrcPort		  1
+	  DstBlock		  "Mux2"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "32"
+	  SrcPort		  1
+	  DstBlock		  "Mux2"
+	  DstPort		  6
+	}
+	Line {
+	  SrcBlock		  "13"
+	  SrcPort		  1
+	  DstBlock		  "Mux2"
+	  DstPort		  7
+	}
+	Line {
+	  SrcBlock		  "23"
+	  SrcPort		  1
+	  DstBlock		  "Mux2"
+	  DstPort		  8
+	}
+	Line {
+	  SrcBlock		  "33"
+	  SrcPort		  1
+	  DstBlock		  "Mux2"
+	  DstPort		  9
+	}
+	Line {
+	  SrcBlock		  "Quat"
+	  SrcPort		  1
+	  DstBlock		  "Normalize"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Normalize"
+	  SrcPort		  1
+	  Points		  [10, 0]
+	  Branch {
+	    DstBlock		    "11"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 40]
+	    Branch {
+	      DstBlock		      "21"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [0, 40]
+	      Branch {
+		DstBlock		"31"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 40]
+		Branch {
+		  DstBlock		  "12"
+		  DstPort		  1
+		}
+		Branch {
+		  Points		  [0, 40]
+		  Branch {
+		    DstBlock		    "22"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 40]
+		    Branch {
+		    DstBlock		    "32"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [0, 40]
+		    Branch {
+		    DstBlock		    "13"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [0, 40]
+		    Branch {
+		    DstBlock		    "33"
+		    DstPort		    1
+		    }
+		    Branch {
+		    DstBlock		    "23"
+		    DstPort		    1
+		    }
+		    }
+		    }
+		  }
+		}
+	      }
+	    }
+	  }
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Quaternions to Euler Angles"
+      Ports		      [1, 1]
+      Position		      [45, 44, 110, 96]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Quaternion2Euler"
+      MaskDescription	      "Calculate Euler angles (roll, pitch, yaw) from "
+"quaternion (q0,q1,q2,q3)"
+      MaskHelp		      "web(asbhelp('quaternionstoeulerangles'));"
+      MaskDisplay	      "disp('Quat2Eul')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"Quaternions to Euler Angles"
+	Location		[26, 73, 732, 390]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Quat"
+	  Position		  [25, 143, 55, 157]
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux2"
+	  Ports			  [3, 1]
+	  Position		  [540, 28, 545, 272]
+	  ShowName		  off
+	  Inputs		  "3"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Normalize"
+	  Ports			  [1, 1]
+	  Position		  [95, 133, 125, 167]
+	  ShowPortLabels	  off
+	  TreatAsAtomicUnit	  off
+	  System {
+	    Name		    "Normalize"
+	    Location		    [291, 391, 612, 536]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In1"
+	      Position		      [25, 38, 55, 52]
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Dot Product"
+	      Ports		      [2, 1]
+	      Position		      [95, 61, 125, 94]
+	      ShowName		      off
+	      SourceBlock	      "simulink/Math\nOperations/Dot Product"
+	      SourceType	      "Dot Product"
+	      InputSameDT	      off
+	      OutputDataTypeScalingMode	"Inherit via internal rule"
+	      OutDataType	      "sfix(16)"
+	      OutScaling	      "2^-10"
+	      LockScale		      off
+	      RndMeth		      "Floor"
+	      DoSatur		      off
+	    }
+	    Block {
+	      BlockType		      Math
+	      Name		      "Math\nFunction"
+	      Ports		      [1, 1]
+	      Position		      [140, 65, 170, 95]
+	      ShowName		      off
+	      Operator		      "sqrt"
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Normalize\nQuaternion\nMagnitude"
+	      Ports		      [2, 1]
+	      Position		      [195, 29, 240, 96]
+	      Inputs		      "*/"
+	      RndMeth		      "Floor"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [265, 58, 295, 72]
+	    }
+	    Line {
+	      SrcBlock		      "Normalize\nQuaternion\nMagnitude"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Math\nFunction"
+	      SrcPort		      1
+	      DstBlock		      "Normalize\nQuaternion\nMagnitude"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Dot Product"
+	      SrcPort		      1
+	      DstBlock		      "Math\nFunction"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "In1"
+	      SrcPort		      1
+	      Points		      [0, 0; 15, 0]
+	      Branch {
+		Points			[0, 25]
+		Branch {
+		  DstBlock		  "Dot Product"
+		  DstPort		  1
+		}
+		Branch {
+		  Points		  [0, 15]
+		  DstBlock		  "Dot Product"
+		  DstPort		  2
+		}
+	      }
+	      Branch {
+		DstBlock		"Normalize\nQuaternion\nMagnitude"
+		DstPort			1
+	      }
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Trigonometry
+	  Name			  "Trigonometric\nFunction1"
+	  Ports			  [2, 1]
+	  Position		  [450, 21, 485, 114]
+	  ShowName		  off
+	  Operator		  "atan2"
+	  Port {
+	    PortNumber		    1
+	    Name		    "Roll"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Trigonometry
+	  Name			  "Trigonometric\nFunction2"
+	  Ports			  [1, 1]
+	  Position		  [450, 135, 485, 165]
+	  ShowName		  off
+	  Operator		  "asin"
+	  Port {
+	    PortNumber		    1
+	    Name		    "Pitch"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Trigonometry
+	  Name			  "Trigonometric\nFunction3"
+	  Ports			  [2, 1]
+	  Position		  [450, 183, 485, 272]
+	  ShowName		  off
+	  Operator		  "atan2"
+	  Port {
+	    PortNumber		    1
+	    Name		    "Yaw"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "cos(phi)cos(theta)"
+	  Position		  [190, 76, 410, 104]
+	  Expr			  "(u(1)*u(1)-u(2)*u(2)-u(3)*u(3)+u(4)*u(4))"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "cos(yaw)cos(theta)"
+	  Position		  [195, 235, 400, 265]
+	  Expr			  "(u(1)*u(1)+u(2)*u(2)-u(3)*u(3)-u(4)*u(4))"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "sin(phi)cos(theta)"
+	  Position		  [230, 33, 365, 57]
+	  Expr			  "2*(u(3)*u(4)+u(1)*u(2))"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "sin(pitch)"
+	  Position		  [235, 138, 360, 162]
+	  Expr			  "-2*(u(2)*u(4)-u(1)*u(3))"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "sin(yaw)cos(theta)"
+	  Position		  [230, 194, 365, 216]
+	  Expr			  "2*(u(2)*u(3)+u(1)*u(4))"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Euler\nRoll\nPitch\nYaw"
+	  Position		  [635, 143, 665, 157]
+	  InitialOutput		  "0"
+	}
+	Line {
+	  SrcBlock		  "Quat"
+	  SrcPort		  1
+	  DstBlock		  "Normalize"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Normalize"
+	  SrcPort		  1
+	  Points		  [25, 0]
+	  Branch {
+	    Points		    [0, -60]
+	    Branch {
+	      DstBlock		      "cos(phi)cos(theta)"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [0, -45]
+	      DstBlock		      "sin(phi)cos(theta)"
+	      DstPort		      1
+	    }
+	  }
+	  Branch {
+	    DstBlock		    "sin(pitch)"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 55]
+	    Branch {
+	      Points		      [0, 45]
+	      DstBlock		      "cos(yaw)cos(theta)"
+	      DstPort		      1
+	    }
+	    Branch {
+	      DstBlock		      "sin(yaw)cos(theta)"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Line {
+	  Name			  "Pitch"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Trigonometric\nFunction2"
+	  SrcPort		  1
+	  DstBlock		  "Mux2"
+	  DstPort		  2
+	}
+	Line {
+	  Labels		  [0, 0]
+	  SrcBlock		  "Mux2"
+	  SrcPort		  1
+	  DstBlock		  "Euler\nRoll\nPitch\nYaw"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "sin(pitch)"
+	  SrcPort		  1
+	  DstBlock		  "Trigonometric\nFunction2"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Roll"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Trigonometric\nFunction1"
+	  SrcPort		  1
+	  DstBlock		  "Mux2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "sin(phi)cos(theta)"
+	  SrcPort		  1
+	  DstBlock		  "Trigonometric\nFunction1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "cos(phi)cos(theta)"
+	  SrcPort		  1
+	  DstBlock		  "Trigonometric\nFunction1"
+	  DstPort		  2
+	}
+	Line {
+	  Name			  "Yaw"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Trigonometric\nFunction3"
+	  SrcPort		  1
+	  DstBlock		  "Mux2"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "sin(yaw)cos(theta)"
+	  SrcPort		  1
+	  DstBlock		  "Trigonometric\nFunction3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "cos(yaw)cos(theta)"
+	  SrcPort		  1
+	  DstBlock		  "Trigonometric\nFunction3"
+	  DstPort		  2
+	}
+      }
+    }
+  }
+}

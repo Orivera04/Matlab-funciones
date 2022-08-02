@@ -1,0 +1,169 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>MODEL A SUNFLOWER WITH THE GOLDEN RATIO</title>
+      <meta name="generator" content="MATLAB 7.3">
+      <meta name="date" content="2007-01-09">
+      <meta name="m-file" content="sunflower"><style>
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head>
+   <body>
+      <div class="content">
+         <h1>MODEL A SUNFLOWER WITH THE GOLDEN RATIO</h1>
+         <introduction>
+            <p>It is well-documented that the Golden Ratio is observed in the angular geometry of seeds in sunflowers, coneflowers and pinecones,
+               as well as other plants and natural phenomena. (<a href="http://www.mcs.surrey.ac.uk/Personal/R.Knott/Fibonacci/fibnat.html">http://www.mcs.surrey.ac.uk/Personal/R.Knott/Fibonacci/fibnat.html</a>)
+            </p>
+            <p>However, little regard has been paid, it seems, to the distance of each seed from the center. When I looked at sunflowers
+               and coneflowers, I noticed that the density of seeds is not uniform throughout. Seeds toward the center are smaller than the
+               seeds near the edges, and thus, their density is greater.
+            </p>
+            <p>This file makes a connection between the Golden Ratio and the seed distance from the center of the sunflower. This accounts
+               for the growth of each seed over time, and provides a better model for seed location than linear distance from center.
+            </p>
+            <p>AUTHOR: Joseph Kirk (c) 5/2006 EMAIL: jdkirk630 at gmail dot com</p>
+         </introduction>
+         <h2>Contents</h2>
+         <div>
+            <ul>
+               <li><a href="#1">THE GOLDEN RATIO (PHI)</a></li>
+               <li><a href="#2">NUMBER OF SEEDS</a></li>
+               <li><a href="#3">SEED DISTANCE FROM CENTER</a></li>
+               <li><a href="#4">SEED ANGLE</a></li>
+               <li><a href="#5">PLOT</a></li>
+            </ul>
+         </div>
+         <h2>THE GOLDEN RATIO (PHI)<a name="1"></a></h2>
+         <p><img vspace="5" hspace="5" src="sunflower_eq13589.png"> </p><pre class="codeinput">phi = (sqrt(5)-1)/2;  <span class="comment">% = 0.6180339887499</span>
+</pre><h2>NUMBER OF SEEDS<a name="2"></a></h2><pre class="codeinput">n = 2618;
+</pre><h2>SEED DISTANCE FROM CENTER<a name="3"></a></h2>
+         <p>The seed distances are raised to the Golden Ratio power</p>
+         <p><img vspace="5" hspace="5" src="sunflower_eq6281.png"> </p><pre class="codeinput">rho = (0:n-1).^phi;
+</pre><h2>SEED ANGLE<a name="4"></a></h2>
+         <p>A cirlce contains <tt>2*pi</tt> radians, so <tt>2*pi*phi</tt> cuts the circle by the Golden Ratio
+         </p>
+         <p><img vspace="5" hspace="5" src="sunflower_eq11183.png"> </p><pre class="codeinput">theta = (0:n-1)*2*pi*phi;
+</pre><h2>PLOT<a name="5"></a></h2><pre class="codeinput">polar(theta, rho, <span class="string">'b.'</span>);
+title([num2str(n) <span class="string">' Sunflower Seeds'</span>]);
+set(gcf, <span class="string">'color'</span>, <span class="string">'w'</span>);
+</pre><img vspace="5" hspace="5" src="sunflower_01.png"> <p class="footer"><br>
+            Published with MATLAB&reg; 7.3<br></p>
+      </div>
+      <!--
+##### SOURCE BEGIN #####
+%% MODEL A SUNFLOWER WITH THE GOLDEN RATIO
+% It is well-documented that the Golden Ratio is observed in the angular
+% geometry of seeds in sunflowers, coneflowers and pinecones, as well as
+% other plants and natural phenomena.
+% (http://www.mcs.surrey.ac.uk/Personal/R.Knott/Fibonacci/fibnat.html)
+% 
+% However, little regard has been paid, it seems, to the distance of each
+% seed from the center. When I looked at sunflowers and coneflowers, I
+% noticed that the density of seeds is not uniform throughout. Seeds toward
+% the center are smaller than the seeds near the edges, and thus, their
+% density is greater.
+% 
+% This file makes a connection between the Golden Ratio and the seed
+% distance from the center of the sunflower. This accounts for the growth
+% of each seed over time, and provides a better model for seed location
+% than linear distance from center.
+% 
+% AUTHOR: Joseph Kirk (c) 5/2006
+% EMAIL: jdkirk630 at gmail dot com
+
+%% THE GOLDEN RATIO (PHI)
+%
+% $$\phi = \frac{\sqrt{5}-1}{2}$$
+%
+phi = (sqrt(5)-1)/2;  % = 0.6180339887499
+
+%% NUMBER OF SEEDS
+n = 2618;
+
+%% SEED DISTANCE FROM CENTER
+% The seed distances are raised to the Golden Ratio power
+%
+% $$\rho_k = (k-1)^\phi$$
+%
+rho = (0:n-1).^phi;
+
+%% SEED ANGLE
+% A cirlce contains |2*pi| radians, so |2*pi*phi| cuts the circle by the
+% Golden Ratio
+%
+% $$\theta_k = (k-1)*2\pi\phi$$
+%
+theta = (0:n-1)*2*pi*phi;
+
+%% PLOT
+polar(theta, rho, 'b.');
+title([num2str(n) ' Sunflower Seeds']);
+set(gcf, 'color', 'w');
+
+
+##### SOURCE END #####
+-->
+   </body>
+</html>

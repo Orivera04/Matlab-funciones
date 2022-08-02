@@ -1,0 +1,97 @@
+%% File: pilmarshal_lib.tlc
+%%
+%% $Revision: 1.5.4.1 $
+%% $Date: 2004/04/19 01:28:16 $
+%%
+%% Copyright 2001-2002 The MathWorks, Inc.
+%%
+%% Abstract: Embedded real-time system target file for Processor in 
+%% the Loop Simulation TLC function library.
+%%
+
+%include "utillib.tlc"
+
+%function LibCacheMarshallExternalInputsStruct() void
+  %if NumModelInputs > 0
+    %openfile tmpBuffer
+    %foreach idx = ExternalInputs.NumExternalInputs
+      %assign extInp = ExternalInputs.ExternalInput[idx]
+      %with extInp
+	%if extInp.StorageClass != "Auto"
+	  %continue
+	%endif
+	%assign dataType  = SLibGetRecordDataTypeName(extInp, "")
+	%assign dataTypeId = SLibGetRecordDataTypeId(extInp)
+	%assign optWidth = LibOptionalVectorWidth(Width)
+        /* Check port width handling. Array verse scalar. */
+        pilMarshallOutput(&target_U->%<Identifier>, (char *)&host_U->%<Identifier>,
+                  %<Width>, %<dataTypeId>,-1,&%<::CompiledModel.Name>_HostToTargetDataConversionTable,
+		  ROOT_S 
+		 );
+      %endwith %% extInp
+    %endforeach
+    %closefile tmpBuffer
+    %<SETFIELD(::CompiledModel,"MarshallExternalInputsStruct",tmpBuffer)>
+  %else
+    %<SETFIELD(::CompiledModel,"MarshallExternalInputsStruct","")>
+  %endif
+%endfunction
+
+
+%function LibCacheMarshallExternalOutputsStruct() void
+  %if NumModelOutputs > 0
+    %openfile tmpBuffer
+    %foreach idx = ExternalOutputs.NumExternalOutputs
+      %assign extOut       = ExternalOutputs.ExternalOutput[idx]
+      %assign sysIdx       = extOut.Block[0]
+      %assign blkIdx       = extOut.Block[1]
+      %assign outportBlock = System[sysIdx].Block[blkIdx]
+      %if SLibExternalOutputIsVirtual(outportBlock)
+        %continue
+      %endif
+      %with outportBlock
+	%assign portWidth = LibBlockInputSignalWidth(0)
+	%assign dataSize  = LibBlockInputSignalDataTypeName(0, "")
+	%assign dataType  = LibBlockInputSignalDataTypeName(0, "")
+	%assign dataTypeId = LibBlockInputSignalDataTypeId(0)
+      %endwith %% outportBlock
+      /* Check port width handling. Array verse scalar. */
+      pilMarshallInput((char *)&host_Y->%<outportBlock.Identifier>,
+                  &target_Y->%<outportBlock.Identifier>, 
+                  %<portWidth>,%<dataTypeId>,-1, &%<::CompiledModel.Name>_HostToTargetDataConversionTable, 
+		  ROOT_S 
+		 );
+    %endforeach
+    %closefile tmpBuffer
+    %<SETFIELD(::CompiledModel,"MarshallExternalOutputsStruct",tmpBuffer)>
+  %else
+    %<SETFIELD(::CompiledModel,"MarshallExternalOutputsStruct","")>
+  %endif
+%endfunction
+
+
+%function InsertPILMarshallingCode() Output
+%with CompiledModel
+
+void *%<::CompiledModel.Name>_HostToTargetDataConversionTable;
+void *%<::CompiledModel.Name>_TargetToHostDataConversionTable;
+SimStruct *PIL_S;
+SimStruct *ROOT_S;
+
+%if !LibExternalInputsStructIsEmpty()
+%<LibCacheMarshallExternalInputsStruct()>
+void %<::CompiledModel.Name>_MarshallOutput(%<tInputType> *target_U, %<tInputType> *host_U)
+{
+%<::CompiledModel.MarshallExternalInputsStruct>
+}
+%endif
+
+%if !LibExternalOutputsStructIsEmpty()
+%<LibCacheMarshallExternalOutputsStruct()>
+void %<::CompiledModel.Name>_MarshallInput(%<tOutputType> *host_Y, %<tOutputType> *target_Y)
+{
+%<::CompiledModel.MarshallExternalOutputsStruct>
+}
+%endif
+%endwith
+%endfunction

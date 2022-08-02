@@ -1,0 +1,13 @@
+function [P] = bloc(a2,lm,lb,rb,e)
+r1=-lm+rb+lb-e;
+r2=lm+rb+lb+e;
+r2=r2-r1;
+p1=r1*[cos(a2),sin(a2)];
+p2=r2*[cos(a2),sin(a2)];
+i=e*[-sin(a2),cos(a2)];
+d=e*[sin(a2),-cos(a2)];
+P(1,:)=p1+i;
+P(2,:)=p1+i+p2;
+P(3,:)=p1+i+p2+2*d;
+P(4,:)=p1+i+p2+2*d;
+P(5,:)=p1+d;

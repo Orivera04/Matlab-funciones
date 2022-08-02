@@ -1,0 +1,19 @@
+%Programa para conar frecuencias de valores repertidos en un
+%vector de tamaño n.
+
+%Introducir el vector v
+v=input('Introduzca el vector v:')
+n=numel(v)
+%Conteo de frecuencias
+k=1;
+val=v(1);
+sum=1;
+for i:n-1
+    while val==v(i+1)
+        sum=sum+1;
+    end
+    frec(k)=sum;
+    sum=0;
+    k=k+1
+end
+frec

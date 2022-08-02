@@ -1,0 +1,84 @@
+/* File: auto_flash.dld
+ * 
+ * Abstract:
+ * 	DIAB linker command file for the auto_flash application
+ *
+ * $Revision: 1.1 $
+ * $Date: 2002/09/13 09:03:02 $
+ *
+ * Modified from the original file
+ *    diab\4.3g\conf\default.dld
+ * in the Windriver Diab Compiler.
+ *
+ * There was no copyright in the original file.
+ */
+
+/* 
+ *
+ *
+ * ------------------------------------------------------------------------- */
+MEMORY
+{
+    rom:   org = 0,        len = 0x6FFFF /* Internal Flash */
+    ram:   org = 0x3f9800, len = 0x67FF   /* Internal SRAM for bootcode */
+}
+
+SECTIONS
+{
+
+	GROUP  : 
+	{
+		.init 		: { }
+		.usr_init   : { }
+		.fini 		: { }
+		.text : { }
+
+       __DATA_RAM = .;
+       __DATA_ROM = .;
+		.sdata2 		: { }
+
+		.data (DATA) : { }
+
+		.sdata (DATA) : {}
+      __DATA_END = .;
+
+		__BSS_START = .;
+		.sbss : {}
+		.bss (BSS) : {}
+		__BSS_END = .;
+
+      __SP_END = .;
+
+	} > ram
+}
+
+/* Definitions of identifiers used by sbrk.c, init.c and the different
+ * crt0.s files. Their purpose is to control initialization and memory
+ * memory allocation.
+ *
+ * __HEAP_START : Used by sbrk.c: start of memory used by malloc() etc.
+ * __HEAP_END   : Used by sbrk.c: end of heap memory
+ * __SP_INIT    : Used by crt0.s: initial address of stack pointer
+ * __SP_END     : Used by sbrk.c: only used when stack probing
+ * __DATA_ROM   : Used by init.c: start of initialized data in ROM
+ * __DATA_RAM   : Used by init.c: start of initialized data in RAM
+ * __DATA_END   : Used by init.c: end of initialized data in RAM
+ * __BSS_START  : Used by init.c: start of uninitialized data
+ * __BSS_END    : Used by init.c: end of data to be cleared
+ * ------------------------------------------------------------------------- */
+
+__SP_INIT = 0x3ffff8;
+__HEAP_START   = ADDR(ram   ) + SIZEOF(ram   );
+__HEAP_END     = ADDR(ram   ) + SIZEOF(ram   );
+
+/* ----------------------------------------------------------------------------
+ * Additional notes:
+ * ----------------------------------------------------------------------------
+ * (1)  Constants and strings will be in the .text segment unless the
+ *      -Xconst-in-text=0 option is used.
+ *
+ * (2)  If __SP_END and __HEAP_END point to the same address (i.e., the "ram"
+ *      and "stack" memory areas are contiguous), then programs compiled with
+ *      -Xstack-probe or -Xrtc will allocate more stack from the top of the
+ *      heap on stack overflow if possible (see __sp_grow() in sbrk.c).
+ * ------------------------------------------------------------------------- */

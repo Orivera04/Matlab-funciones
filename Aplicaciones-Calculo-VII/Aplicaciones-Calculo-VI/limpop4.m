@@ -1,0 +1,140 @@
+%  limpop4.m
+% Matlab file for Part 4 of the Limited Population module
+
+disp('**************************************************')
+disp('Part 4:  Fruit Flies:  Automating the process');
+disp('**************************************************')
+disp('  ')    
+
+    format short
+
+    disp('Type c, M, and p0 to check these parameters')
+    disp('are correctly entered from part 3.')
+    disp('  If not, reenter the values.')
+    disp(' ')
+    disp('To continue afterwards, type the word return')
+    disp('and hit enter!')
+    disp(' ')
+
+    keyboard;
+    disp(' ')
+
+    disp('--------------------------------------------')
+    disp('Enter MATLAB commands to make n=20 and')
+    disp('Delta=100/n.')
+    disp(' ')
+    disp('To continue afterwards, type the word return')
+    disp('and hit enter!')
+    disp(' ')
+
+    keyboard;
+    disp(' ')
+
+    disp('--------------------------------------------')
+    disp('Copy the following commands and paste them as')
+    disp('a group at a MATLAB prompt, then execute them.')
+    clear t k;
+    disp(' ')
+    disp('     for k=1:n+1 ')
+    disp('        t(k)=(k-1)*Delta; ')
+    disp('     end ')
+    disp(' ')
+    disp('To check, type the variable name: t, which')
+    disp('should give the times from 0 to 100 in')
+    disp('steps of 5 days.')
+    disp(' ')
+    disp('To continue afterwards, type the word return')
+    disp('and hit enter!')
+    disp(' ') 
+
+    keyboard;
+    disp(' ')
+
+    disp('----------------------------------------------')    
+    disp('Subscripts in MATLAB cannot start at zero.')
+    disp('Thus, we need to initialize p(1) to be the')
+    disp('initial population p0 and likewise initialize')
+    disp('slope(1) to be the initial slope.')
+    disp('----------------------------------------------')
+    disp(' ')
+    clear p slope ;
+    disp('Copy the following commands and paste them as')
+    disp('a group at a MATLAB prompt, then execute them.')
+    disp(' ')
+    disp('     p(1)=p0; ')
+    disp('     slope(1)=c*p(1)*(M-p(1)); ')
+    disp(' ')
+    disp('To continue afterwards, type the word return')
+    disp('and hit enter!')
+
+    keyboard;
+    disp(' ')
+
+    disp('------------------------------------------------------')
+    disp('Now we can put our recursive definitions in')
+    disp('a loop to compute p(2), then slope(2),') 
+    disp('p(3), then slope(3), etc.')
+    disp(' ')
+    disp('Copy the following commands and paste them as')
+    disp('a group at a MATLAB prompt, then execute them.')
+    disp(' ')
+    disp('     for k=2:n+1 ')
+    disp('        p(k)=p(k-1)+slope(k-1)*Delta; ')
+    disp('        slope(k)=c*p(k)*(M-p(k)); ')
+    disp('     end ')
+    disp(' ')
+    disp('To check, type the variable name: p, which')
+    disp('should give the population values for each')
+    disp('time in vector t.')
+    disp(' ')
+    disp('Also, type the variable name: slope, which')
+    disp('should give the slope values for each')
+    disp('time in vector t.') 
+    disp(' ')
+    disp('To continue afterwards, type the word return')
+    disp('and hit enter!')
+    disp(' ')
+    
+    keyboard;
+    disp(' ')
+
+    disp('------------------------------------------------------')
+    disp('Lets look at a plot of the (t,p) pairs and')
+    disp('a plot of the (t,slope) pairs.')
+    disp('We will plot the (t,p) pairs using the')
+    disp('little-o plot symbol in the default color.')
+    disp('We will plot the (t,slope) pairs in red')
+    disp('using the + plot symbol in another window.')
+    disp(' ')
+    disp('Copy each of the following plot commands and')
+    disp('paste them at a MATLAB prompt to execute them.')
+    disp(' ')
+    disp('     figure(1)      ') 
+    disp('     plot(t,p,''o'')      ')
+    disp('     figure(2) ')
+    disp('     plot(t,slope,''r+'') ')
+    disp(' ')
+    disp('Insert comments for your diary file')
+    disp('describing what you see in the plots.')
+    disp(' ')
+    disp('To continue afterwards, type the word return')
+    disp('and hit enter!')
+    disp(' ')
+
+    keyboard;
+    disp(' ')
+
+    disp('--------------------------------------------')
+    disp('We need to save the set of t points, p points,')
+    disp('and slope points for later.')
+    disp('Copy the following commands and paste them as')
+    disp('a group at a MATLAB prompt, then execute them.')
+    disp(' ')
+    disp('     t20=t;      ')
+    disp('     p20=p;      ')
+    disp('     slope20=slope;   ')
+    disp(' ')
+    disp('------------------------------------------------------')
+    disp('To go on to part 5 of this module,')
+    disp('type: limpop5')
+    disp(' ')

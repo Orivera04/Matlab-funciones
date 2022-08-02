@@ -1,0 +1,157 @@
+%% SYSTLC: OSEK Target for 3Soft ProOSEK Implementation \
+%%    TMF: osek_default_tmf MAKE: make_rtw EXTMODE: no_ext_comm
+%%
+%% $Revision: 1.15.6.3 $
+%% $Date: 2004/03/21 22:58:29 $
+%%
+%% Copyright 2002-2004 The MathWorks, Inc.
+%%
+%% Abstract: System target file for 3Soft ProOSEK, since rtwoptions are specific to an implementation, 
+%%           we have a separate STF for each OSEK implementation, but share osek_default_tmf.m which
+%%           is has a switch to select proper tmf.
+%selectfile NULL_FILE
+
+%% Setup required variables
+%assign CodeFormat = "Embedded-C"
+%assign TargetType = "RT"
+%assign Language   = "C"
+
+%% Setup OSEK environment
+%include "osek_settings.tlc"
+
+%% Include OSEK specific tlc functions
+%include "osekmainlib.tlc"
+%include "proosek_lib.tlc"
+%include "proosek_oil.tlc"
+%include "osekerrorhook.tlc"
+
+%% Kick-off the code generation
+%include "codegenentry.tlc"
+
+%% Generate code profiling report
+%include "profilegen.tlc"
+%with CompiledModel.PathInfo
+  %<LibGenCodeProfileReport("","GNU",...
+    "%<MODEL_ABS_PATH>%<PATH_SEP>..%<PATH_SEP>%<CompiledModel.Name>.elf","",...
+    "%<PROFILE_DIR>%<PATH_SEP>html_gnu.rul")>
+%endwith
+
+%% The contents between 'BEGIN_RTW_OPTIONS' and 'END_RTW_OPTIONS' are strictly 
+%% written by the standard format. We need to use this structure in RTW 
+%% options GUI function rtwoptionsdlg.m file.
+%%
+/%
+  BEGIN_RTW_OPTIONS
+
+  rtwoption_index = 0;
+
+  rtwoption_index = rtwoption_index + 1;
+  cat_start_index = rtwoption_index;
+  rtwoptions(rtwoption_index).prompt        = 'ProOSEK code generation options (1)';
+  rtwoptions(rtwoption_index).type          = 'Category';
+  rtwoptions(rtwoption_index).enable        = 'on';  
+  rtwoptions(rtwoption_index).default       = 0;   % fill in later
+  rtwoptions(rtwoption_index).popupstrings  = '';
+  rtwoptions(rtwoption_index).tlcvariable   = '';
+  rtwoptions(rtwoption_index).tooltip       = '';
+  rtwoptions(rtwoption_index).callback      = '';
+  rtwoptions(rtwoption_index).opencallback  = '';
+  rtwoptions(rtwoption_index).closecallback = '';
+  rtwoptions(rtwoption_index).makevariable  = '';
+
+  rtwoption_index = rtwoption_index + 1;
+  rtwoptions(rtwoption_index).prompt         = 'ProOSEK Board selection';
+  rtwoptions(rtwoption_index).type           = 'Popup';
+  rtwoptions(rtwoption_index).default        = 'PHYCORE555';
+  rtwoptions(rtwoption_index).popupstrings   = 'PHYCORE555|SBC555|EVB555';
+  rtwoptions(rtwoption_index).tlcvariable    = 'bspname';
+  rtwoptions(rtwoption_index).makevariable = 'BSP_NAME';
+  rtwoptions(rtwoption_index).tooltip        = ['Board name used to create path to board specific files in the ProOSEK installation.'];
+  rtwoptions(rtwoption_index).callback      = '';
+  rtwoptions(rtwoption_index).opencallback  = '';
+  rtwoptions(rtwoption_index).closecallback = '';
+
+  rtwoption_index = rtwoption_index + 1;
+  rtwoptions(rtwoption_index).prompt         = 'Build action:';
+  rtwoptions(rtwoption_index).type           = 'Popup';
+  rtwoptions(rtwoption_index).popupstrings   = [...
+    'Download_and_run|Download_and_debug|None'];
+  rtwoptions(rtwoption_index).default        = 'None';
+  rtwoptions(rtwoption_index).tlcvariable    = 'BuildAction';
+  rtwoptions(rtwoption_index).makevariable   = 'BUILDACTION';
+  rtwoptions(rtwoption_index).tooltip        = ['Action to perform after building target.'];
+  
+  rtwoption_index = rtwoption_index + 1;
+  rtwoptions(rtwoption_index).prompt       = 'Base task priority';
+  rtwoptions(rtwoption_index).type         = 'Edit';
+  rtwoptions(rtwoption_index).default      = '20';
+  rtwoptions(rtwoption_index).tlcvariable  = 'basePriority';
+  rtwoptions(rtwoption_index).tooltip      = ['The base rate task priority, sub rate tasks will use a decremented ', ...
+                                sprintf('\n'), ...
+                                '(lower priority) value. ProOSEK defines the range 0-255, 0 being lowest.'];
+  rtwoptions(rtwoption_index).callback      = '';
+  rtwoptions(rtwoption_index).opencallback  = '';
+  rtwoptions(rtwoption_index).closecallback = '';
+			      
+  rtwoption_index = rtwoption_index + 1;
+  rtwoptions(rtwoption_index).prompt       = 'Task stack size';
+  rtwoptions(rtwoption_index).type         = 'Edit';
+  rtwoptions(rtwoption_index).default      = '400';
+  rtwoptions(rtwoption_index).tlcvariable  = 'stackSize';
+  rtwoptions(rtwoption_index).tooltip      = ['The stack size in bytes for each task that executes the model.'];
+  rtwoptions(rtwoption_index).callback      = '';
+  rtwoptions(rtwoption_index).opencallback  = '';
+  rtwoptions(rtwoption_index).closecallback = '';
+  
+  rtwoption_index = rtwoption_index + 1;
+  rtwoptions(rtwoption_index).prompt       = 'System counter increment rate. (TIME_IN_NS)';
+  rtwoptions(rtwoption_index).type         = 'Edit';
+  rtwoptions(rtwoption_index).default      = 'Auto';
+  rtwoptions(rtwoption_index).tlcvariable  = 'TimeInNS';
+  rtwoptions(rtwoption_index).tooltip      = ['Leave as Auto'];
+  rtwoptions(rtwoption_index).callback      = '';
+  rtwoptions(rtwoption_index).opencallback  = '';
+  rtwoptions(rtwoption_index).closecallback = '';
+				
+  rtwoption_index = rtwoption_index + 1;
+  rtwoptions(rtwoption_index).prompt         = 'Force rebuild of the static libraries used by the model';
+  rtwoptions(rtwoption_index).type           = 'Checkbox';
+  rtwoptions(rtwoption_index).default        = 'off';
+  rtwoptions(rtwoption_index).tlcvariable    = 'StaticLibraryRebuild';
+  rtwoptions(rtwoption_index).tooltip        = ['For the static libraries referenced by this model ', ...
+						sprintf('\n'),...
+						'to be rebuilt.'];
+					      
+  rtwoption_index = rtwoption_index + 1;
+  rtwoptions(rtwoption_index).prompt         = 'Include ErrorHook function';
+  rtwoptions(rtwoption_index).type           = 'Checkbox';
+  rtwoptions(rtwoption_index).default        = 'on';
+  rtwoptions(rtwoption_index).tlcvariable    = 'IncludeErrHook';
+  rtwoptions(rtwoption_index).tooltip        = ['Include a default ErrorHook function in the generated code.'];
+					      
+  % Perform check for number of options in this category
+  if rtwoption_index - cat_start_index > 10
+    error('System Target File category has too many options')';
+  else
+  % number of items under this category
+    rtwoptions(cat_start_index).default = rtwoption_index - cat_start_index;
+  end
+  
+  % Optionally inherit additional user options
+  if exist('user_osek_options.tlc','file')
+    propsObj = tlc.rtwoptions('user_osek_options.tlc');
+    props    = propsObj.getOptions;
+    rtwoptions = propsObj.combineCategories(rtwoptions,props);
+  end
+
+  %----------------------------------------%
+  % Configure RTW code generation settings %
+  %----------------------------------------%
+  rtwgensettings.BuildDirSuffix = '_proosek';
+  % Inherit ERT options
+  rtwgensettings.DerivedFrom = 'ert.tlc';
+  rtwgensettings.Version = '1';
+  rtwgensettings.SelectCallback = ['osek_select_callback_handler(hDlg, hSrc)']; 
+
+  END_RTW_OPTIONS 
+ %/

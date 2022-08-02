@@ -1,0 +1,138 @@
+function runRegression (fileNameArray,commonVar, varargin)
+
+    try
+        promptCodeStart(); %Sub function to display screen prompts
+
+        RUNNING_EXECUTABLE = 1;
+        RUN_ON_GRID = 0;
+        MAT_FILE_IO = 0;
+
+        if RUNNING_EXECUTABLE
+          fileNameArray; %parsing fileName array
+          commonVar; %parsing sheetName array
+            inputParams = EvalFile(varargin{:});
+        else
+            inputParams = varargin{:};
+        end
+        assetName = getStrName(commonVar);
+        
+        if RUN_ON_GRID
+            sheetNameArray =[];
+            outputFileName = assetName;
+        else
+            sheetNameArray = commonVar;
+            outputFileName = [];
+        end
+        
+        regressionParams=regressionParser(fileNameArray,sheetNameArray, assetName, RUN_ON_GRID, inputParams);
+        regressionParams=processOuputFileName(regressionParams, RUN_ON_GRID, outputFileName, fileNameArray, assetName);
+        
+        [indicatorOnOff indicatorData indexReturns dates indicatorNames indicatorTickers]=loadMultipleFiles(fileNameArray,sheetNameArray, MAT_FILE_IO);
+        indexReturns=[indexReturns;0]; %This is necessary to assign the results properly
+%        regressionParams.subHandle = indicatorPrinter(indicatorNames); %This stores indicator names and probably can be printed anywhere in code..just for debugging purpose
+        
+        [testPeriodEnd]=size(indicatorData,1);
+        
+        % check for start date specified
+        testStart=1 + regressionParams.regressionDataSize+regressionParams.betaBacktestSize;
+        if strcmpi(regressionParams.modelName,'combination') 
+                testStart = testStart + regressionParams.hitsWindowSize;
+        end
+                  
+        if ischar(regressionParams.startDate)
+            if CheckDateAvailable(dates, regressionParams.startDate) < testStart
+                error('Specified start date is either not present or too early in available data');
+            end
+            testStart=CheckDateAvailable(dates, regressionParams.startDate);
+        end
+
+        prmoptTestStart(dates, testPeriodEnd, testStart);  %Sub function to display screen prompts
+        
+        dataStruct = struct([]);
+        switch lower(regressionParams.modelName)
+            case 'combination'
+                [indicatorCombinationIndex dataStruct]=regressionCombinationController(indicatorData, indexReturns, testStart, regressionParams);
+            case 'stepwise'
+                [indicatorCombinationIndex]=regressionStepwiseController(indicatorData, indexReturns, testStart, regressionParams, indicatorOnOff);
+        end
+        
+        [outputStruct summaryStruct outputLastMonthStruct anotherOutputStruct goodDataPoint noCombination indicatorEverPicked] = runForecast(indicatorData, indexReturns, testStart, regressionParams, indicatorCombinationIndex, dates, dataStruct );
+        summaryStruct.AssetTicker=getReturnTicker(indicatorTickers);
+        
+        outputStruct(1:goodDataPoint-1,:)=[];
+        if sum(noCombination)>0
+            fprintf('  No indicator combination was produced by backtesting on period Following Period(s). Maybe data unavilable OR some setting : \n');  
+            tempi=find(noCombination);
+            for i=1:size(tempi,1);
+                fprintf('  %s',datestr(datenum(dates{tempi(i)},'dd/mm/yyyy'),12));
+            end
+            fprintf('\n\n');
+        end
+        
+        fprintf('\nStatistics Summary:\n');
+        if testPeriodEnd-testStart>0
+            fprintf('  Test Periods    = %s\n',num2str(testPeriodEnd-goodDataPoint));
+            fprintf('  Hits Percentage = %s%%\n',num2str(summaryStruct.hitsPercent*100));
+        end
+        fprintf('  Number of forecast periods  = %d\n',testPeriodEnd-goodDataPoint+1);
+        fprintf('  Forecast Start Date   = %s\n',dates{goodDataPoint});
+        fprintf('  Final Forecast Date   = %s\n',dates{end,1});
+        fprintf('  Final Forecast    = %s%%\n',num2str(summaryStruct.lastForecast*100));
+        
+        fprintf('\nBEGIN WRITE RESULTS\n  RESULTS FILE:\n');
+        fileName= regressionParams.outputFileName ;
+        fprintf('  %s\n',fileName);
+        
+        writeStructure(fileName, 'SelectedIndicatorsNames', outputStruct, 'indicators', indicatorNames, {'Date', 'indicators'} ,MAT_FILE_IO);
+        writeStructure(fileName, 'Statistics', outputStruct, 'indicators', indicatorNames,[],MAT_FILE_IO);
+        writeStructure(fileName, 'LastMonthStatistics', outputLastMonthStruct, 'indicators', indicatorNames,[],MAT_FILE_IO);
+        writeStructure(fileName, 'LastMonthStatistics2', anotherOutputStruct, 'indicators', indicatorNames,[],MAT_FILE_IO);
+        writeModelArg(fileName, 'ModelArguments', regressionParams,[],MAT_FILE_IO);
+        
+        if any(~indicatorEverPicked)
+            myXlSwrite(fileName,transpose([indicatorNames(~indicatorEverPicked); indicatorTickers(~indicatorEverPicked)]),'NeverPickedIndicators',MAT_FILE_IO);
+        end
+        
+        myXlSwrite(fileName,transpose([indicatorNames; indicatorTickers; num2cell(indicatorEverPicked) ' ']),'IndicatorFrequency',MAT_FILE_IO);
+        myXlSwrite(fileName,transpose([indicatorNames; indicatorTickers]),'AllIndicators',MAT_FILE_IO);
+        writeModelArg(fileName, 'ModelResults', summaryStruct,[],MAT_FILE_IO);
+        fprintf('  FINISHED WRITE RESULTS\n\n');
+
+    catch
+        % =====================================================================
+        % Catch all errors here | Write to screen | Write to error log
+        % =====================================================================
+        err = lasterror; 
+        logTheError(err, getStrName(commonVar));
+    end
+end
+
+function promptCodeStart()
+        fprintf('\n\n\n');
+        fprintf('==================================================================================\n');
+        fprintf('              BEGIN REGRESSION PROCESSING at %s\n',datestr(now,'dd-mmm-yyyy HH.MM.SS'));
+        fprintf('==================================================================================\n');
+end
+
+function prmoptTestStart(dates, testPeriodEnd, testStart)
+        fprintf('DATA STATISTICS:\n');
+        fprintf('  Start Date of Valid Data = %s\n',dates{1});
+        fprintf('  End Date of Data = %s\n',dates{testPeriodEnd});
+        fprintf('  Start Date of Tests = %s\n',dates{testStart});
+        fprintf('  Number of Data Periods = %d\n',size(dates,1));
+        fprintf('  Test Start period= %d\n',testStart);
+end
+
+function logTheError(err, assetName)
+        fprintf('\nFATAL ERROR OCCURRED\n');
+        fprintf('  Asset %s Failed.\n', assetName);
+        errst = err.stack;
+        fprintf('  Identifier: %s\n', err.identifier);
+        fprintf('  Failed at\n')
+        fprintf('     Line %d\n', errst.line)
+        fprintf('     Function %s\n', errst.name)
+        fprintf('     File %s\n', errst.file)
+        fprintf('  Error Message: \n\n%s\n\n', err.message);                              
+        fprintf('\nFINISHED WITH ERRORS at %s',datestr(now,'dd-mmm-yyyy HH.MM.SS'));
+        fprintf('\n\n');       
+end

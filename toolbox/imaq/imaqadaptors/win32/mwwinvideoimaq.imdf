@@ -1,0 +1,397 @@
+<?xml version="1.0"?>
+<!-- 
+
+CP 1-13-2003 
+Copyright 2001-2004 The Mathworks, Inc. 
+
+$Revision: 1.1.8.3 $
+$Date: 2004/02/01 21:54:54 $
+
+-->
+<!-- 
+
+This XML file is used to store static information for a particular
+vendor's image acquisition devices.  The first element of the file
+must be <ImaqAcquisitionVendorInfo> followed by one or more <Device>
+elements.  
+
+Each <Device> element requires a 'name' attribute, which is the
+name of the device, as known by the corresponding adaptor.  This
+name usually is the name of the device from the SDK.  Within the
+<Device> section, there should be one or more <VideoFormat> elements
+as well as zero or more <Property> elements.
+
+Each <VideoFormat> element requires a 'name' attribute, which is the
+video format supported by the device.  This video format usually is
+the name of the video format as used by the adaptor.  The <VideoFormat> 
+element also shall contain one or more <Source> elements that
+corresponds to the available sources for the video format.  The 
+<VideoFormat> element can also contain <Property> elements that
+are unique to the video format.
+
+Each <Source> element shall have a 'name' and 'id' attributes.  The
+name is the name of the source, as used by the adaptor.  The id
+attribute is a number representation used by adaptors to identify
+this source to the SDK.  The name attribute is used in MATLAB as
+the name of the sources, as the id is only used by the adaptor
+and needs only to be unique between sources.
+
+The <Property> element can be in either the <Device> or <VideoFormat>
+elements depending on if the property is video-format independent
+or not.  Each Property element requires the following attributes:
+  name                - The property name as it should be listed
+  type                - The property data type: "cell", "double", or
+                        "string"
+  constraint          - Constraints on property values: "bounded", 
+                        "enum", or "none"
+  readOnly            - "always" if the property is always read-only,
+                        "never" if it's never read-only, and 
+                        "whileRunning" if it's read-only while Running
+                        is on.
+  deviceSpecific      - "true" if the property is vendor specific,
+                        "false" if the property is not vendor specific.
+ 
+A type value of "cell" requires a constraint value of "none".
+A type value of "double" requires a constraint value of "bounded or "none".
+A type value of "string" requires a constraint value of "enum" or "none".
+                           
+Each Property element can contain the following additional elements:
+  EnumConstraintValue - Required for an "enum" constraint only. 
+                        EnumConstraintValue provides an enum value
+                        for the property. There is no limit on the
+                        number of EnumConstraintValue elements a 
+                        Property element can contain.
+
+An optional element, <Include> can be used to simplify the XML
+file.  By including this element under the <VideoFormat> element,
+the information contained in the element specified by the required
+'tag' attribute found under the <Device> element is consumed.  
+This allows common elements between video formats, i.e., <Property>
+and/or <Source> elements, to be specified only once in the XML
+file.  
+
+-->
+<ImageAcquisitionInfo>
+	<Help><AdaptorHelp property="OutputEnable">Determine whether the output bus is enabled or disabled.
+
+Configuring the OutputEnable on enables the video port bus. Configuring
+it to off disables the video port bus.
+
+This property applies only to devices that use a shared video port bus. If the 
+value is on, the device will actively drive the video port bus. If the value is 
+off, the device will be tri-stated.</AdaptorHelp>
+		<AdaptorHelp property="VCRHorizontalLocking">Determines the VCR horizontal locking source.
+
+VCRHorizontalLocking specifies whether the video is a tape source or a 
+broadcast source.
+
+The timing accuracy of synchronization pulses is typically poorer from a tape 
+source than from a broadcast source. Setting the value to tape tells the 
+decoder to relax its standards, which leads to a better chance of maintaining 
+sync.</AdaptorHelp>
+		<AdaptorHelp property="HorizontalLocked">Determines whether the horizontal sync is locked.
+
+HorizontalLocked indicates the horizontal sync is locked if the value is 
+configured to on, and not locked if configured to off.</AdaptorHelp>
+		<AdaptorHelp property="NumberOfLines">The number of horizontal lines in a video signal.
+
+NumberOfLines retrieves the number of scan lines in the video signal. This is 
+generally 525 lines for NTSC and 625 lines for PAL or SECAM.</AdaptorHelp>
+		<AdaptorHelp property="AnalogVideoFormat">Lists the available analog video formats.
+
+AnalogVideoFormat provides a list of analog video formats that the decoder 
+supports. Use this property to specify the desired analog video format.</AdaptorHelp>
+		<AdaptorHelp property="Brightness">Specify the brightness, also called the black level.
+
+Brightness describes the difference in intensity of light reflected from or 
+transmitted through an image independent of its hue and saturation. 
+
+For some devices, the value is expressed in IRE units * 100. For other 
+devices, the units are arbitrary. Refer to the device's documentation for
+information.
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.<SeeAlso>BrightnessMode.</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="BrightnessMode">Specify the Brightness property to be controlled manually, or automatically.
+
+If specified as auto, the Brightness value is managed by the device. If 
+configured to manual, it is user specified.
+
+Note, when switching between auto and manual modes, Brightness is updated 
+to reflect the current value. If mode is auto, setting the Brightness property will 
+also update the mode to manual.<SeeAlso>Brightness</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="Contrast">Specify the image contrast.
+
+Contrast specifies the tonal gradation between the highlights, midtones, and 
+shadows in an image. 
+
+The value is expressed as gain factor * 100;
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.<SeeAlso>ContrastMode</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="ContrastMode">Specify the Contrast property to be controlled manually, or automatically.
+
+If specified as auto, the Contrast value is managed by the device. If 
+configured to manual, it is user specified.
+
+Note, when switching between auto and manual modes, Contrast is updated 
+to reflect the current value. If mode is auto, setting the Contrast property will 
+also update the mode to manual.<SeeAlso>Contrast</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="Hue">Specify the image hue.
+
+Hue specifies the main attribute of a color that distinguishes it from other 
+colors in the image. 
+
+The property value is expressed in degrees * 100.
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.<SeeAlso>HueMode</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="HueMode">Specify the Hue property to be controlled manually, or automatically.
+
+If specified as auto, the Hue value is managed by the device. If configured to 
+manual, it is user specified.
+
+Note, when switching between auto and manual modes, Hue is updated to 
+reflect the current value. If mode is auto, setting the Hue property will also 
+update the mode to manual.<SeeAlso>Hue</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="Saturation">Specify the image saturation.
+
+Saturation is the amount of gray (intensity) in a particular color. A color with 
+more gray is considered less saturated, while a bright color, one with very little 
+gray in it, is considered highly saturated. 
+
+The units for this property are arbitrary. Refer to the device's documentation for 
+information.
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.<SeeAlso>SaturationMode</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="SaturationMode">Specify the Saturation property to be controlled manually, or automatically.
+
+If specified as auto, the Saturation value is managed by the device. If 
+configured to manual, it is user specified.
+
+Note, when switching between auto and manual modes, Saturation is 
+updated to reflect the current value. If mode is auto, setting the Saturation 
+property will also update the mode to manual.<SeeAlso>Saturation</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="Sharpness">Specify the image sharpness.
+
+Sharpness specifies the subjective impression of the amount of detailed 
+information provided in a picture image.
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.<SeeAlso>SharpnessMode</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="SharpnessMode">Specify the Sharpness property to be controlled manually, or automatically.
+
+If specified as auto, the Sharpness value is managed by the device. If 
+configured to manual, it is user specified.
+
+Note, when switching between auto and manual modes, Sharpness is 
+updated to reflect the current value. If mode is auto, setting the Sharpness 
+property will also update the mode to manual.<SeeAlso>Sharpness</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="Gamma">Specify the gamma, as gamma * 100.
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.<SeeAlso>GammaMode</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="GammaMode">Specify the Gamma property to be controlled manually, or automatically.
+
+If specified as auto, the Gamma value is managed by the device. If configured 
+to manual, it is user specified.
+
+Note, when switching between auto and manual modes, Gamma is updated to 
+reflect the current value. If mode is auto, setting the Gamma property will also 
+update the mode to manual.<SeeAlso>Gamma</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="ColorEnable">Specify the color enable setting.
+
+ColorEnable allows you to switch from color to black and white images, and 
+back.
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.<SeeAlso>ColorEnableMode</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="ColorEnableMode">Specify the ColorEnable property to be controlled manually, or automatically.
+
+If specified as auto, the ColorEnable value is managed by the 
+device. If configured to manual, it is user specified.
+
+Note, when switching between auto and manual modes, ColorEnable is 
+updated to reflect the current value. If mode is auto, setting the ColorEnable 
+property will also update the mode to manual.<SeeAlso>ColorEnable</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="WhiteBalance">Specify the white balance, as a color temperature in degrees Kelvin.
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.<SeeAlso>WhiteBalanceMode</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="WhiteBalanceMode">Specify the WhiteBalance property to be controlled manually, or automatically.
+
+If specified as auto, the WhiteBalance value is managed by the 
+device. If configured to manual, it is user specified.
+
+Note, when switching between auto and manual modes, WhiteBalance is 
+updated to reflect the current value. If mode is auto, setting the WhiteBalance 
+property will also update the mode to manual.<SeeAlso>WhiteBalance</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="BacklightCompensation">Specify the backlight compensation setting.
+
+BacklightCompensation allows you to improve the image quality when viewing
+a scene where the background has a high illumination level.
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.<SeeAlso>BacklightCompensationMode</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="BacklightCompensationMode">Specifies if the property is to be controlled manually, or automatically.
+
+If specified as auto, the BacklightCompensation value is managed by the 
+device. If configured to manual, it is user specified.
+
+Note, when switching between auto and manual modes, 
+BacklightCompensation is updated to reflect the current value. If mode is auto, 
+setting the BacklightCompensation property will also update the mode to 
+manual.<SeeAlso>BacklightCompensation</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="Gain">Specify the gain adjustment. Zero is normal.
+
+Positive values are brighter and negative values are darker.
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.<SeeAlso>GainMode</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="GainMode">Specify the Gain property to be controlled manually, or automatically.
+
+If specified as auto, the Gain value is managed by the device. If 
+configured to manual, it is user specified.
+
+Note, when switching between auto and manual modes, Gain is updated 
+to reflect the current value. If mode is auto, setting the Gain property will 
+also update the mode to manual.<SeeAlso>Gain</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="Pan">Specify the camera's pan setting, in degrees.
+
+Positive values are clockwise from the origin (the camera rotates clockwise 
+when viewed from above), and negative values are counterclockwise from the 
+origin.
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.<SeeAlso>PanMode</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="PanMode">Specify the Pan property to be controlled manually, or automatically.
+
+If specified as auto, the Pan value is managed by the device. If 
+configured to manual, it is user specified.
+
+Note, when switching between auto and manual modes, Pan is updated 
+to reflect the current value. If mode is auto, setting the Pan property will 
+also update the mode to manual.<SeeAlso>Pan</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="Tilt">Specify the camera's tilt setting, in degrees.
+
+Positive values point the imaging plane up, and negative values
+point the imaging plane down.
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.<SeeAlso>TiltMode</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="TiltMode">Specify the Tilt property to be controlled manually, or automatically.
+
+If specified as auto, the Tilt value is managed by the device. If 
+configured to manual, it is user specified.
+
+Note, when switching between auto and manual modes, Tilt is updated 
+to reflect the current value. If mode is auto, setting the Tilt property will 
+also update the mode to manual.<SeeAlso>Tilt</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="Roll">Specify the camera's roll setting, in degrees.
+
+Positive values cause a clockwise rotation of the camera along 
+the image-viewing axis, and negative values cause a counterclockwise
+rotation of the camera.
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.<SeeAlso>RollMode</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="RollMode">Specify the Roll property to be controlled manually, or automatically.
+
+If specified as auto, the Roll value is managed by the device. If 
+configured to manual, it is user specified.
+
+Note, when switching between auto and manual modes, Roll is updated 
+to reflect the current value. If mode is auto, setting the Roll property will 
+also update the mode to manual.<SeeAlso>Roll</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="Zoom">Specify the camera's zoom setting, in millimeters.
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.<SeeAlso>ZoomMode</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="ZoomMode">Specify the Zoom property to be controlled manually, or automatically.
+
+If specified as auto, the Zoom value is managed by the device. If 
+configured to manual, it is user specified.
+
+Note, when switching between auto and manual modes, Zoom is updated 
+to reflect the current value. If mode is auto, setting the Zoom property will 
+also update the mode to manual.<SeeAlso>Zoom</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="Exposure">Control the shutter speed by specifying the exposure setting.
+
+In auto exposure mode, the exposure gain and shutter speed are adjusted 
+automatically by the camera.
+
+Property values are specified in log base 2 seconds. For values less than zero, 
+the exposure time is 1/2^n seconds, and for values zero or above, the 
+exposure time is 2^n seconds.
+
+This property can be used to affect the device's frame rate.
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.<SeeAlso>ExposureMode</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="ExposureMode">Specify the Exposure property to be controlled manually, or automatically.
+
+If specified as auto, the Exposure value is managed by the device. If 
+configured to manual, it is user specified.
+
+In auto exposure mode, the exposure gain and shutter speed are adjusted 
+automatically by the camera.
+
+Note, when switching between auto and manual modes, Exposure is updated 
+to reflect the current value. If mode is auto, setting the Exposure property will 
+also update the mode to manual.<SeeAlso>Exposure</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="Iris">Specify the camera's iris setting, in units of f_stop * 10.
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.<SeeAlso>IrisMode</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="IrisMode">Specify the Iris property to be controlled manually, or automatically.
+
+If specified as auto, the Iris value is managed by the device. If configured 
+to manual, it is user specified.
+
+Note, when switching between auto and manual modes, Iris is updated to 
+reflect the current value. If mode is auto, setting the Iris property
+will also update the mode to manual.<SeeAlso>Iris</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="Focus">Specify the camera's focus setting.
+
+Configure the device's focus as the distance to the optimally focused target, in 
+millimeters.
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.<SeeAlso>FocusMode</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="FocusMode">Specify the Focus property to be controlled manually, or automatically.
+
+If specified as auto, the Focus value is managed by the device. If configured 
+to manual, it is user specified.
+
+Note, when switching between auto and manual modes, Focus is updated to 
+reflect the current value. If mode is auto, setting the Focus property
+will also update the mode to manual.<SeeAlso>Focus</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="FrameRate">Specify the device frame rate.
+
+FrameRate determines the rate at which frames are provided by the device. 
+The FrameRate value is measured in frames per second.
+
+The requested frame rate is limited by the available bandwidth on the bus.</AdaptorHelp>
+		<AdaptorHelp property="HorizontalFlip">Specify if the picture is flipped horizontally.
+			</AdaptorHelp>
+		<AdaptorHelp property="VerticalFlip">Specify if the picture is flipped vertically.
+			</AdaptorHelp>
+	</Help></ImageAcquisitionInfo>

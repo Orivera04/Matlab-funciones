@@ -1,0 +1,14 @@
+function out =  subsref(A,S)
+switch S(1).type
+    case '.'
+        method = S(1).subs;
+        if length(S)==2
+            args = S(2).subs;
+        else
+            args = {};
+        end
+        
+        out = feval(method,get_tgtaction_object,args{:};
+    otherwise
+        error([S(1).type ' is not a valid subsref for mpc555_tgtaction ']);
+end

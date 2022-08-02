@@ -1,0 +1,217 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Cursor commands</title>
+<style>
+<!--
+span.mcode   { font-family: Fixedsys; color: #993300 }
+-->
+</style>
+</head>
+
+<body>
+
+
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1">
+  <tr>
+    <td width="56%">
+    <h2>Cursor commands</h2>
+    </td>
+    <td width="4%">&nbsp;</td>
+    <td width="40%">
+    <img border="0" src="../images/plt.png" width="215" height="105" align="right"><p>
+    </p>
+    <p></p>
+    <p></td>
+  </tr>
+</table>
+<p style="margin-top: 0; margin-bottom: 0">&nbsp;</p>
+<table border="1" cellspacing="0" bordercolor="#C0C0C0" width="100%" id="AutoNumber2" style="border-collapse: collapse" cellpadding="15">
+  <tr>
+    <td width="11%" valign="top">
+    <h3><font color="#006699">Notes: </font></h3>
+    </td>
+    <td width="89%">All the following commands assume that the cursor ID has been retrieved with 
+a command such as:
+<span class="mcode">cid = get(gca,'UserData');</span></td>
+  </tr>
+  <tr>
+    <td width="11%">&nbsp;</td>
+    <td width="89%">All the following commands are case sensitive (unlike all 
+    the other plt parameters previously described) and must use the exact case 
+    shown below.</td>
+  </tr>
+</table>
+
+<p style="margin-bottom: -18">
+<span class="mcode"><br>
+&nbsp;</span></p>
+
+<p style="margin-bottom: -18"><span class="mcode">[xy k] =
+plt('cursor',cid,'get','position',n);</span></p>
+
+<blockquote>
+
+<p>Get x and y coordinates of the cursor location the last time it was on trace 
+#n. The trace number is optional - if it is not specified then the position of 
+the active trace is returned. xy is a two element row vector ([x y]). The second 
+return value (if requested) is the index into the x data vector of the cursor 
+position.</p>
+
+</blockquote>
+
+<p style="margin-bottom: -18"><span class="mcode">[n h] =
+plt('cursor',cid,'get','activeLine');</span></p>
+
+<blockquote>
+
+<p>Returns the line number of the active cursor. The second return value (if 
+requested) is the handle of the active trace.</p>
+
+</blockquote>
+
+<p style="margin-bottom: -18"><span class="mcode">u =
+plt('cursor',cid,'get','expHis');</span></p>
+
+<blockquote>
+
+<p style="margin-bottom: -18">Returns an array containing the display expansion 
+history.<br>
+Each row contains one display expansion as [xmin, xmax, ymin, ymax, 
+code] where:</p>
+
+  <ul>
+    <li>code = -1&nbsp; indicates the row was not used</li>
+    <li>code = 0&nbsp;&nbsp; indicates a valid display expansion</li>
+    <li>code = 1&nbsp;&nbsp; indicates the current display limits</li>
+  </ul>
+</blockquote>
+
+<p style="margin-bottom: -18">
+<span class="mcode">plt('cursor',cid,'set','visON');</span></p>
+
+<p style="margin-bottom: -18"><span class="mcode">plt('cursor',cid,'set','visOFF');</span></p>
+
+<blockquote>
+
+<p style="margin-bottom: -18">Shows or hides the following objects:</p>
+
+  <ul>
+    <li>peak/valley/delta cursor buttons</li>
+    <li>active trace cursor</li>
+    <li>auxiliary trace cursor (if right hand axis is active)</li>
+    <li>x and y axis edit boxes and respective labels</li>
+  </ul>
+</blockquote>
+
+<p style="margin-bottom: -18"><span class="mcode">plt('cursor',cid,'set','aux','on');</span></p>
+
+<p style="margin-bottom: -18"><span class="mcode">plt('cursor',cid,'set','aux','off');</span></p>
+
+<blockquote>
+
+<p>Shows or hides the auxiliary (right hand axis) cursor and its edit box</p>
+
+</blockquote>
+
+<p style="margin-bottom: -18"><span class="mcode">plt('cursor',cid,'set','position',p);</span></p>
+
+<blockquote>
+
+<p style="margin-bottom: -18">p is a 9 by 4 element array. Each row contains (x,y,width,height) 
+which represents the position and size of the following objects:</p>
+
+  <blockquote>
+    <ol>
+      <li>x-axis edit box label</li>
+      <li>y-axis edit box label</li>
+      <li>x-axis edit box (cursor readout)</li>
+      <li>x-axis cursor expansion edit box</li>
+      <li>y-axis edit box (cursor readout)</li>
+      <li>y-axis cursor expansion edit box</li>
+      <li>peak button</li>
+      <li>valley button</li>
+      <li>delta cursor button</li>
+    </ol>
+  </blockquote>
+</blockquote>
+
+<p style="margin-bottom: -18"><span class="mcode">plt('cursor',cid,'set','xlim',p);</span></p>
+
+<blockquote>
+
+<p>Set new x axis limits and update expansion 
+history, <span class="mcode">p=[xmin,xmax]</span></p>
+
+</blockquote>
+
+<p style="margin-bottom: -18"><span class="mcode">plt('cursor',cid,'set','ylim',p,pAux);</span></p>
+
+<blockquote>
+
+<p>Set new y axis limits and update expansion 
+history, <span class="mcode">p=[ymin,ymax]</span>.<br>
+pAux (for the right hand 
+axis) is optional</p>
+
+</blockquote>
+
+<p style="margin-bottom: -18"><span class="mcode">plt('cursor',cid,'set','xylim',p,pAux);</span></p>
+
+<blockquote>
+
+<p>Set new x and y axis limits and update 
+expansion history,<span class="mcode"><br>
+p=[xmin,xmax,ymin,ymax], pAux=[ymin,ymax]</span> 
+(pAux is optional)</p>
+
+</blockquote>
+
+<p style="margin-bottom: -18"><span class="mcode">plt('cursor',cid,'set','expHis',u);</span></p>
+
+<blockquote>
+
+<p>Restores an expansion history previously saved in u.</p>
+
+</blockquote>
+
+<p style="margin-bottom: -18"><span class="mcode">plt('cursor',cid,'set','axisCB',s);</span></p>
+
+<blockquote>
+
+<p>String s will be evaluated whenever an axis limit is changed.</p>
+
+</blockquote>
+
+<p style="margin-bottom: -18"><span class="mcode">plt('cursor',cid,'set','moveCB',s);</span></p>
+
+<blockquote>
+
+<p>String s will be evaluated whenever the cursor is moved</p>
+
+</blockquote>
+
+<p style="margin-bottom: -18"><span class="mcode">plt('cursor',cid,'peakval',0);<br>
+plt('cursor',cid,'peakval',1);</span></p>
+
+<blockquote>
+
+<p>Moves the active cursor to the next peak (<span class="mcode">0</span>) or to the next valley (<span class="mcode">1</span>)</p>
+
+</blockquote>
+
+<p style="margin-bottom: -18"><span class="mcode">plt('cursor',cid,'clear');</span></p>
+
+<blockquote>
+
+<p>All the cursor objects are deleted.</p>
+
+</blockquote>
+
+</body>
+
+</html>

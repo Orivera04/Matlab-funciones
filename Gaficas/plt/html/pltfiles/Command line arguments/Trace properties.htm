@@ -1,0 +1,165 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Trace properties</title>
+<style>
+<!--
+.mcode   { font-family: Fixedsys; color: #993300; line-height:1.2; margin-top:0; margin-bottom:0 }
+h3           { color: #006699 }
+-->
+</style>
+</head>
+
+<body>
+
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1" height="96">
+  <tr>
+    <td width="72%" height="96">
+    <h2>Trace properties</h2>
+    </td>
+    <td width="2%" height="96">&nbsp;</td>
+    <td width="26%" height="96">
+    <img border="0" src="../images/plt.png" width="211" height="97" align="right"></td>
+  </tr>
+</table>
+<p style="margin-top: -18">&nbsp;</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber2">
+  <tr>
+    <td width="13%" valign="top">
+    <h3>Markers</h3>
+    </td>
+    <td width="87%" valign="top">The Markers parameter is a shorthand way of setting a different marker 
+property for each line. For example <span class="mcode">plt(x,y,'Markers',s)</span> 
+    is equivalent to:<p class="mcode">&nbsp;</p>
+<p class="mcode"><span class="mcode">a=plt(x,y);</span></p>
+<p class="mcode"><span class="mcode">for k=1:length(a) set(a(k),'Marker',s(k,:)); 
+end;</span></p>
+<p>Consider the following examples:<span class="mcode"><br>
+plt(...,'Markers',['square';'none ';'+&nbsp;&nbsp;&nbsp; 
+']);<br>
+plt(...,'Markers',{'square','none ','+'});<br>
+plt(...,'Markers',['+';'+';'+';'o','*','x']);<br>
+plt(...,'Markers','+++o*x');</span></p>
+    <p>The first example, sets the marker for lines 1 and 3 
+to a square and a plus sign respectively while line 2 will be rendered 
+with no markers. The second example is equivalent to the first, but uses a cell 
+    array of strings instead of a character array. This method is easier when 
+    the elements are different sizes because you don't have to pad with blanks 
+    as with the character array. (Wherever a character array is allowed in a plt 
+    argument list, a cell array of strings is also allowed and visa versa.) The 
+    third example assigns a plus for lines 1,2,3 and an o, 
+asterisk, and an x for lines 4,5,6 respectively. Since all the markers in the 
+second example are represented by a single character (a situation that happens 
+often), a shorthand way is provided to do this. Example three is that 
+    method, and is equivalent to example two.</p>
+    <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="13%" valign="top">
+    <h3>Styles</h3>
+    </td>
+    <td width="87%" valign="top">The Styles parameter is a shorthand way of setting the LineStyle property in 
+a similar way that the Markers parameter is used to set the Marker property. For example, to set the first 
+trace to normal, the 2nd and 3rd traces to dotted and dashed respectively, and 
+the 4th trace to none (useful when you want the markers with no lines connecting 
+them) you would use the following command:<span class="mcode"> </span>
+<p><span class="mcode">plt(...,'Styles',{'-',':','--','none'});</span></p>
+
+<p>The shorthand for single character styles mentioned above also works. For 
+instance, to alternate between normal and dotted among eight traces one could 
+use:</p>
+
+<p><span class="mcode">plt(...,'Styles','-:-:-:-:');</span></p>
+
+<p>One additional trick applies to the Styles parameter. If a single character 
+is given which is not a valid line style, then the linestyle property is set to 
+none and the given character is applied to the marker property. As an example, 
+the following command defines eight traces of which the first four are rendered 
+as continuous lines and the last four are rendered with plus signs placed at each 
+x,y location specified by the data arrays:</p>
+
+<p><span class="mcode">plt(...,'Styles','----++++');</span></p>
+
+<p>Since there are no marker property values which can also be linestyle 
+property values, there is never any ambiguity as to which property should be 
+set.</p>
+
+<p>&nbsp;</p>
+
+    </td>
+  </tr>
+  <tr>
+    <td width="13%" valign="top">
+    <h3>TraceID</h3>
+    </td>
+    <td width="87%" valign="top">This parameter allows you to assign a name to each trace. This name will 
+appear in the trace selection box. The number of characters that will fit in the 
+trace selection box depends on the size you choose for the plt window. For the 
+default figure size there is room for 5 uppercase or 6 lowercase characters. In 
+    the example below, both forms are equivalent:<p><span class="mcode">plt(...,'TraceID',['Rtemp';'Ltemp';'RV1&nbsp; ']);<br>
+    plt(...,'TraceID',{'Rtemp';'Ltemp';'RV1'});</span></p>
+
+    <p>Default:<span class="mcode"> ['Line 1';'Line 2'; ... 'Line n'];</span></p>
+
+<p>&nbsp;</p>
+
+    </td>
+  </tr>
+  <tr>
+    <td width="13%" valign="top">
+    <h3>DIStrace&nbsp;&nbsp;&nbsp;&nbsp; </h3>
+    </td>
+    <td width="87%" valign="top">By default, all the traces defined by plt are visible until you change that 
+from the trace selection box. You can change that default by disabling some 
+traces from the command line. For example:<p><span class="mcode">plt(...,'DIStrace',[1 1 0 0 0]);</span></p>
+
+<p>This tells plt to start the display with the first two traces disabled and 
+the remaining 3 traces enabled. Of course you can then enable the first two 
+traces via the trace selection box.</p>
+
+    <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="13%" valign="top">
+    <h3>ENAcur</h3>
+    </td>
+    <td width="87%" valign="top">By default you will be allowed to cursor every visible trace in the plot 
+area. You can change this default via the ENAcur parameter. For example to allow 
+cursors on only the last two traces out of five you would use:<p><span class="mcode">plt(...,'ENAcur',[0 0 0 1 1]);</span></p>
+
+    <p>&nbsp;</p>
+
+    </td>
+  </tr>
+  <tr>
+    <td width="13%" valign="top">
+    <h3>SkipCur</h3>
+    </td>
+    <td width="87%" valign="top">plt will attempt to add cursors to all lines of 
+    the axis created by plt. Suppose you add lines to an axis created by plt by 
+    following the plt command with line() commands. In that case you probably 
+    don't want plt to create cursor objects for those additional lines. You can 
+    specify this by adding the 'SkipCur' tag to the line object. For example: 
+    <span class="mcode">line(x,y,'tag','SkipCur');</span>
+    <p>Note that this is not a trace property that may 
+    be applied with plt as with the other properties listed above.</td>
+  </tr>
+</table>
+<h3>&nbsp;</h3>
+<h3>&nbsp;</h3>
+
+<h3>&nbsp;</h3>
+
+<h3>&nbsp;</h3>
+
+<h3>&nbsp;</h3>
+
+<h3>&nbsp;</h3>
+
+</body>
+
+</html>

@@ -1,0 +1,34 @@
+function triangulapuntos41(v,w)
+%Función para triangular polígono.
+%global posi; 
+%clear posi;
+n=numel(v);
+hold on;
+%if n<=5
+  %triangula5(v,w);
+  %disp('Fin de la triangulación');
+  %return
+%end
+posi=0;
+for k=1:2:n-3
+    P=[v(k),w(k)];
+    Q=[v(k+2),w(k+2)];
+    R=[v(k+1),w(k+1)];
+    pint=interior2(P,Q,R,v,w);
+    pos=posicion2(P,Q,R);
+    if pos==1
+       if pint==0
+          plot([P(1),Q(1)],[P(2),Q(2)],'g')
+          posi(k)=k+1
+        end
+    end 
+end
+%clc;
+picos=posi(posi~=0)
+v(picos)=[];w(picos)=[];n_inicial=n
+n_final=n-numel(picos)
+    
+    
+
+
+

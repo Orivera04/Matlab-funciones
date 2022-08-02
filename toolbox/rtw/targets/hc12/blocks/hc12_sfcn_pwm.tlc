@@ -1,0 +1,95 @@
+%% File : hc12_sfcn_pwm.tlc
+%%
+%% Description: 
+%%   HC12 PWM device driver
+%%
+%% $Revision: 1.1.6.3 $ $Date: 2004/04/19 01:23:26 $
+%%
+%% Copyright 2002-2004 The MathWorks, Inc.
+%implements  hc12_sfcn_pwm "C"
+
+
+%% Function: Start ==========================================================
+%%
+%% Purpose:
+%%      PWM initialization code.
+%%
+%function Start(block, system) Output
+  /* S-Function "hc12_sfcn_pwm" Block: %<Name> */
+  %%
+  %% From S-Function parameters P1, P2, P3, P4:
+  %% PWMPOLbitValue   --> value
+  %% PWMCLKbitValue   --> value
+  %% PWMCAEbitValue   --> value
+  %% PWMPERbyteValue  --> value
+  %%
+  %% From "block.RTWdata" :
+  %% PWMPOLbitStr     --> string PPOL0   ... PPOL7 from RTWData
+  %% PWMCLKbitStr     --> string CLK0    ... CLK7 from RTWData
+  %% PWMCAEbitStr     --> string CAE0    ... CAE7 from RTWData
+  %% PWMPERbyteStr    --> string PWMPER0 ... PWMPER7 from RTWData
+  %% PWMDTYbyteStr    --> string PWMDTY0 ... PWMDTY7 from RTWData
+  
+  %% Get S-Function parameter values: P1, P2, P3, and P4
+  %assign PWMPOLbitValue  = CAST("Number",   LibBlockParameterValue(P1, 0))
+  %assign PWMPWMCLKValue  = CAST("Number",   LibBlockParameterValue(P2, 0))
+  %assign PWMCAEbitValue  = CAST("Number",   LibBlockParameterValue(P3, 0))
+  %assign PWMPERbyteValue = CAST("Unsigned", LibBlockParameterValue(P4, 0))
+  %% 
+  %% Prescalers A and B are entered via RTW Options
+  %% Convert the divider values into the value used
+  %% to set the register: PWMPRCLK
+  %assign prescalerA = FEVAL("log2",%<PWMPrescalerA>)
+  %assign prescalerB = FEVAL("log2",%<PWMPrescalerB>)
+  %assign pcka       = %<CAST("Number",prescalerA)>
+  %assign pckb       = %<CAST("Number",prescalerB)>
+  %% Bitshift prescaler B left 4 bits -- upper nibble
+  %assign prescaler  = FEVAL("bitshift",%<pckb>,4)
+  %assign prescaler  = %<CAST("Number",prescaler)>
+  %% Add prescaler A to lower nibble
+  %assign prescaler  = %<prescaler> + %<pcka>
+  /* Set PWM clock B and clock A prescalers */
+  PWMPRCLK = %<prescaler>;
+
+  %if CompiledModel.Settings.ToolVersion >= 3.0
+    PWMPOL_%<block.RTWdata.PWMPOLbitStr>  = %<PWMPOLbitValue>;
+    PWMCLK_%<block.RTWdata.PWMCLKbitStr>  = %<PWMPWMCLKValue>;
+    PWMCAE_%<block.RTWdata.PWMCAEbitStr>  = %<PWMCAEbitValue>;
+  %else
+    %<block.RTWdata.PWMPOLbitStr>  = %<PWMPOLbitValue>;
+    %<block.RTWdata.PWMCLKbitStr>  = %<PWMPWMCLKValue>;  
+    %<block.RTWdata.PWMCAEbitStr>  = %<PWMCAEbitValue>;
+  %endif
+  %<block.RTWdata.PWMPERbyteStr> = %<PWMPERbyteValue>;
+
+%endfunction
+
+
+%% Function: Outputs ==========================================================
+%%
+%% Purpose:
+%%      PWM initialization code.
+%%
+%function Outputs(block, system) Output
+   /* S-Function "hc12_sfcn_pwm" Block: %<Name> 
+    *
+    * Set PWM duty cycle (byte) equal to value of input signal "U" 
+    */
+    %% Scalar inputs only. Width zero only.
+    %assign PWMPERbyteValue = CAST("Unsigned", LibBlockParameterValue(P4, 0))
+    %assign u = LibBlockInputSignal(0,"","",0)
+    if (%<u> < %<PWMPERbyteValue>) {
+        %<block.RTWdata.PWMDTYbyteStr> = %<u>; 
+    } else {
+        %<block.RTWdata.PWMDTYbyteStr> = %<PWMPERbyteValue>; 
+    }
+    
+    %if CompiledModel.Settings.ToolVersion >= 3.0
+      PWME_%<block.RTWdata.PWMEbitStr> = 1;
+    %else
+      %<block.RTWdata.PWMEbitStr> = 1;
+    %endif
+    
+%endfunction
+
+%% [EOF] hc12_sfcn_pwm.tlc

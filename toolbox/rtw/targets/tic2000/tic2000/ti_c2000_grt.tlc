@@ -1,0 +1,47 @@
+%% SYSTLC: Embedded Target for TI C2000 DSP (GRT) TMF: ti_c2000_grt.tmf MAKE: make_rtw \
+%%   EXTMODE: no_ext_comm
+%%
+%% $Revision: 1.5.6.3 $ $Date: 2004/04/08 20:58:56 $
+%% Copyright 2003-2004 The MathWorks, Inc.
+%%
+%% Abstract: System target file, Embedded Target for TI C2000 DSP based on 
+%%           GRT (does not require Embedded Coder)
+
+
+%selectfile NULL_FILE
+
+%assign TargetName  = "C2000"
+%assign TargetType  = "RT"
+%assign Language    = "C"
+%assign useDSPBIOS  = 0
+%assign CodeFormat  = "RealTime"
+%assign GenRTModel  = TLC_TRUE
+
+%% Include system-target-file content that is common to ERT and GRT
+%include "ti_c2000_stf_common.tlc"
+
+
+%% The contents between 'BEGIN_RTW_OPTIONS' and 'END_RTW_OPTIONS' are strictly
+%% written by the standard format. We need to use this cell structure in RTW
+%% options GUI function rtwoptionsdlg.m file.
+
+/%
+  BEGIN_RTW_OPTIONS
+ 
+  %
+  
+  %----------------------------------------%
+  % Configure RTW code generation settings %
+  %----------------------------------------%
+  
+  rtwgensettings.DerivedFrom         = 'grt.tlc';
+  rtwgensettings.BuildDirSuffix      = '_c2000_rtw';
+  rtwgensettings.Version             = '1'; % Specify callbacks' compliance with DAStudio dialog
+  rtwgensettings.SelectCallback      = 'ti_c2000_callback(''SelectCallback'',hSrc,hDlg);';
+  rtwgensettings.UnselectCallback    = 'ti_c2000_callback(''UnselectCallback'',hSrc,hDlg);';
+  rtwgensettings.ActivateCallback    = 'ti_c2000_callback(''ActivateCallback'',hSrc,hDlg);';
+     
+  END_RTW_OPTIONS
+%/
+
+%% [EOF] ti_c2000_grt.tlc

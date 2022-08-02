@@ -1,0 +1,200 @@
+<!--
+Copyright 2001-2004 The MathWorks, Inc.
+$Revision: 1.1.6.2 $ $Date: 2004/03/24 20:39:34 $
+-->
+
+<!--
+This HTML is auto-generated from an m-file.
+Your changes will be overwritten.
+--><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:x-large">Logging Data To Disk</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium;">Overview</p><ul xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd"><li><a href="#Configuring Logging Mode">Configuring Logging Mode</a></li><li><a href="#Configuring Disk Logging Properties">Configuring Disk Logging Properties</a></li></ul><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Configuring Logging Mode<a name="Configuring Logging Mode"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Data acquired from an image acquisition device may be logged to memory,
+to disk, or both. By default, data is logged to memory. To change the
+logging mode, configure the video input object's LoggingMode property.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Access an image acquisition device, using a grayscale video format.</span>
+vidobj = videoinput(<span style="color:#B20000">'winvideo'</span>, 1, <span style="color:#B20000">'Y800_640x480'</span>);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% View the default logging mode.</span>
+currentLoggingMode = get(vidobj, <span style="color:#B20000">'LoggingMode'</span>)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+currentLoggingMode =
+
+memory
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% List all possible logging modes.</span>
+set(vidobj, <span style="color:#B20000">'LoggingMode'</span>)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">[ disk | disk&amp;memory | {memory} ]</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Configure the logging mode to disk.</span>
+set(vidobj, <span style="color:#B20000">'LoggingMode'</span>, <span style="color:#B20000">'disk'</span>)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Verify the configuration.</span>
+currentLoggingMode = get(vidobj, <span style="color:#B20000">'LoggingMode'</span>)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+currentLoggingMode =
+
+disk
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Configuring Disk Logging Properties<a name="Configuring Disk Logging Properties"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">In order to log to disk, a MATLAB AVIFILE object is required.
+AVIFILE is a MATLAB function, not a toolbox function. Once an
+AVIFILE object is created and configured, it is provided
+to the video input object's DiskLogger property.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Note: Any configurations to the AVI file object must be done before
+configuring the DiskLogger property. Configurations made to the AVI
+file object afterwards will require the DiskLogger property to be
+re-configured.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Create an AVI file object.</span>
+logfile = avifile(<span style="color:#B20000">'logfile.avi'</span>)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">Adjustable parameters:
+               Fps: 15.0000
+       Compression: 'Indeo3'
+           Quality: 75
+    KeyFramePerSec: 2.1429
+         VideoName: 'logfile.avi'
+
+Automatically updated parameters:
+        Filename: 'logfile.avi'
+     TotalFrames: 0
+           Width: 0
+          Height: 0
+          Length: 0
+       ImageType: 'Unknown'
+    CurrentState: 'Open'
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Select a codec for the AVI file.</span>
+logfile.Compression = <span style="color:#B20000">'MSVC'</span>;
+
+<span style="color:green">% Since grayscale images will be acquired, a colormap is required.</span>
+logfile.Colormap = gray(256);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Configure the video input object to use the AVI file object.</span>
+vidobj.DiskLogger = logfile;</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Start the acquisition.</span>
+start(vidobj)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Wait for the acquisition to finish.</span>
+wait(vidobj, 5)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Note: When logging large amounts of data to disk, disk
+writing may lag behind the acquisition. To ensure that
+no additional writes are still in progress after the
+acquisition has completed, use the DiskLoggerFrameCount
+property to determine if all frames have been writtern
+to disk.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Determine the number of frames acquired.</span>
+vidobj.FramesAcquired</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+ans =
+
+    10
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Ensure that all aquired frames were written to disk.</span>
+vidobj.DiskLoggerFrameCount</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+ans =
+
+    10
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Once all frames have been written, close the file.</span>
+aviobj = vidobj.Disklogger;
+file = close(aviobj)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">Adjustable parameters:
+               Fps: 15.0000
+       Compression: 'MSVC'
+           Quality: 75
+    KeyFramePerSec: 2.1429
+         VideoName: 'logfile.avi'
+
+Automatically updated parameters:
+        Filename: 'logfile.avi'
+     TotalFrames: 10
+           Width: 640
+          Height: 480
+          Length: 0
+       ImageType: 'Indexed'
+    CurrentState: 'Closed'
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Once the video input object is no longer needed, delete</span>
+<span style="color:green">% it and clear it from the workspace.</span>
+delete(vidobj)
+clear vidobj</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">See also AVIFILE, AVIFILE/CLOSE, IMAQDEVICE/PROPINFO.
+</p><originalCode xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" code="%% Logging Data To Disk
+&#xA;
+&#xA;%% Configuring Logging Mode
+&#xA;% Data acquired from an image acquisition device may be logged to memory,
+&#xA;% to disk, or both. By default, data is logged to memory. To change the
+&#xA;% logging mode, configure the video input object's LoggingMode property.
+&#xA;
+&#xA;% Access an image acquisition device, using a grayscale video format.
+&#xA;vidobj = videoinput('winvideo', 1, 'Y800_640x480');
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% View the default logging mode.
+&#xA;currentLoggingMode = get(vidobj, 'LoggingMode')
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% List all possible logging modes.
+&#xA;set(vidobj, 'LoggingMode')
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Configure the logging mode to disk.
+&#xA;set(vidobj, 'LoggingMode', 'disk')
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Verify the configuration.
+&#xA;currentLoggingMode = get(vidobj, 'LoggingMode')
+&#xA;
+&#xA;%% Configuring Disk Logging Properties
+&#xA;% In order to log to disk, a MATLAB AVIFILE object is required.
+&#xA;% AVIFILE is a MATLAB function, not a toolbox function. Once an 
+&#xA;% AVIFILE object is created and configured, it is provided 
+&#xA;% to the video input object's DiskLogger property.
+&#xA;
+&#xA;%%
+&#xA;% Note: Any configurations to the AVI file object must be done before
+&#xA;% configuring the DiskLogger property. Configurations made to the AVI 
+&#xA;% file object afterwards will require the DiskLogger property to be
+&#xA;% re-configured.
+&#xA;
+&#xA;% Create an AVI file object.
+&#xA;logfile = avifile('logfile.avi')
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Select a codec for the AVI file.
+&#xA;logfile.Compression = 'MSVC';
+&#xA;
+&#xA;% Since grayscale images will be acquired, a colormap is required.
+&#xA;logfile.Colormap = gray(256);
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Configure the video input object to use the AVI file object.
+&#xA;vidobj.DiskLogger = logfile;
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Start the acquisition.
+&#xA;start(vidobj)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Wait for the acquisition to finish.
+&#xA;wait(vidobj, 5)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;%%
+&#xA;% Note: When logging large amounts of data to disk, disk
+&#xA;% writing may lag behind the acquisition. To ensure that
+&#xA;% no additional writes are still in progress after the
+&#xA;% acquisition has completed, use the DiskLoggerFrameCount 
+&#xA;% property to determine if all frames have been writtern 
+&#xA;% to disk.
+&#xA;
+&#xA;% Determine the number of frames acquired.
+&#xA;vidobj.FramesAcquired
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Ensure that all aquired frames were written to disk.
+&#xA;vidobj.DiskLoggerFrameCount
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Once all frames have been written, close the file.
+&#xA;aviobj = vidobj.Disklogger;
+&#xA;file = close(aviobj)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Once the video input object is no longer needed, delete
+&#xA;% it and clear it from the workspace.
+&#xA;delete(vidobj)
+&#xA;clear vidobj
+&#xA;
+&#xA;%%
+&#xA;% See also AVIFILE, AVIFILE/CLOSE, IMAQDEVICE/PROPINFO.
+&#xA;"></originalCode>

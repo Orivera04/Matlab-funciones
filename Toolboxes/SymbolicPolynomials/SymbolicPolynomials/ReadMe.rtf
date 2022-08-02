@@ -1,0 +1,135 @@
+{\rtf1\mac\ansicpg10000\cocoartf102
+{\fonttbl\f0\fswiss\fcharset77 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww9000\viewh9000\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f0\fs24 \cf0 Author: John D'Errico\
+Release: 1.2\
+Release date: 1/27/06\
+\
+\
+I'll start with an apology of sorts...\
+\
+This toolbox is a very simple polynomial manipulation package.\
+I originally wrote it some years ago as a means of learning how to\
+work with objects in Matlab. When I decided to publish this package,\
+I completely rewrote it from scratch just this week, as the old one had\
+some bugs in it. I'd written that version for an older release of matlab.\
+\
+Why did I publish this at all? Because I think writing such a tool is a\
+marvelous way to learn about OOP and the use of classes in Matlab.\
+A second reason is that this toolbox is actually of use to me on\
+occasion, whenever I need to manipulate simple polynomials in\
+one or several variables. If, as is the case with me, you don't own the\
+symbolic toolbox, you may find it of interest too. I have included the\
+functions orthpoly and gaussquadrule, as neat applications of the\
+sympoly tools.\
+\
+If you choose to download this package to get some ideas before\
+you write it yourself, expect to spend several days in the writing.\
+IMHO its worth the time and the effort. I've included the document\
+"sympoly toolbox issures.rtf" as a composition of the issues I thought\
+important.\
+\
+If you wish to use these tools, they are quite easy to use. Put the\
+main SymbolicPolynomials directory on your search path, but do\
+NOT put the @sympoly directory on the path. This is always true\
+for custom class directories.\
+\
+Here are a few examples of sympoly in action.\
+\
+% This creates 3 sympoly objects in your workspace - x, y, z. \
+sympoly x y z\
+\
+% Add 1 to x, put the result in p.\
+p = x+1\
+\
+% arbitrary expressions\
+q = (x-1)^3 + x*y*z - (x+1)*(z-1)\
+\
+% synthetic division\
+p^2 / (x+1)\
+\
+% substitute into an expression\
+subs(q,'x',2)\
+\
+subs(q,'z',y^2 - 3)\
+\
+% simple non-integer powers work\
+x^pi\
+\
+sqrt(x^pi)\
+\
+% differentiate and integrate\
+diff(q,'x')\
+\
+int(x-1,'x')\
+\
+% definite integrals\
+defint(x-1,'x',[-1 1])\
+\
+% orthogonal polynomials\
+p0 = orthpoly(0,'legendre')\
+p1 = orthpoly(1,'legendre')\
+p2 = orthpoly(2,'legendre')\
+p5 = orthpoly(5,'legendre')\
+\
+% Legendre polynomials are orthogonal over the interval [-1,1]\
+% so the following integrals must all be zero:\
+defint(p0*p1,'x',[-1 1])\
+defint(p2*p5,'x',[-1 1])\
+\
+% and this will not be zero\
+defint(p2*p2,'x',[-1 1])\
+\
+% The 3 node Gauss-Hermite integration rule\
+[nodes,weights] = gaussquadrule(3,'hermite')\
+\
+% roots of a sympoly is also easy enoug, as long as it only has one variable.\
+roots(p5)\
+\
+% Matrices are also easy to build and work with\
+M = sympoly(eye(3))\
+\
+% Of course, standard tricks like a characteristic polynomial are trivial\
+sympoly lambda\
+det(hilb(3)-lambda*eye(3))\
+\
+% find the eigenvalues of a 3x3 Hilbert matrix\
+roots(det(hilb(3)-lambda*eye(3)))\
+\
+% make your own arrays\
+M2 = sympoly(rand(2,2))\
+\
+M3 = [x, x-1, x-2]\
+\
+M4 = [M2;[1 2]]\
+\
+% and operate on them using sum, prod, and many other matrix operations.\
+sum(M2,2)\
+\
+M2*ones(2,1)\
+\
+prod(M3)\
+\
+roots(prod(M3))\
+\
+sum(M3.^2)\
+\
+\
+There are many other neat ways to manipulate these objects. If you\
+feel really ambitious, write a second class that handles rational\
+polynomials based on the sympoly class. This was really quite easy\
+to do when I did it some years ago.\
+\
+So, whatever use you do find for this toolbox, have fun with it. I did.\
+I even get some use from it occasionally.\
+\
+If by some amazing chance you do find any bugs, please report\
+them to me, at\
+\
+woodchips@rochester.rr.com\
+\
+John D'Errico\
+}

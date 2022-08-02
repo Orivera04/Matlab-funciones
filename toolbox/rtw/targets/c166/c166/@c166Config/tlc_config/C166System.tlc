@@ -1,0 +1,93 @@
+%% File: toolbox/rtw/targets/c166/c166/@c166Config/tlc_config/C166System.tlc
+%%
+%% Abstract:
+%%   
+%%
+%% $Revision: 1.5.6.4 $
+%% $Date: 2004/04/19 01:18:22 $
+%%
+%% Copyright 2002-2003 The MathWorks, Inc.
+
+
+%implements * "C"
+
+%if (chk_env("c166"))
+  %include "ObjectRef.tlc"
+  %include "c166timers.tlc"
+%endif
+
+%function DriverConfiguration(R) void
+  %% Note: this function will NOT be called if 
+  %% we are in Accelerator mode - the Resource Configuration code
+  %% ensures this
+  
+  %% this is the one place we make sure the system target file is correct
+  %% All driver blocks should require a Resource Configuration block to be in 
+  %% the model and therefore this check will cover all driver blocks.
+  %if (!chk_env("c166"))
+    %assign errorMsg =  "Code generation is not configured for C166®. "...
+      "The model includes driver blocks from Embedded Target for Infineon C166® Microcontrollers, "... 
+    "but the system target file is not set accordingly. You must choose a system target "... 
+    "file that is compatible with the driver blocks in your model (i.e. c166.tlc)."
+    %exit %<errorMsg>
+  %endif
+
+  %assign tmp = IDNUM(SLibSubsRef(R,"Timer_interrupt_level") )
+  %assign timerInterruptLevel = tmp[1]
+
+  %assign tmp = IDNUM( SLibSubsRef(R,"Timer_interrupt_level_group") )
+  %assign timerInterruptLevelGroup = tmp[1]
+  
+  %assign systemFrequency = SLibSubsRef(R,"System_frequency")
+  %assign oscillatorFrequency = SLibSubsRef(R,"External_oscillator_frequency")
+  
+  %assign tmpSystemTimer = SLibSubsRef(R, "System_timer")
+  %if tmpSystemTimer == "T6, reload from CAPREL"
+    %assign systemTimer = "T6"
+    %assign reloadTimer = "CAPREL"
+  %elseif tmpSystemTimer == "T3, reload from T2"
+    %assign systemTimer = "T3"
+    %assign reloadTimer = "T2"
+  %elseif tmpSystemTimer == "T3, reload from T4"
+    %assign systemTimer = "T3"
+    %assign reloadTimer = "T4"
+  %elseif tmpSystemTimer == "RTC"
+    %assign systemTimer = "T14"
+    %assign reloadTimer = "T14REL"
+  %else
+    %assign systemTimer = tmpSystemTimer
+    %assign reloadTimer = ""
+  %endif
+  
+  %assign tmpFreeTimer = SLibSubsRef(R, "Free_running_timer")
+  %if tmpFreeTimer == "RTC"
+    %assign freeRunningTimer = "T14"
+  %else
+    %assign freeRunningTimer = tmpFreeTimer
+  %endif
+      
+
+  %% Register information that will be used for timer configuration
+  %<SLibC166TimersSetProperties(systemFrequency, oscillatorFrequency, systemTimer, \
+  timerInterruptLevel, timerInterruptLevelGroup, reloadTimer, freeRunningTimer)>
+   
+  %% Header Files
+  
+  %openfile buffer
+  #include <%<CompiledModel.Settings.TaskingRegisterDefs>> /* For selected C166 architecture */
+  %closefile buffer
+  %<LibCacheIncludes(buffer)>
+  
+  %% Source File
+  %openfile buffer
+  %closefile buffer
+  
+  %<LibMdlStartCustomCode(buffer, "execution")>
+  
+  %% Export File Setups
+  %openfile buffer
+  %closefile buffer
+  %<LibExportFileCustomCode(buffer, "header")> %% Needs to be visible to the c166_main.c file
+
+%endfunction
+

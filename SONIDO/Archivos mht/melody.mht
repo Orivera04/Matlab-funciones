@@ -1,0 +1,77 @@
+From: <Guardado por Microsoft Internet Explorer 5>
+Subject: 
+Date: Wed, 13 Aug 2008 13:07:52 -0600
+MIME-Version: 1.0
+Content-Type: text/html;
+	charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.mathworks.com/matlabcentral/files/6217/melody.m
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.3198
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD>
+<META http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dwindows-1252">
+<META content=3D"MSHTML 6.00.2900.3314" name=3DGENERATOR></HEAD>
+<BODY><PRE>function	[Z,GAM]=3Dmelody(PES,x)
+% Plays 2-letter note code, 1 note per row
+% Example below:   MEL
+%Call=09
+%		RES=3Dmelody(PES,x)
+%Input
+%		PES =3D Notes, def. russian song "Happy Xmas" ( elochka)
+%       x =3D Freq. Factor (1,2,3,4,...), def.3
+%Output
+%       melody; Z =3D data to play,e.g.  sound(Z/5)
+%       GAM =3D GAMMA used
+%Vassili Pastushenko 20:45 at 31-st December 1999
+%=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+if nargin&lt;2,x=3D3;end
+if nargin&lt;1
+    MEL=3D['dllslfdddllcrddddrrcclsfdllslfff'
+'oaaoaaoooaai22222eeiiaoaoaaoaaaa']';   =20
+    PES=3DMEL;
+end
+[a,b]=3Dsize(PES);
+if a=3D=3D1|b=3D=3D1
+PES=3Dreshape(PES,2,length(PES)/2)';
+end
+
+F=3D2.^((-5:16)/12)*440;
+
+REM=3D[1 0 1 0 1 1 0 1 0 1 1 0 1 0 1 0 1 1 0 1 0 1 1 0 1 0 1 0 1 1 0 1 0 =
+1 1 0];
+F=3DF(REM(1:length(F))&gt;.1);
+GAM=3D'doremifasolacid2r2m2f2s2l2c2d3r3m3f3s3l3c3d4';
+
+GAM=3Dreshape(GAM,2,length(GAM)/2)';
+LG=3Dlength(GAM(:,1));
+
+LEN=3Dround(8192/x);
+LPES=3Dlength(PES);
+Z=3Dzeros(LEN,LPES);
+PH=3D0;
+
+
+for i=3D1:LPES
+   loc=3DPES(i,:);
+   for k=3D1:LG
+      if all(loc=3D=3DGAM(k,:))
+         j=3Dk;
+         break
+      end
+   end
+      [S,PH]=3Dgensnd(F(j),x,PH);
+   Z(:,i)=3DS;
+ end
+
+ VV=3D2:4:LPES;  Z(:,VV)=3DZ(:,VV).*1.5;
+=20
+ Z=3DZ(:);
+ Z=3DZ/max(abs(Z));
+=20
+ ZZ=3DZ;
+ ZZ=3D[ZZ(101:end);ZZ(1:100)];
+ Z=3D[Z,ZZ];
+ sound(Z/5);</PRE></BODY></HTML>

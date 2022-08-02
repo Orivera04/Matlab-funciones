@@ -1,0 +1,203 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>Fitcircle Demonstration</title>
+      <meta name="generator" content="MATLAB 7.1">
+      <meta name="date" content="2007-05-21">
+      <meta name="m-file" content="fitcircle_demo"><style>
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows.  On Gecko-based browsers, the shrink-to-fit doesn't work. */ 
+p,h1,h2,div.content div {
+  /* for MATLAB's browser */
+  width: 600px;
+  /* for Mozilla, but the "width" tag overrides it anyway */
+  max-width: 600px;
+  /* for IE */
+  width:expression(document.body.clientWidth > 620 ? "600px": "auto" );
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head>
+   <body>
+      <div class="content">
+         <h1>Fitcircle Demonstration</h1>
+         <introduction>
+            <p>This publishable m-file demonstrates <tt>fitcircle</tt>, a function for finding the best fit circle by least squares. The implementation is based on <b>Least-Squares Fitting of Circles and Ellipses</b>, W. Gander, G.H. Golub, R. Strebel, BIT Numerical Mathematics, Springer, 1994
+            </p>
+         </introduction>
+         <h2>Contents</h2>
+         <div>
+            <ul>
+               <li><a href="#1">Fitting circles by minimising algebraic distance (linear least squares)</a></li>
+               <li><a href="#3">Best Fit - minimising geometric distance</a></li>
+            </ul>
+         </div>
+         <h2>Fitting circles by minimising algebraic distance (linear least squares)<a name="1"></a></h2>
+         <p>Consider an algebraic representation of a circle in the plane:</p>
+         <p><img vspace="5" hspace="5" src="fitcircle_demo_eq141721.png"> </p>
+         <p>where</p>
+         <p><img vspace="5" hspace="5" src="fitcircle_demo_eq80776.png"> </p>
+         <p>This equation can be minimised by linear least squares. The drawback to this approach is that geometrically, it's not clear
+            what exactly is being minimised. In the following example it's clear that this does not always yield optimal results. <tt>fitcircle</tt> can be used to obtain this solution as follows:
+         </p><pre class="codeinput"><span class="comment">% Set of points</span>
+x = [1 2 5 7 9 3; 7 6 8 7 5 7];
+
+<span class="comment">% Find the linear least squares fit</span>
+[zl, rl] = fitcircle(x, <span class="string">'linear'</span>);
+
+<span class="comment">% And plot the results</span>
+t = linspace(0, 2*pi, 100);
+ plot(x(1,:), x(2,:), <span class="string">'ro'</span>, <span class="keyword">...</span>
+    zl(1) + rl * cos(t), zl(2)  + rl * sin(t), <span class="string">'b'</span>)
+axis <span class="string">equal</span>
+axis([0 10 4 12])
+title(<span class="string">'Minimising the algebraic error'</span>)
+legend(<span class="string">'Data points'</span>, <span class="string">'best fit minimising algebraic error'</span>)
+</pre><img vspace="5" hspace="5" src="fitcircle_demo_01.png"> <h2>Best Fit - minimising geometric distance<a name="3"></a></h2>
+         <p>The true best fit of a circle minimises the geometric error, i.e. the sum of the squares of distances</p>
+         <p><img vspace="5" hspace="5" src="fitcircle_demo_eq101256.png"> </p>
+         <p>where <b>z</b> is the centre of the circle, and r the radius. This is a nonlinear least squares problem and can be solved using <tt>fitcircle</tt> as follows (c.f. the algebraic fit):
+         </p><pre class="codeinput"><span class="comment">% Set of points</span>
+x = [1 2 5 7 9 3; 7 6 8 7 5 7];
+
+<span class="comment">% Find the linear least squares fit</span>
+[zl, rl] = fitcircle(x, <span class="string">'linear'</span>);
+
+<span class="comment">% Find the best geometric fit</span>
+[z, r] = fitcircle(x);
+
+<span class="comment">% And plot the results</span>
+t = linspace(0, 2*pi, 100);
+plot(x(1,:), x(2,:), <span class="string">'ro'</span>, <span class="keyword">...</span>
+    zl(1) + rl * cos(t), zl(2) + rl * sin(t), <span class="string">'b--'</span>, <span class="keyword">...</span>
+    z(1)  + r  * cos(t), z(2)  + r * sin(t), <span class="string">'k'</span>)
+
+axis <span class="string">equal</span>
+axis([-2 20 -2 14])
+title(<span class="string">'Minimising the geometric error'</span>)
+legend(<span class="string">'Data points'</span>, <span class="string">'best fit minimising algebraic error'</span>, <span class="keyword">...</span>
+    <span class="string">'Best fit minimising geometric error'</span>)
+</pre><img vspace="5" hspace="5" src="fitcircle_demo_02.png"> <p class="footer"><br>
+            Published with MATLAB&reg; 7.1<br></p>
+      </div>
+      <!--
+##### SOURCE BEGIN #####
+%% Fitcircle Demonstration
+% This publishable m-file demonstrates |fitcircle|, a function for finding
+% the best fit circle by least squares. The implementation is based on
+% *Least-Squares Fitting of Circles and Ellipses*, W. Gander, G.H. Golub,
+% R. Strebel, BIT Numerical Mathematics, Springer, 1994
+
+%% Fitting circles by minimising algebraic distance (linear least squares)
+% Consider an algebraic representation of a circle in the plane:
+%%
+% 
+% $$F(\mathbf{x})=a\mathbf{x}^T \mathbf{x} +\mathbf{b}^T \mathbf{x}+c = 0$$
+%
+% where
+%
+% $$ a \ne 0, \quad \mathbf{b}, \mathbf{x} \in \mathbf{R}^2 $$
+%
+% This equation can be minimised by linear least squares. The drawback to
+% this approach is that geometrically, it's not clear what exactly is being
+% minimised. In the following example it's clear that this does not always
+% yield optimal results. |fitcircle| can be used to obtain this solution as
+% follows:
+
+% Set of points
+x = [1 2 5 7 9 3; 7 6 8 7 5 7];
+
+% Find the linear least squares fit
+[zl, rl] = fitcircle(x, 'linear');
+
+% And plot the results
+t = linspace(0, 2*pi, 100);
+ plot(x(1,:), x(2,:), 'ro', ...
+    zl(1) + rl * cos(t), zl(2)  + rl * sin(t), 'b')
+axis equal  
+axis([0 10 4 12])
+title('Minimising the algebraic error')
+legend('Data points', 'best fit minimising algebraic error')
+
+%% Best Fit - minimising geometric distance
+% The true best fit of a circle minimises the geometric error, i.e. the sum
+% of the squares of distances
+%
+% $$ \Sigma d_i^2 = \Sigma (||\mathbf{z} - \mathbf{x}_i|| - r)^2 $$
+%
+% where *z* is the centre of the circle, and r the radius. This is a
+% nonlinear least squares problem and can be solved using |fitcircle| as
+% follows (c.f. the algebraic fit):
+
+% Set of points
+x = [1 2 5 7 9 3; 7 6 8 7 5 7];
+
+% Find the linear least squares fit
+[zl, rl] = fitcircle(x, 'linear');
+
+% Find the best geometric fit
+[z, r] = fitcircle(x);
+
+% And plot the results
+t = linspace(0, 2*pi, 100);
+plot(x(1,:), x(2,:), 'ro', ...
+    zl(1) + rl * cos(t), zl(2) + rl * sin(t), 'bREPLACE_WITH_DASH_DASH', ...
+    z(1)  + r  * cos(t), z(2)  + r * sin(t), 'k')
+
+axis equal  
+axis([-2 20 -2 14])
+title('Minimising the geometric error')
+legend('Data points', 'best fit minimising algebraic error', ...
+    'Best fit minimising geometric error')
+##### SOURCE END #####
+-->
+   </body>
+</html>

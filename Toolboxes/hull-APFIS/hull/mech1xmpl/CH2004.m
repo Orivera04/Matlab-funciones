@@ -1,0 +1,10 @@
+loadFG=[17,0,4,10];
+unknownsFG=[0,0,0;DR(90),0,0;DR(90),4,0];
+reactionsFG=threevector(loadFG,unknownsFG);
+pointL=twovector(loadFG,[DR(-90),atan2(-5,-4)]);
+magF=mag(pointL(2,:));
+pointP=twovector(reactionsFG(3,:),[DR(90),DR(180)]);
+magG=mag(pointP(1,:));
+areaFG=rectangl(4,2,'area');
+AverageNormalF=magF/areaFG
+AverageNormalG=magG/areaFG

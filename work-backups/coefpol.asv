@@ -1,0 +1,15 @@
+function CP=coefpol(cadena)
+%Coeficientes de una expresión polinomial en x,y.
+CP=zeros(1,5);
+pol1=strrep(cadena,'X^2','w');
+pol2=strrep(pol1,'Y^2','z');
+pol3=strrep(pol2,'X','X^2');
+pol4=strrep(pol3,'Y','X');
+pol5=strrep(pol4,'w','X^4');
+pol6=strrep(pol5,'z','X^3');
+compa=strcmp(pol1,cadena);
+if compa==0
+    CP(1)=0;
+    CP
+end
+CP=sym2poly(sym(pol6));

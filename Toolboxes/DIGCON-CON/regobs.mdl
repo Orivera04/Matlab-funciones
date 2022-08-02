@@ -1,0 +1,224 @@
+Model {
+  Name			  "regobs"
+  Version		  2.20
+  SimParamPage		  "WorkspaceI/O"
+  SampleTimeColors	  off
+  InvariantConstants	  off
+  WideVectorLines	  off
+  ShowLineWidths	  off
+  StartTime		  "0.0"
+  StopTime		  "ftime"
+  Solver		  ode45
+  RelTol		  "1e-3"
+  AbsTol		  "1e-6"
+  Refine		  "1"
+  MaxStep		  "auto"
+  InitialStep		  "auto"
+  FixedStep		  "auto"
+  MaxOrder		  5
+  OutputOption		  RefineOutputTimes
+  OutputTimes		  "[]"
+  LoadExternalInput	  off
+  ExternalInput		  "[t, u]"
+  SaveTime		  on
+  TimeSaveName		  "t"
+  SaveState		  on
+  StateSaveName		  "xout"
+  SaveOutput		  on
+  OutputSaveName	  "yout"
+  LoadInitialState	  off
+  InitialState		  "xInitial"
+  SaveFinalState	  off
+  FinalStateName	  "xFinal"
+  LimitMaxRows		  off
+  MaxRows		  "1000"
+  Decimation		  "1"
+  AlgebraicLoopMsg	  warning
+  MinStepSizeMsg	  warning
+  UnconnectedInputMsg	  warning
+  UnconnectedOutputMsg	  warning
+  UnconnectedLineMsg	  warning
+  ConsistencyChecking	  off
+  ZeroCross		  on
+  SimulationMode	  normal
+  RTWSystemTargetFile	  "grt.tlc"
+  RTWInlineParameters	  off
+  RTWPlaceOutputsASAP	  off
+  RTWRetainRTWFile	  off
+  RTWTemplateMakefile	  "grt_default_tmf"
+  RTWMakeCommand	  "make_rtw"
+  RTWGenerateCodeOnly	  off
+  ExtModeMexFile	  "ext_comm"
+  ExtModeBatchMode	  off
+  BlockDefaults {
+    Orientation		    right
+    ForegroundColor	    black
+    BackgroundColor	    white
+    DropShadow		    off
+    NamePlacement	    normal
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    normal
+    FontAngle		    normal
+    ShowName		    on
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    center
+    VerticalAlignment	    middle
+    ForegroundColor	    black
+    BackgroundColor	    white
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    normal
+    FontAngle		    normal
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    normal
+    FontAngle		    normal
+  }
+  System {
+    Name		    "regobs"
+    Location		    [372, 79, 872, 338]
+    Open		    on
+    ToolBar		    on
+    StatusBar		    on
+    ScreenColor		    white
+    PaperOrientation	    landscape
+    PaperPositionMode	    auto
+    PaperType		    usletter
+    PaperUnits		    inches
+    Block {
+      BlockType		      Mux
+      Name		      "\n"
+      Ports		      [2, 1, 0, 0, 0]
+      Position		      [315, 67, 350, 103]
+      Inputs		      "2"
+    }
+    Block {
+      BlockType		      DiscreteStateSpace
+      Name		      "-L"
+      Position		      [70, 135, 190, 175]
+      Orientation	      left
+      NamePlacement	      alternate
+      A			      "0"
+      B			      "zeros(1,length(A))"
+      C			      "0"
+      D			      "-L"
+      X0		      "0"
+      SampleTime	      "T"
+    }
+    Block {
+      BlockType		      ToWorkspace
+      Name		      "Estimated S.V."
+      Position		      [230, 205, 290, 235]
+      NamePlacement	      alternate
+      VariableName	      "xhat"
+      Buffer		      "inf"
+      Decimation	      "1"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      DiscreteStateSpace
+      Name		      "Observer"
+      Position		      [215, 135, 335, 175]
+      Orientation	      left
+      NamePlacement	      alternate
+      A			      "phi-K*c"
+      B			      "[K gamma]"
+      C			      "eye(length(phi))"
+      D			      "zeros(length(A),sum(size(c))+sum(size(b))-2*len"
+"gth(A))"
+      X0		      "c'/(c*c')*c*x0"
+      SampleTime	      "T"
+    }
+    Block {
+      BlockType		      ToWorkspace
+      Name		      "Plant Input"
+      Position		      [65, 30, 125, 60]
+      Orientation	      left
+      NamePlacement	      alternate
+      VariableName	      "u"
+      Buffer		      "inf"
+      Decimation	      "1"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      ToWorkspace
+      Name		      "Plant Output"
+      Position		      [310, 20, 370, 50]
+      NamePlacement	      alternate
+      VariableName	      "y"
+      Buffer		      "inf"
+      Decimation	      "1"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      StateSpace
+      Name		      "xdot=Ax+bu"
+      Position		      [205, 57, 265, 93]
+      A			      "A"
+      B			      "b"
+      C			      "c"
+      D			      "zeros(sum(size(c))-length(A),sum(size(b))-lengt"
+"h(A))"
+      X0		      "x0"
+    }
+    Line {
+      SrcBlock		      "-L"
+      SrcPort		      1
+      Points		      [0, -80; 95, 0]
+      Branch {
+	DstBlock		"xdot=Ax+bu"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, -30]
+	DstBlock		"Plant Input"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, 40; 140, 0]
+	DstBlock		"\n"
+	DstPort			2
+      }
+    }
+    Line {
+      SrcBlock		      "\n"
+      SrcPort		      1
+      Points		      [0, 70]
+      DstBlock		      "Observer"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "xdot=Ax+bu"
+      SrcPort		      1
+      Points		      [10, 0]
+      Branch {
+	DstBlock		"\n"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, -40]
+	DstBlock		"Plant Output"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "Observer"
+      SrcPort		      1
+      Points		      [-5, 0]
+      Branch {
+	DstBlock		"-L"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, 65]
+	DstBlock		"Estimated S.V."
+	DstPort			1
+      }
+    }
+  }
+}

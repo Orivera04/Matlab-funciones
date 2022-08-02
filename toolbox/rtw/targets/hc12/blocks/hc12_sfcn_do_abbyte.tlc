@@ -1,0 +1,47 @@
+%% File : hc12_sfcn_do_abbyte.tlc
+%%
+%% Description: 
+%%   Digital output (byte) device driver for PORTA and PORTB.
+%%
+%% $Revision: 1.1.6.3 $ $Date: 2004/04/19 01:23:25 $
+%%
+%% Copyright 2002-2003 The MathWorks, Inc.
+%implements  hc12_sfcn_do_abbyte "C"
+
+
+%% Function: Start ==========================================================
+%%
+%% Purpose:
+%%      Code generation for initilization of digital output PORTA and PORTB
+%%
+%function Start(block, system) Output
+ 
+     /* Initialize digital outputs for port %<block.RTWdata.doport> */ 
+     %% Initialize DDRA or DDRB
+     %<block.RTWdata.ddrStr> = 0xff;
+     %% Initialize output on PORTA or PORTB
+     %% Note that for PORTB lights off = 0xff
+     %<block.RTWdata.doport> = 0xff; 
+     %%
+%endfunction
+
+
+%% Function: Outputs ==========================================================
+%%
+%% Purpose:
+%%      Code generation for signal output of PORTA and PORTB.
+%%
+%function Outputs(block, system) Output
+   %assign U = LibBlockInputSignal(0, "", "", 0)
+
+   /* Digital output signal for port %<block.RTWdata.doport> Block: %<Name> */
+    %<block.RTWdata.doport> = %<U>;
+   %%
+%endfunction
+
+%% [EOF] hc12_sfcn_do_abbyte.tlc
+
+
+
+
+

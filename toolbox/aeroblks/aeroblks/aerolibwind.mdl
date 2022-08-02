@@ -1,0 +1,4360 @@
+# $Revision: 1.17.6.2 $
+Library {
+  Name			  "aerolibwind"
+  Version		  5.0
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  ForwardingTableString	  "||__slOldName__||aerolibwind/Dryden Wind Turbulence"
+" Model||__slNewName__||aerolibprivatev1p5/Dryden Wind Turbulence Model||__slO"
+"ldName__||aerolibwind/Discrete Wind Gust Model||__slNewName__||aerolibprivate"
+"v1p5/Discrete Wind Gust Model||__slOldName__||aerolibwind/Wind Shear Model||_"
+"_slNewName__||aerolibprivatev1p5/Wind Shear Model"
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  off
+  StatusBar		  off
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Tue Oct 23 12:43:17 2001"
+  Creator		  "sgage"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "sgage"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Mon Jul  7 10:04:32 2003"
+  ModelVersionFormat	  "1.%<AutoIncrement:110>"
+  ConfigurationManager	  "None"
+  SimParamPage		  "Solver"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeMexFile	  "ext_comm"
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock off
+  ConsistencyChecking	  "none"
+  ArrayBoundsChecking	  "none"
+  AlgebraicLoopMsg	  "warning"
+  BlockPriorityViolationMsg "warning"
+  MinStepSizeMsg	  "warning"
+  InheritedTsInSrcMsg	  "warning"
+  DiscreteInheritContinuousMsg "warning"
+  MultiTaskRateTransMsg	  "error"
+  SingleTaskRateTransMsg  "none"
+  CheckForMatrixSingularity "none"
+  IntegerOverflowMsg	  "warning"
+  Int32ToFloatConvMsg	  "warning"
+  ParameterDowncastMsg	  "error"
+  ParameterOverflowMsg	  "error"
+  ParameterPrecisionLossMsg "warning"
+  UnderSpecifiedDataTypeMsg "none"
+  UnnecessaryDatatypeConvMsg "none"
+  VectorMatrixConversionMsg "none"
+  InvalidFcnCallConnMsg	  "error"
+  SignalLabelMismatchMsg  "none"
+  UnconnectedInputMsg	  "warning"
+  UnconnectedOutputMsg	  "warning"
+  UnconnectedLineMsg	  "warning"
+  SfunCompatibilityCheckMsg "none"
+  ProdHWDeviceType	  "Microprocessor"
+  ProdHWWordLengths	  "8,16,32,32"
+  TargetHWChar		  2
+  TargetHWWordLengths	  "8,16,32,32"
+  RTWMakeCommand	  "make_rtw"
+  RTWGenerateCodeOnly	  off
+  RTWRetainRTWFile	  off
+  TLCProfiler		  off
+  TLCDebug		  off
+  TLCCoverage		  off
+  TLCAssertion		  off
+  SimulationMode	  "normal"
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      ActionPort
+      InitializeStates	      "held"
+      ActionType	      "unset"
+    }
+    Block {
+      BlockType		      Clock
+      DisplayTime	      off
+    }
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      ShowAdditionalParam     off
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "sfix(16)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Demux
+      Outputs		      "4"
+      DisplayOption	      "none"
+      BusSelectionMode	      off
+    }
+    Block {
+      BlockType		      EnablePort
+      StatesWhenEnabling      "held"
+      ShowOutputPort	      off
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      Fcn
+      Expr		      "sin(u[1])"
+    }
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ShowAdditionalParam     off
+      ParameterDataTypeMode   "Same as input"
+      ParameterDataType	      "sfix(16)"
+      ParameterScalingMode    "Best Precision: Matrix-wise"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      If
+      NumInputs		      "1"
+      IfExpression	      "u1 > 0"
+      ShowElse		      on
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      ShowAdditionalParam     off
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      LatchInput	      off
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Integrator
+      ExternalReset	      "none"
+      InitialConditionSource  "internal"
+      InitialCondition	      "0"
+      LimitOutput	      off
+      UpperSaturationLimit    "inf"
+      LowerSaturationLimit    "-inf"
+      ShowSaturationPort      off
+      ShowStatePort	      off
+      AbsoluteTolerance	      "auto"
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      Logic
+      Operator		      "AND"
+      Inputs		      "2"
+      ShowAdditionalParam     off
+      AllPortsSameDT	      on
+      OutDataTypeMode	      "Logical (see Advanced Sim. Parameters)"
+      LogicDataType	      "uint(8)"
+    }
+    Block {
+      BlockType		      Lookup2D
+      RowIndex		      "[0 1]"
+      ColumnIndex	      "[0 1]"
+      OutputValues	      "[0 0;0 0]"
+      ShowAdditionalParam     off
+      LookUpMeth	      "Interpolation-Extrapolation"
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      LUTDesignTableMode      "Redesign Table"
+      LUTDesignDataSource     "Block Dialog"
+      LUTDesignFunctionName   "sqrt(x)"
+      LUTDesignUseExistingBP  on
+      LUTDesignRelError	      "0.01"
+      LUTDesignAbsError	      "1e-6"
+    }
+    Block {
+      BlockType		      Math
+      Operator		      "exp"
+      OutputSignalType	      "auto"
+    }
+    Block {
+      BlockType		      Mux
+      Inputs		      "4"
+      DisplayOption	      "none"
+      NonVirtualBus	      off
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      Product
+      Inputs		      "2"
+      Multiplication	      "Element-wise(.*)"
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Reference
+    }
+    Block {
+      BlockType		      RelationalOperator
+      Operator		      ">="
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      LogicOutDataTypeMode    "Logical (see Advanced Sim. Parameters)"
+      LogicDataType	      "uint(8)"
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      Saturate
+      UpperLimit	      "0.5"
+      LowerLimit	      "-0.5"
+      LinearizeAsGain	      on
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      RTWSystemCode	      "Auto"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Sum
+      IconShape		      "rectangular"
+      Inputs		      "++"
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Trigonometry
+      Operator		      "sin"
+      OutputSignalType	      "auto"
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "aerolibwind"
+    Location		    [902, 347, 1224, 694]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "A4"
+    PaperUnits		    "centimeters"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      "Discrete Wind Gust Model"
+      Ports		      [1, 1]
+      Position		      [65, 141, 255, 209]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Discrete Wind Gust Model"
+      MaskDescription	      "Generate a discrete wind gust. The gust profile"
+" takes the '1-cosine' form. "
+      MaskHelp		      "web(asbhelp);"
+      MaskPromptString	      "Units of velocity:|Check for gust in u-axis|Che"
+"ck for gust in v-axis|Check for gust in w-axis|Gust start time (seconds):|Gus"
+"t length [dx dy dz] (meters):|Gust amplitude [ug vg wg] (meters/second):"
+      MaskStyleString	      "popup(meters/second|feet/second|knots),checkbox"
+",checkbox,checkbox,edit,edit,edit"
+      MaskTunableValueString  "off,on,on,on,on,on,on"
+      MaskCallbackString      "aeroicon('aeroblkwindgust')||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,"
+      MaskVariables	      "v_units=&1;Gx=@2;Gy=@3;Gz=@4;t_0=@5;d_m=@6;v_m="
+"@7;"
+      MaskInitialization      "m2ft= 3.28084;\nmps2knot=1.94384;\nif strcmp(v_"
+"units, 'meters/second')\n  gust_units=1;\n  mask_text1='m';\n  mask_text2='m/"
+"s';\nelseif strcmp(v_units, 'feet/second')\n  gust_units=1;\n  mask_text1='ft"
+"';\n  mask_text2='ft/s';\nelse\n  gust_units=m2ft/mps2knot;\n  mask_text1='ft"
+"';\n  mask_text2='knots';\nend\n"
+      MaskDisplay	      "port_label('output', 1, ['Wind velocity (', mas"
+"k_text2, ')'])\nport_label('input', 1, ['Airspeed (', mask_text2, ')'])"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "meters/second|on|on|on|5|[120 120 80]|[3.5 3.5 "
+"3.0]"
+      System {
+	Name			"Discrete Wind Gust Model"
+	Location		[70, 117, 966, 600]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Airspeed"
+	  Position		  [115, 248, 145, 262]
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "2"
+	  Position		  [617, 205, 643, 225]
+	  Orientation		  "down"
+	  NamePlacement		  "alternate"
+	  ShowName		  off
+	  Value			  "1.0"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant"
+	  Position		  [255, 65, 285, 95]
+	  ShowName		  off
+	  Value			  "Gx"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant1"
+	  Position		  [260, 200, 290, 230]
+	  ShowName		  off
+	  Value			  "Gy"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant2"
+	  Position		  [250, 432, 275, 458]
+	  ShowName		  off
+	  Value			  "Gz"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Distance into\ngust (x)"
+	  Ports			  [1, 1, 1]
+	  Position		  [340, 101, 405, 159]
+	  TreatAsAtomicUnit	  on
+	  MaskPromptString	  "Gust length d:"
+	  MaskStyleString	  "edit"
+	  MaskTunableValueString  "on"
+	  MaskEnableString	  "on"
+	  MaskVisibilityString	  "on"
+	  MaskToolTipString	  "on"
+	  MaskVariables		  "d_m=@1;"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "d_m(1)"
+	  System {
+	    Name		    "Distance into\ngust (x)"
+	    Location		    [158, 205, 444, 384]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "V"
+	      Position		      [50, 53, 80, 67]
+	    }
+	    Block {
+	      BlockType		      EnablePort
+	      Name		      "Enable"
+	      Ports		      []
+	      Position		      [130, 135, 150, 155]
+	      StatesWhenEnabling      "reset"
+	    }
+	    Block {
+	      BlockType		      Integrator
+	      Name		      "Distance into\nGust (x)\n(Limited to gu"
+"st length d)"
+	      Ports		      [1, 1]
+	      Position		      [120, 34, 155, 86]
+	      LimitOutput	      on
+	      UpperSaturationLimit    "d_m"
+	      LowerSaturationLimit    "0"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "x"
+	      Position		      [185, 53, 215, 67]
+	      InitialOutput	      "[0]"
+	    }
+	    Line {
+	      SrcBlock		      "Distance into\nGust (x)\n(Limited to gu"
+"st length d)"
+	      SrcPort		      1
+	      DstBlock		      "x"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "V"
+	      SrcPort		      1
+	      DstBlock		      "Distance into\nGust (x)\n(Limited to gu"
+"st length d)"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Distance into\ngust (y)"
+	  Ports			  [1, 1, 1]
+	  Position		  [340, 226, 405, 284]
+	  TreatAsAtomicUnit	  on
+	  MaskPromptString	  "Gust length d:"
+	  MaskStyleString	  "edit"
+	  MaskTunableValueString  "on"
+	  MaskEnableString	  "on"
+	  MaskVisibilityString	  "on"
+	  MaskToolTipString	  "on"
+	  MaskVariables		  "d_m=@1;"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "d_m(2)"
+	  System {
+	    Name		    "Distance into\ngust (y)"
+	    Location		    [114, 161, 400, 340]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "V"
+	      Position		      [40, 48, 70, 62]
+	    }
+	    Block {
+	      BlockType		      EnablePort
+	      Name		      "Enable"
+	      Ports		      []
+	      Position		      [130, 135, 150, 155]
+	      StatesWhenEnabling      "reset"
+	    }
+	    Block {
+	      BlockType		      Integrator
+	      Name		      "Distance into\nGust (x)\n(Limited to gu"
+"st length d)\n"
+	      Ports		      [1, 1]
+	      Position		      [120, 30, 155, 80]
+	      LimitOutput	      on
+	      UpperSaturationLimit    "d_m"
+	      LowerSaturationLimit    "0"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "x"
+	      Position		      [200, 48, 230, 62]
+	      InitialOutput	      "[0]"
+	    }
+	    Line {
+	      SrcBlock		      "Distance into\nGust (x)\n(Limited to gu"
+"st length d)\n"
+	      SrcPort		      1
+	      DstBlock		      "x"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "V"
+	      SrcPort		      1
+	      DstBlock		      "Distance into\nGust (x)\n(Limited to gu"
+"st length d)\n"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Distance into\ngust (z)"
+	  Ports			  [1, 1, 1]
+	  Position		  [340, 351, 405, 409]
+	  NamePlacement		  "alternate"
+	  TreatAsAtomicUnit	  on
+	  MaskPromptString	  "Gust length d:"
+	  MaskStyleString	  "edit"
+	  MaskTunableValueString  "on"
+	  MaskEnableString	  "on"
+	  MaskVisibilityString	  "on"
+	  MaskToolTipString	  "on"
+	  MaskVariables		  "d_m=@1;"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "d_m(3)"
+	  System {
+	    Name		    "Distance into\ngust (z)"
+	    Location		    [70, 141, 356, 320]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "V"
+	      Position		      [40, 48, 70, 62]
+	    }
+	    Block {
+	      BlockType		      EnablePort
+	      Name		      "Enable"
+	      Ports		      []
+	      Position		      [130, 135, 150, 155]
+	      StatesWhenEnabling      "reset"
+	    }
+	    Block {
+	      BlockType		      Integrator
+	      Name		      "Distance into\nGust (x)\n(Limited to gu"
+"st length d)\n"
+	      Ports		      [1, 1]
+	      Position		      [120, 30, 155, 80]
+	      LimitOutput	      on
+	      UpperSaturationLimit    "d_m"
+	      LowerSaturationLimit    "0"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "x"
+	      Position		      [200, 48, 230, 62]
+	      InitialOutput	      "[0]"
+	    }
+	    Line {
+	      SrcBlock		      "V"
+	      SrcPort		      1
+	      DstBlock		      "Distance into\nGust (x)\n(Limited to gu"
+"st length d)\n"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Distance into\nGust (x)\n(Limited to gu"
+"st length d)\n"
+	      SrcPort		      1
+	      DstBlock		      "x"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  RelationalOperator
+	  Name			  "Gust\nStart"
+	  Position		  [65, 16, 85, 94]
+	  ShowAdditionalParam	  on
+	  LogicOutDataTypeMode	  "Specify via dialog"
+	  LogicDataType		  "float('double')"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gust magnitude/2.0"
+	  Position		  [680, 235, 770, 275]
+	  Gain			  "v_m/2.0"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Gust start\ntime"
+	  Position		  [15, 65, 45, 85]
+	  Value			  "t_0"
+	}
+	Block {
+	  BlockType		  Logic
+	  Name			  "Logical\nOperator1"
+	  Ports			  [2, 1]
+	  Position		  [305, 179, 335, 226]
+	  ShowName		  off
+	  ShowAdditionalParam	  on
+	  AllPortsSameDT	  off
+	}
+	Block {
+	  BlockType		  Logic
+	  Name			  "Logical\nOperator2"
+	  Ports			  [2, 1]
+	  Position		  [305, 43, 335, 92]
+	  ShowName		  off
+	  ShowAdditionalParam	  on
+	  AllPortsSameDT	  off
+	}
+	Block {
+	  BlockType		  Logic
+	  Name			  "Logical\nOperator3"
+	  Ports			  [2, 1]
+	  Position		  [295, 409, 325, 456]
+	  ShowName		  off
+	  ShowAdditionalParam	  on
+	  AllPortsSameDT	  off
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  Ports			  [3, 1]
+	  Position		  [455, 228, 460, 282]
+	  ShowName		  off
+	  Inputs		  "3"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum1"
+	  Ports			  [2, 1]
+	  Position		  [620, 245, 640, 265]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "+-|"
+	}
+	Block {
+	  BlockType		  Clock
+	  Name			  "Time"
+	  Position		  [20, 25, 40, 45]
+	  Decimation		  "10"
+	}
+	Block {
+	  BlockType		  Trigonometry
+	  Name			  "cos(pi*x/dm)"
+	  Ports			  [1, 1]
+	  Position		  [575, 240, 600, 270]
+	  ShowName		  off
+	  Operator		  "cos"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "knots-->ft/s"
+	  Position		  [165, 236, 245, 274]
+	  Gain			  "gust_units"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "pi/Gust length"
+	  Position		  [475, 237, 560, 273]
+	  Gain			  "pi./d_m"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Wind\nSpeed"
+	  Position		  [815, 248, 845, 262]
+	}
+	Line {
+	  SrcBlock		  "knots-->ft/s"
+	  SrcPort		  1
+	  Points		  [0, 0; 5, 0]
+	  Branch {
+	    Points		    [0, 125]
+	    DstBlock		    "Distance into\ngust (z)"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -125]
+	    DstBlock		    "Distance into\ngust (x)"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Distance into\ngust (y)"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Distance into\ngust (x)"
+	  SrcPort		  1
+	  Points		  [20, 0; 0, 105]
+	  DstBlock		  "Mux"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Constant"
+	  SrcPort		  1
+	  DstBlock		  "Logical\nOperator2"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Gust\nStart"
+	  SrcPort		  1
+	  Points		  [0, 0; 5, 0]
+	  Branch {
+	    DstBlock		    "Logical\nOperator2"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 135]
+	    Branch {
+	      Points		      [0, 230]
+	      DstBlock		      "Logical\nOperator3"
+	      DstPort		      1
+	    }
+	    Branch {
+	      DstBlock		      "Logical\nOperator1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Line {
+	  SrcBlock		  "Airspeed"
+	  SrcPort		  1
+	  DstBlock		  "knots-->ft/s"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Logical\nOperator2"
+	  SrcPort		  1
+	  Points		  [30, 0]
+	  DstBlock		  "Distance into\ngust (x)"
+	  DstPort		  enable
+	}
+	Line {
+	  SrcBlock		  "Constant1"
+	  SrcPort		  1
+	  DstBlock		  "Logical\nOperator1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Logical\nOperator1"
+	  SrcPort		  1
+	  Points		  [30, 0]
+	  DstBlock		  "Distance into\ngust (y)"
+	  DstPort		  enable
+	}
+	Line {
+	  SrcBlock		  "Constant2"
+	  SrcPort		  1
+	  DstBlock		  "Logical\nOperator3"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Logical\nOperator3"
+	  SrcPort		  1
+	  Points		  [40, 0]
+	  DstBlock		  "Distance into\ngust (z)"
+	  DstPort		  enable
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  DstBlock		  "pi/Gust length"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Distance into\ngust (z)"
+	  SrcPort		  1
+	  Points		  [20, 0; 0, -105]
+	  DstBlock		  "Mux"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Distance into\ngust (y)"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Gust start\ntime"
+	  SrcPort		  1
+	  DstBlock		  "Gust\nStart"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Time"
+	  SrcPort		  1
+	  DstBlock		  "Gust\nStart"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gust magnitude/2.0"
+	  SrcPort		  1
+	  DstBlock		  "Wind\nSpeed"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "cos(pi*x/dm)"
+	  SrcPort		  1
+	  DstBlock		  "Sum1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Sum1"
+	  SrcPort		  1
+	  DstBlock		  "Gust magnitude/2.0"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "2"
+	  SrcPort		  1
+	  DstBlock		  "Sum1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "pi/Gust length"
+	  SrcPort		  1
+	  DstBlock		  "cos(pi*x/dm)"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Dryden Wind Turbulence Model"
+      Ports		      [2, 2]
+      Position		      [65, 28, 255, 112]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Dryden Wind Turbulence Model"
+      MaskDescription	      "Generate atmospheric turbulence. White noise is"
+" passed through a filter to give the turbulence the Dryden velocity spectra."
+      MaskHelp		      "web(asbhelp);"
+      MaskPromptString	      "Units of velocity:|Wind speed at 6 m defines th"
+"e low-altitude intensity (meters/second):|Probability of exceedance of high-a"
+"ltitude intensity|Scale length at medium/high altitudes (meters):|Wingspan (m"
+"eters):|Band-limited noise sample time (seconds):|Noise seeds [ug vg wg pg]:|"
+"Turbulence on"
+      MaskStyleString	      "popup(meters/second|feet/second|knots),edit,pop"
+"up(2x10^-1|10^-1|10^-2 - Light |10^-3 - Moderate|10^-4|10^-5 - Severe|10^-6),"
+"edit,edit,edit,edit,checkbox"
+      MaskTunableValueString  "off,on,on,on,on,on,on,on"
+      MaskCallbackString      "aeroicon('aeroblkwindturb')|||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,"
+      MaskVariables	      "v_units=&1;W20=@2;TurbProb=@3;L_high=@4;Wingspa"
+"n=@5;ts=@6;Seed=@7;T_on=@8;"
+      MaskInitialization      "h_vec = [.5 1.75 3.75 7.5 15 25 35 45 55 65 75 "
+"80]*1000;% feet\nsigma_vec(1,:) = [3.2 2.2 1.5 zeros(1,9)]; % ft/sec\nsigma_v"
+"ec(2,:) = [4.2 3.6 3.3 1.6 zeros(1,8)];\nsigma_vec(3,:) = [6.6 6.9 7.4 6.7 4."
+"6 2.7 0.4 zeros(1,5)];\nsigma_vec(4,:) = [8.6 9.6 10.6 10.1 8.0 6.6 5.0 4.2 2"
+".7 zeros(1,3)];\nsigma_vec(5,:) = [11.8 13.0 16.0 15.1 11.6 9.7 8.1 8.2 7.9 4"
+".9 3.2 2.1];\nsigma_vec(6,:) = [15.6 17.6 23.0 23.6 22.1 20.0 16.0 15.1 12.1 "
+"7.9 6.2 5.1];\nsigma_vec(7,:) = [18.7 21.5 28.4 30.2 30.7 31.0 25.2 23.1 17.5"
+" 10.7 8.4 7.2];\nm2ft= 3.28084;\nmps2knot=1.94384;\nmax_height_low = 1000;\nm"
+"in_height_high = 2000;\nif strcmp(v_units, 'meters/second')\n    gust_units=1"
+";\n    alt_units = m2ft;\n    mask_text1='m';\n    mask_text2='m/s';\n    h_v"
+"ec = h_vec/m2ft;\n    sigma_vec = sigma_vec/m2ft;\n    max_height_low = 1000/"
+"m2ft;\n    min_height_high = 2000/m2ft;\nelseif strcmp(v_units, 'feet/second'"
+")\n    gust_units=1;\n    alt_units =1;\n    mask_text1='ft';\n    mask_text2"
+"='ft/s';\nelse\n    gust_units=m2ft/mps2knot;\n    alt_units=1;\n    mask_tex"
+"t1='ft';\n    mask_text2='knots';\nend\n"
+      MaskDisplay	      "port_label('output', 1, [' Wind velocity  (', m"
+"ask_text2, ')'])\nport_label('output', 2, 'Angular rates (rad/sec)')\nport_la"
+"bel('input', 1, ['Altitude (', mask_text1, ')'])\nport_label('input', 2, ['Ai"
+"rspeed (', mask_text2, ')'])"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "meters/second|15|10^-2 - Light |533|10|0.1|[233"
+"41 23342 23343 23344]|on"
+      System {
+	Name			"Dryden Wind Turbulence Model"
+	Location		[46, 69, 874, 603]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Altitude"
+	  Position		  [15, 118, 45, 132]
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Airspeed"
+	  Position		  [165, 382, 195, 398]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "-->original\n   units"
+	  Position		  [645, 130, 725, 190]
+	  Gain			  "1/gust_units"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant"
+	  Position		  [454, 15, 496, 30]
+	  Orientation		  "down"
+	  NamePlacement		  "alternate"
+	  ShowName		  off
+	  Value			  "T_on"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant1"
+	  Position		  [634, 290, 676, 305]
+	  Orientation		  "down"
+	  NamePlacement		  "alternate"
+	  ShowName		  off
+	  Value			  "T_on"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Filters on angular rates"
+	  Ports			  [6, 3, 1]
+	  Position		  [605, 323, 705, 482]
+	  TreatAsAtomicUnit	  on
+	  Port {
+	    PortNumber		    1
+	    Name		    "pgw"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    2
+	    Name		    "qgw"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    3
+	    Name		    "rgw"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  System {
+	    Name		    "Filters on angular rates"
+	    Location		    [48, 95, 391, 574]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "vg"
+	      Position		      [90, 403, 120, 417]
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "wg"
+	      Position		      [90, 263, 120, 277]
+	      Port		      "2"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "V"
+	      Position		      [35, 202, 65, 218]
+	      Port		      "3"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Lw"
+	      Position		      [80, 28, 110, 42]
+	      Port		      "4"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "sigma_w"
+	      Position		      [80, 63, 110, 77]
+	      Port		      "5"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Noise"
+	      Position		      [80, 98, 110, 112]
+	      Port		      "6"
+	    }
+	    Block {
+	      BlockType		      EnablePort
+	      Name		      "Enable"
+	      Ports		      []
+	      Position		      [15, 395, 35, 415]
+	      StatesWhenEnabling      "reset"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Hpgw(s)"
+	      Ports		      [4, 1]
+	      Position		      [140, 15, 240, 160]
+	      TreatAsAtomicUnit	      off
+	      System {
+		Name			"Hpgw(s)"
+		Location		[180, 227, 990, 529]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "L_wg"
+		  Position		  [55, 178, 85, 192]
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "sigma_wg"
+		  Position		  [640, 128, 670, 142]
+		  Port			  "2"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "Noise"
+		  Position		  [380, 193, 410, 207]
+		  Port			  "3"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "V"
+		  Position		  [20, 28, 50, 42]
+		  Port			  "4"
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "(pi/(4*Wingspan))^(1/6)"
+		  Position		  [250, 114, 420, 166]
+		  Gain			  "(pi/(4*Wingspan))^(1/6)"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant1"
+		  Position		  [55, 215, 85, 245]
+		  ShowName		  off
+		  Value			  "1/3"
+		}
+		Block {
+		  BlockType		  Math
+		  Name			  "L^1/3"
+		  Ports			  [2, 1]
+		  Position		  [105, 161, 150, 254]
+		  Operator		  "pow"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Lug/V1"
+		  Ports			  [2, 1]
+		  Position		  [440, 109, 465, 231]
+		  ShowName		  off
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum"
+		  Ports			  [2, 1]
+		  Position		  [480, 160, 500, 180]
+		  ShowName		  off
+		  IconShape		  "round"
+		  Inputs		  "|+-"
+		}
+		Block {
+		  BlockType		  Integrator
+		  Name			  "pgw_p"
+		  Ports			  [1, 1]
+		  Position		  [590, 145, 620, 175]
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "pi/(4*WingSpan)"
+		  Position		  [135, 15, 295, 55]
+		  Gain			  "pi/(4*Wingspan)"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "sigma_w"
+		  Ports			  [2, 1]
+		  Position		  [700, 120, 730, 175]
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Fcn
+		  Name			  "sqrt(0.8/V)"
+		  Position		  [80, 111, 170, 139]
+		  Expr			  "sqrt(0.8/u(1))"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "w"
+		  Ports			  [2, 1]
+		  Position		  [530, 130, 560, 185]
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "w1"
+		  Ports			  [2, 1]
+		  Position		  [200, 110, 230, 165]
+		  ShowName		  off
+		  Inputs		  "*/"
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "pgw"
+		  Position		  [755, 143, 785, 157]
+		  InitialOutput		  "0"
+		}
+		Line {
+		  SrcBlock		  "w1"
+		  SrcPort		  1
+		  DstBlock		  "(pi/(4*Wingspan))^(1/6)"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "(pi/(4*Wingspan))^(1/6)"
+		  SrcPort		  1
+		  DstBlock		  "Lug/V1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "L^1/3"
+		  SrcPort		  1
+		  Points		  [30, 0]
+		  DstBlock		  "w1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Noise"
+		  SrcPort		  1
+		  DstBlock		  "Lug/V1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "sqrt(0.8/V)"
+		  SrcPort		  1
+		  DstBlock		  "w1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "L_wg"
+		  SrcPort		  1
+		  DstBlock		  "L^1/3"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "sigma_wg"
+		  SrcPort		  1
+		  DstBlock		  "sigma_w"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "sigma_w"
+		  SrcPort		  1
+		  DstBlock		  "pgw"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "pi/(4*WingSpan)"
+		  SrcPort		  1
+		  Points		  [200, 0; 0, 110]
+		  DstBlock		  "w"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Constant1"
+		  SrcPort		  1
+		  DstBlock		  "L^1/3"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "pgw_p"
+		  SrcPort		  1
+		  Points		  [0, 0; 20, 0]
+		  Branch {
+		    DstBlock		    "sigma_w"
+		    DstPort		    2
+		  }
+		  Branch {
+		    Points		    [0, 50; -155, 0]
+		    DstBlock		    "Sum"
+		    DstPort		    2
+		  }
+		}
+		Line {
+		  SrcBlock		  "V"
+		  SrcPort		  1
+		  Points		  [10, 0]
+		  Branch {
+		    DstBlock		    "sqrt(0.8/V)"
+		    DstPort		    1
+		  }
+		  Branch {
+		    DstBlock		    "pi/(4*WingSpan)"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "w"
+		  SrcPort		  1
+		  DstBlock		  "pgw_p"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Lug/V1"
+		  SrcPort		  1
+		  DstBlock		  "Sum"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Sum"
+		  SrcPort		  1
+		  DstBlock		  "w"
+		  DstPort		  2
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Hqgw(s)"
+	      Ports		      [2, 1]
+	      Position		      [140, 179, 240, 301]
+	      TreatAsAtomicUnit	      off
+	      System {
+		Name			"Hqgw(s)"
+		Location		[4, 51, 474, 266]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "V"
+		  Position		  [20, 28, 50, 42]
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "wg"
+		  Position		  [50, 133, 80, 147]
+		  Port			  "2"
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum"
+		  Ports			  [2, 1]
+		  Position		  [215, 120, 235, 140]
+		  ShowName		  off
+		  IconShape		  "round"
+		  Inputs		  "|+-"
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "pi/(4*WingSpan)"
+		  Position		  [70, 15, 230, 55]
+		  Gain			  "pi/(4*Wingspan)"
+		}
+		Block {
+		  BlockType		  Integrator
+		  Name			  "qgw_p"
+		  Ports			  [1, 1]
+		  Position		  [365, 105, 395, 135]
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "w"
+		  Ports			  [2, 1]
+		  Position		  [275, 90, 305, 145]
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "wg/V"
+		  Ports			  [2, 1]
+		  Position		  [155, 100, 185, 155]
+		  Inputs		  "/*"
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "qgw"
+		  Position		  [395, 68, 425, 82]
+		  InitialOutput		  "0"
+		}
+		Line {
+		  SrcBlock		  "wg"
+		  SrcPort		  1
+		  DstBlock		  "wg/V"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "wg/V"
+		  SrcPort		  1
+		  DstBlock		  "Sum"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Sum"
+		  SrcPort		  1
+		  DstBlock		  "w"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "w"
+		  SrcPort		  1
+		  Points		  [0, 0; 20, 0]
+		  Branch {
+		    Points		    [0, -45]
+		    DstBlock		    "qgw"
+		    DstPort		    1
+		  }
+		  Branch {
+		    DstBlock		    "qgw_p"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "V"
+		  SrcPort		  1
+		  Points		  [0, 0]
+		  Branch {
+		    Points		    [0, 80]
+		    DstBlock		    "wg/V"
+		    DstPort		    1
+		  }
+		  Branch {
+		    DstBlock		    "pi/(4*WingSpan)"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "qgw_p"
+		  SrcPort		  1
+		  Points		  [25, 0; 0, 60; -200, 0]
+		  DstBlock		  "Sum"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "pi/(4*WingSpan)"
+		  SrcPort		  1
+		  Points		  [10, 0; 0, 70]
+		  DstBlock		  "w"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Hrgw(s)"
+	      Ports		      [2, 1]
+	      Position		      [140, 320, 240, 440]
+	      TreatAsAtomicUnit	      off
+	      System {
+		Name			"Hrgw(s)"
+		Location		[26, 73, 547, 286]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "V"
+		  Position		  [35, 28, 65, 42]
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "vg"
+		  Position		  [30, 138, 60, 152]
+		  Port			  "2"
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "-1"
+		  Position		  [370, 29, 435, 71]
+		  Gain			  "-1"
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum"
+		  Ports			  [2, 1]
+		  Position		  [210, 125, 230, 145]
+		  ShowName		  off
+		  IconShape		  "round"
+		  Inputs		  "|+-"
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "pi/(4*WingSpan)"
+		  Position		  [90, 15, 250, 55]
+		  Gain			  "pi/(3*Wingspan)"
+		}
+		Block {
+		  BlockType		  Integrator
+		  Name			  "rgw_p"
+		  Ports			  [1, 1]
+		  Position		  [385, 110, 415, 140]
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "vg/V"
+		  Ports			  [2, 1]
+		  Position		  [100, 105, 130, 160]
+		  Inputs		  "/*"
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "w"
+		  Ports			  [2, 1]
+		  Position		  [295, 95, 325, 150]
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "rgw"
+		  Position		  [470, 43, 500, 57]
+		  InitialOutput		  "0"
+		}
+		Line {
+		  SrcBlock		  "-1"
+		  SrcPort		  1
+		  DstBlock		  "rgw"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "vg/V"
+		  SrcPort		  1
+		  DstBlock		  "Sum"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "vg"
+		  SrcPort		  1
+		  DstBlock		  "vg/V"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "pi/(4*WingSpan)"
+		  SrcPort		  1
+		  Points		  [15, 0; 0, 75]
+		  DstBlock		  "w"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "rgw_p"
+		  SrcPort		  1
+		  Points		  [25, 0; 0, 50; -225, 0]
+		  DstBlock		  "Sum"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "V"
+		  SrcPort		  1
+		  Points		  [0, 0]
+		  Branch {
+		    Points		    [0, 85]
+		    DstBlock		    "vg/V"
+		    DstPort		    1
+		  }
+		  Branch {
+		    DstBlock		    "pi/(4*WingSpan)"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "w"
+		  SrcPort		  1
+		  Points		  [0, 0; 20, 0]
+		  Branch {
+		    Points		    [0, -75]
+		    DstBlock		    "-1"
+		    DstPort		    1
+		  }
+		  Branch {
+		    DstBlock		    "rgw_p"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Sum"
+		  SrcPort		  1
+		  DstBlock		  "w"
+		  DstPort		  2
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "pgw"
+	      Position		      [280, 83, 310, 97]
+	      OutputWhenDisabled      "reset"
+	      InitialOutput	      "0"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "qgw"
+	      Position		      [280, 233, 310, 247]
+	      Port		      "2"
+	      OutputWhenDisabled      "reset"
+	      InitialOutput	      "0"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "rgw"
+	      Position		      [280, 373, 310, 387]
+	      Port		      "3"
+	      OutputWhenDisabled      "reset"
+	      InitialOutput	      "0"
+	    }
+	    Line {
+	      SrcBlock		      "vg"
+	      SrcPort		      1
+	      DstBlock		      "Hrgw(s)"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Hrgw(s)"
+	      SrcPort		      1
+	      DstBlock		      "rgw"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Hqgw(s)"
+	      SrcPort		      1
+	      DstBlock		      "qgw"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "wg"
+	      SrcPort		      1
+	      DstBlock		      "Hqgw(s)"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Hpgw(s)"
+	      SrcPort		      1
+	      DstBlock		      "pgw"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "V"
+	      SrcPort		      1
+	      Points		      [0, 0; 10, 0]
+	      Branch {
+		DstBlock		"Hqgw(s)"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 140]
+		DstBlock		"Hrgw(s)"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, -70]
+		DstBlock		"Hpgw(s)"
+		DstPort			4
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "sigma_w"
+	      SrcPort		      1
+	      DstBlock		      "Hpgw(s)"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Lw"
+	      SrcPort		      1
+	      DstBlock		      "Hpgw(s)"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Noise"
+	      SrcPort		      1
+	      DstBlock		      "Hpgw(s)"
+	      DstPort		      3
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Filters on velocities"
+	  Ports			  [6, 3, 1]
+	  Position		  [420, 47, 530, 268]
+	  TreatAsAtomicUnit	  on
+	  Port {
+	    PortNumber		    1
+	    Name		    "ugw"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    2
+	    Name		    "vgw"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    3
+	    Name		    "wgw"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  System {
+	    Name		    "Filters on velocities"
+	    Location		    [158, 205, 603, 643]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Noise"
+	      Position		      [95, 368, 125, 382]
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Lug\nLvg"
+	      Position		      [65, 48, 95, 62]
+	      Port		      "2"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Lwg"
+	      Position		      [230, 308, 260, 322]
+	      Port		      "3"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "sigma_ug\nsigma_vg"
+	      Position		      [125, 73, 155, 87]
+	      Port		      "4"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "sigma_wg"
+	      Position		      [230, 343, 260, 357]
+	      Port		      "5"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "V"
+	      Position		      [15, 23, 45, 37]
+	      Port		      "6"
+	    }
+	    Block {
+	      BlockType		      EnablePort
+	      Name		      "Enable"
+	      Ports		      []
+	      Position		      [25, 305, 45, 325]
+	      StatesWhenEnabling      "reset"
+	    }
+	    Block {
+	      BlockType		      Demux
+	      Name		      "Demux"
+	      Ports		      [1, 3]
+	      Position		      [160, 356, 165, 394]
+	      BackgroundColor	      "black"
+	      ShowName		      off
+	      Outputs		      "3"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Hugw(s)"
+	      Ports		      [4, 1]
+	      Position		      [285, 14, 365, 121]
+	      TreatAsAtomicUnit	      off
+	      System {
+		Name			"Hugw(s)"
+		Location		[136, 183, 837, 422]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "V"
+		  Position		  [45, 68, 75, 82]
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "L_ug"
+		  Position		  [20, 28, 50, 42]
+		  Port			  "2"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "sigma_ug"
+		  Position		  [515, 88, 545, 102]
+		  Port			  "3"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "Noise"
+		  Position		  [225, 153, 255, 167]
+		  Port			  "4"
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "(2/pi)"
+		  Position		  [160, 84, 230, 116]
+		  Gain			  "2/pi"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Lug/V"
+		  Ports			  [2, 1]
+		  Position		  [100, 14, 120, 96]
+		  Inputs		  "*/"
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Lug/V1"
+		  Ports			  [2, 1]
+		  Position		  [290, 69, 315, 191]
+		  ShowName		  off
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Math
+		  Name			  "Math\nFunction"
+		  Ports			  [1, 1]
+		  Position		  [245, 86, 275, 114]
+		  ShowName		  off
+		  Operator		  "sqrt"
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum"
+		  Ports			  [2, 1]
+		  Position		  [340, 120, 360, 140]
+		  ShowName		  off
+		  IconShape		  "round"
+		  Inputs		  "|+-"
+		}
+		Block {
+		  BlockType		  Integrator
+		  Name			  "ug_p"
+		  Ports			  [1, 1]
+		  Position		  [450, 105, 480, 135]
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "w"
+		  Ports			  [2, 1]
+		  Position		  [390, 90, 420, 145]
+		  Inputs		  "/*"
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "w1"
+		  Ports			  [2, 1]
+		  Position		  [570, 80, 600, 135]
+		  ShowName		  off
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "ugw"
+		  Position		  [635, 103, 665, 117]
+		  InitialOutput		  "0"
+		}
+		Line {
+		  SrcBlock		  "Math\nFunction"
+		  SrcPort		  1
+		  DstBlock		  "Lug/V1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "(2/pi)"
+		  SrcPort		  1
+		  DstBlock		  "Math\nFunction"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Noise"
+		  SrcPort		  1
+		  DstBlock		  "Lug/V1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "sigma_ug"
+		  SrcPort		  1
+		  DstBlock		  "w1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "w1"
+		  SrcPort		  1
+		  DstBlock		  "ugw"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "ug_p"
+		  SrcPort		  1
+		  Points		  [0, 0; 20, 0]
+		  Branch {
+		    DstBlock		    "w1"
+		    DstPort		    2
+		  }
+		  Branch {
+		    Points		    [0, 50; -155, 0]
+		    DstBlock		    "Sum"
+		    DstPort		    2
+		  }
+		}
+		Line {
+		  SrcBlock		  "L_ug"
+		  SrcPort		  1
+		  DstBlock		  "Lug/V"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "V"
+		  SrcPort		  1
+		  DstBlock		  "Lug/V"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "w"
+		  SrcPort		  1
+		  DstBlock		  "ug_p"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Lug/V1"
+		  SrcPort		  1
+		  DstBlock		  "Sum"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Sum"
+		  SrcPort		  1
+		  DstBlock		  "w"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Lug/V"
+		  SrcPort		  1
+		  Points		  [15, 0; 5, 0]
+		  Branch {
+		    DstBlock		    "(2/pi)"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [225, 0; 0, 50]
+		    DstBlock		    "w"
+		    DstPort		    1
+		  }
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Hvgw(s)"
+	      Ports		      [4, 1]
+	      Position		      [285, 141, 365, 244]
+	      TreatAsAtomicUnit	      off
+	      System {
+		Name			"Hvgw(s)"
+		Location		[2, 249, 949, 534]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "sigma_vg"
+		  Position		  [730, 133, 760, 147]
+		  NamePlacement		  "alternate"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "L_vg"
+		  Position		  [20, 28, 50, 42]
+		  Port			  "2"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "V"
+		  Position		  [45, 68, 75, 82]
+		  Port			  "3"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "Noise"
+		  Position		  [210, 208, 240, 222]
+		  Port			  "4"
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "(1/pi)"
+		  Position		  [145, 135, 215, 175]
+		  Gain			  "1/pi"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Lug/V1"
+		  Ports			  [2, 1]
+		  Position		  [280, 124, 305, 246]
+		  ShowName		  off
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Lvg/V"
+		  Ports			  [2, 1]
+		  Position		  [100, 14, 120, 96]
+		  Inputs		  "*/"
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Lvg/V "
+		  Ports			  [2, 1]
+		  Position		  [440, 91, 470, 129]
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Math
+		  Name			  "Math\nFunction"
+		  Ports			  [1, 1]
+		  Position		  [235, 140, 260, 170]
+		  ShowName		  off
+		  Operator		  "sqrt"
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum"
+		  Ports			  [2, 1]
+		  Position		  [325, 175, 345, 195]
+		  ShowName		  off
+		  IconShape		  "round"
+		  Inputs		  "|+-"
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum1"
+		  Ports			  [3, 1]
+		  Position		  [565, 165, 585, 185]
+		  ShowName		  off
+		  IconShape		  "round"
+		  Inputs		  "++-"
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "sqrt(3)"
+		  Position		  [510, 89, 565, 131]
+		  Gain			  "sqrt(3)"
+		}
+		Block {
+		  BlockType		  Integrator
+		  Name			  "vg_p1"
+		  Ports			  [1, 1]
+		  Position		  [440, 160, 470, 190]
+		}
+		Block {
+		  BlockType		  Integrator
+		  Name			  "vgw_p2"
+		  Ports			  [1, 1]
+		  Position		  [690, 150, 720, 180]
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "w"
+		  Ports			  [2, 1]
+		  Position		  [365, 145, 395, 200]
+		  Inputs		  "/*"
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "w "
+		  Ports			  [2, 1]
+		  Position		  [630, 135, 660, 190]
+		  Inputs		  "/*"
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "w 1"
+		  Ports			  [2, 1]
+		  Position		  [785, 125, 815, 180]
+		  ShowName		  off
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "vgw"
+		  Position		  [845, 148, 875, 162]
+		  InitialOutput		  "0"
+		}
+		Line {
+		  SrcBlock		  "Math\nFunction"
+		  SrcPort		  1
+		  DstBlock		  "Lug/V1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "w 1"
+		  SrcPort		  1
+		  DstBlock		  "vgw"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Noise"
+		  SrcPort		  1
+		  DstBlock		  "Lug/V1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "sigma_vg"
+		  SrcPort		  1
+		  DstBlock		  "w 1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Lvg/V"
+		  SrcPort		  1
+		  Points		  [5, 0]
+		  Branch {
+		    DstBlock		    "(1/pi)"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [215, 0]
+		    Branch {
+		    Points		    [0, 105]
+		    DstBlock		    "w"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [70, 0]
+		    Branch {
+		    Points		    [185, 0; 0, 95]
+		    DstBlock		    "w "
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [0, 45]
+		    DstBlock		    "Lvg/V "
+		    DstPort		    1
+		    }
+		    }
+		  }
+		}
+		Line {
+		  SrcBlock		  "Sum"
+		  SrcPort		  1
+		  DstBlock		  "w"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Lug/V1"
+		  SrcPort		  1
+		  DstBlock		  "Sum"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "w"
+		  SrcPort		  1
+		  Points		  [0, 0; 15, 0]
+		  Branch {
+		    DstBlock		    "vg_p1"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, -55]
+		    DstBlock		    "Lvg/V "
+		    DstPort		    2
+		  }
+		}
+		Line {
+		  SrcBlock		  "V"
+		  SrcPort		  1
+		  DstBlock		  "Lvg/V"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "L_vg"
+		  SrcPort		  1
+		  DstBlock		  "Lvg/V"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "vg_p1"
+		  SrcPort		  1
+		  Points		  [-5, 0; 35, 0]
+		  Branch {
+		    Points		    [0, 65; -170, 0]
+		    DstBlock		    "Sum"
+		    DstPort		    2
+		  }
+		  Branch {
+		    DstBlock		    "Sum1"
+		    DstPort		    2
+		  }
+		}
+		Line {
+		  SrcBlock		  "vgw_p2"
+		  SrcPort		  1
+		  Points		  [25, 0]
+		  Branch {
+		    DstBlock		    "w 1"
+		    DstPort		    2
+		  }
+		  Branch {
+		    Points		    [0, 75; -175, 0]
+		    DstBlock		    "Sum1"
+		    DstPort		    3
+		  }
+		}
+		Line {
+		  SrcBlock		  "Sum1"
+		  SrcPort		  1
+		  DstBlock		  "w "
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "w "
+		  SrcPort		  1
+		  DstBlock		  "vgw_p2"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Lvg/V "
+		  SrcPort		  1
+		  DstBlock		  "sqrt(3)"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "sqrt(3)"
+		  SrcPort		  1
+		  Points		  [5, 0]
+		  DstBlock		  "Sum1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "(1/pi)"
+		  SrcPort		  1
+		  DstBlock		  "Math\nFunction"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Hwgw(s)"
+	      Ports		      [4, 1]
+	      Position		      [285, 265, 365, 400]
+	      TreatAsAtomicUnit	      off
+	      System {
+		Name			"Hwgw(s)"
+		Location		[92, 139, 984, 415]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "V"
+		  Position		  [45, 68, 75, 82]
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "L_wg"
+		  Position		  [20, 28, 50, 42]
+		  Port			  "2"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "sigma_wg"
+		  Position		  [730, 128, 760, 142]
+		  NamePlacement		  "alternate"
+		  Port			  "3"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "Noise"
+		  Position		  [220, 198, 250, 212]
+		  Port			  "4"
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "1/pi"
+		  Position		  [150, 126, 210, 164]
+		  Gain			  "1/pi"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Lug/V1"
+		  Ports			  [2, 1]
+		  Position		  [285, 114, 310, 236]
+		  ShowName		  off
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Lwg/V"
+		  Ports			  [2, 1]
+		  Position		  [100, 14, 120, 96]
+		  Inputs		  "*/"
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Lwg/V "
+		  Ports			  [2, 1]
+		  Position		  [460, 81, 490, 119]
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Lwg/V 1"
+		  Ports			  [2, 1]
+		  Position		  [785, 126, 815, 164]
+		  ShowName		  off
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Math
+		  Name			  "Math\nFunction"
+		  Ports			  [1, 1]
+		  Position		  [235, 130, 265, 160]
+		  ShowName		  off
+		  Operator		  "sqrt"
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum"
+		  Ports			  [2, 1]
+		  Position		  [330, 165, 350, 185]
+		  ShowName		  off
+		  IconShape		  "round"
+		  Inputs		  "|+-"
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum1"
+		  Ports			  [3, 1]
+		  Position		  [575, 155, 595, 175]
+		  ShowName		  off
+		  IconShape		  "round"
+		  Inputs		  "++-"
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "sqrt(3)"
+		  Position		  [510, 79, 565, 121]
+		  Gain			  "sqrt(3)"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "w"
+		  Ports			  [2, 1]
+		  Position		  [375, 135, 405, 190]
+		  Inputs		  "/*"
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "w "
+		  Ports			  [2, 1]
+		  Position		  [640, 125, 670, 180]
+		  Inputs		  "/*"
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Integrator
+		  Name			  "wg_p1"
+		  Ports			  [1, 1]
+		  Position		  [460, 150, 490, 180]
+		}
+		Block {
+		  BlockType		  Integrator
+		  Name			  "wg_p2"
+		  Ports			  [1, 1]
+		  Position		  [695, 140, 725, 170]
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "wgw"
+		  Position		  [840, 138, 870, 152]
+		  InitialOutput		  "0"
+		}
+		Line {
+		  SrcBlock		  "1/pi"
+		  SrcPort		  1
+		  DstBlock		  "Math\nFunction"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Noise"
+		  SrcPort		  1
+		  DstBlock		  "Lug/V1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "sigma_wg"
+		  SrcPort		  1
+		  DstBlock		  "Lwg/V 1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Lwg/V 1"
+		  SrcPort		  1
+		  DstBlock		  "wgw"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Lwg/V "
+		  SrcPort		  1
+		  DstBlock		  "sqrt(3)"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "w "
+		  SrcPort		  1
+		  DstBlock		  "wg_p2"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Sum1"
+		  SrcPort		  1
+		  DstBlock		  "w "
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "wg_p2"
+		  SrcPort		  1
+		  Points		  [20, 0]
+		  Branch {
+		    DstBlock		    "Lwg/V 1"
+		    DstPort		    2
+		  }
+		  Branch {
+		    Points		    [0, 70; -165, 0]
+		    DstBlock		    "Sum1"
+		    DstPort		    3
+		  }
+		}
+		Line {
+		  SrcBlock		  "wg_p1"
+		  SrcPort		  1
+		  Points		  [0, 0; 25, 0]
+		  Branch {
+		    DstBlock		    "Sum1"
+		    DstPort		    2
+		  }
+		  Branch {
+		    Points		    [0, 65; -180, 0]
+		    DstBlock		    "Sum"
+		    DstPort		    2
+		  }
+		}
+		Line {
+		  SrcBlock		  "L_wg"
+		  SrcPort		  1
+		  DstBlock		  "Lwg/V"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "V"
+		  SrcPort		  1
+		  DstBlock		  "Lwg/V"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "w"
+		  SrcPort		  1
+		  Points		  [0, 0; 15, 0]
+		  Branch {
+		    DstBlock		    "wg_p1"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, -55]
+		    DstBlock		    "Lwg/V "
+		    DstPort		    2
+		  }
+		}
+		Line {
+		  SrcBlock		  "Lug/V1"
+		  SrcPort		  1
+		  DstBlock		  "Sum"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Sum"
+		  SrcPort		  1
+		  DstBlock		  "w"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Lwg/V"
+		  SrcPort		  1
+		  Points		  [10, 0]
+		  Branch {
+		    DstBlock		    "1/pi"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [220, 0]
+		    Branch {
+		    Points		    [70, 0]
+		    Branch {
+		    Points		    [0, 35]
+		    DstBlock		    "Lwg/V "
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [185, 0; 0, 85]
+		    DstBlock		    "w "
+		    DstPort		    1
+		    }
+		    }
+		    Branch {
+		    Points		    [0, 95]
+		    DstBlock		    "w"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Line {
+		  SrcBlock		  "Math\nFunction"
+		  SrcPort		  1
+		  DstBlock		  "Lug/V1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "sqrt(3)"
+		  SrcPort		  1
+		  Points		  [15, 0]
+		  DstBlock		  "Sum1"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "ugw"
+	      Position		      [390, 63, 420, 77]
+	      OutputWhenDisabled      "reset"
+	      InitialOutput	      "0"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "vgw"
+	      Position		      [390, 188, 420, 202]
+	      Port		      "2"
+	      OutputWhenDisabled      "reset"
+	      InitialOutput	      "0"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "wgw"
+	      Position		      [390, 328, 420, 342]
+	      Port		      "3"
+	      OutputWhenDisabled      "reset"
+	      InitialOutput	      "0"
+	    }
+	    Line {
+	      SrcBlock		      "sigma_wg"
+	      SrcPort		      1
+	      DstBlock		      "Hwgw(s)"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Lwg"
+	      SrcPort		      1
+	      DstBlock		      "Hwgw(s)"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "sigma_ug\nsigma_vg"
+	      SrcPort		      1
+	      Points		      [0, 0; 10, 0]
+	      Branch {
+		Points			[0, 75]
+		DstBlock		"Hvgw(s)"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"Hugw(s)"
+		DstPort			3
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Lug\nLvg"
+	      SrcPort		      1
+	      Points		      [0, 0; 10, 0]
+	      Branch {
+		Points			[0, 125]
+		DstBlock		"Hvgw(s)"
+		DstPort			2
+	      }
+	      Branch {
+		DstBlock		"Hugw(s)"
+		DstPort			2
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "V"
+	      SrcPort		      1
+	      Points		      [0, 0; 5, 0]
+	      Branch {
+		Points			[0, 175]
+		Branch {
+		  Points		  [0, 75]
+		  DstBlock		  "Hwgw(s)"
+		  DstPort		  1
+		}
+		Branch {
+		  Points		  [205, 0]
+		  DstBlock		  "Hvgw(s)"
+		  DstPort		  3
+		}
+	      }
+	      Branch {
+		DstBlock		"Hugw(s)"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      3
+	      DstBlock		      "Hwgw(s)"
+	      DstPort		      4
+	    }
+	    Line {
+	      SrcBlock		      "Hugw(s)"
+	      SrcPort		      1
+	      DstBlock		      "ugw"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Hvgw(s)"
+	      SrcPort		      1
+	      DstBlock		      "vgw"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Hwgw(s)"
+	      SrcPort		      1
+	      DstBlock		      "wgw"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Noise"
+	      SrcPort		      1
+	      DstBlock		      "Demux"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      1
+	      Points		      [30, 0; 0, -260]
+	      DstBlock		      "Hugw(s)"
+	      DstPort		      4
+	    }
+	    Line {
+	      SrcBlock		      "Demux"
+	      SrcPort		      2
+	      Points		      [40, 0; 0, -145]
+	      DstBlock		      "Hvgw(s)"
+	      DstPort		      4
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  Ports			  [3, 1]
+	  Position		  [610, 46, 615, 274]
+	  ShowName		  off
+	  Inputs		  "3"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux1"
+	  Ports			  [3, 1]
+	  Position		  [740, 323, 745, 487]
+	  ShowName		  off
+	  Inputs		  "3"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "RMS turbulence \nintensities"
+	  Ports			  [1, 2]
+	  Position		  [190, 157, 315, 228]
+	  TreatAsAtomicUnit	  off
+	  System {
+	    Name		    "RMS turbulence \nintensities"
+	    Location		    [48, 95, 910, 642]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Altitude"
+	      Position		      [30, 198, 60, 212]
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "High Altitude\nIntensity"
+	      Ports		      [1, 1, 0, 0, 0, 0, 0, 1]
+	      Position		      [355, 282, 505, 358]
+	      TreatAsAtomicUnit	      on
+	      System {
+		Name			"High Altitude\nIntensity"
+		Location		[158, 205, 598, 478]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "h"
+		  Position		  [35, 118, 65, 132]
+		}
+		Block {
+		  BlockType		  ActionPort
+		  Name			  "Action Port"
+		  Position		  [225, 35, 284, 63]
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain"
+		  Position		  [160, 119, 165, 131]
+		  ShowName		  off
+		}
+		Block {
+		  BlockType		  Saturate
+		  Name			  "Limit height\nto table"
+		  Position		  [100, 110, 130, 140]
+		  UpperLimit		  "max(h_vec)"
+		  LowerLimit		  "min(h_vec)"
+		}
+		Block {
+		  BlockType		  Lookup2D
+		  Name			  "Medium/High Altitude\nIntensity"
+		  Position		  [195, 97, 325, 208]
+		  RowIndex		  "h_vec"
+		  ColumnIndex		  "[1:7]"
+		  OutputValues		  "sigma_vec'"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Probability of \nExceedance"
+		  Position		  [80, 169, 145, 191]
+		  Value			  "TurbProb"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "sigma_ug\nsigma_vg\nsigma_wg"
+		  Position		  [365, 148, 395, 162]
+		  OutputWhenDisabled	  "reset"
+		  InitialOutput		  "0"
+		}
+		Line {
+		  SrcBlock		  "h"
+		  SrcPort		  1
+		  DstBlock		  "Limit height\nto table"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Medium/High Altitude\nIntensity"
+		  SrcPort		  1
+		  DstBlock		  "sigma_ug\nsigma_vg\nsigma_wg"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Probability of \nExceedance"
+		  SrcPort		  1
+		  DstBlock		  "Medium/High Altitude\nIntensity"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Limit height\nto table"
+		  SrcPort		  1
+		  DstBlock		  "Gain"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Gain"
+		  SrcPort		  1
+		  DstBlock		  "Medium/High Altitude\nIntensity"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Interpolate"
+	      Ports		      [1, 2, 0, 0, 0, 0, 0, 1]
+	      Position		      [360, 422, 510, 498]
+	      TreatAsAtomicUnit	      on
+	      System {
+		Name			"Interpolate"
+		Location		[-90, 220, 934, 607]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "h"
+		  Position		  [420, 208, 450, 222]
+		}
+		Block {
+		  BlockType		  ActionPort
+		  Name			  "Action Port"
+		  Position		  [450, 20, 509, 48]
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain"
+		  Position		  [240, 259, 245, 271]
+		  ShowName		  off
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Intensity at max height\nfor low al"
+"titude model"
+		  Position		  [25, 92, 140, 118]
+		  Value			  "max_height_low"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Intensity at min height\nfor high a"
+"ltitude model"
+		  Position		  [40, 253, 135, 277]
+		  Value			  "min_height_high"
+		}
+		Block {
+		  BlockType		  Fcn
+		  Name			  "Interpolate"
+		  Position		  [580, 126, 975, 154]
+		  Expr			  "u(1)+(u(4)-u(1))/((min_height_high-"
+"max_height_low))*(u(3)-max_height_low)"
+		}
+		Block {
+		  BlockType		  Fcn
+		  Name			  "Interpolate1"
+		  Position		  [580, 211, 975, 239]
+		  Expr			  "u(2)+(u(4)-u(2))/((min_height_high-"
+"max_height_low))*(u(3)-max_height_low)"
+		}
+		Block {
+		  BlockType		  Saturate
+		  Name			  "Limit height\nto table"
+		  Position		  [180, 250, 210, 280]
+		  UpperLimit		  "max(h_vec)"
+		  LowerLimit		  "min(h_vec)"
+		}
+		Block {
+		  BlockType		  Fcn
+		  Name			  "Low altitude intensity"
+		  Position		  [160, 88, 365, 122]
+		  Expr			  "1/(0.177+0.000823*(u(1)*alt_units))"
+"^0.4"
+		}
+		Block {
+		  BlockType		  Lookup2D
+		  Name			  "Medium/High Altitude\nIntensity"
+		  Position		  [280, 237, 410, 348]
+		  RowIndex		  "h_vec"
+		  ColumnIndex		  "[1:7]"
+		  OutputValues		  "sigma_vec'"
+		}
+		Block {
+		  BlockType		  Mux
+		  Name			  "Mux"
+		  Ports			  [4, 1]
+		  Position		  [535, 92, 540, 288]
+		  ShowName		  off
+		  DisplayOption		  "bar"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Probability of \nExceedance"
+		  Position		  [190, 309, 255, 331]
+		  Value			  "TurbProb"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Windspeed\nat 20ft (6m)"
+		  Position		  [145, 153, 235, 177]
+		  Value			  "W20*gust_units"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "sigma_ug,\nsigma_vg"
+		  Ports			  [2, 1]
+		  Position		  [445, 96, 490, 129]
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "sigma_wg "
+		  Position		  [265, 147, 310, 183]
+		  Gain			  "0.1"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "sigma_wg"
+		  Position		  [1005, 218, 1035, 232]
+		  OutputWhenDisabled	  "reset"
+		  InitialOutput		  "0"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "sigma_ug\nsigma_vg"
+		  Position		  [1010, 133, 1040, 147]
+		  Port			  "2"
+		  OutputWhenDisabled	  "reset"
+		  InitialOutput		  "0"
+		}
+		Line {
+		  SrcBlock		  "Interpolate1"
+		  SrcPort		  1
+		  DstBlock		  "sigma_wg"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Interpolate"
+		  SrcPort		  1
+		  DstBlock		  "sigma_ug\nsigma_vg"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Mux"
+		  SrcPort		  1
+		  Points		  [0, 0; 5, 0]
+		  Branch {
+		    Points		    [0, 35]
+		    DstBlock		    "Interpolate1"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, -50]
+		    DstBlock		    "Interpolate"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "h"
+		  SrcPort		  1
+		  DstBlock		  "Mux"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "sigma_ug,\nsigma_vg"
+		  SrcPort		  1
+		  DstBlock		  "Mux"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Intensity at max height\nfor low al"
+"titude model"
+		  SrcPort		  1
+		  DstBlock		  "Low altitude intensity"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Low altitude intensity"
+		  SrcPort		  1
+		  DstBlock		  "sigma_ug,\nsigma_vg"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "sigma_wg "
+		  SrcPort		  1
+		  Points		  [60, 0]
+		  Branch {
+		    DstBlock		    "Mux"
+		    DstPort		    2
+		  }
+		  Branch {
+		    Points		    [0, -45]
+		    DstBlock		    "sigma_ug,\nsigma_vg"
+		    DstPort		    2
+		  }
+		}
+		Line {
+		  SrcBlock		  "Windspeed\nat 20ft (6m)"
+		  SrcPort		  1
+		  DstBlock		  "sigma_wg "
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Probability of \nExceedance"
+		  SrcPort		  1
+		  DstBlock		  "Medium/High Altitude\nIntensity"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Intensity at min height\nfor high a"
+"ltitude model"
+		  SrcPort		  1
+		  DstBlock		  "Limit height\nto table"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Medium/High Altitude\nIntensity"
+		  SrcPort		  1
+		  Points		  [100, 0; 0, -30]
+		  DstBlock		  "Mux"
+		  DstPort		  4
+		}
+		Line {
+		  SrcBlock		  "Limit height\nto table"
+		  SrcPort		  1
+		  DstBlock		  "Gain"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Gain"
+		  SrcPort		  1
+		  DstBlock		  "Medium/High Altitude\nIntensity"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Low Altitude\nIntensity"
+	      Ports		      [1, 2, 0, 0, 0, 0, 0, 1]
+	      Position		      [355, 57, 505, 133]
+	      NamePlacement	      "alternate"
+	      TreatAsAtomicUnit	      on
+	      System {
+		Name			"Low Altitude\nIntensity"
+		Location		[8, 300, 581, 597]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "h"
+		  Position		  [25, 118, 55, 132]
+		}
+		Block {
+		  BlockType		  ActionPort
+		  Name			  "Action Port"
+		  Position		  [230, 20, 289, 48]
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain"
+		  Position		  [130, 119, 135, 131]
+		  ShowName		  off
+		}
+		Block {
+		  BlockType		  Saturate
+		  Name			  "Limit Height\nh<1000ft"
+		  Position		  [80, 110, 110, 140]
+		  UpperLimit		  "max_height_low"
+		  LowerLimit		  "0"
+		}
+		Block {
+		  BlockType		  Fcn
+		  Name			  "Low Altitude Intensity"
+		  Position		  [155, 109, 345, 141]
+		  Expr			  "1/(0.177+0.000823*(u(1)*alt_units))"
+"^0.4"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Windspeed\nat 20ft (6m)"
+		  Position		  [175, 213, 265, 237]
+		  Value			  "W20*gust_units"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "sigma_ug,\nsigma_vg"
+		  Ports			  [2, 1]
+		  Position		  [400, 116, 445, 149]
+		  RndMeth		  "Floor"
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "sigma_wg "
+		  Position		  [295, 207, 340, 243]
+		  Gain			  "0.1"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "sigma_ug\nsigma_vg"
+		  Position		  [485, 128, 515, 142]
+		  OutputWhenDisabled	  "reset"
+		  InitialOutput		  "0"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "sigma_wg"
+		  Position		  [495, 218, 525, 232]
+		  Port			  "2"
+		  OutputWhenDisabled	  "reset"
+		  InitialOutput		  "0"
+		}
+		Line {
+		  SrcBlock		  "sigma_ug,\nsigma_vg"
+		  SrcPort		  1
+		  DstBlock		  "sigma_ug\nsigma_vg"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "h"
+		  SrcPort		  1
+		  DstBlock		  "Limit Height\nh<1000ft"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Low Altitude Intensity"
+		  SrcPort		  1
+		  DstBlock		  "sigma_ug,\nsigma_vg"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "sigma_wg "
+		  SrcPort		  1
+		  Points		  [0, 0; 30, 0]
+		  Branch {
+		    DstBlock		    "sigma_wg"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, -85]
+		    DstBlock		    "sigma_ug,\nsigma_vg"
+		    DstPort		    2
+		  }
+		}
+		Line {
+		  SrcBlock		  "Windspeed\nat 20ft (6m)"
+		  SrcPort		  1
+		  DstBlock		  "sigma_wg "
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Gain"
+		  SrcPort		  1
+		  DstBlock		  "Low Altitude Intensity"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Limit Height\nh<1000ft"
+		  SrcPort		  1
+		  DstBlock		  "Gain"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum"
+	      Ports		      [3, 1]
+	      Position		      [680, 310, 700, 330]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "+++"
+	      Port {
+		PortNumber		1
+		Name			"sigmaug"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum1"
+	      Ports		      [3, 1]
+	      Position		      [565, 245, 585, 265]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "+++"
+	      Port {
+		PortNumber		1
+		Name			"sigmawg"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      If
+	      Name		      "if Height < Max low altitude \nelseif H"
+"eight > Min isotropic altitude"
+	      Ports		      [1, 3]
+	      Position		      [135, 161, 295, 249]
+	      IfExpression	      "u1<=max_height_low"
+	      ElseIfExpressions	      "u1>=min_height_high"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "sigma_ug,\nsigma_vg "
+	      Position		      [760, 313, 790, 327]
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "sigma_wg"
+	      Position		      [635, 248, 665, 262]
+	      Port		      "2"
+	    }
+	    Line {
+	      Name		      "sigmawg"
+	      Labels		      [1, 0]
+	      SrcBlock		      "Sum1"
+	      SrcPort		      1
+	      DstBlock		      "sigma_wg"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Interpolate"
+	      SrcPort		      1
+	      Points		      [60, 0]
+	      DstBlock		      "Sum1"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Low Altitude\nIntensity"
+	      SrcPort		      2
+	      Points		      [65, 0]
+	      DstBlock		      "Sum1"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "sigmaug"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Sum"
+	      SrcPort		      1
+	      DstBlock		      "sigma_ug,\nsigma_vg "
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Interpolate"
+	      SrcPort		      2
+	      Points		      [175, 0]
+	      DstBlock		      "Sum"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "High Altitude\nIntensity"
+	      SrcPort		      1
+	      Points		      [0, 0; 20, 0]
+	      Branch {
+		Points			[0, -65]
+		DstBlock		"Sum1"
+		DstPort			2
+	      }
+	      Branch {
+		DstBlock		"Sum"
+		DstPort			2
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Low Altitude\nIntensity"
+	      SrcPort		      1
+	      Points		      [180, 0]
+	      DstBlock		      "Sum"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Altitude"
+	      SrcPort		      1
+	      Points		      [15, 0; 15, 0]
+	      Branch {
+		Points			[0, 0]
+		Branch {
+		  Points		  [0, 115]
+		  Branch {
+		    Points		    [0, 140]
+		    DstBlock		    "Interpolate"
+		    DstPort		    1
+		  }
+		  Branch {
+		    DstBlock		    "High Altitude\nIntensity"
+		    DstPort		    1
+		  }
+		}
+		Branch {
+		  DstBlock		  "if Height < Max low altitude \nelse"
+"if Height > Min isotropic altitude"
+		  DstPort		  1
+		}
+	      }
+	      Branch {
+		Points			[0, -110]
+		DstBlock		"Low Altitude\nIntensity"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "if Height < Max low altitude \nelseif H"
+"eight > Min isotropic altitude"
+	      SrcPort		      3
+	      Points		      [20, 0; 0, 172]
+	      DstBlock		      "Interpolate"
+	      DstPort		      ifaction
+	    }
+	    Line {
+	      SrcBlock		      "if Height < Max low altitude \nelseif H"
+"eight > Min isotropic altitude"
+	      SrcPort		      2
+	      Points		      [130, 0]
+	      DstBlock		      "High Altitude\nIntensity"
+	      DstPort		      ifaction
+	    }
+	    Line {
+	      SrcBlock		      "if Height < Max low altitude \nelseif H"
+"eight > Min isotropic altitude"
+	      SrcPort		      1
+	      Points		      [130, 0]
+	      DstBlock		      "Low Altitude\nIntensity"
+	      DstPort		      ifaction
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Turbulence \nscale lengths"
+	  Ports			  [1, 2]
+	  Position		  [85, 85, 180, 160]
+	  TreatAsAtomicUnit	  off
+	  System {
+	    Name		    "Turbulence \nscale lengths"
+	    Location		    [180, 227, 1016, 726]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Altitude"
+	      Position		      [35, 78, 65, 92]
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Interpolate"
+	      Ports		      [1, 2, 0, 0, 0, 0, 0, 1]
+	      Position		      [350, 367, 500, 443]
+	      TreatAsAtomicUnit	      on
+	      System {
+		Name			"Interpolate"
+		Location		[4, 51, 934, 386]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "h"
+		  Position		  [300, 203, 330, 217]
+		}
+		Block {
+		  BlockType		  ActionPort
+		  Name			  "Action Port"
+		  Position		  [355, 15, 414, 43]
+		}
+		Block {
+		  BlockType		  Fcn
+		  Name			  "Interpolate"
+		  Position		  [450, 121, 845, 149]
+		  Expr			  "u(1)+(u(4)-u(1))/((min_height_high-"
+"max_height_low))*(u(3)-max_height_low)"
+		}
+		Block {
+		  BlockType		  Fcn
+		  Name			  "Interpolate1"
+		  Position		  [450, 206, 845, 234]
+		  Expr			  "u(2)+(u(4)-u(2))/((min_height_high-"
+"max_height_low))*(u(3)-max_height_low)"
+		}
+		Block {
+		  BlockType		  Fcn
+		  Name			  "Low Altitude Scale Length"
+		  Position		  [165, 93, 370, 127]
+		  Expr			  "u(1)/(0.177+0.000823*(u(1)*alt_unit"
+"s))^1.2"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Maximum height\nfor low altitude mo"
+"del"
+		  Position		  [20, 96, 125, 124]
+		  Value			  "max_height_low"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Medium/High\nAltitude Scale Length"
+		  Position		  [285, 245, 350, 275]
+		  Value			  "L_high"
+		}
+		Block {
+		  BlockType		  Mux
+		  Name			  "Mux"
+		  Ports			  [4, 1]
+		  Position		  [390, 87, 395, 283]
+		  ShowName		  off
+		  DisplayOption		  "bar"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "L_wg"
+		  Position		  [880, 213, 910, 227]
+		  OutputWhenDisabled	  "reset"
+		  InitialOutput		  "0"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "L_ug\nL_vg"
+		  Position		  [880, 128, 910, 142]
+		  Port			  "2"
+		  OutputWhenDisabled	  "reset"
+		  InitialOutput		  "0"
+		}
+		Line {
+		  SrcBlock		  "Medium/High\nAltitude Scale Length"
+		  SrcPort		  1
+		  DstBlock		  "Mux"
+		  DstPort		  4
+		}
+		Line {
+		  SrcBlock		  "Interpolate1"
+		  SrcPort		  1
+		  DstBlock		  "L_wg"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Interpolate"
+		  SrcPort		  1
+		  DstBlock		  "L_ug\nL_vg"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Mux"
+		  SrcPort		  1
+		  Points		  [0, 0; 20, 0]
+		  Branch {
+		    Points		    [0, 35]
+		    DstBlock		    "Interpolate1"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, -50]
+		    DstBlock		    "Interpolate"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "h"
+		  SrcPort		  1
+		  DstBlock		  "Mux"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Maximum height\nfor low altitude mo"
+"del"
+		  SrcPort		  1
+		  Points		  [0, 0; 20, 0]
+		  Branch {
+		    Points		    [0, 50]
+		    DstBlock		    "Mux"
+		    DstPort		    2
+		  }
+		  Branch {
+		    DstBlock		    "Low Altitude Scale Length"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Low Altitude Scale Length"
+		  SrcPort		  1
+		  DstBlock		  "Mux"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Low altitude\nscale length"
+	      Ports		      [1, 2, 0, 0, 0, 0, 0, 1]
+	      Position		      [345, 47, 495, 123]
+	      NamePlacement	      "alternate"
+	      TreatAsAtomicUnit	      on
+	      System {
+		Name			"Low altitude\nscale length"
+		Location		[48, 95, 586, 312]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "h"
+		  Position		  [15, 103, 45, 117]
+		}
+		Block {
+		  BlockType		  ActionPort
+		  Name			  "Action Port"
+		  Position		  [245, 20, 304, 48]
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain"
+		  Position		  [175, 104, 180, 116]
+		  ShowName		  off
+		}
+		Block {
+		  BlockType		  Saturate
+		  Name			  "Limit Function\n10ft to 1000ft"
+		  Position		  [95, 95, 145, 125]
+		  UpperLimit		  "max_height_low"
+		  LowerLimit		  "10/alt_units"
+		}
+		Block {
+		  BlockType		  Fcn
+		  Name			  "Low Altitude Scale Length"
+		  Position		  [230, 95, 450, 125]
+		  Expr			  "u(1)/(0.177+0.000823*(u(1)*alt_unit"
+"s))^1.2"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "L_ug\nL_vg"
+		  Position		  [480, 103, 510, 117]
+		  OutputWhenDisabled	  "reset"
+		  InitialOutput		  "0"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "L_wg"
+		  Position		  [480, 163, 510, 177]
+		  Port			  "2"
+		  OutputWhenDisabled	  "reset"
+		  InitialOutput		  "0"
+		}
+		Line {
+		  SrcBlock		  "h"
+		  SrcPort		  1
+		  DstBlock		  "Limit Function\n10ft to 1000ft"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Low Altitude Scale Length"
+		  SrcPort		  1
+		  DstBlock		  "L_ug\nL_vg"
+		  DstPort		  1
+		}
+		Line {
+		  Labels		  [0, 0]
+		  SrcBlock		  "Limit Function\n10ft to 1000ft"
+		  SrcPort		  1
+		  DstBlock		  "Gain"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Gain"
+		  SrcPort		  1
+		  Points		  [15, 0]
+		  Branch {
+		    Labels		    [2, 0]
+		    Points		    [0, 60]
+		    DstBlock		    "L_wg"
+		    DstPort		    1
+		  }
+		  Branch {
+		    DstBlock		    "Low Altitude Scale Length"
+		    DstPort		    1
+		  }
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Medium/High altitude\nscale length"
+	      Ports		      [0, 1, 0, 0, 0, 0, 0, 1]
+	      Position		      [345, 227, 495, 303]
+	      TreatAsAtomicUnit	      on
+	      System {
+		Name			"Medium/High altitude\nscale length"
+		Location		[26, 73, 268, 257]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  ActionPort
+		  Name			  "Action Port"
+		  Position		  [90, 20, 149, 48]
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Medium/High\nAltitude"
+		  Position		  [20, 85, 115, 115]
+		  Value			  "L_high"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "L_ug\nL_vg\nL_wg"
+		  Position		  [165, 93, 195, 107]
+		  OutputWhenDisabled	  "reset"
+		  InitialOutput		  "0"
+		}
+		Line {
+		  SrcBlock		  "Medium/High\nAltitude"
+		  SrcPort		  1
+		  DstBlock		  "L_ug\nL_vg\nL_wg"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum"
+	      Ports		      [3, 1]
+	      Position		      [580, 255, 600, 275]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "+++"
+	      Port {
+		PortNumber		1
+		Name			"Lwg"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum1"
+	      Ports		      [3, 1]
+	      Position		      [670, 180, 690, 200]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "+++"
+	      Port {
+		PortNumber		1
+		Name			"Lug"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      If
+	      Name		      "if Height < Max low altitude \nelseif H"
+"eight > Min isotropic altitude\n"
+	      Ports		      [1, 3]
+	      Position		      [145, 153, 240, 237]
+	      IfExpression	      "u1<=max_height_low"
+	      ElseIfExpressions	      "u1>=min_height_high"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "L_ug,\nL_vg"
+	      Position		      [725, 183, 755, 197]
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "L_wg"
+	      Position		      [635, 258, 665, 272]
+	      Port		      "2"
+	    }
+	    Line {
+	      SrcBlock		      "Altitude"
+	      SrcPort		      1
+	      Points		      [0, 0; 10, 0]
+	      Branch {
+		DstBlock		"Low altitude\nscale length"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 110]
+		Branch {
+		  Points		  [0, 210]
+		  DstBlock		  "Interpolate"
+		  DstPort		  1
+		}
+		Branch {
+		  DstBlock		  "if Height < Max low altitude \nelse"
+"if Height > Min isotropic altitude\n"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "if Height < Max low altitude \nelseif H"
+"eight > Min isotropic altitude\n"
+	      SrcPort		      1
+	      Points		      [175, 0]
+	      DstBlock		      "Low altitude\nscale length"
+	      DstPort		      ifaction
+	    }
+	    Line {
+	      SrcBlock		      "if Height < Max low altitude \nelseif H"
+"eight > Min isotropic altitude\n"
+	      SrcPort		      2
+	      Points		      [175, 0]
+	      DstBlock		      "Medium/High altitude\nscale length"
+	      DstPort		      ifaction
+	    }
+	    Line {
+	      SrcBlock		      "if Height < Max low altitude \nelseif H"
+"eight > Min isotropic altitude\n"
+	      SrcPort		      3
+	      Points		      [65, 0; 0, 125; 115, 0]
+	      DstBlock		      "Interpolate"
+	      DstPort		      ifaction
+	    }
+	    Line {
+	      SrcBlock		      "Interpolate"
+	      SrcPort		      2
+	      Points		      [85, 0]
+	      DstBlock		      "Sum"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Interpolate"
+	      SrcPort		      1
+	      Points		      [175, 0]
+	      DstBlock		      "Sum1"
+	      DstPort		      3
+	    }
+	    Line {
+	      Name		      "Lwg"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Sum"
+	      SrcPort		      1
+	      DstBlock		      "L_wg"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "Lug"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Sum1"
+	      SrcPort		      1
+	      DstBlock		      "L_ug,\nL_vg"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Low altitude\nscale length"
+	      SrcPort		      1
+	      Points		      [180, 0]
+	      DstBlock		      "Sum1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Low altitude\nscale length"
+	      SrcPort		      2
+	      Points		      [90, 0]
+	      DstBlock		      "Sum"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Medium/High altitude\nscale length"
+	      SrcPort		      1
+	      Points		      [35, 0]
+	      Branch {
+		DstBlock		"Sum"
+		DstPort			2
+	      }
+	      Branch {
+		Points			[0, -75]
+		DstBlock		"Sum1"
+		DstPort			2
+	      }
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "White Noise\n(p)"
+	  Ports			  [0, 1]
+	  Position		  [530, 450, 560, 480]
+	  SourceBlock		  "simulink/Sources/Band-Limited\nWhite Noise"
+	  SourceType		  "Continuous White Noise."
+	  Cov			  "1"
+	  Ts			  "ts"
+	  seed			  "Seed(4)"
+	  VectorParams1D	  "on"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "White Noise\n(u,v,w)"
+	  Ports			  [0, 1]
+	  Position		  [350, 55, 380, 85]
+	  NamePlacement		  "alternate"
+	  SourceBlock		  "simulink/Sources/Band-Limited\nWhite Noise"
+	  SourceType		  "Continuous White Noise."
+	  Cov			  "[1 1 1]"
+	  Ts			  "ts"
+	  seed			  "Seed(1:3)"
+	  VectorParams1D	  "on"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "knots-->ft/sec"
+	  Position		  [225, 371, 305, 409]
+	  Gain			  "gust_units"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "ug,vg,wg"
+	  Position		  [765, 153, 795, 167]
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "pg,qg,rg"
+	  Position		  [770, 398, 800, 412]
+	  Port			  "2"
+	}
+	Line {
+	  SrcBlock		  "Constant1"
+	  SrcPort		  1
+	  DstBlock		  "Filters on angular rates"
+	  DstPort		  enable
+	}
+	Line {
+	  SrcBlock		  "Constant"
+	  SrcPort		  1
+	  DstBlock		  "Filters on velocities"
+	  DstPort		  enable
+	}
+	Line {
+	  Name			  "wgw"
+	  SrcBlock		  "Filters on velocities"
+	  SrcPort		  3
+	  Points		  [-5, 0; 20, 0]
+	  Branch {
+	    Points		    [0, 130]
+	    DstBlock		    "Filters on angular rates"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Labels		    [-1, 1]
+	    DstBlock		    "Mux"
+	    DstPort		    3
+	  }
+	}
+	Line {
+	  Name			  "vgw"
+	  SrcBlock		  "Filters on velocities"
+	  SrcPort		  2
+	  Points		  [-5, 0; 35, 0]
+	  Branch {
+	    Points		    [0, 180]
+	    DstBlock		    "Filters on angular rates"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Labels		    [-1, 1]
+	    DstBlock		    "Mux"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  SrcBlock		  "RMS turbulence \nintensities"
+	  SrcPort		  1
+	  DstBlock		  "Filters on velocities"
+	  DstPort		  4
+	}
+	Line {
+	  Name			  "ugw"
+	  Labels		  [-1, 1]
+	  SrcBlock		  "Filters on velocities"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "rgw"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Filters on angular rates"
+	  SrcPort		  3
+	  DstBlock		  "Mux1"
+	  DstPort		  3
+	}
+	Line {
+	  Name			  "qgw"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Filters on angular rates"
+	  SrcPort		  2
+	  DstBlock		  "Mux1"
+	  DstPort		  2
+	}
+	Line {
+	  Name			  "pgw"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Filters on angular rates"
+	  SrcPort		  1
+	  DstBlock		  "Mux1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Mux1"
+	  SrcPort		  1
+	  DstBlock		  "pg,qg,rg"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  DstBlock		  "-->original\n   units"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "RMS turbulence \nintensities"
+	  SrcPort		  2
+	  Points		  [0, 0; 10, 0]
+	  Branch {
+	    DstBlock		    "Filters on velocities"
+	    DstPort		    5
+	  }
+	  Branch {
+	    Points		    [0, 230]
+	    DstBlock		    "Filters on angular rates"
+	    DstPort		    5
+	  }
+	}
+	Line {
+	  SrcBlock		  "Turbulence \nscale lengths"
+	  SrcPort		  2
+	  Points		  [-5, 0; 170, 0]
+	  Branch {
+	    Points		    [0, 275]
+	    DstBlock		    "Filters on angular rates"
+	    DstPort		    4
+	  }
+	  Branch {
+	    DstBlock		    "Filters on velocities"
+	    DstPort		    3
+	  }
+	}
+	Line {
+	  SrcBlock		  "Turbulence \nscale lengths"
+	  SrcPort		  1
+	  DstBlock		  "Filters on velocities"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "knots-->ft/sec"
+	  SrcPort		  1
+	  Points		  [0, 0; 60, 0]
+	  Branch {
+	    DstBlock		    "Filters on angular rates"
+	    DstPort		    3
+	  }
+	  Branch {
+	    Points		    [0, -145]
+	    DstBlock		    "Filters on velocities"
+	    DstPort		    6
+	  }
+	}
+	Line {
+	  SrcBlock		  "Airspeed"
+	  SrcPort		  1
+	  DstBlock		  "knots-->ft/sec"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Altitude"
+	  SrcPort		  1
+	  Points		  [0, 0; 10, 0]
+	  Branch {
+	    Points		    [0, 70]
+	    DstBlock		    "RMS turbulence \nintensities"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Turbulence \nscale lengths"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "-->original\n   units"
+	  SrcPort		  1
+	  DstBlock		  "ug,vg,wg"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "White Noise\n(u,v,w)"
+	  SrcPort		  1
+	  DstBlock		  "Filters on velocities"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "White Noise\n(p)"
+	  SrcPort		  1
+	  DstBlock		  "Filters on angular rates"
+	  DstPort		  6
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Wind Shear Model"
+      Ports		      [2, 1]
+      Position		      [65, 238, 255, 302]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Wind Shear Model"
+      MaskDescription	      "Calculate the wind shear from conditions measur"
+"ed at a height of 6 meters (20 feet) above the ground. "
+      MaskHelp		      "web(asbhelp);"
+      MaskPromptString	      "Units of velocity:|Flight phase:|Wind speed at "
+"6 meters altitude (meters/second):|Wind direction at 6 meters altitude (degre"
+"es clockwise from north):"
+      MaskStyleString	      "popup(meters/second|feet/second|knots),popup(Ca"
+"tegory C - Terminal Flight Phase|Other),edit,edit"
+      MaskTunableValueString  "off,on,on,on"
+      MaskCallbackString      "aeroicon('aeroblkwindshear')|||"
+      MaskEnableString	      "on,on,on,on"
+      MaskVisibilityString    "on,on,on,on"
+      MaskToolTipString	      "on,on,on,on"
+      MaskVarAliasString      ",,,"
+      MaskVariables	      "v_units=&1;phase=@2;W_20=@3;Wdeg=@4;"
+      MaskInitialization      "m2ft= 3.28084;\nif strcmp(v_units, 'meters/seco"
+"nd')\n  if phase == 1;z0 = 0.15/m2ft;else;z0=2.0/m2ft;end;\n  min_height = 3/"
+"m2ft;\n  ref_height = 6;\n  mask_text1='m';\n  mask_text2='m/s';\nelseif strc"
+"mp(v_units, 'feet/second')\n  if phase == 1;z0 = 0.15;else;z0=2.0;end;\n  min"
+"_height = 3;\n  ref_height = 20;\n  mask_text1='ft';\n  mask_text2='ft/s';\ne"
+"lse\n  if phase == 1;z0 = 0.15;else;z0=2.0;end;\n  min_height = 3;\n  ref_hei"
+"ght = 20;\n  mask_text1='ft';\n  mask_text2='knots';\nend"
+      MaskDisplay	      "port_label('output', 1, ['Wind velocity (', mas"
+"k_text2, ')'])\nport_label('input', 1, ['Altitude (', mask_text1, ')'])\nport"
+"_label('input', 2, 'DCM')"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "meters/second|Category C - Terminal Flight Phas"
+"e|15|0"
+      System {
+	Name			"Wind Shear Model"
+	Location		[4, 51, 757, 362]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Altitude"
+	  Position		  [15, 33, 45, 47]
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "DCM"
+	  Position		  [440, 38, 470, 52]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Saturate
+	  Name			  "3ft-->Inf"
+	  Position		  [95, 25, 125, 55]
+	  UpperLimit		  "inf"
+	  LowerLimit		  "min_height"
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  Ports			  [3, 1]
+	  Position		  [335, 178, 340, 282]
+	  ShowName		  off
+	  Inputs		  "3"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product"
+	  Ports			  [2, 1]
+	  Position		  [325, 68, 355, 112]
+	  ShowName		  off
+	  Inputs		  "*/"
+	  RndMeth		  "Floor"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product1"
+	  Ports			  [2, 1]
+	  Position		  [420, 79, 450, 121]
+	  ShowName		  off
+	  RndMeth		  "Floor"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "SinCos"
+	  Ports			  [1, 2]
+	  Position		  [225, 171, 260, 204]
+	  SourceBlock		  "aerolibutil/SinCos"
+	  SourceType		  "SinCos"
+	  Port {
+	    PortNumber		    1
+	    Name		    "Wy"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    2
+	    Name		    "Wx"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Transform\nfrom Inertial to\nBody axes"
+	  Ports			  [2, 1]
+	  Position		  [515, 64, 560, 111]
+	  Inputs		  "**"
+	  Multiplication	  "Matrix(*)"
+	  RndMeth		  "Floor"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Wdeg1"
+	  Position		  [245, 250, 275, 280]
+	  ShowName		  off
+	  Value			  "0"
+	  Port {
+	    PortNumber		    1
+	    Name		    "Wz"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Wind\nDirection"
+	  Position		  [30, 173, 65, 207]
+	  Value			  "Wdeg"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Wind speed\nat reference height"
+	  Position		  [351, 145, 409, 200]
+	  Orientation		  "up"
+	  Gain			  "-W_20"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "deg_to_rad"
+	  Position		  [125, 172, 185, 208]
+	  Gain			  "pi/180"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "h/z0"
+	  Position		  [170, 22, 215, 58]
+	  Gain			  "1/z0"
+	}
+	Block {
+	  BlockType		  Math
+	  Name			  "ln(h/z0)"
+	  Ports			  [1, 1]
+	  Position		  [265, 25, 295, 55]
+	  Operator		  "log"
+	}
+	Block {
+	  BlockType		  Math
+	  Name			  "ln(ref_height/z0)"
+	  Ports			  [1, 1]
+	  Position		  [265, 85, 295, 115]
+	  Operator		  "log"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "ref_height/z_0"
+	  Position		  [155, 88, 225, 112]
+	  Value			  "ref_height/z0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Mean\nWind"
+	  Position		  [595, 83, 625, 97]
+	}
+	Line {
+	  SrcBlock		  "Altitude"
+	  SrcPort		  1
+	  DstBlock		  "3ft-->Inf"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Product"
+	  SrcPort		  1
+	  DstBlock		  "Product1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "ln(ref_height/z0)"
+	  SrcPort		  1
+	  DstBlock		  "Product"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "ln(h/z0)"
+	  SrcPort		  1
+	  Points		  [10, 0]
+	  DstBlock		  "Product"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "ref_height/z_0"
+	  SrcPort		  1
+	  DstBlock		  "ln(ref_height/z0)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "h/z0"
+	  SrcPort		  1
+	  DstBlock		  "ln(h/z0)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "3ft-->Inf"
+	  SrcPort		  1
+	  DstBlock		  "h/z0"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Transform\nfrom Inertial to\nBody axes"
+	  SrcPort		  1
+	  DstBlock		  "Mean\nWind"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Wind\nDirection"
+	  SrcPort		  1
+	  DstBlock		  "deg_to_rad"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wx"
+	  Labels		  [0, 0]
+	  SrcBlock		  "SinCos"
+	  SrcPort		  2
+	  DstBlock		  "Mux"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wy"
+	  Labels		  [0, 0]
+	  SrcBlock		  "SinCos"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, 50]
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "deg_to_rad"
+	  SrcPort		  1
+	  DstBlock		  "SinCos"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Wz"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Wdeg1"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  Points		  [35, 0]
+	  DstBlock		  "Wind speed\nat reference height"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Product1"
+	  SrcPort		  1
+	  DstBlock		  "Transform\nfrom Inertial to\nBody axes"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "DCM"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, 30]
+	  DstBlock		  "Transform\nfrom Inertial to\nBody axes"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Wind speed\nat reference height"
+	  SrcPort		  1
+	  Points		  [0, -30]
+	  DstBlock		  "Product1"
+	  DstPort		  2
+	}
+      }
+    }
+  }
+}

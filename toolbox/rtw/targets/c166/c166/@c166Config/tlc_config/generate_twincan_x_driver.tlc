@@ -1,0 +1,660 @@
+%% File: generate_twincan_x_driver.tlc
+%%
+%% Abstract:
+%%   Generate the file twincan_driver.c containing the driver code
+%%   for a TwinCAN module.
+%%   
+%%
+%% $Revision: 1.1.6.6 $
+%% $Date: 2004/04/19 01:18:26 $
+%%
+%% Copyright 2002-2004 The MathWorks, Inc.
+
+%function SLibGenerateTwinCanXDriver(record) Output
+  %assign recordA = SLibSubsRef(record,"CAN_A")
+  %assign recordB = SLibSubsRef(record,"CAN_B")
+  %assign enabledA = SLibSubsRef(recordA,"Module_enabled")
+  %assign enabledB = SLibSubsRef(recordB,"Module_enabled")
+  %assign intDrivenFifoTxA = SLibSubsRef(recordA,"RequireIntDrivenFifoTx")
+  %assign intDrivenFifoTxB = SLibSubsRef(recordB,"RequireIntDrivenFifoTx")
+  %assign intDrivenFifoTxAorB = (intDrivenFifoTxB || intDrivenFifoTxA)
+  /* Real-Time Workshop code generation for Simulink model "%<CompiledModel.Name>.mdl".
+  *
+  * Model Version : %<ModelVersion>
+  * Real-Time Workshop file version : %<Version>
+  * Real-Time Workshop file generated on : %<GeneratedOn>
+  * TLC version : %<TLC_VERSION>
+  * File generated on : %<TLC_TIME>
+  *
+  * This file implements CAN driver functions for a TwinCAN module.
+  */
+  
+  /* Includes */
+  #include <string.h>
+  #include "%<CompiledModel.Settings.TaskingRegisterDefs>" /* For selected C166 architecture */
+  #include "tmwtypes.h"
+  #include "twincan_driver.h"
+  #include "profile.h"
+  #include "profile_utils.h"
+  #include "xc164cs_can.h"
+
+  /* Typedefs */
+  typedef struct CAN_MSG_BUFFER_tag {
+    volatile uint8_T DATA[8];
+    volatile uint32_T AR;
+    volatile uint32_T AMRH;
+    volatile uint16_T CTRL;
+    volatile uint16_T CTRH;
+    volatile uint16_T CFGL;
+    volatile uint16_T CFGH;
+    volatile uint16_T FGCRL;
+    volatile uint16_T FGCRH;
+    volatile uint16_T reserved1;
+    volatile uint16_T reserved2;
+  } CAN_MSG_BUFFER;
+  
+
+  /* Defines */
+  
+  /* CAN interrupt control registers */
+  #define CAN_0IC       (*((uint_T volatile *) 0xf196))
+  #define CAN_1IC       (*((uint_T volatile *) 0xf142))
+  #define CAN_2IC       (*((uint_T volatile *) 0xf144))
+  #define CAN_3IC       (*((uint_T volatile *) 0xf146))
+  #define CAN_4IC       (*((uint_T volatile *) 0xf148))
+  #define CAN_5IC       (*((uint_T volatile *) 0xf14A))
+  #define CAN_6IC       (*((uint_T volatile *) 0xf14C))
+  #define CAN_7IC       (*((uint_T volatile *) 0xf14E))
+  
+  
+  /* Interrupt Node Pointers */
+  #define INTNODE_MSGBUF_GENERAL_A 0
+  #define INTNODE_MSGBUF_GENERAL_B 1
+
+  /* Trap numbers for interrupt service routines */
+  #define CAN_0IC_TRAP (0x54)
+  #define CAN_1IC_TRAP (0x55)
+  #define CAN_2IC_TRAP (0x56)
+  #define CAN_3IC_TRAP (0x57)
+  /* unassigned node   (0x58) */
+  #define CAN_4IC_TRAP (0x59)
+  #define CAN_5IC_TRAP (0x5A)
+  #define CAN_6IC_TRAP (0x5B)
+  #define CAN_7IC_TRAP (0x5C)
+  
+  #define SET_RMTPND      (0xBFFFU)
+  #define SET_TXRQ        (0xEFFFU)
+  #define SET_MSGLST      (0xFBFFU)
+  #define SET_CPUUPD      SET_MSGLST
+  #define SET_NEWDAT      (0xFEFFU)
+  #define SET_MSGVAL      (0xFFBFU)
+  #define SET_TXIE        (0xFFEFU)
+  #define SET_RXIE        (0xFFFBU)
+  #define SET_INTPND      (0xFFFEU)
+  
+  #define CLEAR_RMTPND      (0x7FFFU)
+  #define CLEAR_TXRQ        (0xDFFFU)
+  #define CLEAR_MSGLST      (0xF7FFU)
+  #define CLEAR_CPUUPD      CLEAR_MSGLST
+  #define CLEAR_NEWDAT      (0xFDFFU)
+  #define CLEAR_MSGVAL      (0xFF7FU)
+  #define CLEAR_TXIE        (0xFFDFU)
+  #define CLEAR_RXIE        (0xFFF7U)
+  #define CLEAR_INTPND      (0xFFFDU)
+  
+  #define IS_SET_TXRQ(MCR)     ( ( (MCR) & (~SET_TXRQ    ) ) == 0 )
+  #define IS_SET_NEWDAT(MCR)   ( ( (MCR) & (~SET_NEWDAT  ) ) == 0 )
+  #define IS_CLEAR_TXRQ(MCR)   ( ( (MCR) & (~CLEAR_TXRQ  ) ) == 0 )
+  #define IS_CLEAR_MSGVAL(MCR) ( ( (MCR) & (~CLEAR_MSGVAL) ) == 0 )
+  
+  #define CAN_0IC_TRAP (0x54)
+  #define CAN_1IC_TRAP (0x55)
+  
+  #define NUM_BUFFERS 32
+
+  /* Local function prototypes */
+  %if intDrivenFifoTxAorB == 1
+  static void service_transmit_fifo(uint_T bufferNo, uint_T node, 
+                             MESSAGE_CIRCULAR_BUFFER * circBuf);
+  %endif
+  %if intDrivenFifoTxA == 1
+    static void init_interrupts_msg_buf_general_A(void);
+  %endif     
+  %if intDrivenFifoTxB == 1
+    static void init_interrupts_msg_buf_general_B(void);
+  %endif   
+
+
+  
+  /* Local variables */
+  far CAN_MSG_BUFFER * msg_buffers;
+  
+  %if intDrivenFifoTxAorB == 1
+    /* When interrupts are used, each buffer may have extra data that must
+    * be accessed during the interrupt callback */
+    void * callbackData[NUM_BUFFERS];
+  %endif
+  
+  %if intDrivenFifoTxAorB == 1
+    %<FcnIntDrivenFifoTxFcnsGeneral()>
+  %endif
+
+  %if intDrivenFifoTxA == 1
+    %<FcnIntDrivenFifoTxFcns("A", recordA)>
+  %endif
+  
+  %if intDrivenFifoTxB == 1
+    %<FcnIntDrivenFifoTxFcns("B", recordB)>
+  %endif
+  
+  
+  /* Initialize the TwinCAN module */
+  void twincan_init(void) {
+    
+    msg_buffers = ( CAN_MSG_BUFFER far * ) 0x200300;
+    
+    /* Reset CAN nodes A and B, allowing CPU access to the bit timing registers */
+    %assign csr_init = 1
+    %assign csr_cce = 1
+    %assign csr = (csr_init) + (csr_cce << 6)
+    %assign crReset = "%<SPRINTF("0x%x",csr)>U"
+    CAN_ACR = %<crReset>;
+    CAN_BCR = %<crReset>;
+    
+    %assign risa = 0
+    %assign risb = 1
+    /* The input pins used by each CAN node are defined by fields RISA and RISB
+    * in register CAN_PISEL as follows:
+    * 
+    *  RISA     | Input pin used for RXDCA
+    *  ---------|-----------------------------------------------
+    *  000      | P4.5 (default for Infineon XC167CI Starter Kit)
+    *  001      | P4.7
+    *  010      | P7.6
+    *
+    *  RISB     | Input pin used for RXDCB
+    *  ---------|-----------------------------------------------
+    *  000      | P4.4
+    *  001      | P9.0 (default for Infineon XC167CI Starter Kit)
+    *  010      | P7.4
+    *
+    *
+    * Actual settings of fields in CAN_PISEL are:
+    *
+    * RISA = %<risa>
+    * RISB = %<risb>
+    */
+    CAN_PISEL = %<SPRINTF("0x%x", (risa + risb << 3))>U;
+    
+    /* The output pins used by each CAN node are defined by the port alternate function
+    * selection and direction control register settings. TxDCA may be connected to one of:
+    * 
+    * P4_6 (default for Infineon XC167CI Starter Kit)
+    * P7_7 
+    * P9_3
+    *
+    * TxDCB may be connected to one of 
+    *
+    * P4_7
+    * P7_5
+    * P9_1 (default for Infineon XC167CI Starter Kit)
+    */
+
+    %if enabledA==1
+    /* Select output pin for CAN A, TxDCA */
+    AS0P4_6 = 1; 
+    /* Workaround to achieve DP4_6 = 1; problem is incorrect address for DP4 in 
+     * regxc167ci.def with Tasking v8.0r1 */
+    {
+      uint_T * p = (uint_T *) 0xFFCA;
+      *p |= 0x0040;
+    }
+    %endif
+    
+    %if enabledB==1
+    /* Select output pin for CAN B, TxDCB */
+    AS0P9_1 = 1;
+    AS1P9_1 = 1;
+    DP9_1 = 1;
+    %endif
+    
+    %if enabledA==1
+      %<FcnInitBitTiming("A",recordA)>
+    %endif
+
+    %if enabledB==1
+      %<FcnInitBitTiming("B",recordB)>
+    %endif
+   
+    /* Reset all message objects */
+    {
+      uint8_T i;
+      for (i=0; i<32; i++) {
+	msg_buffers[i].CTRL = ( CLEAR_RMTPND & CLEAR_TXRQ
+	& CLEAR_CPUUPD & CLEAR_NEWDAT 
+	& CLEAR_MSGVAL & CLEAR_TXIE 
+	& CLEAR_RXIE   & CLEAR_INTPND );
+      }
+    }
+    
+   %if intDrivenFifoTxA==1
+   /* Configure general message buffer interrupt handling for node A */
+   init_interrupts_msg_buf_general_A();
+   %endif
+   
+   %if intDrivenFifoTxB==1
+   /* Configure general message buffer interrupt handling for node B */
+   init_interrupts_msg_buf_general_B();
+   %endif   
+  }
+  
+/* Process a received message */
+uint_T can_receive_msg(CAN_FRAME *msg, uint_T bufferNo) {
+  
+  CAN_MSG_BUFFER far * buffer = & (msg_buffers[bufferNo]);
+  uint_T rtn_value = NO_MSG_RECEIVED;
+
+  if (IS_SET_NEWDAT(buffer->CTRL)){
+    buffer->CTRL = CLEAR_NEWDAT;
+
+    {
+      uint16_T xtd     = ((buffer->CFGL) >> 2) & 0x1;
+      uint16_T length  = ((buffer->CFGL) >> 4) & 0x0F;
+      uint32_T id;
+      uint8_T data[8]; 
+      
+      /* Protect against illegal CAN messages with length > 8 */
+      if (length>8) {
+	length=8;
+      }
+
+      
+      if (xtd == 0) {
+	id = (buffer->AR) >> 18;
+      } else {
+	id = buffer->AR;
+      }
+
+      {      
+         uint16_T i;
+         for (i=0; i<length; i++) {
+	   data[i] = buffer->DATA[i];
+         }
+      }
+
+      /* Only copy if NEWDAT is still clear, i.e. we have consistent data */
+      if (IS_SET_NEWDAT(buffer->CTRL)) {
+	rtn_value = MSG_LOST; /* Recieve buffer is not being polled fast enough */
+      } else {	
+         uint16_T i;
+         for (i=0; i<length; i++) {
+	   msg->DATA[i] = data[i];
+         }
+	 msg->LENGTH = length;
+	 msg->ID = id;
+	 rtn_value = MSG_RECEIVED;
+       }
+     }
+   }
+   return rtn_value;
+}
+
+/* Node independent part of buffer initialization to receive messages */
+void can_init_receive(uint_T bufferNo, CanFrameType type, uint32_T id, 
+                             uint_T node) {
+  
+  uint16_T xtd;
+  
+  CAN_MSG_BUFFER far * buffer = & (msg_buffers[bufferNo]);
+  
+  if (type == CAN_MESSAGE_EXTENDED) {
+    xtd = 1;
+    buffer->AR = id;
+  } else {
+    /* CAN_MESSAGE_STANDARD */
+    xtd = 0;
+    buffer->AR = id << 18;
+  }
+  
+  buffer->CFGL = (xtd << 2) + (node << 1);
+  
+  buffer->CTRL = CLEAR_TXIE & CLEAR_RXIE & CLEAR_INTPND & CLEAR_RMTPND 
+  & CLEAR_TXRQ & CLEAR_MSGLST & CLEAR_NEWDAT & SET_MSGVAL;
+  
+}    
+  
+void can_load_msg(const CAN_FRAME * msg, uint_T bufferNo, uint_T node) {
+
+    uint16_T xtd;
+    uint16_T i;
+    uint16_T length = msg->LENGTH;
+    CAN_MSG_BUFFER far * buffer = & (msg_buffers[bufferNo]);
+
+    /* Prepare the message object for update of its contents */
+    buffer->CTRL = ( SET_CPUUPD  & (SET_NEWDAT) );
+
+    if (msg->type == CAN_MESSAGE_EXTENDED) {
+      xtd = 1;
+      buffer->AR = msg->ID; 
+    } else {
+      /* CAN_MESSAGE_STANDARD */
+      xtd = 0;
+      buffer->AR = ( msg->ID ) << 18;
+    }
+    
+    buffer->CFGL = (node << 1) + (xtd << 2) + (1U << 3) + (length << 4);
+    
+    for (i=0; i<length; i++) {
+      buffer->DATA[i] = msg->DATA[i];
+    }
+    
+    /* Set MSGVAL and TXRQ to send the message */
+    buffer->CTRL = (SET_MSGVAL) & (SET_TXRQ) & (CLEAR_CPUUPD);
+  }
+  
+  %if enabledA == 1
+    %<FcnCanModuleFunctions("A",recordA)>
+  %endif
+
+  %if enabledB == 1
+    %<FcnCanModuleFunctions("B",recordB)>
+  %endif
+
+  %endfunction
+  
+  %function FcnRaiseCPUPriority(module,IRQLEVEL) Output 
+    %assign timerInterruptLevel = SLibC166TimersGetTimerInterruptLevel()
+    %if timerInterruptLevel > IRQLEVEL
+      %assign msg = ...
+	"The CAN interrupt priority level for CAN module %<module> is lower than "...
+	"the timer interrupt priority level. This is unsupported. To resolve this "...
+	"You must change the interrupt priority levels in the C166 Resource "...
+	"Configuration"
+      %exit %<msg>
+    %endif
+    /* Raise current CPU priority level to prevent interrupts from CAN module %<module> */
+    %<SLibC166TimersSetCPULevel(IRQLEVEL)>
+    %assign tmpLevel = SPRINTF("#0%xh",(IRQLEVEL)<<4)
+  %endfunction
+    
+  %function FcnRestoreCPUPriority() Output
+    %assign timerInterruptLevel = SLibC166TimersGetTimerInterruptLevel()
+    /* Restore CPU priority level to permit timer interrupts */
+    %<SLibC166TimersSetCPULevel(timerInterruptLevel-1)>
+  %endfunction
+  
+  %function FcnInitBitTiming(module,record) Output
+    
+    %assign CANBITRATE = SLibSubsRef(record,"Timing.CAN_bit_rate")
+    %assign NUMQUANTA = SLibSubsRef(record,"Timing.Number_of_quanta")
+    %assign SAMPLEPOINT = SLibSubsRef(record,"Timing.Sample_point")
+    %assign PRESDIV = SLibSubsRef(record,"Timing.Register_Configuration")[0]
+    %assign PROPSEG = SLibSubsRef(record,"Timing.Register_Configuration")[1]
+    %assign PSEG1 = SLibSubsRef(record,"Timing.Register_Configuration")[2]
+    %assign PSEG2 = SLibSubsRef(record,"Timing.Register_Configuration")[3]
+    %assign RJW = SLibSubsRef(record,"Timing.Resynchronization_jump_width")
+    
+    %assign BTR_TSEG1 = PROPSEG + PSEG1 - 1
+    %assign BTR_TSEG2 = PSEG2 - 1
+    %assign BTR_SJW = RJW - 1
+    %assign BTR_BRP = PRESDIV - 1
+    %assign BTR = BTR_BRP + (BTR_SJW << 6) + (BTR_TSEG1 << 8) + (BTR_TSEG2 << 12)
+
+    /* Bit Timing for CAN %<module>
+    * 
+    * CAN bit rate = %<CANBITRATE>
+    * Number of quanta = %<NUMQUANTA>
+    * Resynchronization jump width = %<RJW>
+    * Sample point = %<SAMPLEPOINT>
+    * Propagation segment = %<PROPSEG> quanta
+    * Phase segment 1 = %<PSEG1> quanta
+    * Phase segment 2 = %<PSEG2> quanta
+    * BTR/TSEG1 = %<BTR_TSEG1>
+    * BTR/TSEG2 = %<BTR_TSEG2>
+    * BTR/SJW = %<BTR_SJW>
+    * BTR/BRP = %<BTR_BRP>
+    */
+    CAN_%<module>BTRL = %<SPRINTF("0x%x",BTR)>U;
+  
+    
+    
+  %endfunction
+  
+  %function FcnCanModuleFunctions(module, record) Output
+    /* Start CAN module %<module> */
+    void can_%<module>_start(void) {
+      
+    %assign csr_init = 0
+    %assign csr_sie = 0
+    %assign csr_cce = 0
+    %assign csr = (csr_init) + (csr_sie << 2) \
+    + (csr_cce << 6)
+    /* Start the CAN module
+    * 
+    * INIT = %<csr_init>
+    * SIE  (status change interrupt enable) = %<csr_sie>
+    * CCE (configuration change enable) = %<csr_cce>
+    */
+    CAN_%<module>CR = %<SPRINTF("0x%x",csr)>U;
+  }
+  %endfunction
+  
+
+%function FcnIntDrivenFifoTxFcnsGeneral() Output
+  
+/*------------------------------------------------------------
+ * Function
+ *
+ *    service_transmit_fifo
+ * 
+ * Purpose
+ *
+ *    Interrupt service routine callback function move messages from the 
+ *    FIFO queue into the dedicated hardware buffer from where they can
+ *    be transmitted.
+ *
+ * Arguments
+ * 
+ *    bufferNo    - The TwinCAN buffer number
+ *
+ *    node        - The TwinCAN node
+ * 
+ *    circBuf     - A pointer to the FIFO buffer associated with this
+ *                  TwinCAN hardware buffer.
+ */ 
+ static void service_transmit_fifo(uint_T bufferNo, uint_T node, 
+                             MESSAGE_CIRCULAR_BUFFER * circBuf) {
+
+    int_T readIdx = circBuf->readIdx;
+    
+    if( ( readIdx != circBuf->writeIdx ) || (  circBuf->full == 1 ) ) {
+        can_load_msg( &(circBuf->buffer[readIdx]), bufferNo, node);
+        readIdx++;
+        circBuf->readIdx = readIdx % circBuf->size;
+        circBuf->full = 0;
+    } else {
+      circBuf->canBufferInUse = 0;
+    }
+  }
+    
+  /* Documentation is in the header file containing the function prototype. */
+  void init_transmit_fifo(uint_T bufferNo,
+                        MESSAGE_CIRCULAR_BUFFER * p_msg_buf, 
+                        CAN_FRAME * p_can_frames, uint_T queue_len, uint_T node) {
+    
+    p_msg_buf->readIdx = 0;
+    p_msg_buf->writeIdx = 0;
+    p_msg_buf->size = queue_len;
+    p_msg_buf->overflowCount = 0;
+    p_msg_buf->full = 0;
+    p_msg_buf->buffer = p_can_frames;
+    p_msg_buf->canBufferInUse = 0;
+
+    /* Initialize the callback data */
+    callbackData[bufferNo] = (void *) p_msg_buf;
+    
+    /* Configure buffer to generate interrupts on completion of transmit */
+    {
+      CAN_MSG_BUFFER far * buffer = & (msg_buffers[bufferNo]);
+      buffer->CTRL = (SET_TXIE);
+      if (node==0) {
+	buffer->CFGH = ( INTNODE_MSGBUF_GENERAL_A << 4);
+      } else if (node==1) {
+	buffer->CFGH = ( INTNODE_MSGBUF_GENERAL_B << 4);
+      }	
+    }
+
+    /* Configure mask to show interrupts for this buffer in INTID */
+    if (node == 0) {
+      if (bufferNo < 16) {
+	uint_T temp = CAN_AIMRL0;
+	temp |= (1U << bufferNo );
+	CAN_AIMRL0 = temp;
+      } else {
+	uint_T temp = CAN_AIMRH0;
+	temp |= ( 1U << (bufferNo-16) );
+	CAN_AIMRH0 = temp;
+      }
+    } else if (node == 1) {
+      if (bufferNo < 16) {
+	uint_T temp = CAN_BIMRL0;
+	temp |= (1U << bufferNo );
+	CAN_BIMRL0 = temp;
+      } else {
+	uint_T temp = CAN_BIMRH0;
+	temp |= ( 1U << (bufferNo-16) );
+	CAN_BIMRH0 = temp;
+      }	
+    }
+}
+
+/* Documentation is in the header file containing the function prototype. */
+unsigned int send_can_message_fifo(const CAN_FRAME * msg, 
+                                MESSAGE_CIRCULAR_BUFFER * circBuf, 
+                                unsigned int bufferNo, uint_T node) {
+
+/* IMPORTANT NOTE: interrupts from the corresponding CAN node must be inhibited while
+* this function is called. It is the responsibility of the caller to
+* ensure this is done */
+
+unsigned int result = 0;
+
+    if ( circBuf->canBufferInUse == 0 ) {
+        can_load_msg(msg, bufferNo, node);
+	circBuf->canBufferInUse = 1;
+        result = 1;
+    } else {
+        /* Place message in the FIFO queue */
+        if ( ! (circBuf->full) ) {
+            int writeIdxNext = circBuf->writeIdx + 1;
+            writeIdxNext %= circBuf->size;
+            circBuf->buffer[circBuf->writeIdx] = *msg;
+	    circBuf->writeIdx = writeIdxNext;
+            if( writeIdxNext == circBuf->readIdx ) {
+                /* Write has got back around to where read is up to. */
+                circBuf->full = 1;
+	      }
+            result = 1;
+        } else { 
+            circBuf->overflowCount++;
+        }
+    }
+    return result;
+}
+
+      
+%endfunction
+
+  
+%function FcnIntDrivenFifoTxFcns(node, recordA) Output
+  
+  %assign tmpIRQLEVEL = SLibSubsRef(recordA,"CAN_interrupt_level")
+  %assign tmpIRQLEVELGROUP = SLibSubsRef(recordA,"CAN_int_level_group")
+  
+  %assign tmpIRQLEVEL = IDNUM(tmpIRQLEVEL)
+  %assign IRQLEVEL = tmpIRQLEVEL[1]
+  %assign tmpIRQLEVELGROUP = IDNUM(tmpIRQLEVELGROUP)
+  %assign IRQLEVELGROUP = tmpIRQLEVELGROUP[1]
+    
+  
+  %if node == "A"
+    %assign nodeNo = 0
+  %elseif node == "B"
+    %assign nodeNo = 1
+  %endif
+    
+/*------------------------------------------------------------
+ * Function
+ *
+ *    init_interrupts_msg_buf_general_%<node>
+ * 
+ * Purpose
+ *
+ *    Initialize interrupts for general message buffer servicing. This
+ *    callback is used to service interrupt callbacks for buffers that 
+ *    are configured for interrupt driven FIFO transmission.
+ *
+ * Arguments
+ * 
+ */   
+ static void init_interrupts_msg_buf_general_%<node>(void) {
+   /*
+   * Enable CAN interrupts
+   *    TwinCAN node = %<node>
+   *    Interrupt priority level = %<IRQLEVEL>
+   *    Interrupt group level = %<IRQLEVELGROUP>
+   */
+   %assign IE = (1<<6) %% interrupt enable bit
+   %assign tmp = IE + (IRQLEVEL << 2) + IRQLEVELGROUP
+   CAN_%<nodeNo>IC = %<SPRINTF("0x%x",tmp)>;
+ }
+  
+/*------------------------------------------------------------
+ * Function
+ *
+ *    can_msg_buf_general_isr_%<node>
+ * 
+ * Purpose
+ *
+ *    Interrupt service routine for general message buffer servicing for
+ *    CAN node %<node>.
+ *
+ * Arguments
+ * 
+ */     
+  
+  _interrupt ( CAN_%<nodeNo>IC_TRAP ) void can_msg_buf_general_isr_%<node> (void) {
+
+    #ifdef PROFILING_ENABLED
+    /* Task execution profiling */
+    IEN = 0;
+    profile_section_start(PROFILING_ID_TWINCAN_%<node>_ISR);
+    IEN = 1;
+    #endif 
+    
+    { 
+    /* Get the lowest buffer number with pending interrupt */
+    uint_T bufferNo = CAN_%<node>IR - 2;
+    
+    /* Clear the pending interrupt */
+   {
+     CAN_MSG_BUFFER far * buffer = & (msg_buffers[bufferNo]);
+     buffer->CTRL = (CLEAR_INTPND) & (CLEAR_MSGVAL);
+   }
+
+   {
+    MESSAGE_CIRCULAR_BUFFER * circBuf = 
+    (MESSAGE_CIRCULAR_BUFFER *) callbackData[bufferNo];
+    service_transmit_fifo(bufferNo, %<nodeNo>U, circBuf);
+    }
+  }
+  
+  #ifdef PROFILING_ENABLED
+  /* Task execution profiling */
+  IEN = 0;
+  profile_section_end(PROFILING_ID_TWINCAN_%<node>_ISR);
+  IEN = 1;
+  #endif 
+    
+  }
+%endfunction

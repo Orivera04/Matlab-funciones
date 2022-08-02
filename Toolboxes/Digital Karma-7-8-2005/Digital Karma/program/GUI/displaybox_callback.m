@@ -1,0 +1,24 @@
+% this is run when you type in the display box
+run computeiterations;
+displayboxvalue=round(str2num(get(findobj('Tag','displaybox'),'string')));
+set(findobj('Tag','displaybox'), 'string', num2str(displayboxvalue));
+if dimension==2;
+    if displayboxvalue(1,1)>completediterations; displayboxvalue(1,1)=completediterations; end;
+    if displayboxvalue(2,1)>totalrows-rowsshown+1; displayboxvalue(2,1)=totalrows-rowsshown+1; end;
+    if displayboxvalue(3,1)>columns-columnsshown+1; displayboxvalue(3,1)=columns-columnsshown+1; end;
+    if displayboxvalue(1,1)<0; displayboxvalue(1,1)=0; end;
+    if displayboxvalue(2,1)<1; displayboxvalue(2,1)=1; end;
+    if displayboxvalue(3,1)<1; displayboxvalue(3,1)=1; end;
+    currentiteration=displayboxvalue(1,1);
+    firstrow=displayboxvalue(2,1);
+    firstcolumn=displayboxvalue(3,1);
+    CA_Display;
+elseif dimension==1;
+    if displayboxvalue(1,1)>completediterations; displayboxvalue(1,1)=completediterations; end;
+    if displayboxvalue(2,1)>columns-columnsshown+1; displayboxvalue(2,1)=columns-columnsshown+1; end;
+    if displayboxvalue(1,1)<0; displayboxvalue(1,1)=0; end;
+    if displayboxvalue(2,1)<1; displayboxvalue(2,1)=1; end;
+    currentiteration=displayboxvalue(1,1);
+    firstcolumn=displayboxvalue(2,1);
+    CA_Display;
+end;

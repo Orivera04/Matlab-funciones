@@ -1,0 +1,1111 @@
+# $Revision: 1.8.2.1 $
+Library {
+  Name			  "aerolibpropulsion"
+  Version		  5.0
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  ForwardingTableString	  "||__slOldName__||aerolibpropulsion/Turbofan Engine "
+"System||__slNewName__||aerolibpropulsion2/Turbofan Engine System"
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  off
+  StatusBar		  off
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Thu Nov 15 07:44:36 2001"
+  Creator		  "sgage"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "sgage"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Wed Jul  2 15:15:58 2003"
+  ModelVersionFormat	  "1.%<AutoIncrement:67>"
+  ConfigurationManager	  "None"
+  SimParamPage		  "Solver"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeMexFile	  "ext_comm"
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock off
+  ConsistencyChecking	  "none"
+  ArrayBoundsChecking	  "none"
+  AlgebraicLoopMsg	  "warning"
+  BlockPriorityViolationMsg "warning"
+  MinStepSizeMsg	  "warning"
+  InheritedTsInSrcMsg	  "warning"
+  DiscreteInheritContinuousMsg "warning"
+  MultiTaskRateTransMsg	  "error"
+  SingleTaskRateTransMsg  "none"
+  CheckForMatrixSingularity "none"
+  IntegerOverflowMsg	  "warning"
+  Int32ToFloatConvMsg	  "warning"
+  ParameterDowncastMsg	  "error"
+  ParameterOverflowMsg	  "error"
+  ParameterPrecisionLossMsg "warning"
+  UnderSpecifiedDataTypeMsg "none"
+  UnnecessaryDatatypeConvMsg "none"
+  VectorMatrixConversionMsg "none"
+  InvalidFcnCallConnMsg	  "error"
+  SignalLabelMismatchMsg  "none"
+  UnconnectedInputMsg	  "warning"
+  UnconnectedOutputMsg	  "warning"
+  UnconnectedLineMsg	  "warning"
+  SfunCompatibilityCheckMsg "none"
+  ProdHWDeviceType	  "Microprocessor"
+  ProdHWWordLengths	  "8,16,32,32"
+  TargetHWChar		  2
+  TargetHWWordLengths	  "8,16,32,32"
+  RTWMakeCommand	  "make_rtw"
+  RTWGenerateCodeOnly	  off
+  RTWRetainRTWFile	  off
+  TLCProfiler		  off
+  TLCDebug		  off
+  TLCCoverage		  off
+  TLCAssertion		  off
+  SimulationMode	  "normal"
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      ShowAdditionalParam     off
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "sfix(16)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ShowAdditionalParam     off
+      ParameterDataTypeMode   "Same as input"
+      ParameterDataType	      "sfix(16)"
+      ParameterScalingMode    "Best Precision: Matrix-wise"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      ShowAdditionalParam     off
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      LatchInput	      off
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Integrator
+      ExternalReset	      "none"
+      InitialConditionSource  "internal"
+      InitialCondition	      "0"
+      LimitOutput	      off
+      UpperSaturationLimit    "inf"
+      LowerSaturationLimit    "-inf"
+      ShowSaturationPort      off
+      ShowStatePort	      off
+      AbsoluteTolerance	      "auto"
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      Math
+      Operator		      "exp"
+      OutputSignalType	      "auto"
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      Product
+      Inputs		      "2"
+      Multiplication	      "Element-wise(.*)"
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Reference
+    }
+    Block {
+      BlockType		      Saturate
+      UpperLimit	      "0.5"
+      LowerLimit	      "-0.5"
+      LinearizeAsGain	      on
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      RTWSystemCode	      "Auto"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Sum
+      IconShape		      "rectangular"
+      Inputs		      "++"
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Terminator
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "aerolibpropulsion"
+    Location		    [213, 136, 527, 283]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      "Turbofan Engine System"
+      Ports		      [3, 2]
+      Position		      [90, 36, 235, 104]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Turbofan Engine System"
+      MaskDescription	      "Implement a turbofan engine system. The turbofa"
+"n engine system includes both engine and controller.\n\nThrottle position can"
+" vary from zero to one, corresponding to no to full throttle.  Altitude, init"
+"ial thrust, and maximum thrust are entered in the same unit system as selecte"
+"d from the block for thrust and fuel flow output.  "
+      MaskHelp		      "web(asbhelp);"
+      MaskPromptString	      "Units:|Initial thrust source:|Initial thrust:|M"
+"aximum sea-level static thrust:|Fastest engine time constant at sea-level sta"
+"tic (sec):|Sea-level static thrust specific fuel consumption:|Ratio of instal"
+"led thrust to uninstalled thrust:"
+      MaskStyleString	      "popup(Metric|English),popup(Internal|External),"
+"edit,edit,edit,edit,edit"
+      MaskTunableValueString  "off,off,on,on,on,on,on"
+      MaskCallbackString      "aeroicon('aeroblkturbofan')|aeroicon('aeroblktu"
+"rbofan')|||||"
+      MaskEnableString	      "on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,"
+      MaskVariables	      "units=@1;ic_source=@2;IC=@3;Fmax=@4;tau=@5;SFC="
+"@6;Nt=@7;"
+      MaskInitialization      "[ports,nondimT,nondimSFC, nondimTau] = aeroicon"
+"('aeroblkturbofan','icon');"
+      MaskDisplay	      "port_label(ports(1).type,ports(1).port,ports(1)"
+".txt);\nport_label(ports(2).type,ports(2).port,ports(2).txt);\nport_label(por"
+"ts(3).type,ports(3).port,ports(3).txt);\nport_label(ports(4).type,ports(4).po"
+"rt,ports(4).txt);\nport_label(ports(5).type,ports(5).port,ports(5).txt);\npor"
+"t_label(ports(6).type,ports(6).port,ports(6).txt);\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "Metric|Internal|0|45000|1|0.35|0.9"
+      System {
+	Name			"Turbofan Engine System"
+	Location		[92, 139, 1001, 506]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Throttle_cmd"
+	  Position		  [175, 223, 205, 237]
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Mach"
+	  Position		  [25, 178, 55, 192]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Altitude"
+	  Position		  [95, 143, 125, 157]
+	  Port			  "3"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Calculate delta and theta"
+	  Ports			  [2, 2]
+	  Position		  [205, 134, 320, 201]
+	  TreatAsAtomicUnit	  off
+	  System {
+	    Name		    "Calculate delta and theta"
+	    Location		    [18, 266, 871, 510]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Atitude (ft)"
+	      Position		      [260, 93, 290, 107]
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Mach"
+	      Position		      [20, 123, 50, 137]
+	      Port		      "2"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "COESA Atmosphere Model"
+	      Ports		      [1, 4]
+	      Position		      [315, 62, 530, 133]
+	      SourceBlock	      "aerolibatmos/COESA Atmosphere Model"
+	      SourceType	      "COESA Atmosphere Model"
+	      units		      "English"
+	    }
+	    Block {
+	      BlockType		      Math
+	      Name		      "Math\nFunction"
+	      Ports		      [1, 1]
+	      Position		      [725, 45, 755, 75]
+	      ShowName		      off
+	      Operator		      "sqrt"
+	    }
+	    Block {
+	      BlockType		      Math
+	      Name		      "Math\nFunction1"
+	      Ports		      [2, 1]
+	      Position		      [320, 148, 350, 192]
+	      ShowName		      off
+	      Operator		      "pow"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Po"
+	      Position		      [565, 140, 610, 160]
+	      ShowName		      off
+	      Value		      "1/14.7"
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product5"
+	      Ports		      [4, 1]
+	      Position		      [125, 121, 170, 199]
+	      ShowName		      off
+	      Inputs		      "4"
+	      RndMeth		      "Floor"
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product6"
+	      Ports		      [3, 1]
+	      Position		      [645, 36, 690, 84]
+	      ShowName		      off
+	      Inputs		      "3"
+	      RndMeth		      "Floor"
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product7"
+	      Ports		      [3, 1]
+	      Position		      [645, 118, 690, 152]
+	      ShowName		      off
+	      Inputs		      "3"
+	      RndMeth		      "Floor"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum1"
+	      Ports		      [2, 1]
+	      Position		      [195, 150, 215, 170]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "|++"
+	    }
+	    Block {
+	      BlockType		      Terminator
+	      Name		      "Terminator1"
+	      Position		      [600, 115, 610, 125]
+	      ShowName		      off
+	    }
+	    Block {
+	      BlockType		      Terminator
+	      Name		      "Terminator2"
+	      Position		      [600, 85, 610, 95]
+	      ShowName		      off
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "To"
+	      Position		      [575, 35, 620, 55]
+	      NamePlacement	      "alternate"
+	      ShowName		      off
+	      Value		      "1/518.67"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "gamma -1"
+	      Position		      [20, 155, 50, 185]
+	      Value		      "0.4"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "gamma/(gamma-1)"
+	      Position		      [265, 165, 295, 195]
+	      Value		      "3.5"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "one"
+	      Position		      [190, 195, 220, 225]
+	      Orientation	      "up"
+	      ShowName		      off
+	      Value		      "1.0"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "two"
+	      Position		      [65, 175, 95, 205]
+	      ShowName		      off
+	      Value		      "0.5"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "sqrt(theta)"
+	      Position		      [780, 53, 810, 67]
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "delta "
+	      Position		      [780, 128, 810, 142]
+	      Port		      "2"
+	    }
+	    Line {
+	      SrcBlock		      "To"
+	      SrcPort		      1
+	      DstBlock		      "Product6"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Po"
+	      SrcPort		      1
+	      Points		      [0, -5]
+	      DstBlock		      "Product7"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "COESA Atmosphere Model"
+	      SrcPort		      2
+	      DstBlock		      "Terminator2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "COESA Atmosphere Model"
+	      SrcPort		      4
+	      DstBlock		      "Terminator1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "two"
+	      SrcPort		      1
+	      DstBlock		      "Product5"
+	      DstPort		      4
+	    }
+	    Line {
+	      SrcBlock		      "gamma -1"
+	      SrcPort		      1
+	      DstBlock		      "Product5"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Product5"
+	      SrcPort		      1
+	      DstBlock		      "Sum1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "one"
+	      SrcPort		      1
+	      DstBlock		      "Sum1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Sum1"
+	      SrcPort		      1
+	      Points		      [0, 0; 20, 0]
+	      Branch {
+		Points			[0, -115; 325, 0; 0, 15]
+		DstBlock		"Product6"
+		DstPort			2
+	      }
+	      Branch {
+		DstBlock		"Math\nFunction1"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "gamma/(gamma-1)"
+	      SrcPort		      1
+	      DstBlock		      "Math\nFunction1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Product6"
+	      SrcPort		      1
+	      DstBlock		      "Math\nFunction"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Product7"
+	      SrcPort		      1
+	      DstBlock		      "delta "
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Math\nFunction1"
+	      SrcPort		      1
+	      Points		      [200, 0; 0, -35]
+	      DstBlock		      "Product7"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "COESA Atmosphere Model"
+	      SrcPort		      3
+	      Points		      [85, 0; 0, 20]
+	      DstBlock		      "Product7"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Atitude (ft)"
+	      SrcPort		      1
+	      DstBlock		      "COESA Atmosphere Model"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Mach"
+	      SrcPort		      1
+	      Points		      [0, 0; 15, 0]
+	      Branch {
+		DstBlock		"Product5"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 20]
+		DstBlock		"Product5"
+		DstPort			2
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Math\nFunction"
+	      SrcPort		      1
+	      DstBlock		      "sqrt(theta)"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "COESA Atmosphere Model"
+	      SrcPort		      1
+	      DstBlock		      "Product6"
+	      DstPort		      3
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Fmax"
+	  Position		  [345, 251, 385, 269]
+	  ShowName		  off
+	  Value			  "Fmax"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain3"
+	  Position		  [730, 237, 785, 273]
+	  ShowName		  off
+	  Gain			  "Nt"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "IC"
+	  Position		  [575, 268, 610, 282]
+	  ShowName		  off
+	  Value			  "IC"
+	}
+	Block {
+	  BlockType		  Integrator
+	  Name			  "Integrator"
+	  Ports			  [2, 1]
+	  Position		  [640, 216, 670, 294]
+	  ShowName		  off
+	  InitialConditionSource  "external"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Length Conversion"
+	  Ports			  [1, 1]
+	  Position		  [145, 134, 180, 166]
+	  ShowName		  off
+	  SourceBlock		  "aerolibconvert/Length Conversion"
+	  SourceType		  "Length Conversion"
+	  IU			  "m"
+	  OU			  "ft"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Non-dimensional\nTSFC(Thrust,Mach)"
+	  Ports			  [2, 1]
+	  Position		  [510, 53, 570, 97]
+	  NamePlacement		  "alternate"
+	  SourceBlock		  "simulink3/Functions\n& Tables/Look-Up\nTabl"
+"e (n-D)"
+	  SourceType		  "LookupNDInterp"
+	  numDimsPopupSelect	  "   2   "
+	  bp1			  "[0.0:0.04:1.0]"
+	  bp2			  "[0:0.1:1.0]"
+	  bp3			  "[1:3]"
+	  bp4			  "[1:3]"
+	  bpcell		  "{ [1:3], [1:3] }"
+	  explicitNumDims	  "2"
+	  searchMode		  "Linear Search"
+	  cacheBpFlag		  "on"
+	  vectorInputFlag	  "off"
+	  tableData		  "nondimSFC"
+	  interpMethod		  "Linear"
+	  extrapMethod		  "None - Clip"
+	  rangeErrorMode	  "Warning"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Non-dimensional\nThrust(Throttle,Mach)"
+	  Ports			  [2, 1]
+	  Position		  [235, 219, 305, 266]
+	  SourceBlock		  "simulink3/Functions\n& Tables/Look-Up\nTabl"
+"e (n-D)"
+	  SourceType		  "LookupNDInterp"
+	  numDimsPopupSelect	  "   2   "
+	  bp1			  "[0 1]"
+	  bp2			  "[0:.1:1]"
+	  bp3			  "[0 1]"
+	  bp4			  "[1:3]"
+	  bpcell		  "{ [1:3], [1:3] }"
+	  explicitNumDims	  "2"
+	  searchMode		  "Linear Search"
+	  cacheBpFlag		  "on"
+	  vectorInputFlag	  "off"
+	  tableData		  "nondimT"
+	  interpMethod		  "Linear"
+	  extrapMethod		  "None - Clip"
+	  rangeErrorMode	  "Warning"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product1"
+	  Ports			  [2, 1]
+	  Position		  [570, 206, 610, 259]
+	  ShowName		  off
+	  Inputs		  "/*"
+	  RndMeth		  "Floor"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product3"
+	  Ports			  [3, 1]
+	  Position		  [410, 219, 455, 271]
+	  ShowName		  off
+	  Inputs		  "3"
+	  RndMeth		  "Floor"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product4"
+	  Ports			  [5, 1]
+	  Position		  [785, 62, 820, 148]
+	  ShowName		  off
+	  Inputs		  "**/**"
+	  RndMeth		  "Floor"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "SFC"
+	  Position		  [715, 82, 750, 98]
+	  ShowName		  off
+	  Value			  "SFC"
+	}
+	Block {
+	  BlockType		  Saturate
+	  Name			  "Saturation1"
+	  Position		  [475, 230, 505, 260]
+	  ShowName		  off
+	  UpperLimit		  "Fmax"
+	  LowerLimit		  "0"
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum"
+	  Ports			  [2, 1]
+	  Position		  [530, 235, 550, 255]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "|+-"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "calc tau"
+	  Ports			  [3, 1]
+	  Position		  [455, 146, 530, 194]
+	  NamePlacement		  "alternate"
+	  ShowName		  off
+	  TreatAsAtomicUnit	  off
+	  System {
+	    Name		    "calc tau"
+	    Location		    [162, 73, 738, 220]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "thrust"
+	      Position		      [15, 48, 45, 62]
+	      NamePlacement	      "alternate"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "sqrt(theta)"
+	      Position		      [300, 62, 335, 78]
+	      Port		      "2"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "delta"
+	      Position		      [15, 93, 45, 107]
+	      Port		      "3"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Fmax"
+	      Position		      [60, 27, 110, 43]
+	      ShowName		      off
+	      Value		      "1/Fmax"
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product3"
+	      Ports		      [4, 1]
+	      Position		      [410, 50, 460, 105]
+	      ShowName		      off
+	      Inputs		      "*/**"
+	      RndMeth		      "Floor"
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product5"
+	      Ports		      [3, 1]
+	      Position		      [140, 25, 200, 85]
+	      ShowName		      off
+	      Inputs		      "**/"
+	      RndMeth		      "Floor"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Tau(Thrust)"
+	      Ports		      [1, 1]
+	      Position		      [220, 25, 280, 85]
+	      NamePlacement	      "alternate"
+	      SourceBlock	      "simulink3/Functions\n& Tables/Look-Up\n"
+"Table (n-D)"
+	      SourceType	      "LookupNDInterp"
+	      numDimsPopupSelect      "   1   "
+	      bp1		      "[0.0:0.04:1.0]"
+	      bp2		      "[10,22,31]"
+	      bp3		      "[1:3]"
+	      bp4		      "[1:3]"
+	      bpcell		      "{ [1:3], [1:3] }"
+	      explicitNumDims	      "2"
+	      searchMode	      "Evenly Spaced Points"
+	      cacheBpFlag	      "off"
+	      vectorInputFlag	      "off"
+	      tableData		      "nondimTau"
+	      interpMethod	      "Linear"
+	      extrapMethod	      "None - Clip"
+	      rangeErrorMode	      "None"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "tau "
+	      Position		      [350, 78, 385, 92]
+	      ShowName		      off
+	      Value		      "tau"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "tau"
+	      Position		      [505, 73, 535, 87]
+	    }
+	    Line {
+	      SrcBlock		      "Product3"
+	      SrcPort		      1
+	      DstBlock		      "tau"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "sqrt(theta)"
+	      SrcPort		      1
+	      DstBlock		      "Product3"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "delta"
+	      SrcPort		      1
+	      Points		      [0, 0; 75, 0]
+	      Branch {
+		DstBlock		"Product3"
+		DstPort			4
+	      }
+	      Branch {
+		Points			[0, 0]
+		DstBlock		"Product5"
+		DstPort			3
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "thrust"
+	      SrcPort		      1
+	      DstBlock		      "Product5"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Product5"
+	      SrcPort		      1
+	      DstBlock		      "Tau(Thrust)"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Tau(Thrust)"
+	      SrcPort		      1
+	      DstBlock		      "Product3"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "tau "
+	      SrcPort		      1
+	      DstBlock		      "Product3"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Fmax"
+	      SrcPort		      1
+	      DstBlock		      "Product5"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "hr2sec"
+	  Position		  [715, 98, 750, 112]
+	  ShowName		  off
+	  Value			  "3600"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Thrust_act"
+	  Position		  [845, 248, 875, 262]
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "m_dot"
+	  Position		  [845, 98, 875, 112]
+	  Port			  "2"
+	}
+	Line {
+	  SrcBlock		  "Product4"
+	  SrcPort		  1
+	  DstBlock		  "m_dot"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "calc tau"
+	  SrcPort		  1
+	  Points		  [10, 0; 0, 50]
+	  DstBlock		  "Product1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "IC"
+	  SrcPort		  1
+	  DstBlock		  "Integrator"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Sum"
+	  SrcPort		  1
+	  DstBlock		  "Product1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Product1"
+	  SrcPort		  1
+	  DstBlock		  "Integrator"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Integrator"
+	  SrcPort		  1
+	  Points		  [0, 0; 15, 0]
+	  Branch {
+	    Points		    [0, 55; -150, 0]
+	    DstBlock		    "Sum"
+	    DstPort		    2
+	  }
+	  Branch {
+	    DstBlock		    "Gain3"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Labels		    [1, 0]
+	    Points		    [0, -120]
+	    Branch {
+	      DstBlock		      "Product4"
+	      DstPort		      5
+	    }
+	    Branch {
+	      Points		      [-250, 0]
+	      DstBlock		      "calc tau"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Line {
+	  SrcBlock		  "Mach"
+	  SrcPort		  1
+	  Points		  [0, 0; 15, 0]
+	  Branch {
+	    Points		    [0, 0]
+	    Branch {
+	      Points		      [0, 70]
+	      DstBlock		      "Non-dimensional\nThrust(Throttle,Mach)"
+	      DstPort		      2
+	    }
+	    Branch {
+	      Points		      [0, -100]
+	      DstBlock		      "Non-dimensional\nTSFC(Thrust,Mach)"
+	      DstPort		      2
+	    }
+	  }
+	  Branch {
+	    DstBlock		    "Calculate delta and theta"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  SrcBlock		  "Altitude"
+	  SrcPort		  1
+	  DstBlock		  "Length Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Throttle_cmd"
+	  SrcPort		  1
+	  DstBlock		  "Non-dimensional\nThrust(Throttle,Mach)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Length Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Calculate delta and theta"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain3"
+	  SrcPort		  1
+	  DstBlock		  "Thrust_act"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Calculate delta and theta"
+	  SrcPort		  2
+	  Points		  [0, 0]
+	  Branch {
+	    DstBlock		    "calc tau"
+	    DstPort		    3
+	  }
+	  Branch {
+	    Points		    [0, 45]
+	    DstBlock		    "Product3"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Calculate delta and theta"
+	  SrcPort		  1
+	  Points		  [0, 0; 100, 0]
+	  Branch {
+	    Points		    [0, 20]
+	    DstBlock		    "calc tau"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, -30]
+	    DstBlock		    "Product4"
+	    DstPort		    4
+	  }
+	}
+	Line {
+	  SrcBlock		  "Non-dimensional\nTSFC(Thrust,Mach)"
+	  SrcPort		  1
+	  DstBlock		  "Product4"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Product3"
+	  SrcPort		  1
+	  DstBlock		  "Saturation1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Saturation1"
+	  SrcPort		  1
+	  DstBlock		  "Sum"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Non-dimensional\nThrust(Throttle,Mach)"
+	  SrcPort		  1
+	  Points		  [0, 0; 20, 0]
+	  Branch {
+	    DstBlock		    "Product3"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, 60; -310, 0; 0, -240]
+	    DstBlock		    "Non-dimensional\nTSFC(Thrust,Mach)"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "hr2sec"
+	  SrcPort		  1
+	  DstBlock		  "Product4"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "SFC"
+	  SrcPort		  1
+	  DstBlock		  "Product4"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Fmax"
+	  SrcPort		  1
+	  DstBlock		  "Product3"
+	  DstPort		  3
+	}
+      }
+    }
+  }
+}

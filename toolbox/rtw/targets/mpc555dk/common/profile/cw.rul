@@ -1,0 +1,177 @@
+#
+# $RCSfile: cw.rul,v $
+# $Revision: 1.6.4.3 $
+# $Date: 2004/04/19 01:23:57 $
+#
+# Copyright 2001-2004 The MathWorks, Inc.
+#
+# Abstract: This file defines pattern match rule for map2IR tool, it also has
+#	    internal knowledge of sections.
+#
+# Compiler: CodeWarrior
+#
+#
+# Limition: Can't have leading space before each macro definition line;
+#	    For comma seperated values, don't put space between comma;
+
+
+#
+# system variables definition
+Compiler = CodeWarrior	#compiler vendor name
+
+CompilerOption = 0	#not available for codewarrior
+
+ExistSummary = 0	#whether exists summary sections in MAP file
+			#	1 - exist summary, so the summary sections will be
+			#		identified by SummaryPrefix and SummaryEnd
+			#	0  - don't have summary, the summary will be
+			#		identified by line pattern
+
+SummaryPrefix = address,Offset
+			# summary section start pattern
+			# it's imply a space seperated (add comma manually) string which
+			# appears just before Summary Section; to improve robustness,
+			# it's allowed to have multiple lines happen to match SummaryPrefix;
+			# i.e.,
+			# 	       address           Offset
+            		#	.init  fff02000 00000484 00000180
+            		# "address	Offset" is summary prefix, and added comma it will
+            		# become "address,Offset"
+
+SummaryEnd = EMPTYLINE	# summary section ends pattern
+			#	EMPTYLINE - Empty Line
+			#	or other comma seperated (WITHOUT space) strings
+
+
+LineException = 1	# Whether exists valid lines but doesn't fit LinePattern
+			# This only meaningful when ExistSummary = 1
+			#	We will ignore these lines;
+			#	1 - YES
+			#	0 - NO
+
+Line1stCharPos = n	# The 1st non blank character of line must be at position
+			#
+			#	n - no requirement
+			#	0 - 1st character
+
+LinePattern = NAME,n,HEX,8,HEX,8,HEX,8
+#LinePattern = ._\*stack_addr,n,HEX,8,HEX,8,HEX,8
+			# The section definition line pattern description, must be paired
+			#	NAME,n - one or more characters
+			#	HEX,8 - 8 digit HEX, 	ffff0000
+			#	DEC,8 - 8 digit dec	12345678
+			#	HEX2,9 - 9 digit HEX2	1234ffffH (used by Visual C)
+			#	n,HEX - any length HEX	12345678abcdef
+			#	any other string,1 - must be that string appeared once
+
+SectionNamePos = 0	# position of section name appeared at the line (in termsof
+			#	string)
+
+SectionStartAddrPos = 1 # position of section start addr appeared at the line
+
+SectionStartAddrFmt = HEX # format of section start addr appeared at the line
+
+SectionSizePos = 2	# position of section size appeared at the line
+
+SectionSizeFmt = HEX	# section size format
+			#    HEX  - 0000003d
+			#    DEC  - 1048576
+			#    HEX2 - 00000004H (used by Visual C)
+
+
+#
+# Definitions for heap and stack
+#
+#
+HeapDefinedAsSection = 0	# whether Heap is defined in the same format as section
+				#	1 - Yes, then HeapName take effect, Heap info
+				#	    will be extracted from LinePattern
+				#	i.e., GreenHills
+				#.stack           00118e10  00080000       524288    0008d18
+   				#.comment         00000000  000000d0          208    0008d18
+				#	0 - No, the compiler has different format when define
+				#	   Heap, then HeapStartLinePattern & HeapEndLinePattern
+				#	   will be used to extract heap info
+				#	i.e., CodeWarrior
+				#               _heap_addr 00020000
+                		#		_heap_end 00028000
+
+HeapName = 			# name of Heap section used by this compiler
+				# only make sense when HeapDefinedAsSection = 1
+
+HeapStartLinePattern = _heap_addr,1,HEX,8
+				# the line pattern for Heap start address definition
+				# see  LinePattern for description
+HeapEndLinePattern = _heap_end,1,HEX,8
+				# the line pattern for Heap end address definition
+				# see  LinePattern for description
+
+HeapAddrPos = 1 # position of start/end addr appeared at the line
+
+HeapAddrFmt = HEX # format of start/end addr appeared at the line
+
+# same as Stack
+StackDefinedAsSection = 0
+
+StackName =
+
+StackStartLinePattern = _stack_addr,1,HEX,8
+StackEndLinePattern = _stack_end,1,HEX,8
+
+StackAddrPos = 1 # position of start/end addr appeared at the line
+
+StackAddrFmt = HEX # format of start/end addr appeared at the line
+
+
+#
+# Definitions for section layout: section, file and functions correlation
+#
+SectionLayoutLinePattern = HEX,8,HEX,n,HEX,8,HEX,8,DEC,n,NAME,n,NAME,n,NAME,n
+SLFuncNamePos = 5 
+SLLibNamePos = 6 
+SLFileNamePos = 7 
+SLAddrPos = 2
+SLAddrFmt = HEX
+SLSizePos = 1
+SLSizeFmt = HEX
+
+# Example for above
+# CW8:   00000108 00001c 00806808 000069c8  4 __init_registers 	Runtime.PPCEABI.H.a __start.o
+# CW6.5: 000000f0 00001c fff020f0  4 __init_registers  Runtime.PPCEABI.H.a __start.c
+
+# this pattern is for symbols come NOT from lib for codewarrior
+SectionLayoutLinePattern2 = HEX,8,HEX,n,HEX,8,HEX,8,DEC,n,NAME,n,NAME,n
+SLFuncNamePos2 = 5
+SLLibNamePos2 =
+SLFileNamePos2 = 6
+SLAddrPos2 = 2
+SLSizePos2 = 1
+
+# Example for above
+# CW8:   0000001c 000004 0080671c 000068dc  4 __flush_cache 	__ppc_eabi_init.o  
+# CW6.5: 0000001c 000004 fff0201c  4 __flush_cache 	__ppc_eabi_init.o
+
+
+# File extension used by ERT
+ModelFileExtension = c,o
+
+# section group definitons
+#	CODE - Code
+#	CONST - read only data
+#	DATA - dynamic data
+#	HEAP - heap (if exist)
+#	STACK - stack (if exist)
+#	DWARF - DWARF debug info
+#	UNKNOWN - can't identified
+#
+# All user defined sections will be treated as Code, and we make the assumption that no
+# conflicts exist at section name;
+#
+# DWARF sections will be omitted
+CODE = .init,.text,.ram_entry,.usr_init
+CONST = .rodata,.ctors,.dtors,.sdata2,.sbss2
+DATA = .data,.sdata,.PPC.EMB.sdata0
+BSS =  .bss,.sbss,.PPC.EMB.sbss0
+GROUP1 = .application_bios
+UNKNOWN =
+DWARF = .debug_srcinfo

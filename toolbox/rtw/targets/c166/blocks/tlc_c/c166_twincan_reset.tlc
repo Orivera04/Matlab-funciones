@@ -1,0 +1,44 @@
+%% File: c166_twincan_reset.tlc
+%%
+%% Abstract:
+%%   Polls the TWINCAN status register to determine bus off or error warning
+%%   status.
+%%
+%% $Revision: 1.1.6.2 $
+%% $Date: 2004/04/19 01:17:46 $
+%%
+%% Copyright 2002-2003 The MathWorks, Inc.
+
+%implements c166_twincan_reset "C"
+%include "c166_common_includes.tlc"
+%include "can_comm_setup.tlc"
+
+%% Function: BlockTypeSetup
+%% Abstract:
+%%
+%function BlockTypeSetup(block,system) void
+
+   %<SetupCanDataTypes(block)>
+
+   %if !SLibCodeGenForSim() 
+   %endif
+
+%endfunction %% BlockTypeSetup
+
+%% Function: Outputs ========================================================
+%% Abstract:
+%%
+%% Test the appropriate bit in the TWINCAN status register
+%%
+%function Outputs(block,system) Output
+  %assign twinCAN = FEVAL("c166cache","get","TwinCAN")
+  %if ( !SLibCodeGenForSim() ) && ( twinCAN == 1 )
+    
+    /* Reset TwinCAN module */
+    twincan_init();
+    can_A_start();
+    can_B_start();
+    
+  %endif       
+%endfunction %%Outputs
+

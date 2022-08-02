@@ -1,0 +1,226 @@
+<html>
+<head>
+	<title>Tutorial#1 (Marine Visualization Toolbox)</title>
+	<link rel=stylesheet href="docstyle1.css" type="text/css">
+</head>
+
+<body bgcolor=#ffffff>
+
+<table border=0 width="100%" cellpadding=0 cellspacing=0><tr>
+	<td valign=baseline bgcolor="#ffe4b0"><b>Marine Visualization Toolbox</b></td>
+	<td valign=baseline bgcolor="#ffe4b0" align=right><a href="examples.html"><img src="b_prev.gif" border=0></a>  <a href="tut2.html"><img src="b_next.gif" border=0></a></td>
+</tr></table>
+
+<p><font size=+2 color="#990000"><b>Tutorial#1</b></font><br>
+
+<p>This tutorial is a step-by-step instruction to create an animation with the Marine Visualization Toolbox.
+Before starting make sure the MVT toolbox is correctly installed: While in your <EM>work</EM> folder, type
+<EM>help mvt</EM>. This should display the contents of the MVT, if not see the <A HREF="install_tbx.html">
+installation instructions</A>.
+
+<HR ALIGN="center" WIDTH="100%">
+<p><font size=+2 color="#990000"><b>Step 1 - Setting up the 6 DOF data</b></font>
+
+<p>It is assumed that yuo are already familiar with 6 DOF data, if not see
+<A HREF="basic.html#dof">6 DOF data</A> in <A HREF="basic.html">Marine Visualization basics</A>.
+Operating on structures and arrays are described <A HREF="basic.html#struct_arr">here</A>.
+<p>In MVT the 6 DOF data is represented by a two dimensional matrix, with N row and 6 columns (Nx6),
+where N is the total number of data samples.
+Each row holds the values of the 6 vessel states in the following order: [x y z phi theta psi] (Equal to:
+[x y z roll pitch yaw]). All angles are given in radians.
+<p><B>Step 1:</B>
+<p>Load the saved data from <EM>tut1-01.mat</EM> (Hint: Highlight the text below, right click and select
+<EM>Evaluate Selection</EM>):
+<p><span style='font-size:10.0pt;font-family:"Courier New"'>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filename = fullfile(matlabroot, 'toolbox', 'mvt', 'tutorials', 'tut1-01.mat');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;load(filename);
+</span>
+<p>This command loads the 6 DOF data saved in tut1-01.mat into your MATLAB workspace as a variable
+named sixDOF. To see the contents of the array, type:
+<p><span style='font-size:10.0pt;font-family:"Courier New"'>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sixDOF
+</span>
+<p>To plot the 6 DOF data, for instance the <I>xy</I>-positions, type something like:
+<p><span style='font-size:10.0pt;font-family:"Courier New"'>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;plot(sixDOF(:,1), sixDOF(:,2), 'r-')
+</span>
+<p>This will plot a red line in the <I>xy</I>-plane, recall that <I>x</I> and <I>y</I>
+is found in the first and second column.
+
+
+<p>&nbsp;
+<HR ALIGN="center" WIDTH="100%">
+<p><font size=+2 color="#990000"><b>Step 2 - Setting up the time vector</b></font>
+
+<p>Since animations describe movement over time, the relative time of each sample
+(each row in the 6 DOF data) must be identified. This is done in a column vector,
+with dimensions Nx1. Each entry, n = 1...N, contain the time value for it's respective
+samples (rows in sixDOF). The time vector may have varying time steps (the time between
+subsequent time values), but must be strictly increasing.
+<p><B>Step 2:</B>
+<p><span style='font-size:10.0pt;font-family:"Courier New"'>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filename = fullfile(matlabroot, 'toolbox', 'mvt', 'tutorials', 'tut1-02.mat');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;load(filename);
+</span>
+<p>This loads the time vector <I>time_vec</I> to your MATLAB workspace, to see it's contents, type:
+<p><span style='font-size:10.0pt;font-family:"Courier New"'>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time_vec
+</span>
+<p>The column vector <I>time_vec</I> now contains the time values (in seconds) for the samples in sixDOF.
+Note that the length of <I>time_vec</I> equals the length of <I>sixDOF</I>.
+<p>To see how any of the variables in the 6 DOF data vary over time, for instance the <I>x</I>-position
+(<I>yaw</I> or <I>psi</I>), type:
+<p><span style='font-size:10.0pt;font-family:"Courier New"'>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;plot(time_vec, sixDOF(:,1), 'r-');
+</span>
+<p>This will plot the <I>x</I>-position versus time. This line is drawn from one sample point to another,
+if you want to see the sample points, type:
+<p><span style='font-size:10.0pt;font-family:"Courier New"'>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hold on;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;plot(time_vec, sixDOF(:,1), 'bo');
+</span>
+<p>These commands first tell MATLAB not to erase the old plot, then to plot the sample points as blue circles.
+
+
+<p>&nbsp;
+<HR ALIGN="center" WIDTH="100%">
+<p><font size=+2 color="#990000"><b>Step 3 - Setting up the vessel structure</b></font>
+
+<p>Most function arguments in MVT are based on <A HREF="basic.html#struct_arr">structures</A>,
+a structure can hold several values of different classes (e.g. double and char). Structures
+are created using the .-operator (the <I>dot</I>-operator), structure arrays are created
+simply by indexing the structure name, see example below. Variables contained in a structure
+is called a <I>field</I>, see <I>struct</I> for more information on structures.
+<p>Structures may be named anything for use with MVT, but the <I>fields</I> must apply to the
+following convention:
+<ul>
+	<li>The 6 DOF data must be in a field named <I><B>x</B></I>.</li>
+	<li>The time vector must be in a field named <I><B>t</B></I>.</li>
+</ul>
+<p><B>Step 3:</B>
+<p>The 6 DOF data and time vector representing one particular vessel must be organized in a structure.
+In this example we name this structure <I>vesselData</I>. To insert the 6 DOF data <I>sixDOF</I> and
+the time vector <I>time_vec</I> into vesselData, type:
+<p><span style='font-size:10.0pt;font-family:"Courier New"'>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vesselData.x = sixDOF;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vesselData.t = time_vec;
+</span>
+<p>To view the contents of <I>vesselData</I>, type:
+<p><span style='font-size:10.0pt;font-family:"Courier New"'>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vesselData
+</span>
+<p>This command will describe the contents of <I>vesselData</I>.
+<br>To retrieve, or edit, a specific field
+in the structure, use the dot-operator, for instance:
+<p><span style='font-size:10.0pt;font-family:"Courier New"'>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vesselData.x<br>
+</span>
+<p>These commands will print the contents of <I>vesselData.x</I>.
+
+
+<p>&nbsp;
+<HR ALIGN="center" WIDTH="100%">
+<p><font size=+2 color="#990000"><b>Step 4 - Starting <I>mvtguide</I></b></font>
+
+<p>The function <I>mvtguide</I> calls other functions of MVT in the following order:
+<ul>
+	<li>verifydata - Verify input user data</li>
+	<li>typedef - Link the verified user data to vessel 3D models</li>
+	<li>createvrml - Assemble the linked 3D models into a single file</li>
+	<li>director - Graphical user interface where animations finally are created</li>
+</ul>
+<p>If you are an experienced MATLAB user these functions may be called manually
+(see their help pages for input-output arguments), as <I>mvtguide</I> is only
+a help function to keep track of input and output arguments.
+<p><B>Step 4:</B>
+<p>Call <I>mvtguide</I> with the newly created structure as input argument:
+<p><span style='font-size:10.0pt;font-family:"Courier New"'>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mvtguide(vesselData)<br>
+</span>
+<p>This command calls the <I>mvtguide</I> function, which in turn prompts the user
+for input of varios kinds, see following steps.
+
+
+<p>&nbsp;
+<HR ALIGN="center" WIDTH="100%">
+<p><font size=+2 color="#990000"><b>Step 5 - Define type of vessel</b></font>
+
+<p>By executing the steps above you should now see a dialog box named <I>Settings</I>, this
+is where you define the type of vessels in youre animation, and what scene the vessels will
+be animated in. In this tutorial you should select the <I>Cybership</I> vessel model and <I>basin</I>
+scene model, but any selections are valid (the input 6 DOF data will probably not match any other
+vessel model).
+<p><B>Step 5:</B>
+<p>Select the vessel model named <I>Cybership</I> in the list: <I>Selected vessel is linked to...</I>
+<p>Select the scene model named <I>basin</I> in the popupmenu: <I>Select scene:</I>
+<p>Confirm your choiches by pressing the <EM>OK</EM> button. The vessel is now linked to a 3D model, and
+a 3D scene is selected as the surroundings for the animation. These are passed to the <I>createvrml</I>
+function.
+
+
+<p>&nbsp;
+<HR ALIGN="center" WIDTH="100%">
+<p><font size=+2 color="#990000"><b>Step 6 - Saving the VRML file</b></font>
+
+<p>You are now prompted for a filename by <I>createvrml</I>, the requested filename is where
+the vessel model and scene model are assembled into one single file. You should specify a
+filename that make it easy to identify later, in this tutorial you should name it <I>my_tutorial.wrl</I>,
+otherwise the tutorial might not complete.
+<p><B>Step 6:</B>
+<p>Enter the filename <B><EM>my_tutorial.wrl</EM></B> and press <I>OK</I>.
+
+
+<p>&nbsp;
+<HR ALIGN="center" WIDTH="100%">
+<p><font size=+2 color="#990000"><b>Step 7 - Setting up a sequence</b></font>
+
+<p>Two new windows should now appear on your screen, and look like the two figures below. If not,
+check the error message in your MATLAB workspace. See help on <A HREF="director.html">director</A>
+for detailed information on fields and settings.<br>
+<p><IMG SRC="vrw_01.jpg" BORDER=0><br>
+Figure of the virtual reality figure window.
+<p>&nbsp;
+<p><IMG SRC="vrw_02.jpg" BORDER=0><br>
+Figure of the <I>director</I> graphical user interface
+<p>The huge donut diplayed in the virtual world is the path of the vessel, to decrease it's size
+enter a smaller value in the <I>Path Size</I> field. The pool is the selected scene model <I>basin</I>.
+<p><B>Step 7:</B>
+<p>To decrease the size of the vessel path, enter a smaller value in the <I>Path Size</I> field, for
+instance 0.01. You should now be able to see the vessel <I>Cybership</I>, which is positioned according
+to the first sample in the 6 DOF data.
+<p> Select the desired viewpoint from the viewpiont list, viewpoints with prefix <I>vessel</I> move with
+the specified vessel, while all other viewpionts stay fixed to the scene model.
+<p>The selected viewpoint, start sample, end sample, Vessel settings and World settings define a sequence,
+press the <I>Add sequence</I> button to add the sequence to the total animation. All sequences are listed
+in the animation listbox, which now should look something like the above figure.
+<p>Press <I>Play sequence</I> to preview the sequence.
+<p>Press <I>Record</I> to save the animation to file, you are prompted for video settings. The default
+values should produce a satisfactory result in most cases, but remeber to change the filename to avoid
+overwriting old video-files. Select or enter the filename <I>my_tutorial.avi</I>. Recording will
+start, and a bar shows the recording progress. Make sure that the figure window is not minimized or
+completely covered by other windows while recording, this will ruin the video-file!
+
+
+<p>&nbsp;
+<HR ALIGN="center" WIDTH="100%">
+<p><font size=+2 color="#990000"><b>Step 8 - View the saved animation</b></font>
+
+<p>When recording is finished, locate your newly created video-file (which was specified just before
+the recording started) in the file browser, and play the animation!
+
+
+<p>&nbsp;
+<HR ALIGN="center" WIDTH="100%">
+<p>To get to know the functionality of <I>director</I>, experiment by changing the settings,
+change the viewpoint, record different sample intervals, change the appearance of your vessel, record
+several sequences into one animation etc.
+
+<p>&nbsp;
+<p><table bgcolor="#ffe4b0" border=0 width="100%" cellpadding=0 cellspacing=0><tr valign=center>
+    <td align=left width=20><a href="examples.html"><img src="b_prev.gif" border=0 align=center></a></td>
+    <td align=left> Examples</td><td align=right>Tutorial#2</td>
+    <td align=right width=20><a href="tut2.html"><img src="b_next.gif" border=0 align=center></a></td></tr>
+   </table>
+
+</body>
+</html>

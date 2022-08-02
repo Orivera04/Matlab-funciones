@@ -1,0 +1,146 @@
+<html>
+<head>
+	<title>director (Marine Visualization Toolbox)</title>
+	<link rel=stylesheet href="docstyle1.css" type="text/css">
+</head>
+
+<body bgcolor=#ffffff>
+
+<table border=0 width="100%" cellpadding=0 cellspacing=0><tr>
+	<td valign=baseline bgcolor="#ffe4b0"><b>Marine Visualization Toolbox</b></td>
+	<td valign=baseline bgcolor="#ffe4b0" align=right><a href="createvrml.html"><img src="b_prev.gif" border=0></a>  <a href="euler2p.html"><img src="b_next.gif" border=0></a></td>
+</tr></table>
+
+<p><font size=+2 color="#990000"><b>director</b></font><br>
+
+<br>
+
+<p><B>DIRECTOR </B>Tool for creating 3d animations.
+   <p>DIRECTOR(DATA, VRMLFILE) displays the VR world specified by VRMLFILE
+   and opens a graphical user interface. By using TYPEDEF and CREATEVRML
+   the properties of all vessels in VRMLFILE are ensured to be compatible
+   with DATA.
+
+   <p>Animation sequences are created by specifying time intervals, viewpoint
+   and time varying vessel properties (translation, rotation and appearance).
+   Animations may be viewed in the installed VRML viewer, or recorded as
+   AVI files for Matlab independent playback.
+
+<p>See also: <A HREF="createvrml.html">CREATEVRML</A>, <A HREF="verifydata.html">VERIFYDATA</A>, <A HREF="typedef.html">TYPEDEF</A>.
+
+<p>Author:    Andreas Lund Danielsen<br>
+Date:      10th November 2003<br>
+Revisions: <br>
+
+<HR ALIGN="center" WIDTH="100%">
+
+<p><B>Detailed information </B>of fields and buttons in the <EM>director</EM> GUI:
+<ul>
+	<li><A HREF="director.html#aniseq">Animations and sequences</A></li>
+	<li><A HREF="director.html#view">Viewpoints</A></li>
+	<li><A HREF="director.html#time">Timeline</A></li>
+	<li><A HREF="director.html#vessel">Selecting vessels</A></li>
+	<li><A HREF="director.html#dispas">Display vessel as...</A></li>
+
+	<li><A HREF="director.html#path">Paths</A></li>
+	<li><A HREF="director.html#world">World settings</A></li>
+	<li><A HREF="director.html#pseq">Play sequence</A></li>
+	<li><A HREF="director.html#pall">Play all</A></li>
+	<li><A HREF="director.html#rec">Record</A></li>
+</ul>
+
+<HR ALIGN="center" WIDTH="100%">
+<p><A name=aniseq><font size=+2 color="#990000"><b>Animations and sequences</b></font><br></A>
+<FONT SIZE="4"><p>Animations consist of sequences, and each sequence consists of a time limitied set of
+properties. Thus, all properties within the <EM>Edit sequence</EM> frame may be changed from one sequence to
+another.
+<p> To add a sequence to your animation, press the pushbutton <EM>Add</EM>. The sequence is then added
+to the list of sequences at the bottom of the screen. Change the sequences individual orders with the <EM>Up</EM>
+and <EM>Down</EM> buttons, or remove a sequnence with <EM>Delete</EM>.
+</FONT>
+
+<HR ALIGN="center" WIDTH="100%">
+<p><A name=view><font size=+2 color="#990000"><b>Viewpoints</b></font><br><IMG SRC="view.jpg" BORDER=0></A>
+<FONT SIZE="4"><p>All viewpoints identified with the loaded VRML file are listed in this popupmenu. By
+selecting a viewpoint the view changes in the displayed virtual world.
+<p>Note that viewpoints beginning with <EM>vessel</EM> follow the corresponding vessel's movements, other
+viewpoints are fixed to the earth-fixed frame.</FONT>
+
+<HR ALIGN="center" WIDTH="100%">
+<p><A name=time><font size=+2 color="#990000"><b>Timeline</b></font><br><IMG SRC="time.jpg" BORDER=0></A>
+<FONT SIZE="4"><p>The timeline sliders enables you to scroll through the input 6 DOF data. Note that the displayed value
+are <EM>sample</EM> numbers, not <EM>time </EM>values! These values determine for which time interval
+the sequence is animated.
+<p>You may enter the desired sample number in the edit fields at the right end of the sliders.
+</FONT>
+
+<HR ALIGN="center" WIDTH="100%">
+<p><A name=vessel><font size=+2 color="#990000"><b>Selecting vessels</b></font><br><IMG SRC="vessel.jpg" BORDER=0></A>
+<FONT SIZE="4"><p>To change the sequence properties for a vessel, select a vessel in the popupmenu then
+set the properties you would like. These properties will take affect immidiatley in the displayed world.
+After adding the sequence to the animation, the properties will be saved with that specific sequence,
+and take affect whenever it is played back or recorded.
+<p>Changes in vessel properties are saved automatically, even if you select another vessel.
+</FONT>
+
+<HR ALIGN="center" WIDTH="100%">
+<p><A name=dispas><font size=+2 color="#990000"><b>Display vessels as...</b></font><br><IMG SRC="dispas.jpg" BORDER=0></A>
+<FONT SIZE="4"><p>Vessels may be displayed as other 3D models than it's vessel type, for instance as it's body fixed axis.
+Or the vessel may not displayed at all, not displaying all vessels can direct the focus to other vessels
+of particular interest.
+<p>If two vessels are moving close to each other, for instance a reference vessel and a simulated vessel,
+displaying them as body-fixed axis would give an indication of tracking quality.
+</FONT>
+
+<HR ALIGN="center" WIDTH="100%">
+<p><A name=path><font size=+2 color="#990000"><b>Paths</b></font><br><IMG SRC="path.jpg" BORDER=0></A>
+<FONT SIZE="4"><p>Paths are lines stretching from the selected vessel's first position, through all samples, to the
+vessel's last sampled position. Line thickness is set by entering a number in <EM>Size</EM> (given
+in meters, one centimeter in the above example).
+<p>The fields <EM>From</EM> and <EM>to</EM> determine for what sample range the path is visible. In the above
+example, the path is visible from first sample to sample number 3185. In other words: while the vessel is
+animated within this range, it will move along a line.
+<p>Instead of entering constant samples, you may enter <EM>t</EM>. Entering <EM>t</EM> in the <EM>From</EM>
+field will produce a path in front of the vessel, <EM>from</EM> the vessel <EM>to</EM> some constant sample.
+Entering <EM>t</EM> in the <EM>to</EM> field, will produce a path behind the vessel, <EM>from</EM> some
+constant sample <EM>to</EM> the vessel.
+</FONT>
+
+<HR ALIGN="center" WIDTH="100%">
+<FONT SIZE="4"><p><A name=world><font size=+2 color="#990000"><b>Worlds settings</b></font><br><IMG SRC="world.jpg" BORDER=0></A>
+<p><EM>Playback speed</EM> is the ratio of animation time versus sample time. Recall that sample time
+is given by the values in the time vector.
+<p>Imagine a time vector containing time values reaching from 0 seconds to 10 seconds (Note that the
+length of the time vector is irrelevant!), and a correspionding set of 6 DOF data.
+<ul>
+	<li>A playback speed value of 1, means the data will produce a 10 seconds long animation</li>
+	<li>A playback speed value of 0.5, will produce a 20 seconds long animation</li>
+	<li>A playback speed value of 2, will produce a 5 seconds long animation</li>
+</ul>
+<p>
+</FONT>
+
+<HR ALIGN="center" WIDTH="100%">
+<p><A name=pseq><IMG SRC="pr.jpg" BORDER=0><br><font size=+2 color="#990000"><b>Play sequence</b></font><br></A>
+<FONT SIZE="4"><p><EM>Play sequence</EM> plays back the selected sequence from the animation list.
+</FONT>
+
+<p><A name=pall> <font size=+2 color="#990000"><b>Play all</b></font><br></A>
+<FONT SIZE="4"><p><EM>Play all</EM> plays back all the sequences from the animation list.
+</FONT>
+
+<p><A name=rec> <font size=+2 color="#990000"><b>Record</b></font><br></A>
+<FONT SIZE="4"><p><EM>Record</EM> starts recording all the sequnces to file. You are asked to specify some
+video options before the recording starts.
+</FONT>
+
+<p>&nbsp;
+
+<p><table bgcolor="#ffe4b0" border=0 width="100%" cellpadding=0 cellspacing=0><tr valign=center>
+    <td align=left width=20><a href="createvrml.html"><img src="b_prev.gif" border=0 align=center></a></td>
+    <td align=left> createvrml</td><td align=right>euler2p</td>
+    <td align=right width=20><a href="euler2p.html"><img src="b_next.gif" border=0 align=center></a></td></tr>
+   </table>
+
+</body>
+</html>

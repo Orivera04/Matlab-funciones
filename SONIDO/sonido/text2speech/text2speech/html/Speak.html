@@ -1,0 +1,195 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>Speak</title>
+      <meta name="generator" content="MATLAB 7.0.4">
+      <meta name="date" content="2006-06-04">
+      <meta name="m-file" content="script_Speak"><style>
+body {
+  background-color: white;
+  margin:10px;
+}
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+pre.codeinput {
+  margin-left: 30px;
+}
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.showbuttons {
+  margin-left: 30px;
+  border: solid black 2px;
+  padding: 4px;
+  background: #EBEFF3;
+}
+
+pre.codeoutput {
+  color: gray;
+  font-style: italic;
+}
+pre.error {
+  color: red;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows.  On Gecko-based browsers, the shrink-to-fit doesn't work. */ 
+p,h1,h2,div {
+  /* for MATLAB's browser */
+  width: 600px;
+  /* for Mozilla, but the "width" tag overrides it anyway */
+  max-width: 600px;
+  /* for IE */
+  width:expression(document.body.clientWidth > 620 ? "600px": "auto" );
+}
+
+    </style></head>
+   <body>
+      <h1>Speak</h1>
+      <introduction>
+         <p>This function converts text into speech.</p>
+      </introduction>
+      <h2>Contents</h2>
+      <div>
+         <ul>
+            <li><a href="#1">Syntax</a></li>
+            <li><a href="#2">Description</a></li>
+            <li><a href="#10">Example:</a></li>
+            <li><a href="#14">See also</a></li>
+            <li><a href="#15">Signature</a></li>
+         </ul>
+      </div>
+      <h2>Syntax<a name="1"></a></h2><pre>Speak( text )</pre><h2>Description<a name="2"></a></h2>
+      <p>You can enter any form of text (less than 512 characters per line) into this function and it speaks it all.</p>
+      <p>Note: It requires that the Microsoft SAPI is installed. The speech SDK 5.1 can be obtained from: <a href="http://www.microsoft.com/downloads/details.aspx?FamilyId=5E86EC97-40A7-453F-B0EE-6583171B4530&amp;displaylang=en">http://www.microsoft.com/downloads/details.aspx?FamilyId=5E86EC97-40A7-453F-B0EE-6583171B4530&amp;displaylang=en</a></p>
+      <p>I would like to thank "Desmond (Dez) Lang" for his Text-To-Speech tutorial and my wife for letting me play with the computer
+         ;).
+      </p>
+      <p>You can find Desmond's tutorial at: <a href="http://www.gamedev.net/reference/articles/article1904.asp">http://www.gamedev.net/reference/articles/article1904.asp</a> All I did, was to make use of this fantastic tutorial and put it into a little DLL.
+      </p>
+      <p><b>Input:</b></p>
+      <div>
+         <ul>
+            <li>text ... text to be spoken (character array, or cell array of characters)</li>
+         </ul>
+      </div>
+      <p><b>Output:</b></p>
+      <div>
+         <ul>
+            <li>spoken text</li>
+         </ul>
+      </div>
+      <h2>Example:<a name="10"></a></h2>
+      <p>Casual chat. Speak({'Hello. How are you?','It is nice to speak to you.','regards SAPI.'})</p>
+      <p>Emphasising Speak('You can <a href="EMPH">EMPH</a> emphasis <a href="/EMPH">/EMPH</a> text.');
+      </p>
+      <p>Silence Speak('There will be silence now <a href="SILENCE">MSEC=''500''/</a> and speech again.');
+      </p>
+      <p>Speak('You can <a href="pitch">middle=''-10''/</a> drop the pitch.'); Speak('But you can make it <a href="pitch">middle=''+10''/</a> jump as well.');
+      </p>
+      <h2>See also<a name="14"></a></h2>
+      <p><a href="initSpeech.html">initSpeech</a>, <a href="unloadSpeechLibrary.html">unloadSpeechLibrary</a></p>
+      <h2>Signature<a name="15"></a></h2>
+      <div>
+         <ul>
+            <li><b>Author:</b> W.Garn
+            </li>
+            <li><b>E-Mail:</b> <a href="mailto:wgarn@yahoo.com">wgarn@yahoo.com</a> Date: 2006/06/04 22:20:00
+            </li>
+         </ul>
+      </div>
+      <div>
+         <ul>
+            <li><b>Copyright</b> 2006 W.Garn
+            </li>
+         </ul>
+      </div>
+      <p class="footer"><br>
+         Published with wg_publish; V1.0<br></p>
+      <!--
+##### SOURCE BEGIN #####
+%% Speak
+% This function converts text into speech.
+%% Syntax
+%  Speak( text )
+%% Description
+% You can enter any form of text (less than 512 characters per line) into
+% this function and it speaks it all.
+%%
+% Note: It requires that the Microsoft SAPI is installed. The speech SDK
+% 5.1 can be obtained from:
+% http://www.microsoft.com/downloads/details.aspx?FamilyId=5E86EC97-40A7-453F-B0EE-6583171B4530&displaylang=en
+%%
+% I would like to thank "Desmond (Dez) Lang" for his Text-To-Speech tutorial
+% and my wife for letting me play with the computer ;).
+%%
+% You can find Desmond's tutorial at:
+% http://www.gamedev.net/reference/articles/article1904.asp
+% All I did, was to make use of this fantastic tutorial and put it into a
+% little DLL.
+%%
+%%
+% *Input:*
+%%
+% * text ... text to be spoken (character array, or cell array of
+% characters)
+%%
+%%
+% *Output:*
+%%
+% * spoken text
+%%
+%% Example:
+% Casual chat.
+% Speak({'Hello. How are you?','It is nice to speak to you.','regards SAPI.'})
+%%
+% Emphasising
+% Speak('You can <EMPH> emphasis </EMPH> text.');
+%%
+% Silence
+% Speak('There will be silence now <SILENCE MSEC=''500''/> and speech again.');
+%%
+% Speak('You can <pitch middle=''-10''/> drop the pitch.');
+% Speak('But you can make it <pitch middle=''+10''/> jump as well.');
+%%
+%% See also
+% initSpeech, unloadSpeechLibrary
+%%
+%% Signature
+%%
+% * *Author:* W.Garn
+% * *E-Mail:* wgarn@yahoo.com
+% Date: 2006/06/04 22:20:00
+%%
+%%
+% * *Copyright* 2006 W.Garn
+%%
+%
+
+##### SOURCE END #####
+-->
+   </body>
+</html>

@@ -1,0 +1,1468 @@
+# $Revision: 1.7.6.3 $
+Library {
+  Name			  "target_mpc555"
+  Version		  6.0
+  PreLoadFcn		  "RTWConfigurationCB('preloadfcn', bdroot);"
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  on
+  InitFcn		  "% START RTW CONFIGURATION CODE %\nRTWConfigurationC"
+"B('rtw_target_initfcn',gcs);\n% END RTW CONFIGURATION CODE %\n"
+  Created		  "Mon Dec 04 16:02:02 2000"
+  Creator		  "The MathWorks Inc."
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "batserve"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Wed Apr 21 04:03:40 2004"
+  ModelVersionFormat	  "1.%<AutoIncrement:913>"
+  ConfigurationManager	  "sourcesafe"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock off
+  ProdHWDeviceType	  "Specified"
+  ShowModelReferenceBlockVersion off
+  ShowModelReferenceBlockIO off
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.0.4"
+      Array {
+	Type			"Handle"
+	Dimension		7
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.0.4"
+	  StartTime		  "0.0"
+	  StopTime		  "10.0"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  RelTol		  "1e-3"
+	  SolverMode		  "SingleTasking"
+	  Solver		  "ode45"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.0.4"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SaveTime		  on
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsOut"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Version		  "1.0.4"
+	  BlockReduction	  on
+	  BooleanDataType	  off
+	  ConditionallyExecuteInputs on
+	  ConditionalExecOptimization "on_for_testing"
+	  InlineParams		  off
+	  InlineInvariantSignals  on
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  on
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  ParameterPooling	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.0.4"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg on
+	  CheckExecutionContextRuntimeOutputMsg	on
+	  SignalResolutionControl "TryResolveAllWithWarning"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  SolverPrmCheckMsg	  "none"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  TasksWithSamePriorityMsg "warning"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterPrecisionLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  ModelReferenceSimTargetVerbose off
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	  ModelReferenceSymbolNameMessage "warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.0.4"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "Specified"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  off
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.0.4"
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Version		  "1.0.4"
+	  SystemTargetFile	  "grt.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  TemplateMakefile	  "grt_default_tmf"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Version		      "1.0.4"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      CustomSymbolStr	      "$R$N$M"
+	      MangleLength	      1
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    Simulink.GRTTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Version		      "1.0.4"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns off
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      ExtMode		      off
+	      ExtModeStaticAlloc      off
+	      ExtModeTesting	      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTransport	      0
+	      ExtModeMexFile	      "ext_comm"
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	      GenerateASAP2	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      SimulationMode	      "normal"
+      CurrentDlgPage	      "Solver"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "sfix(16)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "2^0"
+      SampleTime	      "inf"
+    }
+    Block {
+      BlockType		      DataTypeConversion
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      ConvertRealWorld	      "Real World Value (RWV)"
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ParameterDataTypeMode   "Same as input"
+      ParameterDataType	      "sfix(16)"
+      ParameterScalingMode    "Best Precision: Matrix-wise"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Inport
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Mux
+      Inputs		      "4"
+      DisplayOption	      "none"
+      BusObject		      "BusObject"
+      NonVirtualBus	      off
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      Product
+      Inputs		      "2"
+      Multiplication	      "Element-wise(.*)"
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Reference
+    }
+    Block {
+      BlockType		      Rounding
+      Operator		      "floor"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Selector
+      InputType		      "Vector"
+      IndexMode		      "One-based"
+      ElementSrc	      "Internal"
+      Elements		      "1"
+      RowSrc		      "Internal"
+      Rows		      "1"
+      ColumnSrc		      "Internal"
+      Columns		      "1"
+      InputPortWidth	      "-1"
+      IndexIsStartValue	      off
+      OutputPortSize	      "1"
+    }
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      PortCounts	      "[]"
+      SFunctionModules	      "''"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Sum
+      IconShape		      "rectangular"
+      Inputs		      "++"
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      UnitDelay
+      X0		      "0"
+      SampleTime	      "1"
+      StateMustResolveToSignalObject off
+      RTWStateStorageClass    "Auto"
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "target_mpc555"
+    Location		    [33, 119, 483, 299]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    282
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      "QSPI"
+      Ports		      []
+      Position		      [220, 29, 319, 80]
+      DropShadow	      on
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskType		      "QSPI "
+      MaskDisplay	      "disp('QSPI')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"QSPI"
+	Location		[47, 159, 269, 259]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "QSPI Configuration"
+	  Tag			  "_MPC555_QSPI_CONFIG_"
+	  Ports			  []
+	  Position		  [20, 20, 194, 72]
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  MaskType		  "Queued Serial Peripheral Interface Configur"
+"ation"
+	  MaskDescription	  "MPC555 QSPI configuration block\n\nIf the Q"
+"SPI driver is to be used, then there must be exactly one copy of this block w"
+"ithin the overall model.\n\nThe IRQ Level parameter is the MPC555 interrupt l"
+"evel that is used to trigger an interrupt when a transfer is complete. This i"
+"nterrupt is used to check whether any additional QSPI jobs are queued, and if"
+" so to startthe highest priority job running.\n\nThe Queue Length is the leng"
+"th of the queue used to store QSPI jobs that have been submitted and are read"
+"y to start."
+	  MaskPromptString	  "IRQ Level|Queue Length"
+	  MaskStyleString	  "popup(INT_LEVEL0|INT_LEVEL1|INT_LEVEL2|INT_"
+"LEVEL3|INT_LEVEL4|INT_LEVEL5|INT_LEVEL6|INT_LEVEL7|INT_LEVEL8|INT_LEVEL9|INT_"
+"LEVEL10|INT_LEVEL11|INT_LEVEL12|INT_LEVEL13|INT_LEVEL14|INT_LEVEL15|INT_LEVEL"
+"16|INT_LEVEL17|INT_LEVEL18|INT_LEVEL19|INT_LEVEL20|INT_LEVEL21|INT_LEVEL22|IN"
+"T_LEVEL23|INT_LEVEL24|INT_LEVEL25|INT_LEVEL26|INT_LEVEL27|INT_LEVEL28|INT_LEV"
+"EL29|INT_LEVEL30|INT_LEVEL31),edit"
+	  MaskTunableValueString  "off,off"
+	  MaskCallbackString	  "|"
+	  MaskEnableString	  "on,on"
+	  MaskVisibilityString	  "on,on"
+	  MaskToolTipString	  "on,on"
+	  MaskVarAliasString	  ","
+	  MaskVariables		  "irqLevel=&1;qlen=@2;"
+	  MaskInitialization	  "irqLevel = mask_resource_validator(gcb,@mas"
+"k_qspi_validator, irqLevel);"
+	  MaskDisplay		  "disp('MPC555 QSPI Configuration')"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "INT_LEVEL6|15"
+	  MaskTabNameString	  ","
+	  System {
+	    Name		    "QSPI Configuration"
+	    Location		    [61, 157, 1283, 784]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      "S-Function"
+	      Name		      "Header Code"
+	      Ports		      []
+	      Position		      [630, 29, 1187, 393]
+	      NamePlacement	      "alternate"
+	      UserDataPersistent      on
+	      UserData		      "DataTag0"
+	      List {
+		ListType		RTWdata
+		TLCFile			"extended_custcode"
+		Location		"Registration File"
+		Top			"/* QSPI required headers */          "
+"            \n#include <stdlib.h>                              \n#include <st"
+"ring.h>                              \n#include \"qspi_manage.h\"            "
+"             \n/* Maximum number of entries in the QSPI queue */\n#define QSP"
+"I_QUEUE_RECORDS 15                    \n/* Allocate memory for the QSPI queue"
+" */         \nQSPI_QUEUE  qspi_queue[QSPI_QUEUE_RECORDS];      \n            "
+"                                     \n"
+		ReferenceMask		""
+	      }
+	      OpenFcn		      "mask_custom_code_java('initfcn',gcb)"
+	      FontName		      "Times New Roman"
+	      FontSize		      12
+	      FontWeight	      "bold"
+	      FunctionName	      "sfun_extended_custcode"
+	      MaskType		      "Subsystem Custom Coder"
+	      MaskDescription	      "Add code to subsystem Derivatives funct"
+"ion"
+	      MaskHelp		      "This block contains text fields to inse"
+"rt custom user code sections at the declaration, execution and exit sections "
+"of the subsystem derivatives function.  By placing this block inside a subsyt"
+"em, the custom user code will appear in that subsystems function. <p>\n\nYou "
+"can choose to have the code appear only once for all instances of the enclosi"
+"ng masked library block. To activate this option select <b>\"Generate once pe"
+"r functional mask\"</b> option. This option can be further refined by definin"
+"g a <b>key</b> For example if there are 4 instances of a library block and tw"
+"o have the key \"XX\" and two have the key \"YY\" then the code generation bl"
+"ock will generate code once for the \"XX\" blocks and once for the \"YY\" blo"
+"cks.   "
+	      MaskInitialization      "[ dispstr,rtwdata ] = mask_custom_code_"
+"java('process_code',gcb);\nset_param(gcb,'rtwdata',rtwdata);\n"
+	      MaskDisplay	      "text(0.1,0.5,dispstr,'horizontalAlignme"
+"nt','left')\n"
+	      MaskSelfModifiable      on
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "normalized"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Initialise Code"
+	      Ports		      []
+	      Position		      [70, 447, 618, 584]
+	      NamePlacement	      "alternate"
+	      UserDataPersistent      on
+	      UserData		      "DataTag1"
+	      List {
+		ListType		RTWdata
+		TLCFile			"extended_custcode"
+		Location		"Model Start Function"
+		Top			"QspiSetup(INT_LEVEL6,QSPI_QUEUE_RECOR"
+"DS);\n"
+		ReferenceMask		""
+	      }
+	      FontName		      "Times New Roman"
+	      FontSize		      12
+	      FontWeight	      "bold"
+	      SourceBlock	      "driver_interface_library/Custom Code"
+	      SourceType	      "Subsystem Custom Coder"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Registration Code"
+	      Ports		      []
+	      Position		      [65, 29, 622, 393]
+	      NamePlacement	      "alternate"
+	      UserDataPersistent      on
+	      UserData		      "DataTag2"
+	      List {
+		ListType		RTWdata
+		TLCFile			"extended_custcode"
+		Location		"Header File"
+		Top			"/* QSPI required headers */          "
+"            \n#include <stdlib.h>                              \n#include <st"
+"ring.h>                              \n#include \"qspi_manage.h\"            "
+"             \n/* Maximum number of entries in the QSPI queue */\n#define QSP"
+"I_QUEUE_RECORDS 15                    \n/* Allocate memory for the QSPI queue"
+" */         \nQSPI_QUEUE  qspi_queue[QSPI_QUEUE_RECORDS];      \n            "
+"                                     \n"
+		ReferenceMask		""
+	      }
+	      FontName		      "Times New Roman"
+	      FontSize		      12
+	      FontWeight	      "bold"
+	      SourceBlock	      "driver_interface_library/Custom Code"
+	      SourceType	      "Subsystem Custom Coder"
+	    }
+	  }
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "String Operations"
+      Ports		      []
+      Position		      [95, 29, 195, 79]
+      DropShadow	      on
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskDisplay	      "disp('String Operations');"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"String Operations"
+	Location		[45, 160, 317, 595]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	257
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Banner"
+	  Ports			  [0, 1]
+	  Position		  [20, 258, 210, 322]
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  MaskType		  "Banner"
+	  MaskDescription	  "The output of this block is a sliding windo"
+"w over the banner string. \n\nThe output is standard ASCII codes output as a "
+"wide uint8 signal."
+	  MaskPromptString	  "String|Sample Time|Visible Banner Width"
+	  MaskStyleString	  "edit,edit,edit"
+	  MaskTunableValueString  "off,off,off"
+	  MaskCallbackString	  "||"
+	  MaskEnableString	  "on,on,on"
+	  MaskVisibilityString	  "on,on,on"
+	  MaskToolTipString	  "on,on,on"
+	  MaskVarAliasString	  ",,"
+	  MaskVariables		  "banner=&1;t=@2;banner_width=@3;"
+	  MaskDisplay		  "text(0.5,0.8,[ num2str(banner_width) 'char "
+"wide banner' ],'horizontalalignment','center')\ndisp(banner)\nplot([0.25 0.75"
+" 0.75 0.25 0.25],[0.3 0.3 0.7 0.7 0.3])\nplot([0.25 0.5],[0.1 0.1]);\nplot([0"
+".4 0.5 0.4 0.4],[0.175 0.1 0.025 0.175])"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "normalized"
+	  MaskValueString	  "Hello This Is My First Banner|1|10"
+	  MaskTabNameString	  ",,"
+	  System {
+	    Name		    "Banner"
+	    Location		    [792, 851, 1210, 988]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Selector
+	      Name		      "Selector"
+	      Ports		      [1, 1]
+	      Position		      [235, 71, 275, 109]
+	      Elements		      "[2:length(banner) 1 ]"
+	      InputPortWidth	      "length(banner)"
+	    }
+	    Block {
+	      BlockType		      Selector
+	      Name		      "Selector1"
+	      Ports		      [1, 1]
+	      Position		      [420, 11, 460, 49]
+	      Elements		      "[1:banner_width]"
+	    }
+	    Block {
+	      BlockType		      UnitDelay
+	      Name		      "Unit Delay1"
+	      Position		      [115, 70, 150, 110]
+	      X0		      "uint8(banner)"
+	      SampleTime	      "t"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "banner"
+	      Position		      [575, 23, 605, 37]
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      "Selector"
+	      SrcPort		      1
+	      Points		      [80, 0; 0, -60; -15, 0]
+	      Branch {
+		Points			[-315, 0; 0, 60]
+		DstBlock		"Unit Delay1"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"Selector1"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Unit Delay1"
+	      SrcPort		      1
+	      DstBlock		      "Selector"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Selector1"
+	      SrcPort		      1
+	      DstBlock		      "banner"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "String"
+	  Ports			  [0, 1]
+	  Position		  [160, 120, 250, 170]
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  MaskType		  "String Output"
+	  MaskDescription	  "Represent the string in standard ASCII code"
+" as a wide uint8 signal."
+	  MaskPromptString	  "String"
+	  MaskStyleString	  "edit"
+	  MaskTunableValueString  "off"
+	  MaskEnableString	  "on"
+	  MaskVisibilityString	  "on"
+	  MaskToolTipString	  "on"
+	  MaskVariables		  "S=&1;"
+	  MaskInitialization	  "u = uint8(S);"
+	  MaskDisplay		  "disp(S)"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "A String"
+	  System {
+	    Name		    "String"
+	    Location		    [647, 318, 939, 423]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant"
+	      Position		      [25, 25, 55, 55]
+	      Value		      "u"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [80, 33, 110, 47]
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      "Constant"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "String Concatenation"
+	  Ports			  [2, 1]
+	  Position		  [65, 351, 70, 389]
+	  Inputs		  "2"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "String Display"
+	  Ports			  [1]
+	  Position		  [160, 19, 235, 51]
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  MaskType		  "String Display"
+	  MaskDescription	  "Displays a vector of characters as a string"
+" on the block. The input should be a wide vector. Each element in the vector "
+"should be the numerical ASCII code for that character."
+	  MaskPromptString	  "S"
+	  MaskStyleString	  "edit"
+	  MaskTunableValueString  "off"
+	  MaskEnableString	  "on"
+	  MaskVisibilityString	  "off"
+	  MaskToolTipString	  "on"
+	  MaskVariables		  "S=&1;"
+	  MaskInitialization	  "block=gcb;"
+	  MaskDisplay		  "disp(S)"
+	  MaskSelfModifiable	  on
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  System {
+	    Name		    "String Display"
+	    Location		    [352, 687, 707, 771]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In1"
+	      Position		      [25, 38, 55, 52]
+	      Port		      "1"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion"
+	      Position		      [80, 31, 135, 59]
+	    }
+	    Block {
+	      BlockType		      "S-Function"
+	      Name		      "S-Function"
+	      Ports		      [1]
+	      Position		      [220, 29, 330, 61]
+	      FunctionName	      "sfun_stringdisplay"
+	      Parameters	      "block"
+	      MaskPromptString	      "Block|S"
+	      MaskStyleString	      "edit,edit"
+	      MaskTunableValueString  "off,off"
+	      MaskCallbackString      "|"
+	      MaskEnableString	      "on,on"
+	      MaskVisibilityString    "on,on"
+	      MaskToolTipString	      "on,on"
+	      MaskVarAliasString      ","
+	      MaskVariables	      "block=@1;S=&2;"
+	      MaskDisplay	      "disp(S)"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      MaskValueString	      "block|1"
+	      MaskTabNameString	      ","
+	    }
+	    Line {
+	      SrcBlock		      "In1"
+	      SrcPort		      1
+	      DstBlock		      "Data Type Conversion"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion"
+	      SrcPort		      1
+	      DstBlock		      "S-Function"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "String Lookup"
+	  Ports			  [1, 1]
+	  Position		  [20, 118, 140, 232]
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  MaskType		  "String Lookup"
+	  MaskDescription	  "Specify a cell array of strings as a lookup"
+" table.\n\nThe input to the block is base zero addressing so the first string"
+" will be output if the input is 0. The output is standard ASCII code and will"
+" be a wide uint8 vector as wide as the largest string in the cell array set."
+	  MaskPromptString	  "Strings"
+	  MaskStyleString	  "edit"
+	  MaskTunableValueString  "off"
+	  MaskEnableString	  "on"
+	  MaskVisibilityString	  "on"
+	  MaskToolTipString	  "on"
+	  MaskVariables		  "S=@1;"
+	  MaskInitialization	  "SS = S;\nSS = [ sprintf('%s\\\\n',S{1:end-1"
+"}) S{end} ];\nS = uint8(strvcat(S{:}))';\n\nif size(S,2)<=1\n   error('You mu"
+"st have at least two strings for the lookup table');\nend\n"
+	  MaskDisplay		  "text(0.1,0.9,'STRING LOOKUP :');\ntext(0.2,"
+"0.4,SS)\n\nplot([0.15 0.15],[0 0.8]);\nplot([0.15 0.5],[0 0])\nplot([0.15 0.5"
+"],[0.8 0.8])\n\n"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "normalized"
+	  MaskValueString	  "{'string1' 'string2' 'string3'  'string4'} "
+" "
+	  System {
+	    Name		    "String Lookup"
+	    Location		    [959, 699, 1528, 847]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "idx"
+	      Position		      [25, 48, 55, 62]
+	      Port		      "1"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Direct Look-Up\nTable (n-D)"
+	      Ports		      [1, 1]
+	      Position		      [80, 27, 135, 83]
+	      SourceBlock	      "simulink/Look-Up\nTables/Direct Look-Up"
+"\nTable (n-D)"
+	      SourceType	      "LookupNDDirect"
+	      maskTabDims	      "2"
+	      explicitNumDims	      "1"
+	      outDims		      "Column"
+	      tabIsInput	      "off"
+	      mxTable		      "S"
+	      clipFlag		      "Warning"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "string"
+	      Position		      [275, 43, 305, 57]
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      "idx"
+	      SrcPort		      1
+	      DstBlock		      "Direct Look-Up\nTable (n-D)"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Direct Look-Up\nTable (n-D)"
+	      SrcPort		      1
+	      Points		      [120, 0]
+	      DstBlock		      "string"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "num2str"
+	  Ports			  [1, 1]
+	  Position		  [20, 18, 135, 92]
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  MaskType		  "Num2Str"
+	  MaskDescription	  "Converts an input number to a string output"
+".\n\nGiven the scaling and offset and the number of digits to output a string"
+" is represented in standard ASCII codes as a wide uint8 signal line."
+	  MaskHelp		  "Converts an input number to a string output"
+" given the scaling and offset and the number of digits to output. The string "
+"is output in standard ASCII codes as a wide uint8 signal line."
+	  MaskPromptString	  "Number of digits|Scaling|Offset|Base"
+	  MaskStyleString	  "edit,edit,edit,edit"
+	  MaskTunableValueString  "off,off,off,off"
+	  MaskCallbackString	  "|||"
+	  MaskEnableString	  "on,on,on,on"
+	  MaskVisibilityString	  "on,on,on,on"
+	  MaskToolTipString	  "on,on,on,on"
+	  MaskVarAliasString	  ",,,"
+	  MaskVariables		  "N=@1;S=@2;O=@3;B=@4;"
+	  MaskInitialization	  "if B <=0 | B >10\n   error('Base must be be"
+"tween 1 and 10');\nend\n"
+	  MaskDisplay		  "text(0.1,0.5,sprintf('Number to String\\\\n"
+"   digits      %d\\\\n   scaling   %g\\\\n   offset      %g',N,S,O))"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "normalized"
+	  MaskValueString	  "6|1|0|10"
+	  MaskTabNameString	  ",,,"
+	  System {
+	    Name		    "num2str"
+	    Location		    [345, 76, 1377, 727]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "number"
+	      Position		      [45, 53, 75, 67]
+	      Port		      "1"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant"
+	      Position		      [145, 189, 255, 221]
+	      Value		      "B .^ [(N-1):-1:0]"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant1"
+	      Position		      [150, 294, 260, 326]
+	      Value		      "B"
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion"
+	      Position		      [710, 201, 765, 229]
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion1"
+	      Position		      [125, 46, 180, 74]
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Gain"
+	      Position		      [290, 45, 320, 75]
+	      Gain		      "S"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Offset"
+	      Position		      [45, 95, 75, 125]
+	      Value		      "0"
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product"
+	      Ports		      [2, 1]
+	      Position		      [305, 181, 350, 214]
+	      Inputs		      "*/"
+	      RndMeth		      "Floor"
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product1"
+	      Ports		      [2, 1]
+	      Position		      [545, 204, 590, 226]
+	      Inputs		      "**"
+	      RndMeth		      "Floor"
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product2"
+	      Ports		      [2, 1]
+	      Position		      [390, 191, 435, 224]
+	      Inputs		      "*/"
+	      RndMeth		      "Floor"
+	    }
+	    Block {
+	      BlockType		      Rounding
+	      Name		      "Rounding\nFunction"
+	      Position		      [470, 195, 500, 225]
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Shift to ASCII"
+	      Position		      [780, 260, 810, 290]
+	      Value		      "uint8(48)"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum"
+	      Ports		      [2, 1]
+	      Position		      [225, 50, 245, 70]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "|++"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum1"
+	      Ports		      [2, 1]
+	      Position		      [850, 205, 870, 225]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "|++"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum2"
+	      Ports		      [2, 1]
+	      Position		      [640, 205, 660, 225]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "+-|"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "digits"
+	      Position		      [970, 208, 1000, 222]
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      "Product1"
+	      SrcPort		      1
+	      DstBlock		      "Sum2"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Constant1"
+	      SrcPort		      1
+	      Points		      [95, 0]
+	      Branch {
+		Points			[165, 0; 0, -90]
+		DstBlock		"Product1"
+		DstPort			2
+	      }
+	      Branch {
+		Points			[0, -95]
+		DstBlock		"Product2"
+		DstPort			2
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Constant"
+	      SrcPort		      1
+	      DstBlock		      "Product"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "number"
+	      SrcPort		      1
+	      DstBlock		      "Data Type Conversion1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Sum"
+	      SrcPort		      1
+	      DstBlock		      "Gain"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Offset"
+	      SrcPort		      1
+	      Points		      [155, 0]
+	      DstBlock		      "Sum"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Gain"
+	      SrcPort		      1
+	      Points		      [15, 0; 0, 90; -50, 0]
+	      DstBlock		      "Product"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Sum1"
+	      SrcPort		      1
+	      DstBlock		      "digits"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Shift to ASCII"
+	      SrcPort		      1
+	      Points		      [45, 0]
+	      DstBlock		      "Sum1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion1"
+	      SrcPort		      1
+	      DstBlock		      "Sum"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Rounding\nFunction"
+	      SrcPort		      1
+	      DstBlock		      "Product1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Product"
+	      SrcPort		      1
+	      Points		      [15, 0]
+	      Branch {
+		DstBlock		"Product2"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, -25; 280, 0]
+		DstBlock		"Sum2"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Product2"
+	      SrcPort		      1
+	      DstBlock		      "Rounding\nFunction"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Sum2"
+	      SrcPort		      1
+	      DstBlock		      "Data Type Conversion"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion"
+	      SrcPort		      1
+	      DstBlock		      "Sum1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "space"
+	  Ports			  [0, 1]
+	  Position		  [160, 364, 190, 376]
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  MaskType		  "Single White Space"
+	  MaskDescription	  "When you mux strings together you can inser"
+"t this block to make sure there is whitespace between the strings."
+	  MaskDisplay		  "disp('''  ''');"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  System {
+	    Name		    "space"
+	    Location		    [1307, 510, 2339, 1161]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Reference
+	      Name		      "String"
+	      Ports		      [0, 1]
+	      Position		      [25, 25, 115, 75]
+	      SourceBlock	      "target_mpc555/String Operations/String"
+	      SourceType	      "String Output"
+	      S			      " "
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "space"
+	      Position		      [140, 43, 170, 57]
+	      IconDisplay	      "Port number"
+	    }
+	    Line {
+	      SrcBlock		      "String"
+	      SrcPort		      1
+	      DstBlock		      "space"
+	      DstPort		      1
+	    }
+	  }
+	}
+      }
+    }
+    Annotation {
+      Name		      "This library contains additional blocks that ar"
+"e included but undocumented in\nEmbedded Target for Motorola MPC555. These bl"
+"ocks are not officially supported\nand their implementation is subject to cha"
+"nge in future releases."
+      Position		      [223, 137]
+    }
+  }
+}
+MatData {
+  NumRecords		  3
+  DataRecord {
+    Tag			    DataTag2
+    Data		    "  %)30     .    Z (   8    (     @         %    "
+"\"     $    !     0         %  0 \"0    $    _    =6YI<75E    :V5Y        ;&]"
+"C871I;VX =F%R<P      =&]P        ;6ED9&QE    8F]T=&]M      X    X    !@    @ "
+"   &          4    (     0    $    !          D    (            \\#\\.    ,  "
+"   8    (    !          %    \"     $    \"     0         0  ( )R<   X   !(  "
+"  !@    @    $          4    (     0   !$    !         !     1    4F5G:7-T<F%"
+"T:6]N($9I;&4         #@   #     &    \"     0         !0    @    !    !     $"
+"         $  $ '%L96X.    ^     8    (    !          %    \"     $   #(     0 "
+"        0    R    \"\\J($UA>&EM=6T@;G5M8F5R(&]F(&5N=')I97,@:6X@=&AE(%%34$D@<7"
+"5E=64@*B\\*7\"-D969I;F4@45-025]1545515]214-/4D13(\"1[<6QE;GT*\"B\\J($%L;&]C87"
+"1E(&UE;6]R>2!F;W(@=&AE(%%34$D@<75E=64@*B\\*45-025]1545512 @<7-P:5]Q=65U95M14U"
+"!)7U%5155%7U)%0T]21%-=.PH*\"@H*(\" @(\" @(\" @(\" @(\" @(\" @(\" @(\" @#@   #"
+"     &    \"     0         !0    @               $         $          .    , "
+"    8    (    !          %    \"                0         0          "
+  }
+  DataRecord {
+    Tag			    DataTag1
+    Data		    "  %)30     .    6 (   8    (     @         %    "
+"\"     $    !     0         %  0 \"0    $    _    =6YI<75E    :V5Y        ;&]"
+"C871I;VX =F%R<P      =&]P        ;6ED9&QE    8F]T=&]M      X    X    !@    @ "
+"   &          4    (     0    $    !          D    (            \\#\\.    ,  "
+"   8    (    !          %    \"     $    \"     0         0  ( )R<   X   !(  "
+"  !@    @    $          4    (     0   !0    !         !     4    36]D96P@4W1"
+"A<G0@1G5N8W1I;VX     #@   #@    &    \"     0         !0    @    !    \"     "
+"$         $     @   !I<G%,979E; X   !@    !@    @    $          4    (     0 "
+"  \"H    !         !     J    47-P:5-E='5P*\"1[:7)Q3&5V96Q]+%%34$E?455%545?4D"
+"5#3U)$4RD[        #@   #     &    \"     0         !0    @               $   "
+"      $          .    ,     8    (    !          %    \"     $    !     0    "
+"     0  $ \"@    "
+  }
+  DataRecord {
+    Tag			    DataTag0
+    Data		    "  %)30     .    J (   8    (     @         %    "
+"\"     $    !     0         %  0 \"0    $    _    =6YI<75E    :V5Y        ;&]"
+"C871I;VX =F%R<P      =&]P        ;6ED9&QE    8F]T=&]M      X    X    !@    @ "
+"   &          4    (     0    $    !          D    (            \\#\\.    ,  "
+"   8    (    !          %    \"     $    \"     0         0  ( )R<   X   !   "
+"  !@    @    $          4    (     0    L    !         !     +    2&5A9&5R($9"
+"I;&4       X    P    !@    @    $          4    (     0    0    !         !  "
+"! !Q;&5N#@   ,     &    \"     0         !0    @    !    B0    $         $   "
+" (D    O*B!14U!)(')E<75I<F5D(&AE861E<G,@*B\\@\"EPC:6YC;'5D92 \\<W1D;&EB+F@^("
+"\" @(\" *7\"-I;F-L=61E(#QS=')I;F<N:#X@(\" @( I<(VEN8VQU9&4@(G%S<&E?;6%N86=E+F"
+"@B\"@H*\"@H*\"B @(\" @(\" @(\" @(\" @(\" @(\" @(\" @(          .    ,     8  "
+"  (    !          %    \"                0         0          X    P    !@   "
+" @    $          4    (               !         !          "
+  }
+}

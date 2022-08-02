@@ -1,0 +1,1 @@
+title('{\itAe}^{-\alpha\itt}sin\beta{\itt} \alpha<<\beta')

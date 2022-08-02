@@ -1,0 +1,15 @@
+a = 0.2; b = 0.8;
+[X,Y, Z] = Torus(a, b);
+Lx = 0; Ly = 0; Lz = 0;
+for k = 1:4
+subplot(2,2,k)
+switch k
+case 1
+mesh(X,Y,Z)
+v = axis;
+axis([v(1) v(2) v(3) v(4) -1 1])
+text(0.5, -0.5, 1, 'Torus')
+case 2
+psi = 0; chi = 0; phi = pi/3;
+[Xr Yr Zr] = EulerAngles(psi, chi, phi, Lx, Ly, Lz, X,Y, Z);
+mesh(X,Y,Z)

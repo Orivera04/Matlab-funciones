@@ -1,0 +1,187 @@
+#
+# $RCSfile: tasking.rul,v $
+# $Revision: 1.3 $
+# $Date: 2002/10/29 07:53:56 $
+#
+# Copyright 2002 The MathWorks, Inc.
+#
+# Abstract: This file defines pattern match rule for map2IR tool, it
+also has
+#	    internal knowledge of sections.
+#
+# Limition: Can't have leading space before each macro definition line;
+#	    For comma seperated values, don't put space between comma;
+#		We are processing diab m6 format (most detailed) only!
+
+
+#
+# system variables definition
+Compiler = Tasking	#compiler vendor name
+
+CompilerOption = 0	#will be available later
+
+ExistSummary = 0	#whether exists summary sections in MAP file
+			#	1 - exist summary, so the summary sections will be
+			#		identified by SummaryPrefix and SummaryEnd
+			#	0  - don't have summary, the summary will be
+			#		identified by line pattern
+
+SummaryPrefix =
+			# summary section start pattern
+			# it's imply a space seperated (add comma manually) string which
+			# appears just before Summary Section; to improve robustness,
+			# it's allowed to have multiple lines happen to match SummaryPrefix;
+			# i.e.,
+			# 	       address           Offset
+            		#	.init  fff02000 00000484 00000180
+            		# "address	Offset" is summary prefix, and added comma it will
+            		# become "address,Offset"
+
+SummaryEnd = 		# summary section ends pattern
+			#	EMPTYLINE - Empty Line
+			#	or other comma seperated (WITHOUT space) strings
+
+
+LineException = 0	# Whether exists valid lines but doesn't fit LinePattern
+			# This only meaningful when ExistSummary = 1
+			#	We will ignore these lines;
+			#	1 - YES
+			#	0 - NO
+
+Line1stCharPos = 0	# The 1st non blank character of line must be at position
+			#
+			#	n - no requirement
+			#	0 - 1st character
+LinePattern = NAME,n,NAME,n,HEX2,7,HEX2,7,HEX2,7,NAME,n,NAME,n,NAME,n,NAME,n
+#?INTVECT................... ... 000000h    0001FFh    000200h .... .... .... ROM
+# We need ignore all following section name, fortunately, they all have space in the name
+# so they won't even be catched by LinePattern (which don't allow space). The only exception
+# Reserved will be defined by the DWARF sections so it will be ignored too.
+#Extended SFR Area.......... ... 00F000h    00F1FFh    000200h .... .... .... RAM
+#System Stack............... ... 00FA00h    00FBFFh    000200h .... .... .... RAM
+#Reg. bank 0................ ... 00FC00h    00FC1Fh    000020h .... WORD .... RAM
+#Reserved................... ... 00FCC0h    00FCDFh    000020h .... .... .... ...
+#Reserved................... ... 00FD00h    00FD4Bh    00004Ch .... .... .... ...
+#SFR Area................... ... 00FE00h    00FFFFh    000200h .... .... .... RAM
+
+			# The section definition line pattern description, must be paired
+			#	NAME,n - one or more characters
+			#	HEX,8 - 8 digit HEX, 	ffff0000
+			#	DEC,8 - 8 digit dec	12345678
+			#	HEX2,9 - 9 digit HEX2	1234ffffH (used by Visual C)
+			#	n,HEX - any length HEX	12345678abcdef
+			#	any other string,1 - must be that string appeared once
+
+SectionNamePos = 0	# position of section name appeared at the line (in terms of
+			#	string)
+
+SectionStartAddrPos = 2 # position of section start addr appeared at the line
+
+SectionStartAddrFmt = HEX2 # format of section start addr appeared at the line
+
+SectionSizePos = 4	# position of section size appeared at the line
+
+SectionSizeFmt = HEX2	# section size format
+			#    HEX  - 0000003d
+			#    DEC  - 1048576
+			#    HEX2 - 00000004H (used by Visual C)
+
+DefinedSectionCategory = 1 # whether SectionCategoryPos defined
+SectionCategoryPos = 8	# Tasking compiler gives out category (RAM or ROM) of each section
+                        # directly in the map file.
+                        # i.e.
+                        # ?INTVECT................... ... 000000h    0001FFh    000200h .... .... .... ROM
+
+
+#
+# Definitions for heap and stack
+#
+#
+# Heap and Stack info isnot always available at Diab MAP file
+HeapDefinedAsSection = 1	# whether Heap is defined in the same format as section
+				#	1 - Yes, then HeapName take effect, Heap info
+				#	    will be extracted from LinePattern
+				#	i.e., GreenHills
+				#.stack           00118e10  00080000       524288    0008d18
+   				#.comment         00000000  000000d0          208    0008d18
+				#	0 - No, the compiler has different format when define
+				#	   Heap, then HeapStartLinePattern & HeapEndLinePattern
+				#	   will be used to extract heap info
+				#	i.e., CodeWarrior
+				#               _heap_addr 00020000
+                		#		_heap_end 00028000
+
+HeapName = 			# name of Heap section used by this compiler
+				# only make sense when HeapDefinedAsSection = 1
+
+HeapStartLinePattern =
+				# the line pattern for Heap start address definition
+				# see  LinePattern for description
+HeapEndLinePattern =
+				# the line pattern for Heap end address definition
+				# see  LinePattern for description
+
+HeapAddrPos = 1 # position of start/end addr appeared at the line
+
+HeapAddrFmt = HEX # format of start/end addr appeared at the line
+
+# same as Stack
+StackDefinedAsSection = 1
+
+StackName =
+
+StackStartLinePattern = _stack_addr,1,HEX,8
+StackEndLinePattern = _stack_end,1,HEX,8
+
+StackAddrPos = 1 # position of start/end addr appeared at the line
+
+StackAddrFmt = HEX # format of start/end addr appeared at the line
+
+
+#
+# Definitions for section layout: section, file and functions correlation
+#
+# There is NO section layout info available in Tasking Compiler
+#SectionLayoutLinePattern = THERE_IS_NO_VALUE_HERE,100
+SectionLayoutLinePattern = NAME,n,NAME,n,HEX2,7,HEX2,7,HEX2,7,NAME,n,NAME,n,NAME,n,NAME,n
+SLFuncNamePos = 0
+SLLibNamePos = 1000 
+SLFileNamePos = 99
+SLAddrPos = 2
+SLAddrFmt = HEX2
+SLSizePos = 4
+SLSizeFmt = HEX2
+
+# This pattern is for symbols which doesn't have filename on the line
+SectionLayoutLinePattern2 = THERE_IS_NO_VALUE_HERE,100
+SLFuncNamePos2 = 0
+SLLibNamePos2 = 1000
+SLFileNamePos2 = 3	
+SLAddrPos2 = 1
+SLSizePos2 = 2
+
+
+
+# File extension used by ERT
+ModelFileExtension = c,o
+
+# section group definitons
+#	CODE - Code
+#	CONST - read only data
+#	DATA - dynamic data
+#	HEAP - heap (if exist)
+#	STACK - stack (if exist)
+#	DWARF - DWARF debug info
+#	UNKNOWN - can't identified
+#
+# All user defined sections will be treated as Code, and we make the 
+assumption that no
+# conflicts exist at section name;
+#
+CODE = 
+CONST  = 
+DATA  = 
+UNKNOWN =
+DWARF = Reserved...................
+
+

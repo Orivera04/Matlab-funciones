@@ -1,0 +1,62 @@
+%% SYSTLC: Embedded Target for TI C2000 DSP (ERT) TMF: ti_c2000_ert.tmf MAKE: make_rtw \
+%%   EXTMODE: no_ext_comm
+%%
+%% $Revision: 1.5.6.3 $ $Date: 2004/04/08 20:58:54 $
+%% Copyright 2003-2004 The MathWorks, Inc.
+%%
+%% Abstract: System target file, Embedded Target for TI C2000 DSP based on 
+%%           ERT (requires Embedded Coder)
+
+
+%selectfile NULL_FILE
+
+%assign TargetName  = "C2000"
+%assign TargetType  = "RT"
+%assign Language    = "C"
+%assign useDSPBIOS  = 0
+%assign CodeFormat  = "Embedded-C"
+%assign ERTCustomFileTemplate = "ti_c2000_ectemplate.tlc"
+
+%if (CompiledModel.ConfigSet.SupportAbsoluteTime == 1) && (CompiledModel.StopTime != rtInf) && (SuppressErrorStatus != 1)
+    %assign ForceAbsoluteTime = 1
+%endif
+
+%% Error out on incompatible E-Coder options
+%if (TargetOS != "BareBoardExample")
+    %exit You must set Target Operating System to "BareBoardExample" for use with Embedded Target for TI C2000 DSP.
+%endif
+%if (MatFileLogging != 0)
+    %exit mat-file logging is not supported by Embedded Target for TI C2000 DSP.
+%endif
+%if (ExtMode != 0)
+    %exit External mode is not supported by Embedded Target for TI C2000 DSP.
+%endif
+
+%% Include system-target-file content that is common to ERT and GRT
+%include "ti_c2000_stf_common.tlc"
+
+
+%% The contents between 'BEGIN_RTW_OPTIONS' and 'END_RTW_OPTIONS' are strictly
+%% written by the standard format. We need to use this cell structure in RTW
+%% options GUI function rtwoptionsdlg.m file.
+%%
+/%
+  BEGIN_RTW_OPTIONS
+ 
+  %
+  
+  %----------------------------------------%
+  % Configure RTW code generation settings %
+  %----------------------------------------%
+  
+  rtwgensettings.DerivedFrom         = 'ert.tlc';
+  rtwgensettings.BuildDirSuffix      = '_c2000_rtw';
+  rtwgensettings.Version             = '1'; % Specify callbacks' compliance with DAStudio dialog
+  rtwgensettings.SelectCallback      = 'ti_c2000_callback(''SelectCallback'',hSrc,hDlg);';
+  rtwgensettings.UnselectCallback    = 'ti_c2000_callback(''UnselectCallback'',hSrc,hDlg);';
+  rtwgensettings.ActivateCallback    = 'ti_c2000_callback(''ActivateCallback'',hSrc,hDlg);';
+     
+  END_RTW_OPTIONS
+%/
+
+%% [EOF] ti_c2000_ert.tlc

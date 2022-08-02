@@ -1,0 +1,163 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Menu box</title>
+<style>
+<!--
+span.mcode   { font-family: Fixedsys; color: #993300 }
+-->
+</style>
+</head>
+
+<body>
+
+
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1">
+  <tr>
+    <td width="70%">
+    <h2>Menu box</h2>
+    </td>
+    <td width="3%">&nbsp;</td>
+    <td width="27%">
+    <img border="0" src="../images/plt.png" width="215" height="105" align="right"></td>
+  </tr>
+</table>
+<p>
+</p>
+
+<p>
+<img border="0" src="../images/MenuBox.png" align="left" hspace="10" vspace="10" width="81" height="237"></p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>By default, the menu box contains 7 items. Some or all of these items may be 
+missing if they were specifically excluded by using the <span class="mcode">'Options'</span> 
+argument in the calling sequence. See pltquiv.m for an example of how you can 
+add a new menu box function. Clicking on the menu box items has the following 
+effect:</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<h3>Help</h3>
+
+<p>Normally the .chm file you are currently reading is displayed (plt.chm). 
+However a different .chm file may be displayed if the <span class="mcode">'HELP'</span> 
+argument was given on the command line.</p>
+
+<h3>LinX</h3>
+
+<p>The x-axis scale changes from linear to logarithmic. This tag also changes to
+<span class="mcode">LogX</span> so that it always matches the current scaling of 
+the x-axis. Clicking again toggles it back to <span class="mcode">LinX</span>.</p>
+
+<h3>LinY</h3>
+
+<p>The x-axis scale changes from linear to logarithmic. This tag also changes to
+<span class="mcode">LogX</span> so that it always matches the current scaling of 
+the x-axis. Clicking again toggles it back to <span class="mcode">LinX</span>.</p>
+
+<h3>Grid</h3>
+
+<p>Alternates between no grids (tick marks only) and full grids for both axes. 
+By default, a dim grey is used for the grid lines (see the GRIDc parameter). A 
+higher contrast color (such as used with plot) makes it more difficult to 
+observe the main data traces.</p>
+
+<h3>Menu</h3>
+
+<p><img border="0" src="../images/Menu.png" width="708" height="93"></p>
+
+<p>The menu bar is not visible by default (unless <span class="mcode">
+'options','m'</span> appears in the argument list) but may be enabled by 
+clicking on the Menu tag. If plt is compiled into an .exe application, only the 
+file menu will appear. (All the other menu items depend on the Matlab application, 
+so it must be installed and running.)</p>
+
+<h3>Mark</h3>
+
+<p>
+<img border="0" src="../images/Marker.png" width="171" height="108" hspace="10" vspace="10"></p>
+
+<p>When you click on the Mark tag, a circular mark is placed at the current 
+cursor location and a text string is added to the plot containing the x and y 
+coordinates of the cursor location. The text string will be the same color as the active trace. If the text label is not positioned where you 
+want it, click on the label and drag it to the desired location. </p>
+
+<p>
+<img border="0" src="../images/MarkerEdit.png" width="307" height="124" align="left" hspace="10" vspace="10"></p>
+
+<p>If you right click on the text label, a new dialog box will appear which 
+allows you to change any or all of the properties of both the trace marker and 
+the text string. The two pictures below show the Marker and String properties 
+respectively that you can edit. Note that both the Marker and the String popups 
+have <span class="mcode">delete</span> as one of the options. This is useful if 
+you want to put a marker without a string or a string without a marker. You may 
+delete all the markers you have added this way by selecting <span class="mcode">
+delete</span> and then typing <span class="mcode">all</span> into the edit box 
+below the popup. The same trick works for deleting all the strings added to the 
+figure via the Mark tag. Note that you can have many of these Edit Marker dialog 
+boxes open at same time - as many as one per text string (or even more, although 
+there is probably little benefit to that). All these dialog boxes will be 
+deleted automatically if the main plot window is deleted.</p>
+
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="658" id="AutoNumber2">
+  <tr>
+    <td width="408" height="82" valign="top">
+    <img border="0" src="../images/MarkerEdit2.png" width="308" height="238"></td>
+    <td width="413" height="82" valign="top">
+    <img border="0" src="../images/MarkerEdit3.png" width="308" height="270"></td>
+  </tr>
+</table>
+
+<h3>Zout</h3>
+
+<p>Each left click of the <span class="mcode">Zout</span> (Zoom out) tag expands the 
+x and y axes by 40% (20% at each end). This approximately doubles the area of 
+the cartesian plane displayed within the axis limits. (1.4<sup>2</sup> = 1.96). 
+Right clicking on the <span class="mcode">Zout </span>reverses the effect of a 
+left click (i.e. zooms in).</p>
+
+<h3>XY<font face="Times New Roman">&#8596;</font></h3>
+
+<p>Each click on the <span class="mcode">XY<font face="Times New Roman">&#8596;</font></span> 
+(XYrotate) tag cycles the x and y axis limits to the next 
+display expansion stored in a history list. (The axis limits from the last four 
+zooms or pans are saved in this list). After all the display limits in the 
+history list are used, the next click autoscales both axes so that all the data 
+is displayed. The next click again uses the first display expansion in the 
+history list.</p>
+
+<h3>Print</h3>
+
+<p>Note that the <span class="mcode">Print</span> tag does not appear in the 
+menu box by default. It will only appear if enabled by an <span class="mcode">'Options'</span> 
+argument in the calling sequence. The reason this tag is off by default is that 
+the print dialog box (below) is experimental and may not be reliable. The safest 
+way to create hardcopy is to click on the <span class="mcode">Menu</span> tag to 
+enable the menu bar (if it isn't already enabled) and then select &quot;Print&quot; from 
+the File menu. However for creating some file types (such as Windows meta files, 
+or postscript files) the Print dialog box may be easier (if it works!). For all 
+file types except BMP, the colors are inverted if the background is dark. On 
+most printers this makes the copy far more readable and saves large amounts of 
+toner.</p>
+
+<p>The 
+Print dialog box that appears when you click on the <span class="mcode">Print</span> 
+tag looks like this:</p>
+
+<p>
+<img border="0" src="../images/HardCopy.png" width="355" height="144"></p>
+
+</body>
+
+</html>

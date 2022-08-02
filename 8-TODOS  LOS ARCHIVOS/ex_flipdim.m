@@ -1,0 +1,6 @@
+a = 1:8; a = reshape(a,2,4)
+b = flipdim(a,1) % identique à flipud(a)
+c = flipdim(a,2) % identique à fliplf(a)
+d = rot90(a,1)   % identique à rotate90(a)
+e = rot90(a,2)
+e = rot90(a,3)

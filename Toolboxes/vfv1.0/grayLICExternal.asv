@@ -1,0 +1,23 @@
+function [LICImage, intensity,normvx,normvy] = grayLICExternal(vx,vy, iterations);
+[width,height] = size(vx);
+LIClength = round(max([width,height]) / 30); % 50
+%  LIClength = 10;
+kernel = ones(2 * LIClength);
+noiseImage = zeros(width, height);
+LICImage = zeros(width, height);
+intensity = ones(width, height); % array containing vector intensity
+
+% Making white noise
+rand('state',0) % reset random generator to original state
+for i = 1:width 
+    for j = 1:height
+        noiseImage(i,j)= rand;
+    end;
+end;
+
+% Make LIC Image
+for m = 1:iterations
+[LICImage, intensity,normvx,normvy] = LICFunction(vx,vy,noiseImage,kernel);
+LICImage = imadjust(LICImage); % Adjust the value range
+noiseImage = LICImage;
+end;

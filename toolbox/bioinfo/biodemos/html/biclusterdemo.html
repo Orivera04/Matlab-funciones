@@ -1,0 +1,284 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>biclusterdemo</title>
+      <meta name="generator" content="MATLAB 7.0.0.3418 (R14) Beta 2">
+      <meta name="date" content="2004-01-20">
+      <meta name="m-file" content="biclusterdemo">
+      <meta name="title" content="BICLUSTERDEMO some examples of how to use the clustergram function">
+      <meta name="description" content="This example demonstrates some of the options of the clustergram function. The example uses data from Scherf U, Ross DT, Waltham M, Smith LH, Lee JK, Tanabe L, Kohn KW, Reinhold WC, Myers TG, Andrews DT, Scudiero DA, Eisen MB, Sausville EA,Pommier Y, Botstein D, Brown PO, Weinstein JN. Related Articles, Links &#34;A gene expression database for the molecular pharmacology of cancer.&#34; Nature Genetics 2000 Mar;24(3):236-44. PMID: 10700175"><style>
+body {
+  background-color: white;
+}
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+pre.codeinput {
+  margin-left: 30px;
+}
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.showbuttons {
+  margin-left: 30px;
+  border: solid black 2px;
+  padding: 4px;
+  background: #EBEFF3;
+}
+
+pre.codeoutput {
+  color: gray;
+  font-style: italic;
+}
+pre.error {
+  color: red;
+}
+    </style></head>
+   <body>
+      <h1>BICLUSTERDEMO some examples of how to use the clustergram function</h2>
+      <introduction>
+      <p>This example demonstrates some of the options of the <b>clustergram</b> function. The example uses data from Scherf U, Ross DT, Waltham M, Smith LH, Lee JK, Tanabe L, Kohn KW, Reinhold WC, Myers
+         TG, Andrews DT, Scudiero DA, Eisen MB, Sausville EA,Pommier Y, Botstein D, Brown PO, Weinstein JN. Related Articles, Links
+         "A gene expression database for the molecular pharmacology of cancer." Nature Genetics 2000 Mar;24(3):236-44. PMID: 10700175
+      </p>
+      </introduction>
+      <h2>Contents</h2>
+      <div>
+      <ul>
+         <li><a href="#2">Load the data into MATLAB</a></li>
+         <li><a href="#3">Extract the data from the Excel tables</a></li>
+         <li><a href="#4">Impute values for missing data</a></li>
+         <li><a href="#5">Now do the clustering</a></li>
+         <li><a href="#6">Changing the color scheme</a></li>
+         <li><a href="#7">Clustering the columns of the data set</a></li>
+         <li><a href="#8">Bi-clustering</a></li>
+         <li><a href="#9">Changing clustering options</a></li>
+      </ul>
+      </div>
+      <h2>Load the data into MATLAB<a name="2"></a></h2>
+      <p>The data used in this example is a 118x60 table of growth inhibition factors when 118 drugs with putatively understood methods
+         of action were applied to the NCI60 cell lines.
+      </p><p> The original data can be downloaded from
+        <a href="http://discover.nci.nih.gov/nature2000/data/selected_data/a_matrix118.txt">http://discover.nci.nih.gov/nature2000/data/selected_data/a_matrix118.txt</a> .
+        For the purpose of this demonstration, the file has been converted to an
+        Excel spreadsheet. The <b>xlsread</b> function can be used to read in the data
+        from the XLS file.</p><pre class="codeinput">
+[numericData, textData] = xlsread(<span class="string">'cancerdata.xls'</span>);
+</pre><h2>Extract the data from the Excel tables<a name="3"></a></h2>
+      <p><b>xlsread</b> reads the data in the spreadsheet into two variables, numericData, which stores numeric values and textData, which stores
+         any text values in the table. In this case the first three columns of the table are information about the drugs used in the
+         study.
+      </p><pre class="codeinput">giValues = numericData(:,2:end);
+drugMechanism = textData(2:end,1);
+drugName = textData(2:end,2);
+drug = strcat(drugMechanism,<span class="string">'-'</span>,drugName);
+drugID = numericData(:,1);
+cellLine = textData(1,4:end);
+tumorTypes = strtok(cellLine,<span class="string">':'</span>);
+
+<span class="comment">% Clear data that is no longer needed.</span>
+
+clear numericData textData
+</pre><h2>Impute values for missing data<a name="4"></a></h2>
+      <p>giValues contains some missing data. These are marked as NaN. We can choose to remove these values or somehow impute the missing
+         data. The function <b>nanmedian</b> can be used to find the median of the values in the rows or in the columns ignoring any missing values. There are several
+         other functions in the Statistics Toolbox that work with NaN data including <b>nanmean</b>, <b>nanvar</b> and <b>nansum</b>.
+      </p><pre class="codeinput"><span class="comment">% Find the missing values using the function *isnan*.</span>
+missingVals = isnan(giValues);
+
+<span class="comment">% Find the row and column medians ignoring NaN values.</span>
+colMedians = nanmedian(giValues);
+rowMedians = nanmedian(giValues,2);
+
+<span class="comment">% Replace the missing values with the row medians.</span>
+rowMed = repmat(rowMedians,1,size(giValues,2));
+giValues(missingVals) = rowMed(missingVals);
+</pre><h2>Now do the clustering<a name="5"></a></h2>
+      <p>The function <b>clustergram</b> is used to perform hierarchical clustering and to generate a heat map and dendrogram of the data. The simplest form of <b>clustergram</b> clusters the rows of a data set using correlation as the distance metric and average linkage. In this example the drug profiles
+         are clustered and the heat map and dendrogram show that drugs with similar methods of action clustered together.
+      </p><pre class="codeinput">clustergram(giValues,<span class="string">'rowlabels'</span>,drug,<span class="string">'columnlabels'</span>,tumorTypes);
+</pre><img vspace="5" hspace="5" src="biclusterdemo_01.png"><h2>Changing the color scheme<a name="6"></a></h2>
+      <p>The default color scheme is the red-green color scale that is widely used in microarray data analysis. In this example, a
+         different color scheme is more useful. The 'colormap' option allows you to specify an alternative colormap. The default color
+         scale assumes that the data is centred about zero. In this example, the data is not symmetric about zero so by setting the
+         'SymmetricRange' option to false, you will see more dynamic range in the heat map.
+      </p><pre class="codeinput">clf
+clustergram(giValues,<span class="string">'rowlabels'</span>,drug,<span class="string">'columnlabels'</span>,tumorTypes,<span class="keyword">...</span>
+                            <span class="string">'colormap'</span>,jet,<span class="string">'symmetricrange'</span>,false);
+</pre><img vspace="5" hspace="5" src="biclusterdemo_02.png"><h2>Clustering the columns of the data set<a name="7"></a></h2>
+      <p>The simplest way to cluster the columns of the data is to transpose the data using the ' operator. Note that the column labels
+         and row labels are switched and the dendrogram is still horizontal. In this example the cell lines are clustered.
+      </p><pre class="codeinput">clf
+clustergram(giValues',<span class="string">'columnlabels'</span>,drug,<span class="string">'rowlabels'</span>,tumorTypes,<span class="keyword">...</span>
+                            <span class="string">'colormap'</span>,jet,<span class="string">'symmetricrange'</span>,false);
+</pre><img vspace="5" hspace="5" src="biclusterdemo_03.png"><h2>Bi-clustering<a name="8"></a></h2>
+      <p>To perform two dimensional, or bi-clustering, set the 'dimension' option to 2. This clusters both the rows and columns of
+         the data and produces a heat map with two dendrograms, in this example one showing the clustering of the cell lines and one
+         showing the clustering of the drugs.
+      </p><pre class="codeinput">clf
+clustergram(giValues,<span class="string">'dimension'</span>,2,<span class="string">'rowlabels'</span>,drug,<span class="string">'columnlabels'</span>,tumorTypes,<span class="keyword">...</span>
+                            <span class="string">'colormap'</span>,jet,<span class="string">'symmetricrange'</span>,false);
+</pre><img vspace="5" hspace="5" src="biclusterdemo_04.png"><h2>Changing clustering options<a name="9"></a></h2>
+      <p>You can change the settings of the clustering algorithm to use and a different distance metric or different linkage method.
+         In this example, weighted linkage (WPGMA) is used and the dendrograms highlight different clusters with distance less than
+         10 units apart.
+      </p><pre class="codeinput">clf
+clustergram(giValues,<span class="string">'dimension'</span>,2,<span class="string">'rowlabels'</span>,drug,<span class="string">'columnlabels'</span>,tumorTypes,<span class="keyword">...</span>
+                            <span class="string">'colormap'</span>,jet,<span class="string">'symmetricrange'</span>,false,<span class="keyword">...</span>
+                            <span class="string">'linkage'</span>,<span class="string">'weighted'</span>,<span class="string">'dendrogram'</span>,{<span class="string">'color'</span>,10});
+</pre><p>
+If you want even more control over the clustering, you can use the
+clustering functions in the Statistics Toolbox directly. See <b>yeastdemo</b>
+for some examples of how to do this.
+</p><img vspace="5" hspace="5" src="biclusterdemo_05.png"><p class="footer">Copyright 2003-2004 The MathWorks, Inc.<br></p>
+      <!--
+##### SOURCE BEGIN #####
+%% BICLUSTERDEMO some examples of how to use the clustergram function
+% This example demonstrates some of the options of the *clustergram*
+% function. The example uses data from Scherf U, Ross DT, Waltham M, Smith
+% LH, Lee JK, Tanabe L, Kohn KW, Reinhold WC, Myers TG, Andrews DT,
+% Scudiero DA, Eisen MB, Sausville EA,Pommier Y, Botstein D, Brown PO,
+% Weinstein JN. Related Articles, Links "A gene expression database for the
+% molecular pharmacology of cancer." Nature Genetics 2000 Mar;24(3):236-44.
+% PMID: 10700175
+
+%   Copyright 2003-2004 The MathWorks, Inc.
+%   $Revision: 1.1.4.4 $  $Date: 2004/01/17 20:13:34 $
+
+if playbiodemo return; end % This command runs this demo in a 'paused' style.
+
+%% Load the data into MATLAB
+% The data used in this example is a 118x60 table of growth inhibition
+% factors when 118 drugs with putatively understood methods of action were
+% applied to the NCI60 cell lines.
+
+%% 
+% The original data can be downloaded from
+% http://discover.nci.nih.gov/nature2000/data/selected_data/a_matrix118.txt
+% For the purpose of this demonstration, the file has been converted to an
+% Excel spreadsheet. The *xlsread* function can be used to read in the data
+% from the XLS file. 
+
+[numericData, textData] = xlsread('cancerdata.xls');
+
+%% Extract the data from the Excel tables 
+% *xlsread* reads the data in the spreadsheet into two variables,
+% numericData, which stores numeric values and textData, which stores any
+% text values in the table. In this case the first three columns of the
+% table are information about the drugs used in the study.
+
+giValues = numericData(:,2:end);
+drugMechanism = textData(2:end,1);
+drugName = textData(2:end,2);
+drug = strcat(drugMechanism,'-',drugName);
+drugID = numericData(:,1);
+cellLine = textData(1,4:end);
+tumorTypes = strtok(cellLine,':');
+
+% Clear data that is no longer needed.
+
+clear numericData textData
+
+%% Impute values for missing data 
+% giValues contains some missing data. These are marked as NaN.
+% We can choose to remove these values or somehow impute the missing data.
+% The function *nanmedian* can be used to find the median of the values in
+% the rows or in the columns ignoring any missing values. There are several
+% other functions in the Statistics Toolbox that work with NaN data
+% including *nanmean*, *nanvar* and *nansum*.
+
+% Find the missing values using the function *isnan*.
+missingVals = isnan(giValues);
+
+% Find the row and column medians ignoring NaN values.
+colMedians = nanmedian(giValues);
+rowMedians = nanmedian(giValues,2);
+
+% Replace the missing values with the row medians.
+rowMed = repmat(rowMedians,1,size(giValues,2));
+giValues(missingVals) = rowMed(missingVals);
+
+%% Now do the clustering
+% The function *clustergram* is used to perform hierarchical clustering and
+% to generate a heat map and dendrogram of the data. The simplest form of
+% *clustergram* clusters the rows of a data set using correlation as the
+% distance metric and average linkage. In this example the drug profiles
+% are clustered and the heat map and dendrogram show that drugs with
+% similar methods of action clustered together.
+
+clustergram(giValues,'rowlabels',drug,'columnlabels',tumorTypes);
+
+%% Changing the color scheme
+% The default color scheme is the red-green color scale that is widely used
+% in microarray data analysis. In this example, a different color scheme is
+% more useful. The 'colormap' option allows you to specify an alternative
+% colormap. The default color scale assumes that the data is centred about
+% zero. In this example, the data is not symmetric about zero so by setting
+% the 'SymmetricRange' option to false, you will see more dynamic range in
+% the heat map.
+
+clf
+clustergram(giValues,'rowlabels',drug,'columnlabels',tumorTypes,...
+                            'colormap',jet,'symmetricrange',false);
+                        
+%% Clustering the columns of the data set
+% The simplest way to cluster the columns of the data is to transpose the
+% data using the ' operator. Note that the column labels and row labels are
+% switched and the dendrogram is still horizontal. In this example the cell
+% lines are clustered.
+
+clf
+clustergram(giValues','columnlabels',drug,'rowlabels',tumorTypes,...
+                            'colormap',jet,'symmetricrange',false);
+%% Bi-clustering
+% To perform two dimensional, or bi-clustering, set the 'dimension' option
+% to 2. This clusters both the rows and columns of the data and produces a
+% heat map with two dendrograms, in this example one showing the clustering
+% of the cell lines and one showing the clustering of the drugs.
+
+clf
+clustergram(giValues,'dimension',2,'rowlabels',drug,'columnlabels',tumorTypes,...
+                            'colormap',jet,'symmetricrange',false);
+
+%% Changing clustering options
+% You can change the settings of the clustering algorithm to use and a
+% different distance metric or different linkage method. In this example,
+% weighted linkage (WPGMA) is used and the dendrograms highlight different
+% clusters with distance less than 10 units apart.
+
+clf               
+clustergram(giValues,'dimension',2,'rowlabels',drug,'columnlabels',tumorTypes,...
+                            'colormap',jet,'symmetricrange',false,...
+                            'linkage','weighted','dendrogram',{'color',10});
+
+%%                        
+% If you want even more control over the clustering, you can use the
+% clustering functions in the Statistics Toolbox directly. See *yeastdemo*
+% for some examples of how to do this.
+
+##### SOURCE END #####
+-->
+   </body>
+</html>

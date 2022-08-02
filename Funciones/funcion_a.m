@@ -1,0 +1,3 @@
+fun=figure;
+txtcomando=uicontrol(...
+   'style','edit');

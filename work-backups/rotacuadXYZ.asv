@@ -1,0 +1,9 @@
+function RC=rotacuadXYZ(ecua)
+%Rotación de una cuadrica en XY.
+syms x y z X Y Z real;
+P=rotacuadYZ(ecua);
+Q=rotacuadXY(P);
+R=rotacuadXZ(Q);
+%ecua2(4)=0;ecua2(5)=0;ecua2(6)=0;
+ecuarot=R(1)*X^2+ecua2(2)*Y^2+ecua2(3)*Z^2+ecua2(7)*X+ecua2(8)*Y+ecua2(9)*Z+ecua2(10);
+RC=ecuarot;

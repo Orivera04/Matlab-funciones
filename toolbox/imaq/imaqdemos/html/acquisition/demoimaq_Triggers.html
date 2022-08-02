@@ -1,0 +1,252 @@
+<!--
+Copyright 2001-2004 The MathWorks, Inc.
+$Revision: 1.1.6.2 $ $Date: 2004/03/24 20:39:35 $
+-->
+
+<!--
+This HTML is auto-generated from an m-file.
+Your changes will be overwritten.
+--><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:x-large">Working With Triggers</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium;">Overview</p><ul xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd"><li><a href="#Configuring Trigger Properties">Configuring Trigger Properties</a></li><li><a href="#Immediate Triggering">Immediate Triggering</a></li><li><a href="#Manual Triggering">Manual Triggering</a></li><li><a href="#Hardware Triggering">Hardware Triggering</a></li></ul><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Configuring Trigger Properties<a name="Configuring Trigger Properties"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">To obtain a list of configurable trigger settings, use the TRIGGERINFO
+function with the video input object. TRIGGERINFO will return all
+possible trigger configurations supported by the image acquisition device
+associated with the video input object. Possible configurations consists
+of a valid trigger type, trigger condition, and trigger source
+combination.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Note: All image acquisition devices support immediate and manual
+trigger types. A hardware trigger type is available only if it is
+supported by the image acquisition device.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Access an image acquisition device.</span>
+vidobj = videoinput(<span style="color:#B20000">'matrox'</span>, 1);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Display all valid trigger configurations.</span>
+triggerinfo(vidobj)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+   Valid Trigger Configurations:
+
+      TriggerType:   TriggerCondition:   TriggerSource:   
+      'immediate'    'none'              'none'           
+      'manual'       'none'              'none'           
+      'hardware'     'fallingEdge'       'digitalTrigger' 
+      'hardware'     'fallingEdge'       'optoTrigger'    
+      'hardware'     'fallingEdge'       'timer1'         
+      'hardware'     'fallingEdge'       'timer2'         
+      'hardware'     'risingEdge'        'digitalTrigger' 
+      'hardware'     'risingEdge'        'optoTrigger'    
+      'hardware'     'risingEdge'        'timer1'         
+      'hardware'     'risingEdge'        'timer2'         
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">To configure the trigger settings for an image acquisition device, use the
+TRIGGERCONFIG function with the desired trigger type, trigger condition,
+and trigger source.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">triggerconfig(vidobj, <span style="color:#B20000">'hardware'</span>, <span style="color:#B20000">'fallingEdge'</span>, <span style="color:#B20000">'optoTrigger'</span>)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% View the current trigger configuration.</span>
+currentConfiguration = triggerconfig(vidobj)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+currentConfiguration = 
+
+         TriggerType: 'hardware'
+    TriggerCondition: 'fallingEdge'
+       TriggerSource: 'optoTrigger'
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Note: Configuring trigger settings requires a unique configuration to be
+specified. If specifying the trigger type uniquely identifies a
+configuration, no further arguments need to be provided to TRIGGERCONFIG.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Hardware triggers are the only trigger type that typically have multiple
+valid configurations.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Immediate Triggering<a name="Immediate Triggering"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">By default, a video input object's trigger type is configured for
+immediate triggering. Immediate triggering indicates that data logging
+is to begin as soon as the START function is issued.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Configure the trigger type.</span>
+triggerconfig(vidobj, <span style="color:#B20000">'immediate'</span>)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Initiate the acquisition.</span>
+start(vidobj)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Wait for acquisition to end.</span>
+wait(vidobj, 2)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Determine the number frames acquired.</span>
+frameslogged = get(vidobj, <span style="color:#B20000">'FramesAcquired'</span>)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+frameslogged =
+
+    10
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Manual Triggering<a name="Manual Triggering"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Manual triggering requires that the TRIGGER function be issued
+before data logging is to begin.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Configure the trigger type.</span>
+triggerconfig(vidobj, <span style="color:#B20000">'manual'</span>)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Initiate the acquisition.</span>
+start(vidobj)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Verify no frames have been logged.</span>
+frameslogged = get(vidobj, <span style="color:#B20000">'FramesAcquired'</span>)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+frameslogged =
+
+     0
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Trigger the acquisition.</span>
+trigger(vidobj)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Wait for the acquisition to end.</span>
+wait(vidobj, 2);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Determine the number frames acquired.</span>
+frameslogged = get(vidobj, <span style="color:#B20000">'FramesAcquired'</span>)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+frameslogged =
+
+    10
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Hardware Triggering<a name="Hardware Triggering"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Hardware triggering begins logging data as soon as a trigger condition
+has been met via the trigger source.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">In this example, we have connected an opto-isolated trigger source from a
+function generator to our image acquisition device. The image acquisition
+device will begin logging data upon detecting a falling edge signal from
+the source.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Configure the trigger settings.</span>
+triggerconfig(vidobj, <span style="color:#B20000">'hardware'</span>, <span style="color:#B20000">'fallingEdge'</span>, <span style="color:#B20000">'optoTrigger'</span>)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Initially, no signal is sent from the source to the image acquisition device.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Initiate the acquisition.</span>
+start(vidobj)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Verify nothing has been acquired.</span>
+frameslogged = get(vidobj, <span style="color:#B20000">'FramesAcquired'</span>)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+frameslogged =
+
+     0
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">A square wave signal will now be sent from the trigger source to the image
+acquisition device.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Wait for the acquisition to end.</span>
+wait(vidobj, 10)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Verify frames were acquired.</span>
+frameslogged = get(vidobj, <span style="color:#B20000">'FramesAcquired'</span>)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+frameslogged =
+
+    10
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Once the video input object is no longer needed, delete</span>
+<span style="color:green">% it and clear it from the workspace.</span>
+delete(vidobj)
+clear vidobj</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">See also IMAQDEVICE/TRIGGERCONFIG, IMAQDEVICE/TRIGGERINFO,
+IMAQDEVICE/TRIGGER, IMAQDEVICE/START, IMAQDEVICE/GET, IMAQHELP.
+</p><originalCode xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" code="%% Working With Triggers
+&#xA;
+&#xA;%% Configuring Trigger Properties
+&#xA;% To obtain a list of configurable trigger settings, use the TRIGGERINFO
+&#xA;% function with the video input object. TRIGGERINFO will return all
+&#xA;% possible trigger configurations supported by the image acquisition device
+&#xA;% associated with the video input object. Possible configurations consists
+&#xA;% of a valid trigger type, trigger condition, and trigger source
+&#xA;% combination.
+&#xA;%
+&#xA;% Note: All image acquisition devices support immediate and manual
+&#xA;% trigger types. A hardware trigger type is available only if it is
+&#xA;% supported by the image acquisition device.
+&#xA;
+&#xA;% Access an image acquisition device.
+&#xA;vidobj = videoinput('matrox', 1);
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Display all valid trigger configurations.
+&#xA;triggerinfo(vidobj)
+&#xA;
+&#xA;%%
+&#xA;% To configure the trigger settings for an image acquisition device, use the
+&#xA;% TRIGGERCONFIG function with the desired trigger type, trigger condition, 
+&#xA;% and trigger source.
+&#xA;
+&#xA;triggerconfig(vidobj, 'hardware', 'fallingEdge', 'optoTrigger')
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% View the current trigger configuration.
+&#xA;currentConfiguration = triggerconfig(vidobj)
+&#xA;
+&#xA;%%
+&#xA;% Note: Configuring trigger settings requires a unique configuration to be
+&#xA;% specified. If specifying the trigger type uniquely identifies a
+&#xA;% configuration, no further arguments need to be provided to TRIGGERCONFIG.
+&#xA;% 
+&#xA;% Hardware triggers are the only trigger type that typically have multiple 
+&#xA;% valid configurations.
+&#xA;
+&#xA;%% Immediate Triggering
+&#xA;% By default, a video input object's trigger type is configured for
+&#xA;% immediate triggering. Immediate triggering indicates that data logging 
+&#xA;% is to begin as soon as the START function is issued.  
+&#xA;
+&#xA;% Configure the trigger type.
+&#xA;triggerconfig(vidobj, 'immediate')
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Initiate the acquisition.
+&#xA;start(vidobj)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Wait for acquisition to end.
+&#xA;wait(vidobj, 2)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Determine the number frames acquired.
+&#xA;frameslogged = get(vidobj, 'FramesAcquired')
+&#xA;
+&#xA;
+&#xA;%% Manual Triggering
+&#xA;% Manual triggering requires that the TRIGGER function be issued
+&#xA;% before data logging is to begin.
+&#xA;
+&#xA;% Configure the trigger type.
+&#xA;triggerconfig(vidobj, 'manual')
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Initiate the acquisition.
+&#xA;start(vidobj)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Verify no frames have been logged.
+&#xA;frameslogged = get(vidobj, 'FramesAcquired')
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Trigger the acquisition.
+&#xA;trigger(vidobj)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Wait for the acquisition to end.
+&#xA;wait(vidobj, 2);
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Determine the number frames acquired.
+&#xA;frameslogged = get(vidobj, 'FramesAcquired')
+&#xA;
+&#xA;%% Hardware Triggering
+&#xA;% Hardware triggering begins logging data as soon as a trigger condition
+&#xA;% has been met via the trigger source. 
+&#xA;%
+&#xA;% In this example, we have connected an opto-isolated trigger source from a
+&#xA;% function generator to our image acquisition device. The image acquisition
+&#xA;% device will begin logging data upon detecting a falling edge signal from
+&#xA;% the source.
+&#xA;
+&#xA;% Configure the trigger settings.
+&#xA;triggerconfig(vidobj, 'hardware', 'fallingEdge', 'optoTrigger')
+&#xA;
+&#xA;%%
+&#xA;% Initially, no signal is sent from the source to the image acquisition device.
+&#xA;
+&#xA;% Initiate the acquisition.
+&#xA;start(vidobj)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Verify nothing has been acquired.
+&#xA;frameslogged = get(vidobj, 'FramesAcquired')
+&#xA;
+&#xA;%%
+&#xA;% A square wave signal will now be sent from the trigger source to the image
+&#xA;% acquisition device.
+&#xA;
+&#xA;% Wait for the acquisition to end.
+&#xA;wait(vidobj, 10)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Verify frames were acquired.
+&#xA;frameslogged = get(vidobj, 'FramesAcquired')
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Once the video input object is no longer needed, delete
+&#xA;% it and clear it from the workspace.
+&#xA;delete(vidobj)
+&#xA;clear vidobj
+&#xA;
+&#xA;%%
+&#xA;% See also IMAQDEVICE/TRIGGERCONFIG, IMAQDEVICE/TRIGGERINFO,
+&#xA;% IMAQDEVICE/TRIGGER, IMAQDEVICE/START, IMAQDEVICE/GET, IMAQHELP."></originalCode>

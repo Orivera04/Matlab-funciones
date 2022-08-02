@@ -1,0 +1,92 @@
+clc;
+clear;
+
+syms x y z
+
+fprintf('              MENU\n');
+opcion=input('1.-Paraboloide\n2.-Paraboloide hiperbolico\n3.-Esfera\n4.-Elipsoide\n5.-Hiperboloide de una Hoja\n6.-Superficie Cilindrica Circular\n7.-Superficie Cilindrica Parabolica\n8.-Superficie Conica\n');
+
+switch(opcion)
+    case 1
+        fprintf('PARABOLOIDE\n');
+        fprintf('La ecuacion del paraboloide es de la forma: z = x^2 + y^2\n');
+        f=input('Introduzca la Formula\n');
+        xf=input('Introduzca el valor final de x\n');
+        xi=input('Introduzca el valor inicial de x\n');
+        yf=input('Introduzca el valor final de y\n');
+        yi=input('Introduzca el valor inicial de y\n');
+        [x,y]=meshgrid(xi:0.5:xf,yi:0.5:yf);
+        ezmesh(f)
+        hold on
+       
+    case 2 
+        fprintf('PARABOLOIDE HIPERBOLICO\n');
+        fprintf('La ecuacion del Paraboloide Hiperbolico es de la Forma: z = x^2 - y^2\n');
+        f=input('Introduzca la Formula\n');
+        xf=input('Introduzca el valor final de x\n');
+        xi=input('Introduzca el valor inicial de x\n');
+        yf=input('Introduzca el valor final de y\n');
+        yi=input('Introduzca el valor inicial de y\n');
+        [x,y]=meshgrid(xi:0.25:xf,yi:0.25:yf);
+        ezmesh(f)
+        hold on
+    case 3
+        fprintf('ESFERA\n');
+        f=input('Introduzca la Formula\n');
+        n=input('n=\n');
+        [x,y,z]=sphere(n);
+        ezmesh(f)
+        hold on
+        
+        
+    case 4
+        fprintf('ELIPSOIDE\n');
+        f=input('Introduzca la Formula\n');
+        xa=input('centro 1\n');
+        xb=input('centro 2\n');
+        xc=input('centro 3\n');
+        xr=input('radio x\n');
+        yr=input('radio y\n');
+        zr=input('radio z\n');
+        [x,y,z]=ellipsoid(xa,xb,xc,xr,yr,zr);        
+        surf(x,y,z)
+        hold on
+        
+    case 5
+        fprintf('HIPERBOLOIDE DE UNA HOJA\n');
+        fprintf('la ecucacion del Hiperboloide de una Hoja es de la forma: x^2 +y^2 -z^2 = 1\n');
+        z=input('Introduzca la Formula\n');
+        xf=input('Introduzca el valor final de x\n');
+        xi=input('Introduzca el valor inicial de x\n');
+        yf=input('Introduzca el valor final de y\n');
+        yi=input('Introduzca el valor inicial de y\n');
+        [x,y]=meshgrid(xi:0.5:xf,yi:0.5:yf);
+        ezmesh(z)
+        hold on      
+        
+    case 6
+        fprintf('SUPERFICIE CILINDRICA CIRCULAR\n');
+        z=input('Introduzca la Formula\n');
+        d=input('Diametro\n');
+        n=input('n=\n');
+        [x,y,z]=cylinder(d,n);
+        ezmesh(z)
+        hold on
+        
+    case 7
+        fprintf('SUPERFICIE CILINDRICA PARABOLICA\n');
+        fprintf('la ecuacion de la superficie cilindrica parabolica es de la forma: z=x^2\n');
+        z=input('Introduzca la Formula\n');
+        [x,y]=meshgrid(0:0.5:1,0:0.5:1);
+        ezmesh(z)
+        hold on
+        
+    case 8
+        fprintf('SUPERFICIE CONICA\n');
+        fprintf('la ecuacion de la superficie conica es de la forma: x^2 + y^2 -z^2 = 0\n');
+        z=input('Introduzca la Formula\n');
+        [x,y]=meshgrid(1:0.5:2,1:0.5:2);
+        ezmesh(z)
+        hold on
+        
+end

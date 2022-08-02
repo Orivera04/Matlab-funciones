@@ -1,0 +1,354 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>COUNT LOOPS IN A NETWORK</title>
+      <meta name="generator" content="MATLAB 7.3">
+      <meta name="date" content="2007-02-28">
+      <meta name="m-file" content="run_loops_html"><style>
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head>
+   <body>
+      <div class="content">
+         <h1>COUNT LOOPS IN A NETWORK</h1>
+         <introduction>
+            <p>This code counts the number of loops (cycles) in a network (graph) that is composed of nodes and edges. It employs an iterative
+               algorithm that transforms the network into a tree (the ILCA - Iterative Loop Counting Algorithm). This is a "brute force"
+               technique as there are no known (to my knowledge anyway) algorithms for providing a good estimation.
+            </p>
+            <p>AUTHOR:   Joseph Kirk <a href="jdkirk630@gmail.com">jdkirk630@gmail.com</a> (c) 2007
+            </p>
+            <p>USAGE:    &gt;&gt; run_loops;</p>
+            <p>NOTES:    Refer to the README and the DETAILS files for more info</p>
+         </introduction>
+         <h2>Contents</h2>
+         <div>
+            <ul>
+               <li><a href="#1">STEP 1: OBTAIN A NETWORK (FROM FILE OR RANDOMLY GENERATED)</a></li>
+               <li><a href="#2">STEP 2: PLOT NET (OPTIONAL)</a></li>
+               <li><a href="#3">STEP 3: REDUCE NET (OPTIONAL)</a></li>
+               <li><a href="#4">STEP 4: SETUP (INITIALIZE THE STARTING NODE)</a></li>
+               <li><a href="#5">STEP 5: COUNT LOOPS (SEARCH THE GRAPH USING THE ILCA)</a></li>
+               <li><a href="#6">STEP 6: PLOT H-LOOPS DISTRIBUTION (NUMBER OF LOOPS OF LENGTH H)</a></li>
+               <li><a href="#7">STEP 7: SAVE THE NET TO A .TXT FILE (OPTIONAL)</a></li>
+               <li><a href="#8">STEP 8: SAVE THE LOOP LIST TO A .TXT OR .MAT FILE (OPTIONAL)</a></li>
+            </ul>
+         </div>
+         <h2>STEP 1: OBTAIN A NETWORK (FROM FILE OR RANDOMLY GENERATED)<a name="1"></a></h2><pre class="codeinput">Button1 = questdlg(<span class="string">'Pick a network type:'</span>,<span class="string">'Network Type'</span>, <span class="keyword">...</span>
+    <span class="string">'Edge List File'</span>,<span class="string">'Random Network'</span>,<span class="string">'Edge List File'</span>);
+<span class="keyword">switch</span> Button1
+    <span class="keyword">case</span> <span class="string">'Edge List File'</span>
+        <span class="comment">% READ NET FROM FILE</span>
+        edge_list = read_edge_list(); <span class="comment">% prompt user to select an edge list file</span>
+        <span class="keyword">if</span> isempty(edge_list)
+            <span class="keyword">return</span>
+        <span class="keyword">end</span>
+        usnet = edge_list2net(edge_list); <span class="comment">% format the edgelist for the loop counting process</span>
+        net = sort_net(usnet);
+    <span class="keyword">case</span> <span class="string">'Random Network'</span>
+        <span class="comment">% GENERATE RANDOM NET</span>
+        prompt = {<span class="string">' Enter number of NODES for the random network: '</span>,<span class="string">' Enter number of EDGES for the random network: '</span>};
+        name = <span class="string">'Random Network Setup'</span>;
+        answer1 = inputdlg(prompt,name,1,{<span class="string">'15'</span>,<span class="string">'25'</span>});
+        <span class="keyword">if</span> isempty(answer1)
+            <span class="keyword">return</span>
+        <span class="keyword">end</span>
+        num_nodes = str2double(cell2mat(answer1(1)));
+        num_edges = str2double(cell2mat(answer1(2)));
+        usnet = gen_rand_net(num_nodes,num_edges); <span class="comment">% generate random network</span>
+        net = sort_net(usnet);
+    <span class="keyword">otherwise</span>
+        <span class="keyword">return</span>
+<span class="keyword">end</span>
+num_nodes = length(net);
+num_edges = calc_num_edges(net);
+disp([<span class="string">'  Net:  nodes = '</span> num2str(num_nodes) <span class="string">' edges = '</span> num2str(num_edges)]);
+</pre><pre class="codeoutput"> The random net was generated after 36 modifications
+  Net:  nodes = 15 edges = 25
+</pre><h2>STEP 2: PLOT NET (OPTIONAL)<a name="2"></a></h2><pre class="codeinput">Button2 = questdlg(<span class="string">'Plot Graph?'</span>,<span class="string">'Plot Graph'</span>,<span class="string">'Yes'</span>,<span class="string">'No'</span>,<span class="string">'Yes'</span>);
+<span class="keyword">switch</span> Button2
+    <span class="keyword">case</span> <span class="string">'Yes'</span>
+        figure; plot_net(net); <span class="comment">% plot of the network</span>
+        title(<span class="string">'Network'</span>);
+    <span class="keyword">case</span> <span class="string">'No'</span>
+    <span class="keyword">otherwise</span>
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="run_loops_html_01.jpg"> <h2>STEP 3: REDUCE NET (OPTIONAL)<a name="3"></a></h2><pre class="codeinput">Button3 = questdlg(<span class="string">'Reduce Network?'</span>,<span class="string">'Reduce Network'</span>,<span class="string">'Yes'</span>,<span class="string">'No'</span>,<span class="string">'Yes'</span>);
+<span class="keyword">switch</span> Button3
+    <span class="keyword">case</span> <span class="string">'Yes'</span>
+        net = reduce_net(net);     <span class="comment">% removes all 1-connected nodes and their corresponding edges</span>
+        num_nodes = length(net);
+        num_edges = calc_num_edges(net);
+        disp([<span class="string">'   Reduced net:  nodes = '</span> num2str(num_nodes) <span class="string">' edges = '</span> num2str(num_edges)]);
+        Button4 = questdlg(<span class="string">'Plot Reduced Graph?'</span>,<span class="string">'Plot Graph'</span>,<span class="string">'Yes'</span>,<span class="string">'No'</span>,<span class="string">'Yes'</span>);
+        <span class="keyword">switch</span> Button4
+            <span class="keyword">case</span> <span class="string">'Yes'</span>
+                figure; plot_net(net); <span class="comment">% plot of the reduced network</span>
+                title(<span class="string">'Reduced Network'</span>);
+            <span class="keyword">case</span> <span class="string">'No'</span>
+            <span class="keyword">otherwise</span>
+        <span class="keyword">end</span>
+    <span class="keyword">case</span> <span class="string">'No'</span>
+    <span class="keyword">otherwise</span>
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">   Reduced net:  nodes = 13 edges = 23
+</pre><img vspace="5" hspace="5" src="run_loops_html_02.jpg"> <h2>STEP 4: SETUP (INITIALIZE THE STARTING NODE)<a name="4"></a></h2><pre class="codeinput">n = get_starting_node(net);         <span class="comment">% give the path a nearly optimal starting node</span>
+path = net(n).node;               <span class="comment">% initialize the path</span>
+current_edge = net(n).edges(1);   <span class="comment">% initialize the first edge</span>
+loop_list = [];                   <span class="comment">% initialize the loop list</span>
+iterations = 0;              <span class="comment">% initialize the number of algorithm steps</span>
+</pre><h2>STEP 5: COUNT LOOPS (SEARCH THE GRAPH USING THE ILCA)<a name="5"></a></h2><pre class="codeinput">prompt = {<span class="string">' Approximately how many loops do you expect? (Needed for waitbar progress) '</span>};
+name = <span class="string">'Loop Count (Estimate)'</span>;
+answer2 = inputdlg(prompt,name,1,{<span class="string">'1000'</span>});
+<span class="keyword">if</span> ~isempty(answer2)
+    num_est_loops = cell2mat(answer2);
+<span class="keyword">else</span>
+    <span class="keyword">return</span>
+<span class="keyword">end</span>
+wb = waitbar(0,[<span class="string">'Searching Tree for Loops ... '</span> num2str(0) <span class="string">' found'</span>]);
+<span class="keyword">while</span> (length(path)&gt;1 || ~isempty(current_edge))
+    [net,path,current_edge,loop_list] = iterate_tree(net,path,current_edge,loop_list);
+    iterations = iterations+1;
+    waitbar(length(loop_list)/str2double(num_est_loops),wb,[<span class="string">'Searching Tree for Loops ... '</span> num2str(length(loop_list)) <span class="string">' found'</span>]);
+<span class="keyword">end</span>
+close(wb);
+num_loops = length(loop_list);
+disp([<span class="string">'    It took '</span> num2str(iterations) <span class="string">' steps to complete the ILCA'</span>]);
+disp([<span class="string">'     There are '</span> num2str(num_loops) <span class="string">' loops in the net'</span>]);
+</pre><pre class="codeoutput">    It took 6865 steps to complete the ILCA
+     There are 330 loops in the net
+</pre><h2>STEP 6: PLOT H-LOOPS DISTRIBUTION (NUMBER OF LOOPS OF LENGTH H)<a name="6"></a></h2><pre class="codeinput">Button5 = questdlg(<span class="string">'Show N(h) Distribution?'</span>,<span class="string">'Loop Distribution'</span>,<span class="string">'Yes'</span>,<span class="string">'No'</span>,<span class="string">'Yes'</span>);
+<span class="keyword">switch</span> Button5
+    <span class="keyword">case</span> <span class="string">'Yes'</span>
+        figure; plot_loop_dist(net,loop_list);
+    <span class="keyword">case</span> <span class="string">'No'</span>
+    <span class="keyword">otherwise</span>
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="run_loops_html_03.jpg"> <h2>STEP 7: SAVE THE NET TO A .TXT FILE (OPTIONAL)<a name="7"></a></h2><pre class="codeinput">prompt = {<span class="string">'Enter the name of the file (no file extension):'</span>};
+name = <span class="string">'Save Net to TXT File'</span>;
+answer3 = inputdlg(prompt,name,[1 50],{<span class="string">'net'</span>});
+<span class="keyword">if</span> ~isempty(answer3)
+    filename = cell2mat(answer);
+    net2file(NET,[filename <span class="string">'.txt'</span>]);
+<span class="keyword">end</span>
+</pre><h2>STEP 8: SAVE THE LOOP LIST TO A .TXT OR .MAT FILE (OPTIONAL)<a name="8"></a></h2><pre class="codeinput">prompt = {<span class="string">'Enter the name of the file (no file extension):'</span>};
+name = <span class="string">'Save Loops to TXT or MAT File'</span>;
+answer4 = inputdlg(prompt,name,[1 50],{<span class="string">'looplist'</span>});
+filename = cell2mat(answer4);
+<span class="keyword">if</span> ~isempty(filename)
+    Button = questdlg(<span class="string">'Choose File Type:'</span>,<span class="string">'File Type'</span>,<span class="string">'TXT File'</span>,<span class="string">'MAT File'</span>,<span class="string">'TXT File'</span>);
+    <span class="keyword">switch</span> Button
+        <span class="keyword">case</span> <span class="string">'TXT File'</span>
+            loops2file(loop_list,[filename <span class="string">'.txt'</span>]);
+        <span class="keyword">case</span> <span class="string">'MAT File'</span>
+            eval(sprintf([filename <span class="string">' = loop_list;'</span>]));
+            eval(sprintf(<span class="string">'save %s %s'</span>,filename,filename));
+        <span class="keyword">otherwise</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><p class="footer"><br>
+            Published with MATLAB&reg; 7.3<br></p>
+      </div>
+      <!--
+##### SOURCE BEGIN #####
+%% COUNT LOOPS IN A NETWORK
+% This code counts the number of loops (cycles) in a network (graph) that
+% is composed of nodes and edges. It employs an iterative algorithm that
+% transforms the network into a tree (the ILCA - Iterative Loop Counting
+% Algorithm). This is a "brute force" technique as there are no known (to
+% my knowledge anyway) algorithms for providing a good estimation.
+%
+% AUTHOR:   Joseph Kirk <jdkirk630@gmail.com> (c) 2007
+% 
+% USAGE:    >> run_loops;
+% 
+% NOTES:    Refer to the README and the DETAILS files for more info
+
+%% STEP 1: OBTAIN A NETWORK (FROM FILE OR RANDOMLY GENERATED)
+Button1 = questdlg('Pick a network type:','Network Type', ...
+    'Edge List File','Random Network','Edge List File');
+switch Button1
+    case 'Edge List File'
+        % READ NET FROM FILE
+        edge_list = read_edge_list(); % prompt user to select an edge list file
+        if isempty(edge_list)
+            return
+        end
+        usnet = edge_list2net(edge_list); % format the edgelist for the loop counting process
+        net = sort_net(usnet);
+    case 'Random Network'
+        % GENERATE RANDOM NET
+        prompt = {' Enter number of NODES for the random network: ',' Enter number of EDGES for the random network: '};
+        name = 'Random Network Setup';
+        answer1 = inputdlg(prompt,name,1,{'15','25'});
+        if isempty(answer1)
+            return
+        end
+        num_nodes = str2double(cell2mat(answer1(1)));
+        num_edges = str2double(cell2mat(answer1(2)));
+        usnet = gen_rand_net(num_nodes,num_edges); % generate random network
+        net = sort_net(usnet);
+    otherwise
+        return
+end
+num_nodes = length(net);
+num_edges = calc_num_edges(net);
+disp(['  Net:  nodes = ' num2str(num_nodes) ' edges = ' num2str(num_edges)]);
+
+%% STEP 2: PLOT NET (OPTIONAL)
+Button2 = questdlg('Plot Graph?','Plot Graph','Yes','No','Yes');
+switch Button2
+    case 'Yes'
+        figure; plot_net(net); % plot of the network
+        title('Network');
+    case 'No'
+    otherwise
+end
+
+%% STEP 3: REDUCE NET (OPTIONAL)
+Button3 = questdlg('Reduce Network?','Reduce Network','Yes','No','Yes');
+switch Button3
+    case 'Yes'
+        net = reduce_net(net);     % removes all 1-connected nodes and their corresponding edges
+        num_nodes = length(net);
+        num_edges = calc_num_edges(net);
+        disp(['   Reduced net:  nodes = ' num2str(num_nodes) ' edges = ' num2str(num_edges)]);
+        Button4 = questdlg('Plot Reduced Graph?','Plot Graph','Yes','No','Yes');
+        switch Button4
+            case 'Yes'
+                figure; plot_net(net); % plot of the reduced network
+                title('Reduced Network');
+            case 'No'
+            otherwise
+        end
+    case 'No'
+    otherwise
+end
+
+%% STEP 4: SETUP (INITIALIZE THE STARTING NODE)
+n = get_starting_node(net);         % give the path a nearly optimal starting node
+path = net(n).node;               % initialize the path
+current_edge = net(n).edges(1);   % initialize the first edge
+loop_list = [];                   % initialize the loop list
+iterations = 0;              % initialize the number of algorithm steps
+
+%% STEP 5: COUNT LOOPS (SEARCH THE GRAPH USING THE ILCA)
+prompt = {' Approximately how many loops do you expect? (Needed for waitbar progress) '};
+name = 'Loop Count (Estimate)';
+answer2 = inputdlg(prompt,name,1,{'1000'});
+if ~isempty(answer2)
+    num_est_loops = cell2mat(answer2);
+else
+    return
+end
+wb = waitbar(0,['Searching Tree for Loops ... ' num2str(0) ' found']);
+while (length(path)>1 || ~isempty(current_edge))
+    [net,path,current_edge,loop_list] = iterate_tree(net,path,current_edge,loop_list);
+    iterations = iterations+1;
+    waitbar(length(loop_list)/str2double(num_est_loops),wb,['Searching Tree for Loops ... ' num2str(length(loop_list)) ' found']);
+end
+close(wb);
+num_loops = length(loop_list);
+disp(['    It took ' num2str(iterations) ' steps to complete the ILCA']);
+disp(['     There are ' num2str(num_loops) ' loops in the net']);
+
+%% STEP 6: PLOT H-LOOPS DISTRIBUTION (NUMBER OF LOOPS OF LENGTH H)
+Button5 = questdlg('Show N(h) Distribution?','Loop Distribution','Yes','No','Yes');
+switch Button5
+    case 'Yes'
+        figure; plot_loop_dist(net,loop_list);
+    case 'No'
+    otherwise
+end
+
+%% STEP 7: SAVE THE NET TO A .TXT FILE (OPTIONAL)
+prompt = {'Enter the name of the file (no file extension):'};
+name = 'Save Net to TXT File';
+answer3 = inputdlg(prompt,name,[1 50],{'net'});
+if ~isempty(answer3)
+    filename = cell2mat(answer);
+    net2file(NET,[filename '.txt']);
+end
+
+%% STEP 8: SAVE THE LOOP LIST TO A .TXT OR .MAT FILE (OPTIONAL)
+prompt = {'Enter the name of the file (no file extension):'};
+name = 'Save Loops to TXT or MAT File';
+answer4 = inputdlg(prompt,name,[1 50],{'looplist'});
+filename = cell2mat(answer4);
+if ~isempty(filename)
+    Button = questdlg('Choose File Type:','File Type','TXT File','MAT File','TXT File');
+    switch Button
+        case 'TXT File'
+            loops2file(loop_list,[filename '.txt']);
+        case 'MAT File'
+            eval(sprintf([filename ' = loop_list;']));
+            eval(sprintf('save %s %s',filename,filename));
+        otherwise
+    end
+end
+
+##### SOURCE END #####
+-->
+   </body>
+</html>

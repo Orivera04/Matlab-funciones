@@ -1,0 +1,40 @@
+%% File: sfun_vector_can_send.tlc
+%%
+%% Abstract:
+%%   
+%%
+%% $Revision: 1.11.6.2 $
+%% $Date: 2004/04/19 01:20:14 $
+%%
+%% Copyright 2001-2003 The MathWorks, Inc.
+
+%implements sfun_vector_can_send "C"
+
+%include "vector_canincludes.tlc" 
+
+%function BlockTypeSetup(block,system) void
+   %openfile buffer
+      %if FEVAL("vector_code_generation", CompiledModel.Name)
+         %% only generate code for GRT / ERT targets
+         #include "can_msg.h"
+         #include "vector_can_library_exports.h"
+      %endif
+   %closefile buffer
+   %<LibCacheIncludes(buffer)>
+
+   %<SetupCanDataTypes(block)>
+%endfunction
+
+%% Dummy function for block sfun_vector_can_send so that no code is generated
+%% at build time
+
+%function Outputs(block,system) Output
+%if FEVAL("vector_code_generation", CompiledModel.Name)
+   %% only generate code for GRT / ERT targets
+   /* Transmit each input signal */
+   %assign rollVars = ["U"]
+   %roll sigIdx=RollRegions, lcv=RollThreshold, block, "Roller", rollVars
+      handleVectorError(LibrarySendData(%<LibBlockInputSignalAddr(0,"",lcv,sigIdx)>, "%<SFcnParamSettings.ID_STRING>"));
+   %endroll
+%endif
+%endfunction

@@ -1,0 +1,29 @@
+warning off
+width  = 100 * 3;
+height = 200 * 3;
+vx = ones(width, height); % components of vector field
+vy = ones(width, height);
+for i = 1:width % Make test vector field
+    for j = 1:height
+        vx(i,j)= -((width / 2) - i) / (i^2+j^2) * cos(i / 100);
+        vy(i,j)= -(((height / 2)- j) )/ (i^2+j^2)+ vx(i,j) * sin(i/ 5);
+    end;
+end;
+ % plotvfield(vx,vy,3,1);
+% movie(LICmovie);
+
+   [rect, LICmovie] = explorevfield(vx,vy);
+% [LICmovie] = animvfield(vx,vy,3);
+% movie(LICmovie,100);
+% 
+% [grayImage, intensityArray,normvx,normvy] = grayLICExternal(vx,vy,1);
+% imshow(grayImage);
+% [grady, gradx] = gradient(grayImage);
+%  figure
+%  [gradImage, intensityArray,normgradx, normgrady] = grayLICExternal(gradx, grady,1);
+%  imshow(gradImage);
+% LICindexMatrixOuter = abs(normvx .* normgrady - normvy .* normgradx);
+% LICindexMatrixInner = abs(normvx .* normgradx + normvy .* normgrady);
+% [m,n] = size(LICindexMatrixOuter);
+% LICindexInner = norm(LICindexMatrixInner) / (m * n)
+% LICindexOuter = norm(LICindexMatrixOuter) / (m * n)

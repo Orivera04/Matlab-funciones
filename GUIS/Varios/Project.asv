@@ -1,0 +1,359 @@
+function varargout = Project(varargin)
+% PROJECT M-file for Project.fig
+%      PROJECT, by itself, creates a new PROJECT or raises the existing
+%      singleton*.
+%
+%      H = PROJECT returns the handle to a new PROJECT or the handle to
+%      the existing singleton*.
+%
+%      PROJECT('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in PROJECT.M with the given input arguments.
+%
+%      PROJECT('Property','Value',...) creates a new PROJECT or raises the
+%      existing singleton*.  Starting from the left, property value pairs are
+%      applied to the GUI before Project_OpeningFunction gets called.  An
+%      unrecognized property name or invalid value makes property application
+%      stop.  All inputs are passed to Project_OpeningFcn via varargin.
+%
+%      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
+%      instance to run (singleton)".
+%
+% See also: GUIDE, GUIDATA, GUIHANDLES
+
+% Edit the above text to modify the response to help Project
+
+% Last Modified by GUIDE v2.5 12-May-2007 17:48:36
+
+% Begin initialization code - DO NOT EDIT
+gui_Singleton = 1;
+gui_State = struct('gui_Name',       mfilename, ...
+                   'gui_Singleton',  gui_Singleton, ...
+                   'gui_OpeningFcn', @Project_OpeningFcn, ...
+                   'gui_OutputFcn',  @Project_OutputFcn, ...
+                   'gui_LayoutFcn',  [] , ...
+                   'gui_Callback',   []);
+if nargin && ischar(varargin{1})
+    gui_State.gui_Callback = str2func(varargin{1});
+end
+
+if nargout
+    [varargout{1:nargout}] = gui_mainfcn(gui_State, varargin{:});
+else
+    gui_mainfcn(gui_State, varargin{:});
+end
+% End initialization code - DO NOT EDIT
+
+
+% --- Executes just before Project is made visible.
+function Project_OpeningFcn(hObject, eventdata, handles, varargin)
+% This function has no output args, see OutputFcn.
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+% varargin   command line arguments to Project (see VARARGIN)
+
+% Choose default command line output for Project
+handles.output = hObject;
+
+hLine=line;
+set(hLine,'XData',[],'YData',[]);
+handles.user.hLine=hLine;
+handles.xnumber_errors = 0;
+handles.number_errors = 0;
+global a;
+global b;
+% Update handles structure
+guidata(hObject, handles);
+
+% UIWAIT makes Project wait for user response (see UIRESUME)
+% uiwait(handles.figure1);
+
+
+% --- Outputs from this function are returned to the command line.
+function varargout = Project_OutputFcn(hObject, eventdata, handles) 
+% varargout  cell array for returning output args (see VARARGOUT);
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Get default command line output from handles structure
+varargout{1} = handles.output;
+
+
+
+function xt_Callback(hObject, eventdata, handles)
+
+
+
+% hObject    handle to xt (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of xt as text
+%        str2double(get(hObject,'String')) returns contents of xt as a double
+
+
+
+function yt_Callback(hObject, eventdata, handles)
+% hObject    handle to yt (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of yt as text
+%        str2double(get(hObject,'String')) returns contents of yt as a double
+
+
+function tmax_Callback(hObject, eventdata, handles)
+% hObject    handle to tmax (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of tmax as text
+%        str2double(get(hObject,'String')) returns contents of tmax as a double
+
+
+
+function tmin_Callback(hObject, eventdata, handles)
+% hObject    handle to tmin (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of tmin as text
+%        str2double(get(hObject,'String')) returns contents of tmin as a double
+
+
+
+% --- Executes on button press in update.
+function update_Callback(hObject, eventdata, handles)
+tmin=str2double(get(handles.tmin,'string'));
+tmax=str2double(get(handles.tmax,'string'));
+points=str2double(get(handles.np,'string'));
+t=linspace(tmin,tmax,points);
+xeqstr=get(handles.xt,'string');
+yeqstr=get(handles.yt,'string');
+a=str2double(get(handles.slxt,'string'));
+b=str2double(get(handles.slyt,'string'));
+xeq=eval(xeqstr);
+yeq=eval(yeqstr);
+set(handles.user.hLine,'xdata',xeq,'ydata',yeq);
+axis equal
+
+% hObject    handle to update (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+
+
+function np_Callback(hObject, eventdata, handles)
+% hObject    handle to np (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of np as text
+%        str2double(get(hObject,'String')) returns contents of np as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function np_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to np (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+
+
+
+% --- Executes on slider movement.
+function slx_Callback(hObject, eventdata, handles)
+set(handles.slxt,'string',...
+    num2str(get(handles.slx,'value')))
+
+
+
+
+% t=linspace(tmin,tmax,points);
+% xeqstr=get(handles.xt,'string');
+% xeq=eval(xeqstr);
+
+% hObject    handle to slx (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine
+
+% --- Executes during object creation, after setting all properties. range of slider
+
+function slx_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slx (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+
+function slxt_Callback(hObject, eventdata, handles)
+a=str2double(get(handles.slxt,'string'));
+%determine whether val is a number between -100 and 100
+if isnumeric(val) & length(a)==1 & ...
+        a>=get(handles.slx,'Min') &...
+        a<=get(handles.slx,'Max')
+    set(handles.slx,'Value',a);
+%     t=linspace(tmin,tmax,points)
+%     newt=t.*val
+
+else
+    %Increment and display error count
+    handles.number_errors = handles.number_errors+1;
+    guidata(hObject,handles); %store the changes
+    set(handles.slxt,'string',...
+        ['You have entered an invalid entry ',...
+        num2str(handles.number_errors),' times.']);
+end
+% hObject    handle to slxt (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of slxt as text
+%        str2double(get(hObject,'String')) returns contents of slxt as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function slxt_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slxt (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on slider movement.
+function sly_Callback(hObject, eventdata, handles)
+set(handles.slyt,'string',...
+    num2str(get(handles.sly,'value')))
+
+% hObject    handle to sly (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+
+% --- Executes during object creation, after setting all properties.
+function sly_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to sly (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+function slyt_Callback(hObject, eventdata, handles)
+b=str2double(get(handles.slyt,'string'));
+%determine whether val is a number between -100 and 100
+if isnumeric(val) & length(b)==1 & ...
+        b>=get(handles.sly,'Min') &...
+        b<=get(handles.sly,'Max')
+    set(handles.sly,'Value',b);
+else
+    %Increment and display error count
+    handles.number_errors = handles.number_errors+1;
+    guidata(hObject,handles); %store the changes
+    set(handles.slyt,'string',...
+        ['num2str(handles.number_errors),' errors.']);
+end
+% hObject    handle to slyt (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of slyt as text
+%        str2double(get(hObject,'String')) returns contents of slyt as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function slyt_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slyt (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+
+% --- Executes during object creation, after setting all properties.
+function yt_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to yt (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes during object creation, after setting all properties.
+function tmax_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to tmax (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes during object creation, after setting all properties.
+function tmin_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to tmin (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes during object creation, after setting all properties.
+function xt_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to xt (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+

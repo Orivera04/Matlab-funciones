@@ -1,0 +1,64 @@
+%% SYSTLC: Embedded Target for Motorola MPC555 (real-time target) \
+%%    TMF: mpc555rt.tmf MAKE: make_rtw EXTMODE: ext_comm
+%%
+%% $Revision: 1.16.4.7 $
+%% $Date: 2004/04/19 01:27:05 $
+%%
+%% Copyright 2001-2004 The MathWorks, Inc.
+%% Abstract: Embedded real-time system target file.
+%%
+%selectfile NULL_FILE
+
+%assign CodeFormat = "Embedded-C"
+
+%assign TargetType = "RT"
+%assign Language   = "C"
+
+%assign TargetOS="BareBoardExample"
+%assign AutoBuildProcedure = 1 
+ 
+%% include environment routines
+%assign PATH_SEP = FEVAL("filesep")
+%assign MPC555DKROOT = FEVAL("mpc555dkroot")
+%addincludepath "%<MPC555DKROOT>%<PATH_SEP>..%<PATH_SEP>common%<PATH_SEP>configuration%<PATH_SEP>environment"
+%include "env.tlc"
+
+%% set the environment as mpc555rt
+%<set_env("mpc555rt")>
+
+%% import global settings
+%include "mpc555_settings.tlc"
+
+%% Prevent TLC failure if simulation stop time = inf
+%assign stopTime = -1
+
+%include "codegenentry.tlc"
+
+%% generate code profiling report
+%include "profilegen.tlc"
+
+%% generate each files needed for build mpc555pil targets
+%include "mpc555rt_genfiles.tlc"
+
+
+%% The contents between 'BEGIN_RTW_OPTIONS' and 'END_RTW_OPTIONS' are strictly 
+%% written by the standard format. We need to use this structure in RTW 
+%% options GUI function rtwoptionsdlg.m file.
+%%
+/%
+  BEGIN_RTW_OPTIONS
+
+  rtwoptions = mpc555rt_getrtwoptions;
+
+  %----------------------------------------%
+  % Configure RTW code generation settings %
+  %----------------------------------------%
+
+  rtwgensettings.DerivedFrom = 'ert.tlc';
+  rtwgensettings.BuildDirSuffix = '_mpc555rt';
+  rtwgensettings.Version = '1'; % Specify callbacks' compliance with DAStudio dialog   
+  rtwgensettings.SelectCallback      = 'mpc555_callback_handler(''SelectCallback'',hSrc,hDlg);';
+  rtwgensettings.UnselectCallback    = 'mpc555_callback_handler(''UnselectCallback'',hSrc,hDlg);';
+
+  END_RTW_OPTIONS 
+ %/

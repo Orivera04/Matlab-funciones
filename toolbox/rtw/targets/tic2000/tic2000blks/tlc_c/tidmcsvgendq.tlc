@@ -1,0 +1,93 @@
+%% $RCSfile: tidmcsvgendq.tlc,v $
+%% $Revision: 1.1.6.1 $ $Date: 2004/04/01 16:14:43 $
+%% Copyright 2004 The MathWorks, Inc.
+%%
+%% Abstract: TI C28x DMC library Ramp Generation
+
+%implements tidmcsvgendq "C"
+
+%include "fix_published.tlc"
+
+
+%% Function: BlockTypeSetup ==============================================
+%function BlockTypeSetup(block, system) void
+    %<LibAddToCommonIncludes("<IQmathLib.h>")>
+%endfunction %% BlockTypeSetup
+
+
+%% Function: Outputs ==========================================================
+%%
+%function Outputs(block, system) Output
+
+	%assign OUTPORT_X  = 0
+	%assign dataTyp = LibBlockOutputSignalDataTypeId(OUTPORT_X)
+	%assign fracLen = FixPt_DataTypeFractionLength(block,dataTyp)
+
+	/* C28x DMC Library (%<ParamSettings.FunctionName>) - '%<Name>' */
+	{
+	    int16_T sector;
+	    int32_T Va, Vb, Vc;
+        
+        %assign MPY   = "_IQ%<fracLen>mpy"
+        %assign POS05 = "_IQ%<fracLen>(0.5)"
+        %assign NEG05 = "_IQ%<fracLen>(-0.5)"
+        %assign POS1  = "_IQ%<fracLen>(1)"
+        %assign POS2  = "_IQ%<fracLen>(2)"
+        %assign HALFSQRT3  = "_IQ%<fracLen>(0.8660254)"
+	
+        %assign rollVars = ["U", "Y"]
+        %roll idx = RollRegions, lcv = RollThreshold, block,"Roller", rollVars
+        
+            sector = 0;
+        
+            Va = %<LibBlockInputSignal(1,"",lcv,idx)>;
+            Vb = %<MPY> (_IQ%<fracLen>(-0.5),%<LibBlockInputSignal(1,"",lcv,idx)>) + \
+                 %<MPY> (_IQ%<fracLen>(0.8660254),%<LibBlockInputSignal(0,"",lcv,idx)>);
+            Vc = %<MPY> (_IQ%<fracLen>(-0.5),%<LibBlockInputSignal(1,"",lcv,idx)>) - \
+                 %<MPY> (_IQ%<fracLen>(0.8660254),%<LibBlockInputSignal(0,"",lcv,idx)>);
+
+            if (Va > 0) sector = 1; 
+            if (Vb > 0) sector = sector + 2;
+            if (Vc > 0) sector = sector + 4;
+            
+            Vb = %<MPY> (_IQ%<fracLen>(0.5),%<LibBlockInputSignal(1,"",lcv,idx)>) + \
+                 %<MPY> (_IQ%<fracLen>(0.8660254),%<LibBlockInputSignal(0,"",lcv,idx)>);
+            Vc = %<MPY> (_IQ%<fracLen>(0.5),%<LibBlockInputSignal(1,"",lcv,idx)>) - \
+                 %<MPY> (_IQ%<fracLen>(0.8660254),%<LibBlockInputSignal(0,"",lcv,idx)>);
+
+			if (sector==1) {        
+				%<LibBlockOutputSignal(1,"",lcv,idx)> = %<MPY> (%<POS05>, (%<POS1> - Vc - Vb)); 
+				%<LibBlockOutputSignal(0,"",lcv,idx)> = %<LibBlockOutputSignal(1,"",lcv,idx)> + Vc; 
+				%<LibBlockOutputSignal(2,"",lcv,idx)> = %<LibBlockOutputSignal(0,"",lcv,idx)> + Vb; 
+			} else if (sector==2) { 
+				%<LibBlockOutputSignal(0,"",lcv,idx)> = %<MPY> (%<POS05>, (%<POS1> - Vb + Va));
+				%<LibBlockOutputSignal(2,"",lcv,idx)> = %<LibBlockOutputSignal(0,"",lcv,idx)> + Vb;
+				%<LibBlockOutputSignal(1,"",lcv,idx)> = %<LibBlockOutputSignal(2,"",lcv,idx)> - Va;
+			} else if (sector==3) { 
+				%<LibBlockOutputSignal(0,"",lcv,idx)> = %<MPY> (%<POS05>, (%<POS1> + Vc - Va));
+				%<LibBlockOutputSignal(1,"",lcv,idx)> = %<LibBlockOutputSignal(0,"",lcv,idx)> - Vc;
+				%<LibBlockOutputSignal(2,"",lcv,idx)> = %<LibBlockOutputSignal(1,"",lcv,idx)> + Va;
+			} else if (sector==4) { 
+				%<LibBlockOutputSignal(2,"",lcv,idx)> = %<MPY> (%<POS05>, (%<POS1> + Va - Vc)); 
+				%<LibBlockOutputSignal(1,"",lcv,idx)> = %<LibBlockOutputSignal(2,"",lcv,idx)> - Va; 
+				%<LibBlockOutputSignal(0,"",lcv,idx)> = %<LibBlockOutputSignal(1,"",lcv,idx)> + Vc; 
+			} else if (sector==5) { 
+				%<LibBlockOutputSignal(1,"",lcv,idx)> = %<MPY> (%<POS05>, (%<POS1> - Va + Vb));
+				%<LibBlockOutputSignal(2,"",lcv,idx)> = %<LibBlockOutputSignal(1,"",lcv,idx)> + Va;
+				%<LibBlockOutputSignal(0,"",lcv,idx)> = %<LibBlockOutputSignal(2,"",lcv,idx)> - Vb;
+			} else if (sector==6) { 
+				%<LibBlockOutputSignal(2,"",lcv,idx)> = %<MPY> (%<POS05>, (%<POS1> + Vb + Vc));
+				%<LibBlockOutputSignal(0,"",lcv,idx)> = %<LibBlockOutputSignal(2,"",lcv,idx)> - Vb;
+				%<LibBlockOutputSignal(1,"",lcv,idx)> = %<LibBlockOutputSignal(0,"",lcv,idx)> - Vc;
+			}
+		
+		    %<LibBlockOutputSignal(0,"",lcv,idx)> = %<MPY> (%<POS2>, (%<LibBlockOutputSignal(0,"",lcv,idx)> - %<POS05>));
+		    %<LibBlockOutputSignal(1,"",lcv,idx)> = %<MPY> (%<POS2>, (%<LibBlockOutputSignal(1,"",lcv,idx)> - %<POS05>));
+		    %<LibBlockOutputSignal(2,"",lcv,idx)> = %<MPY> (%<POS2>, (%<LibBlockOutputSignal(2,"",lcv,idx)> - %<POS05>));
+
+        %endroll
+	}
+
+%endfunction
+
+%% [EOF] tidmcsvgendq.tlc

@@ -1,0 +1,40 @@
+<!--
+File : test.xml
+
+Abstract :
+    Example of how to use the configuration script generator
+
+$Revision: 1.1 $
+$Date: 2002/09/13 09:03:27 $
+
+Copyright 1990-2001 The MathWorks, Inc.
+ -->
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<power-pc-initialization flavor="mpc555" version="1.0">
+    <write>
+        <comment>Setting up memory
+        in a fancy way </comment>
+        <word addr="0x10" val="1"/>
+
+        <comment>Setting up more memory</comment>
+        <word addr="0x20" val="1"/>
+
+        <comment>Writing to a halfword</comment>
+        <halfword addr="0x21" val="1"/>
+
+        <comment>Setting up a
+        new memory address.</comment>
+        <byte addr="0x30" val="2"/>
+
+        <reg  name="MSR" val="0x1"/>
+
+        <comment>This is a comment</comment>
+        <reg name="XER" val="0x30"/>
+
+        <spr  id="638" val="0x29"/>
+
+        <comment>This is an spr comment</comment>
+        <spr id="633" val="0x39"/>
+    </write>
+</power-pc-initialization>
+

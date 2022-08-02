@@ -1,0 +1,104 @@
+%% SYSTLC: Embedded Target for Motorola HC12 and CodeWarrior (real-time) \
+%% TMF: hc12_default_tmf MAKE: make_rtw EXTMODE: no_ext_comm
+%%
+%% $RCSfile: hc12.tlc,v $
+%% $Revision: 1.1.6.3 $
+%%
+%% Copyright 2002-2004 The MathWorks, Inc.
+%% Abstract: Embedded real-time system target file.
+%%
+%selectfile NULL_FILE
+
+%assign CodeFormat = "Embedded-C"
+%assign TargetType = "RT"
+%assign Language   = "C"
+
+%% Setup HC12 TLC environment
+%include "hc12_settings.tlc"
+%% Include HC12 specific tlc functions
+%include "hc12mainlib.tlc"
+
+%% Prevent TLC failure if simulation stop time = inf
+%assign stopTime = -1
+
+%include "codegenentry.tlc"
+
+%% Generate cpp_req_defines.h
+%% Also, generate list of all RTW files (static and generated files)
+%% required for a CodeWarrior project. 
+%include "gen_cpp_req_defines_h.tlc"
+%include "gen_rtw_filelist_mpf.tlc"
+
+%% Generate E-Coder code generation profiling report
+%include "profilegen.tlc"
+%with CompiledModel.PathInfo
+ %<LibGenCodeProfileReport("","CodeWarrior","%<MODEL_ABS_PATH>%<PATH_SEP>..%<PATH_SEP>bin%<PATH_SEP>model.abs","%<MODEL_ABS_PATH>%<PATH_SEP>..%<PATH_SEP>bin%<PATH_SEP>model.map","")>
+%endwith
+
+%% The contents between 'BEGIN_RTW_OPTIONS' and 'END_RTW_OPTIONS' are strictly 
+%% written by the standard format. We need to use this structure in RTW 
+%% options GUI function rtwoptionsdlg.m file.
+%%
+/%
+  BEGIN_RTW_OPTIONS
+
+  rtwoption_index = 0;
+				   
+  rtwoption_index = rtwoption_index + 1;
+  rtwoptions(rtwoption_index).prompt         = 'HC12 CodeWarrior options';
+  rtwoptions(rtwoption_index).type           = 'Category';
+  rtwoptions(rtwoption_index).enable         = 'on';  
+  rtwoptions(rtwoption_index).default        = 4;   % number of items under this category
+  rtwoptions(rtwoption_index).popupstrings   = '';
+  rtwoptions(rtwoption_index).tlcvariable    = '';
+  rtwoptions(rtwoption_index).tooltip        = '';
+  rtwoptions(rtwoption_index).callback       = '';
+  rtwoptions(rtwoption_index).opencallback   = '';
+  rtwoptions(rtwoption_index).closecallback  = '';
+  rtwoptions(rtwoption_index).makevariable   = '';
+
+  rtwoption_index = rtwoption_index + 1;
+  rtwoptions(rtwoption_index).prompt         = 'PWM prescaler A';
+  rtwoptions(rtwoption_index).type           = 'Popup';
+  rtwoptions(rtwoption_index).popupstrings   = '1|2|4|8|16|32|64|128';
+  rtwoptions(rtwoption_index).default        = '1';
+  rtwoptions(rtwoption_index).tlcvariable    = 'PWMPrescalerA';
+  rtwoptions(rtwoption_index).tooltip        = ['PWM clock A divider value'];
+
+  rtwoption_index = rtwoption_index + 1;
+  rtwoptions(rtwoption_index).prompt         = 'PWM prescaler B';
+  rtwoptions(rtwoption_index).type           = 'Popup';
+  rtwoptions(rtwoption_index).popupstrings   = '1|2|4|8|16|32|64|128';
+  rtwoptions(rtwoption_index).default        = '1';
+  rtwoptions(rtwoption_index).tlcvariable    = 'PWMPrescalerB';
+  rtwoptions(rtwoption_index).tooltip        = ['PWM clock B divider value'];
+
+  rtwoption_index = rtwoption_index + 1;
+  rtwoptions(rtwoption_index).prompt         = 'Build action:';
+  rtwoptions(rtwoption_index).type           = 'Popup';
+  rtwoptions(rtwoption_index).popupstrings   = 'Build';
+  rtwoptions(rtwoption_index).default        = 'Build';
+  rtwoptions(rtwoption_index).tlcvariable    = 'BuildAction';
+  rtwoptions(rtwoption_index).makevariable   = 'BUILDACTION';
+  rtwoptions(rtwoption_index).tooltip        = ['Action to perform after code generation.'];
+
+  rtwoption_index = rtwoption_index + 1;
+  rtwoptions(rtwoption_index).prompt         = 'Force rebuild of the static libraries used by the model';
+  rtwoptions(rtwoption_index).type           = 'Checkbox';
+  rtwoptions(rtwoption_index).default        = 'off';
+  rtwoptions(rtwoption_index).tlcvariable    = 'StaticLibraryRebuild';
+  rtwoptions(rtwoption_index).tooltip        = ['For the static libraries referenced by this model ', ...
+						sprintf('\n'),...
+						'to be rebuilt.'];
+
+  %----------------------------------------%
+  % Configure RTW code generation settings %
+  %----------------------------------------%
+  
+  rtwgensettings.BuildDirSuffix = '_hc12rt\sources';
+  rtwgensettings.DerivedFrom = 'ert.tlc';
+  rtwgensettings.Version = '1';
+  rtwgensettings.SelectCallback = ['hc12_select_callback_handler(hDlg, hSrc)']; 
+
+  END_RTW_OPTIONS 
+ %/

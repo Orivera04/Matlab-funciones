@@ -1,0 +1,1 @@
+romberg(@myfun,1,2)

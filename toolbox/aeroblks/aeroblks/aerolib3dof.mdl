@@ -1,0 +1,974 @@
+# $Revision: 1.11.2.4 $
+Library {
+  Name			  "aerolib3dof"
+  Version		  5.0
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  ForwardingTableString	  "||__slOldName__||aerolib3dof/ Equations of Motion\n"
+"(Body Axes)||__slNewName__||aerolibprivatev1p5/3DoF (Body Axes)||__slOldName_"
+"_||aerolib3dof/Incidence \n& Airspeed||__slNewName__||aerolibasang/Incidence "
+"\n& Airspeed"
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  off
+  StatusBar		  off
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Tue Aug 21 13:59:46 2001"
+  Creator		  "sgage"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "sgage"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Thu Jul  3 16:00:31 2003"
+  ModelVersionFormat	  "1.%<AutoIncrement:16>"
+  ConfigurationManager	  "None"
+  SimParamPage		  "Solver"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeMexFile	  "ext_comm"
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock off
+  ConsistencyChecking	  "none"
+  ArrayBoundsChecking	  "none"
+  AlgebraicLoopMsg	  "warning"
+  BlockPriorityViolationMsg "warning"
+  MinStepSizeMsg	  "warning"
+  InheritedTsInSrcMsg	  "warning"
+  DiscreteInheritContinuousMsg "warning"
+  MultiTaskRateTransMsg	  "error"
+  SingleTaskRateTransMsg  "none"
+  CheckForMatrixSingularity "none"
+  IntegerOverflowMsg	  "warning"
+  Int32ToFloatConvMsg	  "warning"
+  ParameterDowncastMsg	  "error"
+  ParameterOverflowMsg	  "error"
+  ParameterPrecisionLossMsg "warning"
+  UnderSpecifiedDataTypeMsg "none"
+  UnnecessaryDatatypeConvMsg "none"
+  VectorMatrixConversionMsg "none"
+  InvalidFcnCallConnMsg	  "error"
+  SignalLabelMismatchMsg  "none"
+  UnconnectedInputMsg	  "warning"
+  UnconnectedOutputMsg	  "warning"
+  UnconnectedLineMsg	  "warning"
+  SfunCompatibilityCheckMsg "none"
+  ProdHWDeviceType	  "Microprocessor"
+  ProdHWWordLengths	  "8,16,32,32"
+  TargetHWChar		  2
+  TargetHWWordLengths	  "8,16,32,32"
+  RTWMakeCommand	  "make_rtw"
+  RTWGenerateCodeOnly	  off
+  RTWRetainRTWFile	  off
+  TLCProfiler		  off
+  TLCDebug		  off
+  TLCCoverage		  off
+  TLCAssertion		  off
+  SimulationMode	  "normal"
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Fcn
+      Expr		      "sin(u[1])"
+    }
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ShowAdditionalParam     off
+      ParameterDataTypeMode   "Same as input"
+      ParameterDataType	      "sfix(16)"
+      ParameterScalingMode    "Best Precision: Matrix-wise"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      ShowAdditionalParam     off
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      LatchInput	      off
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Integrator
+      ExternalReset	      "none"
+      InitialConditionSource  "internal"
+      InitialCondition	      "0"
+      LimitOutput	      off
+      UpperSaturationLimit    "inf"
+      LowerSaturationLimit    "-inf"
+      ShowSaturationPort      off
+      ShowStatePort	      off
+      AbsoluteTolerance	      "auto"
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      Mux
+      Inputs		      "4"
+      DisplayOption	      "none"
+      NonVirtualBus	      off
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      Product
+      Inputs		      "2"
+      Multiplication	      "Element-wise(.*)"
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Reference
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      RTWSystemCode	      "Auto"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Sum
+      IconShape		      "rectangular"
+      Inputs		      "++"
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "aerolib3dof"
+    Location		    [53, 101, 339, 401]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      " Equations of Motion\n(Body Axes)"
+      Ports		      [3, 6]
+      Position		      [35, 25, 140, 240]
+      TreatAsAtomicUnit	      off
+      MaskType		      "3DoF EoM"
+      MaskDescription	      "Integrate the three-degrees-of-freedom equation"
+"s of motion to determine body position, velocity, attitude, and related value"
+"s.\n\nInputs are forces on the body in x-axis, forces on the body in z-axis, "
+"and moments on the body along y-axis.  Outputs are pitch angle, pitch rate, p"
+"itch acceleration, position in x-axis and z-axis in Earth coordinates, transl"
+"ational velocity in x-axis and z-axis, and acceleration in x-axis and z-axis "
+"due to body forces. "
+      MaskHelp		      "web(asbhelp('equationsofmotion'));"
+      MaskPromptString	      "Initial velocity [m/s]:|Initial body attitude ["
+"rad]:|Initial incidence [rad]:|Initial body rotation rate [rad/sec]:|Initial "
+"position (x z) [m]:|Mass [Kg]:|Inertia [Kg.m^2]:|Acceleration due to gravity "
+"[m/s/s]:"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit,edit"
+      MaskTunableValueString  "on,on,on,on,on,on,on,on"
+      MaskCallbackString      "|||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,"
+      MaskVariables	      "v_ini=@1;theta_ini=@2;alpha_ini=@3;q_ini=@4;pos"
+"_ini=@5;mass=@6;Iyy=@7;g=@8;"
+      MaskInitialization      "U0 = v_ini*cos(alpha_ini);\nw0 = v_ini*sin(alph"
+"a_ini);"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "100|0|0|0|[0 0]|1|1|9.81"
+      System {
+	Name			" Equations of Motion\n(Body Axes)"
+	Location		[153, 255, 888, 650]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Fx\n(N)"
+	  Position		  [20, 108, 50, 122]
+	  NamePlacement		  "alternate"
+	  ShowAdditionalParam	  on
+	  DataType		  "double"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Fz\n(N)"
+	  Position		  [20, 148, 50, 162]
+	  Port			  "2"
+	  ShowAdditionalParam	  on
+	  DataType		  "double"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "M\n(N-m)"
+	  Position		  [20, 288, 50, 302]
+	  Port			  "3"
+	  ShowAdditionalParam	  on
+	  DataType		  "double"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "1/Iyy"
+	  Position		  [205, 276, 265, 314]
+	  Gain			  "1/Iyy"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "1/mass"
+	  Position		  [105, 114, 165, 156]
+	  Gain			  "1/mass"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Gravity"
+	  Ports			  [1, 1]
+	  Position		  [310, 65, 370, 95]
+	  Orientation		  "left"
+	  TreatAsAtomicUnit	  off
+	  System {
+	    Name		    "Gravity"
+	    Location		    [383, 145, 779, 303]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Theta"
+	      Position		      [20, 58, 50, 72]
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Gain"
+	      Position		      [130, 25, 160, 55]
+	      NamePlacement	      "alternate"
+	      ShowName		      off
+	      Gain		      "-1"
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Gain2"
+	      Position		      [210, 53, 250, 77]
+	      NamePlacement	      "alternate"
+	      ShowName		      off
+	      Gain		      "g"
+	    }
+	    Block {
+	      BlockType		      Mux
+	      Name		      "Mux"
+	      Ports		      [2, 1]
+	      Position		      [185, 14, 190, 116]
+	      ShowName		      off
+	      Inputs		      "2"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "SinCos"
+	      Ports		      [1, 2]
+	      Position		      [70, 14, 105, 116]
+	      SourceBlock	      "aerolibutil/SinCos"
+	      SourceType	      "SinCos"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "g"
+	      Position		      [290, 58, 320, 72]
+	    }
+	    Line {
+	      SrcBlock		      "Gain2"
+	      SrcPort		      1
+	      DstBlock		      "g"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Mux"
+	      SrcPort		      1
+	      DstBlock		      "Gain2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "SinCos"
+	      SrcPort		      2
+	      DstBlock		      "Mux"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Gain"
+	      SrcPort		      1
+	      DstBlock		      "Mux"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "SinCos"
+	      SrcPort		      1
+	      DstBlock		      "Gain"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Theta"
+	      SrcPort		      1
+	      DstBlock		      "SinCos"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Matrix\nGain"
+	  Position		  [345, 195, 375, 225]
+	  Orientation		  "left"
+	  ShowName		  off
+	  Gain			  "[0 -1;1 0]"
+	  Multiplication	  "Matrix(K*u)"
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  Ports			  [2, 1]
+	  Position		  [80, 96, 85, 174]
+	  ShowName		  off
+	  Inputs		  "2"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Integrator
+	  Name			  "Position"
+	  Ports			  [1, 1]
+	  Position		  [620, 135, 650, 165]
+	  InitialCondition	  "pos_ini"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product"
+	  Ports			  [2, 1]
+	  Position		  [280, 199, 310, 246]
+	  Orientation		  "left"
+	  ShowName		  off
+	  RndMeth		  "Floor"
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum"
+	  Ports			  [3, 1]
+	  Position		  [240, 115, 280, 155]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "+++"
+	}
+	Block {
+	  BlockType		  Integrator
+	  Name			  "Theta"
+	  Ports			  [1, 1]
+	  Position		  [425, 280, 455, 310]
+	  InitialCondition	  "theta_ini"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Transform \nto Earth Axes"
+	  Ports			  [2, 1]
+	  Position		  [525, 122, 595, 178]
+	  TreatAsAtomicUnit	  off
+	  System {
+	    Name		    "Transform \nto Earth Axes"
+	    Location		    [252, 147, 645, 410]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "U,w"
+	      Position		      [145, 13, 175, 27]
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Theta"
+	      Position		      [15, 128, 45, 142]
+	      Port		      "2"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Dot Product"
+	      Ports		      [2, 1]
+	      Position		      [250, 46, 280, 79]
+	      ShowName		      off
+	      SourceBlock	      "simulink/Math\nOperations/Dot Product"
+	      SourceType	      "Dot Product"
+	      InputSameDT	      "off"
+	      OutputDataTypeScalingMode	"Inherit via internal rule"
+	      OutDataType	      "sfix(16)"
+	      OutScaling	      "2^-10"
+	      LockScale		      "off"
+	      RndMeth		      "Floor"
+	      DoSatur		      "on"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Dot Product1"
+	      Ports		      [2, 1]
+	      Position		      [245, 141, 275, 174]
+	      ShowName		      off
+	      SourceBlock	      "simulink/Math\nOperations/Dot Product"
+	      SourceType	      "Dot Product"
+	      InputSameDT	      "off"
+	      OutputDataTypeScalingMode	"Inherit via internal rule"
+	      OutDataType	      "sfix(16)"
+	      OutScaling	      "2^-10"
+	      LockScale		      "off"
+	      RndMeth		      "Floor"
+	      DoSatur		      "on"
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Gain"
+	      Position		      [105, 105, 135, 135]
+	      Orientation	      "down"
+	      NamePlacement	      "alternate"
+	      ShowName		      off
+	      Gain		      "-1"
+	    }
+	    Block {
+	      BlockType		      Mux
+	      Name		      "Mux"
+	      Ports		      [2, 1]
+	      Position		      [185, 40, 190, 100]
+	      ShowName		      off
+	      Inputs		      "2"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      Mux
+	      Name		      "Mux1"
+	      Ports		      [2, 1]
+	      Position		      [190, 135, 195, 195]
+	      ShowName		      off
+	      Inputs		      "2"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      Mux
+	      Name		      "Mux2"
+	      Ports		      [2, 1]
+	      Position		      [310, 19, 315, 206]
+	      ShowName		      off
+	      Inputs		      "2"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "SinCos"
+	      Ports		      [1, 2]
+	      Position		      [60, 37, 100, 228]
+	      SourceBlock	      "aerolibutil/SinCos"
+	      SourceType	      "SinCos"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Ue,we"
+	      Position		      [345, 108, 375, 122]
+	    }
+	    Line {
+	      SrcBlock		      "Gain"
+	      SrcPort		      1
+	      Points		      [0, 10]
+	      DstBlock		      "Mux1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "SinCos"
+	      SrcPort		      1
+	      Points		      [15, 0]
+	      Branch {
+		DstBlock		"Mux"
+		DstPort			2
+	      }
+	      Branch {
+		DstBlock		"Gain"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "U,w"
+	      SrcPort		      1
+	      Points		      [30, 0; 0, 35]
+	      Branch {
+		Points			[0, 95]
+		DstBlock		"Dot Product1"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"Dot Product"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Mux"
+	      SrcPort		      1
+	      DstBlock		      "Dot Product"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Mux2"
+	      SrcPort		      1
+	      DstBlock		      "Ue,we"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Dot Product1"
+	      SrcPort		      1
+	      DstBlock		      "Mux2"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Dot Product"
+	      SrcPort		      1
+	      DstBlock		      "Mux2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Mux1"
+	      SrcPort		      1
+	      DstBlock		      "Dot Product1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "SinCos"
+	      SrcPort		      2
+	      Points		      [45, 0]
+	      Branch {
+		DstBlock		"Mux1"
+		DstPort			2
+	      }
+	      Branch {
+		Points			[0, -125]
+		DstBlock		"Mux"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Theta"
+	      SrcPort		      1
+	      DstBlock		      "SinCos"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Integrator
+	  Name			  "U,w"
+	  Ports			  [1, 1]
+	  Position		  [325, 120, 355, 150]
+	  InitialCondition	  "[U0 w0]"
+	}
+	Block {
+	  BlockType		  Integrator
+	  Name			  "q"
+	  Ports			  [1, 1]
+	  Position		  [330, 280, 360, 310]
+	  InitialCondition	  "q_ini"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Attitude\n(rad)"
+	  Position		  [675, 288, 705, 302]
+	  InitialOutput		  "0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "q\n(rad/s)"
+	  Position		  [450, 228, 480, 242]
+	  Port			  "2"
+	  InitialOutput		  "0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "qdot\n(rad/s^2)"
+	  Position		  [330, 338, 360, 352]
+	  Port			  "3"
+	  InitialOutput		  "0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Xe,Ze\n(m)"
+	  Position		  [675, 143, 705, 157]
+	  Port			  "4"
+	  InitialOutput		  "0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "U,w \n(m/s) "
+	  Position		  [450, 203, 480, 217]
+	  NamePlacement		  "alternate"
+	  Port			  "5"
+	  InitialOutput		  "0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Ax,Az\n(m/s^2)"
+	  Position		  [205, 73, 235, 87]
+	  Port			  "6"
+	  InitialOutput		  "0"
+	}
+	Line {
+	  SrcBlock		  "Gravity"
+	  SrcPort		  1
+	  Points		  [-45, 0]
+	  DstBlock		  "Sum"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "1/mass"
+	  SrcPort		  1
+	  Points		  [15, 0]
+	  Branch {
+	    DstBlock		    "Sum"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, -55]
+	    DstBlock		    "Ax,Az\n(m/s^2)"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Product"
+	  SrcPort		  1
+	  Points		  [-15, 0]
+	  DstBlock		  "Sum"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  DstBlock		  "1/mass"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Fz\n(N)"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Fx\n(N)"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Transform \nto Earth Axes"
+	  SrcPort		  1
+	  DstBlock		  "Position"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Matrix\nGain"
+	  SrcPort		  1
+	  DstBlock		  "Product"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Position"
+	  SrcPort		  1
+	  DstBlock		  "Xe,Ze\n(m)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "U,w"
+	  SrcPort		  1
+	  Points		  [65, 0; 0, 75]
+	  Branch {
+	    DstBlock		    "U,w \n(m/s) "
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -75]
+	    DstBlock		    "Transform \nto Earth Axes"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Matrix\nGain"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Theta"
+	  SrcPort		  1
+	  Points		  [40, 0]
+	  Branch {
+	    Points		    [0, -130]
+	    Branch {
+	      Points		      [0, -85]
+	      DstBlock		      "Gravity"
+	      DstPort		      1
+	    }
+	    Branch {
+	      DstBlock		      "Transform \nto Earth Axes"
+	      DstPort		      2
+	    }
+	  }
+	  Branch {
+	    DstBlock		    "Attitude\n(rad)"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "1/Iyy"
+	  SrcPort		  1
+	  Points		  [30, 0]
+	  Branch {
+	    Points		    [0, 50]
+	    DstBlock		    "qdot\n(rad/s^2)"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "q"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "M\n(N-m)"
+	  SrcPort		  1
+	  DstBlock		  "1/Iyy"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "q"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    Points		    [0, -60]
+	    Branch {
+	      DstBlock		      "Product"
+	      DstPort		      2
+	    }
+	    Branch {
+	      DstBlock		      "q\n(rad/s)"
+	      DstPort		      1
+	    }
+	  }
+	  Branch {
+	    DstBlock		    "Theta"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Sum"
+	  SrcPort		  1
+	  DstBlock		  "U,w"
+	  DstPort		  1
+	}
+	Annotation {
+	  Position		  [374, 27]
+	  FontSize		  20
+	  FontWeight		  "bold"
+	  FontAngle		  "italic"
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Incidence \n& Airspeed"
+      Ports		      [1, 2]
+      Position		      [175, 125, 235, 165]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Incidence&Airspeed"
+      MaskDescription	      "Calculate the angle between the body and the ve"
+"locity vector (incidence) and the velocity magnitude from the components in b"
+"ody axes (U,w)."
+      MaskHelp		      "web(asbhelp);"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"Incidence \n& Airspeed"
+	Location		[432, 162, 902, 332]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "U,w"
+	  Position		  [20, 53, 50, 67]
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "Incidence"
+	  Position		  [130, 74, 315, 106]
+	  Expr			  "atan2(u(2),u(1))"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "Velocity"
+	  Position		  [130, 14, 315, 46]
+	  Expr			  "sqrt(u(1)*u(1)+u(2)*u(2))"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Alpha"
+	  Position		  [355, 83, 385, 97]
+	  InitialOutput		  "0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "V"
+	  Position		  [355, 23, 385, 37]
+	  Port			  "2"
+	  InitialOutput		  "0"
+	}
+	Line {
+	  SrcBlock		  "U,w"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    Points		    [0, 30]
+	    DstBlock		    "Incidence"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -30]
+	    DstBlock		    "Velocity"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Incidence"
+	  SrcPort		  1
+	  DstBlock		  "Alpha"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Velocity"
+	  SrcPort		  1
+	  DstBlock		  "V"
+	  DstPort		  1
+	}
+      }
+    }
+  }
+}

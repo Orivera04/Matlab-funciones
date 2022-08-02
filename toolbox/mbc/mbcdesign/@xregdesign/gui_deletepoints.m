@@ -1,0 +1,96 @@
+function [dout,ret]=gui_deletepoints(des,action,varargin)
+% GUI_DELETEPOINTS   Gui for deleting design points
+%
+%  [D,RET]=GUI_DELETEPOINTS brings up a GUI for manually deleting points
+%  to a design.   The GUI blocks until OK/Cancel has been pressed
+%  RET is set to 0 if cancel was pressed, 1 otherwise.
+
+%  Copyright 2000-2004 The MathWorks, Inc. and Ford Global Technologies, Inc.
+
+
+%   $Revision: 1.4.2.2 $  $Date: 2004/02/09 07:06:47 $
+
+
+if nargin<2
+   action='create';
+end
+
+switch lower(action)
+case 'create'
+   scrpos=get(0,'screensize');
+   xFig=xregfigure('visible','off',...
+      'numbertitle','off',...
+      'name','Delete Design Points',...
+      'units','pixels',...
+      'position',[scrpos(3)./2-175 scrpos(4)./2-115 350 230],...
+      'resize','off',...
+      'menubar','none',...
+      'toolbar','none',...
+      'closerequestfcn',['set(gcbf,''tag'',''CLOSEGUI'');'],...
+      'doublebuffer','on',...
+      'tag','Deletepoints',...
+      'color',get(0,'defaultuicontrolbackgroundcolor'));   
+   figh=double(xFig);
+   delobj=listitemselector(figh,...
+      'itemlist',[1:npoints(des)],...
+      'selectedtitle','Delete points:',...
+      'unselectedtitle','Keep points:');
+   
+   cancbtn=uicontrol('style','pushbutton',...
+      'parent',figh,...
+      'string','Cancel',...
+      'callback',['set(gcbf,''tag'',''CLOSEGUI'');'],...
+      'userdata',des);
+   objtxt=sprintf('%20.15f',cancbtn);
+   okbtn=uicontrol('style','pushbutton',...
+      'parent',figh,...
+      'string','OK',...
+      'callback',['gui_deletepoints(get(' objtxt ',''userdata''),''ok'');']);
+   helpbtn=mv_helpbutton(figh,'xreg_desDeletePoints');
+   
+   
+   main=xreggridbaglayout(figh,...
+      'packstatus','off',...
+      'dimension',[2 4],...
+      'colsizes',[-1 65 65 65],...
+      'rowsizes',[-1 25],...
+      'gapx',7,'gapy',10,...
+      'border',[7 7 7 7],...
+      'mergeblock',{[1 1],[1 4]},...
+      'elements',{delobj,[],[],okbtn,[],cancbtn,[],helpbtn});
+      
+   xFig.LayoutManager=main;
+   set(main,'packstatus','on');
+   ud.design=des;
+   ud.status=0;
+   ud.delobj=delobj;
+   
+   set(figh,'userdata',ud,'visible','on');
+   drawnow;
+   set(figh,'windowstyle','modal');
+
+   % block until ok/cancel pressed
+   waitfor(figh,'tag','CLOSEGUI');
+   
+   ud=get(figh,'userdata'); 
+   if ud.status
+      %delete chosen points
+      dout=ud.design;
+      delinds=ud.delobj.selecteditems;
+      if ~isempty(delinds)
+         dout=delete(dout,'indexed',delinds);
+      end
+   else
+      dout=des;
+   end
+   ret=ud.status;
+   delete(figh);
+   
+case 'ok'
+   figh=gcbf;
+   ud=get(figh,'userdata');
+   ud.status=1;
+   set(figh,'userdata',ud);
+   set(figh,'tag','CLOSEGUI');
+
+end

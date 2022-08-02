@@ -1,0 +1,32 @@
+# File : makefile
+#
+# Abstract : makefile for the internal flash test file
+#
+# $Revision: 1.1.6.2 $
+# $Date: 2003/12/11 03:48:57 $
+#
+# Copyright 1990-2003 The MathWorks, Inc.
+#
+
+.PHONY : all default
+
+default : all
+
+COMPONENT=internal_flash
+include $(COMPONENT_MANAGER)
+
+OBJECTS += main.o 
+
+S19_TARGET = $(OBJDIR)/test_internal_flash.s19
+
+all: setup $(S19_TARGET)
+
+$(S19_TARGET) : $(OBJECT_TARGETS) $(LIBS) makefile
+	@echo ----------------------------------------------------
+	@echo Building $@
+	@echo ----------------------------------------------------
+	$(build-srec-file)
+
+$(OBJECT_TARGETS) : makefile.5xx
+
+

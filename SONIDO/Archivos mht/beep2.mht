@@ -1,0 +1,39 @@
+From: <Guardado por Microsoft Internet Explorer 5>
+Subject: 
+Date: Wed, 13 Aug 2008 12:59:06 -0600
+MIME-Version: 1.0
+Content-Type: text/html;
+	charset="Windows-1252"
+Content-Transfer-Encoding: 7bit
+Content-Location: http://www.mathworks.com/matlabcentral/files/207/beep2.m
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.3198
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 6.00.2900.3314" name=GENERATOR></HEAD>
+<BODY><PRE>function beep2(w,t)
+%plays a short tone as an audible cue
+%
+%USAGE:
+%    beep2
+%    beep2(w)    specify frequency (200-1,000 Hz)
+%    beep2(w,t)     "       "       and duration in seconds
+
+fs=8192;  %sample freq in Hz
+
+if (nargin == 0)
+   w=1000;            %default
+   t = [0:1/fs:.2];   %default
+elseif (nargin == 1)
+   t = [0:1/fs:.2];   %default
+elseif (nargin == 2)
+   t = [0:1/fs:t];  
+end
+
+%one possible wave form
+wave=sin(2*pi*w*t); 
+
+%play sound
+sound(wave,fs);
+</PRE></BODY></HTML>

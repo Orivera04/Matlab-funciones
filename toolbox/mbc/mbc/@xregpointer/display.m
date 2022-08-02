@@ -1,0 +1,16 @@
+function display(p)
+% XREGPOINTER/DISPLAY display pointer location on command line
+
+%  Copyright 2000-2004 The MathWorks, Inc. and Ford Global Technologies, Inc.
+%   $Revision: 1.5.4.2 $  $Date: 2004/02/09 06:47:03 $
+
+
+
+
+name= inputname(1);
+if isempty(name)
+   name= 'ans';
+end
+fprintf('\n &%s = \n',name)
+disp(int2str(p.ptr));
+fprintf('\n')

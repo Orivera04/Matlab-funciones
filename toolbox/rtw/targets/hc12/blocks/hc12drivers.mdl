@@ -1,0 +1,1218 @@
+# $Revision: 1.1.6.6 $
+Library {
+  Name			  "hc12drivers"
+  Version		  6.0
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  BlockNameDataTip	  off
+  BlockParametersDataTip  on
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Fri Sep 06 10:09:51 2002"
+  Creator		  "jims"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "jcarrick"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Thu Jan 29 14:59:25 2004"
+  ModelVersionFormat	  "1.%<AutoIncrement:244>"
+  ConfigurationManager	  "None"
+  UserBdParams		  "Master;"
+  SimParamPage		  "Solver"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  ProdHWDeviceType	  "Specified"
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.0.2"
+      Array {
+	Type			"Handle"
+	Dimension		8
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.0.2"
+	  StartTime		  "0.0"
+	  StopTime		  "10.0"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  RelTol		  "1e-3"
+	  SolverMode		  "SingleTasking"
+	  Solver		  "ode45"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.0.2"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SaveTime		  on
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsOut"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Version		  "1.0.2"
+	  BlockReduction	  on
+	  BooleanDataType	  off
+	  ConditionallyExecuteInputs on
+	  ConditionalExecOptimization "on_for_testing"
+	  InlineParams		  off
+	  InlineInvariantSignals  on
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  on
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  ParameterPooling	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  OptimizeModelRefInitCode off
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.0.2"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg on
+	  CheckExecutionContextRuntimeOutputMsg	on
+	  SignalResolutionControl "TryResolveAllWithWarning"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  SolverPrmCheckMsg	  "none"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterPrecisionLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.0.2"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "Specified"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  off
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.0.2"
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Version		  "1.0.2"
+	  SystemTargetFile	  "grt.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  TemplateMakefile	  "grt_default_tmf"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Version		      "1.0.2"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      CustomSymbolStr	      "$R$N$M"
+	      MangleLength	      1
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    Simulink.GRTTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Version		      "1.0.2"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns off
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      LifeSpan		      "inf"
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      ExtMode		      off
+	      ExtModeStaticAlloc      off
+	      ExtModeTesting	      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTransport	      0
+	      ExtModeMexFile	      "ext_comm"
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	      GenerateASAP2	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	Simulink.SFSimCC {
+	  $ObjectID		  11
+	  Version		  "1.0.2"
+	  SFSimApplyToAllLibs	  on
+	  SFSimEnableDebug	  on
+	  SFSimOverflowDetection  on
+	  SFSimEcho		  on
+	  SFSimBuildMode	  "Incremental"
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      SimulationMode	      "normal"
+      CurrentDlgPage	      "Solver"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  Master		  "hc12drivers/Master"
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ParameterDataTypeMode   "Same as input"
+      ParameterDataType	      "sfix(16)"
+      ParameterScalingMode    "Best Precision: Matrix-wise"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Ground
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      PortCounts	      "[]"
+      SFunctionModules	      "''"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      SystemSampleTime	      "-1"
+      RTWSystemCode	      "Auto"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Terminator
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "hc12drivers"
+    Location		    [488, 443, 870, 708]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      "ADC Input"
+      Ports		      [0, 1]
+      Position		      [150, 35, 225, 75]
+      ShowPortLabels	      off
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      EnableExecutionContextPropagation	on
+      MaskDescription	      "The ADC Input block reads up to 8 channels of d"
+"ata from one of two \n8-channel analog-to-digital converter (ADC) banks."
+      MaskHelp		      "helpview([docroot '/toolbox/hc12/hc12.map'],'hc"
+"12_ADC_In_blkref')"
+      MaskPromptString	      "ADC bank:|Channels ( 0 - 7 ):|ADC resolution:|W"
+"ord alignment:|Sample time:"
+      MaskStyleString	      "popup(0|1),edit,popup(8 bits|10 bits),popup(Rig"
+"ht justified|Left justified),edit"
+      MaskTunableValueString  "off,off,off,off,off"
+      MaskCallbackString      "||||"
+      MaskEnableString	      "on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on"
+      MaskVarAliasString      ",,,,"
+      MaskVariables	      "bank=@1;channels=@2;use10bits=@3;left_justify=@"
+"4;sampletime=@5;"
+      MaskInitialization      "hc12_adc_v_mcb(bank-1);"
+      MaskDisplay	      "disp('ADC Input')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "0|[1 2]|8 bits|Right justified|0.065536"
+      MaskTabNameString	      ",,,,"
+      System {
+	Name			"ADC Input"
+	Location		[805, 329, 1147, 464]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Ground
+	  Name			  "Ground"
+	  Position		  [25, 55, 45, 75]
+	}
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  "S-Function"
+	  Ports			  [1, 1]
+	  Position		  [105, 47, 205, 83]
+	  FunctionName		  "hc12_sfcn_adc_v"
+	  Parameters		  "uint8(bank-1), uint16(channels), uint8(use1"
+"0bits-1), uint8(left_justify-1), sampletime"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  Position		  [260, 58, 290, 72]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Line {
+	  SrcBlock		  "Ground"
+	  SrcPort		  1
+	  DstBlock		  "S-Function"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "S-Function"
+	  SrcPort		  1
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Digital Input"
+      Ports		      [0, 1]
+      Position		      [40, 35, 115, 75]
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      EnableExecutionContextPropagation	on
+      MaskDescription	      "Specify the port (A or B) used for input."
+      MaskHelp		      "helpview([docroot '/toolbox/hc12/hc12.map'],'hc"
+"12_Digital_In_blkref')"
+      MaskPromptString	      "Input port"
+      MaskStyleString	      "popup(A|B)"
+      MaskTunableValueString  "off"
+      MaskEnableString	      "on"
+      MaskVisibilityString    "on"
+      MaskToolTipString	      "on"
+      MaskVariables	      "diport=&1;"
+      MaskInitialization      "hc12_di_abbyte_mcb(diport)\n"
+      MaskDisplay	      "disp('PORT A or B')"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "A"
+      System {
+	Name			"Digital Input"
+	Location		[714, 189, 1166, 421]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  "Digital Input UINT8"
+	  Tag			  "HC12DriverData"
+	  Ports			  [1, 1]
+	  Position		  [195, 85, 305, 135]
+	  List {
+	    ListType		    RTWdata
+	    diport		    "PORTA"
+	    ddrStr		    "DDRA"
+	  }
+	  FunctionName		  "hc12_sfcn_di_abbyte"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Ground
+	  Name			  "Ground"
+	  Position		  [125, 100, 145, 120]
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  Position		  [360, 103, 390, 117]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Line {
+	  SrcBlock		  "Ground"
+	  SrcPort		  1
+	  DstBlock		  "Digital Input UINT8"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Digital Input UINT8"
+	  SrcPort		  1
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Digital Output"
+      Ports		      [1]
+      Position		      [40, 115, 115, 155]
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      EnableExecutionContextPropagation	on
+      MaskDescription	      "Specify the port (A or B) used for output."
+      MaskHelp		      "helpview([docroot '/toolbox/hc12/hc12.map'],'hc"
+"12_Digital_Out_blkref')"
+      MaskPromptString	      "Output port"
+      MaskStyleString	      "popup(A|B)"
+      MaskTunableValueString  "off"
+      MaskEnableString	      "on"
+      MaskVisibilityString    "on"
+      MaskToolTipString	      "on"
+      MaskVariables	      "doport=&1;"
+      MaskInitialization      "hc12_do_abbyte_mcb(doport)\n"
+      MaskDisplay	      "disp('PORT A or B')"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "B"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+      System {
+	Name			"Digital Output"
+	Location		[728, 179, 1168, 433]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [110, 103, 140, 117]
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  "Digital Output UINT8"
+	  Tag			  "HC12DriverData"
+	  Ports			  [1, 1]
+	  Position		  [185, 92, 295, 128]
+	  List {
+	    ListType		    RTWdata
+	    doport		    "PORTB"
+	    ddrStr		    "DDRB"
+	  }
+	  FunctionName		  "hc12_sfcn_do_abbyte"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  "Terminator"
+	  Position		  [355, 100, 375, 120]
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Line {
+	  SrcBlock		  "Digital Output UINT8"
+	  SrcPort		  1
+	  DstBlock		  "Terminator"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "Digital Output UINT8"
+	  DstPort		  1
+	}
+	Annotation {
+	  Name			  "Note: PORTB drives LEDs on EVM board"
+	  Position		  [243, 191]
+	  FontName		  "Arial"
+	  FontSize		  12
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "HC12 Demos"
+      Ports		      []
+      Position		      [260, 35, 335, 75]
+      DropShadow	      on
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      EnableExecutionContextPropagation	on
+      MaskDisplay	      "disp('Demos')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"HC12 Demos"
+	Location		[243, 88, 601, 497]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Launch ADC \nTest Model"
+	  Ports			  []
+	  Position		  [180, 315, 280, 365]
+	  OpenFcn		  "open_system('hc12_adc');"
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  EnableExecutionContextPropagation on
+	  MaskPromptString	  "Needed to invoke correct OpenFcn from Brows"
+"er:"
+	  MaskStyleString	  "edit"
+	  MaskTunableValueString  "on"
+	  MaskEnableString	  "on"
+	  MaskVisibilityString	  "on"
+	  MaskToolTipString	  "on"
+	  MaskVariables		  "A=@1;"
+	  MaskDisplay		  "disp('ADC Test Model')"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  System {
+	    Name		    "Launch ADC \nTest Model"
+	    Location		    [5, 379, 503, 679]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Gain"
+	      Position		      [30, 25, 60, 55]
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Launch Digital Input\nTest Model"
+	  Ports			  []
+	  Position		  [50, 220, 150, 270]
+	  OpenFcn		  "open_system('hc12_di');"
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  EnableExecutionContextPropagation on
+	  MaskPromptString	  "Needed to invoke correct OpenFcn from Brows"
+"er:"
+	  MaskStyleString	  "edit"
+	  MaskTunableValueString  "on"
+	  MaskEnableString	  "on"
+	  MaskVisibilityString	  "on"
+	  MaskToolTipString	  "on"
+	  MaskVariables		  "A=@1;"
+	  MaskDisplay		  "disp('Digital Input\\nTest Model')"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  System {
+	    Name		    "Launch Digital Input\nTest Model"
+	    Location		    [5, 379, 503, 679]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Gain"
+	      Position		      [30, 25, 60, 55]
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Launch LED Demo"
+	  Ports			  []
+	  Position		  [50, 60, 150, 110]
+	  OpenFcn		  "open_system('hc12_led');"
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  EnableExecutionContextPropagation on
+	  MaskPromptString	  "Needed to invoke correct OpenFcn from Brows"
+"er:"
+	  MaskStyleString	  "edit"
+	  MaskTunableValueString  "on"
+	  MaskEnableString	  "on"
+	  MaskVisibilityString	  "on"
+	  MaskToolTipString	  "on"
+	  MaskVariables		  "A=@1;"
+	  MaskDisplay		  "disp('LED Demo')"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  System {
+	    Name		    "Launch LED Demo"
+	    Location		    [5, 379, 503, 679]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Gain"
+	      Position		      [30, 25, 60, 55]
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Launch PWM\nTest Model"
+	  Ports			  []
+	  Position		  [180, 220, 280, 270]
+	  OpenFcn		  "open_system('hc12_pwm');"
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  EnableExecutionContextPropagation on
+	  MaskPromptString	  "Needed to invoke correct OpenFcn from Brows"
+"er:"
+	  MaskStyleString	  "edit"
+	  MaskTunableValueString  "on"
+	  MaskEnableString	  "on"
+	  MaskVisibilityString	  "on"
+	  MaskToolTipString	  "on"
+	  MaskVariables		  "A=@1;"
+	  MaskDisplay		  "disp('PWM Test Model')"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  System {
+	    Name		    "Launch PWM\nTest Model"
+	    Location		    [5, 379, 503, 679]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Gain"
+	      Position		      [30, 25, 60, 55]
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Launch hc12_fuelsys Demo"
+	  Ports			  []
+	  Position		  [180, 60, 280, 110]
+	  OpenFcn		  "open_system('hc12_fuelsys');"
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  EnableExecutionContextPropagation on
+	  MaskPromptString	  "Needed to invoke correct OpenFcn from Brows"
+"er:"
+	  MaskStyleString	  "edit"
+	  MaskTunableValueString  "on"
+	  MaskEnableString	  "on"
+	  MaskVisibilityString	  "on"
+	  MaskToolTipString	  "on"
+	  MaskVariables		  "A=@1;"
+	  MaskDisplay		  "disp('hc12_fuelsys Demo')"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  System {
+	    Name		    "Launch hc12_fuelsys Demo"
+	    Location		    [5, 379, 503, 679]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Gain"
+	      Position		      [30, 25, 60, 55]
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	  }
+	}
+	Annotation {
+	  Name			  "Test models require electrical inputs\nor a"
+"n oscilloscope for viewing"
+	  Position		  [51, 191]
+	  HorizontalAlignment	  "left"
+	  FontName		  "Arial"
+	  FontSize		  14
+	  FontWeight		  "bold"
+	}
+	Annotation {
+	  Name			  "Demo models"
+	  Position		  [103, 36]
+	  FontName		  "Arial"
+	  FontSize		  14
+	  FontWeight		  "bold"
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Master"
+      Tag		      "HardwareResourceMaster"
+      Ports		      []
+      Position		      [157, 195, 204, 230]
+      Priority		      "100"
+      CopyFcn		      "hc12_hminit;"
+      DeleteFcn		      "if isappdata(0,'hc12driversMaster') \n   rmappd"
+"ata(0,'hc12driversMaster');\nend                                 "
+      LoadFcn		      "hc12_hminit;"
+      InitFcn		      "hc12_hminit;"
+      StartFcn		      "hc12_hminit;"
+      OpenFcn		      "hc12_hminit;open_system(gcb,'mask')"
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      EnableExecutionContextPropagation	on
+      MaskDescription	      "The Master block provides the following core fu"
+"nctionality for the model:\n\n  Sets the real-time clock period on the HC12. "
+"See Setting HC12 Timing Parameters.\n\n  Manages a resource database to arbit"
+"rate potentially conflicting requests for HC12\n  hardware resources (such as"
+" ports) by device driver blocks. "
+      MaskHelp		      "helpview([docroot '/toolbox/hc12/hc12.map'],'hc"
+"12_Master_blkref')"
+      MaskPromptString	      "Clock frequency:|Sample time:"
+      MaskStyleString	      "edit,edit"
+      MaskTunableValueString  "off,off"
+      MaskCallbackString      "|"
+      MaskEnableString	      "on,on"
+      MaskVisibilityString    "on,on"
+      MaskToolTipString	      "on,on"
+      MaskVarAliasString      ","
+      MaskVariables	      "osc=@1;desiredST=@2;"
+      MaskInitialization      "% HC12 resource object.\n%\n% Derive base sampl"
+"e time from osc\n% and desiredST in the Master block.\n%\n% Then, determine t"
+"he achievable\n% sample time and set the values of the\n% CRG RTR values: RTR"
+"30 and RTR64\n% for the HC12.\n\nhc12_master_mcb(desiredST, osc);\n\n\n\n"
+      MaskDisplay	      "image(imread('target_icon.jpg'))"
+      MaskSelfModifiable      on
+      MaskIconFrame	      off
+      MaskIconOpaque	      off
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "16000000|0.065536"
+      MaskTabNameString	      ","
+      System {
+	Name			"Master"
+	Location		[726, 234, 1097, 409]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Ground
+	  Name			  "Ground"
+	  Position		  [60, 70, 80, 90]
+	}
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  "S-Function"
+	  Tag			  "HC12DriverData"
+	  Ports			  [1, 1]
+	  Position		  [120, 64, 250, 96]
+	  List {
+	    ListType		    RTWdata
+	    RTR			    "127"
+	  }
+	  FunctionName		  "hc12targetmaster"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  "Terminator"
+	  Position		  [290, 70, 310, 90]
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Line {
+	  SrcBlock		  "S-Function"
+	  SrcPort		  1
+	  DstBlock		  "Terminator"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Ground"
+	  SrcPort		  1
+	  DstBlock		  "S-Function"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "PWM Output"
+      Ports		      [1]
+      Position		      [150, 115, 225, 155]
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      EnableExecutionContextPropagation	on
+      MaskDescription	      "The block input signal specifies the PWM duty c"
+"ycle register value PWMDTYx in raw units ranging from 0 to 255. \n\nPWMPERx i"
+"s specified in the PWM period dialog below. Duty cycle is determined by the f"
+"ollowing expression: \nDuty Cycle = 100 * (PWMPERx - PWMDTYx) / PWMPERx\n\nIn"
+" the generated code, the input signal PWMDTYx is limited not to exceed PWMPER"
+"x which would otherwise result in a sign change in the equation above. \n\nNo"
+"te: \nPWMCLK A or SA used for channels 0, 1, 4, 5\nPWMCLK B or SB used for ch"
+"annels 2, 3, 6, 7"
+      MaskHelp		      "helpview([docroot '/toolbox/hc12/hc12.map'],'hc"
+"12_PWM_Out_blkref')"
+      MaskPromptString	      "PWM channel:|Invert polarity|PWMCLK  (unchecked"
+" = clock [A, B];   checked = clock [SA, SB])|Center aligned (unchecked = left"
+" aligned)|PWM period:"
+      MaskStyleString	      "popup(0|1|2|3|4|5|6|7),checkbox,checkbox,checkb"
+"ox,edit"
+      MaskTunableValueString  "off,off,off,off,off"
+      MaskCallbackString      "||||"
+      MaskEnableString	      "on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on"
+      MaskVarAliasString      ",,,,"
+      MaskVariables	      "channel=&1;polaritybit=@2;clkbit=@3;caebit=@4;p"
+"wmper=@5;"
+      MaskInitialization      "hc12_pwm_mcb(channel)\n"
+      MaskDisplay	      "disp('PWM Output')"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "0|off|off|off|255"
+      MaskTabNameString	      ",,,,"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+      System {
+	Name			"PWM Output"
+	Location		[790, 210, 1192, 419]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [75, 78, 105, 92]
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  "PWM Output UINT8"
+	  Tag			  "HC12DriverData"
+	  Ports			  [1, 1]
+	  Position		  [165, 62, 250, 108]
+	  List {
+	    ListType		    RTWdata
+	    PWMDTYbyteStr	    "PWMDTY0"
+	    PWMPOLbitStr	    "PPOL0"
+	    PWMCLKbitStr	    "PCLK0"
+	    PWMCAEbitStr	    "CAE0"
+	    PWMEbitStr		    "PWME0"
+	    PWMPERbyteStr	    "PWMPER0"
+	  }
+	  FunctionName		  "hc12_sfcn_pwm"
+	  Parameters		  "boolean(polaritybit), boolean(clkbit), bool"
+"ean(caebit), uint8(pwmper)"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  "Terminator"
+	  Position		  [310, 75, 330, 95]
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "PWM Output UINT8"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "PWM Output UINT8"
+	  SrcPort		  1
+	  DstBlock		  "Terminator"
+	  DstPort		  1
+	}
+      }
+    }
+  }
+}

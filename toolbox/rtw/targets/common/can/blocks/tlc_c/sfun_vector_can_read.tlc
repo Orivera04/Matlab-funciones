@@ -1,0 +1,143 @@
+%% File: sfun_vector_can_read.tlc
+%%
+%% Abstract:
+%%   
+%%
+%% $Revision: 1.11.6.2 $
+%% $Date: 2004/04/19 01:20:12 $
+%%
+%% Copyright 2001-2003 The MathWorks, Inc.
+
+%implements sfun_vector_can_read "C"
+
+%include "vector_canincludes.tlc"
+
+%function BlockTypeSetup(block,system) void
+%if FEVAL("vector_code_generation", CompiledModel.Name)
+   %openfile buffer
+         %% only generate code for GRT / ERT targets
+         #include "can_msg.h"
+         #include "vector_can_library_exports.h"
+   %closefile buffer
+   %<LibCacheIncludes(buffer)>
+   
+   %% generate the valid function
+   %assign proto = "static int validId(unsigned int id, unsigned int * id_ptr, int num_ids)"
+   %openfile buffer
+      %<proto> {
+         /* binary search for id in the sorted list of ids */
+
+         int low_index = 0;
+         int high_index = num_ids - 1;
+         int midpoint;
+         while (1) {
+            if (low_index > high_index) {
+               /* failed to find id */
+               return 0;
+            }
+            midpoint = (low_index + high_index) / 2;
+            if (id_ptr[midpoint] < id) {
+               /* chop off bottom half */
+               low_index = midpoint + 1;
+            }
+            else if (id_ptr[midpoint] == id) {
+               /* found id */
+               return 1;
+            }
+            else /* (id_ptr > id) */ {
+               /* chop off top half */
+               high_index = midpoint - 1;
+            }
+         }
+         /* should never get here.... */
+         return -1;
+      }
+   %closefile buffer
+   %<LibRegFileCustomCode(buffer,"trailer")>
+   %<LibCacheFunctionPrototype("%<proto>;")>
+%endif
+   
+   %<SetupCanDataTypes(block)>
+%endfunction
+
+%function Start(block,system) Output
+%if FEVAL("vector_code_generation", CompiledModel.Name)
+   %% only generate code for GRT / ERT targets
+   %with SFcnParamSettings
+      %assign idstring = "%<IDS[0]>"
+      %foreach id = SIZE(IDS,1) - 1 
+         %assign idstring = "%<idstring>, %<IDS[id+1]>"
+      %endforeach
+   %endwith
+   {
+      unsigned int ids[] = {%<idstring>};
+      unsigned int * id_ptr = (unsigned int *) ids;
+   %with SFcnParamSettings 
+   %if TYPE == 0
+      %% Standard CAN frame
+      handleVectorError(LibraryCreateReadPort("%<MASTER_ID_STRING>", id_ptr, %<SIZE(IDS,1)>, NULL, 0, "%<ID_STRING>"));       
+   %else
+      %% Extended CAN frame
+      handleVectorError(LibraryCreateReadPort("%<MASTER_ID_STRING>", NULL, 0, id_ptr, %<SIZE(IDS,1)>, "%<ID_STRING>"));
+   %endif
+%endwith
+   }
+%endif
+%endfunction
+
+%function Outputs(block,system) Output
+%if FEVAL("vector_code_generation", CompiledModel.Name)
+%% only generate code for GRT / ERT targets
+{
+   %with SFcnParamSettings
+      %assign idstring = "%<IDS[0]>"
+      %foreach id = SIZE(IDS,1) - 1 
+         %assign idstring = "%<idstring>, %<IDS[id+1]>"
+      %endforeach
+   %endwith
+   unsigned int ids[] = {%<idstring>}; 
+   unsigned int * id_ptr = (unsigned int *) ids;
+   /* frame points to output port 1 */
+   CAN_FRAME * frame = %<LibBlockOutputSignalAddr(1,"","",0)>;
+   unsigned long timeStamp;
+   int qlength;
+   handleVectorError(LibraryReadData(&qlength, frame, "%<SFcnParamSettings.ID_STRING>", &timeStamp));
+   while (qlength >= 0) {
+      /* at least one message was read */
+         
+%%      validId(unsigned int id, unsigned int ids[], int num_ids)
+      
+      if (validId(frame->ID, id_ptr, %<SIZE(SFcnParamSettings.IDS,1)>)) {
+         %% check to see if we need to output a timestamp 
+         %if SFcnParamSettings.TIME == 1
+            /* output time stamp on port 2 */
+            %<LibBlockOutputSignal(2,"","",0)> = timeStamp;  
+         %endif
+
+         %% Make the function call
+         %with SFcnSystemOutputCall[0]
+            %if LibIsEqual(BlockToCall, "unconnected")
+               %%return
+            %else
+               %assign sysIdx = BlockToCall[0]
+               %assign blkIdx = BlockToCall[1]
+               %assign ssBlock = System[sysIdx].Block[blkIdx]
+               %assign sysToCall = System[ssBlock.ParamSettings.SystemIdx]
+               %<LibCallFCSS(sysToCall, tSimStruct, FcnPortElement, ...
+                  ParamSettings.SampleTimesToSet[0][1])>\
+            %endif
+         %endwith
+     }
+      
+      %% check the loop variable
+      %if SFcnParamSettings.LOOP == 0
+         /* exit the loop */
+         break;
+      %else 
+         /* looping flag set, so read next message */
+         handleVectorError(LibraryReadData(&qlength, frame, "%<SFcnParamSettings.ID_STRING>", &timeStamp));
+      %endif
+   }
+}
+%endif
+%endfunction

@@ -1,0 +1,259 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>OPCDEMO_MANAGING</title>
+      <meta name="generator" content="MATLAB 7.0.0.1547 (R14) Prerelease">
+      <meta name="date" content="2004-03-18">
+      <meta name="m-file" content="opcdemo_managing">
+      <meta name="title" content="OPCDEMO_MANAGING">
+      <meta name="description" content="This example shows you how to manage OPC Toolbox objects."><style>
+body {
+  background-color: white;
+}
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+pre.codeinput {
+  margin-left: 30px;
+}
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.showbuttons {
+  margin-left: 30px;
+  border: solid black 2px;
+  padding: 4px;
+  background: #EBEFF3;
+}
+
+pre.codeoutput {
+  color: gray;
+  font-style: italic;
+}
+pre.error {
+  color: red;
+}
+    </style></head>
+   <body>
+      <h1>OPCDEMO_MANAGING</h1>
+      <p>This example shows you how to manage OPC Toolbox objects.</p>
+      <h2>Contents</h2>
+      <ul>
+         <li><a href="#1">Finding OPC Toolbox objects in memory</a></li>
+         <li><a href="#6">Removing objects from memory</a></li>
+      </ul>
+      <h2>Finding OPC Toolbox objects in memory<a name="1"></a></h2>
+      <p>You use the OPCFIND finction to find OPC Toolbox objects in memory.</p><pre class="codeinput">opcfind
+</pre><pre class="codeoutput">ans =
+     []
+</pre><p>Create some OPC Toolbox objects</p><pre class="codeinput">da = opcda(<span class="string">'localhost'</span>, <span class="string">'Dummy.Server.1'</span>);
+grp = addgroup(da);
+itm1 = additem(grp, <span class="string">'Fake.Item.ID1'</span>);
+itm2 = additem(grp, <span class="string">'Fake.Item.ID2'</span>);
+</pre><p>Find all valid objects</p><pre class="codeinput">allOPC = opcfind
+</pre><pre class="codeoutput">allOPC = 
+    [1x1 opcda]    [1x1 dagroup]    [1x1 daitem]    [1x1 daitem]
+</pre><p>The information is returned in a cell array, because OPCFIND can locate different objects. To access an object, use cell indexing.</p><pre class="codeinput">newGrp = allOPC{2}
+</pre><pre class="codeoutput">newGrp =
+Summary of OPC Data Access Group Object: group1
+   Object Parameters
+      Group Type   : private
+      Item         : 2-by-1 daitem object
+      Parent       : localhost/Dummy.Server.1
+      Update Rate  : 0.5
+      Deadband     : 0%
+   Object Status
+      Active       : on
+      Subscription : on
+      Logging      : off
+   Logging Parameters
+      Records      : 120
+      Duration     : at least 60 seconds
+      Logging to   : memory
+      Status       : Waiting for START.
+                     0 records available for GETDATA/PEEKDATA
+</pre><p>To find objects with a specific property, pass property/value pairs to the OPCFIND function.</p><pre class="codeinput">allDA = opcfind(<span class="string">'Type'</span>, <span class="string">'opcda'</span>)
+</pre><pre class="codeoutput">allDA = 
+    [1x1 opcda]
+</pre><h2>Removing objects from memory<a name="6"></a></h2>
+      <p>To delete an OPC Toolbox object from memory, use the DELETE function with the object. Deleting a client object deletes all
+         group and item objects associated with the client. Deleting a group deletes all items in that group.
+      </p>
+      <p>Delete the group.</p><pre class="codeinput">delete(grp)
+</pre><p>Find all remaining valid objects.</p><pre class="codeinput">allOPC = opcfind
+</pre><pre class="codeoutput">allOPC = 
+    [1x1 opcda]
+</pre><p>Using the DELETE function with the object will remove the object from the OPC Toolbox engine but not from the MATLAB workspace.
+         To remove an object from the MATLAB workspace use the CLEAR function. To see what objects are in the MATLAB workspace, use
+         the WHOS function.
+      </p><pre class="codeinput"><span class="comment">% Display the current workspace.</span>
+whos
+</pre><pre class="codeoutput">  Name         Size                    Bytes  Class
+
+  allDA        1x1                       686  cell array
+  allOPC       1x1                       686  cell array
+  ans          0x0                         0  double array
+  da           1x1                       626  opcda object
+  grp          1x1                       626  dagroup object
+  itm1         1x1                       626  daitem object
+  itm2         1x1                       626  daitem object
+  newGrp       1x1                       626  dagroup object
+
+Grand total is 65 elements using 4502 bytes
+
+</pre><p>Since an object was deleted, it is no longer valid.</p><pre class="codeinput">grp
+</pre><pre class="codeoutput">grp =
+Invalid dagroup object.
+This object should be removed from your workspace using CLEAR.
+
+</pre><p>The items contained by that group are also invalid</p><pre class="codeinput">itm1
+</pre><pre class="codeoutput">itm1 =
+Invalid daitem object.
+This object should be removed from your workspace using CLEAR.
+
+</pre><p>Clear the associated variables.</p><pre class="codeinput">clear <span class="string">grp</span> <span class="string">itm1</span> <span class="string">itm2</span>
+</pre><p>Display the current workspace.</p><pre class="codeinput">whos
+</pre><pre class="codeoutput">  Name         Size                    Bytes  Class
+
+  allDA        1x1                       686  cell array
+  allOPC       1x1                       686  cell array
+  ans          0x0                         0  double array
+  da           1x1                       626  opcda object
+  newGrp       1x1                       626  dagroup object
+
+Grand total is 38 elements using 2624 bytes
+
+</pre><p>To remove all OPC Toolbox objects from the engine and to reset the toolbox to its initial state, use the OPCRESET function.</p>
+      <p><b>Note</b>: Using the OPCRESET function will only delete objects from memory, not clear them from the MATLAB workspace.
+      </p><pre class="codeinput">opcreset
+</pre><p>Verify no objects remain.</p><pre class="codeinput">allOPC = opcfind
+</pre><pre class="codeoutput">allOPC =
+     []
+</pre><p>Variables associated with deleted objects still remain.</p><pre class="codeinput">whos
+</pre><pre class="codeoutput">  Name         Size                    Bytes  Class
+
+  allDA        1x1                       686  cell array
+  allOPC       0x0                         0  double array
+  ans          0x0                         0  double array
+  da           1x1                       626  opcda object
+  newGrp       1x1                       626  dagroup object
+
+Grand total is 28 elements using 1938 bytes
+
+</pre><p>Clear any remaining variables associated with deleted objects.</p><pre class="codeinput">clear <span class="string">da</span>
+</pre><p class="footer"><br></p>
+      <!--
+##### SOURCE BEGIN #####
+%% OPCDEMO_MANAGING
+% This example shows you how to manage OPC Toolbox objects.
+
+%% Finding OPC Toolbox objects in memory
+% You use the OPCFIND finction to find OPC Toolbox objects in memory.
+opcfind
+
+%% 
+% Create some OPC Toolbox objects
+da = opcda('localhost', 'Dummy.Server.1');
+grp = addgroup(da);
+itm1 = additem(grp, 'Fake.Item.ID1');
+itm2 = additem(grp, 'Fake.Item.ID2');
+
+%%
+% Find all valid objects
+allOPC = opcfind
+
+%%
+% The information is returned in a cell array, because OPCFIND can locate
+% different objects. To access an object, use cell indexing.
+newGrp = allOPC{2}
+
+%%
+% To find objects with a specific property, pass property/value pairs to
+% the OPCFIND function.
+allDA = opcfind('Type', 'opcda')
+
+%% Removing objects from memory
+% To delete an OPC Toolbox object from memory, use the DELETE function with
+% the object. Deleting a client object deletes all group and item objects
+% associated with the client. Deleting a group deletes all items in that
+% group.
+%%
+% Delete the group.
+delete(grp)
+
+%%
+% Find all remaining valid objects.
+allOPC = opcfind
+
+%%
+% Using the DELETE function with the object will remove the object from the
+% OPC Toolbox engine but not from the MATLAB workspace. To remove an object
+% from the MATLAB workspace use the CLEAR function. To see what objects are
+% in the MATLAB workspace, use the WHOS function.
+
+% Display the current workspace.
+whos
+
+%%
+% Since an object was deleted, it is no longer valid.
+grp
+
+%% 
+% The items contained by that group are also invalid
+itm1
+
+%%
+% Clear the associated variables.
+clear grp itm1 itm2
+
+%%
+% Display the current workspace.
+whos
+
+%% 
+% To remove all OPC Toolbox objects from the engine and to reset the
+% toolbox to its initial state, use the OPCRESET function.
+%
+% *Note*: Using the OPCRESET function will only delete objects from
+% memory, not clear them from the MATLAB workspace.
+opcreset
+
+%%
+% Verify no objects remain.
+allOPC = opcfind
+
+%%
+% Variables associated with deleted objects still remain.
+whos
+
+%%
+% Clear any remaining variables associated with deleted objects.
+clear da
+
+
+##### SOURCE END #####
+-->
+   </body>
+</html>

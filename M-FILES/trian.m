@@ -1,0 +1,2 @@
+function T=trian
+T=[0 2.5 5 0; 0 3 0 0]

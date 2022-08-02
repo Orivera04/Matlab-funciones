@@ -1,0 +1,484 @@
+From: <Guardado por Microsoft Internet Explorer 5>
+Subject: 
+Date: Thu, 26 Jul 2007 13:10:37 -0600
+MIME-Version: 1.0
+Content-Type: text/html;
+	charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.mathworks.com/matlabcentral/files/5834/desGUIDE.m
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.2869
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD>
+<META http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dwindows-1252">
+<META content=3D"MSHTML 6.00.2900.2912" name=3DGENERATOR></HEAD>
+<BODY><PRE>function desGUIDE(filein,fout)
+%   Simplify a GUI m file produced by GUIDE -&gt; Export
+%
+% This function takes as input a m file produced by GUIDE -&gt; Export =
+and
+% removes all dependecies of other GUIDE related function (that is =
+gui_mainfcn).
+% It also simplifies the resulting file from what I think (If I'm wrong =
+please
+% tell me in what and why) are many GUIDE redundant definitions (e.g. =
+re-declaring
+% uicontrols defaults).
+% In this cleaning process, eventual (?)_CreateFcn functions exported by =
+GUIDE are
+% removed as well. I do this because I didn't find anything usefull in =
+these
+% functions that cannot be set directly in GUIDE. Again, If I'm wrong =
+and you want
+% to revert this policy comment the section tha follows the line that =
+reads
+% ------------------ Remove eventual original 'CreateFcn' declarations
+%
+% At the end we get a much shorter and self-contained m file (that is, =
+it doesn't
+% need a .fig file) with all declarations that make up your GUI. This =
+file runs
+% faster than the exported GUIDE file. When compiled the difference in =
+speed may be
+% substantial and it can be used in previous versions of Matlab.
+% It also preserves the very confortabe way of transmiting variables =
+between the
+% various uicontrols trough the handles structure.
+%
+% As far as I can tell, we only loose two functionalities of the =
+original GUIDE version
+% 1.    The "singleton" feature    (but it can be added)
+% 2.    The possibility of calling a local function from another m file =
+(or command line)
+%
+% example:
+%   desGUIDE('test_export.m','test.m')
+
+%   Author:     Joaquim Luis
+%   Created:    04-Sep-2004
+%   E-mail:     jluis@ualg.pt
+%   remark:     I couldn't have writen this program without the help of =
+the
+%               "findcell" function of the CSSM member &lt;us&gt;.
+
+if (nargin ~=3D 2)
+    error('desGUIDE: Error, wrong number of inputs')
+end
+if (~ischar(filein) &amp; ~ischar(filein))
+    error('desGUIDE: Error, both Input arguments must be of string (char =
+array) type.')
+end
+
+[PATH,FNAME,EXT] =3D fileparts(filein);
+if isempty(EXT)     filein =3D [filein '.m'];     end
+[PATH,FNAME,EXT] =3D fileparts(fout);
+if isempty(EXT)     fout =3D [fout '.m'];     end
+
+try
+    file =3D textread(filein,'%s','delimiter','\n','whitespace','');
+catch
+    error('desGUIDE: Error reading input file')
+end
+
+func_line =3D file{1};
+ind1 =3D strfind(func_line,'=3D');
+ind2 =3D strfind(func_line,'(');
+[pathstr,func_name,ext,versn] =3D fileparts(filein);
+
+res1 =3D findcell([func_name '_OpeningFcn'],file);    % Find the =
+location of ..._OpeningFcn
+res2 =3D findcell([func_name '_OutputFcn'],file);     % Find the =
+location of ..._OutputFcn
+
+[pathstr,fname_out,ext,versn] =3D fileparts(fout);
+out =3D {['function varargout =3D ' fname_out '(varargin)']};
+out{end+1} =3D '% M-File changed by desGUIDE ';
+out{end+1} =3D ' ';
+out =3D out';
+% ------------------- Insert this peace of code that will build the =
+figure and the handles structure
+out{end+1} =3D ' ';
+out{end+1} =3D ['hObject =3D =
+figure(''Tag'',''figure1'',''Visible'',''off'');'];
+out{end+1} =3D ['handles =3D guihandles(hObject);'];
+out{end+1} =3D ['guidata(hObject, handles);'];
+out{end+1} =3D [fname_out '_LayoutFcn(hObject,handles);'];
+out{end+1} =3D ['handles =3D guihandles(hObject);'];
+out{end+1} =3D ' ';
+% ------------------- Get the rest of the original code in =
+func_name_OpeningFcn and add some more new code
+res3 =3D findcell('% UIWAIT makes ',file);
+if (~isempty(findstr(file{res3.cn(1)+1},'% uiwait(')) | ...
+        ~isempty(findstr(file{res3.cn(1)+1},'%uiwait(')) )   % If the =
+gui does not use uiwait
+    out{end+1} =3D 'set(hObject,''Visible'',''on'');';
+    out =3D [out; file(res1.cn(end)+1:res2.cn(end)-2)];
+    out{end+1} =3D '% NOTE: If you make uiwait active you have also to =
+uncomment the next three lines';
+    out{end+1} =3D ['% handles =3D guidata(hObject);'];
+    out{end+1} =3D ['% out =3D ' fname_out '_OutputFcn(hObject, [], =
+handles);'];
+    out{end+1} =3D ['% varargout{1} =3D out;'];
+    out{end+1} =3D '';
+else                        % If the gui uses the uiwait function
+    out =3D [out; file(res1.cn(end)+1:res3.cn(1)-1)];
+    out{end+1} =3D 'set(hObject,''Visible'',''on'');';
+    out =3D [out; file(res3.cn(1):res2.cn(end)-2)];
+    % New code
+    out{end+1} =3D ['handles =3D guidata(hObject);'];
+    out{end+1} =3D ['out =3D ' fname_out '_OutputFcn(hObject, [], =
+handles);'];
+    out{end+1} =3D ['varargout{1} =3D out;'];
+    out{end+1} =3D '';
+end
+
+% ------------------ Find the location of the ..._LayoutFcn function
+res3 =3D findcell([func_name '_LayoutFcn'],file);
+out =3D [out; file(res2.cn(end)-1)];
+out{end+1} =3D ['function varargout =3D ' fname_out '_OutputFcn(hObject, =
+eventdata, handles)'];
+out =3D [out; file(res2.cn(end)+1:res3.cn(end)-1)];
+out{end+1} =3D ['function ' fname_out '_LayoutFcn(h1,handles);'];
+out{end+1} =3D '';
+
+res4 =3D findcell('h1 =3D figure(...', file);
+res5 =3D findcell('hsingleton =3D h1;', file);
+
+% ------ Make a copy of the gui uicontrols declarations. It's faster to =
+grep inside this smaller variable
+last_txt =3D file(res4.cn+1:res5.cn-1);
+clear file;
+
+% ---- Search for those possible functions in figure declaration and =
+replace them with the new solution
+res =3D findcell('CloseRequestFcn', last_txt);
+if (~isempty(res))
+    last_txt(res.cn) =3D =
+{['''CloseRequestFcn'',{@figure1_CloseRequestFcn,handles},...']};
+end
+res =3D findcell('KeyPressFcn', last_txt);
+if (~isempty(res))
+    last_txt(res.cn) =3D =
+{['''KeyPressFcn'',{@figure1_KeyPressFcn,handles},...']};
+end
+
+% ----------------- Search and replace the 'Callback' original =
+declaration by the new ones
+res =3D findcell('''Callback''', last_txt);
+if (~isempty(res))
+    for i=3D1:length(res.cn)
+        tmp =3D last_txt{res.cn(i)};
+        ind1 =3D strfind(tmp,'(''');        ind2 =3D =
+strfind(tmp,''''',');
+        cb_name =3D tmp(ind1+3:ind2-1);
+        last_txt(res.cn(i)) =3D {['''Callback'',{@' fname_out =
+'_uicallback,h1,''' cb_name '''},...']};
+    end
+end
+
+% ------------------ Remove eventual original 'CreateFcn' declarations
+res =3D findcell('''CreateFcn''', last_txt);
+if (~isempty(res))
+    for i=3D1:length(res.cn)
+        last_txt(res.cn(i)) =3D [];
+    end
+end
+
+% Search and replace the eventual 'ButtonDownFcn' declaration by the new =
+one
+res =3D findcell('''ButtonDownFcn''', last_txt);
+if (~isempty(res))
+    for i=3D1:length(res.cn)
+        tmp =3D last_txt{res.cn(i)};
+        ind1 =3D strfind(tmp,'(''');        ind2 =3D =
+strfind(tmp,''''',');
+        cb_name =3D tmp(ind1+3:ind2-1);
+        last_txt(res.cn(i)) =3D {['''ButtonDownFcn'',{@' fname_out =
+'_uicallback,h1,''' cb_name '''},...']};
+    end
+end
+
+% Remove this. Don't know why but if present, transforms the figure =
+handle in somethying else but a valid handle
+res =3D findcell('''IntegerHandle''', last_txt);
+if (~isempty(res))
+    last_txt(res.cn) =3D [];
+end
+
+% Remove this.
+res =3D findcell('''Colormap''', last_txt);
+if (~isempty(res))
+    last_txt(res.cn) =3D [];
+end
+% And this.
+res =3D findcell('''InvertHardcopy''', last_txt);
+if (~isempty(res))
+    last_txt(res.cn) =3D [];
+end
+% And this (empty strings)
+res =3D findcell(['''String'','''','], last_txt);
+if (~isempty(res))
+    last_txt(res.cn) =3D [];
+end
+
+% Remove this. I think it's better to have the HandleVisibility set on =
+and let the
+% user decide if he wants to change it. The extra inside test is due to =
+the fact that
+% 'HandleVisibility' is (as far as I could find from trials) the last =
+declaration in
+% the uicontrol. So we have to assure that the uicontrol definition ends =
+with a ');'
+res =3D findcell('''HandleVisibility''', last_txt);
+if (~isempty(res))
+    res_close =3D findcell(')',last_txt(res.cn));
+    if (~isempty(res_close))
+        idx =3D findstr(last_txt{res.cn(end)-1},',...');
+        last_txt{res.cn(end)-1} =3D [last_txt{res.cn(end)-1}(1:idx-1) =
+');'];
+    end
+    last_txt(res.cn) =3D [];
+end
+
+% Apaga estes Listbox. CUIDADO, SO QUANDO NAO HA LISTBOXES
+res =3D findcell('ListboxTop', last_txt);
+if (~isempty(res))
+    last_txt(res.cn) =3D [];
+end
+
+% Append the uicontrols revised section to the out variable
+out{end+1} =3D 'set(h1,...';
+out =3D [out; last_txt];
+
+%
+out{end+1} =3D ['function ' fname_out '_uicallback(hObject, eventdata, =
+h1, callback_name)'];
+out{end+1} =3D ['% This function is executed by the callback and than =
+the handles is allways updated.'];
+out{end+1} =3D ['feval(callback_name,hObject,[],guidata(h1));'];
+
+% FINISHED. Now write the new file
+[m,n] =3D size(out);
+fid =3D fopen(fout,'w');
+for i=3D1:m
+    fwrite(fid,out{i},'uchar');    fprintf(fid,'\n');
+end
+fclose(fid);
+
+%------------------------------------------------------------------------=
+--------
+% [cixn,cixo] =3D findcell(key,ca,'-opt')
+% cix         =3D findcell(key,ca,'-opt')
+%
+%	returns cell number:offset
+%	of any occurrence of &lt;key&gt;
+%	in the cell array &lt;ca&gt;
+%
+% key	search pattern
+%	format
+%		string
+%		numeric
+%
+% ca	a row or col array of cell(s)
+%	format
+%		string(s)
+%		numeric
+%	classes must not be mixed
+%
+% cix	result vector(s)/struct
+%	format
+%		struct					[def]
+%		[cell_nr offset]			[opt:     -p]
+%		[cell_nr] [offset]			[nargout:  2]
+%
+% opt	parameter	action
+%  -a :	-		search ACROSS cells
+%  -p :	-		output &lt;cix&gt; as vector(s)	[def: struct]
+%
+% examples
+%	ac=3D{'xa';'xxa';'foo';'xaxa';'goo'};
+%	findcell('a',ac)
+%		% cell nr:offset   1   2
+%		% cell nr:offset   2   3
+%		% cell nr:offset   4   2
+%		% cell nr:offset   4   4
+%	nc=3D{[1:10];pi;pi*[1:10]};
+%	findcell(pi,nc)
+%		% cell nr:offset   2   1
+%		% cell nr:offset   3   1
+%	findcell([pi pi],nc);
+%		% findcell&gt; key not found
+%	findcell([pi pi],nc,'-a');
+%		% cell nr:offset   2   1
+%	zc=3D{['this' 0 'is0'];[0 0 0 'this' 0 'is0']};
+%	findcell(['is' 0],zc);
+%		% cell nr:offset   1   3
+%		% cell nr:offset   2   6
+%
+% remark
+%	program based on a problem by
+%	CSSM member &lt;michael robbins&gt;
+%	&lt;Vectorizing FINDSTR&gt; (3/11/03)
+
+% search engine
+%	since &lt;findstr&gt; does not find &lt;nan&gt;s, we use &lt;nan&gt;s =
+as
+%	stop markers after each cell to prevent &lt;across&gt; results,
+%	which is the default behavior
+%	cellarray
+%		cell1 {nan}
+%		cell2 {nan}
+%		...
+%		cellN {nan}
+%
+%	since &lt;nan&gt;s cannot be converted to &lt;char&gt;s, we must
+%	convert cells containing string arrays to double
+
+% created:
+%	us	12-Mar-2003
+% modified:
+%	us	14-Mar-2003 20:40:37	/ TMW
+
+%------------------------------------------------------------------------=
+--------
+function varargout =3D findcell(k,c,varargin)
+% check input/output
+if	nargout
+	varargout=3Dcell(nargout,1);
+end
+if	nargin &lt; 2 | isempty(k) | isempty(c)
+    %help(mfilename);
+    return;
+end
+[p,k,c] =3D chk_input(k,c);
+if (p.res)  return;     end
+
+% get/set options
+mat=3D[];
+p=3Dget_opt(p,varargin{:});
+
+% precondition key/cells
+c=3Dc(:);
+cs=3Dlength(c);
+cl=3Dlength([c{:}]);
+
+if (p.cflg)
+    % ... do NOT search across &lt;cell&gt;s
+	if (ischar(k) &amp; all(p.isc))
+		k=3Ddouble(k);
+		inn=3Dcellfun('length',c)';
+		c=3D[c num2cell(0*ones(cs,1))];
+		c=3Dreshape(c.',1,2*cs);
+		in=3Dcellfun('length',c)';
+		c=3Ddouble([c{:}]);
+		c(cumsum(inn+1))=3Dnan;
+	elseif	isnumeric(k) &amp; all(p.isn)
+		c=3D[c num2cell(nan*ones(cs,1))];
+		c=3Dreshape(c.',1,2*cs);
+		in=3Dcellfun('length',c)';
+		c=3D[c{:}];
+	else
+		disp(sprintf('findcell&gt; unexpected error'));
+		return;
+	end
+else
+    % ...	do search across &lt;cell&gt;s
+	in=3Dcellfun('length',c)';
+	c=3D[c{:}];
+end
+
+% find indices
+ix=3Dfindstr(k,c);
+if	~isempty(ix)
+	[mx,mn]=3Dmeshgrid(ix,cumsum(in)-in);
+	crow=3Dsum(mx&gt;mn,1)';
+	if	p.cflg
+		crow=3D.5*(crow-1)+1;
+	end
+	cix=3Dfind(crow=3D=3Dfix(crow));
+	ccol=3Dmx-mn;
+	ccol(ccol&lt;=3D0)=3Dnan;
+	ccol=3Dmin(ccol,[],1)';
+	mat=3D[crow(cix) ccol(cix)];
+end
+
+% prepare output
+if (isempty(mat))
+	%disp('findcell&gt; key not found');
+	return;
+end
+if (nargout =3D=3D 1)
+	if	p.pflg
+		varargout{1}.par=3Dp;
+		varargout{1}.csiz=3Dcl;
+		varargout{1}.cn=3Dmat(:,1);
+		varargout{1}.co=3Dmat(:,2);
+		varargout{1}.cno=3Dmat;
+	else
+		varargout{1}=3Dmat;
+	end
+	elseif	nargout =3D=3D 2
+		varargout{1}=3Dmat(:,1);
+		varargout{2}=3Dmat(:,2);
+	else	% no output requested
+		disp(sprintf('cell nr:offset %8d %8d\n',mat.'));
+end
+
+%------------------------------------------------------------------------=
+--------
+function [p,k,c] =3D chk_input(k,c)
+% must do extensive checking ...
+p.res=3D0;
+p.key=3Dk;
+p.cs=3Dprod(size(c));
+p.cl=3Dlength(c);
+if	p.cs ~=3D p.cl
+	txt=3Dsprintf('%d/',size(c));
+	disp(sprintf('findcell&gt; input must be a ROW or COL array of cells =
+[%s]',txt(1:end-1)))
+	p.res=3D1;
+	return;
+end
+if	~iscell(c)
+	disp(sprintf('findcell&gt; input must be a CELL array [%s]',class(c)));
+	p.res=3D2;
+	return;
+end
+p.isc=3Dcellfun('isclass',c,'char');
+p.isn=3Dcellfun('isclass',c,'double');
+if	sum(p.isc) ~=3D p.cs &amp; sum(p.isn) ~=3D p.cs
+	disp(sprintf('findcell&gt; input contains invalid or mixed classes'));
+	p.res=3D3;
+	return;
+end
+if	any(isnan(k))
+	disp(sprintf('findcell&gt; numeric key must NOT include =
+&lt;NaN&gt;s'));
+	p.res=3D4;
+	return;
+end
+if	ischar(k) &amp; all(p.isn)
+	p.res=3D5;
+	disp(sprintf('findcell&gt; input mismatch: key(char) / =
+cells(double)'));
+	return;
+end
+if	isnumeric(k) &amp; all(p.isc)
+	k=3Dchar(k);
+end
+%------------------------------------------------------------------------=
+--------
+function p =3D get_opt(p,varargin)
+p.cflg=3D1;	% do NOT search across &lt;cell&gt;s
+p.pflg=3D1;	% output is a &lt;struct&gt;
+
+if	nargin
+	if	any(strcmp('-a',varargin))
+		p.cflg=3D0;
+	end
+	if	any(strcmp('-p',varargin))
+		p.pflg=3D0;
+	end
+end
+</PRE></BODY></HTML>

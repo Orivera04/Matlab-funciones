@@ -1,0 +1,14 @@
+CSWidth=0.02; %meters
+CSHeight=0.04; %meters
+BeamLength=0.75; %meters
+CSPosition=0.35; %meters
+Force=[-175 0 BeamLength 0];%Newtons
+CSCentY=rectangl(CSWidth,CSHeight,'centY'); %meters
+CSArea=rectangl(CSWidth,CSHeight,'area'); %meters^2
+CSIx=rectangl(CSWidth,CSHeight,'Ix'); %meters^4
+[ReactForce ReactMoment]=reaction(Force,[CSPosition CSCentY]);
+AxialStress=-mag(ReactForce,'x')/CSArea;
+YPosition=[0.04 0.02 0.01]; %meters
+YValue=CSCentY-YPosition; %meters
+BendStress=-ReactMoment*YValue/CSIx;
+TotalStress=BendStress+AxialStress

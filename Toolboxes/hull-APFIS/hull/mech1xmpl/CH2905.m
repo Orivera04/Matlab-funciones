@@ -1,0 +1,11 @@
+Length=[0.05 0.07 0.045]; %meters %NEEDED
+Displacement=0.008; %meters
+Gap=[0.001 0 0.0015]; %meters
+DeltaL=Displacement-Gap; %meters %NEEDED
+ID=[0.045 0.028 0];
+OD=[0.05 0.03 0.02];
+ODArea=circle(OD,'area');
+IDArea=circle(ID,'area');
+Area=ODArea-IDArea; %meters^2 %NEEDED
+E=[210 205 200]*1e9;%Pascals %NEEDED
+Forces=DeltaL.*E.*Area./Length

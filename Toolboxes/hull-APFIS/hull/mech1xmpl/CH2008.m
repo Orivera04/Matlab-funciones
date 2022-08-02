@@ -1,0 +1,12 @@
+strain=200e-6;
+BD=200;
+CD=10;
+BDP=BD*(1+strain);
+CDP=CD;
+BC=hyp(BD,CD);
+angles=findangle(BD,CD,BC);
+anglesP=findangle(BDP,CDP,BC);
+theta=angles(1);
+thetaP=anglesP(1);
+DeltaTheta=thetaP-theta;
+RD(DeltaTheta)

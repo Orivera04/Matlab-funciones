@@ -1,0 +1,124 @@
+# File: makefile
+#
+# Abstract:
+#   Makefile for bootcode
+#
+# $Revision: 1.1.8.5 $
+# $Date: 2004/04/19 01:25:06 $
+#
+# Copyright 2004 The MathWorks, Inc.
+
+.PHONY : all 
+
+TARGET_MEMORY_MODEL=FLASH
+
+##########################################################
+# Use the MPC555 bootver script to generate bootver.s
+##########################################################
+CONTENTS_M = $(MPC555DK_ROOT)\mpc555dk\Contents.m
+BOOTVER_PL = $(MPC555DK_ROOT)\mpc555dk\bootver.pl
+
+
+############################################################
+#              PLUGINS SECTION
+
+# FLASH_BASE_ADDR is used by CodeWarrior - need to make sure we locate the 
+# image in the bootcode area.
+#
+FLASH_BASE_ADDR:=0x0
+#
+# Include the default mpc555 rules file
+#
+COMPONENT=mpc555_build_rules
+include $(COMPONENT_MANAGER)
+
+#
+# Include flash_driver rules file
+#
+COMPONENT=flash_driver
+include $(COMPONENT_MANAGER)
+
+#
+# Include the initialization component
+#
+COMPONENT=initialization
+include $(COMPONENT_MANAGER)
+
+#              END PLUGINS SECTION
+############################################################
+
+
+OBJECTS += \
+	bootcode.o \
+	simple_can_driver.o \
+	ccp_target.o \
+	serial_boot.o \
+	exception_table.o \
+	assembler.o \
+	run_app.o 
+
+
+# ------------------------- Rules --------------------------------
+
+OSC_SUFFIX = _osc$(patsubst %000000,%,$(OSCILLATOR_FREQ))
+
+# --- Generate bootcode_init_osc<XX>.s -- 
+# For all variants there will be a 20Mhz and a 4Mhz version built
+BOOTCODE_TARGET = $(OBJDIR)/bootcode$(OSC_SUFFIX)_flash.s19
+
+# Generate bootcode_int_oscX.s
+BOOT_INIT_TEMPLATE = bootcode_init.s.t
+BOOT_INIT          = bootcode_init$(OSC_SUFFIX)
+BOOT_INIT_SRC      = $(OBJDIR)/bootcode_init$(OSC_SUFFIX).s
+INIT_PROPFILE      = $(BOOT_INIT).prop
+
+# Process the template using MEMLAYOUT_PROPFILE. This propfile is
+# obtained from the mpc555_build_rules make plugin
+$(BOOT_INIT_SRC) : $(BOOT_INIT_TEMPLATE) $(INIT_PROPFILE) $(MEMLAYOUT_PROPFILE)
+	$(PERLTEMPLATE) -t $< -o $@ -p "$(INIT_PROPFILE);$(MEMLAYOUT_PROPFILE)"
+
+OBJECTS += $(BOOT_INIT).o
+
+vpath $(BOOT_INIT).s $(OBJDIR)
+
+all : setup $(BOOTCODE_TARGET) 
+
+# Objects for the bootcode
+OBJECTS += main.o boot_bios.o
+
+# ----- Generate Linker Command Files ------
+# Depending on the processor variant and toolchain 
+# different linker command files will be generated.
+LINKER_COMMAND_FILE_TEMPLATE = bootcode.$(LINKER_COMMAND_FILE_EXT).t
+LINKER_COMMAND_FILE          = $(OBJDIR)/bootcode.$(LINKER_COMMAND_FILE_EXT)
+
+
+# Process the template using MEMLAYOUT_PROPFILE. This propfile is
+# obtained from the mpc555_build_rules make plugin
+$(LINKER_COMMAND_FILE) : $(LINKER_COMMAND_FILE_TEMPLATE) $(MEMLAYOUT_PROPFILE)
+	@echo ------------------------------------------------
+	@echo Building $@
+	@echo ------------------------------------------------
+	$(PERLTEMPLATE) -t $< -o $@ -p $(MEMLAYOUT_PROPFILE)
+
+# Bootcode Application
+$(BOOTCODE_TARGET) : $(OBJECT_TARGETS) makefile.5xx $(LINKER_COMMAND_FILE) $(LIBS)
+	$(build-srec-file)
+# NOTE: $(build-bin-file) will not exist for CodeWarrior
+# The DIAB generated .bin file will be retained
+# This bin file will not be cleaned between builds
+	$(build-bin-file)
+
+$(OBJECT_TARGETS) : makefile.5xx bootver.s
+
+# Locate the Application Exception Table Base depending on the processor variant
+# include the prop file settings
+include $(MEMLAYOUT_PROPFILE)
+IRAM_BASE = $(ram_org)
+
+# Add to the ASFLAGS a marker to the location of internal ram
+ASFLAGS += -DAPPLICATION_EXCEPTION_TABLE_BASE=$(IRAM_BASE)
+CFLAGS += -DAPPLICATION_EXCEPTION_TABLE_BASE=$(IRAM_BASE)
+
+bootver.s : $(CONTENTS_M) $(BOOTVER_PL) makefile.5xx
+	$(PERL) $(BOOTVER_PL) $(CONTENTS_M) boot bootver.s 

@@ -1,0 +1,201 @@
+%% $RCSfile: ti_c2000_ertmain.tlc,v $
+%% $Revision: 1.9.6.5 $ $Date: 2004/04/08 20:58:55 $
+%% Copyright 2003-2004 The MathWorks, Inc.
+%%
+%% Abstract:
+%%   Library file to create a c2000 'main' for a given model. The functions in 
+%%   this file either override or augment the functions in ertmainlib.tlc. 
+
+
+%selectfile NULL_FILE
+%include "ti_c2000_main_common.tlc"
+
+
+%% Note:  FcnSingleRateWithoutOS and FcnMultiRateSingletaskingWithoutOS are
+%%        not implemented here. They are inherited from ertmainlib.tlc.  
+%%        FcnMultiRateMultitaskingWithoutOS is implemented here, because it 
+%%        requires C2000-specific code.
+
+
+%% ==============================================================
+%function FcnMultiRateMultitaskingWithoutOS(cFile) void
+    %openfile tmpFcnBuf
+		volatile boolean_T OverrunFlags[%<FcnNumST()>] = %<FcnOverrunFlagsInitStr()>;
+    %closefile tmpFcnBuf
+    %<SLibSetModelFileAttribute(cFile, "Definitions", tmpFcnBuf)>  
+
+    %openfile tmpFcnBuf
+    
+    /* Function: rt_OneStep -------------------------------------------
+     *
+     * Abstract:
+     *      Perform one step of the model. Multi-rate multi-tasking implementation.
+     */
+    %assign rootSystem = System[NumSystems-1]
+    %assign reqInsts = LibGetSystemField(rootSystem,"ReqRootPrmHdrDataInsts")
+    %if !reqInsts.SimStructInst && !EmptyRealTimeObject
+        %assign simstructArg = "%<tSimStructType> *%<tSimStruct>"
+    %else
+        %assign simstructArg = "void"
+    %endif
+    %assign tid01Eq = FixedStepOpts.TID01EQ
+
+    void rt_OneStep(%<simstructArg>)
+    {
+        boolean_T eventFlags[%<FcnNumST()>];
+        %if (FcnNumST() - tid01Eq) > 2
+            volatile int_T i;
+        %endif
+
+        disable_interrupts();
+        if (OverrunFlags[0]++) { // Check if base step time is too fast
+            %<render_multitasking_task_overrun_handling("0",0)>
+        }
+        enable_interrupts();
+
+        %<FcnCallEventFlagsFunction()>
+        %assign rootSystem.CurrentTID = 0
+        %<FcnCallMdlStep(0)>
+        OverrunFlags[0]--;
+
+        %if (FcnNumST() - tid01Eq) > 2
+            for (i = %<1+tid01Eq>; i < %<FcnNumST()>; i++) {
+                if (eventFlags[i]) {
+                    disable_interrupts();
+                    if (OverrunFlags[i]++) {
+                        %<render_multitasking_task_overrun_handling("i",1)>
+                    }
+                    enable_interrupts();                
+                    %if SLibIsRateGrouping()
+                        switch(i) {
+                            %foreach idx = NumSynchronousSampleTimes - 1 - tid01Eq
+                                %assign tid = idx + 1 + tid01Eq
+                                case %<tid> :
+                                    %assign rootSystem.CurrentTID = tid
+                                    %<FcnCallMdlStep(tid)>\
+                                    break;
+                            %endforeach
+                                default : 
+                                    break;
+                        }
+                    %else
+                        %<FcnCallMdlStep("i")>\
+                    %endif
+                    OverrunFlags[i]--;
+                }
+            }
+        %else
+            %assign tid = FcnNumST()-1
+            if (eventFlags[%<tid>]) {
+                disable_interrupts();            
+                if (OverrunFlags[%<tid>]++) {
+                    %<render_multitasking_task_overrun_handling(tid,1)>
+                }
+                enable_interrupts();
+                %assign rootSystem.CurrentTID = tid
+                %<FcnCallMdlStep(tid)>\
+                OverrunFlags[%<tid>]--;
+            }    
+        %endif
+	}
+
+	%<FcnSimpleNonOSMain()>\
+	%closefile tmpFcnBuf
+	%return tmpFcnBuf
+%endfunction
+
+
+%% ==============================================================
+%% Function: FcnSimpleNonOSMain
+%% Abstract:  Render main() function.
+%%            This tlc function overrides the one in ertmainlib.tlc
+%%            in order to add C2000-specific functionality
+%%            NOTE: This function is used for DSP/BIOS mode as well
+%%                  despite its name implying otherwise
+%%
+%function FcnSimpleNonOSMain() Output
+	void main(void)
+	{
+		%assign rootSystem = System[NumSystems-1]
+		%assign reqInsts = LibGetSystemField(rootSystem, "ReqRootPrmHdrDataInsts")
+		
+        %<render_target_setup()>
+	
+		%<FcnMdlName()>_initialize(%<SLibModelFcnArgs("Initialize",TLC_TRUE,"")>);
+		
+		%if !reqInsts.SimStructInst && !EmptyRealTimeObject
+			%assign simstructArg = tSimStruct
+		%else
+            %assign simstructArg = ""
+		%endif
+        
+        config_schedulerTimer();
+        
+        enable_interrupts();
+		
+        while (%<RTMGetErrStat()> == NULL) {
+            %if SLibSingleTasking()
+                while (!pendingInterrupt) { /* wait */ };
+                pendingInterrupt = 0;
+                rt_OneStep(%<simstructArg>);
+            %else
+                %% do nothing; hardware interrupt is tied directly
+            %endif
+            %<render_main_interrupt_overrun_handling()>
+        }
+                      
+        disable_interrupts();
+
+        %<FcnGenerateModelTerminate()>\
+	}
+%endfunction  %% FcnSimpleNonOSMain()
+
+
+%%   **********************************************************************
+%%   This is the entry point for generating main.c for ERT-based target
+%%   **********************************************************************
+
+%function SLibCreatec2000ERTMain(fName) void
+   
+	%assign cFile = SLibAddModelFile("SystemBody","Simulink",fName)
+	
+	%openfile tmpFcnBuf
+		%<SLibDeclareModelFcnArgs(TLC_TRUE)>\
+		%%#define RUN_FOREVER -1.0
+        %if CompiledModel.FixedStepOpts.SolverMode == "SingleTasking"		
+		    extern volatile int pendingInterrupt;
+		%endif
+		volatile int IsrOverrun = 0;
+	%closefile tmpFcnBuf
+	%<SLibSetModelFileAttribute(cFile, "Definitions", tmpFcnBuf)>
+
+	%openfile tmpFcnBuf
+		/*
+		* Real-Time Workshop code generation for Simulink model "%<FcnMdlName()>"
+		*
+		* Real-Time Workshop file version      : %<Version>
+		* Real-Time Workshop file generated on : %<GeneratedOn>
+		* C source code generated on           : %<TLC_TIME>
+		*
+		* Description:
+		%<FcnGenerateMainFunctions(1,cFile)>\
+		*
+		* For more information:
+		*   o Real-Time Workshop User's Guide
+		*   o Real-Time Workshop Embedded Coder User's Guide
+		*   o Embedded Target for TI C2000 DSP® User's Guide
+		*/    
+	%closefile tmpFcnBuf
+  
+	%<SLibSetModelFileAttribute(cFile, "Banner", tmpFcnBuf)>
+	%<SLibSetModelFileAttribute(cFile, "Functions", FcnGenerateMainFunctions(0,cFile))>
+	
+	%openfile tmpFcnBuf
+	#include "rtwtypes.h" // MathWorks types
+	#include "%<FcnGetPublicModelHeaderFile()>" // Model's header file
+
+	%closefile tmpFcnBuf
+  
+  %<SLibSetModelFileAttribute(cFile, "Includes", tmpFcnBuf)> 
+  
+%endfunction

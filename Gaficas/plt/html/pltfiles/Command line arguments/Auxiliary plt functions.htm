@@ -1,0 +1,736 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Auxiliary plt functions</title>
+<style>
+<!--
+.mcode   { font-family: Fixedsys; color: #993300; line-height:1.2; margin-top:0; margin-bottom:0 }
+h3           { color: #006699 }
+-->
+</style>
+</head>
+
+<body>
+
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1" height="96">
+  <tr>
+    <td width="72%" height="96">
+    <h2>Auxiliary plt functions</h2>
+    </td>
+    <td width="2%" height="96">&nbsp;</td>
+    <td width="26%" height="96">
+    <img border="0" src="../images/plt.png" width="211" height="97" align="right"></td>
+  </tr>
+</table>
+<p style="margin-top: -18">&nbsp;</p>
+<p>These are functions provided by plt that are only peripherally 
+related to its usual data plotting capability:</p>
+<p>&nbsp;</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber2">
+  <tr>
+    <td width="14%" valign="top">
+    <b><font size="5" color="#006699">ftoa</font></b><i><br>
+    (float to<br>
+    ascii)&nbsp;&nbsp; </i></td>
+    <td width="86%" valign="top"> <span class="mcode">s = plt('ftoa',fmtstr,x)</span> 
+    returns in string
+<span class="mcode">s</span> an ascii representation of the number
+<span class="mcode">x</span> according to the formatting 
+    string
+<span class="mcode">fmtstr</span>.<br>
+    <br>
+    If
+<span class="mcode">fmtstr</span> is of the form
+<span class="mcode">'%nw'</span> then
+<span class="mcode">s </span>will be the string representation of x with the 
+    maximum resolution possible while using <i><b>at most</b></i> n characters - 
+    not counting the decimal point if one is needed. If the field width is too 
+    small to allow even one significant digit, then
+<span class="mcode">'0'</span> is returned.<p>If
+<span class="mcode">fmtstr</span> is of the form
+<span class="mcode">'%nv'</span> then
+<span class="mcode">s </span>will be the string representation of x with the 
+    maximum resolution possible while using <i><b>exactly</b></i> n characters - 
+    not counting the decimal point if one is needed. If the field width is too 
+    small to allow even one significant digit, then
+<span class="mcode">'0'</span> is returned.</p>
+    <p>These formats are typically used to generate strings to fit into gui 
+    objects of a fixed width. The reason the decimal point is not counted is 
+    that with the proportional fonts generally used in these gui objects, the 
+    extra space taken up by the decimal point is insignificant.</p>
+    <p>
+<span class="mcode">fmtstr</span> may also use any of the numeric formats 
+    allowed with sprintf. For example:</p>
+    <p>
+<span class="mcode">plt('ftoa','%7.2f',x) </span>is equivalent to
+<span class="mcode">sprintf('%7.2f',x)</span></p>
+    <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="14%" valign="top">
+    <b><font size="5" color="#006699">vtoa</font></b><i><br>
+    (vector to<br>
+    ascii)&nbsp;&nbsp; </i>
+    <p>&nbsp;</td>
+    <td width="86%" valign="top">
+<span class="mcode">s = plt('vtoa',fmtstr,v)</span> 
+    returns in string
+<span class="mcode">s</span> an ascii representation of the row or column vector
+<span class="mcode">v</span>.
+<span class="mcode">fmtstr</span> specifies how each element of the vector is 
+displayed and is in the same form as the format string in <span class="mcode">
+ftoa.</span> The ascii form of a row vector is returned even if v is a column 
+vector (i.e. a space is used as the delimiter). Examples:<br>
+&nbsp;<p class="mcode">disp(['numerator polynomial = ' plt('vtoa','%6.2f',bc)]);<br>
+<br>
+fprintf(fID,'%6d: sloss=%6.1f, coef = %s\n',...<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ntry,sloss,plt('vtoa','%5w',coef));<br>
+&nbsp;</p>
+<p class="mcode">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="14%" valign="top">
+    <font size="5" color="#006699">metricp&nbsp&nbsp</font><i><br>
+    (metric<br>
+    prefixes)</i></td>
+    <td width="86%" valign="top">
+<p><span class="mcode">[Ret1, Ret2] = plt('metricp',x);</span></p>
+
+<p>Used to converts a number to a form using standard metric prefixes. Ret1 is 
+the metric prefix (in Ascii) that is most appropriate for displaying the value 
+x, and Ret2 is the number you should multiply x by. For example, if
+<span class="mcode">x </span>is in volts, you can display it using a metric 
+prefix as:</p>
+
+<p><span class="mcode">[pfix, mult] = plt('metricp',x);<br>
+disp([num2str(x*mult) ' ' pfix 'Volts']);</span></p>
+
+<p>&nbsp;</p>
+
+    </td>
+  </tr>
+  <tr>
+    <td width="14%" valign="top">
+    <font size="5" color="#006699">grid</font><i><br>
+    (grid line<br>
+    functions)</i></td>
+    <td width="86%" valign="top">The trace color of the native Matlab axis grid 
+    lines can't be independently set leading to grid lines that over power the 
+    display. These grid line functions are designed to solve this problem by 
+    providing grid lines of whatever color you choose. The grid line functions 
+    are:<br>
+&nbsp;<p><span class="mcode">plt('grid',ax,'init',color,In5,In6,In7,In8) <br>
+&nbsp;&nbsp;&nbsp;&nbsp; - </span>Initializes grid lines of color <span class="mcode">
+    color</span> on axis <span class="mcode">ax</span>.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; <span class="mcode">
+    In5,In6</span> is an optional parameter/value pair to apply to the grid 
+    lines<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; <span class="mcode">
+    In7,In8</span> is an optional parameter/value pair to apply to the grid 
+    lines</p>
+
+<p><span class="mcode">plt('grid',ax,'toggle')</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+- toggle grids (on/off)</p>
+
+<p><span class="mcode">plt('grid',ax,'get')&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+- 
+get current on/off state of grids</p>
+
+<p><span class="mcode">plt('grid',ax,'off')&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+- turn grids off</p>
+
+<p><span class="mcode">plt('grid',ax,'on')&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+- turn grids on<br>
+<br>
+<span class="mcode">plt('grid',ax,'update')&nbsp;&nbsp; </span>- update grids</p>
+
+<p><span class="mcode">plt('grid',ax)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+- update grids (same as above)</p>
+
+<p><br>
+All the above calls return 1 if the grids are on and 0 otherwise.</p>
+
+<p>To experiment with these functions, try typing this at the command prompt:</p>
+
+<p class="mcode">&gt;&gt; a = axes;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+% create axis<br>
+&gt;&gt; plt('grid',a,'init'); % draw grid lines<br>
+&gt;&gt; set(a,'ylim',[0 6]);&nbsp; % change axis limits<br>
+&gt;&gt; plt('grid',a);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; % update grid lines</p>
+
+<p class="mcode"><br>
+&nbsp;</p>
+
+    </td>
+  </tr>
+  <tr>
+    <td width="14%" valign="top">
+    <font size="5" color="#006699">edit</font><i><br>
+    (edit<br>
+    text<br>
+    object)&nbsp;&nbsp; </i>
+    </td>
+    <td width="86%" valign="top">
+
+Sometimes a GUI needs many numeric and character controls in a small space. 
+Matlab's usual <span class="mcode">
+    uicontrol('Style','Edit')</span> controls may be used but they use up so 
+many extra pixels that a complicated GUI will quickly become overly cluttered. 
+The <span class="mcode">
+    edit</span> function of plt fills this need. With numeric controls, we often 
+would like to change the value by small amounts quickly and repeatedly. Matlab's 
+slider control (or plt's slider object described below) fills this need well, 
+however both take up too much space to use many of them is a single GUI. For 
+this reason, several features of the plt edit object are tailored specifically 
+for incrementing and decrementing numeric controls. To create an edit text object use 
+the command:<br>
+<br>
+<span class="mcode">
+    H = plt('edit','PropName1','PropVal1','PropName2','PropVal2',...);</span><br>
+<br>
+where:<br>
+&nbsp;<table border="1" cellpadding="4" cellspacing="0" style="border-collapse: collapse" bordercolor="#C0C0C0" width="100%" id="AutoNumber9">
+  <tr>
+    <td width="15%" align="center"><b>
+    <font color="#0000FF" face="Arial" size="4">Property Name</font></b></td>
+    <td width="85%"><b><font face="Arial" size="4" color="#0000FF">Property<br>
+    Value</font></b></td>
+  </tr>
+  <tr>
+    <td width="15%" align="center"> <span class="mcode">
+    value</span></td>
+    <td width="85%">The numerical value of the edit text object (zero if it is a 
+    string type).</td>
+  </tr>
+  <tr>
+    <td width="15%" align="center"><span class="mcode">callbk</span></td>
+    <td width="85%">A callback to be executed when the edit text object is changed.<br>
+    Occurrences of <span class="mcode">'@VAL'</span> will be replaced with the 
+    current value.<br>
+    Occurrences of <span class="mcode">'@OBJ'</span> will be replaced with the 
+    8192 times the edit text handle.</td>
+  </tr>
+  <tr>
+    <td width="15%" align="center"><span class="mcode">enable</span></td>
+    <td width="85%">0=disable, 1=enable (default=1). If disabled, the text will 
+    still be visible, but may not be modified.</td>
+  </tr>
+  <tr>
+    <td width="15%" align="center"><span class="mcode">min</span></td>
+    <td width="85%">The minimum allowed value (default = -1e9)</td>
+  </tr>
+  <tr>
+    <td width="15%" align="center"><span class="mcode">max</span></td>
+    <td width="85%">The maximum allowed value (default = 1e9)</td>
+  </tr>
+  <tr>
+    <td width="15%" align="center"><span class="mcode">incr</span></td>
+    <td width="85%">The increment value for a numeric plt edit object. (default 
+    = 1) If the 
+    edit object's value is a multiple of &quot;incr&quot; then when you click on the 
+    right/left side of the center of the object, the value of the object is 
+    increased/decreased by &quot;incr&quot;. It is quite common to set this parameter to 
+    1, which allows easy incrementing and decrementing of integer controls. </td>
+  </tr>
+  <tr>
+    <td width="15%" align="center"><span class="mcode">length</span></td>
+    <td width="85%">The length of the vector allowed as the edit value. Usually 
+    length=1 indicating the edit value must be a scalar. If length=4 (for 
+    example), an allowed edit value must be a row or column vector of length 4. 
+    Two special cases are length=-1 and length=0. length=-1 is used to indicate 
+    that a numeric array of any length is a legal value. length=0 is used for 
+    string edit objects i.e. the edit string is not interpreted as a number or 
+    vector. (default = 1)</td>
+  </tr>
+  <tr>
+    <td width="15%" align="center"><span class="mcode">format</span></td>
+    <td width="85%">The format conversion string used to display numeric edit 
+    objects (default =<span class="mcode">'%7w'</span>). See <span class="mcode">
+    ftoa</span> above for a description of the formatting codes.</td>
+  </tr>
+  <tr>
+    <td width="15%" align="center"><span class="mcode">*****</span></td>
+    <td width="85%">If a property name is given which isn't in the list above 
+    then the property is applied to the text object itself. (It must be a valid 
+    text property.)</td>
+  </tr>
+</table>
+<p>The above calls create the edit text object and returns the handle of the 
+text object created. This handle (H) is used as an argument in the calls below:<p>
+<span class="mcode">
+    plt('edit',H,'PropName1','PropVal1','PropName2','PropVal2',...);<br>
+</span>If H is a scalar, the specified property values (using items from the 
+table above) are applied to the edit text object identified by handle H. If H is 
+a vector then PropertyName1 of H(k) is set to the kth row of PropertyValue1. If 
+PropertyValue1 doesn't have that many rows, the last row will be used. Only 1 
+property is allowed.<p><span class="mcode">plt('edit',H,'get','value')<br>
+</span>returns the numeric value of the specified edit text object<p><b>
+<font size="4">Keyboard and mouse behavior:</font></b><br>
+Right clicking on the edit text object always &quot;opens&quot; the object for editing. 
+What this means is that the old edit string disappears and a cursor (underscore) 
+is shown indicating that it is ready to accept keys typed at the keyboard. 
+Simply type the desired new string and press &lt;Enter&gt;. Note that while typing, 
+the text object is shown in a different color to remind you that a new value is 
+being entered. When you press &lt;Enter&gt;, the new string is accepted and the color 
+returns to the original. If you type an invalid entry, the word &quot;error&quot; will 
+appear. Click again on the &quot;error&quot; string to try the entry again. While typing 
+in a new entry, these keys have special purposes:<br>
+&nbsp;<table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse" bordercolor="#C0C0C0" width="100%" id="AutoNumber10">
+  <tr>
+    <td width="15%">&lt;Esc&gt;</td>
+    <td width="85%">The edit text object is closed for editing and the original 
+    text value is restored as if the edit object was never opened for editing.</td>
+  </tr>
+  <tr>
+    <td width="15%">&lt;Backspace&gt;</td>
+    <td width="85%">Remove the last character entered from the current entry.</td>
+  </tr>
+  <tr>
+    <td width="15%">&lt;Delete&gt;</td>
+    <td width="85%">Remove all the characters entered leaving only the 
+    underscore cursor.</td>
+  </tr>
+  <tr>
+    <td width="15%">&lt;Space&gt;</td>
+    <td width="85%">If a space is entered as the first character, the previous 
+    text string appears with the cursor at the end allowing you to add to or 
+    edit the old text. In any position other than the first character, a space 
+    has no special significance. </td>
+  </tr>
+  <tr>
+    <td width="15%">&lt;Enter&gt;</td>
+    <td width="85%">Closes the edit text object, accepting the current entry as 
+    the new value.</td>
+  </tr>
+  <tr>
+    <td width="15%">&lt;Click&gt;</td>
+    <td width="85%">Clicking the mouse on the edit text object while it is open 
+    has the same effect as pressing &lt;Esc&gt; on the keyboard.</td>
+  </tr>
+  <tr>
+    <td width="15%">i</td>
+    <td width="85%">When entering a scalar value, if lower case &quot;i&quot; (increment) 
+    is entered as the last character, this indicates that the entered value 
+    should be used as a new &quot;incr&quot; parameter for the object. In this case the 
+    text object value from before the object was opened is retained.</td>
+  </tr>
+</table>
+<p>Left clicking on the edit text object also opens the object for editing 
+except for one important exception. This exception happens when both of the 
+following conditions are met:<ul>
+  <li>The edit text object is a scalar (i.e. the length parameter is equal to 
+  one).</li>
+  <li>The current edit object value is an exact multiple of the &quot;incr&quot; 
+  parameter.</li>
+  </ul>
+  <p>Under those conditions, when you left click on the edit text object, its 
+  value is incremented or decremented by the object's &quot;incr&quot; parameter. Weather 
+  the value is incremented or decremented depends on the position of the mouse 
+  click. If you click to the right of the edit object's center, the value will 
+  be incremented. Likewise, the value will be decremented for clicks to the left 
+  of center. As an example, suppose the current edit text object has a value of 
+  259, and the increment parameter is 1. Left clicking on the 9 will change the 
+  edit object's value to 260 (because the 9 is right of the center of the text 
+  string). On the other hand, left clicking on the two will decrement the value 
+  by one. Now suppose you right click on the object and type &quot;259.5&lt;enter&gt;&quot;. The 
+  new edit object value becomes 259.5, which you will note is not an even 
+  multiple of &quot;incr&quot;. Because of this, additional left clicks will not 
+  increment/decrement the object's value as before. However left clicks will 
+  again increment/decrement the control value after either of the following 
+  actions:<ul>
+    <li>Clicking on the object and entering an integer value into the control</li>
+    <li>Clicking on the object and entering &quot;.5i&quot; (or any other number than 
+    evenly divides 259.5).</li>
+    </ul>
+    <p>Whenever a number is being typed in, you may also type an expression 
+    instead. For example, the following entries are all equivalent:<ul>
+  <li>
+    <p class="mcode">5</li>
+  <li>
+    <p class="mcode">abs(3+4i)</li>
+  <li>
+    <p class="mcode">[2 1] * [2 1]'</li>
+  <li>
+    <p class="mcode">sqrt(3*2^3-cos(pi))</li>
+</ul>
+    <p>Typing <span class="mcode">sum(get(gca,'xlim').*[0 1])'
+</span>would be equivalent to typing in the current upper x axis limit. And to 
+    be really perverse, typing <span class="mcode">log(-1)/(2*pi)
+</span>would be equivalent to the &quot;.5i&quot; entry mentioned above.<p>
+<a href="Programming%20examples.htm">See</a> the <span class="mcode">curves.m</span> 
+example program for an example of how to use edit text objects as well as the 
+popup text objects described below.<p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="14%" valign="top">
+    <font size="5" color="#006699">pop</font><i><br>
+    (popup<br>
+    text<br>
+    object)&nbsp;&nbsp; </i>
+    </td>
+    <td width="86%" valign="top">
+
+Occasionally in a complicated GUI, many popup menus are needed in a space too 
+small to fit Matlab's normal <span class="mcode">
+    uicontrol('Style','Popup')</span> popups. The <span class="mcode">
+    pop</span> function of plt fills this need. To create a plt popup text menu object use 
+the command:<br>
+<br>
+<span class="mcode">
+    H = plt('pop','PropName1','PropVal1','PropName2','PropVal2',...);</span><br>
+<br>
+where:<br>
+&nbsp;<table border="1" cellpadding="4" cellspacing="0" style="border-collapse: collapse" bordercolor="#C0C0C0" width="100%" id="AutoNumber7">
+  <tr>
+    <td width="15%" align="center"><b>
+    <font color="#0000FF" face="Arial" size="4">Property Name</font></b></td>
+    <td width="85%"><b><font face="Arial" size="4" color="#0000FF">Property<br>
+    Value</font></b></td>
+  </tr>
+  <tr>
+    <td width="15%" align="center"> <span class="mcode">
+    choices</span></td>
+    <td width="85%">A cell array of strings specifying the choices given when 
+    the popup is selected.</td>
+  </tr>
+  <tr>
+    <td width="15%" align="center"> <span class="mcode">
+    index</span></td>
+    <td width="85%">An integer specifying the current choice (1 = the 1st 
+    choice)</td>
+  </tr>
+  <tr>
+    <td width="15%" align="center"><span class="mcode">callbk</span></td>
+    <td width="85%">A callback to be executed when the popup value is changed.<br>
+    Occurrences of <span class="mcode">'@IDX'</span> will be replaced with the 
+    popup index<br>
+    Occurrences of <span class="mcode">'@STR'</span> will be replaced with the 
+    popup string</td>
+  </tr>
+  <tr>
+    <td width="15%" align="center"><span class="mcode">colorbk</span></td>
+    <td width="85%">The background color used when the popup is open. (default = 
+    [0 .3 .4]);</td>
+  </tr>
+  <tr>
+    <td width="15%" align="center"><span class="mcode">colorfr</span></td>
+    <td width="85%">The foreground color used when the popup is open. (default = 
+    [.1 1 .9])</td>
+  </tr>
+  <tr>
+    <td width="15%" align="center"><span class="mcode">location</span></td>
+    <td width="85%">height or [x y width height] for the popup.</td>
+  </tr>
+  <tr>
+    <td width="15%" align="center"><span class="mcode">offset</span></td>
+    <td width="85%">y or [x y] offset added to location when popup is open.</td>
+  </tr>
+  <tr>
+    <td width="15%" align="center"><span class="mcode">enable</span></td>
+    <td width="85%">0=disable, 1=enable (default=1)</td>
+  </tr>
+  <tr>
+    <td width="15%" align="center"><span class="mcode">hide</span></td>
+    <td width="85%">A list of objects to hide before opening the popup.</td>
+  </tr>
+  <tr>
+    <td width="15%" align="center"><span class="mcode">interp</span></td>
+    <td width="85%">'none' or 'tex' (default='none')</td>
+  </tr>
+  <tr>
+    <td width="15%" align="center"><span class="mcode">*****</span></td>
+    <td width="85%">If a property name is given which isn't in the list above 
+    then the property is applied to the popup text object itself. (It must be a 
+    valid text property.)</td>
+  </tr>
+</table>
+<p>The above calls create the popup text object and returns the handle of the 
+text object created. This handle (H) is used as an argument in the calls below:<p>
+<span class="mcode">
+    plt('pop',H,'PropName1','PropVal1','PropName2','PropVal2',...);<br>
+</span>If H is a scalar, the specified property values (using items from the 
+table above) are applied to the popup text object identified by handle H. If H 
+is a vector then PropertyName1 of H(k) is set to the kth row of PropertyValue1. 
+If PropertyValue1 doesn't have that many rows, the last row will be used. Only 1 
+property is allowed.<p><span class="mcode">plt('pop',H,'get','index')<br>
+</span>returns the index of the currently selected choice (1 = 1st choice)<p><span class="mcode">plt('pop',H,'get','string')<br>
+</span>returns the string corresponding to the selected choice.<p><span class="mcode">plt('pop',H,'get','choices')<br>
+</span>returns the cell array of choices.<p><b>
+<font size="4">Mouse behavior:</font></b><br>
+Left clicking on the popup text object &quot;opens&quot; the popup. What this means is 
+that the popup string is replaced by a list of the popup choices (rendered using 
+colorfr/colorbk). The user then clicks on the desired choice which then becomes 
+the new text string. Right clicking on the popup text object changes the text 
+string to the next available choice. If the last choice is already selected, 
+then right clicking will change the text string to the first available choice 
+(in the &quot;choices&quot; array).<p><a href="Programming%20examples.htm">See</a> 
+the <span class="mcode">curves.m</span> example program for an example of how to 
+use popup text objects as well as the edit text objects described above.<p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="14%" valign="top">
+    <font size="5" color="#006699">slider</font><i><br>
+    (pseudo<br>
+    slider<br>
+    object)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; </i>
+    </td>
+    <td width="86%" valign="top">
+
+<p>To use a slider to enter a numeric value in a gui application, besides the 
+slider object itself one generally also wants an edit box to show the current 
+slider value as well as to allow data entry by typing the number. Usually a 
+label is required to identify the data and two fields that indicate the minimum 
+and maximum values allowed are also handy. The pseudo slider object combines 
+these five objects into one and is included in plt since many gui applications 
+designed around plt may require sliders. To create a slider, use the command:</p>
+
+<p><span class="mcode">H = plt('slider',0,'init',In1,In2,In3,In4,In5,In6,In7,In8)</span></p>
+
+    <table border="1" cellspacing="0" bordercolor="#C0C0C0" id="AutoNumber3" style="border-collapse: collapse" cellpadding="10">
+      <tr>
+        <td width="102">&nbsp;</td>
+        <td width="950">This creates a pseudo object that has the 5 following 
+        sub objects:<p><font face="Lucida Sans Typewriter">&nbsp; 
+        ------------label----------<br>
+&nbsp; min----value editbox----max<br>
+&nbsp; -----------slider----------</font></p>
+
+<p><span class="mcode">plt</span> returns the pseudo slider's handle (<span class="mcode">H</span>). This handle 
+is required in the get and set commands to read and modify the pseudo slider's properties.<br>
+The arguments of the slider <span class="mcode">'init' </span>command are:</p>
+
+        </td>
+      </tr>
+      <tr>
+        <td width="102"><span class="mcode">&nbsp;&nbsp; In1 </span></td>
+        <td width="950"><span class="mcode">[x,y,width]</span> in pixels or 
+        normalized units. (<span class="mcode">x,y</span>) are the coordinates 
+        of the upper left corner of the pseudo slider label.</td>
+      </tr>
+      <tr>
+        <td width="102"><span class="mcode">&nbsp;&nbsp; In2</span></td>
+        <td width="950"><span class="mcode">[smin, smax, value, emin, emax]</span><br>
+        smin/smax are the slider values at its leftmost/rightmost position.<br>
+        value is the initial value assigned to the slider<br>
+        emin/emax are the smallest/largest values allowed when entering numbers 
+        into the edit box.</td>
+      </tr>
+      <tr>
+        <td width="102"><span class="mcode">&nbsp;&nbsp; In3</span></td>
+        <td width="950">Slider label. If you don't want a label, use
+        <span class="mcode">In3</span> = <span class="mcode">''</span></td>
+      </tr>
+      <tr>
+        <td width="102"><span class="mcode">&nbsp;&nbsp; In4</span></td>
+        <td width="950">Slider callback. This expression will be evaluated 
+        whenever the user moves the slider control or enters a number in the 
+        edit box. If you don't need a callback use <span class="mcode">In4</span>=<span class="mcode">''</span></td>
+      </tr>
+      <tr>
+        <td width="102"><span class="mcode">&nbsp;&nbsp; In5</span></td>
+        <td width="950">Initial visibility: <span class="mcode">'on' </span>or<span class="mcode"> 
+        'off</span></td>
+      </tr>
+      <tr>
+        <td width="102"><span class="mcode">&nbsp;&nbsp; In6</span></td>
+        <td width="950">This parameter controls how the slider moves when the 
+        slider left/right arrows are clicked or when clicking in the space to 
+        the left or right of the slider button.<table border="0" cellpadding="0" cellspacing="5" style="border-collapse: collapse" bordercolor="#111111" width="485" id="AutoNumber4" height="192">
+          <tr>
+            <td width="81" height="23"><span class="mcode">&nbsp;&nbsp;<u><b>In6</b></u></span></td>
+            <td width="113" height="23"><u><b>Movement</b></u></td>
+            <td width="271" height="23"><u><b>Quantization</b></u></td>
+          </tr>
+          <tr>
+            <td width="81" height="22"><span class="mcode">&nbsp;&nbsp; 1</span></td>
+            <td width="113" height="22">Linear</td>
+            <td width="271" height="22">none</td>
+          </tr>
+          <tr>
+            <td width="81" height="22"><span class="mcode">&nbsp;&nbsp; 2</span></td>
+            <td width="113" height="22">Linear </td>
+            <td width="271" height="22">rounded to nearest integer</td>
+          </tr>
+          <tr>
+            <td width="81" height="22"><span class="mcode">&nbsp;&nbsp; 3</span></td>
+            <td width="113" height="22">Linear </td>
+            <td width="271" height="22">rounded to nearest power of two</td>
+          </tr>
+          <tr>
+            <td width="81" height="22"><span class="mcode">&nbsp;[4 q]</span></td>
+            <td width="113" height="22">Linear </td>
+            <td width="271" height="22">rounded to nearest multiple of q</td>
+          </tr>
+          <tr>
+            <td width="81" height="24"><span class="mcode">&nbsp;&nbsp; 5</span></td>
+            <td width="113" height="24">Logarithmic</td>
+            <td width="271" height="24">none</td>
+          </tr>
+          <tr>
+            <td width="81" height="22">
+            <p align="left"><span class="mcode">&nbsp;[6 q]</span></td>
+            <td width="113" height="22">Linear</td>
+            <td width="271" height="22">always equal to 1 (slider arrows)<br>
+            always equal to q (slider trough)</td>
+          </tr>
+        </table>
+        Note: q defaults to 10 if not specified (modes 4 and 6).
+        </td>
+      </tr>
+      <tr>
+        <td width="102"><span class="mcode">&nbsp;&nbsp; In7</span></td>
+        <td width="950"><span class="mcode">[LableBG; EditBG; LabelFR; EditFR]<br>
+        </span>This is an array containing 3 columns and up to 4 rows. Columns 
+        1/2/3 respectively represent the proportion (0 to 1.0) of red/green/blue 
+        used in the control. The first two rows are the background colors for 
+        the label and edit fields respectively. The last two rows are optional 
+        and contain the label and edit field foreground colors. If the 
+        foreground colors are not specified black is assumed (i.e. [0 0 0]).</td>
+      </tr>
+      <tr>
+        <td width="102"><span class="mcode">&nbsp;&nbsp; In8</span></td>
+        <td width="950"><span class="mcode">[fmin; fval; fmax]</span><br>
+        fmin/fmax are formatting strings for the min/max labels and fval is the 
+        formatting string for the edit box. These strings may contain c style 
+        printf formatting codes or the w and v formats defined in the plt('ftoa') 
+        commands.<br>
+        For example: <span class="mcode">In8 = ['%2.1f';'%5w&nbsp; 
+        ';'%3d&nbsp; ']<br>
+        </span>or the equivalent:<span class="mcode"> In8 = {'%2.1f','%5w','%3d'}</span></td>
+      </tr>
+    </table>
+
+<p><br>
+In the remaining commands <span class="mcode">H</span> is the handle returned 
+from the 'init' comand.</p>
+
+<h4><u>The get commands: </u></h4>
+
+    <table border="1" cellspacing="0" width="601" id="AutoNumber5" style="border-collapse: collapse" bordercolor="#C0C0C0" cellpadding="10" height="109">
+      <tr>
+        <td width="292" height="22"><span class="mcode">plt('slider',H,'get')</span></td>
+        <td width="289" height="22">returns the pseudo slider's current value</td>
+      </tr>
+      <tr>
+        <td width="292" height="22"><span class="mcode">
+        plt('slider',H,'get','value')</span></td>
+        <td width="289" height="22">same as above</td>
+      </tr>
+      <tr>
+        <td width="292" height="22"><span class="mcode">
+        plt('slider',H,'get','vis')</span></td>
+        <td width="289" height="22">returns 1 if the slider is visible</td>
+      </tr>
+      <tr>
+        <td width="292" height="22"><span class="mcode">
+        plt('slider',H,'get','ena')</span></td>
+        <td width="289" height="22">returns 1 if the slider is enabled</td>
+      </tr>
+      <tr>
+        <td width="292" height="21"><span class="mcode">
+        plt('slider',H,'get','obj')</span></td>
+        <td width="289" height="21">returns the pseudo slider 
+        objects:<br>
+        [&nbsp; Label<br>
+&nbsp;&nbsp; Slider<br>
+&nbsp;&nbsp; MinText<br>
+&nbsp;&nbsp; MaxText<br>
+&nbsp;&nbsp; EditBox ]</td>
+      </tr>
+    </table>
+
+<p><b><u>The set commands:</u></b></p>
+
+    <div align="left">
+
+    <table border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse" bordercolor="#C0C0C0" width="605" id="AutoNumber6" align="left">
+      <tr>
+        <td width="312"><span class="mcode">plt('slider',H,'set',a)</span></td>
+        <td width="253">Sets the slider to value <span class="mcode">a</span>.<br>
+        Returns a possibly limited value.</td>
+      </tr>
+      <tr>
+        <td width="312"><span class="mcode">plt('slider',H,'set','value',a)</span></td>
+        <td width="253">Same as above</td>
+      </tr>
+      <tr>
+        <td width="312"><span class="mcode">plt('slider',H,'position',a)</span></td>
+        <td width="253">Sets the slider position.<br>
+        (See  <span class="mcode">In1</span> in the 'init' section).</td>
+      </tr>
+      <tr>
+        <td width="312"><span class="mcode">plt('slider',H,'set',...<br>
+&nbsp;&nbsp;&nbsp; 'minmax',a,b,c,d)</span></td>
+        <td width="253">
+        <ul>
+          <li><span class="mcode">a</span> contains [smin,smax,emin,emax]<br>
+          (see 
+           
+          <span class="mcode">In2</span> in 'init' section)</li>
+          <li><span class="mcode">b</span> is a new slider label</li>
+          <li><span class="mcode">c</span> is the slider visibility ('on'/'off')</li>
+          <li><span class="mcode">d</span> is a new slider label</li>
+        </ul>
+        <p style="margin-top: -15">Parameters <span class="mcode">b,c,d</span> 
+        are optional.<br>
+        Returns a possibly limited value.</td>
+      </tr>
+      <tr>
+        <td width="312"><span class="mcode">plt('slider',H,'set','visON',a)</span></td>
+        <td width="253">Makes slider visible.
+        If <span class="mcode">a</span> is <span class="mcode">'noLabel'</span> 
+        then the label is made invisible.</td>
+      </tr>
+      <tr>
+        <td width="312"><span class="mcode">plt('slider',H,'set','visOFF)</span></td>
+        <td width="253">Makes the slider invisible.</td>
+      </tr>
+      <tr>
+        <td width="312"><span class="mcode">plt('slider',H,'set','enaON')</span></td>
+        <td width="253">Enables the slider.</td>
+      </tr>
+      <tr>
+        <td width="312"><span class="mcode">plt('slider',H,'set','enaOFF')</span></td>
+        <td width="253">Disables the slider</td>
+      </tr>
+      <tr>
+        <td width="312"><span class="mcode">plt('slider',H,'set',...<br>
+&nbsp;&nbsp;&nbsp; 'label',a,b)</span></td>
+        <td width="253">Sets the label string to <span class="mcode">a</span>.
+        If optional parameter <span class="mcode">b</span> is included (<span class="mcode">'on'</span>/<span class="mcode">'off)</span> 
+        the label is turned on or off.</td>
+      </tr>
+      <tr>
+        <td width="312"><span class="mcode">plt('slider',H,'set','mode',a)</span></td>
+        <td width="253">Sets the slider movement mode.<br>
+        (See  <span class="mcode">In6</span> in the 'init' section).<br>
+        Returns a possibly limited value.</td>
+      </tr>
+    </table>
+    </div>
+    </td>
+  </tr>
+  <tr>
+    <td width="14%" valign="top">
+    &nbsp;</td>
+    <td width="86%" valign="top">&nbsp;</td>
+  </tr>
+  </table>
+<h3>&nbsp;</h3>
+<h3>&nbsp;</h3>
+
+<h3>&nbsp;</h3>
+
+<h3>&nbsp;</h3>
+
+<h3>&nbsp;</h3>
+
+<h3>&nbsp;</h3>
+
+</body>
+
+</html>

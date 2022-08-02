@@ -1,0 +1,135 @@
+%% $RCSfile: c24xcanxmt.tlc,v $
+%% $Revision: 1.1.6.2 $ $Date: 2004/04/08 20:59:39 $
+%% Copyright 2003-2004 The MathWorks, Inc.
+
+
+
+%implements c24xcanxmt "C"
+
+%% Function: JustCreatedCompiledModelRecord ==================================
+%function JustCreatedCompiledModelRecord(recordName) void
+
+    %assign fullRecordName = "::CompiledModel." + recordName
+    %%
+    %if !EXISTS("%<fullRecordName>")
+        %assign retval = 1  %% First call
+
+        %% Create record since it does not yet exist:
+        %assign %<recordName> = 1
+        %assign ::CompiledModel = ::CompiledModel + %<recordName>
+        %undef %<recordName>  %% Remove from current scope
+    %else
+        %assign retval = 0  %% Subsequent call
+
+    %endif
+    %return retval
+
+%endfunction %% JustCreatedCompiledModelRecord
+
+
+%% Function: BlockTypeSetup ==============================================
+%function BlockTypeSetup(block, system) void
+
+    %openfile buffer
+    #include "DSP24_Device.h"
+    %closefile buffer
+    %<LibCacheIncludes(buffer)>
+    
+    %% guard is needed since both CAN blocks declare this function
+    %if JustCreatedCompiledModelRecord("config_CANmbx_prototype") 
+        %openfile buffer
+        void config_CANmbx (uint16_T mbxType, uint16_T mbxNo, uint32_T msgID, uint16_T msgType);
+        %closefile buffer
+        %<LibCacheDefine(buffer)>
+    %endif        
+    
+%endfunction %% BlockTypeSetup
+
+
+
+%% Function: BlockInstanceSetup ===============================================
+%%
+%function BlockInstanceSetup(block,system) void
+
+    %<AddParamsToBlock(block)>
+    
+%endfunction %% BlockInstanceSetup
+
+
+
+%% Function: Start ============================================================
+%%
+%%  Initialize CAN transmit mailbox.
+%%
+%function Start(block,system) Output
+
+    /* Configure mailbox %<mailboxNo> to transmit messages with the ID: %<messageID> */
+    config_CANmbx (1U, %<mailboxNo>, %<messageID>, %<messageType>);
+    
+%endfunction %% Start
+
+
+
+%% Function: Outputs ==========================================================
+%%
+%%  Write the message received from the Simulink model to CAN
+%%
+%function Outputs(block,system) Output  
+
+/* %<Type> Block: %<Name> (%<ParamSettings.FunctionName>) */
+{
+    %assign dataType = LibBlockInputSignalDataTypeName(0,"")
+    %assign dataWidth = LibBlockInputSignalWidth(0)
+    %%   
+    %switch (dataType)
+    %case "uint16_T"
+        %assign messageLength = dataWidth * 2
+        %switch (dataWidth)
+        %case 4
+            MMREGS[MBOX%<mailboxNo>D] = %<LibBlockInputSignal(0,"","",3)>;        
+        %case 3
+            MMREGS[MBOX%<mailboxNo>C] = %<LibBlockInputSignal(0,"","",2)>;        
+        %case 2
+            MMREGS[MBOX%<mailboxNo>B] = %<LibBlockInputSignal(0,"","",1)>;
+        %case 1
+            MMREGS[MBOX%<mailboxNo>A] = %<LibBlockInputSignal(0,"","",0)>;
+        %endswitch        
+        %break
+    %case "uint32_T"
+        %assign messageLength = dataWidth * 4 
+        %switch (dataWidth)
+        %case 2
+            %% do not change position of parentheses for this expression as it leads to a wrong behavior
+            MMREGS[MBOX%<mailboxNo>D] = (uint16_T) (%<LibBlockInputSignal(0,"","",1)> >> 16);
+            MMREGS[MBOX%<mailboxNo>C] = (uint16_T) (%<LibBlockInputSignal(0,"","",1)> & 0x0000FFFF);
+        %case 1
+            %% do not change position of parentheses for this expression as it leads to a wrong behavior
+            MMREGS[MBOX%<mailboxNo>B] = (uint16_T) (%<LibBlockInputSignal(0,"","",0)> >> 16);
+            MMREGS[MBOX%<mailboxNo>A] = (uint16_T) (%<LibBlockInputSignal(0,"","",0)> & 0x0000FFFF);
+        %endswitch
+        %break
+    %endswitch
+    
+    MMREGS[MSGCTRL%<mailboxNo>] = %<messageLength>;
+	MMREGS[TCR] = 0x0010<<%<mailboxNo-2>; // set CAN Transmit Request Set register
+	while( !MMREGS[TCR] & (0x1000<<%<mailboxNo-2>) ) {} // check CAN Transmit Acknowledge register
+	MMREGS[TCR] |= (0x1000<<%<mailboxNo-2>); // clear CAN Transmit Acknowledge register     
+}
+
+%endfunction %% Outputs
+
+
+%% Function: AddParamsToBlock =================================================
+%%
+%%  Rename the S-Function parameter for easy reference.
+%%
+%function AddParamsToBlock(block) void
+
+    %assign mailboxNo   = SFcnParamSettings.mailboxNo
+    %assign messageID   = SFcnParamSettings.messageID
+    %assign messageType = SFcnParamSettings.messageType    
+    %assign block = block + mailboxNo + messageID + messageType
+    
+%endfunction  %% AddParamsToBlock
+
+%% [EOF] c24xcanxmt.tlc

@@ -1,0 +1,122 @@
+<html>
+<!-- Copyright 2002 The MathWorks, Inc. $Revision: 1.1 $ $Date: 2002/11/27 17:40:17 $-->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta http-equiv="Content-Language" content="en-us">
+<title>Model Advisor</title>
+</head>
+<!--Insert Javascript template-->
+<body>
+<form method="POST" action="matlab: htmlgatewayAdvisor " name=f>
+
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr> 
+      <td width="15" height="50" nowrap> 
+        <div align="center"><font size="4" color="#FFFFFF"></font></div>
+      </td>
+      <td width="160" bgcolor="#000099" height="50" nowrap> 
+        <div align="center"><font size="4" color="#FFFFFF"><b>General Code <br>
+          Generation Goals</b></font></div>
+      </td>
+      <td width="15"><img src="pixelclear.gif" width="1" height="1"></td>
+      <td width="160" bgcolor="#EEEEEE" height="50" nowrap> 
+        <div align="center"><a href="matlab: Jump2DetailConfigPage"><font size="4"><b>Detailed 
+          Code<br>
+          Generation Goals</b></font></a></div>
+      </td>
+      <td width="15">&nbsp;</td>
+      <td width="160" bgcolor="#EEEEEE" height="50" nowrap> 
+        <div align="center"><a href="model_diagnose.html"><font size="4"><b>Model 
+          Advisor</b></font></a></div>
+      </td>
+      <td width="15">&nbsp;</td>
+      <td width="160" bgcolor="#EEEEEE" height="50" nowrap> 
+        <div align="center"><a href="matlab: Jump2SearchTool"><font size="4"><b>Search 
+          and Modify</b></font></a></div>
+      </td>
+      <td width="15">&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td height="5" bgcolor="#000099"><img src="pixelclear.gif" width="1" height="1"></td>
+    </tr>
+  </table>
+<!--start system template-->
+<hr>
+<p><b>Configure model properties based on answers to the following 
+general code generation goals.  Configuration goals are designed 
+around Real-Time Workshop Embedded Coder features.  For best 
+results, pre-configure your model to use an Embedded Real-Time 
+(ERT) based target, such as ert.tlc or mpc555_exp.tlc, prior to 
+configuration.</b></p>
+<table border="0" width="100%">
+  <tr>
+    <td width="55%">What is your target application?</td>
+    <td width="45%"><select size="1" name="HighLevel_TargetApp">
+  <option selected>Floating point</option>
+  <option>Fixed point</option>
+  <option>Mixed</option>
+</select></td>
+  </tr>
+  <tr>
+    <td width="55%">Do you want to configure code generation options for maximum efficiency?&nbsp;</td>
+    <td width="45%"><select size="1" name="HighLevel_MaxEfficiency">
+  <option selected>Yes</option>
+  <option>No</option>
+</select></td>
+  </tr>
+  <tr>
+    <td width="55%">What aspect of memory is more important?&nbsp;</td>
+    <td width="45%"><select size="1" name="HighLevel_RAMROM">
+  <option>RAM</option>
+  <option selected>ROM</option>
+</select></td>
+  </tr>
+  <tr>
+    <td width="55%">What type of auto-generated identifiers do you want (affects code appearance only)?&nbsp;</td>
+    <td width="45%"><select size="1" name="HighLevel_IDVerbose">
+  <option selected>Verbose</option>
+  <option>Compact</option>
+</select></td>
+  </tr>
+  <tr>
+    <td width="55%">Do you want to include comments in the generated code?&nbsp;</td>
+    <td width="45%"><select size="1" name="HighLevel_IncludeComment">
+  <option selected>Yes</option>
+  <option>No</option>
+</select></td>
+  </tr>
+  <tr>
+    <td width="55%">What is your required interface?&nbsp;</td>
+    <td width="45%"><select size="1" name="HighLevel_RequiredInterface">
+  <option selected>None</option>
+  <option>ASAP2</option>
+  <option>C API</option>
+  <option>External mode</option>
+</select></td>
+  </tr>
+  <tr>
+    <td width="55%">Are you combining multiple models into the same executable?&nbsp;</td>
+    <td width="45%"><select size="1" name="HighLevel_CombineModels">
+  <option selected>Yes</option>
+  <option>No</option>
+</select></td>
+  </tr>
+  <tr>
+    <td width="55%">Do you want to include an HTML report with the generated code?&nbsp;</td>
+    <td width="45%"><select size="1" name="HighLevel_GenerateReport">
+  <option selected>Yes</option>
+  <option>No</option>
+</select></td>
+  </tr>
+</table>
+<p align="center">&nbsp;</p>
+<p align="center"><input type="submit" value="Configure Model" name="highLevelConfigModel" onClick="htmlEncode(this.form)"></p>
+
+</form>
+
+</body>
+
+</html>

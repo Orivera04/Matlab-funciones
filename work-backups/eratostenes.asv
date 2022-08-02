@@ -1,0 +1,25 @@
+% Algoritmo de la Criba de Eratóstenes
+clc;
+n=input('Introduzca el numero maximo a evaluar:  >> ');
+arr=1:1:n
+i=1;
+while i<=7
+     j=1;
+    while j<=n
+        res=mod(arr(j),i);
+        div=arr(j)/i;
+         if res==0 & div>1
+             arr(j)=0;
+         end
+         j=j+1;
+     end     
+     i=i+1;
+end
+disp('hecho');
+j=1;
+while j<=n
+    if arr(j)~=0
+        disp(arr(j));
+    end
+    j=j+1;
+end

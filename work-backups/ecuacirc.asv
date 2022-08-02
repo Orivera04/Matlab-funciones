@@ -1,0 +1,19 @@
+%Programa que encuentra la ecuación de una circunferencia dado el centro
+% y el radio de la misma.
+x0= input('Deme la coordenada x0 del centro: x0= ');
+y0= input('Deme la coordenada y0 del centro: y0= ');
+radio=input('Deme el radio: r = ');
+syms x y 
+ecuacion = (x-x0)^2 + (y-y0)^2-radio^2;
+ecua1=(x-x0)^2 + (y-y0)^2;
+%disp('La ecuación de la cicunferencia es: ');
+ecua= char(ecuacion);
+fprintf('La ecuación de la cicunferencia es:%s = 0 ',ecua),
+%disp('= 0');
+titulo=char(ecuacion);
+strcat(titulo,' = 0');
+DrawCircle(x0,y0,radio);
+axis equal;
+title(titulo)
+
+

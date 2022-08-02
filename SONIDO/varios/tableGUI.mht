@@ -1,0 +1,572 @@
+From: <Guardado por Microsoft Internet Explorer 5>
+Subject: 
+Date: Thu, 26 Jul 2007 13:05:41 -0600
+MIME-Version: 1.0
+Content-Type: text/html;
+	charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.mathworks.com/matlabcentral/files/10045/tableGUI.m
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.2869
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD>
+<META http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dwindows-1252">
+<META content=3D"MSHTML 6.00.2900.2912" name=3DGENERATOR></HEAD>
+<BODY><PRE>function out =3D tableGUI(varargin)
+%   TABLEGUI - Spreadsheet like display and edition of a generic 2D =
+array. By generic it is
+%   mean that the array can be a numeric MxN matrix or a MxN cell array =
+(with mixed
+%   number and text strings). This function imitates the table cells =
+with edit boxes
+%   which may become slow if the number of elements required is large. =
+However, it
+%   works fast for small matrices. If the default number of rows is =
+exceeded a vertical
+%   slider is created. The slider works by changing the position of the =
+table elements,
+%   which again may become slow if the default number of visible rows is =
+large. Otherwise
+%   it works pretty fast.
+%
+%   USAGE:
+%       OUT =3D TABLEGUI(varargin)
+%
+%   Inputs are in property/value pairs. All properties are strings but =
+the values are
+%   of different types depending on the case.
+%
+%   PROPERTY                        VALUE                                =
+       TYPE
+%
+%   'array'         It can be either an numeric matrix or a MxN          =
+       numeric or cell array
+%                   cell array.=20
+%   'NumRows'       Total number of rows to create. Use this when the    =
+       integer
+%                   'array' option is not used, or when you want to
+%                   create extra empty rows.
+%   'NumCol'        Total number of columns to create. Use this when     =
+       integer
+%                   the 'array' option is not used, but ignored if it =
+was.
+%   'MAX_ROWS'      Number of visible rows. If NumRows &gt; MAX_ROWS     =
+          integer
+%                   a vertical slider is created (DEF =3D 10)
+%   'RowHeight'     editboxes height in pixels (DEF =3D 20)              =
+         integer
+%   'ColWidth'      editboxes width in pixels (DEF =3D 60)               =
+         scalar or row vector
+%                   If a vector is transmited, it must contains NumCol
+%                   elements which set individual column widths.
+%   'bd_size'       space between editboxes width in pixels (DEF =3D 0)  =
+         integer
+%   'HorAlin'       editboxes 'HorizontalAlignment' property. It can     =
+       string
+%                   be either 'left', 'center' or 'right' (DEF =3D =
+'center')
+%   'HdrButtons'    create a first row of buttons to hold column         =
+       string - either '' or 'y'
+%                   names. Give an empty string ('') if you don't want
+%                   column names (DEF =3D 'Y').
+%   'ColNames'      Cell array of strings for column names. If not       =
+       1xN cell array of strings
+%                   provided the columns are named 'A', 'B', ...
+%   'RowNumbers'    Add a first column with row numbers. Note that this  =
+       string - either '' or 'y'
+%                   column is set to 'inactive' and its not transmited
+%                   on the output (DEF =3D '').
+%   'RowNames'      Add a column with row names. Note that this column   =
+       1xN cell array of strings
+%                   is set to 'inactive' and its not transmited on the
+%                   output (DEF =3D ''). Warning: do not abuse on the=20
+%                   Names length. Added by Martin Furlan
+%   'RowNamesWidth' Width of buttons containing the RowNames
+%                   in pixels (DEF =3D 60)                               =
+         scalar
+%   'checks'        If =3D 'Y' it creates a vertical line of checkboxes  =
+         string - either '' or 'y'
+%                   This affects what is send as output. Only rows that
+%                   have it's checkbox checked will be returned.
+%   'FigName'       Name that appears in the title bar (DEF =3D =
+'Table').         string
+%   'position'      Screen location to be used in the call to MOVEGUI    =
+       string
+%                   See doc of that function for valid position
+%                   strings (DEF =3D 'east').
+%   'modal'         By default the window works in MODAL mode. Give an   =
+       string - either '' or 'y'
+%                   empty string ('') if you don't want it to be MODAL.
+%                   In this later case the output OUT, if requested, =
+will
+%                   contain the figure handle but see more about this =
+below.
+%
+%   OUT - the output - contains different things depending whether or =
+not the
+%       figure works in MODAL mode. If yes, OUT is a MxN cell array with =
+the
+%       elements retrived from the contents of the edit boxes. =
+Otherwise, OUT
+%       will contain the figure's handle. This handle has the 'UserData' =
+property
+%       filled with a structure (called hand) which contains the handles =
+of all
+%       uicontrols. Use this option if you want to interact with the =
+TABLEGUI
+%       figure inside your own code.
+%
+%   Examples:
+%     - Display a 12x6 numeric matrix with two extra blank rows appended =
+to the end
+%       out =3D tableGUI('array',rand(12,6),'ColNames',{'1' '2' '3' '4' =
+'5' '6'},'NumRows',14);
+%
+%     - Create a cell array with the first column filled with the row =
+number and use
+%       columns with different widths. Create also check boxes.
+%       zz=3Dcell(4,5);   zz(:,1) =3D num2cell(1:4)';
+%       out =3D =
+tableGUI('array',zz,'ColNames',{'N','A','B','C','D'},'ColWidth',[20 60 =
+60 60 60],'checks','y');
+%
+%     - Create a similar table as in the previous example but with the =
+row numbers option.
+%       out =3D =
+tableGUI('array',cell(4,5),'RowNumbers','y','checks','y');
+%
+%     - Display the Control Points of the Image Processing Toolbox =
+example
+%       "Registering an Aerial Photo to an Orthophoto"
+%       load westconcordpoints  % load some points that were already =
+picked
+%       gcp =3D [base_points input_points];
+%       out =3D tableGUI('array',gcp,'RowNumbers','y','ColNames',{'Base =
+Points - X','Base Points - Y',...
+%               'Input Points - X','Input Points - =
+Y'},'ColWidth',110,'FigName','GCP Table');
+%
+%     - Create an empty 12x6 empty table
+%       out =3D tableGUI;
+%
+%   Acknowledgment
+%       This function uses the parse_pv_pairs of John d'Errico
+%
+%   AUTHOR
+%       Joaquim Luis (jluis@ualg.pt)   17-Feb-2006
+%
+%   Revision
+%       17-Sep-2006 - There was an error when only one check box =
+existed.
+%
+%   Addition
+%       6-Dec-2006 - A column with row names added by Martin Furlan
+%       (martin.furlan@iskra-ae.com)
+%
+%       13-Mar-2007 - Added option to control the RowNames width.
+%
+
+hand.NumRows =3D 12;          hand.NumCol =3D 6;
+hand.MAX_ROWS =3D 10;         hand.left_marg =3D 10;
+hand.RowHeight =3D 20;        hand.bd_size =3D 0;
+hand.checks =3D '';           hand.HdrButtons =3D 'Y';
+hand.HorAlin =3D 'center';    hand.FigName =3D 'Table';
+hand.array =3D cell(hand.NumRows,hand.NumCol);
+hand.modal =3D 'y';           hand.position =3D 'east';
+hand.RowNumbers =3D '';       d_col =3D 0;
+hand.RowNames =3D '';=20
+
+if (nargin =3D=3D 0)        % Demo
+    hand.ColNames =3D {'A' 'B' 'C' 'D' 'E' 'F'};
+    hand.ColWidth =3D [50 80 80 80 80 50];
+else
+    hand.ColNames =3D '';	    hand.ColWidth =3D [];
+    hand.array =3D [];        def_NumRows =3D hand.NumRows;
+    hand.RowNamesWidth =3D 60;
+    hand =3D parse_pv_pairs(hand,varargin);
+    if (~isempty(hand.array))
+        if (numel(hand.array) =3D=3D 1 &amp;&amp; numel(hand.array{1}) =
+&gt; 1)
+            error('The "array" argument must be a MxN cell array and not =
+a {MxN} cell')
+        end
+        [NumRows,hand.NumCol] =3D size(hand.array);
+        if (~iscell(hand.array))    % We need as a cell array to be more =
+general
+            hand.array =3D num2cell(hand.array);
+        end
+        if (NumRows &lt; hand.NumRows &amp;&amp; hand.NumRows ~=3D =
+def_NumRows)     % Extra rows requested
+            hand.array =3D [hand.array; =
+cell(hand.NumRows-NumRows,hand.NumCol)];
+        else
+            hand.NumRows =3D NumRows;
+        end
+        if (hand.NumRows &lt; hand.MAX_ROWS),    hand.MAX_ROWS =3D =
+hand.NumRows;     end
+       =20
+    else                % 'array' not transmited
+        hand.array =3D cell(hand.NumRows,hand.NumCol);
+    end
+   =20
+    if (isempty(hand.ColNames) &amp;&amp; ~isempty(hand.HdrButtons))     =
+ % By default columns are labeled 'A','B',...
+        hand.ColNames =3D cell(1,hand.NumCol);
+        for (i =3D 1:hand.NumCol),     hand.ColNames{1,i} =3D =
+char(i+64);  end
+    end
+    if (size(hand.array,2) &gt; size(hand.ColNames,2))
+        error('"ColNames" argument has less elements than the number of =
+columns is "array"')
+    end
+    if (isempty(hand.ColWidth))                    % Use default value =
+for button width
+        hand.ColWidth =3D repmat(60,1,hand.NumCol);
+    elseif (numel(hand.ColWidth) =3D=3D 1)             % 'ColWidth' was =
+a scalar
+        hand.ColWidth =3D repmat(hand.ColWidth,1,hand.NumCol);
+    end
+   =20
+    if (~isempty(hand.RowNumbers))                 % Row numbering was =
+requested
+        hand.ColWidth =3D [35 hand.ColWidth];
+        hand.NumCol =3D hand.NumCol + 1;
+        hand.array =3D [cell(hand.NumRows,1) hand.array];
+        d_col =3D 1;
+    end
+end
+
+arr_pos_xi =3D hand.left_marg + [0 =
+(cumsum(hand.ColWidth+hand.bd_size))];
+arr_pos_xi(end) =3D [];      % We don't want the last element
+arr_pos_xw =3D hand.ColWidth;
+
+% ---------------- Create the figure ----------------------------------
+fig_height =3D min(hand.NumRows,hand.MAX_ROWS) * =
+(hand.RowHeight+hand.bd_size);
+if (~isempty(hand.HdrButtons)),    fig_height =3D fig_height + 22;   end =
+    % Make room for header buttons
+if (~isempty(hand.modal)),          fig_height =3D fig_height + 30;   =
+end     % Make room for OK,Cancel buttons
+pos =3D [5 75 =
+sum(arr_pos_xw)+hand.left_marg+(hand.NumCol-1)*hand.bd_size+15 =
+fig_height];  % The 15 is for the slider
+nW =3D hand.RowNamesWidth;        % Short name for the row names width =
+buttons
+if (~isempty(hand.checks)),     pos(3) =3D pos(3) + 15;       end        =
+ % Account for checkboxes size
+if (~isempty(hand.RowNames)),   pos(3) =3D pos(3) + nW;       end        =
+ % Account for row names size
+
+hand.hFig =3D =
+figure('unit','pixels','NumberTitle','off','Menubar','none','resize','on'=
+,'position', ...
+    pos,'Name',hand.FigName,'Resize','off','Visible','off');
+movegui(hand.hFig,hand.position)
+
+hand.arr_pos_y =3D (fig_height-hand.RowHeight-hand.bd_size - =
+(0:hand.NumRows-1)*(hand.RowHeight+hand.bd_size))';
+if (~isempty(hand.HdrButtons)),     hand.arr_pos_y =3D hand.arr_pos_y - =
+22;   end
+
+if (~isempty(hand.checks) &amp;&amp; isempty(hand.RowNames))    % Create =
+the checkboxes uicontrols
+    arr_pos_xi =3D arr_pos_xi + 15;                       % Make room =
+for them
+    hand.hChecks =3D zeros(hand.NumRows,1);
+    hand.Checks_pos_orig =3D [ones(hand.NumRows,1)*7 (hand.arr_pos_y+3) =
+ones(hand.NumRows,1)*15 ones(hand.NumRows,1)*15];
+end
+if (~isempty(hand.RowNames) &amp;&amp; isempty(hand.checks))    % Create =
+the row names
+    arr_pos_xi =3D arr_pos_xi + nW;                       % Make room =
+for them
+    hand.RowNames_pos_orig =3D [ones(hand.NumRows,1)*7 (hand.arr_pos_y) =
+ones(hand.NumRows,1)*nW ones(hand.NumRows,1)*20];
+end
+if (~isempty(hand.checks) &amp;&amp; ~isempty(hand.RowNames))   % Create =
+both the checkboxes uicontrols and the row names
+    arr_pos_xi =3D arr_pos_xi + 15 + nW + 2;              % Make room =
+for them
+    hand.hChecks =3D zeros(hand.NumRows,1);
+    hand.Checks_pos_orig =3D [ones(hand.NumRows,1)*7 (hand.arr_pos_y+3) =
+ones(hand.NumRows,1)*15 ones(hand.NumRows,1)*15];
+    hand.RowNames_pos_orig =3D [ones(hand.NumRows,1)*7 + 15 + 5 =
+(hand.arr_pos_y) ones(hand.NumRows,1)*nW ones(hand.NumRows,1)*20];
+end
+
+hand.hEdits =3D zeros(hand.NumRows,hand.NumCol);
+hand.Edits_pos_orig =3D cell(hand.NumRows,hand.NumCol);
+
+% ---------------- Create the edit uicontrols =
+---------------------------
+for (i =3D 1:hand.NumRows)
+    if (~isempty(hand.checks))
+        hand.hChecks(i) =3D =
+uicontrol('Style','checkbox','unit','pixels','position', ...
+            hand.Checks_pos_orig(i,:),'Value',1);
+    end
+    for (j =3D 1:hand.NumCol)
+        hand.Edits_pos_orig{i,j} =3D [arr_pos_xi(j) hand.arr_pos_y(i) =
+arr_pos_xw(j) 20];
+        hand.hEdits(i,j) =3D =
+uicontrol('Style','edit','unit','pixels','backgroundcolor','w','position'=
+, ...
+            [arr_pos_xi(j) hand.arr_pos_y(i) arr_pos_xw(j) =
+20],'String',hand.array{i,j},...
+            'HorizontalAlignment',hand.HorAlin);
+    end
+    if (~isempty(hand.RowNumbers))
+        =
+set(hand.hEdits(i,1),'String',i,'Enable','inactive','Background',[200 =
+200 145]/255,'UserData',i)
+    else
+        set(hand.hEdits(i,1),'UserData',i)
+    end
+end
+if (~isempty(hand.HdrButtons))         % Create the header pushbutton =
+uicontrols
+    for (j =3D 1:hand.NumCol-d_col)        % The d_col is to account for =
+an eventual 'RowNumbers' option
+        =
+uicontrol('Style','pushbutton','unit','pixels','Enable','inactive','posit=
+ion', ...
+            [arr_pos_xi(j+d_col) hand.arr_pos_y(1)+hand.RowHeight =
+hand.ColWidth(j+d_col) 20],'String',hand.ColNames{j})
+    end
+end
+if (~isempty(hand.RowNames))           % Create the header pushbutton =
+uicontrols
+    for (i =3D 1:length(hand.RowNames))
+        =
+uicontrol('Style','pushbutton','unit','pixels','Enable','inactive','posit=
+ion', ...
+            hand.RowNames_pos_orig(i,:),'String',hand.RowNames{i})=20
+   end
+end
+
+% ---------------- See if we need a slider ---------------------------
+pos_t =3D get(hand.hEdits(1,hand.NumCol),'pos');       % Get top right =
+edit position
+pos_b =3D get(hand.hEdits(hand.MAX_ROWS,1),'pos');    % Get last visible =
+edit position
+if (hand.NumRows &gt; hand.MAX_ROWS)
+    =
+set(hand.hEdits(hand.MAX_ROWS+1:hand.NumRows,1:hand.NumCol),'Visible','of=
+f')    % Hide those who are out of view
+    if (~isempty(hand.checks))
+        set(hand.hChecks(hand.MAX_ROWS+1:hand.NumRows),'Visible','off')
+    end
+    pos =3D [pos_t(1)+pos_t(3) pos_b(2) 15 pos_t(2)+pos_t(4)-pos_b(2)];
+    sld_step =3D 1 / (hand.NumRows-1);
+    sld_step(2) =3D 5 * sld_step(1);
+    hand.hSlid =3D =
+uicontrol('style','slider','units','pixels','position',pos,...
+        =
+'min',1,'max',hand.NumRows,'Value',hand.NumRows,'SliderStep',sld_step);
+    set(hand.hSlid,'callback',{@slider_Callback,hand})
+    set(hand.hSlid,'UserData',hand.NumRows)    % Store current value
+end
+
+% ---------------- See if the window is MODAL =
+---------------------------
+if (~isempty(hand.modal))
+	=
+uicontrol('Style','pushbutton','unit','pixels','String','OK','position',.=
+..
+        [pos_t(1)+pos_t(3)-110 5 40 =
+20],'FontName','Helvetica','FontSize',9,...
+        'callback','uiresume','tag','OK');
+	=
+uicontrol('Style','pushbutton','unit','pixels','String','Cancel','positio=
+n', ...
+        [pos_t(1)+pos_t(3)-60 5 60 =
+20],'FontName','Helvetica','FontSize',9,...
+        'callback','uiresume','tag','cancel');
+    uiwait(hand.hFig)       % It also sets the Figure's visibility 'on'
+    but =3D gco;
+    if strcmp(get(but,'tag'),'OK')
+        out =3D =
+reshape(get(hand.hEdits,'String'),hand.NumRows,hand.NumCol);
+        if (~isempty(hand.checks))
+            if(length(hand.hChecks)~=3D1)
+                unchecked =3D (cell2mat(get(hand.hChecks,'Value')) =
+=3D=3D 0);
+                out(unchecked,:) =3D [];      % Remove unchecked rows
+            end
+        end
+        if (~isempty(hand.RowNumbers)) % Do not output the row numbers
+            out =3D out(:,2:end);
+        end
+        delete(hand.hFig)
+    elseif strcmp(get(but,'tag'),'cancel')
+        out =3D [];   delete(hand.hFig)
+    else        % Figure was killed
+        out =3D [];
+    end
+else
+    set(hand.hFig,'Visible','on','UserData',hand)
+    if (nargout),   out =3D hand.hFig;    end
+end
+
+% =
+-------------------------------------------------------------------------=
+--
+function slider_Callback(obj,event,hand)
+
+val =3D round(get(hand.hSlid,'Value'));
+old_val =3D get(hand.hSlid,'UserData');
+ds =3D val - old_val;
+
+if (ds &lt; 0)                                         % Slider moved =
+down
+    n =3D hand.NumRows - val + 1;    d_col =3D hand.NumRows - val;
+    if (n+hand.MAX_ROWS-1 &gt; hand.NumRows)             % Case we =
+jumped into the midle zone
+        adj =3D (n+hand.MAX_ROWS-1 - hand.NumRows);
+        n =3D n - adj;    d_col =3D d_col - adj;
+    end
+    for (i =3D n:min(n+hand.MAX_ROWS-1,hand.NumRows))   % Update =
+positions
+        for (j =3D 1:hand.NumCol)
+            pos =3D hand.Edits_pos_orig{i,j};
+            set(hand.hEdits(i,j),'pos',[pos(1) hand.arr_pos_y(i-d_col) =
+pos(3:4)],'Visible','on')
+        end
+        if (~isempty(hand.checks))                  % If we have =
+checkboxes
+            pos =3D hand.Checks_pos_orig(i,:);
+            set(hand.hChecks(i),'pos',[pos(1) hand.arr_pos_y(i-d_col)+3 =
+pos(3:4)],'Visible','on')           =20
+        end
+    end
+    if (i =3D=3D get(hand.hEdits(hand.NumRows,1),'UserData')) % Bottom =
+reached. Jump to there
+        val =3D 1;    set(hand.hSlid,'Value',val)         % This also =
+avoids useless UIs repositioning
+    end
+elseif (ds &gt; 0)                                     % Slider moved up
+    n =3D hand.NumRows - val + 1;    k =3D hand.MAX_ROWS;
+    if (n &lt; hand.MAX_ROWS)                          % Case we jumped =
+into the midle zone
+        adj =3D (hand.MAX_ROWS - n - 0);
+        n =3D n + adj;
+    end
+    for (i =3D n:-1:max(n-hand.MAX_ROWS+1,1))         % Update positions
+        for (j =3D 1:hand.NumCol)
+            pos =3D hand.Edits_pos_orig{i,j};
+            set(hand.hEdits(i,j),'pos',[pos(1) hand.arr_pos_y(k) =
+pos(3:4)],'Visible','on')       =20
+        end
+        if (~isempty(hand.checks))                  % If we have =
+checkboxes
+            pos =3D hand.Checks_pos_orig(i,:);
+            set(hand.hChecks(i),'pos',[pos(1) hand.arr_pos_y(k)+3 =
+pos(3:4)],'Visible','on')           =20
+        end
+        k =3D k - 1;
+    end
+    set(hand.hEdits(n+1:end,1:end),'Visible','off')
+    if (~isempty(hand.checks)),     =
+set(hand.hChecks(n+1:end),'Visible','off');    end
+    if (i =3D=3D get(hand.hEdits(1,1),'UserData'))      % Reached Top. =
+Jump to there
+        set(hand.hSlid,'Value',hand.NumRows)          % This also avoids =
+useless UIs repositioning
+        val =3D hand.NumRows;
+    end
+end
+set(hand.hSlid,'UserData',val)                      % Save old 'Value'
+
+% =
+-------------------------------------------------------------------------=
+---
+function params =3D parse_pv_pairs(params,pv_pairs)
+% parse_pv_pairs: parses sets of property value pairs, allows defaults
+% usage: params=3Dparse_pv_pairs(default_params,pv_pairs)
+%
+% arguments: (input)
+%  default_params - structure, with one field for every potential
+%             property/value pair. Each field will contain the default
+%             value for that property. If no default is supplied for a
+%             given property, then that field must be empty.
+%
+%  pv_array - cell array of property/value pairs.
+%             Case is ignored when comparing properties to the list
+%             of field names. Also, any unambiguous shortening of a
+%             field/property name is allowed.
+%
+% arguments: (output)
+%  params   - parameter struct that reflects any updated property/value
+%             pairs in the pv_array.
+%
+% Example usage:
+% First, set default values for the parameters. Assume we have four
+% parameters that we wish to use optionally in the function examplefun.
+%
+%  - 'viscosity', which will have a default value of 1
+%  - 'volume', which will default to 1
+%  - 'pie' - which will have default value 3.141592653589793
+%  - 'description' - a text field, left empty by default
+%
+% The first argument to examplefun is one which will always be supplied.
+%
+%   function examplefun(dummyarg1,varargin)
+%   params.Viscosity =3D 1;
+%   params.Volume =3D 1;
+%   params.Pie =3D 3.141592653589793
+%
+%   params.Description =3D '';
+%   params=3Dparse_pv_pairs(params,varargin);
+%   params
+%
+% Use examplefun, overriding the defaults for 'pie', 'viscosity'
+% and 'description'. The 'volume' parameter is left at its default.
+%
+%   examplefun(rand(10),'vis',10,'pie',3,'Description','Hello world')
+%
+% params =3D=20
+%     Viscosity: 10
+%        Volume: 1
+%           Pie: 3
+%   Description: 'Hello world'
+%
+% Note that capitalization was ignored, and the property 'viscosity' was =
+truncated
+% as supplied. Also note that the order the pairs were supplied was =
+arbitrary.
+
+n =3D length(pv_pairs) / 2;
+
+if n ~=3D floor(n)
+    error 'Property/value pairs must come in PAIRS.'
+end
+if (n &lt;=3D 0),    return;     end     % just return the defaults
+
+if ~isstruct(params)
+    error 'No structure for defaults was supplied'
+end
+
+% there was at least one pv pair. process any supplied
+propnames =3D fieldnames(params);
+lpropnames =3D lower(propnames);
+for i=3D1:n
+	p_i =3D lower(pv_pairs{2*i-1});
+	v_i =3D pv_pairs{2*i};
+=09
+	ind =3D strmatch(p_i,lpropnames,'exact');
+    if isempty(ind)
+	    ind =3D find(strncmp(p_i,lpropnames,length(p_i)));
+        if isempty(ind)
+            error(['No matching property found for: ',pv_pairs{2*i-1}])
+	    elseif (length(ind) &gt; 1)
+            error(['Ambiguous property name: ',pv_pairs{2*i-1}])
+        end
+    end
+    p_i =3D propnames{ind};
+	params =3D setfield(params,p_i,v_i);      % override the corresponding =
+default in params
+end
+
+</PRE></BODY></HTML>

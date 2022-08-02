@@ -1,0 +1,95 @@
+%a(selectedoriginrow2:selectedendrow2,selectedorigincol2:selectedendcol2,selectedoriginiteration2:selectedenditeration2)
+% Sets up zoomoff feature
+if exist('a');
+
+if strcmp(zoomvalue,'zoomback')==0;
+    beforezoommatrix=beforezoomcell{1,currentwindow};
+    if isempty(beforezoommatrix);
+        if dimension==1; beforezoommatrix(1,1)=rows; beforezoommatrix(1,2)=currentiteration;
+        elseif dimension==2; beforezoommatrix(1,1)=firstrow; beforezoommatrix(1,2)=rowsshown;     end;
+        beforezoommatrix(1,3)=firstcolumn; beforezoommatrix(1,4)=columnsshown;
+    else;
+        if dimension==1; beforezoommatrix(end+1,1)=rows; beforezoommatrix(end,2)=currentiteration;
+        elseif dimension==2; beforezoommatrix(end+1,1)=firstrow; beforezoommatrix(end,2)=rowsshown;     end;
+        beforezoommatrix(end,3)=firstcolumn; beforezoommatrix(end,4)=columnsshown;
+    end;
+    beforezoomcell{1,currentwindow}=beforezoommatrix;
+end;
+
+
+% Starts executing whichever zoom was used
+zoom_worked=1;
+if strcmp(zoomvalue,'zoomin');
+    if currentlyselecting==1;
+        if dimension==1;
+            rows=round(rows/2); columnsshown=round(columnsshown/2);
+            set(findobj('Tag','rowsinputbox'),'string', rows);
+            set(findobj('Tag','columnsinputbox'),'string', columnsshown);
+            currentiteration=round(rows/2)-2+selectedoriginrow2;
+            firstcolumn=selectedorigincol2-round(columnsshown/2)+1;
+        elseif dimension==2;
+            rowsshown=round(rowsshown/2); columnsshown=round(columnsshown/2);
+            set(findobj('Tag','rowsinputbox'),'string', rowsshown);
+            set(findobj('Tag','columnsinputbox'),'string', columnsshown);
+            firstrow=selectedoriginrow2-round(rowsshown/2);
+            firstcolumn=selectedorigincol2-round(columnsshown/2)+1;
+        end;
+    else;
+        zoom_worked=0;
+    end;        
+elseif strcmp(zoomvalue,'zoomselection');
+    if currentlyselecting==1;
+        if dimension==1;
+            currentiteration=selectedendrow2-1;
+            firstcolumn=selectedorigincol2;
+            rows=selectedendrow2-selectedoriginrow2+1; columnsshown=selectedendcol2-selectedorigincol2+1;
+            set(findobj('Tag','rowsinputbox'),'string', rows);
+            set(findobj('Tag','columnsinputbox'),'string', columnsshown);
+        elseif dimension==2;
+            firstrow=selectedoriginrow2;
+            firstcolumn=selectedorigincol2;
+            rowsshown=selectedendrow2-selectedoriginrow2+1;; columnsshown=selectedendcol2-selectedorigincol2+1;
+            set(findobj('Tag','rowsinputbox'),'string', rowsshown);
+            set(findobj('Tag','columnsinputbox'),'string', columnsshown);
+        end;
+    else;
+        zoom_worked=0;
+    end;        
+elseif strcmp(zoomvalue,'zoomout');
+    if dimension==1;
+        rows=rows*2; columnsshown=columnsshown*2;
+        set(findobj('Tag','rowsinputbox'),'string', rows);
+        set(findobj('Tag','columnsinputbox'),'string', columnsshown);
+        currentiteration=round(rows/2)-2+currentiteration;
+        firstcolumn=firstcolumn-round(columnsshown/4);
+    elseif dimension==2;
+        rowsshown=rowsshown*2; columnsshown=columnsshown*2;
+        set(findobj('Tag','rowsinputbox'),'string', rowsshown);
+        set(findobj('Tag','columnsinputbox'),'string', columnsshown);
+        firstrow=firstrow-round(rowsshown/4);
+        firstcolumn=firstcolumn-round(columnsshown/4);
+    end;
+elseif strcmp(zoomvalue,'zoomback');
+    beforezoommatrix=beforezoomcell{1,currentwindow};
+    if isempty(beforezoommatrix)==0;
+        if dimension==1;
+            rows=beforezoommatrix(end,1); set(findobj('Tag','rowsinputbox'),'string', rows);
+            currentiteration=beforezoommatrix(end,2);
+        elseif dimension==2;
+            firstrow=beforezoommatrix(end,1); rowsshown=beforezoommatrix(end,2);
+            set(findobj('Tag','rowsinputbox'),'string', rowsshown);
+        end;
+        firstcolumn=beforezoommatrix(end,3); columnsshown=beforezoommatrix(end,4); 
+        set(findobj('Tag','columnsinputbox'),'string', columnsshown);
+        beforezoommatrix=beforezoommatrix(1:end-1,:);
+        beforezoomcell{1,currentwindow}=beforezoommatrix;
+    end;
+end;
+
+if zoom_worked==0;
+    errordlg('Make Selection','Error');
+else;
+    opening_iteration; CA_Display;
+end;
+
+end;

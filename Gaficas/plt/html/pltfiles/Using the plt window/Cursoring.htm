@@ -1,0 +1,149 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
+<title>Cursoring</title>
+<style>
+<!--
+span.mcode   { font-family: Fixedsys; color: #993300 }
+-->
+</style>
+</head>
+
+<body>
+
+
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1">
+  <tr>
+    <td width="70%">
+    <h2>Cursoring</h2>
+    </td>
+    <td width="3%">&nbsp;</td>
+    <td width="27%">
+    <img border="0" src="../images/plt.png" width="215" height="105" align="right"></td>
+  </tr>
+</table>
+
+<h3>Selecting the active trace</h3>
+
+<p>
+<img border="0" src="../images/CursorID.png" align="left" hspace="10" vspace="10" width="166" height="64">Simply click on the trace you wish to cursor. The cursor will move to the 
+trace you clicked on and that trace will become active. The x and y-cursor edit 
+boxes will change to the color of the new active trace and those edit boxes will 
+be updated to contain the current x and y locations of the cursor. Although the 
+color of the edit box will often be enough to let you know which trace is active it 
+sometimes may be difficult to tell at a glance if there are many traces plotted. 
+For this reason a cursor ID tag is displayed just to the left of the 
+y-cursor edit box. This will be especially helpful if you assigned meaningful 
+trace names in the plt calling sequence. This cursor ID tag is also in the same 
+color as the active trace.</p>
+
+<h3>Dragging the cursor</h3>
+
+<p>Click on a trace, hold down the mouse button and drag the cursor left or 
+right. The cursor will follow the mouse as you are dragging and the edit boxes 
+will continually update with the current cursor location. Make sure you click 
+directly on the trace. If you are not close enough to the trace, when you drag 
+the mouse the x and y axis limits will pan to follow the mouse movement.</p>
+
+<h3>Typing in a cursor location</h3>
+
+<p>If you type a new value into the x-cursor edit box, the cursor will move to 
+(x,y) where x is the value you typed in, and y is the value of the active trace 
+at location x. (i.e. the cursor will remain on the active trace). However if you 
+type a new value into the y-cursor edit box, the cursor will move up or down (off 
+the trace) to the location (x,y) where x is the old cursor x position, and y is 
+the value you typed in.</p>
+<h3>Finding peaks or valleys</h3>
+<p>
+<img border="0" src="../images/CursorButtons.png" align="left" hspace="10" vspace="10" width="55" height="48">In 
+the lower left corner of the display you will find the cursor peak/valley 
+buttons (up and down arrows) as well as the delta cursor button. When you click 
+on the up arrow (peak finder), the cursor will move to the largest peak in the 
+current display range of the active trace. The next click on the up arrow will move 
+the cursor to the second largest peak and so on. Any cursor movement 
+other than a peak/valley button will reset the peak finder so that the next time 
+you click on the up arrow the cursor again moves to the largest peak in the 
+display range. The valley button works the same as the peak button except the 
+cursor moves to successive local minima.</p>
+<h3>Delta cursors</h3>
+<p>
+<img border="0" src="../images/DeltaCursor.png" align="left" hspace="10" vspace="10" width="627" height="199"></p>
+
+<p>
+Delta 
+cursors are useful for measuring horizontal or vertical distances between two 
+points on a trace. First move the cursor to the desired reference point on the 
+trace. Then press the Delta (<font face="Times New Roman">&#8710;) cursor button. The 
+reference location will be marked with a large red plus (about 4 times bigger 
+than the normal cursor). Then click on a different point on the same trace (or drag 
+the cursor to the desired location). The view will then look similar to the 
+picture shown here. You can read the current location of the cursor (the small 
+yellow plus) in the usual way - i.e. the edit boxes just to the right of the 
+grey x/y labels. In this case the cursor x location is 5.75 msec and the y 
+location is 0.377755. The other two edit boxes show how far away the cursor is 
+from the marked reference. In this example, it shows that the cursor at a 
+location 1.55 msec later than and .37885 units less than the marked reference. 
+Simply click on the delta cursor button again, and the reference mark will 
+disappear and the usual cursor operation will return.</font></p>
+
+<h3>Y/X, Average and RMS readout</h3>
+
+<div align="left">
+  <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="685" id="AutoNumber2" height="1">
+    <tr>
+      <td width="698" height="1" colspan="7"></td>
+    </tr>
+    <tr>
+      <td width="698" height="27" colspan="7">
+      <img border="0" src="../images/Arrow3.png" width="688" height="43"></td>
+    </tr>
+    <tr>
+      <td width="99" height="27">
+      <img border="0" src="../images/CursorID.png" width="166" height="64"></td>
+      <td width="11" height="27">&nbsp;</td>
+      <td width="171" height="27">
+      <img border="0" src="../images/CursorID2.png" width="166" height="64"></td>
+      <td width="7" height="27">&nbsp;</td>
+      <td width="168" height="27">
+      <img border="0" src="../images/CursorID3.png" width="166" height="64"></td>
+      <td width="20" height="27">&nbsp;</td>
+      <td width="223" height="27">
+      <img border="0" src="../images/CursorID4.png" width="166" height="64"></td>
+    </tr>
+  </table>
+</div>
+
+<p>&nbsp;When you click on the  cursor ID tag (Line 4 in this example) the ID tag 
+changes to <span class="mcode">Y/X</span> and the value in the y-cursor edit box changes to show the 
+ratio of the y and x cursor values at the current cursor position (i.e. the 
+slope of the line from the origin to the cursor). If delta cursors were enabled, 
+and additional edit box appears to the right of the y-cursor edit box. This 
+additional box contains <font face="Times New Roman">&#916;Y/&#916;X, which is the slope of 
+the line connecting the marked position to the current cursor. You can use this 
+to estimate the slope of a trace at a particular point.</font></p>
+
+<p><font face="Times New Roman">When you click on the ID tag a second time, the 
+<span class="mcode">Y/X</span> changes to <span class="mcode">Avg</span> and the edit box then shows</font> the average y-value of all the points 
+of the active trace that are within the current display x limits.</p>
+
+<p><font face="Times New Roman">When you click on the ID tag a third time, the
+<span class="mcode">Avg</span> changes to <span class="mcode">RMS</span> and the edit box then shows</font> the rms value of the active 
+trace. As with Avg, the rms calculation only includes points that are within the currently 
+displayed x-axis limits. (In case you are not familiar with this commonly used form 
+of averaging - rms stands for &quot;root mean square&quot; and is calculated by taking the 
+square root of the average of the squares of the data values).</p>
+
+<p>Clicking the ID tag a fourth time (or clicking in the plot area) restores the 
+cursor readout to show the usual Y value and the ID tag again shows the name of 
+the cursored trace.</p>
+
+<p>&nbsp;</p>
+
+</body>
+
+</html>

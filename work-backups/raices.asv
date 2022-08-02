@@ -1,0 +1,20 @@
+%Este programa calcula las raices de una ecuacion cuadratica
+%
+clc;
+a = input('De el coeficiente de x^2  ');
+b = input('De el coeficiente de x  ');
+c = input('De el termino independiente  ');
+%Calculo del discriminate
+disc = b^2 - 4*a*c;
+%Calculo de las raices
+if disc == 0
+    raiz = -b/(2*a);
+    fprintf('La ecuacion tiene una raiz doble igual a %f \n',raiz);
+elseif disc > 0      
+       raiz1 = (-b+sqrt(disc))/(2*a);
+       raiz2 = (-b-sqrt(disc))/(2*a);
+       fprintf('La ecuacion tiene dos raices reales: %f, %f \n',raiz1,raiz2)
+else 
+     re = -b/(2*a); im = sqrt(disc)/(2*a);
+     fprintf('raiz1 = %f+',re);fprintf('%f i \n',im);fprintf('raiz2 = %f-',re); fprintf('%f i \n',im)
+end

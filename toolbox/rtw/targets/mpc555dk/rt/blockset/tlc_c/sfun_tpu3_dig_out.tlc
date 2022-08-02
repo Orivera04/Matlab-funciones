@@ -1,0 +1,65 @@
+%% File: sfun_tpu3_dig_out.tlc
+%%
+%% Abstract:
+%%   Implement device driver for digital output using Timer Processing
+%%   Unit, TPU3.
+%%
+%% Disclaimers / restrictions if any.
+%%
+%% $Revision: 1.13 $
+%% $Date: 2002/12/10 16:49:07 $
+%%
+%% Copyright 2002 The MathWorks, Inc.
+
+%implements sfun_tpu3_dig_out "C"
+%include "mpc555_common_includes.tlc"
+%include "tpu3_function_library.tlc"
+
+%% Function: BlockInstanceSetup ===============================================
+%% Abstract:
+%%   Pre-code generation work
+%%
+%function BlockInstanceSetup(block, system) void
+%endfunction
+
+%% Function: Start ==========================================================
+%% Abstract:
+%%      Sets up TPU channels for PWM
+%%
+%function Start(block, system) Output 
+   %if !SLibCodeGenForSim()
+      %% only generate code for RT
+      /* %<Type> Block: %<Name> */
+      /* Digital output setup for TPU3 module %<SFcnParamSettings.Module> */
+      %assign module = SFcnParamSettings.Module
+      %assign channel = SFcnParamSettings.Channel
+      %assign channelPri = SFcnParamSettings.ChannelPriority
+      %<tpuFunctionSelect(module, channel, "TPU_FN_DIO", "Select DIO TPU Function")>
+      %<tpuSetParam(module, channel, "TPU_DIO_CHANNEL_CONTROL_PARAM", "TPU_DIO_OUTPUT_CHANNEL_CONTROL", "Set CHANNEL_CONTROL")> 
+      %<tpuSetHSRR(module, channel, "TPU_DIO_HS_PIN_HIGH", "Set TPU Host Service Request Register")>
+      %<tpuSetChannelPriority(module, channel, channelPri, "Set Channel Priority Register to enable DIO")> 
+   %endif
+%endfunction
+
+
+%% Function: Outputs ==========================================================
+%% Abstract:
+%%      Sets digital output
+%%
+%function Outputs(block, system) Output
+   %if !SLibCodeGenForSim()
+      %% only generate code for RT
+      /* %<Type> Block: %<Name> */
+      /* Digital output for TPU3 module %<SFcnParamSettings.Module> */
+      %% Get a string representing zero 0, 0.0 or 0U depending on
+      %% input data type
+      %assign inputType = LibBlockInputSignalDataTypeId(0)
+      %assign zeroTyped = SLibGetCastedValueFromId(inputType, 0)
+      /* Set pin high or low according to value of input signal */
+      %assign module = SFcnParamSettings.Module
+      %assign channel = SFcnParamSettings.Channel
+      %assign u = LibBlockInputSignal(0, "", "", 0)
+      /* Channel %<CAST("Number",channel)> */
+      %<tpuSetHSRRMdlOutputs(module, channel, "(%<u> > %<zeroTyped>) ? TPU_DIO_HS_PIN_HIGH : TPU_DIO_HS_PIN_LOW", "")> 
+   %endif
+%endfunction

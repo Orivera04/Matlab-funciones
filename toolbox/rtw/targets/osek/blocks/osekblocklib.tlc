@@ -1,0 +1,23 @@
+%% $RCSfile: osekblocklib.tlc,v $
+%% $Revision: 1.1 $
+%%
+%% Abstract:
+%%   TLC libraray for OSEK blocks.
+%%
+%% Copyright 2002 The MathWorks, Inc.
+
+%function OSLibIncludeImpHeaderInModel() void
+  %if !EXISTS("_OSEKLIB_")
+    %assign ::_OSEKLIB_ = 1
+    %% Need OSEK API include file(s) added
+    %% to model.c
+    %openfile buffer
+    /* Include header files for OSEK Implementation */
+    %<OSLibOSEKImpSpecificIncludes()>
+    %closefile buffer
+    %<LibCacheIncludes(buffer)>
+    
+  %endif  %% _OSEKLIB_
+%endfunction
+
+%% [EOF] osekblocklib.tlc

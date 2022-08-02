@@ -1,0 +1,57 @@
+<html>
+<!-- $New for R14 $  $Date: 2003/09/14 13:57:57 $ -->
+<head><title>Embedded Target for Motorola MPC555 Demo: demos</title></head>
+<body>
+
+<p style="color:#990000; font-weight:bold; font-size:x-large">Multitasking and Execution Profiling Demo Model</p>
+<p> This demo model illustrates both execution profiling and the pre-emptive multitasking scheduler with configurable overrun handling.
+</p>
+<p>The model is multi-rate, having tasks running at 1ms, 4ms and 16ms. It is configured to use the pre-emptive multi-tasking scheduler. A special feature of this model is that each of the tasks is designed to perform an increasing number of calculations so as to increase the processor loading until that task reaches a target turnaround time. The reason for this special behaviour is to ensure that task overruns will occur in order to demonstrate the behaviour of the model in this situation.
+</p>
+<p>Each of the blocks <code>Load base rate, Load sub-rate 1, Load sub-rate 2</code> performs calculations, the result of which should always be 1 both in simulation and in real-time. Any other result is a failure and should never occur.</p>
+<p>The blocks <code>Test Rate Interaction</code> are designed to test whether data is transferred between tasks in a deterministic manner. In simulation, the output of each of these blocks will always be zero, indicating that there is no drift between tasks running at different rates. When running in real-time, under most circumstances, the output will also be zero; in this case the real-time behaviour is deterministic and exactly matches the results in simulation. Even if task pre-emption and base-rate overruns occur, the output of these blocks will be zero so that the real-time behaviour faithfully reproduces the results in simulation. The circumstances under which drift will occur is if sub-rate overruns occur during execution in real-time; if this behaviour is not desired, you should disallow sub-rate overruns by setting the maximum allowed number of sub-rate overruns to zero in the <strong>Simulation Parameters</strong>/Target Specific Options/Maximum number of concurrent sub-rate overruns dialog.</p>
+
+<p>
+<h3>How to use this demo:</h3>
+</p>
+<p>To open the demo click the link or at the command line type </a><a href="matlab:mpc555rt_multitasking">mpc555rt_multitasking</a>.
+</p>
+
+<ol start="1">
+<li>Connect a serial or CAN cable between the target and the host PC. You can switch between serial and CAN by double-clicking the block provided. If you are using CAN, be sure to use CAN channel 0 (not 1) on the PC.
+<p>It can be useful to run a monitor program such as <code>btest32</code> to verify that the model is running - you will see messages appearing on the CAN bus and you can see that you have connected the correct CAN channel. </p>
+<li>In the model select <strong>Simulation -&gt; Simulation Parameters</strong>. Look at the <strong>RTW</strong> options. Change to the <code>ET MPC555 real-time options</code> tab, then select <code>Download_and_run</code> from the <strong>Build action</strong> drop-down menu, then click <strong>Apply</strong>.
+<li>To build and run the model, select the model window, then press <strong>CTRL+B<strong>.
+<p>Watch the messages in the command window as code is generated, then your debugger launches, connects to the target and downloads the code.</p>
+<li>In the debugger window, click <strong>Run</strong> in the toolbar to start the application running on the target.
+<li>At the command line, type: <code>profile_mpc555</code>
+<p>You will see messages in the command window as <code>profile_mpc555</code> runs, first testing a channel and then obtaining the execution profiling data. The messages should look similar to this:</p>
+
+<p><code>Testing channel 3:
+CAN channel 3 (CanAc2Pci 1) OK.
+Sent CAN message with identifier 0x1FFFFF00 to request upload of execution profiling data.
+Waiting to receive CAN message, identifier 0x1FFFFF01, containing execution profiling data ...
+Received first CAN message with execution profiling data.
+Uploading data, please wait ...</code></p>
+<p>When the data has been obtained you will see the Help Browser and a figure window appear, displaying the HTML report and the task execution profile.</p>
+<li>Scroll to view the HTML report on task timings and use the controls to zoom in on the MATLAB graphic to examine the details of the task overruns.</ol>
+
+<h3>Interpreting the MATLAB Graphic</h3>
+<ul><li>Dark shaded areas show the region where a task is executing.
+<li>Light shaded areas show the region where a task is pre-empted by a higher priority task or ISR.
+<li>Tick marks show the start point of tasks.</ul>
+
+<h3>The Generated HTML Report</h3>
+<p>All times are in seconds. The timer resolution is 4e-007 seconds and the measurement range is 0.026214 seconds.
+The report contains the following information:</p>
+<ul><li>Worst case task turnaround times
+<p>Maximum task turnaround time for each task since model execution started. Note that the maximum task turnaround time that can be measured is limited by the timer measurement range. </p>
+<li>Maximum number of overruns for each task
+<li>Maximum number of task overruns since model execution started. 
+<li>Analysis of recorded profiling data
+<p>Analysis of task task turnaround times and task execution times based on recorded data over a period of 0.18 seconds. </p></ul>
+<p>See “Execution Profiling Definitions” in the Real-Time section of the Embedded Target for Motorola MPC555 User's Guide for more detailed definitions of the terms task turnaround time, task execution time, and task overruns.</p>
+
+
+</body>
+</html>

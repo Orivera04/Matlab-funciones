@@ -1,0 +1,56 @@
+#
+# $RCSfile: flash_html.rul,v $
+# $Revision: 1.1.6.2 $
+# $Date: 2004/04/19 01:24:01 $
+#
+# Copyright 2002-2003 The MathWorks, Inc.
+#
+# Abstract: This file defines output format for map2IR tool;
+#
+# Compiler: CodeWarrior
+#
+#
+# Limition: Can't have leading space before each macro definition line;
+#	    For comma seperated values, don't put space between comma;
+
+#
+# system variables definition
+
+Title = 1		# whether or not show Title
+
+Copyright = 1		# whether or not show copyright
+
+Options = 1		# whether or not show compiler options
+
+Summary = 1		# whether or not Show gen code summary
+
+Details = 1		# whether or not Show gen code details
+
+EntireSummary = 1	# whether or not Show entire code summary
+
+EntireDetails = 1	# whether or not Show entire code details
+
+Heap = 1		# whether or not show heap allocation
+
+Stack = 1		# whether or not show stack allocation
+
+MemoryMAPSummary = 1	# whether or not show entire memory map summary
+
+MemoryMAP = 1		# whether or not show entire memory map
+
+Rulefile = 0		# whether or not show Rule File used to create IR file
+
+MAPfile = 1		# whether or not include priginal MAP file 
+
+RemoveIR = 0		# whether or not delete IR file 
+
+ListSectionName = 1     # whether or not list used section names in report
+
+MM_LABEL = Flash Target :: On-chip Flash, On-chip RAM, Off-chip RAM
+MM_ON-CHIP_FLASH = GROUP1,DATA,CODE,CONST
+MM_OFF-CHIP_RAM = 
+MM_ON-CHIP_RAM = GROUP1,DATA,BSS
+
+# define group belongs RAM or ROM
+ROM_DEFINITION = CODE,CONST,GROUP1
+RAM_DEFINITION = DATA,BSS

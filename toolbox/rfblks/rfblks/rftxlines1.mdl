@@ -1,0 +1,831 @@
+Library {
+  Name			  "rftxlines1"
+  Version		  6.0
+  RequirementInfo	  "9"
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "d"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  BlockNameDataTip	  off
+  BlockParametersDataTip  on
+  BlockDescriptionStringDataTip	off
+  ToolBar		  off
+  StatusBar		  off
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Tue Oct 20 09:15:41 1998"
+  Creator		  "tdelve"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "fwei"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Thu Mar 11 17:35:19 2004"
+  ModelVersionFormat	  "1.%<AutoIncrement:51>"
+  ConfigurationManager	  "none"
+  SimParamPage		  "Solver"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock off
+  ProdHWDeviceType	  "Specified"
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.0.3"
+      Array {
+	Type			"Handle"
+	Dimension		8
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.0.3"
+	  StartTime		  "0.0"
+	  StopTime		  "10.0"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  RelTol		  "1e-3"
+	  SolverMode		  "SingleTasking"
+	  Solver		  "ode45"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.0.3"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SaveTime		  on
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsOut"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    5
+	    Cell		    "ZeroExternalMemoryAtStartup"
+	    Cell		    "ZeroInternalMemoryAtStartup"
+	    Cell		    "InitFltsAndDblsToZero"
+	    Cell		    "OptimizeModelRefInitCode"
+	    Cell		    "NoFixptDivByZeroProtection"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.0.3"
+	  BlockReduction	  on
+	  BooleanDataType	  off
+	  ConditionallyExecuteInputs on
+	  ConditionalExecOptimization "on_for_testing"
+	  InlineParams		  off
+	  InlineInvariantSignals  on
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  on
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  ParameterPooling	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.0.3"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg on
+	  CheckExecutionContextRuntimeOutputMsg	on
+	  SignalResolutionControl "TryResolveAllWithWarning"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  SolverPrmCheckMsg	  "none"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterPrecisionLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.0.3"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "Specified"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  on
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.0.3"
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    1
+	    Cell		    "IncludeHyperlinkInReport"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.0.3"
+	  SystemTargetFile	  "grt.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  TemplateMakefile	  "grt_default_tmf"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Array {
+		Type			"Cell"
+		Dimension		9
+		Cell			"IgnoreCustomStorageClasses"
+		Cell			"InsertBlockDesc"
+		Cell			"SFDataObjDesc"
+		Cell			"SimulinkDataObjDesc"
+		Cell			"DefineNamingRule"
+		Cell			"SignalNamingRule"
+		Cell			"ParamNamingRule"
+		Cell			"InlinedPrmAccess"
+		Cell			"CustomSymbolStr"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.0.3"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      CustomSymbolStr	      "$R$N$M"
+	      MangleLength	      1
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    Simulink.GRTTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Array {
+		Type			"Cell"
+		Dimension		12
+		Cell			"IncludeMdlTerminateFcn"
+		Cell			"CombineOutputUpdateFcns"
+		Cell			"SuppressErrorStatus"
+		Cell			"ERTCustomFileBanners"
+		Cell			"GenerateSampleERTMain"
+		Cell			"MultiInstanceERTCode"
+		Cell			"PurelyIntegerCode"
+		Cell			"SupportNonFinite"
+		Cell			"SupportComplex"
+		Cell			"SupportAbsoluteTime"
+		Cell			"SupportContinuousTime"
+		Cell			"SupportNonInlinedSFcns"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.0.3"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns off
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      ExtMode		      off
+	      ExtModeStaticAlloc      off
+	      ExtModeTesting	      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTransport	      0
+	      ExtModeMexFile	      "ext_comm"
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	      GenerateASAP2	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	Simulink.SFSimCC {
+	  $ObjectID		  11
+	  Version		  "1.0.3"
+	  SFSimApplyToAllLibs	  on
+	  SFSimEnableDebug	  on
+	  SFSimOverflowDetection  on
+	  SFSimEcho		  on
+	  SFSimBuildMode	  "Incremental"
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      SimulationMode	      "normal"
+      CurrentDlgPage	      "Solver"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      PMComponent
+      SubClassName	      "unknown"
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "rftxlines1"
+    Location		    [21, 57, 459, 338]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      PMComponent
+      Name		      "Coaxial\nTransmission Line"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [35, 81, 125, 129]
+      DeleteFcn		      "rfblkspassives1(gcb,'rfDelete');"
+      LoadFcn		      "rfblkspassives1(gcb,'rfTxlineStub')"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "coaxial"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      MaskType		      "Coaxial Transmission Line"
+      MaskDescription	      "Model a coaxial transmission line."
+      MaskHelp		      "helpview(rfbhelp)"
+      MaskPromptString	      "Outer radius (m):|Inner radius (m):|Relative pe"
+"rmeability constant:|Relative permittivity constant:|Conductivity in conducto"
+"r (S/m):|Conductivity in dielectric (S/m):|Transmission line length (m):|Stub"
+" mode:|Termination of stub:|Plot the network parameters of this block|Source "
+"of frequency data:|Source of frequency data:|Frequency data (Hz):|Plot type:|"
+"Parameter:|Parameter:|Parameter:|Format:|Format:|Format:"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit,popup(Not a "
+"stub|Shunt|Series),popup(Open|Short),checkbox,popup(Derived from Input Port p"
+"arameters|User specified),popup(User specified),edit,popup(Composite data|X-Y"
+" plane|Polar plane|Z Smith chart|Y Smith chart|ZY Smith chart),popup(S11|S12|"
+"S21|S22|VSWRIn|VSWROut),popup(S11|S22),popup(S11|S12|S21|S22),popup(Magnitude"
+" (decibels)|Magnitude (linear)|Angle (degrees)|Real|Imaginary),popup(Magnitud"
+"e (decibels)|None),popup(None)"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off,off,off,off,off"
+",off,off,off,off,off,off,off,off"
+      MaskCallbackString      "|||||||rfblkspassives1(gcb,'rfTxlineStub')|rfbl"
+"kspassives1(gcb,'rfTxlineStub')|rfblkspassives1(gcb,'rfUpdateBlockMask');|rfb"
+"lkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask"
+"');||rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateB"
+"lockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rf"
+"UpdateBlockMask');|||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on,on,off,off,off,off,o"
+"ff,off,off,off,off,off"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on,off,on,off,on,on,on,on,"
+"off,off,on,off,off"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+",on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,,,,,,,,,,,"
+      MaskVariables	      "OuterRadius=@1;InnerRadius=@2;MuR=@3;EpsilonR=@"
+"4;SigmaCond=@5;SigmaDiel=@6;LineLength=@7;StubMode=&8;Termination=&9;DisplayD"
+"ata=&10;PlotFreq=&11;PlotFreqNoSim=&12;Freq=@13;AllPlotType=&14;NetworkData=&"
+"15;SmithData=&16;PolarData=&17;ComplexFormat=&18;DBFormat=&19;NoneFormat=&20;"
+      MaskInitialization      "mStr = rfblkspassives1(gcb,'rfInit');\nif(~isem"
+"pty(mStr.emsg)) error(mStr.emsg); end\nif(~isempty(mStr.wmsg)) warning(mStr.w"
+"msg); end"
+      MaskDisplay	      "plot([-100,NaN,100],[-100,NaN,100]);plot([-70,-"
+"50,-50,50,50,70,50,50,-50,-50,-70,NaN,-70,-50,-50,50,50,70,50,50,-50,-50,-70,"
+"],[40,40,45,45,40,40,40,35,35,40,40,NaN,-40,-40,-35,-35,-40,-40,-40,-45,-45,-"
+"40,-40,]);\ntext(0,-80,'Coaxial','horizontalAlignment','center');\n\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "2.57e-3|0.725e-3|1|2.3|inf|0|0.01|Not a stub|Op"
+"en|off|Derived from Input Port parameters|User specified|[1e9:1.0e6:3e9]|X-Y "
+"plane|S21|S11|S11|Angle (degrees)|Magnitude (decibels)|None"
+      MaskTabNameString	      ",,,,,,,,,,,,,,,,,,,"
+    }
+    Block {
+      BlockType		      PMComponent
+      Name		      "Coplanar Waveguide\nTransmission Line"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [175, 81, 265, 129]
+      DeleteFcn		      "rfblkspassives1(gcb,'rfDelete');"
+      LoadFcn		      "rfblkspassives1(gcb,'rfTxlineStub')"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "cpw"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      MaskType		      "Coplanar Waveguide Transmission Line"
+      MaskDescription	      "Model a coplanar waveguide transmission line."
+      MaskHelp		      "helpview(rfbhelp)"
+      MaskPromptString	      "Conductor width (m):|Slot width (m):|Substrate "
+"height (m):|Strip thickness (m):|Relative permittivity constant:|Conductivity"
+" in conductor (S/m):|Loss tangent in dielectric:|Transmission line length (m)"
+":|Stub mode:|Termination of stub:|Plot the network parameters of this block|S"
+"ource of frequency data:|Source of frequency data:|Frequency data (Hz):|Plot "
+"type:|Parameter:|Parameter:|Parameter:|Format:|Format:|Format:"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit,edit,popup(N"
+"ot a stub|Shunt|Series),popup(Open|Short),checkbox,popup(Derived from Input P"
+"ort parameters|User specified),popup(User specified),edit,popup(Composite dat"
+"a|X-Y plane|Polar plane|Z Smith chart|Y Smith chart|ZY Smith chart),popup(S11"
+"|S12|S21|S22|VSWRIn|VSWROut),popup(S11|S22),popup(S11|S12|S21|S22),popup(Magn"
+"itude (decibels)|Magnitude (linear)|Angle (degrees)|Real|Imaginary),popup(Mag"
+"nitude (decibels)|None),popup(None)"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off,off,off,off,off"
+",off,off,off,off,off,off,off,off,off"
+      MaskCallbackString      "||||||||rfblkspassives1(gcb,'rfTxlineStub')|rfb"
+"lkspassives1(gcb,'rfTxlineStub')|rfblkspassives1(gcb,'rfUpdateBlockMask');|rf"
+"blkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateBlockMas"
+"k');||rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdate"
+"BlockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'r"
+"fUpdateBlockMask');|||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on,on,on,off,off,off,of"
+"f,off,off,off,off,off,off"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on,on,off,on,off,on,on,on,"
+"on,off,off,on,off,off"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+",on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,,,,,,,,,,,,"
+      MaskVariables	      "ConductorWidth=@1;SlotWidth=@2;Height=@3;Thickn"
+"ess=@4;EpsilonR=@5;SigmaCond=@6;LossTangent=@7;LineLength=@8;StubMode=&9;Term"
+"ination=&10;DisplayData=&11;PlotFreq=&12;PlotFreqNoSim=&13;Freq=@14;AllPlotTy"
+"pe=&15;NetworkData=&16;SmithData=&17;PolarData=&18;ComplexFormat=&19;DBFormat"
+"=&20;NoneFormat=&21;"
+      MaskInitialization      "mStr = rfblkspassives1(gcb,'rfInit');\nif(~isem"
+"pty(mStr.emsg)) error(mStr.emsg); end\nif(~isempty(mStr.wmsg)) warning(mStr.w"
+"msg); end"
+      MaskDisplay	      "plot([-100,NaN,100],[-100,NaN,100]);plot([-70,-"
+"50,-50,50,50,70,50,50,-50,-50,-70,NaN,-70,-50,-50,50,50,70,50,50,-50,-50,-70,"
+"],[40,40,45,45,40,40,40,35,35,40,40,NaN,-40,-40,-35,-35,-40,-40,-40,-45,-45,-"
+"40,-40,]);\ntext(0,-80,'CPW','horizontalAlignment','center');\n\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "0.6e-3|0.2e-3|0.635e-3|0.005e-3|9.8|inf|0|0.01|"
+"Not a stub|Open|off|Derived from Input Port parameters|User specified|[1e9:1."
+"0e6:3e9]|X-Y plane|S21|S11|S11|Angle (degrees)|Magnitude (decibels)|None"
+      MaskTabNameString	      ",,,,,,,,,,,,,,,,,,,,"
+    }
+    Block {
+      BlockType		      PMComponent
+      Name		      "Microstrip\nTransmission Line"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [315, 81, 405, 129]
+      DeleteFcn		      "rfblkspassives1(gcb,'rfDelete');"
+      LoadFcn		      "rfblkspassives1(gcb,'rfTxlineStub')"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "microstrip"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      MaskType		      "Microstrip Transmission Line"
+      MaskDescription	      "Model a microstrip transmission line."
+      MaskHelp		      "helpview(rfbhelp)"
+      MaskPromptString	      "Strip width (m):|Substrate height (m):|Strip th"
+"ickness (m):|Relative permittivity constant:|Conductivity in conductor (S/m):"
+"|Loss tangent in dielectric:|Transmission line length (m):|Stub mode:|Termina"
+"tion of stub:|Plot the network parameters of this block|Source of frequency d"
+"ata:|Source of frequency data:|Frequency data (Hz):|Plot type:|Parameter:|Par"
+"ameter:|Parameter:|Format:|Format:|Format:"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit,popup(Not a "
+"stub|Shunt|Series),popup(Open|Short),checkbox,popup(Derived from Input Port p"
+"arameters|User specified),popup(User specified),edit,popup(Composite data|X-Y"
+" plane|Polar plane|Z Smith chart|Y Smith chart|ZY Smith chart),popup(S11|S12|"
+"S21|S22|VSWRIn|VSWROut),popup(S11|S22),popup(S11|S12|S21|S22),popup(Magnitude"
+" (decibels)|Magnitude (linear)|Angle (degrees)|Real|Imaginary),popup(Magnitud"
+"e (decibels)|None),popup(None)"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off,off,off,off,off"
+",off,off,off,off,off,off,off,off"
+      MaskCallbackString      "|||||||rfblkspassives1(gcb,'rfTxlineStub')|rfbl"
+"kspassives1(gcb,'rfTxlineStub')|rfblkspassives1(gcb,'rfUpdateBlockMask');|rfb"
+"lkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask"
+"');||rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateB"
+"lockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rf"
+"UpdateBlockMask');|||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on,on,off,off,off,off,o"
+"ff,off,off,off,off,off"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on,off,on,off,on,on,on,on,"
+"off,off,on,off,off"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+",on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,,,,,,,,,,,"
+      MaskVariables	      "Width=@1;Height=@2;Thickness=@3;EpsilonR=@4;Sig"
+"maCond=@5;LossTangent=@6;LineLength=@7;StubMode=&8;Termination=&9;DisplayData"
+"=&10;PlotFreq=&11;PlotFreqNoSim=&12;Freq=@13;AllPlotType=&14;NetworkData=&15;"
+"SmithData=&16;PolarData=&17;ComplexFormat=&18;DBFormat=&19;NoneFormat=&20;"
+      MaskInitialization      "mStr = rfblkspassives1(gcb,'rfInit');\nif(~isem"
+"pty(mStr.emsg)) error(mStr.emsg); end\nif(~isempty(mStr.wmsg)) warning(mStr.w"
+"msg); end"
+      MaskDisplay	      "plot([-100,NaN,100],[-100,NaN,100]);plot([-70,-"
+"50,-50,50,50,70,50,50,-50,-50,-70,NaN,-70,-50,-50,50,50,70,50,50,-50,-50,-70,"
+"],[40,40,45,45,40,40,40,35,35,40,40,NaN,-40,-40,-35,-35,-40,-40,-40,-45,-45,-"
+"40,-40,]);\ntext(0,-80,'Microstrip','horizontalAlignment','center');\n\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "0.6e-3|0.635e-3|0.005e-3|9.8|inf|0|0.01|Not a s"
+"tub|Open|off|Derived from Input Port parameters|User specified|[1e9:1.0e6:3e9"
+"]|X-Y plane|S21|S11|S11|Angle (degrees)|Magnitude (decibels)|None"
+      MaskTabNameString	      ",,,,,,,,,,,,,,,,,,,"
+    }
+    Block {
+      BlockType		      PMComponent
+      Name		      "Parallel-Plate\nTransmission Line"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [35, 176, 125, 224]
+      DeleteFcn		      "rfblkspassives1(gcb,'rfDelete');"
+      LoadFcn		      "rfblkspassives1(gcb,'rfTxlineStub')"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "parallelplate"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      MaskType		      "Parallel-Plate Transmission Line"
+      MaskDescription	      "Model a parallel-plate transmission line."
+      MaskHelp		      "helpview(rfbhelp)"
+      MaskPromptString	      "Plate width (m):|Plate separation (m):|Relative"
+" permeability constant:|Relative permittivity constant:|Conductivity in condu"
+"ctor (S/m):|Conductivity in dielectric (S/m):|Transmission line length (m):|S"
+"tub mode:|Termination of stub:|Plot the network parameters of this block|Sour"
+"ce of frequency data:|Source of frequency data:|Frequency data (Hz):|Plot typ"
+"e:|Parameter:|Parameter:|Parameter:|Format:|Format:|Format:"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit,popup(Not a "
+"stub|Shunt|Series),popup(Open|Short),checkbox,popup(Derived from Input Port p"
+"arameters|User specified),popup(User specified),edit,popup(Composite data|X-Y"
+" plane|Polar plane|Z Smith chart|Y Smith chart|ZY Smith chart),popup(S11|S12|"
+"S21|S22|VSWRIn|VSWROut),popup(S11|S22),popup(S11|S12|S21|S22),popup(Magnitude"
+" (decibels)|Magnitude (linear)|Angle (degrees)|Real|Imaginary),popup(Magnitud"
+"e (decibels)|None),popup(None)"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off,off,off,off,off"
+",off,off,off,off,off,off,off,off"
+      MaskCallbackString      "|||||||rfblkspassives1(gcb,'rfTxlineStub')|rfbl"
+"kspassives1(gcb,'rfTxlineStub')|rfblkspassives1(gcb,'rfUpdateBlockMask');|rfb"
+"lkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask"
+"');||rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateB"
+"lockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rf"
+"UpdateBlockMask');|||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on,on,off,off,off,off,o"
+"ff,off,off,off,off,off"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on,off,on,off,on,on,on,on,"
+"off,off,on,off,off"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+",on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,,,,,,,,,,,"
+      MaskVariables	      "Width=@1;Separation=@2;MuR=@3;EpsilonR=@4;Sigma"
+"Cond=@5;SigmaDiel=@6;LineLength=@7;StubMode=&8;Termination=&9;DisplayData=&10"
+";PlotFreq=&11;PlotFreqNoSim=&12;Freq=@13;AllPlotType=&14;NetworkData=&15;Smit"
+"hData=&16;PolarData=&17;ComplexFormat=&18;DBFormat=&19;NoneFormat=&20;"
+      MaskInitialization      "mStr = rfblkspassives1(gcb,'rfInit');\nif(~isem"
+"pty(mStr.emsg)) error(mStr.emsg); end\nif(~isempty(mStr.wmsg)) warning(mStr.w"
+"msg); end"
+      MaskDisplay	      "plot([-100,NaN,100],[-100,NaN,100]);plot([-70,-"
+"50,-50,50,50,70,50,50,-50,-50,-70,NaN,-70,-50,-50,50,50,70,50,50,-50,-50,-70,"
+"],[40,40,45,45,40,40,40,35,35,40,40,NaN,-40,-40,-35,-35,-40,-40,-40,-45,-45,-"
+"40,-40,]);\ntext(0,-80,'Parallel-Plate','horizontalAlignment','center');\n\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "5e-3|1e-3|1|2.3|inf|0|0.01|Not a stub|Open|off|"
+"Derived from Input Port parameters|User specified|[1e9:1.0e6:3e9]|X-Y plane|S"
+"21|S11|S11|Angle (degrees)|Magnitude (decibels)|None"
+      MaskTabNameString	      ",,,,,,,,,,,,,,,,,,,"
+    }
+    Block {
+      BlockType		      PMComponent
+      Name		      "Transmission Line"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [175, 176, 265, 224]
+      DeleteFcn		      "rfblkspassives1(gcb,'rfDelete');"
+      LoadFcn		      "rfblkspassives1(gcb,'rfTxlineStub')"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "txline"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      MaskType		      "Transmission Line"
+      MaskDescription	      "Model a transmission line."
+      MaskHelp		      "helpview(rfbhelp)"
+      MaskPromptString	      "Characteristic impedance:|Phase velocity (m/s):"
+"|Loss (dB/m):|Transmission line length (m):|Stub mode:|Termination of stub:|P"
+"lot the network parameters of this block|Source of frequency data:|Source of "
+"frequency data:|Frequency data (Hz):|Plot type:|Parameter:|Parameter:|Paramet"
+"er:|Format:|Format:|Format:"
+      MaskStyleString	      "edit,edit,edit,edit,popup(Not a stub|Shunt|Seri"
+"es),popup(Open|Short),checkbox,popup(Derived from Input Port parameters|User "
+"specified),popup(User specified),edit,popup(Composite data|X-Y plane|Polar pl"
+"ane|Z Smith chart|Y Smith chart|ZY Smith chart),popup(S11|S12|S21|S22|VSWRIn|"
+"VSWROut),popup(S11|S22),popup(S11|S12|S21|S22),popup(Magnitude (decibels)|Mag"
+"nitude (linear)|Angle (degrees)|Real|Imaginary),popup(Magnitude (decibels)|No"
+"ne),popup(None)"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off,off,off,off,off"
+",off,off,off,off,off"
+      MaskCallbackString      "||||rfblkspassives1(gcb,'rfTxlineStub')|rfblksp"
+"assives1(gcb,'rfTxlineStub')|rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblks"
+"passives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask');"
+"||rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateBloc"
+"kMask');|rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpd"
+"ateBlockMask');|||"
+      MaskEnableString	      "on,on,on,on,on,on,on,off,off,off,off,off,off,of"
+"f,off,off,off"
+      MaskVisibilityString    "on,on,on,on,on,off,on,off,on,on,on,on,off,off,o"
+"n,off,off"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+",on"
+      MaskVarAliasString      ",,,,,,,,,,,,,,,,"
+      MaskVariables	      "Z0=@1;PV=@2;Loss=@3;LineLength=@4;StubMode=&5;T"
+"ermination=&6;DisplayData=&7;PlotFreq=&8;PlotFreqNoSim=&9;Freq=@10;AllPlotTyp"
+"e=&11;NetworkData=&12;SmithData=&13;PolarData=&14;ComplexFormat=&15;DBFormat="
+"&16;NoneFormat=&17;"
+      MaskInitialization      "mStr = rfblkspassives1(gcb,'rfInit');\nif(~isem"
+"pty(mStr.emsg)) error(mStr.emsg); end\nif(~isempty(mStr.wmsg)) warning(mStr.w"
+"msg); end"
+      MaskDisplay	      "plot([-100,NaN,100],[-100,NaN,100]);plot([-70,-"
+"50,-50,50,50,70,50,50,-50,-50,-70,NaN,-70,-50,-50,50,50,70,50,50,-50,-50,-70,"
+"],[40,40,45,45,40,40,40,35,35,40,40,NaN,-40,-40,-35,-35,-40,-40,-40,-45,-45,-"
+"40,-40,]);\ntext(0,-80,'Transmission Line','horizontalAlignment','center');\n"
+"\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "50|299792458|0|0.01|Not a stub|Open|off|Derived"
+" from Input Port parameters|User specified|[1e9:1.0e6:3e9]|X-Y plane|S21|S11|"
+"S11|Angle (degrees)|Magnitude (decibels)|None"
+      MaskTabNameString	      ",,,,,,,,,,,,,,,,"
+    }
+    Block {
+      BlockType		      PMComponent
+      Name		      "Two-Wire\nTransmission Line"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [315, 176, 405, 224]
+      DeleteFcn		      "rfblkspassives1(gcb,'rfDelete');"
+      LoadFcn		      "rfblkspassives1(gcb,'rfTxlineStub')"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "twowire"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      MaskType		      "Two-Wire Transmission Line"
+      MaskDescription	      "Model a two-wire transmission line."
+      MaskHelp		      "helpview(rfbhelp)"
+      MaskPromptString	      "Wire radius (m):|Wire separation (m):|Relative "
+"permeability constant:|Relative permittivity constant:|Conductivity in conduc"
+"tor (S/m):|Conductivity in dielectric (S/m):|Transmission line length (m):|St"
+"ub mode:|Termination of stub:|Plot the network parameters of this block|Sourc"
+"e of frequency data:|Source of frequency data:|Frequency data (Hz):|Plot type"
+":|Parameter:|Parameter:|Parameter:|Format:|Format:|Format:"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit,popup(Not a "
+"stub|Shunt|Series),popup(Open|Short),checkbox,popup(Derived from Input Port p"
+"arameters|User specified),popup(User specified),edit,popup(Composite data|X-Y"
+" plane|Polar plane|Z Smith chart|Y Smith chart|ZY Smith chart),popup(S11|S12|"
+"S21|S22|VSWRIn|VSWROut),popup(S11|S22),popup(S11|S12|S21|S22),popup(Magnitude"
+" (decibels)|Magnitude (linear)|Angle (degrees)|Real|Imaginary),popup(Magnitud"
+"e (decibels)|None),popup(None)"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off,off,off,off,off"
+",off,off,off,off,off,off,off,off"
+      MaskCallbackString      "|||||||rfblkspassives1(gcb,'rfTxlineStub')|rfbl"
+"kspassives1(gcb,'rfTxlineStub')|rfblkspassives1(gcb,'rfUpdateBlockMask');|rfb"
+"lkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask"
+"');||rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateB"
+"lockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rf"
+"UpdateBlockMask');|||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on,on,off,off,off,off,o"
+"ff,off,off,off,off,off"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on,off,on,off,on,on,on,on,"
+"off,off,on,off,off"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+",on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,,,,,,,,,,,"
+      MaskVariables	      "Radius=@1;Separation=@2;MuR=@3;EpsilonR=@4;Sigm"
+"aCond=@5;SigmaDiel=@6;LineLength=@7;StubMode=&8;Termination=&9;DisplayData=&1"
+"0;PlotFreq=&11;PlotFreqNoSim=&12;Freq=@13;AllPlotType=&14;NetworkData=&15;Smi"
+"thData=&16;PolarData=&17;ComplexFormat=&18;DBFormat=&19;NoneFormat=&20;"
+      MaskInitialization      "mStr = rfblkspassives1(gcb,'rfInit');\nif(~isem"
+"pty(mStr.emsg)) error(mStr.emsg); end\nif(~isempty(mStr.wmsg)) warning(mStr.w"
+"msg); end"
+      MaskDisplay	      "plot([-100,NaN,100],[-100,NaN,100]);plot([-70,-"
+"50,-50,50,50,70,50,50,-50,-50,-70,NaN,-70,-50,-50,50,50,70,50,50,-50,-50,-70,"
+"],[40,40,45,45,40,40,40,35,35,40,40,NaN,-40,-40,-35,-35,-40,-40,-40,-45,-45,-"
+"40,-40,]);\ntext(0,-80,'Two-Wire','horizontalAlignment','center');\n\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "0.67e-3|1.62e-3|1|2.3|inf|0|0.01|Not a stub|Ope"
+"n|off|Derived from Input Port parameters|User specified|[1e9:1.0e6:3e9]|X-Y p"
+"lane|S21|S11|S11|Angle (degrees)|Magnitude (decibels)|None"
+      MaskTabNameString	      ",,,,,,,,,,,,,,,,,,,"
+    }
+    Annotation {
+      Name		      "Transmission Lines "
+      Position		      [217, 32]
+      FontName		      "Arial"
+      FontSize		      14
+      FontWeight	      "bold"
+    }
+  }
+}

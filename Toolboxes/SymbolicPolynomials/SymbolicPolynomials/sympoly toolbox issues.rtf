@@ -1,0 +1,264 @@
+{\rtf1\mac\ansicpg10000\cocoartf102
+{\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fswiss\fcharset77 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww10940\viewh14860\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f0\b\fs24 \cf0 1. Bssic Toolbox issues & design:
+\f1\b0 \
+\
+One of the reasons why I published this toolbox is as a teaching aid for an \
+individual who wishes to write something like this on their own. I'll try to discuss\
+any pertinent factors I considered in my toolbox design. Serious questions may\
+best be answered by editing the appropriate codes in my toolbox, at least to see\
+how I resolved a problem.\
+\
+The most important issues to consider is the structure that underlies your custom \
+class. In this case, its a sympoly. I chose to put only three fields in a sympoly object.\
+They are "Var", "Exponent", and "Coefficient". So first, let me describe the family\
+of polynomial functions that can be represented in a sympoly.\
+\
+A single term in a sympoly is anything of the form\
+\
+   C * x1^k1 * x2^k2* ... *xn^kn\
+\
+Where C is a scalar numeric constant, \{x1, x2, ... , xn\} are variables, and\
+\{k1, k2, ... , kn\} are any real exponents.\
+\
+A sympoly itself can be made of one or more of these terms, added together.\
+We can see that the minimum information content that we need to store in a\
+sympoly is the names of each variable, the leading numerical coefficient, and\
+the exponent of each variable. If a variable does not appear in a term, then\
+its exponent is zero. Its easiest to explain this by example. The expression\
+(x+1)^2 will have three terms when expanded as a sympoly. We can see this\
+reflected is the size of the Exponent and Coefficient fields of the result.\
+\
+sympoly x\
+struct((x+1)^2)\
+\
+ans = \
+            Var: \{''  'x'\}\
+       Exponent: [3x2 double]\
+    Coefficient: [3x1 double]\
+\
+\
+Also note that a pure constant has no variable defined, so an empty variable\
+name ('') will be used. \
+\
+z = sympoly(1);\
+struct(z)\
+\
+ans = \
+            Var: \{''\}\
+       Exponent: 0\
+    Coefficient: 1\
+\
+\
+The fundamental tool for any class is the class constructor. This is the\
+function sympoly. Sympoly has several different modes of operation.\
+It can be called as a function\
+\
+  p = sympoly('x');\
+\
+In which case the linear sympoly 'x' will be created and put into the variable p.\
+Sympoly can also be used on a numeric variable, thus\
+\
+  p = sympoly(0);\
+\
+will generate a constant (0) sympoly. Likewise, \
+\
+  p = sympoly(eye(3));\
+\
+will generate an array of sympoly constants.\
+\
+Finally, sympoly can be called as a command, thus\
+\
+  sympoly a b c x y z w\
+\
+will generate 7 sympoly variables with the designated names, assigning\
+them into the current workspace.\
+\
+Finally, an important issue in sympoly arithmetic is that arithmetic with\
+a numeric variable is also implemented. Thus, we need to able to do\
+operations like x + 2, 2*(y+1), etc. The main issue is to force matlab to\
+always use the sympoly overloaded tools when executing calls like 2+x\
+(which then becomes plus(2,x) as Matlab sees it.) This is accomplished\
+via a call to the function superiorto inside the sympoly constructor.\
+\
+\
+
+\f0\b 1. Specifics - disp & display\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f1\b0 \cf0 \
+A very important task to is to write the function disp and display. These\
+should be among the first functions overloaded for any class. As you write\
+and test your other functions, disp and display will prove to be crucial to\
+have in place. Otherwise, how else will you look at what has been done?\
+\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f0\b \cf0 2. Overloading functions - basic arithmetic\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f1\b0 \cf0 \
+Once we have the ability to define a sympoly variable, we ned to be able\
+to do arithmetic on it. We need for example to handle simple addition.\
+\
+  sympoly x y\
+\
+  z = x+y;\
+\
+When matlab sees an expression like x+y, it converts this into plus(x,y).\
+If you execute the command\
+\
+  which plus -all\
+\
+in Matlab, you will see many different versions of plus. In order to add two\
+sympoly's, we will need a version of plus.m in the @sympoly directory.\
+sympoly/plus is fairly simple. It first ensures that both x and y use the same\
+variable set. It does this with a call to equalize_vars. Then it need merely\
+concatenate both the Exponent and Coefficient fields and apply my\
+consolidator code to the result.\
+\
+The actual addition operation is just bookkeeping. The point of my discussion\
+of plus.m is that for every operation between a pair of sympoly variables,\
+I needed to overload the appropriate operator in matlab. Below is a list of\
+the operators I chose to overload:\
+\
+x + y	-->	plus.m\
+-x	-->	uminus.m\
++x	-->	uplus.m\
+x - y	-->	minus.m\
+x .* y	-->	times.m\
+x * y	-->	mtimes.m\
+x ./ y	-->	rdivide.m\
+x / y	-->	mrdivide.m\
+x .^ p	-->	power.m\
+x ^ y	-->	mpower.m\
+[x, y]	-->	horzcat.m\
+[x; y]	-->	vercat.m\
+\
+Of these operators, only a few actually needed to do really low level\
+operations on a sympoly. For example, once I had plus and uminus\
+overloaded, there was no need to write code for minus. I simply wrote\
+the operation x-y as x+(-y). While this may not be as efficient as I would\
+like, it made for the simplest code. All basic addition operations must\
+eventually go through plus. Likewise, mtimes is the code for matrix\
+multiplication operations, but it is fairly simple by itself. The function\
+mtimes need only implement the high level matrix multiplication rules.\
+Then times.m (.*) is called for the actual low level scalar multiplies.\
+\
+The same is true for rdivide (./) and mrdivide (/), and power (.^) versus\
+mpower (^).\
+\
+There were also a few functions that I chose to overload\
+\
+roots(p)	-->	Computes the roots of a single variable sympoly\
+diag(p)	-->	extracts the diagonal, or creates a diagonal matrix from a vector\
+det(p)		-->	determinant of a square sympoly array\
+diff(p)		-->	differentiates a sympoly\
+sqrt(p)		-->	sqrt of a scalar sympoly\
+gradient(p)	-->	gradient vector of a scalar sympoly\
+double(p)	-->	reverts a constant sympoly scalar or array to a double variable\
+sum(p)	-->	sums a vector or array sympoly\
+prod(p)	-->	prod of a vector or array sympoly\
+\
+I should probably have added cumsum and cumprod for completeness.\
+\
+The functions (real, imag, conj, ctranspose) proved necessary to make complex\
+arithmetic work correctly.\
+\
+real(p)	-->	Real parts of the coefficients of a sympoly\
+imag(p)	-->	Real parts of the coefficients of a sympoly\
+conj(p)	-->	real(p) - i*imag(p)\
+ctranspose(p) -->	conj(p.')\
+\
+Note that transpose, i.e., the non-conjugate transpose (p.') is not necessary\
+to overload, since Matlab handles that properly.\
+\
+Two functions that are absolutely imperative to overload, at least if you wish\
+to access the fields of a sympoly from the commandline, or index into an array\
+sympoly are subsref.m and subsasgn.m.\
+\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f0\b \cf0 3. Helper functions\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f1\b0 \cf0 \
+A few functions were useful to do basic bookkeeping and clean up on a sympoly.\
+\
+- equalize_vars.m is a tool that takes a pair of sympolys, extracts their\
+respective list of variables, then uses union on those lists to define\
+a common list of variables, expanding the exponents in each sympoly\
+as appropriate.\
+\
+- clean_sympoly.m is a tool to do garbage collection on a sympoly. It uses\
+consolidator to merge terms with the same exponent sets, summing the\
+corresponding coefficients. (This is neat, in that this entire aggregation\
+process can be achieved in one line.) Other garbage collection process\
+are removal of terms with a zero coefficients, and removal of variables\
+that have entirely zero exponents.\
+\
+- syndivide.m is a helper function that is called by only one function - rdivide.\
+I left it in the open because a synthetic division, resulting in a quotient and\
+remainder seemed useful at times. When called by rdivide, I just check to\
+verify that the division was possible to accomplish with no remainder.\
+\
+- subs.m is a very important tool, allowing you to substitute either a numeric\
+scalar or another sympoly for any variable of an existing sympoly.\
+\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f0\b \cf0 4. Additional functions\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f1\b0 \cf0 \
+Once the main operators are fully implemented, sympoly functionality is\
+easy enough to extend.\
+\
+I did need to work at a low level inside a sympoly to write int.m, but then\
+defint calls subs twice, and subtracts the results.\
+\
+- int.m --> indefinite integral of a sympoly\
+- defint.m --> definite integral of a sympoly\
+\
+- adjoint.m --> adjoint matrix of a square sympoly array. While I cannot\
+easily write code for the actual inverse matrix of a sympoly, because\
+this would require the ability to manipulate the larger family of rational\
+polynomials. (See my comments below on extensions.) We can write\
+the inverse of a matrix M as \
+\
+   inv(M) = adjoint(M)/det(M)\
+\
+- orthpoly.m --> generates orthogonal polynomials. Orthogonal polynomials\
+are easy to generate using a 3 term recurrence relationship. Orthpoly\
+does this, all I needed to do was to program the proper coefficients in\
+that 3 term recurrence for each family of orthogonal polynomials.\
+\
+- gaussquadrule.m - Once I had orthpoly, gaussian quadrature nodes\
+and weights are also a trivial extension.\
+\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f0\b \cf0 5. Extensions
+\f1\b0 \
+\
+As it turns out, an easy project for a student with a desire for completeness\
+is to write a second class for rational polynomials. I actually did this once.\
+Each ratpoly was merely a container for a pair of sympoly objects. In turn,\
+arithmetic between a ratpoly and a scalar, or a ratpoly and a sympoly, etc.,\
+was all handled by the sympoly class operators themselves, with a little\
+help from the basic laws of algebra as they apply to terms with a numerator\
+and a denominator.\
+\
+Another fun item that is easily enough done is overloading the regress\
+or polyfit function, allowing you to estimate the coefficients 'a' and 'b', from\
+the model y - (a + b*x) = 0. Perhaps I'll do this by the next release.\
+\
+}

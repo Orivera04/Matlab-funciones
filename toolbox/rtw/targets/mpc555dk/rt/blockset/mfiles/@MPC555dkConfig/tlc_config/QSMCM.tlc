@@ -1,0 +1,155 @@
+%% File: QSMCM.tlc
+%%
+%% Abstract:
+%%   Generate initialization code generation for SCI1 and SCI2
+%%   
+%%
+%% $Revision: 1.1.4.4 $
+%% $Date: 2004/04/19 01:29:21 $
+%%
+%% Copyright 2002-2004 The MathWorks, Inc.
+
+%implements * "C"
+
+%function DriverConfiguration(record) void
+
+    %% Header File Setups
+    %openfile buffer
+      #include "mpc5xx.h"
+      #include "qsmcm_sci.h"
+      #ifndef MPC555_VARIANT
+      /* For processors other than mpc555 such as the mpc565 the QSMCM is known as
+      the QSMCM_A, QSMCM_B. Currently, we support only a single QSMCM */
+      #define QSMCM QSMCM_A
+      #endif
+    %closefile buffer
+    %<LibCacheIncludes(buffer)> 
+
+%endfunction
+
+%function Start(record) Output
+    %<SCIDriverCode(record)>
+%endfunction
+
+
+%function SCIDriverCode(record) Output
+%% Generate driver code for the SCI modules
+%%
+%% -- Arguments ---
+%%
+
+%include "utillib.tlc"
+
+%assign sci1_record = SLibSubsRef(record,"SCI1")      
+%<SCIInitCode(sci1_record, 1)>
+%assign sci2_record = SLibSubsRef(record,"SCI2")      
+%<SCIInitCode(sci2_record, 2)>
+
+%endfunction
+
+
+
+
+%function SCIInitCode( record, module ) Output
+  
+  %%  record  -   The SCI module record
+  
+  %% Extract all the values we need from the record
+  
+  %% Register SCCxR1
+  %assign modeControl = SLibSubsRef(record,"SCI_mode_control")
+  %assign paritySelection = SLibSubsRef(record,"SCI_parity_selection")
+  %assign bitRateIdeal = SLibSubsRef(record,"Bit_rate_ideal")
+  %assign bitRateAchieved = SLibSubsRef(record,"Bit_rate_achieved")
+  %assign systemClock = SLibSubsRef(record,"System_clock")
+  %assign scxbr = SLibSubsRef(record,"SCxBR")
+  %assign loopMode = SLibSubsRef(record,"Loopback_mode")
+  %switch loopMode
+    %case "Standard transmit/receive"
+      %assign loops = 0
+      %break
+    %case "Loopback mode enabled"
+      %assign loops = 1
+      %break
+    %default
+      %exit "Unhandled error: %<loopMode> is an invalid value for loopback mode"
+  %endswitch  
+  %assign woms = 0
+  %assign ilt = 0
+  %switch paritySelection
+    %case "Even parity"
+      %assign pt = 0
+      %break
+    %case "Odd parity"
+      %assign pt = 1
+      %break
+    %case "N/A"
+      %assign pt = 0
+      %break
+    %default
+      %exit "Unhandled error: %<paritySelection> is an invalid value for paritySelection"
+  %endswitch
+  %switch modeControl
+    %case "8-bit data"
+      %assign pe = 0
+      %assign m = 0
+      %break
+    %case "7-bit data + parity"
+      %assign pe = 1
+      %assign m = 0
+      %break
+    %case "9-bit data"
+      %assign pe = 0
+      %assign m = 1
+      %break
+    %case "8-bit data + parity"
+      %assign pe = 1
+      %assign m = 1
+      %break
+    %default
+      %exit "Unhandled error: %<modeControl> is an invalid value for modeControl"
+  %endswitch
+  %assign wake = 0
+  %assign tie = 0
+  %assign tcie = 0
+  %assign rie = 0
+  %assign ilie = 0
+  %assign te = 1
+  %assign re = 1
+  %assign rwu = 0
+  %assign sbk = 0
+  %assign sccxr1 = \
+  (loops << 14) + \
+  (woms  << 13) + \
+  (ilt   << 12) + \
+  (pt    << 11) + \
+  (pe    << 10) + \
+  (m     <<  9) + \
+  (wake  <<  8) + \
+  (tie   <<  7) + \
+  (tcie  <<  6) + \
+  (rie   <<  5) + \
+  (ilie  <<  4) + \
+  (te    <<  3) + \
+  (re    <<  2) + \
+  (rwu   <<  1) + \
+  (sbk   <<  0)
+  
+  {
+    /* SCI%<module> control register 0 
+    * Ideal bit rate = %<bitRateIdeal>
+    * Achieved bit rate = %<bitRateAchieved>
+    * Calculation based on system clock = %<systemClock>
+    * Loop mode = %<loopMode>
+    */
+    const uint16_T sc%<module>br = %<SPRINTF("0x%x",scxbr)>U;
+    /* SCI%<module> control register 1 
+    * Using %<modeControl>
+    * Parity = %<paritySelection>
+    */
+    const uint16_T scc%<module>r1 = %<SPRINTF("0x%x",sccxr1)>U;
+
+    qsmcm_sci%<module>_init(sc%<module>br, scc%<module>r1);
+  }
+  
+%endfunction

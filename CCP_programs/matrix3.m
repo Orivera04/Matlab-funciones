@@ -1,0 +1,12 @@
+disp('Part 3. Transpose of a matrix')
+disp('  ')
+disp('Recall that the transpose of a matrix A')
+disp('is denoted in MATLAB by either')
+disp('    transpose(A)   or    A''.')
+disp('  ')
+disp('Every time you type matrix_data,')
+disp('you will create a new matrix M.')
+disp('  ')
+disp('To move on to Part 4, type matrix4.')
+disp('  ')
+

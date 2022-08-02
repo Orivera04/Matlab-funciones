@@ -1,0 +1,241 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+-->
+      <title></title>
+      <meta name="generator" content="MATLAB">
+      <meta name="title" content="Data Viewer">
+      <meta name="description" content="Help for the dataviewer application. Direct questions to shirsch@mathworks.com.  This is developed as a demonstration, and contains no warranty!"><style>
+body {
+  background-color: white;
+}
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+pre.codeinput {
+  margin-left: 30px;
+}
+
+span.keyword {color: blue}
+span.comment {color: green}
+span.string {color: #B20000}
+span.untermstring {color: purple}
+span.syscmd {color: orange}
+
+pre.showbuttons {
+  margin-left: 30px;
+  border: solid black 2px;
+  padding: 4px;
+  background: #EBEFF3;
+}
+
+pre.codeoutput {
+  color: gray;
+  font-style: italic;
+}
+pre.error {
+  color: red;
+}
+    </style></head>
+   <body>
+      <h1>Data Viewer</h1>
+      <p>Help for the dataviewer application. Direct questions to <a href="mailto:shirsch@mathworks.com ">shirsch@mathworks.com</a>.  This is developed as a demonstration, and contains no warranty!
+      </p>
+      <h2>Contents</h2>
+      <ul>
+         <li><a href="#1">Purpose</a></li>
+         <li><a href="#2">Using the data viewer</a></li>
+         <li><a href="#3">1.  Launch the dataviewer</a></li>
+         <li><a href="#4">2.  Load a data file</a></li>
+         <li><a href="#5">3.  Plot some data</a></li>
+         <li><a href="#6">4.  Explore the data</a></li>
+         <li><a href="#7">5.  Analyze the data</a></li>
+         <li><a href="#8">6.  View data on multiple axes</a></li>
+         <li><a href="#9">7.  Clip the data set</a></li>
+         <li><a href="#10">8.  Create derived parameters</a></li>
+         <li><a href="#11">9.  Save for later</a></li>
+      </ul>
+      <h2>Purpose<a name="1"></a></h2>
+      <p>The data viewer is a tool for interactive exploration of time series data.  It was designed with flight test data in mind,
+         but could be used for other applications.
+      </p>
+      <h2>Using the data viewer<a name="2"></a></h2>
+      <h2>1.  Launch the dataviewer<a name="3"></a></h2>
+      <p>Ensure that the directory containing dataviewer is on your MATLAB path.</p>
+      <p>&gt;&gt; dataviewer</p>
+      <h2>2.  Load a data file<a name="4"></a></h2>
+      <ul>
+         <li>File menu -&gt; Load Data</li>
+         <li>This will work with two file types:</li>
+         <li>    CSV files output from Veridian Omega</li>
+         <li>    .mat files which have been created using readmessycsv (included)     from above CSV files</li>
+         <li>A list of all parameters in the file will be shown underneath the heading "Parameters"</li>
+      </ul>
+      <h2>3.  Plot some data<a name="5"></a></h2>
+      <ul>
+         <li>Select the parameter you would like to plot, using the left mouse button.</li>
+         <li>Right-click and drag the parameter to the axes the the right of the parameter list.</li>
+         <li>You can select multiple parameters using Shift (for consecutive parameters) or Ctrl (for non-consecutive parameters).</li>
+      </ul>
+      <h2>4.  Explore the data<a name="6"></a></h2>
+      <p>Using the buttons along the top of the window, you can interactively explore and annotate your data.</p>
+      <ul>
+         <li>The first button enables zooming.  This uses a custom zoom that links all axes.  It's a bit flakey - if you turn off zoom
+            while zoomed in, you will not be able to zoom all of the way out again.
+         </li>
+         <li>The second button enables data labels.  Click on a line to label it's value at a specific point.  Drag the marker along the
+            line to see new values.  Reposition the text label by dragging it.  Right click to delete.
+         </li>
+         <li>The third button enables event labeling.  Click on a plot to add text. This is really flakey - be sure to turn it off when
+            you don't need it.
+         </li>
+      </ul>
+      <h2>5.  Analyze the data<a name="7"></a></h2>
+      <ul>
+         <li>Right click on a plotted line to perform additional analyis.</li>
+         <li>Resulting labels can be repositioned with the left mouse button (this is a bit flakey).</li>
+         <li>Anything added to the plot can be deleted by right-clicking on it.</li>
+      </ul>
+      <h2>6.  View data on multiple axes<a name="8"></a></h2>
+      <ul>
+         <li>Use the combobox at the bottom left to change the number of axes (either click on the arrows or type in a number between 1
+            and 4).
+         </li>
+         <li>Drag parameters to the axes on which you would like them plotted.</li>
+         <li>Drag one axes to another to switch their positions.</li>
+      </ul>
+      <h2>7.  Clip the data set<a name="9"></a></h2>
+      <ul>
+         <li>Use zoom so that only the region of interest is in view.</li>
+         <li>Turn off zoom.</li>
+         <li>Click the "Clip Data Set" button to crop your data to only that which is visible. Further analysis (max/min, etc) will be
+            based on this limited set.
+         </li>
+         <li>This is destructive! You will lose the rest of your data until you reload.</li>
+      </ul>
+      <h2>8.  Create derived parameters<a name="10"></a></h2>
+      <ul>
+         <li>Click the "Create Derived Parameters" button.</li>
+         <li>Type a valid MATLAB expression in the dialog box.</li>
+         <li>Use the items from the parameter list as your parameters (case matters!).</li>
+         <li>Be sure to use .* when multiplying multiple series.</li>
+         <li>Result of expression must be same length as input(s).</li>
+         <li>Drag derived parameters to axes to plot.</li>
+         <li>Further analysis on derived parameters is not yet supported!!!! Any use of the context menu on a derived parameter will most
+            likely cause an error!!!
+         </li>
+      </ul>
+      <h2>9.  Save for later<a name="11"></a></h2>
+      <ul>
+         <li>File menu -&gt; Save Figure to save for later</li>
+         <li>File menu -&gt; Load Figure to recall a saved figure.</li>
+      </ul>
+      <p class="footer"><br></p>
+      <!--
+##### SOURCE BEGIN #####
+%% Data Viewer
+% Help for the dataviewer application. Direct questions to
+% shirsch@mathworks.com.  This is developed as a demonstration, and contains no
+% warranty!
+
+%% Purpose
+% The data viewer is a tool for interactive exploration of time series
+% data.  It was designed with flight test data in mind, but could be used
+% for other applications.  
+
+%% Using the data viewer
+
+%% 1.  Launch the dataviewer
+% Ensure that the directory containing dataviewer is on your MATLAB path.
+%
+% >> dataviewer
+
+%% 2.  Load a data file
+% * File menu -> Load Data
+% * This will work with two file types:
+% *     CSV files output from Veridian Omega
+% *     .mat files which have been created using readmessycsv (included)
+%     from above CSV files
+% * A list of all parameters in the file will be shown underneath the heading
+% "Parameters"
+
+%% 3.  Plot some data
+% * Select the parameter you would like to plot, using the left mouse
+% button.
+% * Right-click and drag the parameter to the axes the the right of the
+% parameter list.
+% * You can select multiple parameters using Shift (for consecutive
+% parameters) or Ctrl (for non-consecutive parameters).
+
+%% 4.  Explore the data
+% Using the buttons along the top of the window, you can interactively
+% explore and annotate your data.
+%
+% * The first button enables zooming.  This uses a custom zoom that links
+% all axes.  It's a bit flakey - if you turn off zoom while zoomed in, you
+% will not be able to zoom all of the way out again.
+% * The second button enables data labels.  Click on a line to label it's
+% value at a specific point.  Drag the marker along the line to see new
+% values.  Reposition the text label by dragging it.  Right click to
+% delete.
+% * The third button enables event labeling.  Click on a plot to add text.
+% This is really flakey - be sure to turn it off when you don't need it.
+
+%% 5.  Analyze the data
+% * Right click on a plotted line to perform additional analyis.
+% * Resulting labels can be repositioned with the left mouse button (this
+% is a bit flakey).
+% * Anything added to the plot can be deleted by right-clicking on it.
+
+%% 6.  View data on multiple axes
+% * Use the combobox at the bottom left to change the number of axes
+% (either click on the arrows or type in a number between 1 and 4).
+% * Drag parameters to the axes on which you would like them plotted.
+% * Drag one axes to another to switch their positions.
+
+%% 7.  Clip the data set
+% * Use zoom so that only the region of interest is in view.
+% * Turn off zoom.
+% * Click the "Clip Data Set" button to crop your data to only that which
+% is visible. Further analysis (max/min, etc) will be based on this limited
+% set.
+% * This is destructive! You will lose the rest of your data until you
+% reload.
+
+%% 8.  Create derived parameters
+% * Click the "Create Derived Parameters" button.
+% * Type a valid MATLAB expression in the dialog box.
+% * Use the items from the parameter list as your parameters (case
+% matters!).
+% * Be sure to use .* when multiplying multiple series.
+% * Result of expression must be same length as input(s).  
+% * Drag derived parameters to axes to plot.
+% * Further analysis on derived parameters is not yet supported!!!! Any use
+% of the context menu on a derived parameter will most likely cause an
+% error!!!
+
+%% 9.  Save for later
+% * File menu -> Save Figure to save for later
+% * File menu -> Load Figure to recall a saved figure.
+
+##### SOURCE END #####
+-->
+   </body>
+</html>

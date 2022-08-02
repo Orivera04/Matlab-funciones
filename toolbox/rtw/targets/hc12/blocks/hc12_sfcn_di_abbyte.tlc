@@ -1,0 +1,47 @@
+%% File : hc12_sfcn_di_abbyte.tlc
+%%
+%% Description: 
+%%   Digital input (byte) device driver for PORTA and PORTB.
+%%
+%% $Revision: 1.1.6.2 $ $Date: 2004/04/19 01:23:24 $
+%%
+%% Copyright 2002-2003 The MathWorks, Inc.
+%%
+%implements  hc12_sfcn_di_abbyte "C"
+
+
+%% Function: Start ==========================================================
+%%
+%% Purpose:
+%%      Code generation for initilization of digital input PORTA and PORTB
+%%
+%function Start(block, system) Output
+ 
+     /* Initialize digital input for port %<block.RTWdata.diport> */ 
+     %% Initialize DDRA or DDRB
+     %<block.RTWdata.ddrStr> = 0x00;
+     %%
+%endfunction
+
+
+%% Function: Outputs ==========================================================
+%%
+%% Purpose:
+%%      Code generation rules for mdlOutputs function.
+%%
+%function Outputs(block, system) Output
+   /* S-Function "hc12_sfcn_di_abbyte_wrapper" Block: %<Name> */
+
+  %%assign pu = LibBlockInputSignalAddr(0, "", "", 0)
+  %assign y = LibBlockOutputSignal(0, "", "", 0)
+  %<y> = %<block.RTWdata.diport>;
+  %%
+%endfunction
+
+
+%% [EOF] hc12_sfcn_di_abbyte.tlc
+
+
+
+
+

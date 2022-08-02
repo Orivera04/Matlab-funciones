@@ -1,0 +1,266 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>BIOJAVADEMO: Example of using BioJava from within MATLAB</title>
+      <meta name="generator" content="MATLAB 7.0">
+      <meta name="date" content="2004-03-25">
+      <meta name="m-file" content="biojavademo"><style>
+body {
+  background-color: white;
+  margin:10px;
+}
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+pre.codeinput {
+  margin-left: 30px;
+}
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.showbuttons {
+  margin-left: 30px;
+  border: solid black 2px;
+  padding: 4px;
+  background: #EBEFF3;
+}
+
+pre.codeoutput {
+  color: gray;
+  font-style: italic;
+}
+pre.error {
+  color: red;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows.  On Gecko-based browsers, the shrink-to-fit doesn't work. */ 
+p,h1,h2,div {
+  /* for MATLAB's browser */
+  width: 600px;
+  /* for Mozilla, but the "width" tag overrides it anyway */
+  max-width: 600px;
+  /* for IE */
+  width:expression(document.body.clientWidth > 620 ? "600px": "auto" );
+}
+
+    </style></head>
+   <body>
+      <h1>BIOJAVADEMO: Example of using BioJava from within MATLAB</h1>
+      <introduction>
+         <p>This demonstration illustrates how to create BioJava objects and call BioJava methods from within MATLAB.</p>
+         <p>NOTE: This example uses the BioJava binary jar files. These must be installed to run this demonstration. See <a href="http://www.biojava.org">http://www.biojava.org</a> for current release files and complete installation instructions. This example was written using biojava-1.3.1.jar.
+         </p>
+         <p>For more information on the use of specific BioJava classes, see the BioJava JavaDoc at <a href="http://www.biojava.org/docs/api/index.html">http://www.biojava.org/docs/api/index.html</a> .
+         </p>
+      </introduction>
+      <h2>Contents</h2>
+      <div>
+         <ul>
+            <li><a href="#1">Adding BioJava to the Java Classpath</a></li>
+            <li><a href="#2">Importing Java classes</a></li>
+            <li><a href="#3">Creating a sequence object</a></li>
+            <li><a href="#4">Manipulating the sequence</a></li>
+            <li><a href="#5">Displaying the sequence in a figure window</a></li>
+         </ul>
+      </div>
+      <h2>Adding BioJava to the Java Classpath<a name="1"></a></h2>
+      <p>MATLAB can directly interact with Java classes. A new feature in MATLAB R14 allows you to dynamically add new Java classes
+         to MATLAB. This is done using the <b>javaclasspath</b> function.
+      </p><pre class="codeinput"><span class="comment">% Modify this line to the correct location of your biojava installation.</span>
+biojavaDir = <span class="string">'D:\biojava'</span>;
+<span class="comment">% This example was written using the biojava-1.3.1.jar.</span>
+<span class="comment">% If you have the full installation of BioJava, you only need to specify</span>
+<span class="comment">% the path to the installation.</span>
+biojavaJar = <span class="string">'biojava-1.3.1.jar'</span>;
+jarPath = fullfile(biojavaDir,biojavaJar);
+
+<span class="comment">% Add BioJava to the dynamic Java path.</span>
+javaclasspath(jarPath);
+</pre><h2>Importing Java classes<a name="2"></a></h2>
+      <p>You will next need to import the BioJava classes that you want to use.</p><pre class="codeinput">import <span class="string">org.biojava.bio.symbol.*</span>;
+import <span class="string">org.biojava.bio.seq.*</span>;
+</pre><h2>Creating a sequence object<a name="3"></a></h2>
+      <p>Create a DNA Symbolic List object.</p><pre class="codeinput">seq = <span class="string">'tagcttcatcgttgacttctactaaaagcaactgtgagtaa'</span>;
+dna = DNATools.createDNA(seq);
+<span class="comment">% Note that this is a Java object, not a MATLAB character array.</span>
+JavaObject = class(dna)
+<span class="comment">% To retrieve the sequence as a MATLAB character array, use the seqString</span>
+<span class="comment">% method.</span>
+seqFromObject = dna.seqString
+</pre><pre class="codeoutput">
+JavaObject =
+
+org.biojava.bio.symbol.SimpleSymbolList
+
+ 
+seqFromObject =
+ 
+tagcttcatcgttgacttctactaaaagcaactgtgagtaa
+ 
+</pre><h2>Manipulating the sequence<a name="4"></a></h2>
+      <p>You can use the DNATools methods to manipulate sequence. In this example the reverse complement of the sequence is calculated
+         and the DNA sequence is transcribed to an RNA sequence.
+      </p><pre class="codeinput">rdna = DNATools.reverseComplement(dna);
+rdnaseq = rdna.seqString
+rna = RNATools.transcribe(dna);
+rnaseq = rna.seqString
+</pre><pre class="codeoutput"> 
+rdnaseq =
+ 
+ttactcacagttgcttttagtagaagtcaacgatgaagcta
+ 
+ 
+rnaseq =
+ 
+uagcuucaucguugacuucuacuaaaagcaacugugaguaa
+ 
+</pre><h2>Displaying the sequence in a figure window<a name="5"></a></h2>
+      <p>BioJava includes several graphics functions including a trace viewer and GUIs for displaying sequences. These are in the gui.sequence
+         package. After importing the package, you can create a SequencePanel object that will be used to display the sequence.
+      </p><pre class="codeinput">import <span class="string">org.biojava.bio.gui.sequence.*</span>;
+seqPanel = SequencePanel;
+<span class="comment">% Set the sequence to be displayed.</span>
+seqPanel.setSequence(rna);
+<span class="comment">% Set the range of the sequence to be shown.</span>
+seqPanel.setRange(RangeLocation(1,rna.length()));
+</pre><p>BioJava provides many different ways to visualize a sequence. By using a MultiLineRenderer object you can use several of these
+         methods at once.
+      </p><pre class="codeinput">mlr = MultiLineRenderer;
+<span class="comment">% A SymbolSequenceRenderer is used to display the symbols a,c,g,t.</span>
+mlr.addRenderer(SymbolSequenceRenderer);
+<span class="comment">% A RulerRenderer is used to display a ruler showing positions along the</span>
+<span class="comment">% sequence.</span>
+mlr.addRenderer(RulerRenderer);
+seqPanel.setRenderer(mlr);
+</pre><p>Create a figure and add the sequence panel to the figure using the <b>javacomponent</b> function
+      </p><pre class="codeinput">F = figure;
+javacomponent(seqPanel, java.awt.BorderLayout.NORTH, F);
+
+<span class="comment">% Try resizing the figure. The seqPanel object will report back to the</span>
+<span class="comment">% MATLAB Command Window on how much of the sequence is visible.</span>
+</pre><img vspace="5" hspace="5" src="biojavademo_01.png"> <p class="footer">Copyright 2003-2004 The MathWorks, Inc.<br>
+         Published with MATLAB&reg; 7.0<br></p>
+      <!--
+##### SOURCE BEGIN #####
+%% BIOJAVADEMO: Example of using BioJava from within MATLAB
+% This demonstration illustrates how to create BioJava objects and call
+% BioJava methods from within MATLAB. 
+%
+% NOTE: This example uses the BioJava binary jar files. These must be
+% installed to run this demonstration. See http://www.biojava.org for
+% current release files and complete installation instructions. This
+% example was written using biojava-1.3.1.jar.
+%
+% For more information on the use of specific BioJava classes, see the
+% BioJava JavaDoc at http://www.biojava.org/docs/api/index.html .
+
+%   Copyright 2003-2004 The MathWorks, Inc. 
+%   $Revision: 1.1.4.1 $  $Date: 2004/03/22 23:53:18 $ 
+
+
+
+%% Adding BioJava to the Java Classpath
+% MATLAB can directly interact with Java classes. A new feature in MATLAB
+% R14 allows you to dynamically add new Java classes to MATLAB. This is
+% done using the *javaclasspath* function. 
+
+% Modify this line to the correct location of your biojava installation.
+biojavaDir = 'D:\biojava';
+% This example was written using the biojava-1.3.1.jar.
+% If you have the full installation of BioJava, you only need to specify
+% the path to the installation.
+biojavaJar = 'biojava-1.3.1.jar';
+jarPath = fullfile(biojavaDir,biojavaJar);
+
+% Add BioJava to the dynamic Java path.
+javaclasspath(jarPath);
+
+%% Importing Java classes
+% You will next need to import the BioJava classes that you want to use.
+
+import org.biojava.bio.symbol.*;
+import org.biojava.bio.seq.*;
+
+%% Creating a sequence object
+% Create a DNA Symbolic List object.
+seq = 'tagcttcatcgttgacttctactaaaagcaactgtgagtaa';
+dna = DNATools.createDNA(seq);
+% Note that this is a Java object, not a MATLAB character array.
+JavaObject = class(dna)
+% To retrieve the sequence as a MATLAB character array, use the seqString
+% method.
+seqFromObject = dna.seqString
+
+%% Manipulating the sequence 
+% You can use the DNATools methods to manipulate sequence. In this example
+% the reverse complement of the sequence is calculated and the DNA sequence
+% is transcribed to an RNA sequence. 
+
+rdna = DNATools.reverseComplement(dna);
+rdnaseq = rdna.seqString
+rna = RNATools.transcribe(dna);
+rnaseq = rna.seqString
+
+%% Displaying the sequence in a figure window
+% BioJava includes several graphics functions including a trace viewer and
+% GUIs for displaying sequences. These are in the gui.sequence package.
+% After importing the package, you can create a SequencePanel object that
+% will be used to display the sequence. 
+
+import org.biojava.bio.gui.sequence.*;
+seqPanel = SequencePanel;
+% Set the sequence to be displayed.
+seqPanel.setSequence(rna);
+% Set the range of the sequence to be shown.
+seqPanel.setRange(RangeLocation(1,rna.length()));
+
+%% 
+% BioJava provides many different ways to visualize a sequence. By using a
+% MultiLineRenderer object you can use several of these methods at once.
+
+mlr = MultiLineRenderer;
+% A SymbolSequenceRenderer is used to display the symbols a,c,g,t.
+mlr.addRenderer(SymbolSequenceRenderer);
+% A RulerRenderer is used to display a ruler showing positions along the
+% sequence.
+mlr.addRenderer(RulerRenderer);
+seqPanel.setRenderer(mlr);
+
+%% 
+% Create a figure and add the sequence panel to the figure using the
+% *javacomponent* function
+
+F = figure;
+javacomponent(seqPanel, java.awt.BorderLayout.NORTH, F);
+
+% Try resizing the figure. The seqPanel object will report back to the
+% MATLAB Command Window on how much of the sequence is visible.
+
+
+##### SOURCE END #####
+-->
+   </body>
+</html>

@@ -1,0 +1,35 @@
+%Posición de dos rectas:a1x+b1y+c1=0, a2x+b2y+c2=0: 
+%Casos: concurrentes, paralelas,coincidentes, perpendiculares.
+
+%Introducir los coeficientes de cada recta
+a1=input('Coeficiente a1: ');
+b1=input('Coeficiente b1: ');
+c1=input('Coeficiente c1: ');
+a2=input('Coeficiente a2: ');
+b2=input('Coeficiente a2: ');
+c2=input('Coeficiente c2: ');
+%Vectores normaales de 1as rectas:
+n1=[a1,b1];
+n2=[a2,b2];
+m1=[a1,b1,0];
+m2=[a2,b2,0];
+%Determinación de la posición relativa de las rectas
+n1pton2=dot(n1,n2);
+m1xm2=cross(m1,m2);
+norma2=norm(m1xm2);
+
+if norma2==0
+    if (a2~=0 & a1/a2==c1/c2)|(b2~=0 & b1/b2
+        disp('Las rectas son coincidentes')
+    else
+        disp('Las rectas son paralelas')
+    end
+else
+    if n1pton2==0
+        disp('Las rectas son perpendiculares')
+    else
+        disp('Las rectas son concurrentes')
+    end
+end
+    
+

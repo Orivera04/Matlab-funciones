@@ -1,0 +1,26 @@
+function trozos(x)
+while x>=-5 & x<=3
+if x>=-5 & x<=-3
+    x=-5:0.1:-3;
+    y=0.*ones(size(x));
+    plot(x,y);
+    hold on
+elseif x>-3 & x<=-2
+    x=-2.99:0.1:-2;
+    y=x+5;
+    plot(x,y);
+elseif x>-2 & x<=2
+    x=-1.99:0.1:2;
+    y=x.^2;
+    plot(x,y);
+elseif x>2.01 & x<=3
+    x=2.01:0.1:3;
+    y=x;
+    plot(x,y);
+elseif x>3 & x<=5
+    x=3.01:0.1:5;
+    y=0.*ones(size(x));
+    plot(x,y)
+end
+hold off
+end

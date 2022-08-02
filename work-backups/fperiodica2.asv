@@ -1,0 +1,18 @@
+%Gráfica de una función periódica
+clear;clc;
+T=input('Período:[a,b]=');a=T(1);b=T(2);
+LT=b-a;
+x=linspace(a,b,100);
+fun=input('f(x)=','s');
+f=inline(fun);y=f(x);
+n=input('No. de períodos en que se va a graficar la función: '); 
+plot(x,y);
+hold on;
+for i=1:n-1
+x=x+LT;
+tr=x-i*LT;
+plot(x,f(tr))
+end
+shg;
+grid on
+hold off

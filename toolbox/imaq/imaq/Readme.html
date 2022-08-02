@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+</head>
+<body>
+<h3>General</h3>
+<ol>
+  <p> </p>
+</ol>
+<ul>
+  <li>The preview window may distort displayed images when running
+MATLAB on a     computer with an 8 bit display. However, the quality of
+the data logged will     not be affected.</li>
+</ul>
+<h3>Winvideo</h3>
+<ol>
+  <p> </p>
+</ol>
+<ul>
+  <li>There are known issues with the USB Creative WebCam drivers that
+may lead     to crashes and computer reboots. It is recommended that
+users only install     one of these devices per machine.</li>
+  <p>TV Tuner Devices (devices with an AnalogVideoFormat video source
+property)</p>
+  <ul>
+    <li>Video input objects associated with a TV tuner card like the
+ATI Rage       Theater Video Capture card, may be created with an
+invalid analog format       selected. To correct this, modify the
+AnalogVideoFormat property on the       currently selected video source
+object. The currently selected video source       object is returned by
+the GETSELECTEDSOURCE function. </li>
+    <li>Some TV tuner cards may not honor the FrameGrabInterval
+property value.       The ATI TV Wonder VE card is known to have this
+problem. </li>
+    <li>While accessing a TV tuner card, a blue screen may occur if the
+preview window is repeatedly opened and closed. </li>
+    <li>Some TV tuner cards may not be able to access video formats
+such as YVU9       or YV12. Although IMAQHWINFO may report these formats
+as supported, attempts       to acquire from them may fail. The ATI TV
+Wonder VE card is known to have       this problem. </li>
+    <li>Previewing is known to max out the CPU making MATLAB
+unresponsive. It       is recommended that users use a low resolution in
+order to reduce the CPU       load. </li>
+  </ul>
+  <p>DV Devices</p>
+  <ul>
+    <li>DV devices like camcorders are limited to the default dvsd
+format provided       by the device. Additional formats will be made
+available in a future toolbox       release. </li>
+    <li>Previewing DV devices like camcorders, a short lag may be
+visible between       the preview window display, and what is actually
+captured by the device. </li>
+  </ul>
+</ul>
+<ul>
+</ul>
+<h3>Matrox</h3>
+<ol>
+  <p> </p>
+</ol>
+<ul>
+  <li>Matrox's MIL or MIL-Lite library is required and must be installed before 
+    using the toolbox.</li>
+  <li>The Gencout program, which is related to the Genesis board, will start when 
+    you first try to use the toolbox. This causes MATLAB to lose focus. To work 
+    around this behavior, uninstall the Genesis Native Library. Gencout is not 
+    used by the Image Acquisition Toolbox, but it is installed by default by the 
+    installation program for the Genesis drivers. </li>
+  <li>It is recommended that MIL's non-paged reserved memory be greater than the 
+    size of 4 incoming images. This value can be changed using Matrox's 'MIL Configuration' 
+    provided with MIL. 
+    <ul>
+      <li>For standard RS170 and CCIR monochrome formats, at least 2MB of non-paged 
+        memory is recommended.</li>
+      <li>For standard NTSC and PAL color formats, at least 8MB is recommended. 
+      </li>
+    </ul>
+  </li>
+  <li>Two and four band images are not supported. Dual-channel video, however, 
+    is supported via a DCF file if the resulting image is a single band.</li>
+  <li>UARTs are not supported. </li>
+  <li>If the device supports exposure timers, they are exposed as video source 
+    object properties using a 'Timer' prefix. These properties are implemented 
+    using the manual bypass exposure model as described in the Matrox MIL Users 
+    Guide.&nbsp; These parameters should be all set while the object is not previewing 
+    or running to avoid invalid combinations of parameters while the object is 
+    accessing the device.</li>
+  <li>User digital inputs are not currently supported. User digital output values 
+    are exposed as video source object properties using a 'UserOutputBit' prefix. 
+    <br>
+  </li>
+  <li>Acquisition devices that support image scaling might not scale images correctly 
+    if the first video source is not selected. The problem is caused by the toolbox 
+    only honoring the XScaleFactor and YScaleFactor property values from the first 
+    video source object. If the XScaleFactor and YScaleFactor property values 
+    are not equal to the currently selected video source object's values, the 
+    ROIPosition and VideoResolution might reflect an incorrect value.<br>
+  </li>
+</ul>
+<h3>Data Translation</h3>
+<ul>
+  <li>Device drivers should be updated to Imaging Omni CD 2.2 drivers.
+These drivers     are available from the <a
+ href="http://www.datatranslation.com/support/">support page</a> at <a
+ href="http://www.datatranslation.com">www.datatranslation.com</a>.</li>
+  <li>Data Translation drivers allow for the reservation of non-paged
+'non-volatile' memory. This value should be set as follows:
+    <ul>
+      <li>3120, 313x, and 3152:
+        <ul>
+          <li>It is recommended that reserved non-paged memory be
+greater than             the size of 4 incoming images. This value can
+be changed in the DT             driver properties; see the DT Users
+Guide for your hardware for more             information.
+            <ul>
+              <li>For standard RS170 and CCIR monochrome formats, at
+least 2MB                 of non-paged memory is recommended</li>
+              <li>For standard NTSC and PAL color formats, at least 8MB
+is recommended. </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>3152-LS, 3153, 3154, 3155, 3157:
+        <ul>
+          <li>The amount of non-paged memory must be greater than the
+size of             the "total number of frames" provided by the
+hardware for             a whole trigger, i.e.:
+            <blockquote>
+              <p>total number of frames = FramesPerTrigger *
+FrameGrabInterval</p>
+            </blockquote>
+            <p> where FramesPerTrigger and FrameGrabInterval are
+properties of               the video input object.&nbsp; Refer to the
+Image Acquisition Toolbox               documentation for more
+information on these properties.<br>
+            </p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Line scan mode for the 3152-LS is not supported. </li>
+  <li>For the 3152-LS, 3153, 3154, 3155, and 3157 devices in immediate
+trigger mode, the last image frame of a trigger and the first image
+frame of the next     trigger may not be adjacent frames in the incoming
+video, i.e., a dropped     frame(s) may occur between triggers.</li>
+  <li>The 3152 may require certain color depths from your video card in
+order to fully function. To determine if the proper color depth is
+selected, start     DTAcquire provided with your hardware and verify
+that both 'Passthru' <b>and</b> 'Single Frame Acquire' function
+properly. If 'Passthru' fails, try using a     different color depth,
+e.g., 24-bit truecolor instead of 32-bit truecolor.</li>
+</ul>
+<br>
+<br>
+<ol>
+  <p> </p>
+</ol>
+<p>&nbsp;</p>
+</body>
+</html>

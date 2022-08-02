@@ -1,0 +1,349 @@
+# $Revision: 1.1.6.2 $
+Library {
+  Name			  "modelsimlib"
+  Version		  5.1
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Thu Feb 06 15:17:35 2003"
+  Creator		  "schim"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "nsen"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Tue Nov 04 15:53:20 2003"
+  ModelVersionFormat	  "1.%<AutoIncrement:99>"
+  ConfigurationManager	  "None"
+  SimParamPage		  "Solver"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeMexFile	  "ext_comm"
+  ExtModeBatchMode	  off
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  SimulationMode	  "normal"
+  ConsistencyChecking	  "none"
+  ArrayBoundsChecking	  "none"
+  AlgebraicLoopMsg	  "warning"
+  BlockPriorityViolationMsg "warning"
+  MinStepSizeMsg	  "warning"
+  InheritedTsInSrcMsg	  "warning"
+  DiscreteInheritContinuousMsg "warning"
+  MultiTaskRateTransMsg	  "error"
+  SingleTaskRateTransMsg  "none"
+  CheckForMatrixSingularity "none"
+  IntegerOverflowMsg	  "warning"
+  Int32ToFloatConvMsg	  "warning"
+  ParameterDowncastMsg	  "error"
+  ParameterOverflowMsg	  "error"
+  ParameterPrecisionLossMsg "warning"
+  UnderSpecifiedDataTypeMsg "none"
+  UnnecessaryDatatypeConvMsg "none"
+  VectorMatrixConversionMsg "none"
+  InvalidFcnCallConnMsg	  "error"
+  SignalLabelMismatchMsg  "none"
+  UnconnectedInputMsg	  "warning"
+  UnconnectedOutputMsg	  "warning"
+  UnconnectedLineMsg	  "warning"
+  SfunCompatibilityCheckMsg "none"
+  ProdHWDeviceType	  "Microprocessor"
+  ProdHWWordLengths	  "8,16,32,32"
+  RTWMakeCommand	  "make_rtw"
+  RTWGenerateCodeOnly	  off
+  RTWRetainRTWFile	  off
+  TLCProfiler		  off
+  TLCDebug		  off
+  TLCCoverage		  off
+  TLCAssertion		  off
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      PortCounts	      "[]"
+      SFunctionModules	      "''"
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "modelsimlib"
+    Location		    [112, 117, 956, 675]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      "S-Function"
+      Name		      "To VCD File"
+      Ports		      [1]
+      Position		      [25, 111, 130, 159]
+      CopyFcn		      "block = gcb;                                   "
+"             \nif str2num(block(end))+1                                    \n"
+"                                                            \n    %-- Get var"
+"iable name                                   \n    vals = get_param(block,'Ma"
+"skValues');                   \n    idx = strmatch('FileName',get_param(block"
+",'MaskNames'));\n    varName = vals{idx};                                    "
+"\n    varName=varName(1:(strfind(varName,'.')-1));            \n             "
+"                                               \n    %--  Extract digit numbe"
+"r from block name               \n    % double('0') = 48; double('9')=57;    "
+"                 \n    dBlock = double(block);                               "
+"  \n    h = and(dBlock>=48,dBlock<=57);                         \n    if (max"
+"(find(h==0)) == length(h))                       \n        hblock = [];      "
+"                                  \n    else                                 "
+"                   \n        hBlock = block(max(find(h==0))+1:end);          "
+"    \n    end                                                     \n         "
+"                                                   \n    %-- Extract digit nu"
+"mber from variable name             \n    dVar = double(varName);            "
+"                     \n    h = and(dVar>=48,dVar<=57);                       "
+"      \n    if (max(find(h==0)) == length(h))                       \n       "
+" hVar = varName;                                     \n    else              "
+"                                      \n        hVar = varName(1:max(find(h=="
+"0)));                  \n    end                                             "
+"        \n    %-- Attach index and file extension                     \n    v"
+"als{idx} = [hVar hBlock '.vcd'];                       \n                    "
+"                                        \n    %Restore mask Values settings  "
+"                         \n    set_param(block,'MaskValues',vals);           "
+"          \nend                                                         "
+      FunctionName	      "shdltovcd"
+      Parameters	      "NumInport,FileName,ModelName,DateStr,mysignames"
+      MaskHelp		      "web (['file:///' docroot '/toolbox/modelsim/tov"
+"cdfile.html']);"
+      MaskPromptString	      "VCD file name:|Number of input ports:"
+      MaskStyleString	      "edit,edit"
+      MaskTunableValueString  "off,on"
+      MaskCallbackString      "|"
+      MaskEnableString	      "on,on"
+      MaskVisibilityString    "on,on"
+      MaskToolTipString	      "on,on"
+      MaskVarAliasString      ","
+      MaskVariables	      "FileName=&1;NumInport=@2;"
+      MaskInitialization      "ModelName=bdroot;\nDateStr=datestr(now);\n\nmys"
+"ignames = get_param(gcb,'InputSignalNames'); \nnumports = length(mysignames);"
+"\n\nsig_idx = 1; %Index of the signal\nsignal_limit = 100000; %Maximum no. of"
+" conflicts between user-name and auto-name\n\n%Auto-name signals with no user"
+"-defined names\nfor i=1:numports\n    if (isempty(mysignames{i}))\n        ct"
+"r=i;        \n        autoname=sprintf('%s_%d','In',ctr);\n        while any("
+"strcmpi(autoname,mysignames)) && (ctr<signal_limit)\n            ctr=ctr+1;\n"
+"            autoname=sprintf('%s_%d','In',ctr);\n        end\n        if ctr "
+"== signal_limit\n            error('User-defined signal name conflicts with a"
+"uto-name provided. Please rename one of the user-defined signal names');\n   "
+"     end\n       mysignames{i}=autoname;\n       \n   end\nend"
+      MaskDisplay	      "disp(FileName)"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "simulink.vcd|1"
+    }
+    Block {
+      BlockType		      "S-Function"
+      Name		      "VHDL Cosimulation"
+      Ports		      [1, 2]
+      Position		      [165, 28, 270, 77]
+      CopyFcn		      "mtiblkcosim('CopyFcn', gcbh, [])"
+      DeleteFcn		      "mtiblkcosim('DeleteFcn', gcbh, [])"
+      NameChangeFcn	      "mtiblkcosim('NameChangeFcn', gcbh, [])"
+      OpenFcn		      "mtiblkcosim('OpenFcn', gcbh, [], 'modelsimgui.c"
+"osimdlg')"
+      FunctionName	      "smtifli"
+      Parameters	      "inCArray, outCArray, fclkCArray, rclkCArray, tc"
+"lCommand, SampleTime, Tso, modelSimRunning, sharedMemory, portNumber, hostNam"
+"e"
+      MaskType		      "Simulink and ModelSim Cosimulation"
+      MaskHelp		      "web (['file:///' docroot '/toolbox/modelsim/vhd"
+"lcosimulation.html']);"
+      MaskPromptString	      "PornPor|Output sample time:|TCL commands: befor"
+"e simulation|TCL commands: after simulation|Host Name|Port Number / Service|M"
+"odelSim running on this computer|Shared Memory"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,checkbox,checkbox"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off"
+      MaskCallbackString      "|||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,"
+      MaskVariables	      "idxCellArray=@1;Tso=@2;tclBefore=&3;tclAfter=&4"
+";hostName=&5;portNumber=&6;modelSimRunning=@7;sharedMemory=@8;"
+      MaskInitialization      "[inCArray, outCArray, fclkCArray, rclkCArray, t"
+"clCommand, iconstr] = mtiblkcosim('initializationCommands', idxCellArray, tcl"
+"Before, tclAfter);\nSampleTime = Tso;\nstr = 'image(imread(''logo.jpeg''),[0."
+"3 0.3 0.4 0.4]);';\nfor i = 1:length(iconstr.inport)\n	str = [str 'por"
+"t_label(''input'',' num2str(iconstr.inport(i)) ',''' iconstr.instr{i} ''');']"
+";\nend\nfor i = 1:length(iconstr.outport)\n	str = [str 'port_label(''o"
+"utput'',' num2str(iconstr.outport(i)) ',''' iconstr.outstr{i} ''');'];\nend\n"
+"set_param(gcbh, 'MaskDisplay', str);"
+      MaskDisplay	      "image(imread('logo.jpeg'),[0.3 0.3 0.4 0.4]);po"
+"rt_label('input',1,'sig1');port_label('output',1,'sig2');port_label('output',"
+"2,'sig3');"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "{'/top/sig1', 'in', '/top/sig2', 'out', '/top/s"
+"ig3', 'out'}|-1|echo \"Running Simulink Cosimulation block.\"|||4449|on|on"
+    }
+    Block {
+      BlockType		      "S-Function"
+      Name		      "VHDL Sink"
+      Ports		      [2]
+      Position		      [310, 28, 415, 77]
+      AncestorBlock	      "modelsimlib/VHDL Cosimulation"
+      CopyFcn		      "mtiblkcosim('CopyFcn', gcbh, [])"
+      DeleteFcn		      "mtiblkcosim('DeleteFcn', gcbh, [])"
+      NameChangeFcn	      "mtiblkcosim('NameChangeFcn', gcbh, [])"
+      OpenFcn		      "mtiblkcosim('OpenFcn', gcbh, [], 'modelsimgui.c"
+"osimdlg')"
+      FunctionName	      "smtifli"
+      Parameters	      "inCArray, outCArray, fclkCArray, rclkCArray, tc"
+"lCommand, SampleTime, Tso, modelSimRunning, sharedMemory, portNumber, hostNam"
+"e"
+      MaskType		      "Simulink and ModelSim Cosimulation"
+      MaskHelp		      "web (['file:///' docroot '/toolbox/modelsim/vhd"
+"lcosimulation.html']);"
+      MaskPromptString	      "PornPor|Output sample time:|TCL commands: befor"
+"e simulation|TCL commands: after simulation|Host Name|Port Number / Service|M"
+"odelSim running on this computer|Shared Memory"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,checkbox,checkbox"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off"
+      MaskCallbackString      "|||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,"
+      MaskVariables	      "idxCellArray=@1;Tso=@2;tclBefore=&3;tclAfter=&4"
+";hostName=&5;portNumber=&6;modelSimRunning=@7;sharedMemory=@8;"
+      MaskInitialization      "[inCArray, outCArray, fclkCArray, rclkCArray, t"
+"clCommand, iconstr] = mtiblkcosim('initializationCommands', idxCellArray, tcl"
+"Before, tclAfter);\nSampleTime = Tso;\nstr = 'image(imread(''logo.jpeg''),[0."
+"3 0.3 0.4 0.4]);';\nfor i = 1:length(iconstr.inport)\n	str = [str 'por"
+"t_label(''input'',' num2str(iconstr.inport(i)) ',''' iconstr.instr{i} ''');']"
+";\nend\nfor i = 1:length(iconstr.outport)\n	str = [str 'port_label(''o"
+"utput'',' num2str(iconstr.outport(i)) ',''' iconstr.outstr{i} ''');'];\nend\n"
+"set_param(gcbh, 'MaskDisplay', str);"
+      MaskDisplay	      "image(imread('logo.jpeg'),[0.3 0.3 0.4 0.4]);po"
+"rt_label('input',1,'sig1');port_label('input',2,'sig2');"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "{'/top/sig1', 'in', '/top/sig2', 'in'}|0|echo "
+"\"Running Simulink Cosimulation block.\"|||4449|on|on"
+    }
+    Block {
+      BlockType		      "S-Function"
+      Name		      "VHDL Source"
+      Ports		      [0, 2]
+      Position		      [25, 28, 130, 77]
+      AncestorBlock	      "modelsimlib/VHDL Cosimulation"
+      CopyFcn		      "mtiblkcosim('CopyFcn', gcbh, [])"
+      DeleteFcn		      "mtiblkcosim('DeleteFcn', gcbh, [])"
+      NameChangeFcn	      "mtiblkcosim('NameChangeFcn', gcbh, [])"
+      OpenFcn		      "mtiblkcosim('OpenFcn', gcbh, [], 'modelsimgui.c"
+"osimdlg')"
+      FunctionName	      "smtifli"
+      Parameters	      "inCArray, outCArray, fclkCArray, rclkCArray, tc"
+"lCommand, SampleTime, Tso, modelSimRunning, sharedMemory, portNumber, hostNam"
+"e"
+      MaskType		      "Simulink and ModelSim Cosimulation"
+      MaskHelp		      "web (['file:///' docroot '/toolbox/modelsim/vhd"
+"lcosimulation.html']);"
+      MaskPromptString	      "PornPor|Output sample time:|TCL commands: befor"
+"e simulation|TCL commands: after simulation|Host Name|Port Number / Service|M"
+"odelSim running on this computer|Shared Memory"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,checkbox,checkbox"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off"
+      MaskCallbackString      "|||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,"
+      MaskVariables	      "idxCellArray=@1;Tso=@2;tclBefore=&3;tclAfter=&4"
+";hostName=&5;portNumber=&6;modelSimRunning=@7;sharedMemory=@8;"
+      MaskInitialization      "[inCArray, outCArray, fclkCArray, rclkCArray, t"
+"clCommand, iconstr] = mtiblkcosim('initializationCommands', idxCellArray, tcl"
+"Before, tclAfter);\nSampleTime = Tso;\nstr = 'image(imread(''logo.jpeg''),[0."
+"3 0.3 0.4 0.4]);';\nfor i = 1:length(iconstr.inport)\n	str = [str 'por"
+"t_label(''input'',' num2str(iconstr.inport(i)) ',''' iconstr.instr{i} ''');']"
+";\nend\nfor i = 1:length(iconstr.outport)\n	str = [str 'port_label(''o"
+"utput'',' num2str(iconstr.outport(i)) ',''' iconstr.outstr{i} ''');'];\nend\n"
+"set_param(gcbh, 'MaskDisplay', str);"
+      MaskDisplay	      "image(imread('logo.jpeg'),[0.3 0.3 0.4 0.4]);po"
+"rt_label('output',1,'sig1');port_label('output',2,'sig2');"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "{'/top/sig1', 'out', '/top/sig2', 'out'}|2|echo"
+" \"Running Simulink Cosimulation block.\"|||4449|on|on"
+    }
+  }
+}

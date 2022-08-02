@@ -1,0 +1,114 @@
+%% File: sfun_tpu3_pwm.tlc
+%%
+%% Abstract:
+%%   Implement device driver for PWM using Timer Processing
+%%   Unit, TPU3.
+%%
+%% Disclaimers / restrictions if any.
+%%
+%% $Revision: 1.14 $
+%% $Date: 2002/12/10 16:49:12 $
+%%
+%% Copyright 2002 The MathWorks, Inc.
+
+%implements sfun_tpu3_pwm "C"
+%include "mpc555_common_includes.tlc"
+%include "tpu3_function_library.tlc"
+
+%% Function: BlockInstanceSetup ===============================================
+%% Abstract:
+%%   Pre-code generation work
+%%
+%function BlockInstanceSetup(block, system) void
+%endfunction
+
+%% Function: Start ==========================================================
+%% Abstract:
+%%      Sets up TPU channels for PWM
+%%
+%function Start(block, system) Output 
+   %if !SLibCodeGenForSim()
+      %% only generate code for RT
+      
+      /* %<Type> Block: %<Name> */
+      /* PWM setup for TPU3 module %<SFcnParamSettings.Module> */
+      /* Refer to Motorola Programming Note TPUPN17/D */
+      %assign module = SFcnParamSettings.Module
+      %assign channel = SFcnParamSettings.Channel
+      %assign periodInput = SFcnParamSettings.PeriodInput
+      %assign channelPri = SFcnParamSettings.ChannelPriority
+      %<tpuFunctionSelect(module, channel, "TPU_FN_PWM", "Select PWM TPU Function")>
+      %<tpuSetParam(module, channel, "TPU_PWM_CHANNEL_CONTROL_PARAM", "TPU_PWM_CHANNEL_CONTROL", "Set CHANNEL_CONTROL")>
+      %if periodInput == 0
+         %% period is as specified in the mask
+         %<tpuSetParam(module, channel, "TPU_PWM_PWMPER_PARAM", SFcnParamSettings.Pwmper, "constant PWM period")>
+         %<tpuSetParam(module, channel, "TPU_PWM_PWMHI_PARAM", SFcnParamSettings.Pwmper, "Initial high period for PWMHI == fully high")>
+      %else
+         /* PWM period is a block input
+          * initialise to maximum period, fully high duty cycle */
+          %<tpuSetParam(module, channel, "TPU_PWM_PWMPER_PARAM", "0x8000", "")>
+          %<tpuSetParam(module, channel, "TPU_PWM_PWMHI_PARAM", "0x8000", "")>
+      %endif
+
+      %<tpuSetHSRR(module, channel, "TPU_PWM_HS_INITIALIZE", "Set TPU Host Service Request Register")>
+      %<tpuSetChannelPriority(module, channel, channelPri, "Set Channel Priority Register to enable PWM")>
+      %<tpuWaitForClearHSRR(module, channel)>
+   %endif
+%endfunction
+
+%% Function: Outputs ==========================================================
+%% Abstract:
+%%      Sets PWM duty cycle
+%%
+%function Outputs(block, system) Output
+   %if !SLibCodeGenForSim()
+      %% only generate code for RT
+      /* %<Type> Block: %<Name> */
+      /* PWM output for TPU3 module %<SFcnParamSettings.Module> */
+      %assign module = SFcnParamSettings.Module
+      %assign channel = SFcnParamSettings.Channel
+      %assign periodInput = SFcnParamSettings.PeriodInput
+      %assign Pwmper = SFcnParamSettings.Pwmper
+      {
+      real_T dutyCycle = %<LibBlockInputSignal(0,"","",0)>;
+      %if periodInput == 0
+         /* Set high period PWMHI */
+         %assign periodtlc = %<Pwmper>
+         uint16_T pwmhi;
+         if (dutyCycle <= 0) {
+            pwmhi = 0U;
+         }
+         else if (dutyCycle >= 1) {
+            pwmhi = %<periodtlc>;
+         }
+         else {
+            pwmhi = (uint16_T) (dutyCycle * %<periodtlc>);
+         }
+         %<tpuSetParam(module, channel, "TPU_PWM_PWMHI_PARAM", "pwmhi", "")>
+      %else
+         /* Set period PWMPER and high period PWMHI 
+          * coherently with a 32 bit write */
+         uint16_T period = %<LibBlockInputSignal(1, "", "", 0)>;
+         uint32_T pwmhiper;
+         if (dutyCycle <= 0) {
+            %% Fully low
+            %% PWMHI = 0, PWMPER = period
+            %% No need to shift PWMHI
+            pwmhiper = (uint32_T) period;         
+         }
+         else if (dutyCycle >= 1) {
+            %% Fully high
+            %% PWMHI = period, PWMPER = period
+            %% Shift PWMHI 
+            pwmhiper = (((uint32_T) period) << 16) | (uint32_T) period;         
+         }
+         else {
+            %% PWMHI = dutyCycle * period, PWMPER = period
+            %% Shift PWMHI
+            pwmhiper = (((uint32_T) (dutyCycle * period)) << 16) | (uint32_T) period; 
+         }
+         %<tpuSetParamUINT32(module, channel, "TPU_PWM_HI_PER_32_PARAM", "pwmhiper", "")>
+      %endif
+      }
+   %endif
+%endfunction

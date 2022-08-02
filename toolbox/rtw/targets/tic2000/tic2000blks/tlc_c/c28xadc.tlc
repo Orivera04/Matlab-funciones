@@ -1,0 +1,254 @@
+%% $RCSfile: c28xadc.tlc,v $
+%% $Revision: 1.1.6.2 $ $Date: 2004/04/08 20:59:41 $
+%% Copyright 2003-2004 The MathWorks, Inc.
+
+
+
+%implements c28xadc "C"
+
+%% Function: JustCreatedCompiledModelRecord ==================================
+%function JustCreatedCompiledModelRecord(recordName) void
+
+    %assign fullRecordName = "::CompiledModel." + recordName
+    %%
+    %if !EXISTS("%<fullRecordName>")
+        %assign retval = 1  %% First call
+        %% Create record since it does not yet exist:
+        %assign %<recordName> = 1
+        %assign ::CompiledModel = ::CompiledModel + %<recordName>
+        %undef %<recordName>  %% Remove from current scope
+    %else
+        %assign retval = 0  %% Subsequent call
+    %endif
+    %return retval
+
+%endfunction %% JustCreatedCompiledModelRecord
+
+
+%% Function: GetUsedChannels ====================================================
+%% Abstract:
+%%     Encode indices of all used channels into an integer number
+%%  
+%function GetUsedChannels(useA0,useA1, useA2, useA3, useA4, useA5, useA6, useA7, \ 
+                          useB0,useB1, useB2, useB3, useB4, useB5, useB6, useB7) Output
+                          
+    %assign usedChannels = (useA0==1)*1 + (useA1==1)*2 + (useA2==1)*4 + (useA3==1)*8 + \
+                           (useA4==1)*16 + (useA5==1)*32 + (useA6==1)*64 + (useA7==1)*128 + \
+                           (useB0==1)*256 + (useB1==1)*512 + (useB2==1)*1024 + (useB3==1)*2048 + \
+                           (useB4==1)*4096 + (useB5==1)*8192 + (useB6==1)*16384 + (useB7==1)*32768                          
+    %return usedChannels
+    
+%endfunction %% GetUsedChannels
+
+
+
+%% Function: GetNextOutput ====================================================
+%% Abstract:
+%%     Build the next output from LibBlockOutputSignal
+
+%function GetNextOutput(block, chanIndex)
+
+    %if (numChannels == 1)
+        %assign OutputString =  "%<LibBlockOutputSignal(0,"","",0)>"
+    %else
+        %assign OutputString =  "%<LibBlockOutputSignal(0,"%<chanIndex>","",0)>"
+    %endif
+    %return OutputString
+    
+%endfunction %% GetNextOutput
+
+
+
+%% Function: BlockTypeSetup ==============================================
+%function BlockTypeSetup(block, system) void
+
+    %openfile buffer
+    #include "DSP281x_Device.h"
+    %closefile buffer
+    %<LibCacheIncludes(buffer)>
+    
+%endfunction %% BlockTypeSetup
+
+
+
+%% Function: BlockInstanceSetup ===============================================
+%%
+%function BlockInstanceSetup(block,system) void
+
+    %<AddParamsToBlock(block)>
+    
+%endfunction %% BlockInstanceSetup
+
+
+
+%% Function: Start ============================================================
+%%
+%%  Initialize serial port and codec and start receiving
+%%  data into ping-pong buffers.
+%%
+%function Start(block,system) Output
+
+    %if JustCreatedCompiledModelRecord("c2800_init_DAC")
+        InitAdc();
+    %endif
+
+    %if (useModule=="MODULE_A" || useModule=="MODULE_A_AND_MODULE_B")
+        %assign SUF = "A"
+    %else
+        %assign SUF = "B"
+    %endif
+    config_ADC_%<SUF> (%<numChannels-1>, %<usedChannels>);
+       
+    %openfile buffer
+    void config_ADC_%<SUF> (int16_T numOfConversions, uint16_T usedChannels);
+    %closefile buffer
+    %<LibCacheDefine(buffer)>
+
+%endfunction %% Start
+
+
+
+%% Function: Outputs ==========================================================
+%%
+%%  Read input buffer (when ready), convert to output format and send out.
+%%
+%function Outputs(block,system) Output
+
+/* %<Type> Block: %<Name> (%<ParamSettings.FunctionName>) */
+{
+    %assign chanIndex = 0    
+    
+    %if (sourceSOC=="SOFTWARE")    
+        %if (useModule=="MODULE_B")
+            AdcRegs.ADCTRL2.bit.RST_SEQ2 = 0x1;     // Sequencer reset 
+            AdcRegs.ADCTRL2.bit.SOC_SEQ2 = 0x1;     // software "start of conversion
+        %else
+            AdcRegs.ADCTRL2.bit.RST_SEQ1 = 0x1;     // Sequencer reset 
+            AdcRegs.ADCTRL2.bit.SOC_SEQ1 = 0x1;     // software "start of conversion   
+        %endif
+        asm("    nop" );
+        asm("    nop" );
+        asm("    nop" );
+        asm("    nop" );
+     
+        %if (useModule=="MODULE_B")
+            while((AdcRegs.ADCST.bit.SEQ2_BSY == 0x1)){}    // Wait until A/D conversion is complete
+        %else
+            while((AdcRegs.ADCST.bit.SEQ1_BSY == 0x1)){}    // Wait until A/D conversion is complete   
+        %endif
+    %endif
+    
+    %if useA0
+        %<GetNextOutput(block, chanIndex)> = (AdcRegs.ADCRESULT%<chanIndex>) >> 4;
+        %assign chanIndex = chanIndex + 1
+    %endif
+    %if useA1
+        %<GetNextOutput(block, chanIndex)> = (AdcRegs.ADCRESULT%<chanIndex>) >> 4;
+        %assign chanIndex = chanIndex + 1
+    %endif
+    %if useA2
+        %<GetNextOutput(block, chanIndex)> = (AdcRegs.ADCRESULT%<chanIndex>) >> 4;
+        %assign chanIndex = chanIndex + 1
+    %endif
+    %if useA3
+        %<GetNextOutput(block, chanIndex)> = (AdcRegs.ADCRESULT%<chanIndex>) >> 4;
+        %assign chanIndex = chanIndex + 1
+    %endif
+    %if useA4
+        %<GetNextOutput(block, chanIndex)> = (AdcRegs.ADCRESULT%<chanIndex>) >> 4;
+        %assign chanIndex = chanIndex + 1
+    %endif
+    %if useA5
+        %<GetNextOutput(block, chanIndex)> = (AdcRegs.ADCRESULT%<chanIndex>) >> 4;
+        %assign chanIndex = chanIndex + 1
+    %endif
+    %if useA6
+        %<GetNextOutput(block, chanIndex)> = (AdcRegs.ADCRESULT%<chanIndex>) >> 4;
+        %assign chanIndex = chanIndex + 1
+    %endif
+    %if useA7
+        %<GetNextOutput(block, chanIndex)> = (AdcRegs.ADCRESULT%<chanIndex>) >> 4;
+        %assign chanIndex = chanIndex + 1
+    %endif
+    
+    %if (useModule=="MODULE_B")
+        %assign offsIndex = 8
+    %else
+        %assign offsIndex = 0
+    %endif    
+    
+    %if useB0
+        %<GetNextOutput(block, chanIndex)> = (AdcRegs.ADCRESULT%<offsIndex + chanIndex>) >> 4;
+        %assign chanIndex = chanIndex + 1
+    %endif
+    %if useB1
+        %<GetNextOutput(block, chanIndex)> = (AdcRegs.ADCRESULT%<offsIndex + chanIndex>) >> 4;
+        %assign chanIndex = chanIndex + 1
+    %endif
+    %if useB2
+        %<GetNextOutput(block, chanIndex)> = (AdcRegs.ADCRESULT%<offsIndex + chanIndex>) >> 4;
+        %assign chanIndex = chanIndex + 1
+    %endif
+    %if useB3
+        %<GetNextOutput(block, chanIndex)> = (AdcRegs.ADCRESULT%<offsIndex + chanIndex>) >> 4;
+        %assign chanIndex = chanIndex + 1
+    %endif
+    %if useB4
+        %<GetNextOutput(block, chanIndex)> = (AdcRegs.ADCRESULT%<offsIndex + chanIndex>) >> 4;
+        %assign chanIndex = chanIndex + 1
+    %endif
+    %if useB5
+        %<GetNextOutput(block, chanIndex)> = (AdcRegs.ADCRESULT%<offsIndex + chanIndex>) >> 4;
+        %assign chanIndex = chanIndex + 1
+    %endif
+    %if useB6
+        %<GetNextOutput(block, chanIndex)> = (AdcRegs.ADCRESULT%<offsIndex + chanIndex>) >> 4;
+        %assign chanIndex = chanIndex + 1
+    %endif
+    %if useB7
+        %<GetNextOutput(block, chanIndex)> = (AdcRegs.ADCRESULT%<offsIndex + chanIndex>) >> 4;
+        %assign chanIndex = chanIndex + 1
+    %endif
+}
+
+%endfunction %% Outputs
+
+
+
+%% Function: AddParamsToBlock =================================================
+%%
+%%  Rename the S-Function parameter for easy reference.
+%%
+%function AddParamsToBlock(block) void
+
+    %assign useModule    = SFcnParamSettings.useModule
+    %assign useA0        = SFcnParamSettings.useA0
+    %assign useA1        = SFcnParamSettings.useA1
+    %assign useA2        = SFcnParamSettings.useA2
+    %assign useA3        = SFcnParamSettings.useA3
+    %assign useA4        = SFcnParamSettings.useA4
+    %assign useA5        = SFcnParamSettings.useA5
+    %assign useA6        = SFcnParamSettings.useA6
+    %assign useA7        = SFcnParamSettings.useA7
+    %assign useB0        = SFcnParamSettings.useB0
+    %assign useB1        = SFcnParamSettings.useB1
+    %assign useB2        = SFcnParamSettings.useB2
+    %assign useB3        = SFcnParamSettings.useB3
+    %assign useB4        = SFcnParamSettings.useB4
+    %assign useB5        = SFcnParamSettings.useB5
+    %assign useB6        = SFcnParamSettings.useB6
+    %assign useB7        = SFcnParamSettings.useB7
+    %assign numChannels  = SFcnParamSettings.numChannels  
+    %assign sampleRate   = SFcnParamSettings.sampleRate     
+    %assign sourceSOC    = SFcnParamSettings.sourceSOC     
+    %%
+    %assign usedChannels = GetUsedChannels(%<useA0>, %<useA1>, %<useA2>, %<useA3>, %<useA4>, %<useA5>, %<useA6>, %<useA7>, \
+                                           %<useB0>, %<useB1>, %<useB2>, %<useB3>, %<useB4>, %<useB5>, %<useB6>, %<useB7>)
+    %%
+    %assign block = block + useModule + numChannels + usedChannels + sampleRate + sourceSOC \
+                          + useA0 + useA1 + useA2 + useA3 + useA4 + useA5 + useA6 + useA7 \
+                          + useB0 + useB1 + useB2 + useB3 + useB4 + useB5 + useB6 + useB7
+       
+%endfunction  %% AddParamsToBlock
+
+%% [EOF] c28xadc.tlc

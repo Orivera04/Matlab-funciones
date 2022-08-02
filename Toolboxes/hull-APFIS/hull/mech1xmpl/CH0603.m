@@ -1,0 +1,9 @@
+[opforce, opplacement]=distload(4,0,5);
+hypot=hyp(7,5);
+opax=opplacement*(7/hypot);
+opay=10-opplacement*(5/hypot);
+opload(1,:)=rise2xy([-7,-5,opforce,opax,opay]);
+opload(2,:)=[0,4,15,10];
+opload(3,:)=deg2xy([-45,5,15,5]);
+[oRforce,oRmoment]=reaction(opload,[7,5])
+[pRforce,pRmoment]=reaction(opload,[10,5])

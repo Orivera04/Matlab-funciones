@@ -1,0 +1,298 @@
+<!--
+Copyright 2001-2004 The MathWorks, Inc.
+$Revision: 1.1.6.2 $ $Date: 2004/03/24 20:39:52 $
+-->
+
+<!--
+This HTML is auto-generated from an m-file.
+Your changes will be overwritten.
+--><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:x-large">Working With Properties</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium;">Overview</p><ul xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd"><li><a href="#Accessing Properties">Accessing Properties</a></li><li><a href="#Configuring Properties">Configuring Properties</a></li><li><a href="#Getting Property Help and Other Information">Getting Property Help and Other Information</a></li></ul><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Accessing Properties<a name="Accessing Properties"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">To access a complete list of an object's properties and their current
+values, use the GET function with the object.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Create a video input object.</span>
+vidobj = videoinput(<span style="color:#B20000">'winvideo'</span>, 1);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% List the video input object's properties and their current values.</span>
+get(vidobj)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">  General Settings:
+    DeviceID = 1
+    DiskLogger = []
+    DiskLoggerFrameCount = 0
+    EventLog = [1x0 struct]
+    FrameGrabInterval = 1
+    FramesAcquired = 0
+    FramesAvailable = 0
+    FramesPerTrigger = 10
+    Logging = off
+    LoggingMode = memory
+    Name = RGB24_320x240-winvideo-1
+    NumberOfBands = 3
+    Previewing = off
+    ReturnedColorSpace = rgb
+    ROIPosition = [0 0 320 240]
+    Running = off
+    Tag = 
+    Timeout = 10
+    Type = videoinput
+    UserData = []
+    VideoFormat = RGB24_320x240
+    VideoResolution = [320 240]
+
+  Callback Function Settings:
+    ErrorFcn = @imaqcallback
+    FramesAcquiredFcn = []
+    FramesAcquiredFcnCount = 0
+    StartFcn = []
+    StopFcn = []
+    TimerFcn = []
+    TimerPeriod = 1
+    TriggerFcn = []
+
+  Trigger Settings:
+    InitialTriggerTime = [0 0 0 0 0 0]
+    TriggerCondition = none
+    TriggerFrameDelay = 0
+    TriggerRepeat = 0
+    TriggersExecuted = 0
+    TriggerSource = none
+    TriggerType = immediate
+
+  Acquisition Sources:
+    SelectedSourceName = input1
+    Source = [1x1 videosource]
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Access the currently selected video source object</span>
+src = getselectedsource(vidobj);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% List the video source object's properties and their current values.</span>
+get(src)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">  General Settings:
+    Parent = [1x1 videoinput]
+    Selected = on
+    SourceName = input1
+    Tag = 
+    Type = videosource
+
+  Device Specific Properties:
+    BacklightCompensation = on
+    Brightness = 314
+    BrightnessMode = auto
+    Contrast = 81
+    Exposure = 511
+    ExposureMode = auto
+    Focus = 65
+    FrameRate = 15.1500
+    Gamma = 1
+    Iris = 4
+    Saturation = 78
+    Sharpness = 104
+    WhiteBalance = 100
+    WhiteBalanceMode = auto
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">To access a specific property value, use the GET function with the object
+and property name.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">framesPerTriggerValue = get(vidobj, <span style="color:#B20000">'FramesPerTrigger'</span>)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+framesPerTriggerValue =
+
+    10
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">brightnessValue = get(src, <span style="color:#B20000">'Brightness'</span>)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+brightnessValue =
+
+   314
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Alternatively, we can access a specific property value by using the
+dot (.) notation.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">framesPerTriggerValue = vidobj.FramesPerTrigger</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+framesPerTriggerValue =
+
+    10
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">brightnessValue = src.Brightness</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+brightnessValue =
+
+   314
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Configuring Properties<a name="Configuring Properties"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Enumerated properties have a defined set of possible values. To list the
+enumerated values of a property, use the SET function with the object and
+property name.  The property's default value is listed in braces.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">set(vidobj, <span style="color:#B20000">'LoggingMode'</span>)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">[ disk | disk&amp;memory | {memory} ]</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">To access a complete list of an object's configurable properties, use the
+SET function with the object.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% List the video input object's configurable properties.</span>
+set(vidobj)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">  General Settings:
+    DiskLogger
+    FrameGrabInterval
+    FramesPerTrigger
+    LoggingMode: [ disk | disk&amp;memory | {memory} ]
+    Name
+    ROIPosition
+    Tag
+    Timeout
+    UserData
+
+  Callback Function Settings:
+    ErrorFcn: string -or- function handle -or- cell array
+    FramesAcquiredFcn: string -or- function handle -or- cell array
+    FramesAcquiredFcnCount
+    StartFcn: string -or- function handle -or- cell array
+    StopFcn: string -or- function handle -or- cell array
+    TimerFcn: string -or- function handle -or- cell array
+    TimerPeriod
+    TriggerFcn: string -or- function handle -or- cell array
+
+  Trigger Settings:
+    TriggerFrameDelay
+    TriggerRepeat
+
+  Acquisition Sources:
+    SelectedSourceName: [ {input1} ]
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% List the video source object's configurable properties.</span>
+set(src)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">  General Settings:
+    Tag
+
+  Device Specific Properties:
+    BacklightCompensation: [ {on} | off ]
+    Brightness
+    BrightnessMode: [ {auto} | manual ]
+    Contrast
+    Exposure
+    ExposureMode: [ {auto} | manual ]
+    Focus
+    FrameRate: [ {15.1500} | 3.7500 | 7.5100 | 30.3000 ]
+    Gamma
+    Iris
+    Saturation
+    Sharpness
+    WhiteBalance
+    WhiteBalanceMode: [ {auto} | manual ]
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">To configure an object's property value, use the SET function with the
+object, property name, and property value.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">set(vidobj, <span style="color:#B20000">'TriggerRepeat'</span>, 2)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">set(src, <span style="color:#B20000">'Contrast'</span>, 100)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Alternatively, we can configure a specific property value by using the
+dot (.) notation.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">vidobj.TriggerRepeat = 2;</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">src.Contrast = 100;</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Getting Property Help and Other Information<a name="Getting Property Help and Other Information"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">To obtain a property's description, use the IMAQHELP function with the
+object and property name. IMAQHELP can also be used for function help.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">imaqhelp(vidobj, <span style="color:#B20000">'LoggingMode'</span>)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+    LOGGINGMODE  [ disk | disk&amp;memory | {memory} ]  (Read-only: whileRunning)
+
+    LoggingMode specifies the destination for acquired data.
+    
+    LoggingMode can be set to disk, memory,or disk&amp;Memory. If LoggingMode
+    is set to disk, then acquired data (as well as event and hardware
+    information) is streamed to a disk file. If LoggingMode is set to memory,
+    then acquired data is stored in memory. If LoggingMode is set to
+    disk&amp;Memory, then acquired data is stored in memory and is streamed 
+    to a disk file.
+    
+    When logging to memory, you must extract the data in a timely 
+    manner with the GETDATA function. If the data is not extracted in 
+    a timely manner, it will eventually be overwritten.
+    
+    When logging to disk, you can specify a MATLAB AVIFILE object as a disk 
+    logger using the DiskLogger property.
+    
+    The value of LoggingMode cannot be modified while the object is running.
+    
+    See also DiskLogger, IMAQDEVICE/GETDATA, AVIFILE.
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">To obtain information on a property's attributes, use the PROPINFO function with the object
+and property name.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">propinfo(vidobj, <span style="color:#B20000">'LoggingMode'</span>)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+ans = 
+
+               Type: 'string'
+         Constraint: 'enum'
+    ConstraintValue: {'disk'  'disk&amp;memory'  'memory'}
+       DefaultValue: 'memory'
+           ReadOnly: 'whileRunning'
+     DeviceSpecific: 0
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">When an image acquisition object is no longer needed, remove it from memory and clear the MATLAB
+workspace of the associated variable.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">delete(vidobj);
+clear vidobj</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">See also IMAQDEVICE/GET, IMAQDEVICE/SET, IMAQDEVICE/PROPINFO, IMAQHELP.
+</p><originalCode xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" code="%% Working with Properties
+&#xA;
+&#xA;%% Accessing Properties
+&#xA;% To access a complete list of an object's properties and their current
+&#xA;% values, use the GET function with the object.
+&#xA;
+&#xA;% Create a video input object.
+&#xA;vidobj = videoinput('winvideo', 1);
+&#xA;%%
+&#xA;
+&#xA;% List the video input object's properties and their current values.
+&#xA;get(vidobj)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Access the currently selected video source object
+&#xA;src = getselectedsource(vidobj);
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% List the video source object's properties and their current values.
+&#xA;get(src)
+&#xA;
+&#xA;%%
+&#xA;% To access a specific property value, use the GET function with the object
+&#xA;% and property name.
+&#xA;
+&#xA;framesPerTriggerValue = get(vidobj, 'FramesPerTrigger')
+&#xA;%%
+&#xA;brightnessValue = get(src, 'Brightness')
+&#xA;
+&#xA;%%
+&#xA;% Alternatively, we can access a specific property value by using the
+&#xA;% dot (.) notation.
+&#xA;
+&#xA;framesPerTriggerValue = vidobj.FramesPerTrigger
+&#xA;%%
+&#xA;brightnessValue = src.Brightness
+&#xA;
+&#xA;%% Configuring Properties
+&#xA;% Enumerated properties have a defined set of possible values. To list the
+&#xA;% enumerated values of a property, use the SET function with the object and
+&#xA;% property name.  The property's default value is listed in braces.
+&#xA;set(vidobj, 'LoggingMode')
+&#xA;
+&#xA;%%
+&#xA;% To access a complete list of an object's configurable properties, use the
+&#xA;% SET function with the object.
+&#xA;
+&#xA;% List the video input object's configurable properties.
+&#xA;set(vidobj)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% List the video source object's configurable properties.
+&#xA;set(src)
+&#xA;
+&#xA;%%
+&#xA;% To configure an object's property value, use the SET function with the
+&#xA;% object, property name, and property value.
+&#xA;
+&#xA;set(vidobj, 'TriggerRepeat', 2)
+&#xA;%%
+&#xA;set(src, 'Contrast', 100)
+&#xA;
+&#xA;%%
+&#xA;% Alternatively, we can configure a specific property value by using the
+&#xA;% dot (.) notation.
+&#xA;
+&#xA;vidobj.TriggerRepeat = 2;
+&#xA;%%
+&#xA;src.Contrast = 100;
+&#xA;
+&#xA;%% Getting Property Help and Other Information
+&#xA;% To obtain a property's description, use the IMAQHELP function with the
+&#xA;% object and property name. IMAQHELP can also be used for function help.
+&#xA;imaqhelp(vidobj, 'LoggingMode')
+&#xA;
+&#xA;%%
+&#xA;% To obtain information on a property's attributes, use the PROPINFO function with the object
+&#xA;% and property name.
+&#xA;propinfo(vidobj, 'LoggingMode')
+&#xA;
+&#xA;%%
+&#xA;% When an image acquisition object is no longer needed, remove it from memory and clear the MATLAB 
+&#xA;% workspace of the associated variable.
+&#xA;delete(vidobj);
+&#xA;clear vidobj
+&#xA;
+&#xA;%%
+&#xA;% See also IMAQDEVICE/GET, IMAQDEVICE/SET, IMAQDEVICE/PROPINFO, IMAQHELP."></originalCode>

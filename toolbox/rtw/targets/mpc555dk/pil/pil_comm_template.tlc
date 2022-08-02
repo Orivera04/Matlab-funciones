@@ -1,0 +1,300 @@
+%% File: pil_comm_template.tlc
+%%
+%% Abstract: Embedded real-time system target file for Processor in 
+%%   the Loop Simulation generation communications interface.
+%%
+%% $Revision: 1.19.4.3 $
+%% $Date: 2004/04/19 01:28:11 $
+%%
+%% Copyright 2001-2003 The MathWorks, Inc.
+%%
+
+%with CompiledModel
+/*
+ * %<ModelName>_comm.c -- file generated from pil_comm_template.tlc
+ *
+%<SLibCommonHeaderInfo()>\
+ *
+ * Abstract:
+ *   Defines main() for the Processor In the Loop system. 
+ */
+
+#include <stdio.h>
+#include "tmwtypes.h"
+#include "pil_comm_api.h"
+#include "%<ModelName>.h"
+#include "mpc5xx.h"
+
+/* Include for %<ModelName>_pil */
+%if !LibDWorkStructIsEmpty()
+  /* Declare external DWork structure */
+  extern %<tDWorkType> %<ModelName>_DWork_pil;
+%endif
+%if !LibExternalInputsStructIsEmpty()
+  /* Declare external inputs structure */
+    extern %<tInputType> %<tInput>;
+%endif
+%if !LibExternalOutputsStructIsEmpty()
+  /* Declare external outputs structure */
+  extern %<tOutputType> %<tOutput>;
+%endif
+
+extern void %<ModelName>_step_pil(void);
+extern void %<ModelName>_initialize_pil(int state);
+extern void %<ModelName>_terminate_pil(void);
+
+ModelStateEnum ModelState = WaitForInit;
+CommStateEnum  CommState  = WaitingForConnection;
+
+int FirstTime=1;
+
+#define TGT_COMM_PORT_ID %<TGT_COMM_PORT_ID>
+
+#if LED
+unsigned long long lltemp;		/* time stamp */
+
+void LEDUpdate()
+{
+    static bool isLEDOn = false;	/* LED status */
+    unsigned long time_in_ms = 300;	/* elapsed time in ms*/
+    /* Switch the LED to indicate heartbeat */
+    if (read_timer(&lltemp) >= time_in_ms) {
+	if (isLEDOn) {
+	    SwitchLEDOff();
+	} else {
+	    SwitchLEDOn();
+	}
+	isLEDOn = !isLEDOn;
+	start_timer(&lltemp);	/* update time stamp */
+    }
+}
+
+void LEDInitUse(void) 
+{
+    start_timer(&lltemp);
+}
+#endif
+
+/*==================================*
+ * Macros used by this module 
+ *==================================*/
+#define SERVICE_WATCHDOG_TIMER \
+   USIU.SWSR.R = 0x556C; \
+   USIU.SWSR.R = 0xAA39; 
+
+void CommMainLoop(void) {
+    PacketStruct *Packet=NULL;
+    int           PacketSize=0;
+    char          PacketType;
+    int           Status;
+
+#if LED
+    /* When LED is defined, an LED is flashed periodically as
+     * CommMainLoop executes. This call creates an initial time
+     * stamp. 
+     */
+    LEDInitUse();
+#endif
+
+    while (1) {
+        /* This is an infinite loop that constantly monitors the Comm
+         * connection for incoming data packets. It has two major states,
+         * either ConnectionOpen or not. 
+         */
+
+
+        /* This is here to assure that model values are reset before
+         * each connection and execution.
+         */
+        FirstTime=1;
+
+        CommWaitForConnection(TGT_COMM_PORT_ID);
+        CommState = ConnectionOpen;
+
+        while (CommState == ConnectionOpen) {
+            /* This is the ConnectionOpen state. This is a loop
+             * that continues until a connection is ended, either
+             *  by termination or by an error.
+             */
+#if LED	    
+            /* When LED is defined, This call creates determines if
+             * the LED state should be changed at this time. 
+             */
+            LEDUpdate();
+#endif
+            /* Ensure the watchdog does not time out */
+            SERVICE_WATCHDOG_TIMER;
+
+            /* This is where the target indicates to the host that it
+             * is ready to receive the next packet for processing. 
+             */
+            CommState = WaitForPacket;
+            Status = CommDSRGetPacketNoACK(&Packet,&PacketSize);
+            CommState = ConnectionOpen;
+            PacketType = CommGetPacketType();
+
+            switch (PacketType) {
+                /* This switch dispatches the packet to it's particular
+                 * handler.
+                 */
+
+                case ANNO_PACKET:
+                    /* An announce packet is not normally seen here. It is
+                     * normally handled in the WaitingForConnection
+                     * state. If an announcement is seen here, it is taken
+                     * as an indication that the announcer is about to
+                     * start from the beginning, so termination is
+                     * executed and the state is set to WaitForInit.  When
+                     * announcements are ignored, they are repeated, so
+                     * another should be soon comming.
+                     */
+                    CommTerminate();
+                    CommState = WaitingForConnection;
+                    ModelState = WaitForInit;
+                    break;
+
+                case INIT_PACKET:
+                    /* An init packet is the first packet expected after
+                       an announce. It causes the execution of model
+                       initialization. */
+                    if (ModelState != WaitForInit) {
+                        CommSendNACK();
+#ifdef COMMAPI_USE_PRINTF
+                        printf("Unexpected Init packet\n");
+#endif
+                        CommTerminate();
+                        CommState  = WaitingForConnection;
+                        ModelState = WaitForInit;
+                        break;
+                    } else {
+                        CommSendACK();
+                        CommInit(FirstTime);
+                        FirstTime=0;
+                        %if !LibExternalInputsStructIsEmpty()
+                            ModelState = WaitForData;
+                        %else
+                            ModelState = WaitForStep;
+                        %endif
+                            break;
+                    }
+
+                case UDATA_PACKET:
+                    %if !LibExternalInputsStructIsEmpty()
+                        if (ModelState != WaitForData) {
+#ifdef COMMAPI_USE_PRINTF
+                            printf("Unexpected Step packet\n");
+#endif
+                            CommSendNACK();
+                            break;
+                        } else {
+                            if (PacketSize != sizeof(%<tInput>)) {
+                                CommSendNACK();
+                                break;
+                            }
+
+                            memcpy(&%<tInput>,Packet,(unsigned long)PacketSize);
+                            ModelState = WaitForStep;
+                            CommSendACK();
+                            break;
+                        }
+                    %else
+                        CommSendNACK();
+                    break;
+                    %endif
+
+                case MODEL_CHECKSUM_PACKET:
+                        /* When a MODEL_CHECKSUM_PACKET arrives, compare it
+                           with the local MODEL_CHECKSUM and respond with ACK
+                           on a match and a NACK on a mismatch.
+                         */
+                        if (PacketSize != sizeof(PILModelChecksum)) {
+                            CommSendNACK();
+                            break;
+                        } else {
+                            if (memcmp(&mdlChecksum,Packet,
+                                        (unsigned long)PacketSize) != 0) {
+                                CommSendNACK();
+                                break;
+                            } else {
+                                CommSendACK();
+                                break;
+                            }
+                        }
+
+                case STEP_PACKET:
+                        if (ModelState != WaitForStep) {
+#ifdef COMMAPI_USE_PRINTF
+                            printf("Unexpected Step packet\n");
+#endif
+                            CommSendNACK();
+                            break;
+                        }
+                        ModelState = Processing;
+                        CommStep();
+                        CommSendACK();
+                        %if !LibExternalOutputsStructIsEmpty()
+                            /* Send the YStruct through COMM */
+                            CommState = SendingPacket;
+                        Status = CommSendPacket((char *)&%<tOutput>,sizeof(%<tOutput>), YDATA_PACKET);
+                        %endif
+                            CommState = ConnectionOpen;
+                        %if !LibExternalInputsStructIsEmpty()
+                            ModelState = WaitForData;
+                        %else
+                            ModelState = WaitForStep;
+                        %endif
+                            break;
+
+                case TERMINATE_PACKET:
+                        {
+                            %if !LibExternalInputsStructIsEmpty()
+                                ModelStateEnum TestModelState = WaitForData;
+                            %else
+                                ModelStateEnum TestModelState = WaitForStep;
+                            %endif
+                                if (ModelState != TestModelState) {
+#ifdef COMMAPI_USE_PRINTF
+                                    printf("Unexpected Terminate packet\n");
+#endif
+                                    CommSendNACK();
+                                }
+                            CommTerminate();
+                            CommSendACK();
+                            CommState = WaitingForConnection;
+                            ModelState = WaitForInit;
+                        }
+                        break;
+
+                default:
+#ifdef COMMAPI_USE_PRINTF
+                        printf("Unexpected packet\n");
+#endif
+                        CommSendNACK();
+                        CommTerminate();
+                        CommState = WaitingForConnection;
+                        ModelState = WaitForInit;
+                        break;
+            }
+        }
+    }
+}
+
+
+
+/*
+ * It is possible to drive PIL from an mpc555dk targeted Simulink
+ * Model. When this is being done, pil does not have to supply a main
+ * function. When the __BACKGROUNDTASK__ macro is defined, presumably
+ * mpc555dk code generation, pil's CommMainLoop must be called from  
+ * the model's generate code. When  __BACKGROUNDTASK__ macro is not
+ * defined, pil expects to provide the main function.
+ */
+#ifndef __BACKGROUNDTASK__
+int main(void)
+{
+    CommMainLoop();
+    return 0;
+}
+#endif			 
+
+%endwith

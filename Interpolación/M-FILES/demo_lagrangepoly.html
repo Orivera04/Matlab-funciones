@@ -1,0 +1,160 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>Lagrange Interpolation Polynomial</title>
+      <meta name="generator" content="MATLAB 7.3">
+      <meta name="date" content="2006-12-07">
+      <meta name="m-file" content="demo_lagrangepoly"><style>
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head>
+   <body>
+      <div class="content">
+         <h1>Lagrange Interpolation Polynomial</h1>
+         <introduction>
+            <p>If you have a set of N points on a cartesian plane, there will always exist an N-1th order polynomial of the form  y = a_0
+               + a_1.x + a_2.x^2 + ... a_n-1.x^(n-1) which passes through all the points.  Lagrange came up with a neat approach to finding
+               this polynomial, which is to construct a set of `basis' polynomials which are zero at all the specified points except for
+               one, then scale and add them to match all the control points.  LAGRANGEPOLY returns this polynomial, defined by the polynomial
+               coefficients (a_0 .. a_n-1 above), arranged in the same vector form used by Matlab builtins such as POLYVAL.
+            </p>
+            <p>LAGRANGEPOLY optionally returns the x and y co-ordinates of all the extrema and points of inflection of the polynomial too,
+               since these are easily found from the polynomial form.
+            </p>
+            <p>Lagrange interpolation has generally been replaced by spline fitting these days; see the SPLINE function.</p>
+            <p>For more information on Lagrange interpolation, there is a good explanation on the Mathworld web site, <a href="http://mathworld.wolfram.com/LagrangeInterpolatingPolynomial.html">http://mathworld.wolfram.com/LagrangeInterpolatingPolynomial.html</a></p>
+         </introduction>
+         <h2>Contents</h2>
+         <div>
+            <ul>
+               <li><a href="#1">Example</a></li>
+            </ul>
+         </div>
+         <h2>Example<a name="1"></a></h2>
+         <p>Find the polynomial going through 8 evenly-spaced points, then plot the curve, along with the control points (red circles,
+            to check the curve does indeed go through them) and the extrema (blue dots).
+         </p>
+         <p>Also, compare to SPLINE (dotted green line), which also passes through the points without such extreme deviation (but is not
+            in the form of a single polynomial).
+         </p><pre class="codeinput">X = [1 2 3 4 5 6 7 8];
+Y = [0 1 0 1 0 1 0 1];
+[P,R,S] = lagrangepoly(X,Y);
+
+xx = 0.5 : 0.01 : 8.5;
+plot(xx,polyval(P,xx),X,Y,<span class="string">'or'</span>,R,S,<span class="string">'.b'</span>,xx,spline(X,Y,xx),<span class="string">'--g'</span>)
+grid
+axis([0.5 8.5 -5 5])
+</pre><img vspace="5" hspace="5" src="demo_lagrangepoly_01.png"> <p class="footer"><br>
+            Published with MATLAB&reg; 7.3<br></p>
+      </div>
+      <!--
+##### SOURCE BEGIN #####
+%% Lagrange Interpolation Polynomial
+%
+% If you have a set of N points on a cartesian plane, there will
+% always exist an N-1th order polynomial of the form 
+%  y = a_0 + a_1.x + a_2.x^2 + ... a_n-1.x^(n-1)
+% which passes through all the points.  Lagrange came up with a 
+% neat approach to finding this polynomial, which is to construct 
+% a set of `basis' polynomials which are zero at all the specified 
+% points except for one, then scale and add them to match all the 
+% control points.  LAGRANGEPOLY returns this polynomial, defined by 
+% the polynomial coefficients (a_0 .. a_n-1 above), arranged in the 
+% same vector form used by Matlab builtins such as POLYVAL.
+%
+% LAGRANGEPOLY optionally returns the x and y co-ordinates of all 
+% the extrema and points of inflection of the polynomial too, since 
+% these are easily found from the polynomial form.
+%
+% Lagrange interpolation has generally been replaced by spline 
+% fitting these days; see the SPLINE function.
+%
+% For more information on Lagrange interpolation, there is a good 
+% explanation on the Mathworld web site, 
+% http://mathworld.wolfram.com/LagrangeInterpolatingPolynomial.html
+
+%% Example
+%
+% Find the polynomial going through 8 evenly-spaced points, 
+% then plot the curve, along with the control points (red circles,
+% to check the curve does indeed go through them) and the 
+% extrema (blue dots).
+%
+% Also, compare to SPLINE (dotted green line), which also 
+% passes through the points without such extreme deviation
+% (but is not in the form of a single polynomial).
+
+X = [1 2 3 4 5 6 7 8];
+Y = [0 1 0 1 0 1 0 1];
+[P,R,S] = lagrangepoly(X,Y);
+
+xx = 0.5 : 0.01 : 8.5;
+plot(xx,polyval(P,xx),X,Y,'or',R,S,'.b',xx,spline(X,Y,xx),'REPLACE_WITH_DASH_DASHg')
+grid
+axis([0.5 8.5 -5 5])
+
+##### SOURCE END #####
+-->
+   </body>
+</html>

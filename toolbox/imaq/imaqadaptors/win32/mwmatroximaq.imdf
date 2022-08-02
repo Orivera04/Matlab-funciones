@@ -1,0 +1,1681 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+
+RDD 7-13-2002 
+Copyright 2001-2004 The Mathworks, Inc. 
+
+$Revision: 1.1.8.4 $
+$Date: 2004/03/24 20:39:15 $
+
+-->
+<!-- 
+
+This XML file is used to store static information for a particular
+vendor's image acquisition devices.  The first element of the file
+must be <ImaqAcquisitionVendorInfo> followed by one or more <Device>
+elements.  
+
+Each <Device> element requires a 'name' attribute, which is the
+name of the device, as known by the corresponding adaptor.  This
+name usually is the name of the device from the SDK.  Within the
+<Device> section, there should be one or more <VideoFormat> elements
+as well as zero or more <Property> elements.
+
+Each <VideoFormat> element requires a 'name' attribute, which is the
+video format supported by the device.  This video format usually is
+the name of the video format as used by the adaptor.  The <VideoFormat> 
+element also shall contain one or more <Source> elements that
+corresponds to the available sources for the video format.  The 
+<VideoFormat> element can also contain <Property> elements that
+are unique to the video format.
+
+Each <Source> element shall have a 'name' and 'id' attributes.  The
+name is the name of the source, as used by the adaptor.  The id
+attribute is a number representation used by adaptors to identify
+this source to the SDK.  The name attribute is used in MATLAB as
+the name of the sources, as the id is only used by the adaptor
+and needs only to be unique between sources.
+
+The <Property> element can be in either the <Device> or <VideoFormat>
+elements depending on if the property is video-format independent
+or not.  Each Property element requires the following attributes:
+  name                - The property name as it should be listed
+  type                - The property data type: "cell", "double", or
+                        "string"
+  constraint          - Constraints on property values: "bounded", 
+                        "enum", or "none"
+  readOnly            - "always" if the property is always read-only,
+                        "never" if it's never read-only, and 
+                        "whileRunning" if it's read-only while Running
+                        is on.
+  deviceSpecific      - "true" if the property is vendor specific,
+                        "false" if the property is not vendor specific.
+ 
+A type value of "cell" requires a constraint value of "none".
+A type value of "double" requires a constraint value of "bounded or "none".
+A type value of "string" requires a constraint value of "enum" or "none".
+                           
+Each Property element can contain the following additional elements:
+  EnumConstraintValue - Required for an "enum" constraint only. 
+                        EnumConstraintValue provides an enum value
+                        for the property. There is no limit on the
+                        number of EnumConstraintValue elements a 
+                        Property element can contain.
+
+An optional element, <Include> can be used to simplify the XML
+file.  By including this element under the <VideoFormat> element,
+the information contained in the element specified by the required
+'tag' attribute found under the <Device> element is consumed.  
+This allows common elements between video formats, i.e., <Property>
+and/or <Source> elements, to be specified only once in the XML
+file.  
+
+-->
+<ImageAcquisitionInfo>
+    <Help>
+        <AdaptorHelp property="BlackReference">The black reference voltage for the A/D converter.
+
+When digitizing from analog video signals, the black and white reference levels
+determine the minimum and maximum levels, respectively, of an input voltage
+range.  Any voltage below the black reference is interpreted as the minimum
+image value and any voltage above the white reference is  interpreted as the
+maximum image value.
+
+The property InputGain affects the video signal before the A/D converter
+receives it, hence changes the InputGain parameter must be taken into account to
+determine the actual 'black' reference point of the incoming video signal.  See
+Matrox's MIL-Lite Users Guide, Chapter 7 for more information.<SeeAlso>WhiteReference, InputGain.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="WhiteReference">The white reference voltage for the A/D converter.
+
+When digitizing from analog video signals, the black and white reference levels
+determine the minimum and maximum levels, respectively, of an input voltage
+range.  Any voltage below the black reference is interpreted as the minimum
+image value and any voltage above the white reference is  interpreted as the
+maximum image value.
+
+The property InputGain affects the video signal before the A/D converter
+receives it, hence changes the InputGain parameter must be taken into account to
+determine the actual 'white' reference point of the incoming video signal.  See
+Matrox's MIL-Lite Users Guide, Chapter 7 for more information.<SeeAlso>BlackReference, InputGain.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="XScaleFactor">Image scale factor for the x-dimension.  
+
+This scale factor affects the width of the acquired image by subsampling the
+image in the x-dimension.  The image returned to MATLAB will contain only 1 of
+every XSCALEFACTOR columns in the x-dimension.  
+
+This subsampling is applied before the region-of-interest parameter,
+ROIPOSITION, is applied, hence the ROIPOSITION dimensions are affected by the
+change of this parameter.  
+
+See Matrox's MIL-Lit Users Guide, Chapter 7 for more information.<SeeAlso>YScaleFactor, VideoResolution, ROIPosition.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="Timer1ActiveTime">The time for the active portion of the exposure timer #1 output.  
+
+This parameter specifies the time, in seconds, in which exposure timer #1
+remains in the active state.  This time generally is referred to as
+&quot;exposure time&quot; if the output is used to control the exposure of a
+camera.  
+
+Upon the triggering of the exposure timer, the output will remain  inactive for
+the TIMER1DELAY seconds then become active for  TIMER1ACTIVE seconds before
+returning inactive.  The level of the output is determined by the TIMER1MODE
+parameter.  The triggering of the exposure timer is dictated by the
+TIMER1TRIGGERSOURCE and TIMER1TRIGGERCONDITION parameters.  The exposure timer
+will not respond to a trigger unless it is on, see the TIMER1 parameter.   
+
+See the Matrox MIL-Lite Users Guide, chapter 7 under the section &quot;Grabbing
+with Triggers and Exposures&quot; for a detailed description of  how to use
+exposure timers.  The adaptor presents exposure timers using the manual exposure
+bypass model described in the Matrox  documentation.<SeeAlso>Timer1, Timer1Mode, Timer1TriggerSource, Timer1Delay.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="Timer1Delay">The time delay before exposure time #1's output goes active.  
+
+This parameter specifies the time, in seconds, in which exposure timer #1
+remains in the inactive state after a trigger before it enters an active state.  
+
+Upon the triggering of the exposure timer, the output will remain  inactive for
+the TIMER1DELAY seconds then become active for  TIMER1ACTIVE seconds before
+returning inactive.  The level of the output is determined by the TIMER1MODE
+parameter.  The triggering of the exposure timer is dictated by the
+TIMER1TRIGGERSOURCE and TIMER1TRIGGERCONDITION parameters.  The exposure timer
+will not respond to a trigger unless it is on, see the TIMER1 parameter.   
+
+See the Matrox MIL-Lite Users Guide, chapter 7 under the section  &quot;Grabbing
+with Triggers and Exposures&quot; for a detailed description of  how to use
+exposure timers.  The adaptor presents exposure timers using the manual exposure
+bypass model described in the Matrox documentation.<SeeAlso>Timer1, Timer1Mode, Timer1TriggerSource, Timer1ActiveTime.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="Timer1TriggerSource">The input trigger source of timer #1.    
+
+This specifies the source to be monitored for a trigger event.  A trigger event
+is when the source satisfies the TIMER1TRIGGERCONDITION  condition.  
+
+Upon the triggering of the exposure timer, the output will remain  inactive for
+the TIMER1DELAY seconds then become active for  TIMER1ACTIVE seconds before
+returning inactive.  The level of the output is determined by the TIMER1MODE
+parameter.  The triggering of the exposure timer is dictated by the
+TIMER1TRIGGERSOURCE and TIMER1TRIGGERCONDITION parameters.  The exposure timer
+will not respond to a trigger unless it is on, see the TIMER1 parameter.   
+
+See the Matrox MIL-Lite Users Guide, chapter 7 under the section  &quot;Grabbing
+with Triggers and Exposures&quot; for a detailed description of  how to use
+exposure timers.  The adaptor presents exposure timers using the manual exposure
+bypass model described in the Matrox  documentation.<SeeAlso>Timer1, Timer1Mode, Timer1TriggerCondition, Timer1ActiveTime, Timer1Delay.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="Timer1Mode">The output polarity of the active state of exposure timer #1.  
+
+This specifies what output level corresponds to the active state of the exposure
+timer.  If set to 'activeHigh', the output will be TTL high during the active
+time and TTL low when inactive.    
+
+Upon the triggering of the exposure timer, the output will remain  inactive for
+the TIMER1DELAY seconds then become active for  TIMER1ACTIVE seconds before
+returning inactive.  The level of the output is determined by the TIMER1MODE
+parameter.  The triggering of the exposure timer is dictated by the
+TIMER1TRIGGERSOURCE and TIMER1TRIGGERCONDITION parameters.  The exposure timer
+will not respond to a trigger unless it is on, see the TIMER1 parameter.   
+
+See the Matrox MIL-Lite Users Guide, chapter 7 under the section  &quot;Grabbing
+with Triggers and Exposures&quot; for a detailed description of  how to use
+exposure timers.  The adaptor presents exposure timers using the manual exposure
+bypass model described in the Matrox documentation.<SeeAlso>Timer1, Timer1TriggerSource, Timer1TriggerCondition, Timer1ActiveTime,
+Timer1Delay.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="Timer1TriggerCondition">The trigger condition detection criteria for exposure timer #1.  
+
+This specifies the condition to be considered a trigger event on the timer's
+trigger source, TIMER1TRIGGERSOURCE.  Upon satisfying this condition, the timer
+is triggered.  
+
+Upon the triggering of the exposure timer, the output will remain inactive for
+the TIMER1DELAY seconds then become active for  TIMER1ACTIVE seconds before
+returning inactive.  The level of the output is determined by the TIMER1MODE
+parameter.  The triggering of the exposure timer is dictated by the
+TIMER1TRIGGERSOURCE and TIMER1TRIGGERCONDITION parameters.  The exposure timer
+will not respond to a trigger unless it is on, see the TIMER1 parameter.   
+
+See the Matrox MIL-Lite Users Guide, chapter 7 under the section  &quot;Grabbing
+with Triggers and Exposures&quot; for a detailed description of  how to use
+exposure timers.  The adaptor presents exposure timers using the manual exposure
+bypass model described in the Matrox documentation.<SeeAlso>Timer1, Timer1TriggerSource, Timer1TriggerMode, Timer1ActiverTime, Timer1Delay.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="Timer1">Enables exposure timer #1 and its output.  
+
+Upon enabling the exposure timer, it will start detection of triggers and
+generate output as appropriate.
+
+See the Matrox MIL-Lite Users Guide, chapter 7 under the section  &quot;Grabbing
+with Triggers and Exposures&quot; for a detailed description of  how to use
+exposure timers.  The adaptor presents exposure timers using the manual exposure
+bypass model described in the Matrox  documentation.<SeeAlso>Timer1TriggerSource, Timer1TriggerCondition, Timer1TriggerMode,
+Timer1ActiveTime, Timer1Delay.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="Timer2ActiveTime">The time for the active portion of exposure timer #2 output.  
+
+This parameter specifies the time, in seconds, in which exposure timer #2
+remains in the active state.  This time generally is referred to as
+&quot;exposure time&quot; if the output is used to control the exposure of a
+camera.  
+
+Upon the triggering of the exposure timer, the output will remain  inactive for
+the TIMER2DELAY seconds then become active for  TIMER2ACTIVE seconds before
+returning inactive.  The level of the output is determined by the TIMER2MODE
+parameter.  The triggering of the exposure timer is dictated by the
+TIMER2TRIGGERSOURCE and TIMER2TRIGGERCONDITION parameters.  The exposure timer
+will not respond to a trigger unless it is on, see the TIMER2 parameter.   
+
+See the Matrox MIL-Lite Users Guide, chapter 7 under the section &quot;Grabbing
+with Triggers and Exposures&quot; for a detailed description of  how to use
+exposure timers.  The adaptor presents exposure timers using the manual exposure
+bypass model described in the Matrox  documentation.<SeeAlso>Timer2, Timer2Mode, Timer2TriggerSource, Timer2Delay.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="Timer2Delay">The time delay before exposure time #2's output goes active.  
+
+This parameter specifies the time, in seconds, in which exposure timer #2
+remains in the inactive state after a trigger before it enters an active state.  
+
+Upon the triggering of the exposure timer, the output will remain  inactive for
+the TIMER2DELAY seconds then become active for  TIMER2ACTIVE seconds before
+returning inactive.  The level of the output is determined by the TIMER2MODE
+parameter.  The triggering of the exposure timer is dictated by the
+TIMER2TRIGGERSOURCE and TIMER2TRIGGERCONDITION parameters.  The exposure timer
+will not respond to a trigger unless it is on, see the TIMER2 parameter.   
+
+See the Matrox MIL-Lite Users Guide, chapter 7 under the section  &quot;Grabbing
+with Triggers and Exposures&quot; for a detailed description of  how to use
+exposure timers.  The adaptor presents exposure timers using the manual exposure
+bypass model described in the Matrox documentation.<SeeAlso>Timer2, Timer2Mode, Timer2TriggerSource, Timer2ActiveTime.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="Timer2TriggerSource">The input trigger source of timer #2.    
+
+This specifies the source to be monitored for a trigger event.  A trigger event
+is when the source satisfies the TIMER2TRIGGERCONDITION  condition.  
+
+Upon the triggering of the exposure timer, the output will remain  inactive for
+the TIMER2DELAY seconds then become active for  TIMER2ACTIVE seconds before
+returning inactive.  The level of the output is determined by the TIMER2MODE
+parameter.  The triggering of the exposure timer is dictated by the
+TIMER2TRIGGERSOURCE and TIMER2TRIGGERCONDITION parameters.  The exposure timer
+will not respond to a trigger unless it is on, see the TIMER2 parameter.   
+
+See the Matrox MIL-Lite Users Guide, chapter 7 under the section  &quot;Grabbing
+with Triggers and Exposures&quot; for a detailed description of  how to use
+exposure timers.  The adaptor presents exposure timers using the manual exposure
+bypass model described in the Matrox  documentation.<SeeAlso>Timer2, Timer2Mode, Timer2TriggerCondition, Timer2ActiveTime, Timer2Delay.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="Timer2Mode">The output polarity of the active state of exposure timer #2.  
+
+This specifies what output level corresponds to the active state of the exposure
+timer.  If set to 'activeHigh', the output will be TTL high during the active
+time and TTL low when inactive.    
+
+Upon the triggering of the exposure timer, the output will remain  inactive for
+the TIMER2DELAY seconds then become active for  TIMER2ACTIVE seconds before
+returning inactive.  The level of the output is determined by the TIMER2MODE
+parameter.  The triggering of the exposure timer is dictated by the
+TIMER2TRIGGERSOURCE and TIMER2TRIGGERCONDITION parameters.  The exposure timer
+will not respond to a trigger unless it is on, see the TIMER2 parameter.   
+
+See the Matrox MIL-Lite Users Guide, chapter 7 under the section  &quot;Grabbing
+with Triggers and Exposures&quot; for a detailed description of  how to use
+exposure timers.  The adaptor presents exposure timers using the manual exposure
+bypass model described in the Matrox documentation.<SeeAlso>Timer2, Timer2TriggerSource, Timer2TriggerCondition, Timer2ActiveTime,
+Timer2Delay.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="Timer2TriggerCondition">The trigger condition detection criteria for exposure timer #2.  
+
+This specifies the condition to be considered a trigger event on the timer's
+trigger source, TIMER2TRIGGERSOURCE.  
+
+Upon satisfying this condition, the timer is triggered.  Upon the triggering of
+the exposure timer, the output will remain inactive for the TIMER2DELAY seconds
+then become active for  TIMER2ACTIVE seconds before returning inactive.  The
+level of the output is determined by the TIMER2MODE parameter.  The triggering
+of the exposure timer is dictated by the TIMER2TRIGGERSOURCE and
+TIMER2TRIGGERCONDITION parameters.  The exposure timer will not respond to a
+trigger unless it is on, see the TIMER2 parameter.   
+
+See the Matrox MIL-Lite Users Guide, chapter 7 under the section  &quot;Grabbing
+with Triggers and Exposures&quot; for a detailed description of  how to use
+exposure timers.  The adaptor presents exposure timers using the manual exposure
+bypass model described in the Matrox documentation.<SeeAlso>Timer2, Timer2TriggerSource, Timer2TriggerMode, Timer2ActiveMode, Timer2Delay.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="Timer2">Enables exposure timer #2 and its output.  
+
+Upon enabling the exposure timer, it will start detection of triggers and
+generate output as appropriate.
+
+See the Matrox MIL-Lite Users Guide, chapter 7 under the section  &quot;Grabbing
+with Triggers and Exposures&quot; for a detailed description of  how to use
+exposure timers.  The adaptor presents exposure timers using the manual exposure
+bypass model described in the Matrox  documentation.<SeeAlso>Timer2TriggerSource, Timer2TriggerCondition, Timer2TriggerMode,
+Timer2ActiveTime, Timer2Delay.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="DigitalInFormat">Identifies the digital signal format of the digital input.  
+
+This specifies what input format to use for digital inputs.  The options  are
+either TTL and a differential input like RS422 or LVDS.  Selecting one format
+over another may affect which input on the device needs to be used.  See the
+documentation of the device for specifics on which inputs corresponds to which
+format.
+	</AdaptorHelp>
+        <AdaptorHelp property="DigtialOutFormat">Identifies the digital signal format of the digital output.  
+
+This specifies what output format to use for digital outputs.  The options  are
+either TTL and a differential input like RS422 or LVDS.  Selecting one format
+over another may affect which output on the device needs to be used.  See the
+documentation of the device for specifics on which output corresponds to which
+format.
+        </AdaptorHelp>
+        <AdaptorHelp property="UserOutputBit0">Identifies the state of the USER output bit #0.  
+
+When set to 'on', the USER output bit will be a TTL high, otherwise the output
+will be TTL low.
+	   <DeviceHelp device="Genesis">This output is associated with the USER(0) output pin of the digital interface
+connector.</DeviceHelp>
+	   <SeeAlso>DigitalOutFormat.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="UserOutputBit1">Identifies the state of the USER output bit #1.  
+
+When set to 'on', the USER output bit will be a TTL high, otherwise the output
+will be TTL low.
+	   <DeviceHelp device="Genesis">This output is associated with the USER(1) output pin of the digital interface
+connector.</DeviceHelp>
+	   <SeeAlso>DigitalOutFormat.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="UserOutputBit2">Identifies the state of the USER output bit #2.  
+
+When set to 'on', the USER output bit will be a TTL high, otherwise the output
+will be TTL low.
+	    <DeviceHelp device="Genesis">This output is associated with either the Camera Control Bit 0 (digital input
+board, TTL format only) or the Module Load Output (Digital cable adaptor, TTL
+format only) output.</DeviceHelp>
+	    <SeeAlso>DigitalOutFormat.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="UserOutputBit3">Identifies the state of the USER output bit #3.  
+
+When set to 'on', the USER output bit will be a TTL high, otherwise the output
+will be TTL low.
+	    <DeviceHelp device="Genesis">This output is associated with either the Camera Control Bit 1 (digital input
+board, TTL format only) or the Module Clock Output (Digital cable adaptor, TTL
+format only) output.</DeviceHelp>
+	    <DeviceHelp device="Orion">This output is associated with the USER1OUT signal on the video I/O connector.</DeviceHelp>
+	    <DeviceHelp device="Corona II">This output is associated with the USER1OUT output signal on the Video Input
+Connector. </DeviceHelp>
+	    <DeviceHelp device="Meteor II/MC">This output is associated with the USER1OUT output signal on the Video Input
+Connector.</DeviceHelp>
+	    <DeviceHelp device="Meteor II/Std">This output is associated with the USER1OUT output signal on the Video Input
+Connector.</DeviceHelp>
+	    <DeviceHelp device="Corona II+Digital">This output is associated with the USER1OUT output signal on the Video Input
+Connector.</DeviceHelp>
+	    <SeeAlso>DigitalOutFormat.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="UserOutputBit4">Identifies the state of the USER output bit #4.  
+
+When set to 'on', the USER output bit will be a TTL high, otherwise the output
+will be TTL low.
+	    <DeviceHelp device="Corona II+Digital">This output is associated with the USER2OUT output signal on the Video Input
+Connector.</DeviceHelp>
+	    <DeviceHelp device="Genesis">This output is associated with either the Camera Control Bit 2 (digital input
+board, TTL format only) or the Module Data Output (Digital cable adaptor, TTL
+format only) output.</DeviceHelp>
+	    <DeviceHelp device="Orion">This output is associated with the USER2OUT signal on the video I/O connector.</DeviceHelp>
+	    <DeviceHelp device="Corona II">This output is associated with the USER2OUT output signal on the Video Input
+Connector.</DeviceHelp>
+	    <DeviceHelp device="Meteor II/MC">This output is associated with the USER2OUT output signal on the Video Input
+Connector.</DeviceHelp>
+	    <DeviceHelp device="Meteor II/Std">This output is associated with the USER2OUT output signal on the Video Input
+Connector.</DeviceHelp>
+	    <SeeAlso>DigitalOutFormat.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="UserOutputBit5">Identifies the state of the USER output bit #5.  
+
+When set to 'on', the USER output bit will be a TTL high, otherwise the output
+will be TTL low.
+	    <DeviceHelp device="Corona II+Digital">State of the USER3OUT output signal on the Video Input Connector.</DeviceHelp>
+	    <SeeAlso>DigitalOutFormat.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="UserOutputBit6">Identifies the state of the USER output bit #6.  
+
+When set to 'on', the USER output bit will be a TTL high, otherwise the output
+will be TTL low.
+	    <DeviceHelp device="Corona II+Digital">State of the USER4OUT output signal on the Video Input Connector.</DeviceHelp>
+	    <SeeAlso>DigitalOutFormat.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="UserOutputBit7">Identifies the state of the USER output bit #7.  
+
+When set to 'on', the USER output bit will be a TTL high, otherwise the output
+will be TTL low.
+
+	    <SeeAlso>DigitalOutFormat.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="UserOutputBit8">Identifies the state of the USER output bit #8.  
+
+When set to 'on', the USER output bit will be a TTL high, otherwise the output
+will be TTL low.
+	    <SeeAlso>DigitalOutFormat.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="UserOutputBit9">Identifies the state of the USER output bit #9.  
+
+When set to 'on', the USER output bit will be a TTL high, otherwise the output
+will be TTL low.
+	    <DeviceHelp device="Corona II">State of the USER3OUT output signal on the Video Input Connector.</DeviceHelp>
+	    <SeeAlso>DigitalOutFormat.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="YScaleFactor">Image scale factor for the y-dimension.  
+
+This scale factor affects the height of the acquired image by subsampling the
+image.  The image returned to MATLAB will contain only 1 of every YSCALEFACTOR
+rows in the y-dimension.
+
+This subsampling is applied before the region-of-interest parameter,
+ROIPOSITION, is applied, hence the ROIPOSITION dimensions are affected by the
+change of this parameter.
+
+See Matrox's MIL-Lit Users Guide, Chapter 7 for more information.<SeeAlso>XScaleFactor, VideoResolution, ROIPosition.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="Hue">The hue level of the video decoder.  
+
+The HUE property allows the adjustment of the color as it is digitized. Changing
+this value shifts the image in hue.
+
+For more information, see the documentation that came with the device.<SeeAlso>Saturation, Brightness, Contrast.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="Saturation">The saturation level of the video decoder.  
+
+The SATURATION property allows the adjustment of the color as it is digitized.
+Changing this value shifts the image in saturation.  
+
+For more information, see the documentation that came with the device.<SeeAlso>Hue, Brightness, Contrast.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="Brightness">The brightness level of the video decoder.  
+
+The BRIGHTNESS property allows the adjustment of the intensity as it is
+digitized.  Changing this value shifts the image in intensity.  
+
+For more information, see the documentation that came with the device.<SeeAlso>Contrast, Hue, Saturation.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="Contrast">The contrast level of the video decoder.  
+
+The CONTRAST property allows the adjustment of the image contrast as it is
+digitized.  
+
+For more information, see the documentation that came with the device.<SeeAlso>Brightness, Hue, Saturation.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="AutomaticInputGain">Enables or disables the automatic adjustment of the input gain.  
+
+When enabled, the frame grabber automatically adjusts the input gain, within
+limits of the device, as to produce an average intensity that maybe more
+appealing.  The actual algorithm used to determine the input gain is dependent
+on the device implementation. 
+	 </AdaptorHelp>
+        <AdaptorHelp property="VCRInputFilter">Enables improved digitization of video from video cassette recording technologies.  
+
+When enabled, the device improves image stability by treating the sync portion
+of the signal as instable, which is typically the case of video from video
+cassette players/recorders.
+	 </AdaptorHelp>
+        <AdaptorHelp property="Timer1ClockSource">The exposure timer #1 pacer clock source.  
+
+This parameter specifies the clock source used for the counting of time for the
+TIMER1ACTIVETIME and TIMER1DELAY production.  This  should be set to a source in
+which the time can be represented in a multiple of the clock source that can be
+represented in the resolution of the exposure timer's counter.  It is
+recommended that if you are not sure which is the most appropriate clock source
+that 'automatic' should be used, as that setting allows the device driver to
+choose the source given the settings of the TIMER1ACTIVETIME and TIMER1DELAY
+parameters.  
+
+See the Matrox MIL-Lite Users Guide, chapter 7 under the section  &quot;Grabbing
+with Triggers and Exposures&quot; for a detailed description of  how to use
+exposure timers.  The adaptor presents exposure timers using the manual exposure
+bypass model described in the Matrox documentation.<SeeAlso>Timer1, Timer1Mode, Timer1TriggerSource, Timer1ActiveTime, Timer1Delay.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="InputFilter">Specifies the lowpass filter to apply to the video input.
+
+When set to something other than 'none', an analog low-pass filter is applied to
+the video input before it is sent to the A/D converter. Using a low-pass filter
+can improve the acquisition of monochrome images from a color video source.  
+
+See the documentation that was included with your device for particular
+information on the various input filters available.
+	 </AdaptorHelp>
+        <AdaptorHelp property="InputGain">Input video gain.  
+
+The input gain is an analog amplification of the selected video signal before it
+reaches the analog-to-digital circuitry.  Changing this value will affect the
+video input range digitized.  
+
+The property InputGain effects the video signal before the A/D converter
+receives it, hence changes the INPUTGAIN parameter must be taken into account to
+while determining the appropriate values of either the
+BLACKREFERENCE/WHITEREFERENCE, or the BRIGHTNESS/CONTRAST parameters.  
+
+See Matrox's MIL-Lite Users Guide, Chapter 7 for more information.
+	 </AdaptorHelp>
+        <AdaptorHelp property="SyncInput">Specifies the source of the sync signals.  
+
+Every source is comprised of two signal types: video and syncl.  The video
+portion of the signal contains the imagery information while the sync portion of
+signal contains markers of the beginning of frames and lines in in the video
+signal.    
+
+While there are two types of signals, they can be combined into a single
+physical input.  This type of signal is called a 'composite' signal.  Standard
+video inputs like RS170, CCIR, NTSC, or PAL are typically available as a
+composite signal, so only one cable contains both types of signal information.
+	 </AdaptorHelp>
+        <AdaptorHelp property="UserOutputBit10">Identifies the state of the USER output bit #10.
+
+When set to 'on', the USER output bit will be a TTL high, otherwise the output
+will be TTL low.
+	    <DeviceHelp device="Corona II">State of the USER4OUT output signal on the Video Input Connector.</DeviceHelp>
+	    <DeviceHelp device="Corona II+Digital">State of the USER4OUT output signal on the Video Input Connector.</DeviceHelp>
+	    <SeeAlso>DigitalOutFormat.</SeeAlso>
+        </AdaptorHelp>
+        <AdaptorHelp property="Timer2ClockSource">The exposure timer #2 pacer clock source.  
+
+This parameter specifies the clock source used for the counting of time for the
+TIMER2ACTIVETIME and TIMER2DELAY production.  This  should be set to a source in
+which the time can be represented in a multiple of the clock source that can be
+represented in the resolution of the exposure timer's counter.  It is
+recommended that if you are not sure which is the most appropriate clock source
+that 'automatic' should be used, as that setting allows the device driver to
+choose the source given the settings of the TIMER2ACTIVETIME and TIMER2DELAY
+parameters.  
+
+See the Matrox MIL-Lite Users Guide, chapter 7 under the section  &quot;Grabbing
+with Triggers and Exposures&quot; for a detailed description of  how to use
+exposure timers.  The adaptor presents exposure timers using the manual exposure
+bypass model described in the Matrox documentation.<SeeAlso>Timer2, Timer2Mode, Timer2TriggerSource, Timer2ActiveTime, Timer2Delay.</SeeAlso>
+        </AdaptorHelp>
+	<AdaptorHelp property="StartingField">Specifies which field is acquired first.
+
+Most standard video signal formats are transmitted as an interlaced
+signal.  Every frame is split into two 'fields' - one field containing the
+even lines and one containing odd lines.  The reason for this is 
+somewhat historical.  When acquiring interlaced video, the device
+will acquire two adjacent incoming fields and put the even field in the
+even lines, and the odd field in the odd lines of the acquired image.
+
+Setting this property to 'evenField' causes the even field to be 
+considered the first field of the frame.  Setting it to 'oddField'
+makes the odd field the first field of the frame.  Setting it to 'any'
+causes the first field encountered to be the first field of the frame.
+</AdaptorHelp>
+    </Help>
+    <Device name="Genesis">
+        <Section name="monoInput">
+            <Property constraint="enum" default="composite" deviceSpecific="true" name="SyncInput"
+                readOnly="whileRunning" type="string">
+                <EnumConstraintValue id="0" name="input1"/>
+                <EnumConstraintValue id="1" name="input2"/>
+                <EnumConstraintValue id="2" name="input3"/>
+                <EnumConstraintValue id="3" name="input4"/>
+                <EnumConstraintValue id="-1" name="composite"/>
+            </Property>
+        </Section>
+        <Section name="rgbInput">
+            <Property constraint="enum" default="externalSync" deviceSpecific="true"
+                name="SyncInput" readOnly="whileRunning" type="string">
+                <EnumConstraintValue id="0" name="red"/>
+                <EnumConstraintValue id="1" name="green"/>
+                <EnumConstraintValue id="2" name="blue"/>
+                <EnumConstraintValue id="3" name="externalSync"/>
+            </Property>
+        </Section>
+        <TriggerInfo>
+            <TriggerSource id="16" name="optoTrigger">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+            <TriggerSource id="17" name="digitalTrigger">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+            <TriggerSource id="1" name="timer1">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+            <TriggerSource id="2" name="timer2">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+        </TriggerInfo>
+        <Property constraint="bounded" default="0" deviceSpecific="true" max="2.5" min="0"
+            name="BlackReference" readOnly="never" type="double"/>
+        <Property constraint="bounded" default="2.5" deviceSpecific="true" max="2.5" min="0"
+            name="WhiteReference" readOnly="never" type="double"/>
+        <Property constraint="enum" default="4.1" deviceSpecific="true" name="InputGain"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="10" name="2.0"/>
+            <EnumConstraintValue id="11" name="2.7"/>
+            <EnumConstraintValue id="12" name="3.3"/>
+            <EnumConstraintValue id="14" name="4.1"/>
+        </Property>
+        <Property constraint="bounded" default="1" deviceSpecific="true" max="16" min="1"
+            name="XScaleFactor" readOnly="never" type="int"/>
+        <Property constraint="bounded" default="1" deviceSpecific="true" max="16" min="1"
+            name="YScaleFactor" readOnly="never" type="int"/>
+        <Property constraint="zeroorpositive" default="0" deviceSpecific="true"
+            name="Timer1ActiveTime" readOnly="never" type="double"/>
+        <Property constraint="zeroorpositive" default="0" deviceSpecific="true" name="Timer1Delay"
+            readOnly="never" type="double"/>
+        <Property constraint="enum" default="optoTrigger" deviceSpecific="true"
+            name="Timer1TriggerSource" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="16" name="optoTrigger"/>
+            <EnumConstraintValue id="17" name="digitalTrigger"/>
+            <EnumConstraintValue id="22" name="horizontalSync"/>
+            <EnumConstraintValue id="23" name="verticalSync"/>
+            <EnumConstraintValue id="2" name="timer2"/>
+            <EnumConstraintValue id="-1" name="continuous"/>
+        </Property>
+        <Property constraint="enum" default="activeHigh" deviceSpecific="true" name="Timer1Mode"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="15" name="activeHigh"/>
+            <EnumConstraintValue id="14" name="activeLow"/>
+        </Property>
+        <Property constraint="enum" default="risingEdge" deviceSpecific="true"
+            name="Timer1TriggerCondition" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="12" name="risingEdge"/>
+            <EnumConstraintValue id="13" name="fallingEdge"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="Timer1"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="-9997" name="on"/>
+            <EnumConstraintValue id="-9999" name="off"/>
+        </Property>
+        <Property constraint="zeroorpositive" default="0" deviceSpecific="true"
+            name="Timer2ActiveTime" readOnly="never" type="double"/>
+        <Property constraint="zeroorpositive" default="0" deviceSpecific="true" name="Timer2Delay"
+            readOnly="never" type="double"/>
+        <Property constraint="enum" default="optoTrigger" deviceSpecific="true"
+            name="Timer2TriggerSource" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="16" name="optoTrigger"/>
+            <EnumConstraintValue id="17" name="digitalTrigger"/>
+            <EnumConstraintValue id="22" name="horizontalSync"/>
+            <EnumConstraintValue id="23" name="verticalSync"/>
+            <EnumConstraintValue id="1" name="timer1"/>
+            <EnumConstraintValue id="-1" name="continuous"/>
+        </Property>
+        <Property constraint="enum" default="activeHigh" deviceSpecific="true" name="Timer2Mode"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="15" name="activeHigh"/>
+            <EnumConstraintValue id="14" name="activeLow"/>
+        </Property>
+        <Property constraint="enum" default="risingEdge" deviceSpecific="true"
+            name="Timer2TriggerCondition" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="12" name="risingEdge"/>
+            <EnumConstraintValue id="13" name="fallingEdge"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="Timer2"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="-9997" name="on"/>
+            <EnumConstraintValue id="-9999" name="off"/>
+        </Property>
+        <Property constraint="enum" default="ttl" deviceSpecific="true" name="DigitalInFormat"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="1" name="ttl"/>
+            <EnumConstraintValue id="2" name="rs422"/>
+        </Property>
+        <Property constraint="enum" default="ttl" deviceSpecific="true" name="DigitalOutFormat"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="1" name="ttl"/>
+            <EnumConstraintValue id="2" name="rs422"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit0"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit1"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit2"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit3"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit4"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+	<Property constraint="enum" default="any" deviceSpecific="true" name="StartingField"
+	    readOnly="whileRunning" type="string">
+	    <EnumConstraintValue id="10" name="any"/>
+	    <EnumConstraintValue id="11" name="evenField"/>
+	    <EnumConstraintValue id="12" name="oddField"/>
+         </Property>
+    </Device>
+    <Device name="Meteor II/MC">
+        <Section name="rgbInput">
+            <Property constraint="enum" default="externalSync" deviceSpecific="true"
+                name="SyncInput" readOnly="whileRunning" type="string">
+                <EnumConstraintValue id="0" name="red"/>
+                <EnumConstraintValue id="1" name="green"/>
+                <EnumConstraintValue id="2" name="blue"/>
+                <EnumConstraintValue id="3" name="externalSync"/>
+            </Property>
+        </Section>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit3"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit4"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="bounded" default="0.6" deviceSpecific="true" max="1.6" min="0.6"
+            name="BlackReference" readOnly="never" type="double"/>
+        <Property constraint="bounded" default="2.6" deviceSpecific="true" max="2.6" min="1.6"
+            name="WhiteReference" readOnly="never" type="double"/>
+        <TriggerInfo>
+            <TriggerSource id="16" name="optoTrigger">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+            <TriggerSource id="17" name="digitalTrigger">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+            <TriggerSource id="1" name="timer1">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+            <TriggerSource id="2" name="timer2">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+        </TriggerInfo>
+        <Property constraint="enum" default="2.8" deviceSpecific="true" name="InputGain"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="14" name="1.0"/>
+            <EnumConstraintValue id="10" name="1.3"/>
+            <EnumConstraintValue id="11" name="2.0"/>
+            <EnumConstraintValue id="12" name="2.8"/>
+            <EnumConstraintValue id="13" name="4.0"/>
+        </Property>
+        <Section name="monoViaRGBInput">
+            <Property constraint="enum" default="composite" deviceSpecific="true" name="SyncInput"
+                readOnly="whileRunning" type="string">
+                <EnumConstraintValue id="0" name="input0"/>
+                <EnumConstraintValue id="1" name="input1"/>
+                <EnumConstraintValue id="2" name="input2"/>
+                <EnumConstraintValue id="3" name="externalSync"/>
+                <EnumConstraintValue id="-1" name="composite"/>
+            </Property>
+        </Section>
+        <Property constraint="bounded" default="1" deviceSpecific="true" max="16" min="1"
+            name="XScaleFactor" readOnly="never" type="int"/>
+        <Property constraint="bounded" default="1" deviceSpecific="true" max="16" min="1"
+            name="YScaleFactor" readOnly="never" type="int"/>
+        <Property constraint="zeroorpositive" default="0" deviceSpecific="true"
+            name="Timer1ActiveTime" readOnly="never" type="double"/>
+        <Property constraint="zeroorpositive" default="0" deviceSpecific="true" name="Timer1Delay"
+            readOnly="never" type="double"/>
+        <Property constraint="enum" default="optoTrigger" deviceSpecific="true"
+            name="Timer1TriggerSource" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="16" name="optoTrigger"/>
+            <EnumConstraintValue id="17" name="digitalTrigger"/>
+            <EnumConstraintValue id="22" name="horizontalSync"/>
+            <EnumConstraintValue id="23" name="verticialSync"/>
+            <EnumConstraintValue id="2" name="timer2"/>
+            <EnumConstraintValue id="-1" name="continuous"/>
+        </Property>
+        <Property constraint="enum" default="activeHigh" deviceSpecific="true" name="Timer1Mode"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="15" name="activeHigh"/>
+            <EnumConstraintValue id="14" name="activeLow"/>
+        </Property>
+        <Property constraint="enum" default="risingEdge" deviceSpecific="true"
+            name="Timer1TriggerCondition" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="12" name="risingEdge"/>
+            <EnumConstraintValue id="13" name="fallingEdge"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="Timer1"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="-9997" name="on"/>
+            <EnumConstraintValue id="-9999" name="off"/>
+        </Property>
+        <Property constraint="enum" default="automatic" deviceSpecific="true"
+            name="Timer1ClockSource" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="22" name="horizontalSync"/>
+            <EnumConstraintValue id="2" name="timer2"/>
+            <EnumConstraintValue id="268435456" name="automatic"/>
+            <EnumConstraintValue id="27" name="pixelClock"/>
+            <EnumConstraintValue id="26" name="systemClock"/>
+        </Property>
+        <Property constraint="zeroorpositive" default="0" deviceSpecific="true"
+            name="Timer2ActiveTime" readOnly="never" type="double"/>
+        <Property constraint="zeroorpositive" default="0" deviceSpecific="true" name="Timer2Delay"
+            readOnly="never" type="double"/>
+        <Property constraint="enum" default="optoTrigger" deviceSpecific="true"
+            name="Timer2TriggerSource" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="16" name="optoTrigger"/>
+            <EnumConstraintValue id="17" name="digitalTrigger"/>
+            <EnumConstraintValue id="22" name="horizontalSync"/>
+            <EnumConstraintValue id="23" name="verticalSync"/>
+            <EnumConstraintValue id="1" name="timer1"/>
+            <EnumConstraintValue id="-1" name="continuous"/>
+        </Property>
+        <Property constraint="enum" default="activeHigh" deviceSpecific="true" name="Timer2Mode"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="15" name="activeHigh"/>
+            <EnumConstraintValue id="14" name="activeLow"/>
+        </Property>
+        <Property constraint="enum" default="risingEdge" deviceSpecific="true"
+            name="Timer2TriggerCondition" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="12" name="risingEdge"/>
+            <EnumConstraintValue id="13" name="fallingEdge"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="Timer2"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="-9997" name="on"/>
+            <EnumConstraintValue id="-9999" name="off"/>
+        </Property>
+        <Property constraint="enum" default="automatic" deviceSpecific="true"
+            name="Timer2ClockSource" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="22" name="horizontalSync"/>
+            <EnumConstraintValue id="1" name="timer1"/>
+            <EnumConstraintValue id="268435456" name="automatic"/>
+            <EnumConstraintValue id="27" name="pixelClock"/>
+            <EnumConstraintValue id="26" name="systemClock"/>
+        </Property>
+	<Property constraint="enum" default="any" deviceSpecific="true" name="StartingField"
+	    readOnly="whileRunning" type="string">
+	    <EnumConstraintValue id="10" name="any"/>
+	    <EnumConstraintValue id="11" name="evenField"/>
+	    <EnumConstraintValue id="12" name="oddField"/>
+         </Property>
+    </Device>
+    <Device name="Meteor II/Std">
+        <Section name="YCInput">
+            <Property constraint="bounded" default="128" deviceSpecific="true" max="255" min="0"
+                name="Hue" readOnly="never" type="int"/>
+            <Property constraint="bounded" default="128" deviceSpecific="true" max="255" min="0"
+                name="Saturation" readOnly="never" type="int"/>
+        </Section>
+        <TriggerInfo>
+            <TriggerSource id="16" name="port0">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+        </TriggerInfo>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit3"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit4"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="enum" default="on" deviceSpecific="true" name="AutomaticInputGain"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="-9997" name="on"/>
+            <EnumConstraintValue id="-9999" name="off"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="VCRInputFilter"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="-9997" name="on"/>
+            <EnumConstraintValue id="-9999" name="off"/>
+        </Property>
+        <Section name="compInput">
+            <Property constraint="bounded" default="128" deviceSpecific="true" max="255" min="0"
+                name="Hue" readOnly="never" type="int"/>
+            <Property constraint="bounded" default="128" deviceSpecific="true" max="255" min="0"
+                name="Saturation" readOnly="never" type="int"/>
+        </Section>
+        <Property constraint="bounded" default="80" deviceSpecific="true" max="255" min="0"
+            name="InputGain" readOnly="whileRunning" type="int"/>
+        <Property constraint="bounded" default="128" deviceSpecific="true" max="255" min="0"
+            name="Brightness" readOnly="never" type="int"/>
+        <Property constraint="bounded" default="128" deviceSpecific="true" max="255" min="0"
+            name="Contrast" readOnly="never" type="int"/>
+        <Property constraint="bounded" default="1" deviceSpecific="true" max="16" min="1"
+            name="XScaleFactor" readOnly="never" type="int"/>
+        <Property constraint="bounded" default="1" deviceSpecific="true" max="16" min="1"
+            name="YScaleFactor" readOnly="never" type="int"/>
+	<Property constraint="enum" default="any" deviceSpecific="true" name="StartingField"
+	    readOnly="whileRunning" type="string">
+	    <EnumConstraintValue id="10" name="any"/>
+	    <EnumConstraintValue id="11" name="evenField"/>
+	    <EnumConstraintValue id="12" name="oddField"/>
+         </Property>
+    </Device>
+    <Device name="Orion">
+        <Section name="compInput">
+            <Include tag="monoInput"/>
+            <Property constraint="bounded" default="128" deviceSpecific="true" max="255" min="0"
+                name="Hue" readOnly="never" type="int"/>
+            <Property constraint="bounded" default="128" deviceSpecific="true" max="255" min="0"
+                name="Saturation" readOnly="never" type="int"/>
+        </Section>
+        <Section name="YCInput">
+	    <Include tag="monoInput"/>
+            <Property constraint="bounded" default="128" deviceSpecific="true" max="255" min="0"
+                name="Hue" readOnly="never" type="int"/>
+            <Property constraint="bounded" default="128" deviceSpecific="true" max="255" min="0"
+                name="Saturation" readOnly="never" type="int"/>
+        </Section>
+        <Section name="monoViaRGBInput">
+	    <Include tag="rgbGain"/>
+	    <Property constraint="bounded" default="0.6" deviceSpecific="true" max="1.6" min="0.6"
+		  name="BlackReference" readOnly="never" type="double"/>
+	    <Property constraint="bounded" default="2.6" deviceSpecific="true" max="2.6" min="1.6"
+		  name="WhiteReference" readOnly="never" type="double"/>
+            <Property constraint="enum" default="composite" deviceSpecific="true" name="SyncInput"
+                readOnly="whileRunning" type="string">
+                <EnumConstraintValue id="0" name="input1"/>
+                <EnumConstraintValue id="1" name="input2"/>
+                <EnumConstraintValue id="2" name="input3"/>
+                <EnumConstraintValue id="3" name="input4"/>
+                <EnumConstraintValue id="-1" name="composite"/>
+            </Property>
+        </Section>
+	<Section name="rgbGain">
+            <Property constraint="enum" default="2.8" deviceSpecific="true" name="InputGain"
+                readOnly="whileRunning" type="string">
+                <EnumConstraintValue id="10" name="1.3"/>
+                <EnumConstraintValue id="11" name="2.0"/>
+                <EnumConstraintValue id="12" name="2.8"/>
+                <EnumConstraintValue id="13" name="4.0"/>
+            </Property>
+            <Property constraint="enum" default="on" deviceSpecific="true" name="AutomaticInputGain"
+                readOnly="whileRunning" type="string">
+                <EnumConstraintValue id="-9997" name="on"/>
+                <EnumConstraintValue id="-9999" name="off"/>
+            </Property>
+	 </Section>
+	 <Section name="singleGain">
+            <Property constraint="enum" default="on" deviceSpecific="true" name="AutomaticInputGain"
+                readOnly="whileRunning" type="string">
+                <EnumConstraintValue id="-9997" name="on"/>
+                <EnumConstraintValue id="-9999" name="off"/>
+            </Property>
+            <Property constraint="bounded" default="80" deviceSpecific="true" max="255" min="0"
+                name="InputGain" readOnly="whileRunning" type="int"/>
+	 </Section>
+        <Section name="rgbInput">
+	    <Property constraint="bounded" default="0.6" deviceSpecific="true" max="1.6" min="0.6"
+		  name="BlackReference" readOnly="never" type="double"/>
+	    <Property constraint="bounded" default="2.6" deviceSpecific="true" max="2.6" min="1.6"
+		  name="WhiteReference" readOnly="never" type="double"/>
+	    <Include tag="rgbGain"/>
+            <Property constraint="enum" default="externalSync" deviceSpecific="true"
+                name="SyncInput" readOnly="whileRunning" type="string">
+                <EnumConstraintValue id="0" name="red"/>
+                <EnumConstraintValue id="1" name="green"/>
+                <EnumConstraintValue id="2" name="blue"/>
+                <EnumConstraintValue id="3" name="externalSync"/>
+            </Property>
+        </Section>
+        <Section name="monoInput">
+	    <Include tag="singleGain"/>
+            <Property constraint="bounded" default="128" deviceSpecific="true" max="255" min="0"
+                name="Brightness" readOnly="never" type="int"/>
+            <Property constraint="bounded" default="128" deviceSpecific="true" max="255" min="0"
+                name="Contrast" readOnly="never" type="int"/>
+        </Section>
+        <Property constraint="enum" default="none" deviceSpecific="true" name="InputFilter"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="4" name="lowpass"/>
+            <EnumConstraintValue id="5" name="none"/>
+        </Property>
+        <TriggerInfo>
+            <TriggerSource id="16" name="optoTrigger">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+            <TriggerSource id="17" name="ttl">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+        </TriggerInfo>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="VCRInputFilter"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="-9997" name="on"/>
+            <EnumConstraintValue id="-9999" name="off"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit3"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit4"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="bounded" default="1" deviceSpecific="true" max="100" min="1"
+            name="XScaleFactor" readOnly="never" type="int"/>
+        <Property constraint="bounded" default="1" deviceSpecific="true" max="100" min="1"
+            name="YScaleFactor" readOnly="never" type="int"/>
+	<Property constraint="enum" default="any" deviceSpecific="true" name="StartingField"
+	    readOnly="whileRunning" type="string">
+	    <EnumConstraintValue id="10" name="any"/>
+	    <EnumConstraintValue id="11" name="evenField"/>
+	    <EnumConstraintValue id="12" name="oddField"/>
+         </Property>
+    </Device>
+    <Device name="Corona II">
+        <Section name="monoViaRGBInput">
+            <Property constraint="enum" default="composite" deviceSpecific="true" name="SyncInput"
+                readOnly="whileRunning" type="string">
+                <EnumConstraintValue id="0" name="input0"/>
+                <EnumConstraintValue id="1" name="input1"/>
+                <EnumConstraintValue id="2" name="input2"/>
+                <EnumConstraintValue id="3" name="externalSync"/>
+                <EnumConstraintValue id="-1" name="composite"/>
+            </Property>
+        </Section>
+        <Section name="rgbInput">
+            <Property constraint="enum" default="externalSync" deviceSpecific="true"
+                name="SyncInput" readOnly="whileRunning" type="string">
+                <EnumConstraintValue id="0" name="red"/>
+                <EnumConstraintValue id="1" name="green"/>
+                <EnumConstraintValue id="2" name="blue"/>
+                <EnumConstraintValue id="3" name="externalSync"/>
+            </Property>
+        </Section>
+        <TriggerInfo>
+            <TriggerSource id="16" name="optoTrigger">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+            <TriggerSource id="17" name="ttlTrigger">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+            <TriggerSource id="1" name="timer1">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+            <TriggerSource id="2" name="timer2">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+            <TriggerSource id="24" name="differentialTrigger">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+        </TriggerInfo>
+        <Property constraint="enum" default="12.5MHz" deviceSpecific="true" name="InputFilter"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="1" name="8MHz"/>
+            <EnumConstraintValue id="5" name="none"/>
+            <EnumConstraintValue id="4" name="10MHz"/>
+            <EnumConstraintValue id="3" name="12.5MHz"/>
+        </Property>
+        <Property constraint="bounded" default="0.6" deviceSpecific="true" max="1.6" min="0.6"
+            name="BlackReference" readOnly="never" type="double"/>
+        <Property constraint="bounded" default="2.6" deviceSpecific="true" max="2.6" min="1.6"
+            name="WhiteReference" readOnly="never" type="double"/>
+        <Property constraint="enum" default="2.8" deviceSpecific="true" name="InputGain"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="14" name="1.0"/>
+            <EnumConstraintValue id="10" name="1.3"/>
+            <EnumConstraintValue id="11" name="2.0"/>
+            <EnumConstraintValue id="12" name="2.8"/>
+            <EnumConstraintValue id="13" name="4.0"/>
+        </Property>
+        <Property constraint="zeroorpositive" default="0" deviceSpecific="true"
+            name="Timer1ActiveTime" readOnly="never" type="double"/>
+        <Property constraint="zeroorpositive" default="0" deviceSpecific="true" name="Timer1Delay"
+            readOnly="never" type="double"/>
+        <Property constraint="zeroorpositive" default="0" deviceSpecific="true" name="Timer2Delay"
+            readOnly="never" type="double"/>
+        <Property constraint="zeroorpositive" default="0" deviceSpecific="true" name="Timer2Delay"
+            readOnly="never" type="double"/>
+        <Property constraint="zeroorpositive" default="0" deviceSpecific="true"
+            name="Timer2ActiveTime" readOnly="never" type="double"/>
+        <Property constraint="enum" default="optoTrigger" deviceSpecific="true"
+            name="Timer1TriggerSource" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="16" name="optoTrigger"/>
+            <EnumConstraintValue id="17" name="digitalTrigger"/>
+            <EnumConstraintValue id="22" name="horizontalSync"/>
+            <EnumConstraintValue id="23" name="verticalSync"/>
+            <EnumConstraintValue id="2" name="timer2"/>
+            <EnumConstraintValue id="-1" name="continuous"/>
+        </Property>
+        <Property constraint="enum" default="optoTrigger" deviceSpecific="true"
+            name="Timer2TriggerSource" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="16" name="optoTrigger"/>
+            <EnumConstraintValue id="17" name="digitalTrigger"/>
+            <EnumConstraintValue id="22" name="horizontalSync"/>
+            <EnumConstraintValue id="23" name="verticalSync"/>
+            <EnumConstraintValue id="1" name="timer1"/>
+            <EnumConstraintValue id="-1" name="continuous"/>
+        </Property>
+        <Property constraint="enum" default="activeHigh" deviceSpecific="true" name="Timer1Mode"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="15" name="activeHigh"/>
+            <EnumConstraintValue id="14" name="activeLow"/>
+        </Property>
+        <Property constraint="enum" default="risingEdge" deviceSpecific="true"
+            name="Timer1TriggerCondition" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="12" name="risingEdge"/>
+            <EnumConstraintValue id="13" name="fallingEdge"/>
+        </Property>
+        <Property constraint="enum" default="activeHigh" deviceSpecific="true" name="Timer2Mode"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="15" name="activeHigh"/>
+            <EnumConstraintValue id="14" name="activeLow"/>
+        </Property>
+        <Property constraint="enum" default="risingEdge" deviceSpecific="true"
+            name="Timer2TriggerCondition" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="12" name="risingEdge"/>
+            <EnumConstraintValue id="13" name="fallingEdge"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="Timer1"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="-9997" name="on"/>
+            <EnumConstraintValue id="-9999" name="off"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="Timer2"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="-9997" name="on"/>
+            <EnumConstraintValue id="-9999" name="off"/>
+        </Property>
+        <Property constraint="enum" default="automatic" deviceSpecific="true"
+            name="Timer1ClockSource" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="22" name="horizontalSync"/>
+            <EnumConstraintValue id="1" name="timer1"/>
+            <EnumConstraintValue id="268435456" name="automatic"/>
+            <EnumConstraintValue id="27" name="pixelClock"/>
+            <EnumConstraintValue id="26" name="systemClock"/>
+        </Property>
+        <Property constraint="enum" default="automatic" deviceSpecific="true"
+            name="Timer2ClockSource" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="22" name="horizontalSync"/>
+            <EnumConstraintValue id="1" name="timer1"/>
+            <EnumConstraintValue id="268435456" name="automatic"/>
+            <EnumConstraintValue id="27" name="pixelClock"/>
+            <EnumConstraintValue id="26" name="systemClock"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit3"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="bounded" default="1" deviceSpecific="true" max="16" min="1"
+            name="XScaleFactor" readOnly="never" type="int"/>
+        <Property constraint="bounded" default="1" deviceSpecific="true" max="16" min="1"
+            name="YScaleFactor" readOnly="never" type="int"/>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit4"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit9"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit10"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+	<Property constraint="enum" default="any" deviceSpecific="true" name="StartingField"
+	    readOnly="whileRunning" type="string">
+	    <EnumConstraintValue id="10" name="any"/>
+	    <EnumConstraintValue id="11" name="evenField"/>
+	    <EnumConstraintValue id="12" name="oddField"/>
+         </Property>
+    </Device>
+    <Device name="Meteor II/Dig">
+        <TriggerInfo>
+            <TriggerSource id="16" name="optoTrigger">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+            <TriggerSource id="17" name="ttlTrigger">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+            <TriggerSource id="1" name="timer1">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+            <TriggerSource id="2" name="timer2">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+        </TriggerInfo>
+        <Property constraint="none" default="0" deviceSpecific="true" name="Timer1ActiveTime"
+            readOnly="never" type="double"/>
+        <Property constraint="none" default="0" deviceSpecific="true" name="Timer1Delay"
+            readOnly="never" type="double"/>
+        <Property constraint="enum" default="optoTrigger" deviceSpecific="true"
+            name="Timer1TriggerSource" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="16" name="optoTrigger"/>
+            <EnumConstraintValue id="17" name="digitalTrigger"/>
+            <EnumConstraintValue id="22" name="horizontalSync"/>
+            <EnumConstraintValue id="23" name="verticalSync"/>
+            <EnumConstraintValue id="2" name="timer2"/>
+            <EnumConstraintValue id="-1" name="continuous"/>
+        </Property>
+        <Property constraint="enum" default="activeHigh" deviceSpecific="true" name="Timer1Mode"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="15" name="activeHigh"/>
+            <EnumConstraintValue id="14" name="activeLow"/>
+        </Property>
+        <Property constraint="enum" default="risingEdge" deviceSpecific="true"
+            name="Timer1TriggerCondition" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="12" name="risingEdge"/>
+            <EnumConstraintValue id="13" name="fallingEdge"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="Timer1"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="-9997" name="on"/>
+            <EnumConstraintValue id="-9999" name="off"/>
+        </Property>
+        <Property constraint="none" default="0" deviceSpecific="true" name="Timer2ActiveTime"
+            readOnly="never" type="double"/>
+        <Property constraint="none" default="0" deviceSpecific="true" name="Timer2Delay"
+            readOnly="never" type="double"/>
+        <Property constraint="enum" default="optoTrigger" deviceSpecific="true"
+            name="Timer2TriggerSource" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="16" name="optoTrigger"/>
+            <EnumConstraintValue id="17" name="digitalTrigger"/>
+            <EnumConstraintValue id="22" name="horizontalSync"/>
+            <EnumConstraintValue id="23" name="verticalSync"/>
+            <EnumConstraintValue id="1" name="timer1"/>
+            <EnumConstraintValue id="-1" name="continuous"/>
+        </Property>
+        <Property constraint="enum" default="activeHigh" deviceSpecific="true" name="Timer2Mode"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="15" name="activeHigh"/>
+            <EnumConstraintValue id="14" name="activeLow"/>
+        </Property>
+        <Property constraint="enum" default="risingEdge" deviceSpecific="true"
+            name="Timer2TriggerCondition" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="12" name="risingEdge"/>
+            <EnumConstraintValue id="13" name="fallingEdge"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="Timer2"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="-9997" name="on"/>
+            <EnumConstraintValue id="-9999" name="off"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit0"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit1"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit2"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit3"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit4"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="enum" default="ttl" deviceSpecific="true" name="DigitalInFormat"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="1" name="ttl"/>
+            <EnumConstraintValue id="2" name="differential"/>
+        </Property>
+        <Property constraint="enum" default="ttl" deviceSpecific="true" name="DigitalOutFormat"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="1" name="ttl"/>
+            <EnumConstraintValue id="2" name="differential"/>
+        </Property>
+        <Property constraint="bounded" default="1" deviceSpecific="true" max="16" min="1"
+            name="XScaleFactor" readOnly="never" type="int"/>
+        <Property constraint="bounded" default="1" deviceSpecific="true" max="16" min="1"
+            name="YScaleFactor" readOnly="never" type="int"/>
+	<Property constraint="enum" default="any" deviceSpecific="true" name="StartingField"
+	    readOnly="whileRunning" type="string">
+	    <EnumConstraintValue id="10" name="any"/>
+	    <EnumConstraintValue id="11" name="evenField"/>
+	    <EnumConstraintValue id="12" name="oddField"/>
+         </Property>
+    </Device>
+    <Device name="Meteor II/CL">
+        <TriggerInfo>
+            <TriggerSource id="16" name="optoTrigger">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+            <TriggerSource id="17" name="ttlTrigger">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+            <TriggerSource id="1" name="timer1">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+            <TriggerSource id="2" name="timer2">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+        </TriggerInfo>
+        <Property constraint="none" default="0" deviceSpecific="true" name="Timer1ActiveTime"
+            readOnly="never" type="double"/>
+        <Property constraint="none" default="0" deviceSpecific="true" name="Timer1Delay"
+            readOnly="never" type="double"/>
+        <Property constraint="enum" default="optoTrigger" deviceSpecific="true"
+            name="Timer1TriggerSource" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="16" name="optoTrigger"/>
+            <EnumConstraintValue id="17" name="digitalTrigger"/>
+            <EnumConstraintValue id="22" name="horizontalSync"/>
+            <EnumConstraintValue id="23" name="verticalSync"/>
+            <EnumConstraintValue id="2" name="timer2"/>
+            <EnumConstraintValue id="-1" name="continuous"/>
+        </Property>
+        <Property constraint="enum" default="activeHigh" deviceSpecific="true" name="Timer1Mode"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="15" name="activeHigh"/>
+            <EnumConstraintValue id="14" name="activeLow"/>
+        </Property>
+        <Property constraint="enum" default="risingEdge" deviceSpecific="true"
+            name="Timer1TriggerCondition" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="12" name="risingEdge"/>
+            <EnumConstraintValue id="13" name="fallingEdge"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="Timer1"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="-9997" name="on"/>
+            <EnumConstraintValue id="-9999" name="off"/>
+        </Property>
+        <Property constraint="none" default="0" deviceSpecific="true" name="Timer2ActiveTime"
+            readOnly="never" type="double"/>
+        <Property constraint="none" default="0" deviceSpecific="true" name="Timer2Delay"
+            readOnly="never" type="double"/>
+        <Property constraint="enum" default="optoTrigger" deviceSpecific="true"
+            name="Timer2TriggerSource" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="16" name="optoTrigger"/>
+            <EnumConstraintValue id="17" name="digitalTrigger"/>
+            <EnumConstraintValue id="22" name="horizontalSync"/>
+            <EnumConstraintValue id="23" name="verticalSync"/>
+            <EnumConstraintValue id="1" name="timer1"/>
+            <EnumConstraintValue id="-1" name="continuous"/>
+        </Property>
+        <Property constraint="enum" default="activeHigh" deviceSpecific="true" name="Timer2Mode"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="15" name="activeHigh"/>
+            <EnumConstraintValue id="14" name="activeLow"/>
+        </Property>
+        <Property constraint="enum" default="risingEdge" deviceSpecific="true"
+            name="Timer2TriggerCondition" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="12" name="risingEdge"/>
+            <EnumConstraintValue id="13" name="fallingEdge"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="Timer2"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="-9997" name="on"/>
+            <EnumConstraintValue id="-9999" name="off"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit0"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit1"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit2"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit3"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit4"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="enum" default="ttl" deviceSpecific="true" name="DigitalInFormat"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="1" name="ttl"/>
+            <EnumConstraintValue id="2" name="differential"/>
+        </Property>
+        <Property constraint="enum" default="ttl" deviceSpecific="true" name="DigitalOutFormat"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="1" name="ttl"/>
+            <EnumConstraintValue id="2" name="differential"/>
+        </Property>
+        <Property constraint="bounded" default="1" deviceSpecific="true" max="16" min="1"
+            name="XScaleFactor" readOnly="never" type="int"/>
+        <Property constraint="bounded" default="1" deviceSpecific="true" max="16" min="1"
+            name="YScaleFactor" readOnly="never" type="int"/>
+	<Property constraint="enum" default="any" deviceSpecific="true" name="StartingField"
+	    readOnly="whileRunning" type="string">
+	    <EnumConstraintValue id="10" name="any"/>
+	    <EnumConstraintValue id="11" name="evenField"/>
+	    <EnumConstraintValue id="12" name="oddField"/>
+         </Property>
+    </Device>
+    <Device name="Corona II+Digital">
+        <monoViaRGBInput>
+            <Property constraint="enum" default="composite" deviceSpecific="true" name="SyncInput"
+                readOnly="whileRunning" type="string">
+                <EnumConstraintValue id="0" name="input0"/>
+                <EnumConstraintValue id="1" name="input1"/>
+                <EnumConstraintValue id="2" name="input2"/>
+                <EnumConstraintValue id="3" name="externalSync"/>
+                <EnumConstraintValue id="-1" name="composite"/>
+            </Property>
+        </monoViaRGBInput>
+        <rgbInput>
+            <Property constraint="enum" default="externalSync" deviceSpecific="true"
+                name="SyncInput" readOnly="whileRunning" type="string">
+                <EnumConstraintValue id="0" name="red"/>
+                <EnumConstraintValue id="1" name="green"/>
+                <EnumConstraintValue id="2" name="blue"/>
+                <EnumConstraintValue id="3" name="externalSync"/>
+            </Property>
+        </rgbInput>
+        <TriggerInfo>
+            <TriggerSource id="16" name="optoTrigger">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+            <TriggerSource id="17" name="ttlTrigger">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+            <TriggerSource id="1" name="timer1">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+            <TriggerSource id="2" name="timer2">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+            <TriggerSource id="24" name="differentialTrigger">
+                <TriggerCondition id="12" name="risingEdge"/>
+                <TriggerCondition id="13" name="fallingEdge"/>
+            </TriggerSource>
+        </TriggerInfo>
+        <Property constraint="enum" default="12.5MHz" deviceSpecific="true" name="InputFilter"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="1" name="8MHz"/>
+            <EnumConstraintValue id="5" name="none"/>
+            <EnumConstraintValue id="4" name="10MHz"/>
+            <EnumConstraintValue id="3" name="12.5MHz"/>
+        </Property>
+        <Property constraint="bounded" default="0.6" deviceSpecific="true" max="1.6" min="0.6"
+            name="BlackReference" readOnly="never" type="double"/>
+        <Property constraint="bounded" default="2.6" deviceSpecific="true" max="2.6" min="1.6"
+            name="WhiteReference" readOnly="never" type="double"/>
+        <Property constraint="enum" default="2.8" deviceSpecific="true" name="InputGain"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="14" name="1.0"/>
+            <EnumConstraintValue id="10" name="1.3"/>
+            <EnumConstraintValue id="11" name="2.0"/>
+            <EnumConstraintValue id="12" name="2.8"/>
+            <EnumConstraintValue id="13" name="4.0"/>
+        </Property>
+        <Property constraint="zeroorpositive" default="0" deviceSpecific="true"
+            name="Timer1ActiveTime" readOnly="never" type="double"/>
+        <Property constraint="zeroorpositive" default="0" deviceSpecific="true" name="Timer1Delay"
+            readOnly="never" type="double"/>
+        <Property constraint="zeroorpositive" default="0" deviceSpecific="true" name="Timer2Delay"
+            readOnly="never" type="double"/>
+        <Property constraint="zeroorpositive" default="0" deviceSpecific="true" name="Timer2Delay"
+            readOnly="never" type="double"/>
+        <Property constraint="zeroorpositive" default="0" deviceSpecific="true"
+            name="Timer2ActiveTime" readOnly="never" type="double"/>
+        <Property constraint="enum" default="optoTrigger" deviceSpecific="true"
+            name="Timer1TriggerSource" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="16" name="optoTrigger"/>
+            <EnumConstraintValue id="17" name="digitalTrigger"/>
+            <EnumConstraintValue id="22" name="horizontalSync"/>
+            <EnumConstraintValue id="23" name="verticalSync"/>
+            <EnumConstraintValue id="2" name="timer2"/>
+            <EnumConstraintValue id="-1" name="continuous"/>
+        </Property>
+        <Property constraint="enum" default="optoTrigger" deviceSpecific="true"
+            name="Timer2TriggerSource" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="16" name="optoTrigger"/>
+            <EnumConstraintValue id="17" name="digitalTrigger"/>
+            <EnumConstraintValue id="22" name="horizontalSync"/>
+            <EnumConstraintValue id="23" name="verticalSync"/>
+            <EnumConstraintValue id="1" name="timer1"/>
+            <EnumConstraintValue id="-1" name="continuous"/>
+        </Property>
+        <Property constraint="enum" default="activeHigh" deviceSpecific="true" name="Timer1Mode"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="15" name="activeHigh"/>
+            <EnumConstraintValue id="14" name="activeLow"/>
+        </Property>
+        <Property constraint="enum" default="risingEdge" deviceSpecific="true"
+            name="Timer1TriggerCondition" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="12" name="risingEdge"/>
+            <EnumConstraintValue id="13" name="fallingEdge"/>
+        </Property>
+        <Property constraint="enum" default="activeHigh" deviceSpecific="true" name="Timer2Mode"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="15" name="activeHigh"/>
+            <EnumConstraintValue id="14" name="activeLow"/>
+        </Property>
+        <Property constraint="enum" default="risingEdge" deviceSpecific="true"
+            name="Timer2TriggerCondition" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="12" name="risingEdge"/>
+            <EnumConstraintValue id="13" name="fallingEdge"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="Timer1"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="-9997" name="on"/>
+            <EnumConstraintValue id="-9999" name="off"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="Timer2"
+            readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="-9997" name="on"/>
+            <EnumConstraintValue id="-9999" name="off"/>
+        </Property>
+        <Property constraint="enum" default="automatic" deviceSpecific="true"
+            name="Timer1ClockSource" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="22" name="horizontalSync"/>
+            <EnumConstraintValue id="1" name="timer1"/>
+            <EnumConstraintValue id="268435456" name="automatic"/>
+            <EnumConstraintValue id="27" name="pixelClock"/>
+            <EnumConstraintValue id="26" name="systemClock"/>
+        </Property>
+        <Property constraint="enum" default="automatic" deviceSpecific="true"
+            name="Timer2ClockSource" readOnly="whileRunning" type="string">
+            <EnumConstraintValue id="22" name="horizontalSync"/>
+            <EnumConstraintValue id="1" name="timer1"/>
+            <EnumConstraintValue id="268435456" name="automatic"/>
+            <EnumConstraintValue id="27" name="pixelClock"/>
+            <EnumConstraintValue id="26" name="systemClock"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit3"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="bounded" default="1" deviceSpecific="true" max="16" min="1"
+            name="XScaleFactor" readOnly="never" type="int"/>
+        <Property constraint="bounded" default="1" deviceSpecific="true" max="16" min="1"
+            name="YScaleFactor" readOnly="never" type="int"/>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit4"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit9"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit10"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit5"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+        <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit6"
+            readOnly="never" type="string">
+            <EnumConstraintValue id="0" name="off"/>
+            <EnumConstraintValue id="1" name="on"/>
+        </Property>
+	<Property constraint="enum" default="any" deviceSpecific="true" name="StartingField"
+	    readOnly="whileRunning" type="string">
+	    <EnumConstraintValue id="10" name="any"/>
+	    <EnumConstraintValue id="11" name="evenField"/>
+	    <EnumConstraintValue id="12" name="oddField"/>
+         </Property>
+    </Device>
+    <Device name="CronosPlus">
+      <Section name="compInput">
+	 <Property constraint="bounded" default="128" deviceSpecific="true"
+	    max="255" min="0" name="Hue" readOnly="never" type="int"/>
+	 <Property constraint="bounded" default="128" deviceSpecific="true"
+	    max="255" min="0" name="Saturation" readOnly="never" type="int"/>
+      </Section>
+      <Section name="YCInput">
+	 <Property constraint="bounded" default="128" deviceSpecific="true"
+	    max="255" min="0" name="Hue" readOnly="never" type="int"/>
+	 <Property constraint="bounded" default="128" deviceSpecific="true"
+	    max="255" min="0" name="Saturation" readOnly="never" type="int"/>
+      </Section>
+      <TriggerInfo>
+	 <TriggerSource id="16" name="optoTrigger">
+	    <TriggerCondition id="12" name="risingEdge"/>
+	    <TriggerCondition id="13" name="fallingEdge"/>
+	 </TriggerSource>
+      </TriggerInfo>
+      <Property constraint="enum" default="on" deviceSpecific="true"
+	 name="AutomaticInputGain" readOnly="whileRunning" type="string">
+	 <EnumConstraintValue id="-9997" name="on"/>
+	 <EnumConstraintValue id="-9999" name="off"/>
+      </Property>
+      <Property constraint="bounded" default="80" deviceSpecific="true"
+	 max="255" min="0" name="InputGain" readOnly="whileRunning"
+	 type="int"/>
+      <Property constraint="bounded" default="1" deviceSpecific="true"
+	 max="64" min="1" name="XScaleFactor" readOnly="never" type="int"/>
+      <Property constraint="bounded" default="1" deviceSpecific="true"
+      max="64" min="1" name="YScaleFactor" readOnly="never" type="int"/>
+      <Property constraint="bounded" default="128" deviceSpecific="true"
+	 max="255" min="0" name="Brightness" readOnly="never" type="int"/>
+      <Property constraint="bounded" default="128" deviceSpecific="true"
+	 max="255" min="0" name="Contrast" readOnly="never" type="int"/>
+      <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit3"
+	 readOnly="never" type="string">
+	 <EnumConstraintValue id="0" name="off"/>
+   	 <EnumConstraintValue id="1" name="on"/>
+      </Property>
+      <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit4"
+	 readOnly="never" type="string">
+	 <EnumConstraintValue id="0" name="off"/>
+   	 <EnumConstraintValue id="1" name="on"/>
+      </Property>
+      <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit5"
+	 readOnly="never" type="string">
+	 <EnumConstraintValue id="0" name="off"/>
+   	 <EnumConstraintValue id="1" name="on"/>
+      </Property>
+      <Property constraint="enum" default="off" deviceSpecific="true" name="UserOutputBit6"
+	 readOnly="never" type="string">
+	 <EnumConstraintValue id="0" name="off"/>
+   	 <EnumConstraintValue id="1" name="on"/>
+      </Property>
+      <Property constraint="enum" default="any" deviceSpecific="true" name="StartingField"
+	 readOnly="whileRunning" type="string">
+	 <EnumConstraintValue id="10" name="any"/>
+	 <EnumConstraintValue id="11" name="evenField"/>
+	 <EnumConstraintValue id="12" name="oddField"/>
+      </Property>
+   </Device>
+	 
+</ImageAcquisitionInfo>

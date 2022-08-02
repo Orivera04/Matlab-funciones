@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema>
+
+<element name="unitdatabase">
+	<complexType content='elementOnly'>
+		<element ref="organisation"/>
+		<element ref="version"/>
+		<element ref="unit" minOccurs='0' maxOccurs='unbounded'/>
+	</complexType>
+</element>
+
+<element name="unit">
+	<complexType content='elementOnly'>
+		<element ref="name"/>
+		<element ref="plural" minOccurs='0'/>
+		<element ref="definition"/>
+		<element ref="displayname" minOccurs='0'/>
+		<element ref="quantitytype" minOccurs='0' maxOccurs='unbounded'/>
+		<element ref="symbol" minOccurs='0' maxOccurs='unbounded'/>
+		<element ref="alias" minOccurs='0' maxOccurs='unbounded'/>
+	</complexType>
+</element>
+
+<element name="organisation" type='string'/>
+
+<element name="version" type='double'/>
+
+<element name="name" type='string'/>
+
+<element name="plural" type='string'/>
+
+<element name="displayname" type='string'/>
+
+<element name="definition" type='string'/>
+
+<element name="quantitytype" type='string'/>
+
+<element name="symbol" type='string'/>
+
+<element name="alias">
+	<complexType content='elementOnly'>
+		<element ref="name"/>
+		<element ref="plural" minOccurs='0'/>
+	</complexType>
+</element>
+
+</schema>

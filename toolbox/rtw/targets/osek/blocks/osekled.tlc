@@ -1,0 +1,69 @@
+%% $RCSfile: osekled.tlc,v $
+%%
+%% $Revision: 1.2 $
+%%
+%% Copyright 2002 The MathWorks, Inc.
+%%
+%% Abstract:
+%%   Simple example driver for LED on phyCORE-MPC555 board.
+%%
+%implements "osekled" "C"
+
+%% Function: BlockTypeSetup ====================================================
+%function BlockTypeSetup(block, system) void
+  %openfile buffer
+  /* %<Type> Block: %<Name> */
+  #define MPIOSMDR  (*(volatile uint16_T * const)(0x00306100))
+  #define MPIOSMDDR (*(volatile uint16_T * const)(0x00306102))
+  %closefile buffer
+  %<LibCacheDefine(buffer)>
+%endfunction
+
+%% Function: Start =============================================================
+%function Start(block, system) Output
+  /* %<Type> Block: %<Name> */
+  {
+    uint16_T ddr;
+
+    ddr = MPIOSMDDR;
+
+    /* One means bit is a output */
+    %if SFcnParamSettings.LedChoice == "D4(red)"
+      ddr |= 2;
+    %else
+      ddr |= 1;
+    %endif
+    MPIOSMDDR = ddr;
+  }
+    
+%endfunction
+    
+%% Function: mdlOutputs ========================================================
+%function Outputs(block, system) Output
+  /* %<Type> Block: %<Name> */  
+  {
+    uint16_T dr;
+
+    dr = MPIOSMDR;
+
+    /* If input is nonzero, set bit to one, otherwise set to zero */
+    if(%<LibBlockInputSignal(0, "", "", 0)>)
+    {
+      %if SFcnParamSettings.LedChoice == "D4(red)"
+	dr |= 0x0002;
+      %else
+	dr |= 0x0001;
+      %endif
+    }
+    else
+    {
+      %if SFcnParamSettings.LedChoice == "D4(red)"
+	dr &= 0xFFFd;
+      %else
+	dr &= 0xFFFe;
+      %endif
+    }
+    MPIOSMDR = dr;
+  }
+
+%endfunction

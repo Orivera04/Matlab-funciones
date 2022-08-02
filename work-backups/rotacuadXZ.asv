@@ -1,0 +1,17 @@
+function ecua1=rotacuadXZ(ecua)
+%Rotación de una cuadrica en XZ.
+syms x y z X Y Z real;
+A=ecua(1);B=ecua(2);C=ecua(3);D=ecua(4);E=ecua(5);F=ecua(6);
+G=ecua(7);H=ecua(8);M=ecua(9);N=ecua(10);
+[alfa,beta,gamma]=angrotcuad(A,B,C,D,E,F);
+beta
+if beta==0
+    x=X;y=Y;z=Z;
+else    
+x=X*cos(beta)-Z*sin(beta);z=X*sin(beta)+Z*cos(beta);y=Y;
+end
+R1=A*x^2+B*y^2+C*z^2+G*x+H*y+M*z+N;;
+R2=simplify(R1);
+C=coefpol3(char(R2));
+%C(5)=0;
+ecua1=C;

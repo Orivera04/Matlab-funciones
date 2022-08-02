@@ -1,0 +1,777 @@
+Library {
+  Name			  "cgeqlib"
+  Version		  5.0
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  off
+  StatusBar		  off
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Fri Mar 24 14:42:26 2000"
+  Creator		  "rlang"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "ralcock"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Wed May 07 16:37:09 2003"
+  ModelVersionFormat	  "1.%<AutoIncrement:37>"
+  ConfigurationManager	  "none"
+  SimParamPage		  "Solver"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeMexFile	  "rti_comm"
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  ConsistencyChecking	  "none"
+  ArrayBoundsChecking	  "none"
+  AlgebraicLoopMsg	  "warning"
+  BlockPriorityViolationMsg "warning"
+  MinStepSizeMsg	  "warning"
+  InheritedTsInSrcMsg	  "warning"
+  DiscreteInheritContinuousMsg "warning"
+  MultiTaskRateTransMsg	  "error"
+  SingleTaskRateTransMsg  "none"
+  CheckForMatrixSingularity "none"
+  IntegerOverflowMsg	  "warning"
+  Int32ToFloatConvMsg	  "warning"
+  ParameterDowncastMsg	  "error"
+  ParameterOverflowMsg	  "error"
+  ParameterPrecisionLossMsg "warning"
+  UnderSpecifiedDataTypeMsg "none"
+  UnnecessaryDatatypeConvMsg "none"
+  VectorMatrixConversionMsg "none"
+  InvalidFcnCallConnMsg	  "error"
+  SignalLabelMismatchMsg  "none"
+  UnconnectedInputMsg	  "warning"
+  UnconnectedOutputMsg	  "warning"
+  UnconnectedLineMsg	  "warning"
+  SfunCompatibilityCheckMsg "none"
+  ProdHWDeviceType	  "Microprocessor"
+  ProdHWWordLengths	  "8,16,32,32"
+  RTWMakeCommand	  "make_rti"
+  RTWGenerateCodeOnly	  off
+  RTWRetainRTWFile	  on
+  TLCProfiler		  off
+  TLCDebug		  off
+  TLCCoverage		  off
+  TLCAssertion		  off
+  SimulationMode	  "normal"
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      ShowAdditionalParam     off
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "sfix(16)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      From
+    }
+    Block {
+      BlockType		      Fcn
+      Expr		      "sin(u[1])"
+    }
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ShowAdditionalParam     off
+      ParameterDataTypeMode   "Same as input"
+      ParameterDataType	      "sfix(16)"
+      ParameterScalingMode    "Best Precision: Matrix-wise"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Goto
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      ShowAdditionalParam     off
+      LatchInput	      off
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Lookup
+      InputValues	      "[-4:5]"
+      OutputValues	      " rand(1,10)-0.5"
+      ShowAdditionalParam     off
+      LookUpMeth	      "Interpolation-Extrapolation"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      LUTDesignTableMode      "Redesign Table"
+      LUTDesignDataSource     "Block Dialog"
+      LUTDesignFunctionName   "sqrt(x)"
+      LUTDesignUseExistingBP  on
+      LUTDesignRelError	      "0.01"
+      LUTDesignAbsError	      "1e-6"
+    }
+    Block {
+      BlockType		      Lookup2D
+      RowIndex		      "[0 1]"
+      ColumnIndex	      "[0 1]"
+      OutputValues	      "[0 0;0 0]"
+      ShowAdditionalParam     off
+      LookUpMeth	      "Interpolation-Extrapolation"
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      LUTDesignTableMode      "Redesign Table"
+      LUTDesignDataSource     "Block Dialog"
+      LUTDesignFunctionName   "sqrt(x)"
+      LUTDesignUseExistingBP  on
+      LUTDesignRelError	      "0.01"
+      LUTDesignAbsError	      "1e-6"
+    }
+    Block {
+      BlockType		      MinMax
+      Function		      "min"
+      Inputs		      "1"
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      MultiPortSwitch
+      Inputs		      "4"
+      ShowAdditionalParam     off
+      zeroidx		      off
+      InputSameDT	      on
+      OutDataTypeMode	      "Inherit via internal rule"
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Mux
+      Inputs		      "4"
+      DisplayOption	      "none"
+      NonVirtualBus	      off
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      Product
+      Inputs		      "2"
+      Multiplication	      "Element-wise(.*)"
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      RelationalOperator
+      Operator		      ">="
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      LogicOutDataTypeMode    "Logical (see Advanced Sim. Parameters)"
+      LogicDataType	      "uint(8)"
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      Saturate
+      UpperLimit	      "0.5"
+      LowerLimit	      "-0.5"
+      LinearizeAsGain	      on
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      PortCounts	      "[]"
+      SFunctionModules	      "''"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      RTWSystemCode	      "Auto"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Sum
+      IconShape		      "rectangular"
+      Inputs		      "++"
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Switch
+      Criteria		      "u2 >= Threshold"
+      Threshold		      "0"
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      OutDataTypeMode	      "Inherit via internal rule"
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      ZeroCross		      on
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "cgeqlib"
+    Location		    [625, 414, 962, 793]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      Inport
+      Name		      "Variable"
+      Position		      [80, 83, 110, 97]
+      Orientation	      "left"
+      OpenFcn		      "web(['file:///', which('block_ref.htm')]);"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant"
+      Position		      [25, 75, 55, 105]
+      Orientation	      "left"
+    }
+    Block {
+      BlockType		      Lookup
+      Name		      "Extrapolating Function"
+      Tag		      "lookupone"
+      Position		      [120, 222, 155, 258]
+      Orientation	      "left"
+      InputValues	      "[-5:5]"
+      OutputValues	      "tanh([-5:5])"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Extrapolating Table"
+      Tag		      "lookuptwo"
+      Ports		      [2, 1]
+      Position		      [120, 301, 160, 339]
+      Orientation	      "left"
+      TreatAsAtomicUnit	      off
+      MaskType		      "Lookup Table (2-D)"
+      MaskDescription	      "Performs 2-D linear interpolation of input valu"
+"es using the specified input/output table. "
+      MaskPromptString	      "Row:|Column:|Table:"
+      MaskStyleString	      "edit,edit,edit"
+      MaskTunableValueString  "on,on,on"
+      MaskCallbackString      "||"
+      MaskEnableString	      "on,on,on"
+      MaskVisibilityString    "on,on,on"
+      MaskToolTipString	      "on,on,on"
+      MaskVarAliasString      ",,"
+      MaskVariables	      "x=@1;y=@2;t=@3;"
+      MaskInitialization      "[r,c]=size(t);\nxt=reshape(x,prod(size(x)),1);"
+"\nxi=xt(:,ones(1,c));\nminx=min(x); maxx=max(x);\nminy=min(y);maxy=max(y);\nm"
+"int=min(min(t)); maxt=max(max(t));\n"
+      MaskDisplay	      "plot(xi,t,[minx maxx],[mint mint],[minx minx],["
+"mint maxt],maxx+1,maxt)"
+      MaskIconFrame	      on
+      MaskIconOpaque	      off
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "[1:3]|[1:3]|[4 5 6;16 19 20;10 18 23]"
+      System {
+	Name			"Extrapolating Table"
+	Location		[112, 187, 446, 353]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "x"
+	  Position		  [60, 58, 90, 72]
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "y"
+	  Position		  [60, 108, 90, 122]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Lookup2D
+	  Name			  "Look-Up\nTable (2-D)"
+	  Position		  [185, 61, 250, 119]
+	  ShowName		  off
+	  RowIndex		  "x"
+	  ColumnIndex		  "y"
+	  OutputValues		  "t"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "-"
+	  Position		  [275, 83, 305, 97]
+	}
+	Line {
+	  SrcBlock		  "Look-Up\nTable (2-D)"
+	  SrcPort		  1
+	  DstBlock		  "-"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "x"
+	  SrcPort		  1
+	  Points		  [75, 0]
+	  DstBlock		  "Look-Up\nTable (2-D)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "y"
+	  SrcPort		  1
+	  Points		  [75, 0]
+	  DstBlock		  "Look-Up\nTable (2-D)"
+	  DstPort		  2
+	}
+      }
+    }
+    Block {
+      BlockType		      Fcn
+      Name		      "Fcn"
+      Position		      [240, 75, 300, 105]
+      Orientation	      "left"
+      Expr		      "sin(u(1)*exp(2.3*(-u(2))))"
+    }
+    Block {
+      BlockType		      From
+      Name		      "From"
+      Position		      [180, 82, 215, 98]
+      Orientation	      "left"
+      CloseFcn		      "tagdialog Close"
+      GotoTag		      "A"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Function"
+      Ports		      [1, 1]
+      Position		      [35, 223, 70, 257]
+      Orientation	      "left"
+      TreatAsAtomicUnit	      off
+      MaskType		      "Lookup Table (1-D)"
+      MaskPromptString	      "Input:|Output:"
+      MaskStyleString	      "edit,edit"
+      MaskTunableValueString  "on,on"
+      MaskCallbackString      "|"
+      MaskEnableString	      "on,on"
+      MaskVisibilityString    "on,on"
+      MaskToolTipString	      "on,on"
+      MaskVarAliasString      ","
+      MaskVariables	      "InputValues=@1;OutputValues=@2;"
+      MaskInitialization      "if isempty(InputValues) | isempty(OutputValues)"
+"\nminx = -1;maxx = 1;miny=-1;maxy = 1;\nelse\nminx=min(InputValues); maxx=max"
+"(InputValues);\nminy=min(OutputValues);maxy=max(OutputValues);\nif minx>0;min"
+"x=0;end\nif miny>0;miny=0;end\nif maxx<0;maxx=0;end\nif maxy<0;maxy=0;end\nen"
+"d"
+      MaskDisplay	      "plot(InputValues',OutputValues',[minx; maxx],[0"
+"; 0],[0;0],[miny;maxy])"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "|"
+      System {
+	Name			"Function"
+	Location		[595, 655, 950, 758]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [210, 33, 240, 47]
+	  Orientation		  "left"
+	}
+	Block {
+	  BlockType		  Lookup
+	  Name			  "Function"
+	  Tag			  "lookupone"
+	  Position		  [100, 25, 130, 55]
+	  Orientation		  "left"
+	  InputValues		  "InputValues"
+	  OutputValues		  "OutputValues"
+	}
+	Block {
+	  BlockType		  Saturate
+	  Name			  "Saturation1"
+	  Position		  [160, 25, 190, 55]
+	  Orientation		  "left"
+	  UpperLimit		  "maxx"
+	  LowerLimit		  "minx"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  Position		  [25, 33, 55, 47]
+	  Orientation		  "left"
+	}
+	Line {
+	  SrcBlock		  "Function"
+	  SrcPort		  1
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "Saturation1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Saturation1"
+	  SrcPort		  1
+	  DstBlock		  "Function"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      Gain
+      Name		      "Gain"
+      Position		      [130, 20, 160, 50]
+      Orientation	      "left"
+    }
+    Block {
+      BlockType		      Goto
+      Name		      "Goto"
+      Position		      [125, 82, 165, 98]
+      Orientation	      "left"
+      GotoTag		      "A"
+      TagVisibility	      "local"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "IfExpr"
+      Tag		      "ifexpr"
+      Ports		      [4, 1]
+      Position		      [20, 132, 85, 203]
+      Orientation	      "left"
+      OpenFcn		      "web(['file:///', which('block_ref.htm')]);"
+      TreatAsAtomicUnit	      off
+      MaskDisplay	      "disp('IF (a<b)\\n   out=c;\\nELSE\\n   out=d;\\"
+"nEND')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      off
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"IfExpr"
+	Location		[659, 303, 957, 495]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "a"
+	  Position		  [35, 53, 65, 67]
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "b"
+	  Position		  [35, 98, 65, 112]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "c"
+	  Position		  [85, 23, 115, 37]
+	  Port			  "3"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "d"
+	  Position		  [85, 128, 115, 142]
+	  Port			  "4"
+	}
+	Block {
+	  BlockType		  RelationalOperator
+	  Name			  "Relational\nOperator"
+	  Position		  [90, 67, 120, 98]
+	  Operator		  "<"
+	}
+	Block {
+	  BlockType		  Switch
+	  Name			  "Switch"
+	  Position		  [150, 70, 180, 100]
+	  Threshold		  "0.5"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out"
+	  Position		  [205, 78, 235, 92]
+	}
+	Line {
+	  SrcBlock		  "Relational\nOperator"
+	  SrcPort		  1
+	  DstBlock		  "Switch"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "c"
+	  SrcPort		  1
+	  Points		  [15, 0]
+	  DstBlock		  "Switch"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "a"
+	  SrcPort		  1
+	  Points		  [0, 15]
+	  DstBlock		  "Relational\nOperator"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Switch"
+	  SrcPort		  1
+	  DstBlock		  "Out"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "b"
+	  SrcPort		  1
+	  Points		  [0, -15]
+	  DstBlock		  "Relational\nOperator"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "d"
+	  SrcPort		  1
+	  Points		  [15, 0]
+	  DstBlock		  "Switch"
+	  DstPort		  3
+	}
+      }
+    }
+    Block {
+      BlockType		      MinMax
+      Name		      "MinMax"
+      Ports		      [1, 1]
+      Position		      [185, 20, 215, 50]
+      Orientation	      "left"
+      Function		      "min"
+    }
+    Block {
+      BlockType		      MultiPortSwitch
+      Name		      "MultiportSwitch"
+      Ports		      [4, 1]
+      Position		      [120, 132, 150, 178]
+      Orientation	      "left"
+      Inputs		      "3"
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux"
+      Ports		      [2, 1]
+      Position		      [305, 16, 310, 54]
+      Orientation	      "left"
+      ShowName		      off
+      Inputs		      "2"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "PreLook-Up"
+      Ports		      [1, 1]
+      Position		      [225, 214, 275, 266]
+      Orientation	      "left"
+      SourceBlock	      "simulink/Look-Up\nTables/PreLook-Up\nIndex Sear"
+"ch"
+      SourceType	      "LookupIdxSearch"
+      bpData		      "[10:10:100]"
+      searchMode	      "Binary Search"
+      cacheBpFlag	      off
+      outputFlag	      off
+      extrapMode	      "Linear Extrapolation"
+      rangeErrorMode	      "None"
+    }
+    Block {
+      BlockType		      Product
+      Name		      "Product"
+      Ports		      [2, 1]
+      Position		      [35, 16, 45, 49]
+      Orientation	      "left"
+      RndMeth		      "Floor"
+    }
+    Block {
+      BlockType		      RelationalOperator
+      Name		      "RelationalOperator"
+      Position		      [250, 137, 280, 168]
+      Orientation	      "left"
+      Operator		      "<="
+    }
+    Block {
+      BlockType		      Saturate
+      Name		      "Saturation"
+      Position		      [245, 20, 275, 50]
+      Orientation	      "left"
+    }
+    Block {
+      BlockType		      Sum
+      Name		      "Sum"
+      Ports		      [2, 1]
+      Position		      [90, 13, 100, 57]
+      Orientation	      "left"
+    }
+    Block {
+      BlockType		      Switch
+      Name		      "Switch"
+      Position		      [185, 135, 215, 165]
+      Orientation	      "left"
+    }
+    Block {
+      BlockType		      Lookup2D
+      Name		      "Table"
+      Position		      [35, 300, 75, 335]
+      Orientation	      "left"
+      RowIndex		      "[1:3]"
+      ColumnIndex	      "[1:3]"
+      OutputValues	      "[4 5 6;16 19 20;10 18 23]"
+      InputSameDT	      off
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Table using PreLook-Up"
+      Ports		      [2, 1]
+      Position		      [225, 290, 280, 345]
+      Orientation	      "left"
+      SourceBlock	      "simulink/Look-Up\nTables/Interpolation (n-D)\nu"
+"sing PreLook-Up"
+      SourceType	      "LookupNDInterpIdx"
+      numDimsPopupSelect      "2"
+      explicitNumDims	      "2"
+      table		      "sqrt([1:10]'*[1:10])"
+      interpMethod	      "Linear"
+      extrapMethod	      "Linear"
+      rangeErrorMode	      "None"
+    }
+  }
+}

@@ -1,0 +1,117 @@
+<!--
+Copyright 2001-2004 The MathWorks, Inc.
+$Revision: 1.1.6.2 $ $Date: 2004/03/24 20:39:46 $
+-->
+
+<!--
+This HTML is auto-generated from an m-file.
+Your changes will be overwritten.
+--><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:x-large">Configuring Callbacks</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Callback functions are executed when an associated event occurs. To configure a
+callback to execute for a particular event, configure one of the video input
+object's callback properties:
+</p><ul xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd"><li>ErrorFcn
+</li><li>FramesAcquiredFcn
+</li><li>StartFcn
+</li><li>StopFcn
+</li><li>TimerFcn
+</li><li>TriggerFcn
+</li></ul><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">This tutorial uses a callback function, found in the
+</p><ul xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd"><li>MATLABROOT\toolbox\imaq\imaqdemos\html\callbacks\callbackfcn
+</li></ul><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">directory, that displays the N'th frame, where N is provided as an input argument
+to the callback function.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Add the callback function directory to the MATLAB path.</span>
+utilpath = fullfile(matlabroot, <span style="color:#B20000">'toolbox'</span>, <span style="color:#B20000">'imaq'</span>, <span style="color:#B20000">'imaqdemos'</span>, <span style="color:#B20000">'html'</span>, <span style="color:#B20000">'callbacks'</span>, <span style="color:#B20000">'callbackfcn'</span>);
+addpath(utilpath);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Access an image acquisition device.</span>
+vidobj = videoinput(<span style="color:#B20000">'winvideo'</span>, 1);
+
+<span style="color:green">% Acquire an infinite number of frames when manually triggered.</span>
+triggerconfig(vidobj, <span style="color:#B20000">'manual'</span>);
+vidobj.FramesPerTrigger = inf;</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Specify the N'th frame the callback function will display.</span>
+frameNumber = 3;
+
+<span style="color:green">% Have the callback function executed when the acquisition ends.</span>
+set(vidobj, <span style="color:#B20000">'StopFcn'</span>, {<span style="color:#B20000">'util_showframe'</span>, frameNumber});</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Initiate the acquisition.</span>
+start(vidobj)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Upon triggering the image acquisition device, a tennis ball is dropped
+within the camera's view.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Trigger the object for logging.</span>
+trigger(vidobj)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Stop the acquisition. This causes the callback </span>
+<span style="color:green">% function to execute and display the N'th frame.</span>
+stop(vidobj)</pre><img xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" src="demoimaq_Callbacks_img_07_01.gif"><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Once the video input object is no longer needed, delete</span>
+<span style="color:green">% it and clear it from the workspace.</span>
+delete(vidobj)
+clear vidobj</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Remove the callback function directory from the MATLAB path.</span>
+rmpath(utilpath);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">See also IMAQDEVICE/PROPINFO.
+</p><originalCode xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" code="%% Configuring Callbacks
+&#xA;% Callback functions are executed when an associated event occurs. To configure a
+&#xA;% callback to execute for a particular event, configure one of the video input
+&#xA;% object's callback properties:
+&#xA;%
+&#xA;% * ErrorFcn
+&#xA;% * FramesAcquiredFcn
+&#xA;% * StartFcn
+&#xA;% * StopFcn
+&#xA;% * TimerFcn
+&#xA;% * TriggerFcn
+&#xA;%
+&#xA;% This tutorial uses a callback function, found in the 
+&#xA;%
+&#xA;% * MATLABROOT\toolbox\imaq\imaqdemos\html\callbacks\callbackfcn
+&#xA;%
+&#xA;% directory, that displays the N'th frame, where N is provided as an input argument
+&#xA;% to the callback function.
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Add the callback function directory to the MATLAB path.
+&#xA;utilpath = fullfile(matlabroot, 'toolbox', 'imaq', 'imaqdemos', 'html', 'callbacks', 'callbackfcn');
+&#xA;addpath(utilpath);
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Access an image acquisition device.
+&#xA;vidobj = videoinput('winvideo', 1);
+&#xA;
+&#xA;% Acquire an infinite number of frames when manually triggered.
+&#xA;triggerconfig(vidobj, 'manual');
+&#xA;vidobj.FramesPerTrigger = inf;
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Specify the N'th frame the callback function will display.
+&#xA;frameNumber = 3;
+&#xA;
+&#xA;% Have the callback function executed when the acquisition ends.
+&#xA;set(vidobj, 'StopFcn', {'util_showframe', frameNumber});
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Initiate the acquisition.
+&#xA;start(vidobj)
+&#xA;
+&#xA;%%
+&#xA;% Upon triggering the image acquisition device, a tennis ball is dropped
+&#xA;% within the camera's view.
+&#xA;
+&#xA;% Trigger the object for logging.
+&#xA;trigger(vidobj)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Stop the acquisition. This causes the callback 
+&#xA;% function to execute and display the N'th frame.
+&#xA;stop(vidobj)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Once the video input object is no longer needed, delete
+&#xA;% it and clear it from the workspace.
+&#xA;delete(vidobj)
+&#xA;clear vidobj
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Remove the callback function directory from the MATLAB path.
+&#xA;rmpath(utilpath);
+&#xA;
+&#xA;%%
+&#xA;% See also IMAQDEVICE/PROPINFO."></originalCode>

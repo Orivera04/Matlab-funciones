@@ -1,0 +1,194 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>newfig</title>
+      <meta name="generator" content="MATLAB 7.2">
+      <meta name="date" content="2006-10-10">
+      <meta name="m-file" content="script_newfig"><style>
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows.  On Gecko-based browsers, the shrink-to-fit doesn't work. */ 
+p,h1,h2,div.content div {
+  /* for MATLAB's browser */
+  width: 600px;
+  /* for Mozilla, but the "width" tag overrides it anyway */
+  max-width: 600px;
+  /* for IE */
+  width:expression(document.body.clientWidth > 620 ? "600px": "auto" );
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head>
+   <body>
+      <div class="content">
+         <h1>newfig</h1>
+         <introduction>
+            <p>create NEW FIGures.</p>
+         </introduction>
+         <h2>Contents</h2>
+         <div>
+            <ul>
+               <li><a href="#1">Syntax</a></li>
+               <li><a href="#2">Description</a></li>
+               <li><a href="#3">Examples:</a></li>
+            </ul>
+         </div>
+         <h2>Syntax<a name="1"></a></h2><pre>fighandle = newfig(numfigs,figname,extend,aspect)</pre><h2>Description<a name="2"></a></h2>
+         <p>Tiles the screen with multiple figures starting at the top left hand corner. If the specified layout only creates one row,
+            then the figure height is chosen to maintain the desired aspect ratio.
+         </p>
+			<p>"fighandle" output is an
+            array of handle numbers for the figures.</p>
+			<p>"numfigs" (first numeric argument) determines the number of figures to create. If
+            numfigs is a vector (rows,columns) then the layout is also specified. 
+         </p>
+			<p>"figname" (any argument position) is an optional string
+            for the figures' name. 
+         </p>
+			<p>"extend" (second numeric argument) is a complex number indicating how figures are to be created on
+            multiple monitors, (extended desktop). <br>
+&nbsp;&nbsp;&nbsp;       Examples: +1/-1 is one screen to the right/left,
+<br>
+&nbsp;&nbsp;&nbsp;                 0 is the primary screen (default),
+<br>
+&nbsp;&nbsp;&nbsp;                 +i is one screen up,
+<br>
+&nbsp;&nbsp;&nbsp;                 -1-0.5i is half a screen down and to the left, etc...</p>
+			<p>&quot;aspect&quot; (third numeric argument) is the desired aspect ratio 
+			(minimum horizontal/vertical size of the figure) used for 
+			determining the layout, it is ignored if the layout is specified by numfigs.
+         </p>
+         <p>Extended monitors must have the same resolution as the primary monitor. The size and layout of the figures is
+                  determined by the aspect ratio and the number of figure columns. For a large number of figures, the menubar 
+			and toolbar are removed to increase figure space. The figures are numbered within this group of figures and not by their figure handles. The figures are accessible by
+            their handles. Thus "figure(fighandle(4))" will make the 4th figure from this group of figures the current figure. To delete
+            the entire group of figures use "close(fighandle)".</p>
+         <h2>Examples:<a name="3"></a></h2>
+         <p>newfig(3,&#39;Title&#39;,1+i,2)<br>
+			newfig('Title&#39;)<br>
+			newfig <br>
+			figh=newfig(6); <br>
+			figh=newfig(4,i,1.5); <br>
+			newfig([1,5],-1); 
+         </p>
+         <div>
+            <ul>
+               <li><b>Copyright</b> 2006 Mirtech, Inc. created 09/18/2006  by Mirko Hrovat on Matlab Ver. 7.2 
+				<br>
+				email: <a href="mailto:mhrovat@email.com">mhrovat@email.com</a>
+               </li>
+            </ul>
+         </div>
+			<p class="footer"><br>
+            Published with wg_publish; V1.0<br></p>
+      </div>
+      <!--
+##### SOURCE BEGIN #####
+%% newfig
+% fighandle = newfig(numfigs,figname,extend,aspect)  create NEW FIGures.
+%% Syntax
+%  fighandle=newfig(varargin)
+%% Description
+% Tiles the screen with multiple figures starting at the top left hand corner.
+% If the specified layout only creates one row, then the figure height is
+% chosen to maintain the desired aspect ratio.
+%% Examples:
+% newfig(3,'Title',1+i,2), newfig('Title'), newfig
+% figh=newfig(6); figh=newfig(4,i,1.5); newfig([1,5],-1);
+% "fighandle" is an array of handle numbers for the figures.
+% "numfigs" (first numeric argument) determines the number of figures to create.
+% If numfigs is a vector (rows,columns) then the layout is also specified.
+% "figname" (any argument position) is an optional string for the figures' name.
+% "extend" (second numeric argument) is a complex number indicating how
+% figures are to be created on multiple monitors, (extended desktop).
+%% Examples: +1/-1 is one screen to the right/left,
+% 0 is the primary screen (default),
+% +i is one screen up,
+% -1-0.5i is half a screen down and to the left, etc...
+% "aspect" (third numeric argument) is the desired aspect ratio (minimum
+% horizontal/vertical size of the figure) used for determining the
+% layout, it is ignored if the layout is specified by numfigs.
+%%
+% NOTES:
+% The figures are numbered within this group of figures and not by their
+% figure handles.
+% The figures are accessible by their handles. Thus "figure(fighandle(4))" will
+% make the 4th figure from this group of figures the current figure.
+% To delete the entire group of figures use "close(fighandle)".
+%%
+%%
+% * *Copyright* 2006 Mirtech, Inc.
+% created 09/18/2006  by Mirko Hrovat on Matlab Ver. 7.2
+% Mirtech, Inc.       email: mhrovat@email.com
+% More notes:
+% Extended monitors must have the same resolution as the primary monitor.
+% The size and layout of the figures is determined by the aspect ratio and
+% the number of figure columns.
+% For a large number of figures, the menubar and toolbar are removed to
+% increase figure space.
+% Default properties for this particular group of figures may be coded into
+% the code below (near bottom). The following properties are currently set.
+% 'Units','pixels', ...
+% 'Colormap',gray(256),...
+% 'NumberTitle','off',...
+% 'MenuBar',menbar,...       (depends on number of figures)
+% 'ToolBar',tbar             (depends on number of figures)
+%%
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH- Key Constants REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-
+% To allow for user or OS borders set the appropriate value in pixels.
+% For example one might want to set the bottomborder for the taskbar.
+
+##### SOURCE END #####
+-->
+   </body>
+</html>

@@ -1,0 +1,32 @@
+# Makefile for Custom Flash Drivers
+#
+# 	Compiles custom drivers for the MPC561 & MPC562 which do not have internal
+# 	flash. 
+#
+# Copyright 2002-2003 The MathWorks, Inc.
+#
+# $Revision: 1.1.6.2 $
+# $Date: 2004/04/19 01:25:22 $
+
+.PHONY : default
+default : all
+
+LIBRARY = $(DRIVERS_LIBRARY_DIR)/lib_custom_flash.$(MPC5XX_VARIANT).a
+
+#
+# Include the mpc555_build_rules component
+#
+COMPONENT=mpc555_build_rules
+include $(COMPONENT_MANAGER)
+
+OBJECTS := flash_interface.o custom_flash.o 
+
+.PHONY : all
+all : setup $(LIBRARY)
+
+objects : $(OBJECT_TARGETS)
+
+$(LIBRARY) : $(OBJECT_TARGETS) 
+	$(LIBCMD) $(LIBRARY) $(OBJECT_TARGETS) 
+
+$(OBJECT_TARGETS) : makefile.custom

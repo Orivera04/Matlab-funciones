@@ -1,0 +1,86 @@
+%% SYSTLC: Embedded Target for Motorola MPC555 (algorithm export) \
+%% TMF: mpc555exp_default_tmf MAKE: make_rtw EXTMODE: no_ext_comm
+%%
+%% File: mpc555exp.tlc
+%%
+%% $Revision: 1.10.4.7 $
+%% $Date: 2004/04/19 01:26:59 $
+%%
+%% Copyright 2001-2004 The MathWorks, Inc.
+%%
+%% Abstract:
+%%  System target file for Embedded Target for Motorola MPC555 
+%%  algorithm export.
+%%
+%selectfile NULL_FILE
+
+%assign CodeFormat = "Embedded-C"
+
+%assign AutoBuildProcedure = 1
+%assign TargetType = "RT"
+%assign Language   = "C"
+
+%% include environment routines
+%assign PATH_SEP = FEVAL("filesep")
+%assign MPC555DKROOT = FEVAL("mpc555dkroot")
+%addincludepath "%<MPC555DKROOT>%<PATH_SEP>..%<PATH_SEP>common%<PATH_SEP>configuration%<PATH_SEP>environment"
+%include "env.tlc"
+
+%% set the environment as mpc555exp
+%<set_env("mpc555exp")>
+
+%% import global settings
+%include "mpc555_settings.tlc"
+
+%include "ert_pil_lib.tlc"
+
+%include "codegenentry.tlc"
+
+%% generate code profiling report
+%include "profilegen.tlc"
+
+%% generate each files needed for build mpc555pil targets
+%include "mpc555exp_genfiles.tlc"
+
+%% The contents between 'BEGIN_RTW_OPTIONS' and 'END_RTW_OPTIONS' are strictly 
+%% written by the standard format. We need to use this structure in RTW 
+%% options GUI function rtwoptionsdlg.m file.
+%%
+/%
+  BEGIN_RTW_OPTIONS
+
+  rtwoption_index = 0;
+
+  rtwoption_index = rtwoption_index + 1;
+  rtwoptions(rtwoption_index).prompt         = 'ET MPC555 (algorithm export) options';
+  rtwoptions(rtwoption_index).type           = 'Category';
+  rtwoptions(rtwoption_index).enable         = 'on';  
+  rtwoptions(rtwoption_index).default        = 2;   % number of items under this category
+  rtwoptions(rtwoption_index).popupstrings  = '';
+  rtwoptions(rtwoption_index).tlcvariable   = '';
+  rtwoptions(rtwoption_index).tooltip       = '';
+  rtwoptions(rtwoption_index).callback      = '';
+  rtwoptions(rtwoption_index).opencallback  = '';
+  rtwoptions(rtwoption_index).closecallback = '';
+  rtwoptions(rtwoption_index).makevariable  = '';
+
+  rtwoption_index = rtwoption_index + 1;
+  rtwoptions(rtwoption_index).prompt = 'Use prebuilt (static) RTW Libraries';
+  rtwoptions(rtwoption_index).type = 'Checkbox';
+  rtwoptions(rtwoption_index).default = 'on';
+  rtwoptions(rtwoption_index).tlcvariable = 'STATIC_RTWLIB';
+  rtwoptions(rtwoption_index).makevariable = 'STATIC_RTWLIB';
+  rtwoptions(rtwoption_index).tooltip = 'A prebuilt version of the rtwlib sources are provided and can result in faster builds if selected.';
+  rtwoptions(rtwoption_index).callback       =  '';
+  rtwoptions(rtwoption_index).opencallback   =  '';
+  rtwoptions(rtwoption_index).closecallback  =  '';
+
+  % Inherit ERT options
+  rtwgensettings.DerivedFrom = 'ert.tlc';
+  rtwgensettings.BuildDirSuffix = '_mpc555exp';
+  rtwgensettings.Version = '1'; % Specify callbacks' compliance with DAStudio dialog   
+  rtwgensettings.SelectCallback      = 'mpc555_callback_handler(''SelectCallback'',hSrc,hDlg);';
+  rtwgensettings.UnselectCallback    = 'mpc555_callback_handler(''UnselectCallback'',hSrc,hDlg);';
+
+  END_RTW_OPTIONS 
+ %/

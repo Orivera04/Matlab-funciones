@@ -1,0 +1,40 @@
+num = 1; den = [1 2 0];
+%
+clf; sbplot(211); hold off;
+xtxt=[-2.9 -2.6]; ytxt=[-1.5 -2.5 -3.5]; dy=.2;
+[kbreak,sbreak] = rlpoba(num,den);
+r = rlocus(num,den,sort([0 kbreak' logspace(-2,2)]));
+axis([-3 1 -4 4]); plot(r,'-'); grid; hold on; axis([-3 1 -4 4]);
+xlabel('Real'); ylabel('Imaginary'); title('Parts a,b');
+plot(xtxt,ytxt(1)+[0 0],'-'),text(xtxt(2),ytxt(1)-dy,' Root Locus');
+[k45,s45] = rootangl(num,den,180-45);
+plot([[0;real(s45)],xtxt'],[[0;imag(s45)],ytxt(2)+[0;0]],'--');
+text(real(s45),imag(s45),[' K=' num2str(k45)]);
+text(xtxt(2),ytxt(2)-dy,' 45 Degree Projection (Problem 7.3)');
+[k60,s60] = rootangl(num,den,180-60);
+plot([[0;real(s60)],xtxt'],[[0;imag(s60)],ytxt(3)+[0;0]],':');
+text(real(s60),imag(s60),[' K=' num2str(k60)]);
+text(xtxt(2),ytxt(3)-dy,' 60 Degree Projection (Problem 7.4)');
+hold off;
+%
+num = conv(num,[1 .1]); den = conv(den,[1 .01]);
+%
+hold off; sbplot(212);
+[kbreak,sbreak] = rlpoba(num,den);
+r = rlocus(num,den,sort([0 kbreak' logspace(-3,2)]));
+axis([-3 1 -4 4]); plot(r,'-'); grid; hold on; axis([-3 1 -4 4]);
+xlabel('Real'); ylabel('Imaginary'); title('Part c');
+plot(xtxt,ytxt(1)+[0 0],'-'),text(xtxt(2),ytxt(1)-dy,' Root Locus');
+[k45,s45] = rootangl(num,den,180-45);
+ii=1; for jj=2:length(s45); if (abs(s45(ii))<abs(s45(jj))); ii=jj; end; end;
+k45=k45(ii); s45=s45(ii);
+plot([[0;real(s45)],xtxt'],[[0;imag(s45)],ytxt(2)+[0;0]],'--');
+text(real(s45),imag(s45),[' K=' num2str(k45)]);
+text(xtxt(2),ytxt(2)-dy,' 45 Degree Projection (Problem 7.3)');
+[k60,s60] = rootangl(num,den,180-60);
+ii=1; for jj=2:length(s45); if (abs(s45(ii))<abs(s45(jj))); ii=jj; end; end;
+k60=k60(ii); s60=s60(ii);
+plot([[0;real(s60)],xtxt'],[[0;imag(s60)],ytxt(3)+[0;0]],':');
+text(real(s60),imag(s60),[' K=' num2str(k60)]);
+text(xtxt(2),ytxt(3)-dy,' 60 Degree Projection (Problem 7.4)');
+hold off;

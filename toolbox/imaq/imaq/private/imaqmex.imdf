@@ -1,0 +1,695 @@
+<?xml version="1.0"?>
+<!-- 
+
+CP 1-13-2003 
+Copyright 2001-2003 The Mathworks, Inc. 
+
+$Revision: 1.1.6.4 $
+$Date: 2004/03/24 20:38:22 $
+
+-->
+<!-- 
+
+This XML file is used to store static information for a particular
+vendor's image acquisition devices.  The first element of the file
+must be <ImaqAcquisitionVendorInfo> followed by one or more <Device>
+elements.  
+
+Each <Device> element requires a 'name' attribute, which is the
+name of the device, as known by the cooresponding adaptor.  This
+name usually is the name of the device from the SDK.  Within the
+<Device> section, there should be one or more <VideoFormat> elements
+as well as zero or more <Property> elements.
+
+Each <VideoFormat> element requires a 'name' attribute, which is the
+video format supported by the device.  This video format usually is
+the name of the video format as used by the adaptor.  The <VideoFormat> 
+element also shall contain one or more <Source> elements that
+cooresponds to the available sources for the video format.  The 
+<VideoFormat> element can also contain <Property> elements that
+are unique to the video format.
+
+Each <Source> element shall have a 'name' and 'id' attributes.  The
+name is the name of the source, as used by the adaptor.  The id
+attribute is a number representation used by adaptors to identify
+this source to the SDK.  The name attribute is used in MATLAB as
+the name of the sources, as the id is only used by the adaptor
+and needs only to be unique between sources.
+
+The <Property> element can be in either the <Device> or <VideoFormat>
+elements depending on if the property is video-format independent
+or not.  Each Property element requires the following attributes:
+  name                - The property name as it should be listed
+  type                - The property data type: "cell", "double", or
+                        "string"
+  constraint          - Constraints on property values: "bounded", 
+                        "enum", or "none"
+  readOnly            - "always" if the property is always read-only,
+                        "never" if it's never read-only, and 
+                        "whileRunning" if it's read-only while Running
+                        is on.
+  deviceSpecific      - "true" if the property is vendor specific,
+                        "false" if the property is not vendor specific.
+ 
+A type value of "cell" requires a constraint value of "none".
+A type value of "double" requires a constraint value of "bounded or "none".
+A type value of "string" requires a constraint value of "enum" or "none".
+                           
+Each Property element can contain the following additional elements:
+  EnumConstraintValue - Required for an "enum" constraint only. 
+                        EnumConstraintValue provides an enum value
+                        for the property. There is no limit on the
+                        number of EnumConstraintValue elements a 
+                        Property element can contain.
+
+An optional element, <Include> can be used to simplify the XML
+file.  By including this element under the <VideoFormat> element,
+the information contained in the element specified by the required
+'tag' attribute found under the <Device> element is consumed.  
+This allows common elements between video formats, i.e., <Property>
+and/or <Source> elements, to be specified only once in the XML
+file.  
+
+-->
+<ImageAcquisitionInfo>
+	<Help><AdaptorHelp property="FramesAvailable">Indicate the number of buffered frames available in the memory buffer.
+
+FramesAvailable indicates the total number of frames that are available
+in the memory buffer. When you extract data from the buffer, the object 
+reduces the value of the FramesAvailable property by the appropriate number 
+of frames. You use the GETDATA function to extract data from the buffer and 
+move it into the MATLAB workspace.
+
+When you issue a START command, the video input object resets the value 
+of the FramesAvailable property to 0 and flushes the buffer.
+
+Use the FramesAcquired property to find out how many frames have been
+acquired since the START command was issued.<SeeAlso>FramesAcquired, IMAQDEVICE/GETDATA, IMAQDEVICE/START.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="FramesAcquired">FramesAcquired indicates the total number of frames acquired.
+
+The video input object continuously updates the value of the FramesAcquired
+property as it acquires frames.
+
+When you issue a START command, the video input object resets the value
+of FramesAcquired to 0 and flushes the memory buffer.
+
+To find out how many frames are available in the buffer, use the 
+FramesAvailable property.<SeeAlso>FramesAcquiredFcn, FramesAvailable, IMAQDEVICE/START.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="FramesAcquiredFcnCount">FramesAcquiredFcnCount specifies the number of frames to acquire from
+the selected video source before a frames acquired event is generated.
+
+A frames acquired event is generated immediately after the number of
+frames specified by FramesAcquiredFcnCount is acquired from the selected 
+video source. This event executes the M-file specified by the 
+FramesAcquiredFcn property.
+
+The value of FramesGrabbedFcnCount cannot be modified while the object
+is running.<SeeAlso>FramesGrabbedFcn.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="FramesPerTrigger">Specify the number of frames to acquire using the selected video source.
+
+By default, the object acquires 10 frames for each trigger.
+
+If FramesPerTrigger is set to Inf, the object keeps acquiring frames
+until an error occurs or you issue a STOP command.  When FramesPerTrigger
+is set to Inf, the object ignores the value of the TriggerRepeat property.
+
+The value of FramesPerTrigger cannot be modified while the object is
+running.<SeeAlso>IMAQDEVICE/STOP.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="FrameGrabInterval">Specify how often to acquire a frame from the video stream.
+
+The FrameGrabInterval property is measured in frames. By default, the video 
+input objects acquire every frame in the video stream but you can use this 
+property to specify other acquisition intervals. 
+
+For example, when you specify a FrameGrabInterval value of 3, the object 
+acquires every third frame from the video stream.
+
+Note that the object acquires the first frame from the video stream before 
+applying the FrameGrabInterval. 
+
+The FrameGrabInterval value is not equivalent to specifying a "frame rate" 
+(measured in seconds). Frame rate specifies the rate that frames are provided 
+by a device and is considered to be a device specific property for video 
+source objects. FrameGrabInterval specifies the rate (measured in frames) that 
+a video input object logs a frame from the device's video stream. 
+
+You use the SelectedSourceName property to specify the source of the video 
+stream.<SeeAlso>VIDEOINPUT, SelectedSourceName</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="Type">Type indicates the image acquisition object class type.
+
+Type will indicate that an image acquisition object is of class
+type videoinput or videosource.
+
+Once an object is created, the value of Type is automatically defined.<SeeAlso>VIDEOINPUT.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="Logging">Indicate whether data is currently being logged to memory, disk, or both. 
+
+Along with the Running property, Logging reflects the state of a
+video input object. Logging can be on or off.
+
+Logging is set to 'on' when a trigger occurs. When Logging
+is on, acquired data is being stored in memory, to a disk file, or both.
+
+Logging is set to off when the requested number of frames have been
+acquired, an error occurs, or a STOP command is issued. When Logging
+is off, you can still access data with the PEEKDATA function, provided 
+Running is on. However, PEEKDATA does not guarantee that all the 
+requested data is returned.
+
+To guarantee that acquired data contains no gaps, it must be logged
+to memory or to a disk file. Data stored in memory is extracted with
+the GETDATA function. The destination for logged data is controlled
+with the LoggingMode property.<SeeAlso>LoggingMode, Running, IMAQDEVICE/GETDATA, IMAQDEVICE/PEEKDATA, IMAQDEVICE/STOP.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="LoggingMode">LoggingMode specifies the destination for acquired data.
+
+LoggingMode can be set to disk, memory,or disk&amp;Memory. 
+
+If LoggingMode is set to disk, then acquired data is streamed to a disk file 
+as specified by the DiskLogger property. 
+
+If LoggingMode is set to memory, acquired data is stored in a memory buffer. 
+
+If LoggingMode is set to disk&amp;Memory, then acquired data is stored in memory 
+and is streamed to a disk file as specified by the DiskLogger property.
+
+When logging to memory, you must extract the data in a timely manner with the 
+GETDATA function. If the data is not extracted in a timely manner, memory 
+resources may be used up. Use IMAQMEM to modify the amount of memory
+the toolbox can use.
+
+When logging to disk, you can specify a MATLAB AVIFILE object as a disk 
+logger using the DiskLogger property.
+
+The value of LoggingMode cannot be modified while the object is running.<SeeAlso>DiskLogger, IMAQDEVICE/GETDATA, IMAQMEM, AVIFILE.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="Previewing">Previewing indicates whether data is being previewed in a window. 
+
+Previewing reflects the previewing state of a video input object. Previewing 
+can be on or off.
+
+Previewing is automatically set to on when PREVIEW is called. It is
+set to off when CLOSEPREVIEW is called, or when the window is closed. 
+
+Only one preview window per video input object is allowed.<SeeAlso>CLOSEPREVIEW, IMAQDEVICE/PREVIEW.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="Running">Running indicates if the video input object is ready for acquisition.
+
+Along with the Logging property, Running reflects the state of a
+video input object. Running can be on or off.
+
+Running is automatically set to on once the START command is issued. 
+When Running is on, you can initiate data logging from a video source.
+
+Running is automatically set to off once the STOP command is issued, 
+the specified data is acquired, or a runtime error occurs. When
+Running is off, you cannot acquire or log data. However, you can 
+acquire one image frame using the GETSNAPSHOT function.<SeeAlso>Logging, IMAQDEVICE/START, IMAQDEVICE/GETSNAPSHOT, IMAQDEVICE/START,
+IMAQDEVICE/STOP.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="ErrorFcn">Specify the M-file callback function executed when a runtime error occurs.
+
+A runtime error event is generated immediately after a runtime error
+occurs. This event executes the M-file specified for ErrorFcn.
+
+Runtime errors include hardware errors and timeouts. Runtime errors
+do not include configuration errors such as setting an invalid property
+value.
+
+Runtime error event information is stored in the EventLog property.
+You can retrieve any error message by examining the error event Data 
+field in the EventLog.<SeeAlso>EventLog, Timeout.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="StartFcn">Specify the M-file executed before a video input object starts executing.
+
+A start event is generated immediately after the START command is issued.
+This event executes the M-file specified for StartFcn.
+
+When the StartFcn M-file has finished executing, Running is automatically
+set to On and the video input object begins executing.
+
+Start event information is stored in the EventLog property.<SeeAlso>EventLog, Running.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="StopFcn">Specify the M-file executed when a video input object stops running.
+
+A stop event is generated immediately after the STOP command is issued.
+This event executes the M-file specified for StopFcn
+
+Under most circumstances, the M-file is not guaranteed to complete execution
+until sometime after the video input object and hardware device stop, and the
+Running property is set to Off.
+
+Stop event information is stored in the EventLog property.<SeeAlso>EventLog, Running.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="FramesAcquiredFcn">Specify the M-file executed when a frames acquired event occurs.
+            
+A frames acquired event is generated immediately after the number
+of frames specified by the FramesAcquiredFcnCount property is acquired
+from the selected video source. This event executes the M-file specified 
+for FramesAcquiredFcn.
+            
+Use FramesAcquiredFcn if you must access each frame that is acquired.
+If you do not have this requirement, you may want to use the TimerFcn 
+property.
+
+Frames acquired event information is not stored in the EventLog property.<SeeAlso>EventLog, FramesGrabbedFcnCount, TimerFcn.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="TimerFcn">Specify the M-file executed when a specified time period expires. 
+
+You configure TimerFcn to execute an M-file callback function when a 
+timer event occurs. A timer event occurs when the time specified by 
+the TimerPeriod property passes. Time is measured relative to when the
+the START function was called. Timer events will stop being generated when 
+the video input object is stopped with the STOP function or a run-time error 
+occurs.
+
+Some timer events may not be processed if your system is significantly
+slowed or if the TimerPeriod value is too small.<SeeAlso>IMAQDEVICE/START, IMAQDEVICE/STOP, TimerPeriod.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="TriggerFcn">Specify the M-file executed when a trigger occurs.
+
+You configure TriggerFcn to execute an M-file callback function 
+when a trigger occurs. A trigger event is generated immediately 
+after a trigger is executed.
+
+Under most circumstances, the M-file is not guaranteed to complete 
+execution until sometime after Logging is set to On
+
+Trigger event information is stored in the EventLog property.<SeeAlso>EventLog, Logging.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="Tag">Specify a label to associate with an image acquisition object.
+
+You configure Tag to be a string value that uniquely identifies an 
+image acquisition object.
+
+Tag is particularly useful when constructing programs that would 
+otherwise need to define the image acquisition object as a global 
+variable, or pass the object as an argument between callback routines.
+
+You can locate an image acquisition object with the IMAQFIND function 
+by specifying the Tag property value.<SeeAlso>IMAQFIND.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="TriggerCondition">Specify the condition on which to execute a hardware trigger.
+
+TriggerCondition is only relevant when TriggerType is configured
+to hardware. TriggerCondition indicates the condition that must be
+satisfied, via the TriggerSource, before triggering an acquisition.
+
+Note: In order to configure TriggerCondition, the TRIGGERCONFIG function 
+      must be used. Use TRIGGERINFO(OBJ) to determine the valid
+      trigger configurations supported by a device.
+
+When a trigger executes for a video input object, data logging is 
+initiated and the Logging property is automatically set to on.
+
+The value of TriggerCondition cannot be modified while the object's 
+Running property is on.<SeeAlso>IMAQDEVICE/TRIGGERCONFIG, IMAQDEVICE/TRIGGERINFO, TriggerType,
+TriggerSource, Logging, Running.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="TriggerSource">Specify the source to use for executing a hardware trigger.
+
+TriggerSource is only relevant when TriggerType is configured
+to hardware. TriggerSource indicates the hardware source monitored by 
+the hardware for a TriggerCondition to be met, before triggering an acquisition.
+
+Note: In order to configure TriggerSource, the TRIGGERCONFIG function 
+      must be used. Use TRIGGERINFO(OBJ) to determine the valid
+      trigger configurations supported by a device.
+
+When a trigger executes for a video input object, data logging is 
+initiated and the Logging property is automatically set to on.
+
+The value of TriggerSource cannot be modified while the object's 
+Running property is on.<SeeAlso>IMAQDEVICE/TRIGGERCONFIG, IMAQDEVICE/TRIGGERINFO, TriggerType,
+TriggerCondition, Logging, Running.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="UserData">UserData specifies data to associate with an image acquisition object.
+
+Configure UserData to store data that you want to associate with
+an image acquisition object. The object does not use this data 
+directly, but you can access it using the GET function or the dot 
+referencing notation.<SeeAlso>IMAQDEVICE/GET.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="EventLog">Specifies a structure array storing information related to specific events. 
+
+Event information is stored in the Type and Data fields of EventLog.
+
+Type stores the event type. For image acquisition objects the logged
+event types include start, stop, trigger, and runtime error events.
+Timer events and frames-acquired events are not logged.
+
+The Data field stores event-specific information associated with the 
+event type. For all stored events, Data contains the AbsTime field which 
+returns the absolute time (as a CLOCK vector) the event occurred.<SeeAlso>Logging.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="DiskLogger">Specify the MATLAB AVIFILE object for logging data to disk.
+
+DiskLogger specifies the AVIFILE object used to log data
+when LoggingMode is set to disk or disk&amp;memory.
+
+An AVIFILE object, created with the MATLAB AVIFILE function, 
+can be provided to a video input object using the DiskLogger
+property.
+
+Example:
+
+   Create and configure an AVI file object:
+      &gt;&gt; file = avifile('logfile.avi');
+      &gt;&gt; file.Quality = 50;
+
+   Create and configure a video input object:
+      &gt;&gt; vid = videoinput('matrox', 1);
+      &gt;&gt; vid.LoggingMode = 'disk';
+      &gt;&gt; vid.DiskLogger = file;
+
+   Start logging data to disk:
+      &gt;&gt; start(vid)
+
+Note, after Logging and Running are off, it is possible that data
+may still be written to disk by the DiskLogger. Disk writing is not
+complete until DiskLoggerFrameCount is equivalent to the FramesAcquired
+value. It is suggested that the DiskLogger not be closed or modified
+until this condition is met.<SeeAlso>LoggingMode, AVIFILE.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="InitialTriggerTime">Indicate the absolute time of the first trigger.
+
+InitialTriggerTime indicates the absolute time of the first trigger. 
+For all trigger types, InitialTriggerTime records the time when 
+Logging is set to on. The absolute time is recorded as a MATLAB CLOCK 
+vector.
+
+The InitialTriggerTime value can be returned by the GETDATA function.<SeeAlso>EventLog, Logging, CLOCK, IMAQDEVICE/GETDATA.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="TriggerRepeat">Specify the number of additional times to repeat the trigger.
+
+Triggers can be configured to occur once (one-shot acquisition) or 
+multiple times. 
+
+If TriggerRepeat is set to its default value of 0, the trigger executes only once 
+when the trigger condition is met. 
+
+If TriggerRepeat is set to a positive integer value, the trigger repeats an
+additional number of times when the trigger condition is met.
+
+If TriggerRepeat is set to inf, then the trigger repeats every time the
+trigger condition is met until an explicit STOP function is issued or
+a run-time error occurs.
+
+You can quickly evaluate how many triggers have executed by examining
+the TriggersExecuted property or by invoking the display summary for 
+the image acquisition object. The display summary is invoked by typing 
+the image acquisition object name at the MATLAB command line.
+
+The value of TriggerRepeat cannot be modified while the object is 
+running.<SeeAlso>TriggersExecuted, TriggerType, IMAQDEVICE/STOP.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="TriggerFrameDelay">TriggerFrameDelay specifies the delay value for logging image frames.
+
+While Logging is set to on, no frames will be written to memory or disk until the 
+number of frames specified by the TriggerFrameDelay property have 
+gone by.
+
+TriggerFrameDelay is specified as a positive value and is measured in frames.
+
+The value of TriggerFrameDelay cannot be modified while the object's 
+Running property is on.<SeeAlso>FramesPerTrigger.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="TriggersExecuted">TriggersExecuted indicates the number of triggers that have been executed.
+
+You can find out how many triggers have been executed by examining the
+value of TriggersExecuted. The trigger number for each trigger executed
+is also recorded in the trigger event Data field stored in the EventLog property.<SeeAlso>EventLog.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="Timeout">Timeout specifies an additional waiting time to extract data.
+
+The Timeout value specifies the amount of time (in seconds) that the 
+GETDATA and GETSNAPSHOT functions wait for data to be returned. The
+Timeout property is only associated with these blocking functions. If the 
+specified time period expires, the functions return control to the MATLAB 
+command line.
+
+A timeout is one of the conditions for stopping an acquisition. When a timeout 
+occurs, the M-file function specified by ErrorFcn is called if the object's 
+Running property was on.
+
+Timeout is not associated with hardware timeout conditions. Possible
+hardware timeout conditions include:
+
+     1. Externally clocking an acquisition and the external clock 
+        signal never occurs.
+     2. Losing a hardware connection.
+
+The value of Timeout cannot be modified while the object is running.<SeeAlso>ErrorFcn, Running, IMAQDEVICE/GETDATA, IMAQDEVICE/GETSNAPSHOT.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="TimerPeriod">TimerPeriod specifies the period of time between timer events.
+
+TimerPeriod specifies the time, in seconds, that must pass before
+the callback function specified for TimerFcn is called. Time is 
+measured relative to when the START function was called. Timer events will 
+stop being generated when the image acquisition object is stopped with the 
+STOP function or a run-time error occurs.
+
+Some timer events may not be processed if your system is significantly 
+slowed or if the TimerPeriod value is too small.
+
+The default value is 1 second. The minimum value is 0.01 second.<SeeAlso>IMAQDEVICE/START, IMAQDEVICE/STOP, TimerFcn.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="DiskLoggerFrameCount">Specify the number of frames written to disk.
+
+The value of DiskLoggerFrameCount indicates the current number of frames 
+that have been written to disk by the DiskLogger. This value is only 
+updated when the LoggingMode property is set to disk or disk&amp;memory.
+
+Note, after Logging and Running are off, it is possible that data
+may still be written to disk by the DiskLogger. Disk writing is not
+complete until DiskLoggerFrameCount is equivalent to the FramesAcquired
+value. It is suggested that the DiskLogger not be closed or modified
+until this condition is met.<SeeAlso>DiskLogger, FramesAcquired, Logging, Running.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="Selected">Indicate if the video source object is currently selected.
+
+Selected indicates if the video source object will be used for 
+acquisition. A video source object is selected by specifying its 
+SourceName as the video input object's SelectedSourceName property 
+value.
+
+If Selected is on, the video source object is selected. If the value is 
+off, the video source object is not selected.
+
+      &gt;&gt; vid = videoinput('matrox', 1);
+      &gt;&gt; vid.SelectedSourceName
+
+      &gt;&gt; src = getselectedsource(vid);
+      &gt;&gt; src.SourceName
+      &gt;&gt; src.Selected
+
+A video source is defined to be a collection of one or more physical data 
+sources that are treated as a single entity. For example, hardware supporting
+multiple RGB sources, each of which is made up of 3 physical connections
+(red-green-blue), would be treated as a single video source object.<SeeAlso>SelectedSourceName.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="SourceName">Indicate the name of a source.
+
+SourceName indicates the name of a video source object.
+
+SourceName will reflect one of the allowable values for the
+video input object's SelectedSourceName property.
+
+      &gt;&gt; vid = videoinput('matrox', 1);
+      &gt;&gt; vid.SelectedSourceName
+
+      &gt;&gt; src = getselectedsource(vid);
+      &gt;&gt; src.SourceName
+      &gt;&gt; src.Selected<SeeAlso>SelectedSourceName.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="VideoResolution">Indicate the width and height of the incoming video stream.
+
+VideoResolution is a 1x2 element vector indicating the image width
+and height for the incoming video signal. VideoResolution is specified
+as [Width Height].
+
+Width is measured in pixels and Height is measured in lines. 
+
+VideoResolution is defined at object creation time and is specific to the 
+VideoFormat property value, which was provided to the VIDEOINPUT 
+function.<SeeAlso>ROIPosition, VideoFormat, VIDEOINPUT.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="Source">Source is a vector of video source objects.
+
+Source is a vector of video source objects representing the physical
+data sources connected to a device. When a video input object is created, 
+a vector of video source objects is created. 
+
+Each video source object created is provided a unique source name. This 
+source name can be used to select the desired acquisition source by 
+configuring the SelectedSourceName property of the video input object.
+
+A video source object's associated source name is indicated by its 
+SourceName property. If a video source object's SourceName is equivalent 
+to the video input object's SelectedSourceName, the video source object's 
+Selected property will have a value of on.
+
+To access the current selected video source to be used for acquisition, 
+use the GETSELECTEDSOURCE function:
+
+      &gt;&gt; vid = videoinput('matrox', 1);
+      &gt;&gt; vid.SelectedSourceName
+
+      &gt;&gt; src = getselectedsource(vid);
+      &gt;&gt; src.SourceName
+      &gt;&gt; src.Selected
+
+A video source is defined to be a collection of one or more physical data 
+sources that are treated as a single entity. For example, hardware supporting
+multiple RGB sources, each of which is made up of 3 physical connections
+(red-green-blue), would be treated as a single video source object.
+
+Source encapsulates one or more video sources. To reference a video 
+source, you use a numerical integer to index into the vector of video source 
+objects. For example, you can use Source with the appropriate indices when accessing video source property values:
+
+      &gt;&gt; vid = videoinput('matrox', 1);
+      &gt;&gt; src = get(vid, 'Source');
+      &gt;&gt; get( src(1) )<SeeAlso>IMAQDEVICE/GETSELECTEDSOURCE, Selected, SelectedSourceName.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="Parent">Parent indicates the parent of a video source object.
+
+The parent of a video source object is defined as the 
+video input object owning the video source object.<SeeAlso>VIDEOINPUT.</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="Name">Specify a name for the video input object.
+
+You configure Name to be a descriptive name for the video input object.
+
+By default, a video input object is constructed with a name created
+by combining the values of the VideoFormat and DeviceID properties 
+with the adaptor name in the following format:
+
+      VideoFormat + '-' + adaptor name + '-' + DeviceID<SeeAlso>IMAQFIND, VIDEOINPUT.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="VideoFormat">Specify the video input format for the image acquisition device.
+
+VideoFormat reflects the format provided to the VIDEOINPUT
+function. If a device configuration file was provided to the VIDEOINPUT
+function, VideoFormat will be configured to the device file name.
+
+VideoFormat indicates the video input format for the video 
+input object. Once the video input object is created, the value of
+VideoFormat can not be modified.
+
+The VideoFormat used for a video input object will determine 
+the possible values for the SelectedSourceName property.
+
+Valid VideoFormat values are available by using the 
+IMAQHWINFO('ADAPTOR') function.<SeeAlso>VIDEOINPUT, IMAQHWINFO, SelectedSourceName.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="DeviceID">Identify the image acquisition device represented by the video input object.
+
+DeviceID is a number, assigned by an adaptor, that uniquely identifies
+an image acquisition device. The adaptor assigns the first device it detects the 
+device ID 1, the second it detects the device ID 2, and so on.
+
+You must specify the DeviceID as an argument to the VIDEOINPUT function 
+when you create a video input object. The object stores the device ID value 
+in this property and also uses the value when constructing the default value of 
+the Name property.
+
+To get a list of the IDs of the devices connected to your system, use the 
+IMAQHWINFO function, specifying the name of a particular adaptor as an 
+argument.<SeeAlso>IMAQHWINFO, VIDEOINPUT, Name.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="NumberOfBands">Specify the number of color bands in the data to be acquired.
+
+NumberOfBands indicates the number of color bands present in the 
+acquired data returned by GETSNAPSHOT, GETDATA, and PEEKDATA.
+The toolbox defines band as the third dimension in a MATLAB 3-D array.<SeeAlso>IMAQDEVICE/GETSNAPSHOT, IMAQDEVICE/GETDATA, IMAQDEVICE/PEEKDATA.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="ROIPosition">ROIPosition specifies the region-of-interest acquisition window.
+
+ROIPosition is a 1x4 element vector indicating the X offset, Y offset,
+width, and height of the region-of-interest (ROI) window.
+
+The ROIPosition is specified as:
+      [XOffset Yoffset Width Height]
+
+XOffset and Width are measured in pixels. YOffset and Height are measured in 
+lines. 
+
+The ROI window defines the actual image frame size logged by the toolbox, 
+measured with respect to the top left corner of an image frame.
+
+The sum of XOffset and Width can not exceed the width specified by the
+VideoResolution property.
+
+The sum of YOffset and Height can not exceed the height specified by the
+VideoResolution property.<SeeAlso>VideoResolution.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="ReturnedColorSpace">Specify the color space used to return acquired data to MATLAB.
+
+ReturnedColorSpace specifies the color space used when acquired image 
+data is returned to the MATLAB workspace. This is only relevant when 
+accessing acquired image data with the GETSNAPSHOT, GETDATA,
+and PEEKDATA functions.
+
+Possible values for ReturnedColorSpace are:
+    grayscale     MATLAB's grayscale color space.
+    rgb           MATLAB's RGB color space.
+    YCbCr         MATLAB's YCbCr color space.  This is often referred to as YUV.
+<SeeAlso>VideoFormat, IMAQDEVICE/GETSNAPSHOT, IMAQDEVICE/GETDATA, IMAQDEVICE/PEEKDATA,
+VIDEOINPUT.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="SelectedSourceName">Specify the name of the currently selected video source. 
+
+SelectedSourceName is used to select the name of the video source 
+object from which the video input object acquires data. By default, the 
+video input object selects the first available video source object 
+stored in the Source property. 
+
+To view a list of all available source names, use the SET command: 
+
+      vid = videoinput('matrox', 1);
+      srcNames = set(vid, 'SelectedSourceName')
+
+SelectedSourceName is specified as a string.
+
+A video source is defined to be a collection of one or more physical data 
+sources that are treated as a single entity. For example, hardware supporting
+multiple RGB sources, each of which is made up of 3 physical connections
+(red-green-blue), would be treated as a single video source object.<SeeAlso>Source, IMAQDEVICE/SET.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="TriggerType">Specify the type of trigger to issue. 
+
+TriggerType is used to indicate the kind of trigger to issue
+upon calling START. All video input objects support an immediate 
+or manual TriggerType. Some video input objects may support an
+additional TriggerType of hardware. 
+
+To determine the TriggerType options supported by a video input object, use 
+the TRIGGERINFO(OBJ) function call.
+
+Note: In order to configure TriggerType, the TRIGGERCONFIG function 
+      must be used. Use TRIGGERINFO(OBJ) to determine the valid
+      trigger configurations supported by a device.
+
+If TriggerType is immediate, the trigger executes immediately after 
+START is issued. 
+
+If TriggerType is manual, the trigger executes immediately after the  
+TRIGGER function is issued. 
+
+For video input objects that provide an additional TriggerType option
+of hardware, the trigger will execute when the TriggerCondition is satisfied 
+via the TriggerSource.
+
+When a trigger executes for a video input object, data logging is 
+initiated and the Logging property is automatically set to on.
+
+The value of TriggerType cannot be modified while the object's 
+Running property is on.<SeeAlso>IMAQDEVICE/TRIGGERCONFIG, IMAQDEVICE/TRIGGERINFO, IMAQDEVICE/TRIGGER, 
+TriggerCondition, TriggerSource, Logging, Running.</SeeAlso>
+		</AdaptorHelp>
+	</Help></ImageAcquisitionInfo>

@@ -1,0 +1,38 @@
+/*
+ * MATLAB Compiler: 3.0
+ * Date: Mon Nov 15 22:13:40 2004
+ * Arguments: "-B" "macro_default" "-O" "all" "-O" "fold_scalar_mxarrays:on"
+ * "-O" "fold_non_scalar_mxarrays:on" "-O" "optimize_integer_for_loops:on" "-O"
+ * "array_indexing:on" "-O" "optimize_conditionals:on" "-B" "sgl" "-m" "-W"
+ * "main" "-L" "C" "-t" "-T" "link:exe" "-h" "libmmfile.mlib" "-W" "mainhg"
+ * "libmwsglm.mlib" "simplexyplot" 
+ */
+
+#ifndef MLF_V2
+#define MLF_V2 1
+#endif
+
+#ifndef __simplexyplot_h
+#define __simplexyplot_h 1
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "libmatlb.h"
+
+extern void InitializeModule_simplexyplot(void);
+extern void TerminateModule_simplexyplot(void);
+extern _mexLocalFunctionTable _local_function_table_simplexyplot;
+
+extern mxArray * mlfSimplexyplot(mlfVarargoutList * varargout, mxArray * mem);
+extern void mlxSimplexyplot(int nlhs,
+                            mxArray * plhs[],
+                            int nrhs,
+                            mxArray * prhs[]);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif

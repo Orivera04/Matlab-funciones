@@ -1,0 +1,208 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Labels and figure properties properties</title>
+<style>
+<!--
+h3           { color: #006699 }
+span.mcode   { font-family: Fixedsys; color: #993300; text-align:left }
+-->
+</style>
+</head>
+
+<body>
+
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1" height="86">
+  <tr>
+    <td width="70%" height="86">
+    <h2>Programming examples</h2>
+    </td>
+    <td width="3%" height="86">&nbsp;<p>&nbsp;</p>
+    <p>&nbsp;</td>
+    <td width="27%" height="86">
+    <img border="0" src="../images/plt.png" width="214" height="98" align="right"></td>
+  </tr>
+</table>
+<p>These ten examples have been included in the plt package to help you learn 
+how to take advantage of many of plt's features:</p>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber2">
+  <tr>
+    <td width="108" valign="top">
+    <h3>plt5.m</h3>
+    </td>
+    <td width="891" valign="top"><p style="margin-bottom: -12">This is a simple script which creates a plot 
+    containing 5 traces. Hopefully you have already been running this script 
+    while following thru the earlier sections.</p>
+    <ul>
+      <li>Note how the five y-vectors are combined to form a single plt argument.</li>
+      <li>Note the use of the <span class="mcode">'Xlim'</span> and
+      <span class="mcode">'Ylim'</span> arguments to control the initial axis 
+      limits.</li>
+      <li>Note the use of the disable trace argument to turn off the 
+      last trace (initially).</li>
+      <li>Note the use of&nbsp; <span class="mcode">'LabelYR'</span> argument to 
+      assign trace 5 to the right hand axis.</li>
+    </ul>
+<p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="108" valign="top">
+    <h3>gauss.m</h3>
+    </td>
+    <td width="891" valign="top"><p style="margin-bottom: -12">This script plots the results of combining 
+    uniform random variables.</p>
+    <ul>
+      <li>Shows the advantage of setting the line data after the 
+      <span class="mcode">plt(..)</span> call.</li>
+      <li>Note the use of the <span class="mcode">'FigName'</span> and 
+      <span class="mcode">'TraceID'</span> arguments.</li>
+      <li>Note the appearance of the Greek letter in the x-axis label.</li>
+      <li>Shows how to use the 
+      <span class="mcode">'COLORc'</span> argument to select Matlab's default 
+      plotting colors (typically set to use a white background for the plotting 
+      area)</li>
+    </ul>
+    <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="108" valign="top">
+    <h3>pltsq.m</h3>
+    </td>
+    <td width="891" valign="top"><p style="margin-bottom: -12">This Matlab function shows how you can add 
+    additional GUI controls to the plt window. Typically this is something you 
+    will want to do when creating an application based on plt.</p>
+    <ul>
+      <li>Note how the 10 uicontrols are added to the figure (4 popups, 2 
+      buttons, and 6 text labels).</li>
+      <li>Note that the uicontrol units are changed to normalized so that they 
+      reposition properly when you resize the plt figure window.</li>
+      <li>Note the use of the <span class="mcode">'AxisPos'</span> argument to make room for the uicontrols 
+      added above the plot area.</li>
+      <li>Note the use of the <span class="mcode">'Options'</span> argument to 
+      turn off grid lines (initially) and to remove the y-axs Log selector from 
+      the menu box.</li>
+      <li>Use the Erasemode popup to explore the effect of the erasemode 
+      property on drawing speed.</li>
+    </ul>
+    <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="108" valign="top">
+    <h3>pltn.m</h3>
+    </td>
+    <td width="891" valign="top"><p> Covers little new ground, but shows you 
+    what it looks like to plot many traces at once. This function takes an 
+    argument which specifies how many traces to plot. For instance
+    <span class="mcode">pltn(1)</span> will plot a single trace and
+    <span class="mcode">pltn(99)</span> will plot 99 traces. For 99 traces the 
+    trace IDs in the selection box will overlap unless you have a very high 
+    resolution display. If you call <span class="mcode">pltn</span> with no 
+    arguments, it will plot as many traces as will fit comfortably. For 
+    example, if your screen resolution is 1600x1200, pltn will plot 64 traces 
+    but if your screen resolution is 1024x768 only 35 traces will appear.</p>
+    <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="108" valign="top">
+    <h3>pltvar.m</h3>
+    </td>
+    <td width="891" valign="top">To demonstrate the workspace plotter, this 
+    script creates several vectors in the workspace (including a structure 
+    containing two vector fields and then starts the workspace 
+    plotter by calling plt with no
+arguments.<p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="108" valign="top">
+    <h3>pltquiv.m</h3>
+    </td>
+    <td width="891" valign="top">This script file demonstrates several plt 
+    tricks and features:<ul>
+      <li>The Quiver parameter (<span class="mcode">[2 3]</span>) specifies that 
+      the second (v1x,v1y) and third (v2x,v2y) ordered pairs are two be plotted 
+      as vectors using the previous ordered pair (x,y) as the tail of each 
+      vector. This is somewhat similar to the two MatLab commands <span class="mcode">
+      quiver(x,y,v1x,v1y); quiver(x,y,v2x,v2y);</span></li>
+      <li>Using the AxisPos parameter to make room for long Trace ID names</li>
+      <li>Using tex commands (e.g. \uparrow) inside Trace ID names</li>
+      <li>Reassigning menu box items. In this example, the 'LinX' button is 
+      replaced by a 'Filter' button. Its button down function (which is executed 
+      when you click on 'Filter') searches for the 4th trace (findobj) and swaps 
+      the contents of its user data and y-axis data. </li>
+      <li>Adding text items to the figure. Note that the text position is 
+      specified using x and y axes coordinates.</li>
+      <li>Using z data NaNs (not a number) to blank out portions of a trace<br>
+&nbsp;</li>
+    </ul>
+    </td>
+  </tr>
+  <tr>
+    <td width="108" valign="top">
+    <h3>editz.m</h3>
+    </td>
+    <td width="891" valign="top">This function demonstrates the usefulness of 
+    plt's data editing capability. Two plots are created, one showing the poles 
+    and zeros of 
+    a z-plane transfer function and the other showing it's frequency response. The frequency 
+    response plot automatically updates every time you move any of the z-plane 
+    roots using the mouse or direct keyboard entry.<p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="108" valign="top">
+    <h3>tasplt.m</h3>
+    </td>
+    <td width="891" valign="top">This script file creates two plots each 
+    consisting of 9 traces. The first plot (Efficiency and Range) is unique in 
+    that it plots multiple valued functions (i.e. relations). It also 
+    demonstrates adding tick labels to show alternate units on the x and y axes.<p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="108" valign="top">
+    <h3>winplt.m</h3>
+    </td>
+    <td width="891" valign="top">This function displays two traces which show 
+    the time and frequency domain shapes of 24 different FFT windows. This 
+    example uses the right hand axis to good advantage, and also demonstrates how to add 
+    auxiliary controls to the figure (in this case just above the graph). Some 
+    of these controls are <i>pseudo sliders</i> created using the <span class="mcode">plt('slider')</span> 
+    commands described <a href="Auxiliary%20plt%20functions.htm">here</a>.<p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="108" valign="top">
+    <h3>curves.m</h3>
+    </td>
+    <td width="891" valign="top">This function shows an example (a bit contrived 
+    perhaps) where many GUI controls need to be crowded into a relatively small 
+    space. The ten controls above the graph (nine edit text objects and one 
+    popup text object) all are used to control how the parametric curves in the 
+    graph are displayed. If we used the traditional MatLab GUI objects, we would 
+    have had to make the graph much smaller to make room for all these controls. 
+    In addition, the <span class="mcode">plt('edit')</span> objects provide a much easier way to modify the 
+    numeric values nearly matching the convenience of a slider object. The <span class="mcode">plt('edit')</span> 
+    and <span class="mcode">plt('pop')</span> commands are described <a href="Auxiliary%20plt%20functions.htm">here</a>.<p>After 
+    starting curves.m, right click on the curve name at the bottom of the figure 
+    to cycle thru the 36 different cool looking curve displays. (Left click on 
+    the curve name as well to select from the complete list of curves.) The 
+    equations in white above the curve name, are not only used as the x-axis 
+    label. These are the exact equations that are used to compute the points 
+    plotted on the graph. The vector t, and the constants a, b, and c that 
+    appear in these equations are defined by the controls above the graph. 
+    Experiment by both right and left clicking on these controls. For the cases 
+    when more than one trace is plotted, the first control on the left (called 
+    trace) indicates which trace is effected by the other nine controls above 
+    the graph. Note that when you left click on a control, it will increase or 
+    decrease depending on whether you click on the left or right side of the 
+    text string. Separate values for a, b, and c are saved for each trace of a 
+    multi-trace plot. This explains the variety of curves that can appear for a 
+    single set of equations (shown below the graph). </td>
+  </tr>
+  </table>
+
+</body>
+
+</html>

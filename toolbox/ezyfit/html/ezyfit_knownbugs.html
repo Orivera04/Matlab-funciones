@@ -1,0 +1,99 @@
+<html><head><title>EzyFit Known software problems</title>
+
+<link rel=stylesheet href="docstyle1.css" type="text/css">
+</head>
+<body bgcolor=#ffffff>
+<!-- NAVBARTOP -->
+<table border=0 width="100%" cellpadding=0 cellspacing=0><tr>
+<td valign=baseline bgcolor="#e7ebf7"><b>EzyFit Known software problems</b></td>
+</tr>
+</table>
+
+
+<h1>EzyFit Known software problems</h1>
+<hr>
+
+<br>
+
+<p>If you find a bug not documented here, first have a look
+to the updated <a href="http://www.fast.u-psud.fr/ezyfit/html/ezyfit_knownbugs.html">EzyFit
+Known software problems</a> page online.
+If it is still undocumented, send an e-mail to
+<a href="mailto:moisy@fast.u-psud.fr">moisy@fast.u-psud.fr</a>.</p><br>
+
+
+<ul>
+
+<li><b><tt>Selectfit</tt> is not stable, can't escape from the lasso drawing.</b><br>
+
+<tt>Selectfit</tt> is no more maintained, and will be removed in future releases.
+Since Matlab 7.6, the new "Data Brushing" mode allows the user to select part of the
+data. <tt>ezfit</tt> and <tt>showfit</tt> work only with the selected data. 
+Use <tt>Selectfit</tt> only if you have Matlab <=7.5.<br><br></li>
+    
+<li><b>Figures and GUIs created by GUIDE always have the Ezyfit menu included.</b><br>
+
+If the Ezyfit toolbox has been installed using <tt>efmenu</tt>,
+all saved figures (</tt>.fig</tt> files) and GUIs created using GUIDE have
+the Ezyfit menu included (sometimes several occurence of the Ezyfit menu).
+I have no solution for the moment, suggestions are welcome.
+If you want to uninstall the Ezyfit toolbox, or only the Ezyfit menus,
+see <a href="ezyfit_uninstall.html">here</a>.<br><br></li>
+
+
+<li><b>New user defined fits created from a given window are not automatically
+updated in the EzyFit menu of other window(s).</b><br>
+
+Select the other window(s) and chose <tt>Refresh EzyFit menu</tt> in the menu,
+or type <tt><a href="efmenu.html">efmenu</a></tt> in the Command Window.<br><br></li>
+
+
+<li><b>When loading a fig file which already contains the EzyFit menu, a
+second EzyFit menu is added.</b><br>
+
+Type <tt><a href="efmenu.html">efmenu</a></tt>, this will remove the extra
+menu.<br><br></li>
+
+
+
+<li><b>Sometimes <tt><a href="showslope.html">showslope</a></tt> displays a
+line with a slope slightly different from the required one.</b><br>
+
+This problem originates from the time
+delay between the mouse click and the pointer location inquiry, especially
+when the mouse is moved quickly. Move slowly.<br><br></li>
+
+<!--
+<li><b>Sometimes <tt><a href="selectfit.html">selectfit</a></tt> displays
+the error message '<tt>Error while evaluating figure WindowButtonUpFcn</tt>'.</b><br>
+
+No idea for the moment. You may ignore these messages.<br><br></li>
+-->
+
+
+<!--
+<li><b><tt>Selectfit</tt> does not keep the location of the legend box.</b><br>
+
+This bug originates from <tt>drawpolygon</tt>, which returns wrong point
+location when a legend box is present. To avoid this problem, selectfit
+first closes the legend box and re-opens it at the end of the selection,
+so the legend box location is lost. No solution for this problem.<br><br></li>
+-->
+
+<!--
+<li><b><tt>Selectfit</tt> does not work with docked figure.</b><br>
+
+This bug originates from <tt>drawpolygon</tt>. Undock your figure.<br><br></li>
+-->
+
+
+</ul>
+
+<br>
+
+        <br>
+        <table width="100%" border=0 cellspacing=0 bgcolor=d0d0f0><tr><td>&nbsp</td></tr></table><br>
+        2005-2009 <a href="ezyfit.html">EzyFit Toolbox</a><br>
+
+</body>
+</html>

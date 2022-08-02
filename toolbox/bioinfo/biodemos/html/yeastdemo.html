@@ -1,0 +1,687 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>YEASTDEMO an example of gene expression profile analysis</title>
+      <meta name="generator" content="MATLAB 7.0.0.3944 (R14) Prerelease">
+      <meta name="date" content="2004-03-05">
+      <meta name="m-file" content="yeastdemo">
+      <meta name="title" content="YEASTDEMO an example of gene expression profile analysis">
+      <meta name="description" content="This example demonstrates a number of ways to look for patterns in gene expression profiles. This example uses data from DeRisi, JL, Iyer, VR, Brown, PO. &#34;Exploring the metabolic and genetic control of gene expression on a genomic scale.&#34; Science. 1997 Oct 24;278(5338):680-6. PMID: 9381177"><style>
+body {
+  background-color: white;
+}
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+pre.codeinput {
+  margin-left: 30px;
+}
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.showbuttons {
+  margin-left: 30px;
+  border: solid black 2px;
+  padding: 4px;
+  background: #EBEFF3;
+}
+
+pre.codeoutput {
+  color: gray;
+  font-style: italic;
+}
+pre.error {
+  color: red;
+}
+    </style></head>
+   <body>
+      <h1>YEASTDEMO an example of gene expression profile analysis</h1>
+      <p>This example demonstrates a number of ways to look for patterns in gene expression profiles. This example uses data from DeRisi,
+         JL, Iyer, VR, Brown, PO. "Exploring the metabolic and genetic control of gene expression on a genomic scale." Science. 1997
+         Oct 24;278(5338):680-6. PMID: 9381177
+      </p>
+      <h2>Contents</h2>
+      <ul>
+         <li><a href="#1">Exploring the Data Set</a></li>
+         <li><a href="#9">Filtering the Genes</a></li>
+         <li><a href="#17">Cluster Analysis</a></li>
+         <li><a href="#23">Principal Component Analysis</a></li>
+         <li><a href="#31">Self-Organizing Maps</a></li>
+      </ul>
+      <h2>Exploring the Data Set<a name="1"></a></h2>
+      <p>The authors used DNA microarrays to study temporal gene expression of almost all genes in Saccharomyces cerevisiae during
+         the metabolic shift from fermentation to respiration. Expression levels were measured at seven time points during the diauxic
+         shift. The full data set can be downloaded from the Gene Expression Omnibus website, <a href="http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE28">http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE28</a> .
+      </p>
+      <p>Start by loading the data into MATLAB. The MAT-file <b>yeastdata.mat</b> contains the "VALUE" data or LOG_RAT2N_MEAN, or log2 of ratio of CH2DN_MEAN and CH1DN_MEAN from the seven time steps in the
+         experiment, the names of the genes, and an array of the times at which the expression levels were measured.
+      </p><pre class="codeinput">load <span class="string">yeastdata.mat</span>
+</pre><p>To get an idea of the size of the data you can use <b>numel(genes)</b> to show how many genes there are in the data set.
+      </p><pre class="codeinput">numel(genes)
+</pre><pre class="codeoutput">
+ans =
+
+        6400
+
+</pre><p>genes is a cell array of the gene names. You can access the entries using MATLAB cell array indexing:</p><pre class="codeinput">genes{15}
+</pre><pre class="codeoutput">
+ans =
+
+YAL054C
+
+</pre><p>This indicates that the 15th row of the variable <b>yeastvalues</b> contains expression levels for the ORF YAL054C. You can use the web command to access information about this ORF in the Saccharomyces
+         Genome Database (SGD).
+      </p><pre class="codeinput">url = sprintf(<span class="keyword">...</span>
+        <span class="string">'http://genome-www4.stanford.edu/cgi-bin/SGD/locus.pl?locus=%s'</span>,<span class="keyword">...</span>
+        genes{15});
+web(url);
+</pre><p>A simple plot can be used to show the expression profile for this ORF.</p><pre class="codeinput">plot(times, yeastvalues(15,:))
+xlabel(<span class="string">'Time (Hours)'</span>);
+ylabel(<span class="string">'Log2 Relative Expression Level'</span>);
+</pre><img vspace="5" hspace="5" src="yeastdemo_01.png"><p>The values are log2 ratios. You may want to plot the actual values instead.</p><pre class="codeinput">plot(times, 2.^yeastvalues(15,:))
+xlabel(<span class="string">'Time (Hours)'</span>);
+ylabel(<span class="string">'Relative Expression Level'</span>);
+</pre><img vspace="5" hspace="5" src="yeastdemo_02.png"><p>The gene associated with this ORF, ACS1, appears to be strongly up regulated during the diauxic shift. You can compare this
+         to other genes by plotting multiple lines on the same figure.
+      </p><pre class="codeinput">hold <span class="string">on</span>
+plot(times, 2.^yeastvalues(16:26,:)')
+xlabel(<span class="string">'Time (Hours)'</span>);
+ylabel(<span class="string">'Relative Expression Level'</span>);
+title(<span class="string">'Profile Expression Levels'</span>);
+</pre><img vspace="5" hspace="5" src="yeastdemo_03.png"><h2>Filtering the Genes<a name="9"></a></h2>
+      <p>The data set is quite large and a lot of the information corresponds to genes that do not show any interesting changes during
+         the experiment. To make it easier to find the interesting genes, the first thing to do is to reduce the size of the data set
+         by removing genes with expression profiles that do not show anything of interest. There are 6400 expression profiles. You
+         can use a number of techniques to reduce this to some subset that contains the most significant genes.
+      </p>
+      <p>If you look through the gene list you will see several spots marked as 'EMPTY'. These are empty spots on the array, and while
+         they might have data associated with them, for the purposes of this example, you can consider these points to be noise. These
+         points can be found using the <b>strcmp</b> function and removed from the data set with indexing commands.
+      </p><pre class="codeinput">emptySpots = strcmp(<span class="string">'EMPTY'</span>,genes);
+yeastvalues(emptySpots,:) = [];
+genes(emptySpots) = [];
+numel(genes)
+</pre><pre class="codeoutput">
+ans =
+
+        6314
+
+</pre><p>In the yeastvalues data you will also see several places where the expression level is marked as NaN. This indicates that
+         no data was collected for this spot at the particular time step. One approach to dealing with these missing values would be
+         to impute them using the mean or median of data for the particular gene over time. This example uses a less rigorous approach
+         of simply throwing away the data for any genes where one or more expression level was not measured.
+      </p>
+      <p>The function <b>isnan</b> is used to identify the genes with missing data and indexing commands are used to remove the genes with missing data.
+      </p><pre class="codeinput">nanIndices = any(isnan(yeastvalues),2);
+yeastvalues(nanIndices,:) = [];
+genes(nanIndices) = [];
+numel(genes)
+</pre><pre class="codeoutput">
+ans =
+
+        6276
+
+</pre><p>If you were to plot the expression profiles of all the remaining profiles, you would see that most profiles are flat and not
+         significantly different from the others. This flat data is obviously of use as it indicates that the genes associated with
+         these profiles are not significantly affected by the diauxic shift; however, in this example, you are interested in the genes
+         with large changes in expression accompanying the diauxic shift. You can use filtering functions in the Bioinformatics Toolbox
+         to remove genes with various types of profiles that do not provide useful information about genes affected by the metabolic
+         change.
+      </p>
+      <p>You can use the <b>genevarfilter</b> function to filter out genes with small variance over time. The function returns a logical array of the same size as the
+         variable genes with ones corresponding to rows of yeastvalues with variance greater than the 10th percentile and zeros corresponding
+         to those below the threshold.
+      </p><pre class="codeinput">mask = genevarfilter(yeastvalues);
+<span class="comment">% Use the mask as an index into the values to remove the filtered genes.</span>
+yeastvalues = yeastvalues(mask,:);
+genes = genes(mask);
+numel(genes)
+</pre><pre class="codeoutput">
+ans =
+
+        5648
+
+</pre><p>The function <b>genelowvalfilter</b> removes genes that have very low absolute expression values. Note that the gene filter functions can also automatically calculate
+         the filtered data and names.
+      </p><pre class="codeinput">[mask, yeastvalues, genes] = genelowvalfilter(yeastvalues,genes,<span class="keyword">...</span>
+                                                        <span class="string">'absval'</span>,log2(3));
+numel(genes)
+</pre><pre class="codeoutput">
+ans =
+
+   822
+
+</pre><p>Use <b>geneentropyfilter</b> to remove genes whose profiles have low entropy:
+      </p><pre class="codeinput">[mask, yeastvalues, genes] = geneentropyfilter(yeastvalues,genes,<span class="keyword">...</span>
+                                                           <span class="string">'prctile'</span>,15);
+numel(genes)
+</pre><pre class="codeoutput">
+ans =
+
+   614
+
+</pre><h2>Cluster Analysis<a name="17"></a></h2>
+      <p>Now that you have a manageable list of genes, you can look for relationships between the profiles using some different clustering
+         techniques from the Statistics Toolbox. For hierarchical clustering, the function <b>pdist</b> calculates the pairwise distances between profiles and <b>linkage</b> creates the hierarchical cluster tree.
+      </p><pre class="codeinput">corrDist = pdist(yeastvalues, <span class="string">'corr'</span>);
+clusterTree = linkage(corrDist, <span class="string">'average'</span>);
+</pre><p>The <b>cluster</b> function calculates the clusters based on either a cutoff distance or a maximum number of clusters. In this case, the 'maxclust'
+         option is used to identify 16 distinct clusters.
+      </p><pre class="codeinput">clusters = cluster(clusterTree, <span class="string">'maxclust'</span>, 16);
+</pre><p>The profiles of the genes in these clusters can be plotted together using a simple loop and the <b>subplot</b> command.
+      </p><pre class="codeinput">figure
+<span class="keyword">for</span> c = 1:16
+    subplot(4,4,c);
+    plot(times,yeastvalues((clusters == c),:)');
+    axis <span class="string">tight</span>
+<span class="keyword">end</span>
+suptitle(<span class="string">'Hierarchical Clustering of Profiles'</span>);
+</pre><img vspace="5" hspace="5" src="yeastdemo_04.png"><p>The Statistics Toolbox also has a K-means clustering function. Again, sixteen clusters are found, but because the algorithm
+         is different these will not necessarily be the same clusters as those found by hierarchical clustering.
+      </p><pre class="codeinput">[cidx, ctrs] = kmeans(yeastvalues, 16, <span class="string">'dist'</span>,<span class="string">'corr'</span>, <span class="string">'rep'</span>,5,<span class="keyword">...</span>
+                                                        <span class="string">'disp'</span>,<span class="string">'final'</span>);
+figure
+<span class="keyword">for</span> c = 1:16
+    subplot(4,4,c);
+    plot(times,yeastvalues((cidx == c),:)');
+    axis <span class="string">tight</span>
+<span class="keyword">end</span>
+suptitle(<span class="string">'K-Means Clustering of Profiles'</span>);
+</pre><pre class="codeoutput">30 iterations, total sum of distances = 24.6385
+24 iterations, total sum of distances = 23.153
+43 iterations, total sum of distances = 24.2587
+36 iterations, total sum of distances = 25.9199
+24 iterations, total sum of distances = 23.1448
+</pre><img vspace="5" hspace="5" src="yeastdemo_05.png"><p>Instead of plotting all the profiles, you can plot just the centroids.</p><pre class="codeinput">figure
+<span class="keyword">for</span> c = 1:16
+    subplot(4,4,c);
+    plot(times,ctrs(c,:)');
+    axis <span class="string">tight</span>
+    axis <span class="string">off</span>    <span class="comment">% turn off the axis</span>
+<span class="keyword">end</span>
+suptitle(<span class="string">'K-Means Clustering of Profiles'</span>);
+</pre><img vspace="5" hspace="5" src="yeastdemo_06.png"><p>You can use the <b>clustergram</b> function to create a heat map of and dendrogram from the output of the hierarchical clustering.
+      </p><pre class="codeinput">figure
+clustergram(yeastvalues(:,2:end),<span class="string">'RowLabels'</span>,genes,<span class="keyword">...</span>
+                                            <span class="string">'ColumnLabels'</span>,times(2:end))
+</pre><img vspace="5" hspace="5" src="yeastdemo_07.png"><h2>Principal Component Analysis<a name="23"></a></h2>
+      <p>Principal-component analysis(PCA) is a useful technique that can be used to reduce the dimensionality of large data sets,
+         such as those from microarray analysis. PCA can also be used to find signals in noisy data. The function <b>mapcaplot</b> is used to create a plot of the principal components of a data set.  Try dragging the mouse around in one of the figure windows.
+         You will see that the selected elements are highlighted in the other window. This allows you to look at multiple dimensions
+         at once. Notice that the scatter plot of the scores of the first two principal components shows that there are two distinct
+         regions. This is not unexpected as the filtering process removed many of the genes with low variance or low information. These
+         genes would have appeared in the middle of the scatter plot.
+      </p><pre class="codeinput">mapcaplot(yeastvalues,genes)
+</pre><img vspace="5" hspace="5" src="yeastdemo_08.png"><p><b>mapcaplot</b> calculates the principal components and creates scatter plots of the results. If you want to look at the values of the principal
+         components, the <b>princomp</b> function in the Statistics Toolbox is used to calculate the principal components of a data set.
+      </p><pre class="codeinput">[pc, zscores, pcvars] = princomp(yeastvalues)
+</pre><pre class="codeoutput">
+pc =
+
+   -0.0390   -0.3292    0.1879    0.2300    0.0284   -0.5822   -0.6798
+   -0.0002   -0.5399    0.4442    0.5628   -0.0654    0.3121    0.3046
+    0.0732   -0.1893   -0.1944   -0.1290   -0.8621    0.2811   -0.2867
+    0.2178   -0.3005   -0.1779   -0.1342   -0.2569   -0.6423    0.5779
+    0.2809   -0.6348   -0.2226   -0.4589    0.4128    0.2639   -0.1342
+    0.6674    0.1573   -0.4591    0.5480    0.0895    0.0466   -0.0922
+    0.6491    0.2152    0.6615   -0.2913   -0.0855   -0.0132   -0.0494
+
+
+</pre><p>The first output, pc, is a matrix of the principal components of the yeastvalues data. The first column of the matrix is the
+         first principal component, the second column is the second principal component and so on. The second output, zscores, are
+         the principal component scores. That is, the representation of yeastvalues in the principal component space. The third output,
+         pcvars, contains the principal component variances.
+      </p>
+      <p>The values of pcvars give a measure of how much of the variance of the data is accounted for by each of the seven principal
+         components. It is clear that the first principal component accounts for a majority of the variance in the model. You can see
+         the exact percentage of the variance accounted for by each component using this command:
+      </p><pre class="codeinput">pcvars./sum(pcvars) * 100
+</pre><pre class="codeoutput">
+ans =
+
+   79.8316
+    9.5858
+    4.0781
+    2.6486
+    2.1723
+    0.9747
+    0.7089
+
+</pre><p>This shows that almost 90% of the variance is accounted for by the first two principal components. You can use the <b>cumsum</b> command to see the cumulative sum of the variances.
+      </p><pre class="codeinput">cumsum(pcvars./sum(pcvars) * 100)
+</pre><pre class="codeoutput">
+ans =
+
+   79.8316
+   89.4174
+   93.4955
+   96.1441
+   98.3164
+   99.2911
+  100.0000
+
+</pre><p>If you want to have more control over the plotting of the principal components, you can use the <b>scatter</b> function.
+      </p><pre class="codeinput">figure
+scatter(zscores(:,1),zscores(:,2));
+xlabel(<span class="string">'First Principal Component'</span>);
+ylabel(<span class="string">'Second Principal Component'</span>);
+title(<span class="string">'Principal Component Scatter Plot'</span>);
+</pre><img vspace="5" hspace="5" src="yeastdemo_09.png"><p>An alternative way to create a scatter plot is with the function <b>gscatter</b> from the Statistics Toolbox. <b>gscatter</b> creates a grouped scatter plot where points from each group have a different color or marker. You can use <b>clusterdata</b>, or any other clustering function, to group the points.
+      </p><pre class="codeinput">figure
+pcclusters = clusterdata(zscores(:,1:2),<span class="string">'maxclust'</span>,8,<span class="string">'linkage'</span>,<span class="string">'av'</span>);
+gscatter(zscores(:,1),zscores(:,2),pcclusters)
+xlabel(<span class="string">'First Principal Component'</span>);
+ylabel(<span class="string">'Second Principal Component'</span>);
+title(<span class="string">'Principal Component Scatter Plot with Colored Clusters'</span>);
+</pre><img vspace="5" hspace="5" src="yeastdemo_10.png"><p>The function <b>gname</b> from the Statistics Toolbox can be used to identify genes on a scatter plot. You can select as many points as you like on
+         the scatter plot. Hit Enter when you have finished selecting points.
+      </p><pre class="codeinput">gname(genes)  <span class="comment">% Hit enter when you have finished selecting genes.</span>
+</pre><img vspace="5" hspace="5" src="yeastdemo_12.png"><h2>Self-Organizing Maps<a name="31"></a></h2>
+      <p>If you have the Neural Network Toolbox, you can use a self-organizing map (SOM) to cluster the data.</p><pre class="codeinput"><span class="comment">% Check to see if the Neural Network Toolbox is installed</span>
+<span class="keyword">if</span> ~exist(<span class="string">'newsom.m'</span>,<span class="string">'file'</span>)
+    disp(sprintf([<span class="string">'The Self-Organizing Map section of this demo\n'</span><span class="keyword">...</span>
+                  <span class="string">'requires the Neural Network Toolbox.'</span>]));
+    <span class="keyword">return</span>
+<span class="keyword">end</span>
+</pre><p>The <b>newsom</b> function creates a new SOM network object. This example will generate a SOM using the first two principal components.
+      </p><pre class="codeinput">P = zscores(:,1:2)';
+net = newsom([min(P,[],2) max(P,[],2)],[5 3],<span class="string">'gridtop'</span>);
+</pre><p>Train the network using the default parameters.</p><pre class="codeinput">net = train(net,P);
+</pre><pre class="codeoutput">TRAINR, Epoch 0/100
+TRAINR, Epoch 25/100
+TRAINR, Epoch 50/100
+TRAINR, Epoch 75/100
+TRAINR, Epoch 100/100
+TRAINR, Maximum epoch reached.
+
+</pre><p>Use <b>plotsom</b> to display the network over a scatter plot of the data.
+      </p><pre class="codeinput">figure
+plot(P(1,:),P(2,:),<span class="string">'.g'</span>,<span class="string">'markersize'</span>,20)
+hold <span class="string">on</span>
+plotsom(net.iw{1,1},net.layers{1}.distances)
+hold <span class="string">off</span>
+</pre><img vspace="5" hspace="5" src="yeastdemo_13.png"><p>You can assign clusters using the SOM by finding the nearest node to each point in the data set.</p><pre class="codeinput">distances = dist(P',net.IW{1}');
+[d,cndx] = min(distances,[],2);
+<span class="comment">% cndx gives the cluster index</span>
+
+figure
+gscatter(P(1,:),P(2,:),cndx); legend <span class="string">off</span>;
+hold <span class="string">on</span>
+plotsom(net.iw{1,1},net.layers{1}.distances);
+hold <span class="string">off</span>
+</pre><img vspace="5" hspace="5" src="yeastdemo_14.png"><p class="footer">Copyright 2003-2004 The MathWorks, Inc.<br></p>
+      <!--
+##### SOURCE BEGIN #####
+%% YEASTDEMO an example of gene expression profile analysis
+% This example demonstrates a number of ways to look for patterns in gene
+% expression profiles. This example uses data from DeRisi, JL, Iyer, VR,
+% Brown, PO. "Exploring the metabolic and genetic control of gene
+% expression on a genomic scale." Science. 1997 Oct 24;278(5338):680-6.
+% PMID: 9381177 
+%
+
+
+
+%% Exploring the Data Set
+% The authors used DNA microarrays to study temporal gene expression of
+% almost all genes in Saccharomyces cerevisiae during the metabolic shift
+% from fermentation to respiration. Expression levels were measured at
+% seven time points during the diauxic shift.
+% The full data set can be downloaded from the Gene Expression Omnibus
+% website, http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE28 .
+
+%%
+% Start by loading the data into MATLAB. The MAT-file *yeastdata.mat*
+% contains the "VALUE" data or LOG_RAT2N_MEAN, or log2 of ratio of
+% CH2DN_MEAN and CH1DN_MEAN from the seven time steps in the experiment,
+% the names of the genes, and an array of the times at which the expression
+% levels were measured.
+
+load yeastdata.mat
+
+%%
+% To get an idea of the size of the data you can use *numel(genes)* to show
+% how many genes there are in the data set. 
+
+numel(genes)
+
+%%
+% genes is a cell array of the gene names. You can access the entries using
+% MATLAB cell array indexing:
+
+genes{15}
+
+%%
+% This indicates that the 15th row of the variable *yeastvalues* contains
+% expression levels for the ORF YAL054C. You can use the web command to
+% access information about this ORF in the Saccharomyces Genome Database
+% (SGD).
+
+url = sprintf(...
+        'http://genome-www4.stanford.edu/cgi-bin/SGD/locus.pl?locus=%s',...
+        genes{15});
+web(url);
+
+%%
+% A simple plot can be used to show the expression profile for this ORF.
+plot(times, yeastvalues(15,:))
+xlabel('Time (Hours)');
+ylabel('Log2 Relative Expression Level');
+
+%%
+% The values are log2 ratios. You may want to plot the actual values
+% instead. 
+plot(times, 2.^yeastvalues(15,:))
+xlabel('Time (Hours)');
+ylabel('Relative Expression Level');
+
+%%
+% The gene associated with this ORF, ACS1, appears to be strongly
+% up regulated during the diauxic shift. You can compare this to other
+% genes by plotting multiple lines on the same figure.
+
+hold on
+plot(times, 2.^yeastvalues(16:26,:)')
+xlabel('Time (Hours)');
+ylabel('Relative Expression Level');
+title('Profile Expression Levels');
+
+%% Filtering the Genes
+% The data set is quite large and a lot of the information corresponds to
+% genes that do not show any interesting changes during the experiment. To
+% make it easier to find the interesting genes, the first thing to do is to
+% reduce the size of the data set by removing genes with expression
+% profiles that do not show anything of interest. There are 6400 expression
+% profiles. You can use a number of techniques to reduce this to some
+% subset that contains the most significant genes. 
+
+%%
+% If you look through the gene list you will see several spots marked as
+% 'EMPTY'. These are empty spots on the array, and while they might have
+% data associated with them, for the purposes of this example, you can
+% consider these points to be noise. These points can be found using the
+% *strcmp* function and removed from the data set with indexing commands.
+% 
+
+emptySpots = strcmp('EMPTY',genes);
+yeastvalues(emptySpots,:) = [];
+genes(emptySpots) = [];
+numel(genes)
+
+%%
+% In the yeastvalues data you will also see several places where the
+% expression level is marked as NaN. This indicates that no data was 
+% collected for this spot at the particular time step. One approach to
+% dealing with these missing values would be to impute them using the 
+% mean or median of data for the particular gene over time. This example
+% uses a less rigorous approach of simply throwing away the data for any
+% genes where one or more expression level was not measured.
+
+%%
+% The function *isnan* is used to identify the genes with missing data and
+% indexing commands are used to remove the genes with missing data.  
+
+nanIndices = any(isnan(yeastvalues),2);
+yeastvalues(nanIndices,:) = [];
+genes(nanIndices) = [];
+numel(genes)
+
+%%
+% If you were to plot the expression profiles of all the remaining
+% profiles, you would see that most profiles are flat and not significantly
+% different from the others. This flat data is obviously of use as it
+% indicates that the genes associated with these profiles are not
+% significantly affected by the diauxic shift; however, in this example,
+% you are interested in the genes with large changes in expression
+% accompanying the diauxic shift. You can use filtering functions in the
+% Bioinformatics Toolbox to remove genes with various types of profiles
+% that do not provide useful information about genes affected by the
+% metabolic change.
+
+%%
+% You can use the *genevarfilter* function to filter out genes with small
+% variance over time. The function returns a logical array of the same size
+% as the variable genes with ones corresponding to rows of yeastvalues with
+% variance greater than the 10th percentile and zeros corresponding to
+% those below the threshold. 
+
+mask = genevarfilter(yeastvalues);
+% Use the mask as an index into the values to remove the filtered genes. 
+yeastvalues = yeastvalues(mask,:);
+genes = genes(mask);
+numel(genes)
+
+%%
+% The function *genelowvalfilter* removes genes that have very low absolute
+% expression values. Note that the gene filter functions can also
+% automatically calculate the filtered data and names. 
+
+[mask, yeastvalues, genes] = genelowvalfilter(yeastvalues,genes,...
+                                                        'absval',log2(3));
+numel(genes)
+
+%%
+% Use *geneentropyfilter* to remove genes whose profiles have low entropy: 
+[mask, yeastvalues, genes] = geneentropyfilter(yeastvalues,genes,...
+                                                           'prctile',15);
+numel(genes)
+
+%% Cluster Analysis
+% Now that you have a manageable list of genes, you can look for
+% relationships between the profiles using some different clustering
+% techniques from the Statistics Toolbox.
+% For hierarchical clustering, the function *pdist* calculates the pairwise
+% distances between profiles and *linkage* creates the hierarchical cluster
+% tree.  
+
+corrDist = pdist(yeastvalues, 'corr');
+clusterTree = linkage(corrDist, 'average');
+
+%%
+% The *cluster* function calculates the clusters based on either a cutoff
+% distance or a maximum number of clusters. In this case, the 'maxclust'
+% option is used to identify 16 distinct clusters.
+
+clusters = cluster(clusterTree, 'maxclust', 16);
+
+%%
+% The profiles of the genes in these clusters can be plotted together using
+% a simple loop and the *subplot* command. 
+
+figure('color',[1 1 1])
+for c = 1:16
+    subplot(4,4,c);
+    plot(times,yeastvalues((clusters == c),:)');
+    axis tight
+end
+suptitle('Hierarchical Clustering of Profiles');
+
+%%
+% The Statistics Toolbox also has a K-means clustering function. Again,
+% sixteen clusters are found, but because the algorithm is different these
+% will not necessarily be the same clusters as those found by hierarchical
+% clustering.
+
+[cidx, ctrs] = kmeans(yeastvalues, 16, 'dist','corr', 'rep',5,...
+                                                        'disp','final');
+figure('color',[1 1 1])
+for c = 1:16
+    subplot(4,4,c);
+    plot(times,yeastvalues((cidx == c),:)');
+    axis tight
+end
+suptitle('K-Means Clustering of Profiles');
+
+%%
+% Instead of plotting all the profiles, you can plot just the centroids.
+figure('color',[1 1 1])
+for c = 1:16
+    subplot(4,4,c);
+    plot(times,ctrs(c,:)');
+    axis tight
+    axis off    % turn off the axis
+end
+suptitle('K-Means Clustering of Profiles');
+
+%%
+% You can use the *clustergram* function to create a heat map of and
+% dendrogram from the output of the hierarchical clustering.
+figure('color',[1 1 1])
+clustergram(yeastvalues(:,2:end),'RowLabels',genes,...
+                                            'ColumnLabels',times(2:end))
+
+%% Principal Component Analysis
+% Principal-component analysis(PCA) is a useful technique that can be used
+% to reduce the dimensionality of large data sets, such as those from
+% microarray analysis. PCA can also be used to find signals in noisy data.
+% The function *mapcaplot* is used to create a plot of the principal
+% components of a data set.  Try dragging the mouse around in one of the
+% figure windows. You will see that the selected elements are highlighted
+% in the other window. This allows you to look at multiple dimensions at
+% once.
+% Notice that the scatter plot of the scores of the first two principal
+% components shows that there are two distinct regions. This is not
+% unexpected as the filtering process removed many of the genes with low
+% variance or low information. These genes would have appeared in the
+% middle of the scatter plot.
+
+mapcaplot(yeastvalues,genes)
+
+%% 
+% *mapcaplot* calculates the principal components and creates scatter plots
+% of the results. If you want to look at the values of the principal
+% components, the *princomp* function in the Statistics Toolbox is used to
+% calculate the principal components of a data set.
+
+[pc, zscores, pcvars] = princomp(yeastvalues)
+
+%%
+% The first output, pc, is a matrix of the principal components of the
+% yeastvalues data. The first column of the matrix is the first principal
+% component, the second column is the second principal component and so on.
+% The second output, zscores, are the principal component scores. That is,
+% the representation of yeastvalues in the principal component space. The
+% third output, pcvars, contains the principal component variances.
+
+%%
+% The values of pcvars give a measure of how much of the variance of the
+% data is accounted for by each of the seven principal components. It is
+% clear that the first principal component accounts for a majority of the
+% variance in the model. You can see the exact percentage of the variance
+% accounted for by each component using this command:
+
+pcvars./sum(pcvars) * 100
+
+%%
+% This shows that almost 90% of the variance is accounted for by the first
+% two principal components. You can use the *cumsum* command to see the
+% cumulative sum of the variances.
+
+cumsum(pcvars./sum(pcvars) * 100)
+
+%% 
+% If you want to have more control over the plotting of the principal
+% components, you can use the *scatter* function.
+
+figure('color',[1 1 1])
+scatter(zscores(:,1),zscores(:,2));
+xlabel('First Principal Component');
+ylabel('Second Principal Component');
+title('Principal Component Scatter Plot');
+
+%%
+% An alternative way to create a scatter plot is with the function
+% *gscatter* from the Statistics Toolbox. *gscatter* creates a grouped
+% scatter plot where points from each group have a different color or
+% marker. You can use *clusterdata*, or any other clustering function, to
+% group the points.
+
+figure('color',[1 1 1])
+pcclusters = clusterdata(zscores(:,1:2),'maxclust',8,'linkage','av');
+gscatter(zscores(:,1),zscores(:,2),pcclusters)
+xlabel('First Principal Component');
+ylabel('Second Principal Component');
+title('Principal Component Scatter Plot with Colored Clusters');
+
+%%
+% The function *gname* from the Statistics Toolbox can be used to identify
+% genes on a scatter plot. You can select as many points as you like on the
+% scatter plot. Hit Enter when you have finished selecting points.
+
+gname(genes)  % Hit enter when you have finished selecting genes.
+
+%% Self-Organizing Maps
+% If you have the Neural Network Toolbox, you can use a self-organizing map
+% (SOM) to cluster the data. 
+
+% Check to see if the Neural Network Toolbox is installed
+if ~exist('newsom.m','file')
+    disp(sprintf(['The Self-Organizing Map section of this demo\n'...
+                  'requires the Neural Network Toolbox.']));
+    return
+end
+
+%% 
+% The *newsom* function creates a new SOM network object. This example will
+% generate a SOM using the first two principal components.
+
+P = zscores(:,1:2)';
+net = newsom([min(P,[],2) max(P,[],2)],[5 3],'gridtop');
+
+%% 
+% Train the network using the default parameters.
+net = train(net,P);
+
+%%
+% Use *plotsom* to display the network over a scatter plot of the data.
+figure
+plot(P(1,:),P(2,:),'.g','markersize',20)
+hold on
+plotsom(net.iw{1,1},net.layers{1}.distances)
+hold off
+
+%%
+% You can assign clusters using the SOM by finding the nearest node to each
+% point in the data set.
+
+distances = dist(P',net.IW{1}');
+[d,cndx] = min(distances,[],2);
+% cndx gives the cluster index
+
+figure
+gscatter(P(1,:),P(2,:),cndx); legend off;
+hold on
+plotsom(net.iw{1,1},net.layers{1}.distances);
+hold off
+
+%%
+%   Copyright 2003-2004 The MathWorks, Inc.
+%   $Revision: 1.6.2.4.6.1 $  $Date: 2004/03/05 19:07:39 $
+
+
+##### SOURCE END #####
+-->
+   </body>
+</html>

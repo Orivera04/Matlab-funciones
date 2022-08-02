@@ -1,0 +1,48 @@
+/*
+ * File: 555_phytec_SRAM.lcf
+ *
+ * Abstract:
+ *
+ * NOTE:
+ *   We use FORCEFILES so that the linker will not deadstrip the file 
+ *   exceptions.s. The vector table would be deadstripped since it is 
+ *   not ever called by anything
+ *
+ *
+ * $Revision: 1.7$
+ * $Date: $
+ *
+ * Copyright 2001-2002 The MathWorks, Inc.
+ */
+
+MEMORY {
+	ram : org = 0xfff02000
+	rom : org = 0xfff00000 // desired ROM address (boot address for 555)
+}
+
+FORCEACTIVE { gInterruptVectorTable }
+ 
+SECTIONS {
+
+	GROUP : {
+		.init  : {}
+		.text (TEXT) ALIGN(0x1000) : {}
+		.rodata (CONST) : {
+			*(.rdata)
+			*(.rodata)
+		}
+		.ctors : {}
+		.dtors : {}
+		extab : {}
+		extabindex : {}
+		.data : {}
+		.sdata : {}
+		.sbss : {}
+		.sdata2 : {}
+		.sbss2 : {}
+		.bss : {}
+		.PPC.EMB.sdata0 : {} 
+		.PPC.EMB.sbss0 : {}		
+	} > ram
+
+}

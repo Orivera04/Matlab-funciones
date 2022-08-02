@@ -1,0 +1,1 @@
+ezplot('gamma(x)',[-4 4])

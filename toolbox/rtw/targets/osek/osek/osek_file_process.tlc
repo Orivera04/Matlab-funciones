@@ -1,0 +1,25 @@
+%% ==============================================================================
+%% $RCSfile: osek_file_process.tlc,v $
+%% $Revision $
+%%
+%% Copyright 2002-2003 The MathWorks, Inc.
+%%
+%% Abstract:
+%%   OSEK template file used with TLC's CodeTemplate mechanism.
+%%
+%selectfile NULL_FILE
+
+%% Set the code template compliance level, required setup when using
+%% CodeTemplate mechanism.
+%<LibSetCodeTemplateComplianceLevel(1)>
+
+%% Create OSEK main, put in file osek_main.c
+%<OSLibOSEKCreateOSEKMain()>
+
+%% Create the OSEK application oil file, put in model.oil
+%<OSLibOSEKCreateOSEKOil( FcnMdlName())>
+
+%% Create <model>_makevars.mk to pass information from TLC to make.
+%openfile MakeVars = "%<CompiledModel.Name>_makevars.mk"
+%<OSLibCreateMakeVarsFileContents()>
+%closefile MakeVars

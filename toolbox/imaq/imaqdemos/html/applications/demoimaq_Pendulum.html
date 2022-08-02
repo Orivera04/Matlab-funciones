@@ -1,0 +1,316 @@
+<!--
+Copyright 2001-2004 The MathWorks, Inc.
+$Revision: 1.1.6.2 $ $Date: 2004/03/24 20:39:44 $
+-->
+
+<!--
+This HTML is auto-generated from an m-file.
+Your changes will be overwritten.
+--><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:x-large">Calculating the Length of a Pendulum in Motion</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">This demo captures images of a pendulum in motion. The pendulum consists
+of a blue ball attached to a nylon string. Image data is captured as the
+pendulum is swung. Once captured, the images are processed to determine the
+length of the pendulum.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Images are acquired using the Image Acquisition Toolbox and analyzed with
+the Image Processing Toolbox.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium;">Overview</p><ul xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd"><li><a href="#Acquire Images">Acquire Images</a></li><li><a href="#Select Region Of Interest">Select Region Of Interest</a></li><li><a href="#Segment the Pendulum in Each Frame">Segment the Pendulum in Each Frame</a></li><li><a href="#Find the Centers of Each Segmented Pendulum">Find the Centers of Each Segmented Pendulum</a></li><li><a href="#Calculate Pendulum Length">Calculate Pendulum Length</a></li></ul><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Acquire Images<a name="Acquire Images"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Acquire a series of images to analyze.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Access an image acquisition device.</span>
+vid = videoinput(<span style="color:#B20000">'winvideo'</span>, 1, <span style="color:#B20000">'RGB24_352x288'</span>);
+vid.Timeout = 12;
+
+<span style="color:green">% Configure object to capture every fifth frame.</span>
+set(vid, <span style="color:#B20000">'FrameGrabInterval'</span>, 5);
+
+<span style="color:green">% Configure the number of frames to be logged.</span>
+set(vid, <span style="color:#B20000">'FramesPerTrigger'</span>, 50);
+
+<span style="color:green">% Access the device's video source object selected for acquisition.</span>
+src = getselectedsource(vid);
+
+<span style="color:green">% Configure the device to provide 30 frames per second.</span>
+set(src, <span style="color:#B20000">'FrameRate'</span>, '30');
+
+<span style="color:green">% Open a live preview window. Focus camera onto a moving pendulum.</span>
+preview(vid);
+
+<span style="color:green">% Initiate the acquisition.</span>
+start(vid);
+
+<span style="color:green">% Extract frames from memory.</span>
+frames = getdata(vid);
+
+<span style="color:green">% Remove video input object from memory.</span>
+delete(vid)
+clear vid
+
+<span style="color:green">% Display the first frame in the series.</span>
+imshow( frames(:, :, :, 1) );</pre><img xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" src="demoimaq_Pendulum_img_02_01.gif"><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Display all acquired images.</span>
+imaqmontage(frames);</pre><img xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" src="demoimaq_Pendulum_img_03_01.gif"><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Select Region Of Interest<a name="Select Region Of Interest"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Since the pendulum;s motion is confined to the upper half of the image series.
+Create a new series of frames that contain the region of interest.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">To crop a series of frames using |imcrop|, first perform |imcrop| on one
+frame and store its output. Then create a series of frames having the size
+of the previous output.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Determine the total number of frames acquired.</span>
+nFrames = size(frames, 4);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Crop the first frame.</span>
+roi = [50 16 222 68];
+firstFrame = frames(:,:,:,1);
+frameRegion = imcrop(firstFrame, roi);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Create a storage for the modified image series.</span>
+regions = repmat(uint8(0), [size(frameRegion) nFrames]);
+<span style="color:blue">for</span> count = 1:nFrames,
+    regions(:,:,:,count) = imcrop(frames(:,:,:,count), roi);
+    imshow(regions(:,:,:,count));
+<span style="color:blue">end</span></pre><img xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" src="demoimaq_Pendulum_img_06_01.gif"><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Segment the Pendulum in Each Frame<a name="Segment the Pendulum in Each Frame"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Since the pendulum is much darker than the background, the pendulum can be segmented
+in each frame by converting the frame to grayscale, thresholding it, and removing
+background structures.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Initialize array to contain the segmented pendulum frames.</span>
+segPend = false([size(frameRegion, 1) size(frameRegion, 2) nFrames]);
+centroids = zeros(nFrames, 2);
+structDisk = strel(<span style="color:#B20000">'disk'</span>, 3);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:blue">for</span> count = 1:nFrames,
+    <span style="color:green">% Convert to grayscale.</span>
+    fr = regions(:,:,:,count);    
+    gfr = rgb2gray(fr);
+    gfr = imcomplement(gfr);
+    
+    <span style="color:green">% Experimentally determine the threshold.</span>
+    bw = im2bw(gfr, .7);
+    bw = imopen(bw, structDisk);
+    bw = imclearborder(bw);
+    segPend(:,:,count) = bw;
+    imshow(bw);
+<span style="color:blue">end</span></pre><img xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" src="demoimaq_Pendulum_img_08_01.gif"><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Find the Centers of Each Segmented Pendulum<a name="Find the Centers of Each Segmented Pendulum"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">The shape of the segmented pendulum in each frame is not a serious issue because
+the pendulum's center is the only characteristic needed to determine the length
+of the pendulum.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Calculate the pendulum centers.</span>
+<span style="color:blue">for</span> count = 1:nFrames,
+    lab = bwlabel(segPend(:, :, count));
+    property = regionprops(lab, <span style="color:#B20000">'Centroid'</span>);
+    pendCenters(count,:) = property.Centroid; 
+<span style="color:blue">end</span></pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Display the pendulum centers and adjust the plot.</span>
+figure;
+x = pendCenters(:, 1);
+y = pendCenters(:, 2);
+plot(x, y, <span style="color:#B20000">'m.'</span>);
+axis ij;
+axis equal;
+hold on;
+xlabel(<span style="color:#B20000">'x'</span>);
+ylabel(<span style="color:#B20000">'y'</span>);
+title(<span style="color:#B20000">'Pendulum Centers'</span>);</pre><img xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" src="demoimaq_Pendulum_img_10_01.gif"><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Calculate Pendulum Length<a name="Calculate Pendulum Length"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">By fitting a circle through the pendulum centers, the pendulum length can
+be calculated. Rewrite the basic equation of a circle:
+</p><ul xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd"><li>(x-xc)^2 + (y-yc)^2 = radius^2
+</li></ul><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">where (xc,yc) is the center, in terms of parameters a, b, and c:
+</p><ul xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd"><li>x^2 + y^2 + a*x + b*y + c = 0
+</li></ul><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">where:
+</p><ul xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd"><li>a = -2*xc
+</li><li>b = -2*yc
+</li><li>c = xc^2 + yc^2 - radius^2.
+</li></ul><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Solving for parameters a, b, and c using the least squares method, the
+above equation can be rewritten as:
+</p><ul xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd"><li>a*x + b*y + c = -(x^2 + y^2)
+</li></ul><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">which can also be rewritten as:
+</p><ul xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd"><li>[a; b; c] * [x y 1] = -x^2 - y^2
+</li></ul><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">This equation can be solved in MATLAB using the backslash(\) operator.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Solve the equation.</span>
+abc = [x y ones(length(x),1)] \ [-(x.^2 + y.^2)];
+a = abc(1);
+b = abc(2);
+c = abc(3);
+xc = -a/2;
+yc = -b/2;
+circleRadius = sqrt((xc^2 + yc^2) - c); 
+
+<span style="color:green">% Circle radius is the length of the pendulum in pixels.</span>
+pendulumLength = round(circleRadius)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+pendulumLength =
+
+   253
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Superimpose results onto the pendulum centers</span>
+circle_theta = pi/3:0.01:pi*2/3;
+x_fit = circleRadius*cos(circle_theta) + xc;
+y_fit = circleRadius*sin(circle_theta) + yc;
+plot(x_fit, y_fit, <span style="color:#B20000">'b-'</span>);
+plot(xc, yc, <span style="color:#B20000">'bx'</span>, <span style="color:#B20000">'LineWidth'</span>, 2);
+plot([xc x(1)], [yc y(1)], <span style="color:#B20000">'b-'</span>);
+titleStr = sprintf(<span style="color:#B20000">'Pendulum Length = %d pixels'</span>, pendulumLength);
+text(xc-110, yc+100, titleStr);</pre><img xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" src="demoimaq_Pendulum_img_12_01.gif"><originalCode xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" code="%% Calculating the Length of a Pendulum in Motion
+&#xA;% This demo captures images of a pendulum in motion. The pendulum consists
+&#xA;% of a blue ball attached to a nylon string. Image data is captured as the 
+&#xA;% pendulum is swung. Once captured, the images are processed to determine the
+&#xA;% length of the pendulum.  
+&#xA;%
+&#xA;% Images are acquired using the Image Acquisition Toolbox and analyzed with 
+&#xA;% the Image Processing Toolbox.
+&#xA;
+&#xA;%% Acquire Images
+&#xA;% Acquire a series of images to analyze.
+&#xA;
+&#xA;% Access an image acquisition device.
+&#xA;vid = videoinput('winvideo', 1, 'RGB24_352x288');
+&#xA;vid.Timeout = 12;
+&#xA;
+&#xA;% Configure object to capture every fifth frame.
+&#xA;set(vid, 'FrameGrabInterval', 5);
+&#xA;
+&#xA;% Configure the number of frames to be logged.
+&#xA;set(vid, 'FramesPerTrigger', 50);
+&#xA;
+&#xA;% Access the device's video source object selected for acquisition.
+&#xA;src = getselectedsource(vid);
+&#xA;
+&#xA;% Configure the device to provide 30 frames per second.
+&#xA;%set(src, 'FrameRate', '30');
+&#xA;
+&#xA;% Open a live preview window. Focus camera onto a moving pendulum.
+&#xA;preview(vid);
+&#xA;
+&#xA;% Initiate the acquisition.
+&#xA;%start(vid);
+&#xA;
+&#xA;% Extract frames from memory.
+&#xA;%frames = getdata(vid);
+&#xA;
+&#xA;% Remove video input object from memory.
+&#xA;delete(vid)
+&#xA;clear vid
+&#xA;
+&#xA;load pendulum;
+&#xA;
+&#xA;% Display the first frame in the series.
+&#xA;imshow( frames(:, :, :, 1) );
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Display all acquired images.
+&#xA;imaqmontage(frames);
+&#xA;
+&#xA;%% Select Region Of Interest
+&#xA;% Since the pendulum;s motion is confined to the upper half of the image series. 
+&#xA;% Create a new series of frames that contain the region of interest.
+&#xA;%
+&#xA;% To crop a series of frames using |imcrop|, first perform |imcrop| on one
+&#xA;% frame and store its output. Then create a series of frames having the size
+&#xA;% of the previous output.
+&#xA;
+&#xA;% Determine the total number of frames acquired.
+&#xA;nFrames = size(frames, 4);
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Crop the first frame.
+&#xA;roi = [50 16 222 68];
+&#xA;firstFrame = frames(:,:,:,1);
+&#xA;frameRegion = imcrop(firstFrame, roi);
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Create a storage for the modified image series.
+&#xA;regions = repmat(uint8(0), [size(frameRegion) nFrames]);
+&#xA;for count = 1:nFrames,
+&#xA;    regions(:,:,:,count) = imcrop(frames(:,:,:,count), roi);
+&#xA;    imshow(regions(:,:,:,count));
+&#xA;end
+&#xA;
+&#xA;%% Segment the Pendulum in Each Frame
+&#xA;% Since the pendulum is much darker than the background, the pendulum can be segmented
+&#xA;% in each frame by converting the frame to grayscale, thresholding it, and removing 
+&#xA;% background structures.
+&#xA;
+&#xA;% Initialize array to contain the segmented pendulum frames.
+&#xA;segPend = false([size(frameRegion, 1) size(frameRegion, 2) nFrames]);
+&#xA;centroids = zeros(nFrames, 2);
+&#xA;structDisk = strel('disk', 3);
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;for count = 1:nFrames,
+&#xA;    % Convert to grayscale.
+&#xA;    fr = regions(:,:,:,count);    
+&#xA;    gfr = rgb2gray(fr);
+&#xA;    gfr = imcomplement(gfr);
+&#xA;    
+&#xA;    % Experimentally determine the threshold.
+&#xA;    bw = im2bw(gfr, .7);
+&#xA;    bw = imopen(bw, structDisk);
+&#xA;    bw = imclearborder(bw);
+&#xA;    segPend(:,:,count) = bw;
+&#xA;    imshow(bw);
+&#xA;end
+&#xA;
+&#xA;%% Find the Centers of Each Segmented Pendulum
+&#xA;% The shape of the segmented pendulum in each frame is not a serious issue because 
+&#xA;% the pendulum's center is the only characteristic needed to determine the length 
+&#xA;% of the pendulum. 
+&#xA;%
+&#xA;
+&#xA;% Calculate the pendulum centers.
+&#xA;for count = 1:nFrames,
+&#xA;    lab = bwlabel(segPend(:, :, count));
+&#xA;    property = regionprops(lab, 'Centroid');
+&#xA;    pendCenters(count,:) = property.Centroid; 
+&#xA;end
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Display the pendulum centers and adjust the plot.
+&#xA;figure;
+&#xA;x = pendCenters(:, 1);
+&#xA;y = pendCenters(:, 2);
+&#xA;plot(x, y, 'm.');
+&#xA;axis ij;
+&#xA;axis equal;
+&#xA;hold on;
+&#xA;xlabel('x');
+&#xA;ylabel('y');
+&#xA;title('Pendulum Centers');
+&#xA;
+&#xA;%% Calculate Pendulum Length
+&#xA;% By fitting a circle through the pendulum centers, the pendulum length can
+&#xA;% be calculated. Rewrite the basic equation of a circle: 
+&#xA;%
+&#xA;% * (x-xc)^2 + (y-yc)^2 = radius^2
+&#xA;%
+&#xA;% where (xc,yc) is the center, in terms of parameters a, b, and c:
+&#xA;%
+&#xA;% * x^2 + y^2 + a*x + b*y + c = 0
+&#xA;%
+&#xA;% where:
+&#xA;%
+&#xA;% * a = -2*xc
+&#xA;% * b = -2*yc
+&#xA;% * c = xc^2 + yc^2 - radius^2. 
+&#xA;%
+&#xA;% Solving for parameters a, b, and c using the least squares method, the 
+&#xA;% above equation can be rewritten as:
+&#xA;%
+&#xA;% * a*x + b*y + c = -(x^2 + y^2)
+&#xA;%
+&#xA;% which can also be rewritten as:
+&#xA;%
+&#xA;% * [a; b; c] * [x y 1] = -x^2 - y^2
+&#xA;%
+&#xA;% This equation can be solved in MATLAB using the backslash(\) operator.
+&#xA;
+&#xA;% Solve the equation.
+&#xA;abc = [x y ones(length(x),1)] \ [-(x.^2 + y.^2)];
+&#xA;a = abc(1);
+&#xA;b = abc(2);
+&#xA;c = abc(3);
+&#xA;xc = -a/2;
+&#xA;yc = -b/2;
+&#xA;circleRadius = sqrt((xc^2 + yc^2) - c); 
+&#xA;
+&#xA;% Circle radius is the length of the pendulum in pixels.
+&#xA;pendulumLength = round(circleRadius)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Superimpose results onto the pendulum centers
+&#xA;circle_theta = pi/3:0.01:pi*2/3;
+&#xA;x_fit = circleRadius*cos(circle_theta) + xc;
+&#xA;y_fit = circleRadius*sin(circle_theta) + yc;
+&#xA;plot(x_fit, y_fit, 'b-');
+&#xA;plot(xc, yc, 'bx', 'LineWidth', 2);
+&#xA;plot([xc x(1)], [yc y(1)], 'b-');
+&#xA;titleStr = sprintf('Pendulum Length = %d pixels', pendulumLength);
+&#xA;text(xc-110, yc+100, titleStr);
+&#xA;"></originalCode>

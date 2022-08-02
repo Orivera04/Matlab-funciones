@@ -1,0 +1,152 @@
+/* ----------------------------------------------------------------------
+ * This is a sample Link Editor Command Language file specifying how an
+ * embedded application should be linked and located. Combined with
+ * the other Link Editor Command Files provided with the compiler, it
+ * provides a base to build your own file for your particular system.
+ *
+ * For a description of the different statements in this file, please
+ * refer to the D-LD User's Manual.
+ * ---------------------------------------------------------------------- */
+
+
+/* ---------------------------------------------------------------------- 
+ * This file was modified for use with the Motorola/ETAS 555EVB.
+ *
+ * The following block defines the different memory areas available:
+ *   1MB RAM at address 0x000000
+ *   26K RAM at address 0x3f9800  (18K for data and 8K for stack)
+ * ---------------------------------------------------------------------- */
+MEMORY
+{
+	rom:	org = 0x002000, len = 0xfe000
+	ram:	org = 0x3f9800, len = 0x4800
+	stack:	org = 0x3fe000, len = 0x2000
+}
+
+
+/* This block specifies where and how the linker should locate different
+ * modules of the system.
+ *
+ * This example will allocate according to the following map:
+ *
+ * 0x0:         +-------------------------------+
+ *              | Exception Routines            |
+ * 0x2000       +-------------------------------+
+ * "rom"        | Program code(1)               |
+ *              | (2)                           |
+ *              +-------------------------------+ <- __DATA_ROM
+ *              | ROM Image of initialized data |
+ *              | (3)                           |
+ *              +-------------------------------+
+ *              | (Unused portion of "rom")     |
+ *              +-------------------------------+
+ *
+ *                      Gap -- Not used
+ *
+ * 0x3f9800:    +-------------------------------+ <- __DATA_RAM
+ * "ram"        | Memory reserved for           |
+ *              | initialized data              |
+ *              +-------------------------------+ <- __DATA_END, __BSS_START
+ *              | Uninitialized data            |
+ *              |                               |
+ *              +-------------------------------+ <- __BSS_END, __HEAP_START
+ *              | Memory reserved for the heap  |
+ *              | (all unused "ram")            |
+ * 0x3fe000:    +-------------------------------+ <- __HEAP_END (3) & __SP_END (3)
+ * "stack"      | Memory reserved for the stack |
+ *              | (all of the "stack")          |
+ * 0x400000:    +-------------------------------+ <- __SP_INIT
+ *
+ * In the margin are the locations of the different identifiers that are 
+ * used by some library routines to handle memory initialization and
+ * allocation. They are defined further below.
+ *
+ * NOTES:
+ * (1)  Constants and strings will also be in the .text
+ *      segment unless the -Xstrings-in-text=0 option is used.
+ *
+ * (2)  If C++ code is to be linked then code calling the static
+ *      contructors and destructors will be placed in the .init and
+ *	the .fini sections allocated after the program code.
+ *
+ * (3)  If __SP_END and __HEAP_END points to the same address
+ *      (i.e. the "ram" and "stack" memory areas are contigous)
+ *      then programs compiled with -Xstack-probe will
+ *      allocate more stack from the top of the heap when stack overflow
+ *      occurs, if possible (this is done by the __sp_grow() function,
+ *	you can find the source to it in sbrk.c).
+ * ---------------------------------------------------------------------- */
+SECTIONS
+{
+        /* The first section is allocated into the "rom" area. */
+
+	GROUP : {
+                /* First take all code from all objects and libraries */
+
+		.text (TEXT)   : {
+			*(.text) *(.rodata) *(.rdata) *(.init) *(.fini)
+		}
+		/* Next take all small CONST data */
+		.sdata2 (TEXT) : {}
+	} > rom
+
+        /* The second section will allocate space for the initialized data
+         * (.data/.sdata) and the unititialized data (.bss/.sbss) in the "ram" section.
+         *
+         * Initialized data is actually put at the end of the .text section
+         * with the LOAD command. The function __init_main() moves the
+         * initialized data from ROM to RAM.
+         */
+	GROUP : {
+                /* This will reserve space for the .data in the beginning
+                 * of "ram" but actually place the image at the end of
+                 * .text segment
+                 */
+		.data (DATA) LOAD(ADDR(.sdata2)+SIZEOF(.sdata2)) : {}
+		/* .sdata contains small address data */
+		.sdata (DATA) LOAD(ADDR(.sdata2)+SIZEOF(.sdata2)+SIZEOF(.data)) : {}
+
+                /* This will allocate the the .bss symbols */
+		.sbss (BSS)	: {}
+		.bss  (BSS)	: {}
+
+                /* Any space left over will be used as a heap */
+	} >ram
+}
+
+/* Definitions of identifiers used by sbrk.c, init.c and the different
+ * crt0.s files. Their purpose is to control initialization and memory
+ * memory allocation.
+ *
+ * __HEAP_START	: Used by sbrk.c. Start of memory used by malloc() etc.
+ * __HEAP_END	: Used by sbrk.c. End of heap memory
+ * __SP_INIT	: Used by crt0.s. Initial address of stack pointer
+ * __SP_END	: Used by sbrk.c. Only used when stack probing
+ * __DATA_ROM	: Used by init.c. Address of initialized data in ROM
+ * __DATA_RAM	: Used by init.c. Address of initialized data in RAM
+ * __DATA_END	: Used by init.c. End of allocated initialized data
+ * __BSS_START	: Used by init.c. Start of uninitialized data
+ * __BSS_END	: Used by init.c. End of data to be cleared
+ * ---------------------------------------------------------------------- */
+
+__HEAP_START	= ADDR(.bss)+SIZEOF(.bss);
+__SP_INIT	= ADDR(stack)+SIZEOF(stack);
+__HEAP_END	= ADDR(ram)+SIZEOF(ram);
+__SP_END	= ADDR(stack);
+__DATA_ROM	= ADDR(.sdata2)+SIZEOF(.sdata2);
+__DATA_RAM	= ADDR(.data);
+__DATA_END	= ADDR(.sdata)+SIZEOF(.sdata);
+__BSS_START	= ADDR(.sbss);
+__BSS_END	= ADDR(.bss)+SIZEOF(.bss);
+
+/* Some targets use an extra underscore in front of identifiers
+ * ---------------------------------------------------------------------- */
+___HEAP_START	= __HEAP_START;
+___HEAP_END	= __HEAP_END;
+___SP_INIT	= __SP_INIT;
+___SP_END	= __SP_END;
+___DATA_ROM	= __DATA_ROM;
+___DATA_RAM	= __DATA_RAM;
+___DATA_END	= __DATA_END;
+___BSS_START	= __BSS_START;
+___BSS_END	= __BSS_END;

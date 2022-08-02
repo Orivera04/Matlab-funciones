@@ -1,0 +1,521 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<title>How to design a GUI program</title>
+</head>
+
+<body>
+
+<p class="MsoTitle" align="center"><b><font size="4">How to design a GUI program</font></b></p>
+<p class="MsoTitle" align="center"><b><font size="4">(Tutorial of Matlab GUI)</font></b></p>
+<p class="MsoTitle" align="center"><b><a href="http://www.gl.umbc.edu/~ydu1">Dr.
+Yingzi (Eliza) Du</a></b></p>
+<p class="MsoTitle"><span style="font-weight:normal">&nbsp;Free download of the
+Matlab Source code for the GUIdemo with figures here:</span></p>
+<p class="MsoTitle"><span style="font-weight:normal">(MATLAB Release 13.0, Ver.
+6.5)</span></p>
+<p class="MsoTitle"><span style="font-weight: normal"><a href="GUIdemo.m">GUIdemo.m</a></span>&nbsp;
+<a href="GUIdemo.fig">GUIdemo.fig</a>&nbsp; <a href="girl.bmp">girl.bmp</a> <a href="laden.jpg">laden.jpg</a><span style="font-weight:normal"><o:p>
+</o:p>
+</span></p>
+<ol style="margin-top:0in" start="1" type="1">
+  <li class="MsoNormal" style="mso-list:l0 level1 lfo1;tab-stops:list .5in"><b>A
+    blueprint of the GUI figure<o:p>
+    </o:p>
+    </b></li>
+</ol>
+<p class="MsoNormal" style="margin-left:1.0in;text-indent:-.25in;mso-list:l1 level1 lfo2;
+tab-stops:list 1.0in"><span style="font-family:Symbol">·<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span>At first, we need to know what we want to have in the GUI figure
+(the final user interface), such as how many input/output images/plots, how many
+other kinds of control objects, and how to arrange it. (It would be great if we
+draw it on a piece of paper)</p>
+<p class="MsoNormal" style="margin-left:1.0in;text-indent:-.25in;mso-list:l1 level1 lfo2;
+tab-stops:list 1.0in"><span style="font-family:Symbol">·<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span>Second, we need to come up the names for each control objects
+(including the axes to show images/plots). Usually, the names (tags) of the
+objects have two parts: the function of the object (such as “input image”
+and “close figure”), and the type of the object (such as “Edit box”,
+“Push Button”, and “Slider”).</p>
+<p class="MsoNormal" style="margin-left:.75in">&nbsp;<o:p>
+</o:p>
+</p>
+<ol style="margin-top:0in" start="2" type="1">
+  <li class="MsoNormal" style="mso-list:l0 level1 lfo1;tab-stops:list .5in"><b>Design
+    the GUI figure based on the blueprint<o:p>
+    </o:p>
+    </b></li>
+</ol>
+<p class="MsoNormal" style="margin-left:.25in" align="center"><b>&nbsp;&nbsp; </b><!--[if gte vml 1]><v:shapetype
+ id="_x0000_t75" coordsize="21600,21600" o:spt="75" o:preferrelative="t"
+ path="m@4@5l@4@11@9@11@9@5xe" filled="f" stroked="f">
+ <v:stroke joinstyle="miter"/>
+ <v:formulas>
+  <v:f eqn="if lineDrawn pixelLineWidth 0"/>
+  <v:f eqn="sum @0 1 0"/>
+  <v:f eqn="sum 0 0 @1"/>
+  <v:f eqn="prod @2 1 2"/>
+  <v:f eqn="prod @3 21600 pixelWidth"/>
+  <v:f eqn="prod @3 21600 pixelHeight"/>
+  <v:f eqn="sum @0 0 1"/>
+  <v:f eqn="prod @6 1 2"/>
+  <v:f eqn="prod @7 21600 pixelWidth"/>
+  <v:f eqn="sum @8 21600 0"/>
+  <v:f eqn="prod @7 21600 pixelHeight"/>
+  <v:f eqn="sum @10 21600 0"/>
+ </v:formulas>
+ <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
+ <o:lock v:ext="edit" aspectratio="t"/>
+</v:shapetype><v:shape id="_x0000_i1025" type="#_x0000_t75" style='width:359.25pt;
+ height:273.75pt' o:allowoverlap="f">
+ <v:imagedata src="../../../../DOCUME~1/ydu/LOCALS~1/Temp/msoclip1/01/clip_image001.png"
+  o:title="" cropbottom="17560f"/>
+</v:shape><![endif]-->
+ <img border="0" src="how_to1.jpg" width="479" height="365"></p>
+<p class="MsoNormal" align="center" style="margin-left:.25in;text-align:center"><b>Figure
+1.</b> The Design of the GUI Figure</p>
+<p class="MsoNormal" style="margin-left:.25in;text-indent:.25in">&nbsp;<o:p>
+</o:p>
+</p>
+<p class="MsoBodyTextIndent">Suppose that Figure 1 is the GUI Figure we would
+like to design (red words indicate the name of the objects we would like to have
+in the program). It includes following types of unicontrols: the Edit Box, the
+Static Text, the Push Button, the Axes, the Slider, and the Check box.</p>
+<p class="MsoNormal" style="margin-left:.5in">&nbsp;<b>NOTE:</b> To access to
+the object properties, select the object, right click the mouse, and select
+“property inspector”.</p>
+<p class="MsoNormal" style="margin-left:.5in">To change the names (tags) of the
+objects, in the properties, we change the tags of the objects. To change the
+strings (the words that shows the user of the objects, such as “Apply” and<span style="mso-spacerun: yes">&nbsp;
+</span>“Transfer to gray image”) in the properties of the objects.</p>
+<p class="MsoNormal" style="margin-left:.5in">&nbsp;For the sliders, we may need
+to change the min value, max value, and value (initial value of the slider) in
+the properties. The default min value is 0.0, max value is 1.0, and value is
+0.0. Here we set the min value to be 0.2, max value to be 3.0, and value to be
+1.0.<span style="mso-spacerun: yes">&nbsp; </span>If we want to change the
+vertical slider to be horizontal, we need to switch the values of “width”
+and “height” under the “Position” in the properties.<br style="mso-special-character:line-break">
+<br style="mso-special-character:line-break">
+</p>
+<ol style="margin-top:0in" start="3" type="1">
+  <li class="MsoNormal" style="mso-list:l0 level1 lfo1;tab-stops:list .5in"><b>Design
+    the functions to fulfill our goals.<o:p>
+    </o:p>
+    </b></li>
+</ol>
+<p class="MsoNormal" style="margin-left:.5in">If we save the designed GUI figure
+as: GUIdemo (or whatever you want). The Matlab will automatically save it as
+GUIdemo.fig. And the Matlab will also automatically generate GUIdemo.m associate
+with this GUI figure. (Therefore, we need to carefully avoid saving the figure
+to be some name existed in your directory.)</p>
+<p class="MsoNormal" style="margin-left:.5in">If in the Matlab command line, we
+input “GUIdemo” or whatever name you give to this GUI program, you would
+see:</p>
+<p class="MsoNormal" align="center" style="margin-left:.5in;text-align:center"><!--[if gte vml 1]><v:shape
+ id="_x0000_i1026" type="#_x0000_t75" style='width:279pt;height:209.25pt'>
+ <v:imagedata src="../../../../DOCUME~1/ydu/LOCALS~1/Temp/msoclip1/01/clip_image003.png"
+  o:title=""/>
+</v:shape><![endif]-->
+ <img border="0" src="how_to2.jpg" width="372" height="279"></p>
+<p class="MsoNormal" align="center" style="margin-left:.5in;text-align:center"><b>Figure
+2.</b> Just after we designed the GUI figure.</p>
+<p class="MsoNormal" align="center" style="margin-left:.5in;text-align:center">&nbsp;<o:p>
+</o:p>
+</p>
+<p class="MsoNormal" style="margin-left:.5in">As shown in Fig. 2, there is no
+image showing. And if you slide the slider, change the file name, or click on
+the buttons, not response.<span style="mso-spacerun: yes">&nbsp; </span>It is
+just an empty GUI program. We will add some codes in the follows.</p>
+<p class="MsoNormal" style="margin-left:.5in">&nbsp;If you open this m-file, you
+will find there are some predefined functions :</p>
+<p class="MsoNormal" style="margin-left:.75in;text-indent:-.25in;mso-list:l1 level2 lfo2;
+tab-stops:list .75in">-<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><b>function</b> varargout = GUIdemo(varargin)</p>
+<p class="MsoNormal" style="margin-left:.75in">This function is to set up the
+whole figure. Here, we do not need to edit it. (Keep it as it is.)</p>
+<p class="MsoNormal"><b><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>-<span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp; </span>function</b>
+GUIdemo_OpeningFcn(hObject, eventdata, handles, varargin)</p>
+<p class="MsoBodyTextIndent2">This function is to initialize the GUI figure when
+it is opened at the first time. Here, we would like to show a default image in
+the axes “orgIm” with the name in the Edit box “inEdit”. We can add the
+code as follows:</p>
+<p class="MsoBodyTextIndent2">&nbsp;<o:p>
+</o:p>
+</p>
+<p class="MsoBodyTextIndent2" style="margin-left:261.0pt;text-indent:-207.0pt">image_file
+= get(handles.inEdit,'String');<span style="mso-spacerun: yes">&nbsp;&nbsp; </span>%
+get the string from inEdit.<span style="mso-spacerun: yes">&nbsp; </span>It is
+a&nbsp; standard way to get %the value<span style="mso-spacerun: yes">&nbsp;&nbsp;
+</span> from the Edit box (you only need to %change inEdit to the right&nbsp;
+tag</p>
+<p class="MsoBodyTextIndent2" style="margin-left:0in"><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>if ~isempty(image_file) %Make sure there is some file name in the Edit
+box.</p>
+<p class="MsoBodyTextIndent2" style="margin-left:243.0pt;text-indent:-189.0pt">im_original=imread(char(image_file));<span style="mso-spacerun: yes">&nbsp;
+</span>%Using Matlab function to read the&nbsp; image. “char” transfers %the
+string type to char type.</p>
+<p class="MsoBodyTextIndent2" style="margin-left:3.75in;text-indent:-3.0in">set(handles.newIm,'HandleVisibility','OFF');
+%Inactive the unused axes &nbsp; “newIm”. Again, it is a %standard GUI
+commands.</p>
+<p class="MsoBodyTextIndent2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+set(handles.orgIm,'HandleVisibility','ON'); %Active the axes “orgIm”</p>
+<p class="MsoBodyTextIndent2" style="margin-left:171.0pt;text-indent:-117.0pt">axes(handles.orgIm);<span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>% Show the image in the axes “orgIm”. Similar as Figure(number), or</p>
+<p class="MsoBodyTextIndent2" style="margin-left:171.0pt;text-indent:-117.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+%subplot(number1, numerber2, number 3) to make sure the image is</p>
+<p class="MsoBodyTextIndent2" style="margin-left:171.0pt;text-indent:-117.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+% ploted/showed in the right window/sub image.</p>
+<p class="MsoBodyTextIndent2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+image(im_original);<span style="mso-spacerun:
+yes">&nbsp; </span>%normal Matlab function to show image</p>
+<p class="MsoBodyTextIndent2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+axis equal; %sets the aspect ratio. (Show the image in its right ratio)</p>
+<p class="MsoBodyTextIndent2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+axis tight; %Sets the axis limits to the arrange of the data.</p>
+<p class="MsoBodyTextIndent2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+axis off; % Turn off all axis labeling </p>
+<p class="MsoBodyTextIndent2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+set(handles.orgIm,'HandleVisibility','OFF');<span style="mso-spacerun: yes">&nbsp;
+</span>%After showed the image, let orgIm to be
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+<p class="MsoBodyTextIndent2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+% unchangeable until %the commands set it ‘ON’</p>
+<p class="MsoBodyTextIndent2" style="margin-left:0in"><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>end; %be pair with “if”</p>
+<p class="MsoNormal" style="margin-left:.5in">&nbsp;<o:p>
+</o:p>
+</p>
+<p class="MsoNormal" style="margin-left:.5in"><span style="mso-spacerun: yes">&nbsp;&nbsp;
+</span>After we add the above functions, if in the Matlab command line, we input
+“GUIdemo” or whatever name you give to this GUI program, you would see:</p>
+<p class="MsoNormal" align="center" style="margin-left:.5in;text-align:center"><!--[if gte vml 1]><v:shape
+ id="_x0000_i1027" type="#_x0000_t75" style='width:297pt;height:222.75pt'
+ o:allowoverlap="f">
+ <v:imagedata src="../../../../DOCUME~1/ydu/LOCALS~1/Temp/msoclip1/01/clip_image005.png"
+  o:title=""/>
+</v:shape><![endif]-->
+ <img border="0" src="how_to3.jpg" width="396" height="297"></p>
+<p class="MsoNormal" align="center" style="margin-left:.5in;text-align:center"><b>Figure
+3.</b> After add some code for the opening function.</p>
+<p class="MsoNormal" align="center" style="margin-left:.5in;text-align:center">&nbsp;<o:p>
+</o:p>
+</p>
+<p class="MsoBodyTextIndent3">Here, the GUI program will show an image (the name
+was initialized in the inEdit). But all controls are still no use at all.</p>
+<p class="MsoNormal" style="margin-left:.5in;text-align:justify">&nbsp;<o:p>
+</o:p>
+</p>
+<p class="MsoNormal" style="margin-left:.5in;text-align:justify">- <b>function</b>
+varargout = GUIdemo_OutputFcn(hObject, eventdata, handles)</p>
+<p class="MsoNormal" style="margin-left:.5in;text-align:justify"><span style="mso-spacerun: yes">&nbsp;
+</span>This function is useful if we would like to output some values from this
+figure. Here we do not need to.<span style="mso-spacerun: yes">&nbsp; </span>(Keep
+it as it is.)</p>
+<p class="MsoNormal" style="margin-left:.5in;text-align:justify">&nbsp;<o:p>
+</o:p>
+</p>
+<p class="MsoNormal" style="margin-left:.5in;text-align:justify">- <b>function</b>
+inEdit_CreateFcn(hObject, eventdata, handles)</p>
+<p class="MsoNormal" style="margin-left:.5in;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;
+</span>This function is generated because we have put an Edit box in the GUI
+figure and named it “inEdit”. This function will be executed when this Edit
+box is created. (Keep it as it is.)</p>
+<p class="MsoNormal" style="margin-left:.5in;text-align:justify">&nbsp;<o:p>
+</o:p>
+</p>
+<p class="MsoNormal" style="margin-left:.5in;text-align:justify">- <b>function</b>
+inEdit_Callback(hObject, eventdata, handles)</p>
+<p class="MsoNormal" style="margin-left:.5in;text-align:justify">This function
+is generated because we have put an Edit box in the GUI figure and named it “inEdit”.
+This function will be executed we change anything in the Edit box named inEdit.
+(Keep it as it is).</p>
+<p class="MsoNormal" style="margin-left:.5in;text-align:justify">&nbsp;<o:p>
+</o:p>
+</p>
+<p class="MsoNormal" style="margin-left:.5in;text-align:justify">- <b>function</b>
+loadPush_Callback(hObject, eventdata, handles)</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">This function
+is generated because of the push button named “loadPush”. For the Push
+Button, it is very important for us to program<span style="mso-spacerun: yes">&nbsp;
+</span>the Call back function. The callback function will be automatically
+executed when we click this push button.</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">&nbsp;<o:p>
+</o:p>
+</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">Here, we add
+some codes in this function as follows (same codes as we put in the opening
+function of the GUI program). The difference is the function. In the opening
+function, it will only be executed when the Matlab open the figure. Here, these
+codes will be executed whenever we click on the push button “Load Image”.
+The image showed in the orgIm axes would be updated with newly input file name.<span style="mso-spacerun: yes">&nbsp;</span></p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;</span></p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">image_file =
+get(handles.inEdit,'String'); % Get the string inputs in the inEdit</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">im_original=imread(char(image_file));
+<span style="mso-spacerun: yes">&nbsp;</span>%read the image</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">if ~isempty(image_file)</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">set(handles.newIm,'HandleVisibility','OFF');<span style="mso-spacerun: yes">&nbsp;&nbsp;</span></p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">set(handles.orgIm,'HandleVisibility','ON');</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">axes(handles.orgIm);</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">image(im_original);</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">axis equal;</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">axis tight;</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">axis off;</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">set(handles.orgIm,'HandleVisibility','OFF');</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">end;</p>
+<p class="MsoNormal" style="margin-left:.5in;text-align:justify">&nbsp;<o:p>
+</o:p>
+</p>
+<p class="MsoBodyTextIndent3">Here, we execute this GUI program. If we change
+the file name in the Edit box to “laden.jpg”, and click on “Load Image”
+button, the top right image would be updated to show a new image. In this way,
+we have successfully built a working push button and Edit box.</p>
+<p class="MsoNormal" align="center" style="margin-left:45.0pt;text-align:center"><!--[if gte vml 1]><v:shape
+ id="_x0000_i1028" type="#_x0000_t75" style='width:234pt;height:175.5pt'>
+ <v:imagedata src="../../../../DOCUME~1/ydu/LOCALS~1/Temp/msoclip1/01/clip_image007.png"
+  o:title=""/>
+</v:shape><![endif]-->
+ <img border="0" src="how_to4.jpg" width="312" height="234"></p>
+<p class="MsoNormal" align="center" style="margin-left:45.0pt;text-align:center"><b>Figure
+4</b>. An example of update original image according to the filename</p>
+<p class="MsoNormal" style="margin-left:.5in;text-align:justify">&nbsp;<o:p>
+</o:p>
+</p>
+<p class="MsoNormal" style="margin-left:.5in;text-align:justify">- <b>function</b>
+intSlider_CreateFcn(hObject, eventdata, handles)</p>
+<p class="MsoNormal" style="margin-left:.5in;text-align:justify"><span style="mso-spacerun: yes">&nbsp;
+</span>Keep it as it is. (a create function of our slider named intSlider)</p>
+<p class="MsoNormal" style="margin-left:.5in;text-align:justify"></p>
+<p class="MsoNormal" style="margin-left: .5in" align="left">- <b>function</b>
+intSlider_Callback(hObject, eventdata, handles)</p>
+<p class="MsoBodyTextIndent3">This function is very important for us to show the
+current value of the slider in the associated Static Text named valText.
+Following codes should be added:</p>
+<p class="MsoBodyTextIndent3">&nbsp; t = get(handles.intSlider,'value');
+%Standard function to get the value of the %slider named “inSlider”, t’s
+type is<span style="mso-spacerun:
+yes">&nbsp; </span>“double”</p>
+<p class="MsoNormal" style="margin-left:189.0pt;text-align:justify;text-indent:
+-2.0in">set(handles.valText,'String',num2str(t)); %Standard function to set the
+value of %the static text string. “num2str” is a Matlab %function to
+transfer a number to a string.</p>
+<p class="MsoBodyTextIndent3">If we execute the GUI program now, we will see
+that the value in the static box will be changed with the sliding of the slider.</p>
+<p class="MsoNormal" style="margin-left:189.0pt;text-align:justify;text-indent:
+-2.0in">&nbsp;- <b>function </b>appPush_Callback(hObject, eventdata, handles)</p>
+<p class="MsoBodyTextIndent3"><span style="mso-spacerun: yes">&nbsp; </span>Again,
+it is an important function for our Push Button. We will add following codes:</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">&nbsp;<o:p>
+</o:p>
+</p>
+<p class="MsoNormal" style="margin-left:3.25in;text-align:justify;text-indent:
+-189.0pt">Flag = get(handles.transfCheck,'value');%Get the value of Check box
+and save it %in the Flag.</p>
+<p class="MsoNormal" style="margin-left:207.0pt;text-align:justify">%Check box
+checked,<span style="mso-spacerun: yes">&nbsp; </span>Flag =1, otherwise, 0.</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">scale =
+get(handles.intSlider,'value');<span style="mso-spacerun: yes">&nbsp; </span>%Get
+the value of the intSlider</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">image_file =
+get(handles.inEdit,'String'); %Get the string name of the inEdit</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">orim=imread(char(image_file));
+%read the image from the file to orim</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">orim =
+double(orim);<span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>%Change the orim to be double type.</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">&nbsp;<o:p>
+</o:p>
+</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">if Flag == 0<span style="mso-spacerun: yes">&nbsp;
+</span>% check box is unchecked, Display color image</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">%First,
+multiply the original color image with the scale</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">%Second,
+after change the scale, if some values of new color image higher than %255, we
+need to set it equal to 255.</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">%Third, we
+show the images in the axeses.</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">&nbsp;<o:p>
+</o:p>
+</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">nim = orim*scale;<span style="mso-spacerun: yes">&nbsp;
+</span>%Multiply the original image with the scale from the slider</p>
+<p class="MsoNormal" style="margin-left:3.75in;text-align:justify;text-indent:
+-225.0pt">nim = (nim &lt;=255 ).*nim + (nim&gt;255)*255; %if some value higher
+than 255, let those values equal %to 255</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">&nbsp;%Shown
+the original image in the orgIm axes</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>set(handles.newIm,'HandleVisibility','OFF');</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>set(handles.orgIm,'HandleVisibility','ON');</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>axes(handles.orgIm);</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>image(orim/255);</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>axis equal;</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>axis tight;</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>axis off;</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>set(handles.orgIm,'HandleVisibility','OFF');</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">&nbsp;<o:p>
+</o:p>
+</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">%Show the new
+image in newIm axes</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>set(handles.newIm,'HandleVisibility','ON');</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>axes(handles.newIm);</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>image(nim);</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;
+</span><span style="mso-spacerun:
+yes">&nbsp;&nbsp;</span>axis equal;</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>axis tight;</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>axis off;</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>set(handles.newIm,'HandleVisibility','OFF');</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">&nbsp;<o:p>
+</o:p>
+</p>
+<p class="MsoNormal" style="margin-left:1.0in;text-align:justify;text-indent:
+-27.0pt">else<span style="mso-spacerun: yes">&nbsp; </span>%If the check box is
+checked, we need to transfer the color image to be gray scale image</p>
+<p class="MsoNormal" style="margin-left:1.0in;text-align:justify;text-indent:
+-27.0pt">&nbsp;<o:p>
+</o:p>
+</p>
+<p class="MsoNormal" style="margin-left:1.0in;text-align:justify;text-indent:
+-27.0pt">%In this case:</p>
+<p class="MsoNormal" style="margin-left:1.0in;text-align:justify;text-indent:
+-27.0pt">%First: transfer the original image to be gray scale image</p>
+<p class="MsoNormal" style="margin-left:1.0in;text-align:justify;text-indent:
+-27.0pt">%Second: change the scale of the gray scale image according to the
+scale from the slider</p>
+<p class="MsoNormal" style="margin-left:1.0in;text-align:justify;text-indent:
+-27.0pt">%Third: if some new values are higher than 255, change these values to
+be 255.</p>
+<p class="MsoNormal" style="margin-left:1.0in;text-align:justify;text-indent:
+-27.0pt">%Fourth: we show the images in the axeses.</p>
+<p class="MsoNormal" style="margin-left:1.0in;text-align:justify;text-indent:
+-27.0pt">&nbsp;<o:p>
+</o:p>
+</p>
+<p class="MsoNormal" style="margin-left:3.25in;text-align:justify;text-indent:
+-2.75in"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>im =
+floor((orim(:,:,1)+orim(:,:,2)+orim(:,:,3))/3);<span style="mso-spacerun:
+yes">&nbsp; </span>%Change the original image to be its intensity %image<span style="mso-spacerun: yes">&nbsp;
+</span>(gray-%scale image)</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>nim = im*scale;<span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp; </span>%Change the scale of the original image to be new
+image</p>
+<p class="MsoNormal" style="margin-left:3.0in;text-align:justify;text-indent:
+-171.0pt"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>nim = (nim&gt;255)*255+(nim&lt;=255
+&amp; nim&gt;0).*nim;<span style="mso-spacerun:
+yes">&nbsp; </span>% if some new values are higher than 255, %change these
+values to be 255.</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">&nbsp;<o:p>
+</o:p>
+</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">% we show the
+original image in the orgIm axes</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>set(handles.newIm,'HandleVisibility','OFF');</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>set(handles.orgIm,'HandleVisibility','ON');</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>axes(handles.orgIm);</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>image(im);</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>colormap(gray(256));</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>axis equal;</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>axis tight;</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>axis off;</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>set(handles.orgIm,'HandleVisibility','OFF');</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">&nbsp;<o:p>
+</o:p>
+</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">% we show the
+original image in the newIm axes</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>set(handles.newIm,'HandleVisibility','ON');</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>axes(handles.newIm);</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;
+</span>image(nim);</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>colormap(gray(256));</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>axis equal;</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>axis tight;</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>axis off;</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify"><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>set(handles.newIm,'HandleVisibility','OFF');</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">end;<span style="mso-spacerun: yes">&nbsp;
+</span>%Pair with the if.</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">&nbsp;Here,
+if we execute the GUI program, we will get:</p>
+<p class="MsoNormal" align="center" style="margin-left:45.0pt;text-align:center"><!--[if gte vml 1]><v:shape
+ id="_x0000_i1029" type="#_x0000_t75" style='width:234pt;height:175.5pt'>
+ <v:imagedata src="../../../../DOCUME~1/ydu/LOCALS~1/Temp/msoclip1/01/clip_image009.png"
+  o:title=""/>
+</v:shape><![endif]-->
+ <img border="0" src="how_to5.jpg" width="312" height="234"></p>
+<p class="MsoNormal" align="center" style="margin-left:45.0pt;text-align:center"><b>Figure
+5.</b> An example of changing the intensity of the original image and
+transferring it to gray scale image.</p>
+<p class="MsoNormal" style="margin-left:45.0pt;text-align:justify">&nbsp;<o:p>
+</o:p>
+</p>
+<p class="MsoBodyTextIndent3">In Fig. 5, we transferred the original image to be
+gray scale image, and we change the intensity to be 2.298 times of the original
+intensity.</p>
+<p class="MsoBodyTextIndent3" align="center">&nbsp;<!--[if gte vml 1]><v:shape
+ id="_x0000_i1030" type="#_x0000_t75" style='width:261pt;height:195.75pt'>
+ <v:imagedata src="../../../../DOCUME~1/ydu/LOCALS~1/Temp/msoclip1/01/clip_image011.png"
+  o:title=""/>
+</v:shape><![endif]-->
+ <img border="0" src="how_to6.jpg" width="348" height="261"></p>
+<p class="MsoBodyTextIndent3" align="center"><b>Figure 6.</b> An example of
+changing the intensity of the color image</p>
+<p class="MsoBodyTextIndent3">&nbsp;<o:p>
+</o:p>
+</p>
+<p class="MsoBodyTextIndent3">In Fig. 6, we change the intensity to be around
+70% the original intensity.</p>
+<p class="MsoNormal" align="center" style="margin-left:45.0pt;text-align:center">&nbsp;<o:p>
+</o:p>
+</p>
+<p class="MsoNormal" style="margin-left:.5in;text-align:justify">- <b>function</b>
+closePush_Callback(hObject, eventdata, handles)</p>
+<p class="MsoBodyTextIndent3">Usually we will add a push button named
+“close” in each GUI figure. The function of this button is to close the
+whole GUI program.</p>
+<p class="MsoBodyTextIndent3">Please add one line in this function:</p>
+<p class="MsoBodyTextIndent3">&nbsp; close all;</p>
+<p class="MsoNormal" style="margin-left:189.0pt;text-align:justify;text-indent:
+-153.0pt"><span style="mso-spacerun: yes">&nbsp;</span></p>
+
+</body>
+
+</html>

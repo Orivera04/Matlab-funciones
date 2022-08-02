@@ -1,0 +1,38 @@
+%% $RCSfile: stiiqmath_iqsat.tlc,v $
+%% $Revision: 1.1.6.2 $ $Date: 2004/04/08 21:00:06 $
+%% Copyright 2003-2004 The MathWorks, Inc.
+%%
+%% Abstract: TI C28x IQmath library "IQsat" (optimized IQ Saturation function)
+
+%implements stiiqmath_iqsat "C"
+
+%include "fix_published.tlc"
+
+
+%% Function: BlockTypeSetup ==============================================
+%function BlockTypeSetup(block, system) void
+      %<LibAddToCommonIncludes("<IQmathLib.h>")>
+%endfunction %% BlockTypeSetup
+
+
+%% Function: Outputs ==========================================================
+%%
+%function Outputs(block, system) Output
+	%assign OUTPORT_Y  = 0
+	%assign dataTypeIdY = LibBlockOutputSignalDataTypeId(OUTPORT_Y)
+	%assign fractionLengthY = FixPt_DataTypeFractionLength( block, dataTypeIdY )
+    %assign pos = LibBlockParameterValue(P1, 0)
+    %assign neg = LibBlockParameterValue(P2, 0)
+
+	/* C28x IQmath Library (%<ParamSettings.FunctionName>) - '%<Name>' */
+	{
+	    %assign rollVars = ["U", "Y"]
+        %roll idx = RollRegions, lcv = RollThreshold, block,"Roller", rollVars
+			%<LibBlockOutputSignal (0, "", lcv, idx)> = _IQsat (%<LibBlockInputSignal (0, "", lcv, idx)>, \
+			                                                    _IQ%<fractionLengthY>(%<pos>), _IQ%<fractionLengthY>(%<neg>));
+		%endroll
+	}
+  
+%endfunction
+
+%% [EOF] stiiqmath_iqsat.tlc

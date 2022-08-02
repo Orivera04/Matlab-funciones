@@ -1,0 +1,91 @@
+function str=texstring(str)
+%TEXSTRING  Function used by plot.
+
+% Copyright (c) 2001-04-22, B. Rasmus Anthin.
+%Revision: 2001-09-03, 2002-11-22, 2002-12-06.
+
+str=strrep(str,'eta','\eta');
+
+str=strrep(str,'alpha','\alpha');
+str=strrep(str,'beta','\beta');
+str=strrep(str,'gamma','\gamma');
+str=strrep(str,'delta','\delta');
+str=strrep(str,'epsilon','\epsilon');
+%str=strrepx(str,'zeta','\zeta','');      %???
+%str=strrepx(str,'eta','\eta','');        %??? don't remember why I did this.
+%str=strrepx(str,'theta','\theta','');    %???
+  str=strrep(str,'z\eta','\zeta');       %correction for eta
+  str=strrep(str,'th\eta','\theta');     %correction for eta
+str=strrep(str,'iota','\iota');
+str=strrep(str,'kappa','\kappa');
+str=strrep(str,'lambda','\lambda');
+str=strrep(str,'mu','\mu');
+str=strrep(str,'nu','\nu');
+str=strrep(str,'xi','\xi');
+str=strrep(str,'ksi','\xi');
+str=strrep(str,'omicron','\o');
+str=strrep(str,'omikron','\o');
+str=strrep(str,'pi','\pi');
+str=strrep(str,'rho','\rho');
+str=strrep(str,'sigma','\sigma');
+str=strrep(str,'tau','\tau');
+str=strrep(str,'upsilon','\upsilon');
+str=strrep(str,'ypsilon','\upsilon');
+str=strrep(str,'phi','\phi');
+str=strrep(str,'chi','\chi');
+str=strrep(str,'ppsi','\psi');
+str=strrep(str,'omega','\omega');
+str=strrep(str,'Alpha','A');
+   str=strrep(str,'B\eta','B');
+str=strrep(str,'Gamma','\Gamma');
+str=strrep(str,'Delta','\Delta');
+str=strrep(str,'Epsilon','E');
+   str=strrep(str,'Z\eta','Z');
+str=strrep(str,'Eta','H');
+   str=strrep(str,'Th\eta','\Theta');
+str=strrep(str,'Iota','I');
+str=strrep(str,'Kappa','K');
+str=strrep(str,'Lambda','\Lambda');
+str=strrep(str,'Mu','M');
+str=strrep(str,'Nu','N');
+str=strrep(str,'Xi','\Xi');
+str=strrep(str,'Ksi','\Xi');
+str=strrep(str,'Omicron','O');
+str=strrep(str,'Omikron','O');
+str=strrep(str,'Pi','\Pi');
+str=strrep(str,'Rho','P');
+str=strrep(str,'Sigma','\Sigma');
+str=strrep(str,'Tau','T');
+str=strrep(str,'Upsilon','Y');
+str=strrep(str,'Ypsilon','Y');
+str=strrep(str,'Phi','\Phi');
+str=strrep(str,'Chi','\chi');
+str=strrep(str,'Psi','\Psi');
+str=strrep(str,'Omega','\Omega');
+str=strrep(str,'nabla','\nabla');
+str=strrep(str,'del','\nabla');
+str=strrep(str,'div','\nabla\cdot');
+str=strrep(str,'curl(','(\nabla\times');
+str=strrep(str,'grad(','(\nabla');
+str=strrep(str,'lapl','\nabla^2');
+str=strrep(str,' x ','\times');
+str=strrep(str,char(183),'\cdot');
+if strcmp(computer,'PCWIN')
+   str=strrep(str,[' ' char(215) ' '],'\times');
+   str=strrep(str,char(178),'^2');
+   str=strrep(str,char(179),'^3');
+end
+str=strrep(str,'.x','_x');
+str=strrep(str,'.y','_y');
+str=strrep(str,'.z','_z');
+str=strrep(str,'.R','_R');
+str=strrep(str,'.r','_r');
+str=strrep(str,'.\theta','_\theta');
+str=strrep(str,'.\phi','_\phi');
+str=strrep(str,'§','\int');
+str=strrep(str,'d/d','\partial/\partial');
+str=strrep(str,'d^2/d','\partial^2/\partial');
+str=strrep(str,'d^3/d','\partial^3/\partial');   %Must improve this.
+str=strrep(str,'*d\','d\');           %Does not work satisfactory.
+str=strrep(str,'real','\Re');
+str=strrep(str,'imag','\Im');

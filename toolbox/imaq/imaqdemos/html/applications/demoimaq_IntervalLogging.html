@@ -1,0 +1,170 @@
+<!--
+Copyright 2001-2004 The MathWorks, Inc.
+$Revision: 1.1.6.2 $ $Date: 2004/03/24 20:39:42 $
+-->
+
+<!--
+This HTML is auto-generated from an m-file.
+Your changes will be overwritten.
+--><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:x-large">Logging Data at Constant Intervals</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">In certain applications, it may not be necessary to log every frame
+provided by an image acquisition device. In fact, it may be more
+practical and resoureful to log frames at certain intervals.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">To log frames at a constant interval, configure the video input object's
+FrameGrabInterval property. Configuring the property to an integer value
+N specifies that every Nth frame should be logged, starting with the first
+frame.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Note, specifying a FrameGrabInterval value does not modify the rate at
+which a device is providing frames (device frame rate). It only specifies the
+interval at which frames are logged.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium;">Overview</p><ul xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd"><li><a href="#Step 1: Access and Configure a Device.">Step 1: Access and Configure a Device.</a></li><li><a href="#Step 2: Log and Retrieve Data.">Step 2: Log and Retrieve Data.</a></li><li><a href="#Step 3: Calculate the Time Difference Between Frames.">Step 3: Calculate the Time Difference Between Frames.</a></li></ul><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Step 1: Access and Configure a Device.<a name="Step 1: Access and Configure a Device."></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Create a video input object and configure the desired logging interval. The
+logging interval is determined by the value of the FrameGrabInterval property.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Access an image acquisition device.</span>
+vidobj = videoinput(<span style="color:#B20000">'winvideo'</span>, 1);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Configure the number of frames to log.</span>
+framesToLog = 9;
+set(vidobj, <span style="color:#B20000">'FramesPerTrigger'</span>, framesToLog);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Configure the logging interval. This specifies that</span>
+<span style="color:green">% every 10th frame provided by the device is to be logged.</span>
+grabInterval = 10;
+set(vidobj, <span style="color:#B20000">'FrameGrabInterval'</span>, grabInterval);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Access the device's video source and configure the device's frame rate. </span>
+<span style="color:green">% FrameRate is a device specific property, therefore, it may not be supported by</span>
+<span style="color:green">% some devices.</span>
+frameRate = 30;
+src = getselectedsource(vidobj);
+set(src, <span style="color:#B20000">'FrameRate'</span>, num2str(frameRate));</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Step 2: Log and Retrieve Data.<a name="Step 2: Log and Retrieve Data."></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Initiate the acquisition of images and retrieve the logged frames and
+their timestamps.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Start the acquisition.</span>
+start(vidobj)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Wait for the acquisition to end.</span>
+wait(vidobj, 10)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Retrieve the data.</span>
+[frames, timeStamp] = getdata(vidobj);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Step 3: Calculate the Time Difference Between Frames.<a name="Step 3: Calculate the Time Difference Between Frames."></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Knowing the device's actual frame rate and the grab interval at
+which frames were logged, the number of frames logged per second
+can be calculated.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Number of frames logged per second.</span>
+loggedPerSec = frameRate/grabInterval</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+loggedPerSec =
+
+     3
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Knowing the number of frames logged per second, the expected time
+interval between each logged frame can be calculated and compared.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Expected number of seconds between each logged frame.</span>
+loggingRate = 1/loggedPerSec</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+loggingRate =
+
+    0.3333
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Actual time difference between each logged frame.</span>
+<span style="color:green">% Note that frames were logged at a constant interval.</span>
+diff(timeStamp')</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+ans =
+
+    0.3332    0.3338    0.3331    0.3332    0.3330    0.3332    0.3331    0.3330
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Determine the average time difference between frames.</span>
+avgDiff = mean(diff(timeStamp'))</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+avgDiff =
+
+    0.3332
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">percentError = ( abs(loggingRate-avgDiff) ) * 100</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+percentError =
+
+    0.0125
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Once the video input object is no longer needed, delete</span>
+<span style="color:green">% it and clear it from the workspace.</span>
+delete(vidobj)
+clear vidobj</pre><originalCode xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" code="%% Logging Data at Constant Intervals
+&#xA;% In certain applications, it may not be necessary to log every frame
+&#xA;% provided by an image acquisition device. In fact, it may be more
+&#xA;% practical and resoureful to log frames at certain intervals. 
+&#xA;%
+&#xA;% To log frames at a constant interval, configure the video input object's
+&#xA;% FrameGrabInterval property. Configuring the property to an integer value
+&#xA;% N specifies that every Nth frame should be logged, starting with the first
+&#xA;% frame.
+&#xA;%
+&#xA;% Note, specifying a FrameGrabInterval value does not modify the rate at 
+&#xA;% which a device is providing frames (device frame rate). It only specifies the 
+&#xA;% interval at which frames are logged.
+&#xA;
+&#xA;%% Step 1: Access and Configure a Device.
+&#xA;% Create a video input object and configure the desired logging interval. The 
+&#xA;% logging interval is determined by the value of the FrameGrabInterval property.
+&#xA;
+&#xA;% Access an image acquisition device.
+&#xA;vidobj = videoinput('winvideo', 1);
+&#xA;%%
+&#xA;
+&#xA;% Configure the number of frames to log.
+&#xA;framesToLog = 9;
+&#xA;set(vidobj, 'FramesPerTrigger', framesToLog);
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Configure the logging interval. This specifies that
+&#xA;% every 10th frame provided by the device is to be logged.
+&#xA;grabInterval = 10;
+&#xA;set(vidobj, 'FrameGrabInterval', grabInterval);
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Access the device's video source and configure the device's frame rate. 
+&#xA;% FrameRate is a device specific property, therefore, it may not be supported by
+&#xA;% some devices.
+&#xA;frameRate = 30;
+&#xA;src = getselectedsource(vidobj);
+&#xA;set(src, 'FrameRate', num2str(frameRate));
+&#xA;
+&#xA;%% Step 2: Log and Retrieve Data.
+&#xA;% Initiate the acquisition of images and retrieve the logged frames and
+&#xA;% their timestamps.
+&#xA;
+&#xA;% Start the acquisition.
+&#xA;start(vidobj)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Wait for the acquisition to end.
+&#xA;wait(vidobj, 10)
+&#xA;
+&#xA;%% 
+&#xA;
+&#xA;% Retrieve the data.
+&#xA;[frames, timeStamp] = getdata(vidobj);
+&#xA;
+&#xA;%% Step 3: Calculate the Time Difference Between Frames.
+&#xA;% Knowing the device's actual frame rate and the grab interval at 
+&#xA;% which frames were logged, the number of frames logged per second 
+&#xA;% can be calculated.
+&#xA;
+&#xA;% Number of frames logged per second.
+&#xA;loggedPerSec = frameRate/grabInterval
+&#xA;
+&#xA;%%
+&#xA;% Knowing the number of frames logged per second, the expected time 
+&#xA;% interval between each logged frame can be calculated and compared.
+&#xA;
+&#xA;% Expected number of seconds between each logged frame.
+&#xA;loggingRate = 1/loggedPerSec
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Actual time difference between each logged frame.
+&#xA;% Note that frames were logged at a constant interval.
+&#xA;diff(timeStamp')
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Determine the average time difference between frames.
+&#xA;avgDiff = mean(diff(timeStamp'))
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;percentError = ( abs(loggingRate-avgDiff) ) * 100
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Once the video input object is no longer needed, delete
+&#xA;% it and clear it from the workspace.
+&#xA;delete(vidobj)
+&#xA;clear vidobj
+&#xA;"></originalCode>

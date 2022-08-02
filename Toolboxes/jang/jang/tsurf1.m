@@ -1,0 +1,20 @@
+point_n = 25;
+x = linspace(0, 10, point_n);
+y = linspace(0, 10, point_n);
+[xx, yy] = meshgrid(x, y);
+zz = zeros(size(xx));
+index1 = find((xx<6).*(yy<3));
+index2 = find((xx<6).*(yy>=3));
+index3 = find((xx>=6).*(yy<7));
+index4 = find((xx>=6).*(yy>=7));
+zz(index1) = 1*ones(size(index1));
+zz(index2) = 3*ones(size(index2));
+zz(index3) = 5*ones(size(index3));
+zz(index4) = 9*ones(size(index4));
+
+blackbg;
+subplot(2,2,1);
+mesh(xx, yy, zz);
+xlabel('x'); ylabel('y'); zlabel('z');
+axis([-inf inf -inf inf -inf inf]);
+set(gca, 'box', 'on');

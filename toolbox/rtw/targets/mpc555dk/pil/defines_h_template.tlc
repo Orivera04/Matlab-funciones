@@ -1,0 +1,63 @@
+%% File: defines_h_template.tlc
+%%
+%% Abstract:
+%%   This tlc file will generate module defines header file
+%%   for mpc55DK targets.
+%%
+%% $Revision: 1.7.4.2 $
+%% $Date: 2004/04/29 03:40:14 $
+%%
+%% Copyright 2001-2002 The MathWorks, Inc.
+
+%with CompiledModel
+/*
+ * %<ModelName>_defines.h -- file generated from defines_h_template.tlc
+ *
+%<SLibCommonHeaderInfo()>\
+ *
+ */
+%assign tid01eq = ISEQUAL(SolverType, "FixedStep") && FixedStepOpts.TID01EQ
+%if NumContStates==0
+   %assign disc_NumSampleTimes = NumSynchronousSampleTimes - tid01eq
+%else
+   %assign disc_NumSampleTimes = NumSynchronousSampleTimes
+%endif
+
+#ifndef NUMST
+# error Must specify the number of sample times.  Define NUMST=number.
+#endif
+
+#ifndef NCSTATES
+#error NCSTATES must be defined
+#endif
+
+/* defensive check that NUMST provided by TMF matches NumSynchronousSampleTimes */
+#if NUMST != %<NumSynchronousSampleTimes>
+   #error NUMST does not match NumSynchronousSampleTimes
+#endif
+
+/* defensive check that TID01EQ provided by TMF matches tid01eq */
+#if defined(TID01EQ)
+   #if TID01EQ != %<tid01eq>
+      #error TID01EQ does not match tid01eq
+   #endif
+#endif
+
+/* defensive check that NCSTATES provided by TMF matches NumContStates */
+#if NCSTATES != %<NumContStates>
+   #error NCSTATES does not match NumContStates
+#endif
+
+/* define the preprocessor symbol DISC_NUMST */
+#if defined(TID01EQ) && (TID01EQ == 1) && (NCSTATES == 0)
+#define DISC_NUMST (NUMST - 1)
+#else
+#define DISC_NUMST NUMST
+#endif
+
+/* defensive check that DISC_NUMST matches disc_NumSampleTimes */
+#if DISC_NUMST != %<disc_NumSampleTimes>
+   #error DISC_NUMST does not match disc_NumSampleTimes
+#endif
+
+%endwith

@@ -1,0 +1,94 @@
+<html><head><title>EzyFit Known software problems</title>
+
+<link rel=stylesheet href="docstyle1.css" type="text/css">
+</head>
+<body bgcolor=#ffffff>
+<!-- NAVBARTOP -->
+<table border=0 width="100%" cellpadding=0 cellspacing=0><tr>
+<td valign=baseline bgcolor="#e7ebf7"><b>EzyFit Known software problems</b></td>
+</tr>
+</table>
+
+
+<h1>EzyFit Known software problems</h1>
+<hr>
+
+<br>
+
+<ul>
+
+
+<li><b>Compatibility Problems between EzyFit and MathWorks' Curve Fitting Toolbox.</b><br>
+
+Both EzyFit and MathWorks' Curve Fitting Toolbox use a function named <tt>fit</tt>,
+so that the two toolboxes cannot be used simultaneously. If you want to have the
+two toolboxes installed and switch between the two, you just need to invert the
+order of the directories in the <tt>Set Path</tt>
+dialog box and to restart Matlab (Matlab searches functions sequentially, starting
+from the upper directory).<br><br></li>
+
+
+
+<li><b>New user defined fits created from a given window are not automatically
+updated in the EzyFit menu of other window(s).</b><br>
+
+Select the other window(s) and type <tt><a href="efmenu.html">efmenu</a></tt> to
+refresh the EzyFit menu.<br><br></li>
+
+
+<li><b>When loading a fig file which already contains the EzyFit menu, a
+second EzyFit menu is added.</b><br>
+
+Type <tt><a href="efmenu.html">efmenu</a></tt>, this will remove the extra
+menu.<br><br></li>
+
+
+<li><b>Sometimes the menus disappear (except the first menu <tt>File</tt>)
+when clicking on the legend button.</b><br>
+
+No idea for the moment. This bug seems to occur only with the R14 SP3 version (Matlab 7.1).
+Type <tt><a href="efmenu.html">efmenu</a></tt> to refresh the EzyFit menu.<br><br></li>
+
+
+<li><b>Sometimes <tt><a href="showslope.html">showslope</a></tt> displays a
+line with a slope slightly different from the required one.</b><br>
+
+This problem originates from the time
+delay between the mouse click and the pointer location inquiry, especially
+when the mouse is moved quickly. Move slowly.<br><br></li>
+
+<li><b>Sometimes <tt><a href="selectfit.html">selectfit</a></tt> displays
+the error message '<tt>Error while evaluating figure WindowButtonUpFcn</tt>'.</b><br>
+
+No idea for the moment. You may ignore these messages.<br><br></li>
+
+
+<li><b><tt>Selectfit</tt> does not keep the location of the legend box.</b><br>
+
+This bug originates from <tt>drawpolygon</tt>, which returns wrong point
+location when a legend box is present. To avoid this problem, selectfit
+first closes the legend box and re-opens it at the end of the selection,
+so the legend box location is lost. No solution for this problem.<br><br></li>
+
+
+
+<li><b><tt>Selectfit</tt> does not work with docked figure.</b><br>
+
+This bug originates from <tt>drawpolygon</tt>. Undock your figure.<br><br></li>
+
+
+
+<li><b>You have found a bug not documented here?</b><br>
+
+Great. Send an e-mail to <a href="mailto:moisy@fast.u-psud.fr">moisy@fast.u-psud.fr</a>.<br><br></li>
+
+</ul>
+
+<br>
+
+        <br>
+        <table width="100%" border=0 cellspacing=0 bgcolor=d0d0f0><tr><td>&nbsp</td></tr></table><br>
+        2005-2006 <a href="ezyfit.html">EzyFit Toolbox</a><br>
+
+</body>
+</html>

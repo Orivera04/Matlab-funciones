@@ -1,0 +1,18 @@
+% Crear y dibujar los puntos (x,y).
+x = -2:0.1:2;
+y = 3 - (x+1).^2;
+plot(x,y);
+xlabel('x'); ylabel('y'); title('y = 3 - (x+1).^2');
+grid on
+axis([-2 2 -5 5]);
+% Determinar el valor máximo de y
+[max_val_y,y_ind] = max(y);
+val_x = x(y_ind);
+% Poner un círculo rojo en el punto de máximo.
+hold on
+plot(val_x,max_val_y,'or');
+hold off
+% Crear una cadena para el texto. 
+cadena = sprintf('%g es el punto máximo de y=3-(x+1).^2',max_val_y);
+% Poner la cadena en el gáfico
+text(val_x,max_val_y+0.5,cadena);

@@ -1,0 +1,112 @@
+%% c2000_main_common.tlc
+%% $Revision: 1.1.6.3 $ 
+%% $Date: 2004/04/08 20:58:59 $
+%% Copyright 2001-2004 The MathWorks, Inc.
+%%
+%% Abstract:
+%%   TLC functions that are used in the generation
+%%   of main.c for both ERT and GRT-based c2000 
+%%   targets.  
+
+
+%selectfile NULL_FILE
+
+
+%% ==========================================================================
+%% Function: render_target_setup
+%% Abstract: Generate the function calls to set up code-gen hardware target
+%%
+%function render_target_setup() void
+%openfile buff
+
+    init_board();  
+
+%closefile buff
+%return buff
+%endfunction %% render_target_setup
+
+
+%% ==========================================================================
+%% Function: render_exitprocessing
+%% Abstract:
+%%
+%function render_exitprocessing() void
+%openfile buff
+
+/* Function: exitprocessing ----------------------------------
+ *
+ * Abstract:
+ *      Perform various tasks at program exit.
+ */
+
+void exitprocessing()
+{
+}
+
+%closefile buff
+%return buff
+%endfunction %% render_exitprocessing
+
+
+%% ==========================================================================
+%% Function: render_GRT_interrupt_overrun_handling
+%% Abstract: Render the code that handles interrupt overrun situation
+%%
+
+%function render_main_interrupt_overrun_handling() void
+%openfile buff
+    %assign overrunflag = SLibSingleTasking() ? "pendingInterrupt" : "IsrOverrun"
+	if (%<overrunflag>) {
+		%if c2000TgtPrefOptions.BuildOptionsRunTimeOptionsOverrunAction == "Continue"
+            /* Interrupt overrun detected; User selected action = Continue */
+            enable_interrupts(); 
+		%elseif c2000TgtPrefOptions.BuildOptionsRunTimeOptionsOverrunAction == "Halt" 
+            /* Interrupt overrun detected; User selected action = Halt */
+            break;
+		%endif
+    }
+%closefile buff
+%return buff
+%endfunction %% render_GRT_interrupt_overrun_handling
+
+
+%% ==========================================================================
+%% Function: render_ERT_interrupt_overrun_handling
+%% Abstract:
+%%
+%function render_ERT_interrupt_overrun_handling() void
+%openfile buff
+	%if c2000TgtPrefOptions.BuildOptionsRunTimeOptionsOverrunAction == "Continue"
+        /* Interrupt overrun detected; User selected action = Continue */
+	%elseif c2000TgtPrefOptions.BuildOptionsRunTimeOptionsOverrunAction == "Halt" 
+        /* Interrupt overrun detected; User selected action = Halt */
+        break;
+	%endif
+%closefile buff
+%return buff
+%endfunction %% render_ERT_interrupt_overrun_handling
+
+
+%% ==========================================================================
+%% Function: render_multitasking_task_overrun_handling
+%% Abstract:
+%%
+%function render_multitasking_task_overrun_handling(arg, flag) void
+%openfile buff
+    %if c2000TgtPrefOptions.BuildOptionsRunTimeOptionsOverrunAction == "Halt"
+        %if flag==1
+            disable_interrupts();    
+        %endif
+        IsrOverrun = 1;
+        return;        
+    %else
+        OverrunFlags[%<arg>]--; // allow future iterations to succeed
+        IsrOverrun = 1;        
+        return;
+    %endif  
+%closefile buff
+%return buff
+%endfunction %% render_multitasking_task_overrun_handling
+
+
+%% EOF  c2000_main_common.tlc

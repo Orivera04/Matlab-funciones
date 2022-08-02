@@ -1,0 +1,179 @@
+From: <Guardado por Microsoft Internet Explorer 5>
+Subject: 
+Date: Wed, 13 Aug 2008 12:55:46 -0600
+MIME-Version: 1.0
+Content-Type: text/html;
+	charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.mathworks.com/matlabcentral/files/1854/wavappend.m
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.3198
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD>
+<META http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dwindows-1252">
+<META content=3D"MSHTML 6.00.2900.3314" name=3DGENERATOR></HEAD>
+<BODY><PRE>function wavappend(y,wavfile)
+
+%This file appends a wave file with the data y
+%Of course, the sampling rate, bit rate and channels have to be the same
+
+%Suresh E Joel, June 19,2002
+
+switch(nargin)
+case 0
+   error('Too few input arguements for wavappend');
+case 1
+   [filename pathname]=3Duiputfile('*.*','Save as');
+   wavfile=3Dstrcat(pathname,filename);
+case 2
+   %do nothing
+end
+
+%Check if y is valid data
+if(size(y,1)&gt;2 | size(y,2)&lt;2),
+   error('Not valid data');
+end
+
+tempfile=3Dstrcat(wavfile(1:length(wavfile)-4),'temp.wav');
+
+%Make temporary copy of file
+fcopy(wavfile,tempfile);
+
+%Copy temp file to original except for the sizes
+fidout=3Dfopen(wavfile,'w');
+fidin=3Dfopen(tempfile,'r');
+%Copy string 'RIFF'
+for i=3D1:4
+   fwrite(fidout,fread(fidin,1,'uchar'),'uchar');
+end
+
+fseek(fidin,34,'bof');
+nbits=3Dfread(fidin,1,'ushort');
+fseek(fidin,4,'bof');
+nbytes=3Dceil(nbits/8);
+
+fmt.filename=3Dwavfile;
+fmt.nBitsPerSample=3Dnbits;
+fmt.wFormatTag=3D1;
+
+
+%change size to=20
+old_total_bytes=3Dfread(fidin,1,'int')-36;
+new_total_bytes=3D(length(y)*nbytes)+old_total_bytes;
+fwrite(fidout,new_total_bytes+36,'int');
+
+for i=3D1:32
+   fwrite(fidout,fread(fidin,1,'uchar'),'uchar');
+end
+
+fwrite(fidout,new_total_bytes,'int');
+fseek(fidin,44,'bof');
+%while(~feof(fidin)),
+for i=3D1:nbytes*old_total_bytes,
+   fwrite(fidout,fread(fidin,1,'uchar'),'uchar');
+end
+fclose(fidin);
+
+%Delete temporary wave file
+s=3Dsprintf('%s\t%s','!del',tempfile);
+eval(s);
+
+write_wavedat(fidout,fmt,y);
+fclose(fidout);
+
+% =
+-----------------------------------------------------------------------
+function y =3D PCM_Quantize(x, fmt)
+% PCM_Quantize:
+%   Scale and quantize input data, from [-1, +1] range to
+%   either an 8- or 16-bit data range.
+
+% Clip data to normalized range [-1,+1]:
+ClipMsg  =3D ['Data clipped during write to file:' fmt.filename];
+ClipWarn =3D 0;
+
+% Determine slope (m) and bias (b) for data scaling:
+nbits =3D fmt.nBitsPerSample;
+m =3D 2.^(nbits-1);
+
+switch nbits
+case 8,
+   b=3D128;
+case 16,
+   b=3D0;
+otherwise,
+   error('Invalid number of bits specified - must be 8 or 16.');
+end
+
+y =3D round(m .* x + b);
+
+% Determine quantized data limits, based on the
+% presumed input data limits of [-1, +1]:
+ylim =3D [-1 +1];
+qlim =3D m * ylim + b;
+qlim(2) =3D qlim(2)-1;
+
+% Clip data to quantizer limits:
+i =3D find(y &lt; qlim(1));
+if ~isempty(i),
+   warning(ClipMsg); ClipWarn=3D1;
+   y(i) =3D qlim(1);
+end
+
+i =3D find(y &gt; qlim(2));
+if ~isempty(i),
+   if ~ClipWarn, warning(ClipMsg); end
+   y(i) =3D qlim(2);
+end
+
+return
+
+
+% =
+-----------------------------------------------------------------------
+function err =3D write_wavedat(fid,fmt,data)
+% WRITE_WAVEDAT: Write WAVE data chunk
+%   Assumes fid points to the wave-data chunk
+%   Requires &lt;wave-format&gt; structure to be passed.
+
+err =3D '';
+
+if fmt.wFormatTag=3D=3D1,
+   % PCM Format
+  =20
+   data =3D PCM_Quantize(data, fmt);
+  =20
+   switch fmt.nBitsPerSample
+   case 8,
+      dtype=3D'uchar'; % unsigned 8-bit
+   case 16,
+      dtype=3D'short'; % signed 16-bit
+   otherwise,
+      err =3D 'Invalid number of bits specified.'; return;
+   end
+  =20
+   % Write data, one row at a time (one sample from each channel):
+   [samples,channels] =3D size(data);
+   total_samples =3D samples*channels;
+  =20
+   if (fwrite(fid, reshape(data',total_samples,1), dtype) ~=3D =
+total_samples),
+      err =3D 'Failed to write PCM data samples.'; return;
+   end
+  =20
+   % Determine # bytes/sample - format requires rounding
+   %  to next integer number of bytes:
+   BytesPerSample =3D ceil(fmt.nBitsPerSample/8);
+  =20
+   % Determine if a pad-byte must be appended to data chunk:
+   if rem(total_samples*BytesPerSample, 2) ~=3D 0,
+      fwrite(fid,0,'uchar');
+   end
+  =20
+else
+  % Unknown wave-format for data.
+  err =3D 'Unsupported data format.';
+end
+
+return</PRE></BODY></HTML>

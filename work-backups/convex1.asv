@@ -1,0 +1,71 @@
+function [v,w]=convex1()
+clear,clc, clf, hold off
+global picos  m  area suma2  area1 area2 suma3 area3 numver  n_inicial n_final;
+axis([0,10,0,10]);grid on;
+hold on;
+plot([1,2,2,1,1],[2,2,3,3,2]);
+text(1,1.6,'Haga clic dentro del cuadro para terminar')
+i=0;
+while 1
+[x,y,boton]=ginput(1);
+if boton ==1, plot(x,y,'+r');i=i+1;v(i)=x;w(i)=y;end;
+if boton ==2, plot(x,y,'oy');end;
+if boton ==3, plot(x,y,'*g');end;
+if x>1 & x<2 & y>2 & y<3,break; end
+end
+hold off
+close
+n=i;numver=numel(v);
+v(i)=v(1);
+w(i)=w(1);
+v=round(v);w=round(w);
+plot(v,w);
+%corta=intersec(v,w);
+ %   if corta==1
+  %      error('El polígono se corta a si mismo')
+   % end
+x=v;y=w;
+hold on; %Hasta aquí, no cambiar.
+%Dibujo del polígono.
+posi=0;sum=0;
+for k=1:2:n-2
+    P=[v(k),w(k)];
+    Q=[v(k+2),w(k+2)];
+    R=[v(k+1),w(k+1)]; 
+    pos=posicion2(P,Q,R);
+    if pos==2
+       plot([P(1),Q(1)],[P(2),Q(2)],'r')
+       det=v(k)*w(k+1)+v(k+1)*w(k+2)+v(k+2)*w(k)-v(k)*w(k+2)-v(k+1)*w(k)-v(k+2)*w(k+1);
+       sum=sum+det;
+       posi(k)=k+1;
+    end 
+end
+%clc;
+area1=0.5*sum;
+picos=posi(posi~=0);
+v(picos)=[];w(picos)=[];
+n_inicial=n
+n_final=n-numel(picos)
+
+%Aplicacion de convex2 y convex3
+m=0;iter=numver;area2=0;area3=0;
+while n_final~=n_inicial 
+  convex2(v,w);
+  v(picos)=[];
+  w(picos)=[];
+  area2=area2+suma2;
+  convex3(v,w);
+  v(picos)=[];
+  w(picos)=[];
+  area3=area3+suma3;
+  m=m+1;
+  if m>iter
+      break
+  end
+end
+area1
+area2
+area3
+area=area1+area2+area3
+area_polconv=areapol(v,w)
+area_poli=area_polconv-area

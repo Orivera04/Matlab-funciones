@@ -1,0 +1,18 @@
+function REGLATRA(n1,n2,n3,n4)
+syms x;
+f=n1;
+Liminf=str2num(get(n1,'String'));
+Limsup=n3;
+Subint=n4;
+Longit=(Limsup-Liminf)/Subint;
+vector1=Liminf:Longit:Limsup;
+for i=1:Subint
+    vector2(i)=subs(f,'x',Liminf+(i-1)*Longit);
+end
+result=0;
+for i=2:Subint-1
+    result=result+vector2(i)*Longit;
+end
+trap1n=vector2(1)*Longit+vector2(Subint)*Longit;
+result=(trap1n+result*2)/2
+%set(iresult,'String',result)

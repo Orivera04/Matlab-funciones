@@ -1,0 +1,41 @@
+From: <Guardado por Microsoft Internet Explorer 5>
+Subject: 
+Date: Wed, 13 Aug 2008 12:52:38 -0600
+MIME-Version: 1.0
+Content-Type: text/html;
+	charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.mathworks.com/matlabcentral/files/6401/opensoundcontrol.m
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.3198
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD>
+<META http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dwindows-1252">
+<META content=3D"MSHTML 6.00.2900.3314" name=3DGENERATOR></HEAD>
+<BODY><PRE>function opensoundcontrol()
+% OPENSOUNDCONTROL open the Windows Volume Control Panel
+%=20
+%  OPENSOUNDCONTROL open the Windows Volume Control Panel for
+%  control the Volume at Presentations, Videos and all attached Devices =
+to=20
+%  Volume.=20
+
+%% AUTHOR    : Frank Gonzalez-Morphy=20
+%% $DATE     : 27-Jun-2002 09:39:26 $=20
+%% $Revision : 1.00 $=20
+%% FILENAME  : opensoundcontrol.m=20
+
+if ~ispc
+    error('  :: Sorry, these is only under Windows supported !')
+end
+
+try
+    dos('sndvol32.exe &amp;');
+catch
+    error([' Couldn''t open SNDVOL32.EXE. Error in', mfilename])
+end
+
+% =3D=3D=3D=3D=3D EOF =3D=3D=3D=3D=3D=3D [opensoundcontrol.m] =
+=3D=3D=3D=3D=3D =20
+</PRE></BODY></HTML>

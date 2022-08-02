@@ -1,0 +1,12 @@
+gol=a(:,:,end);
+for ro = 2:(totalrows-1);
+    for col = 2:(columns-1);
+        neighbors=a(ro-1,col,end)+a(ro+1,col,end)+a(ro,col-1,end)+a(ro,col+1,end)+a(ro-1,col-1,end)+a(ro-1,col+1,end)+a(ro+1,col-1,end)+a(ro+1,col+1,end);
+        if neighbors==3; gol(ro,col)=1;
+        end;
+        if (neighbors==0 |neighbors==1 | neighbors==4 | neighbors==5 | neighbors==6 | neighbors==7 | neighbors==8);
+            gol(ro,col)=0;
+        end;
+    end;
+end;
+a(:,:,end)=gol;

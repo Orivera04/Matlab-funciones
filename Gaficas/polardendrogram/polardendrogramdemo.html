@@ -1,0 +1,137 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>Drawing a Polar Dendrogram</title>
+      <meta name="generator" content="MATLAB 7.2">
+      <meta name="date" content="2006-05-18">
+      <meta name="m-file" content="polardendrogramdemo"><style>
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows.  On Gecko-based browsers, the shrink-to-fit doesn't work. */ 
+p,h1,h2,div.content div {
+  /* for MATLAB's browser */
+  width: 600px;
+  /* for Mozilla, but the "width" tag overrides it anyway */
+  max-width: 600px;
+  /* for IE */
+  width:expression(document.body.clientWidth > 620 ? "600px": "auto" );
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head>
+   <body>
+      <div class="content">
+         <h1>Drawing a Polar Dendrogram</h1>
+         <introduction>
+            <p>Sam Roberts</p>
+         </introduction>
+         <p>We're all familiar with hierarchical cluster analysis, and the dendrograms it produces as output.</p><pre class="codeinput">X= rand(100,2);
+Y= pdist(X,<span class="string">'cityblock'</span>);
+Z= linkage(Y,<span class="string">'average'</span>);
+dendrogram(Z,<span class="string">'colorthreshold'</span>,<span class="string">'default'</span>);
+</pre><img vspace="5" hspace="5" src="polardendrogramdemo_01.png"> <p>By default, if there are more than 30 points in the dataset, dendrogram collapses the points into groups, to improve the look
+            of the visualisation. Sometimes you don't want this - but showing all 100 points in the dataset results in a rather cluttered
+            plot.
+         </p><pre class="codeinput">dendrogram(Z,0,<span class="string">'colorthreshold'</span>,<span class="string">'default'</span>);
+</pre><img vspace="5" hspace="5" src="polardendrogramdemo_02.png"> <p>This can be improved upon by using a polar dendrogram, which spreads out the leaf nodes around the circumference of a circle.</p><pre class="codeinput">polardendrogram(Z,0,<span class="string">'colorthreshold'</span>,<span class="string">'default'</span>);
+</pre><img vspace="5" hspace="5" src="polardendrogramdemo_03.png"> <p>Sometimes the angled view is nice, sometimes you might prefer a top-down view.</p><pre class="codeinput">clf
+polardendrogram(Z,0,<span class="string">'colorthreshold'</span>,<span class="string">'default'</span>);
+zoom(0.8);
+view(2);
+</pre><img vspace="5" hspace="5" src="polardendrogramdemo_04.png"> <p class="footer">Copyright 2006 The MathWorks, Inc.<br>
+            Published with MATLAB&reg; 7.2<br></p>
+      </div>
+      <!--
+##### SOURCE BEGIN #####
+%% Drawing a Polar Dendrogram
+%
+% Sam Roberts
+
+% Copyright 2006 The MathWorks, Inc.
+
+%%
+% We're all familiar with hierarchical cluster analysis, and the
+% dendrograms it produces as output.
+
+X= rand(100,2);
+Y= pdist(X,'cityblock');
+Z= linkage(Y,'average');
+dendrogram(Z,'colorthreshold','default');
+
+%%
+% By default, if there are more than 30 points in the dataset, dendrogram
+% collapses the points into groups, to improve the look of the
+% visualisation. Sometimes you don't want this - but showing all 100 
+% points in the dataset results in a rather cluttered plot.
+
+dendrogram(Z,0,'colorthreshold','default');
+
+%%
+% This can be improved upon by using a polar dendrogram, which spreads out
+% the leaf nodes around the circumference of a circle.
+
+polardendrogram(Z,0,'colorthreshold','default');
+
+%%
+% Sometimes the angled view is nice, sometimes you might prefer a top-down
+% view.
+
+clf
+polardendrogram(Z,0,'colorthreshold','default');
+zoom(0.8);
+view(2);
+
+##### SOURCE END #####
+-->
+   </body>
+</html>

@@ -1,0 +1,13 @@
+% Script p9_3_05.m; min time to v=0, -b<x<b for double integrator 
+% plant with bounded control; units: a in amax, x in b, v in 
+% sqrt(b*amax), t in sqrt(b/amax);                  8/98, 3/31/02
+%
+v=-[0:.01:1]; x=v.^2/2; un=ones(1,101); v1=[.70:-.01:-1]; 
+x1=v1.^2/2; un1=ones(1,171);
+%
+figure(1); clf; plot(x,v,'r--',-x,-v,'r--',un+x,v,'b',...
+   -un-x,-v,'b',-un+x,v,'r--',un-x,-v,'r--',[-1 1],[0 0],'b',...
+   -1,0,'bo',1,0,'bo',-1.5*un1+x1,v1,'r--',1.5*un1-x1,-v1,...
+   'r--',.5*un+x,v,'r--',.5*un-x,-v,'r--',-.5*un+x,v,'r--',...
+   -.5*un-x,-v,'r--'); grid; xlabel('x/b')
+ylabel('v/sqrt(b*amax)') 

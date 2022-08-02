@@ -1,0 +1,131 @@
+%% File: sfun_tpu3_nitc.tlc
+%%
+%% Abstract:
+%%   Implement device driver for New Input Capture / Input
+%%   Transition Counter using Timer Processing
+%%   Unit, TPU3.
+%%
+%% Disclaimers / restrictions if any.
+%%
+%% $Revision: 1.3.4.2 $
+%% $Date: 2004/04/19 01:30:30 $
+%%
+%% Copyright 2002-2003 The MathWorks, Inc.
+
+%implements sfun_tpu3_nitc "C"
+%include "mpc555_common_includes.tlc"
+%include "tpu3_function_library.tlc"
+
+%% Function: BlockInstanceSetup ===============================================
+%% Abstract:
+%%   Pre-code generation work
+%%
+%function BlockInstanceSetup(block, system) void
+%endfunction
+
+%% Function: Start ==========================================================
+%% Abstract:
+%%      Sets up TPU channels for NITC 
+%%
+%function Start(block, system) Output 
+   %if !SLibCodeGenForSim()
+      %% only generate code for RT
+      /* %<Type> Block: %<Name> */
+      /* NITC setup for TPU3 module %<SFcnParamSettings.Module> */
+      %assign module = SFcnParamSettings.Module
+      %assign channel = SFcnParamSettings.Channel
+      %assign channelPri = SFcnParamSettings.ChannelPriority
+      %<tpuFunctionSelect(module, channel, "TPU_FN_NITC", "Select NITC TPU Function")>
+      %% determine the appropriate channel control
+      %switch SFcnParamSettings.TransitionType
+         %case 1
+            %% Rising edge
+            %assign edge = "TPU_NITC_TCR1_RISING_EDGE"   
+            %break
+         %case 2
+            %% Falling edge
+            %assign edge =  "TPU_NITC_TCR1_FALLING_EDGE"
+            %break
+         %case 3
+            %% Either edge
+            %assign edge = "TPU_NITC_TCR1_EITHER_EDGE"
+            %break
+         %default
+            %break
+      %endswitch
+      %<tpuSetParam(module, channel, "TPU_NITC_CHANNEL_CONTROL_PARAM", edge, "Set CHANNEL_CONTROL")>
+      %<tpuSetParam(module, channel, "TPU_NITC_MAX_COUNT_PARAM", SFcnParamSettings.MaxCount, "Set MAX_COUNT")>
+      
+      %if SFcnParamSettings.CaptureType == 1
+        %assign TCR_CAPTURE = 1
+      %else
+        %assign TCR_CAPTURE = 0
+      %endif
+
+      %% if required, setup PARAM_ADDR 
+      %if !TCR_CAPTURE 
+         %% 
+         %% Parameter Capture Mode
+         %% 
+         %if SFcnParamSettings.ParameterLocation == 1
+             %% Aquire parameter by channel and parameter number
+             /* Capture TPU Parameter ( Channel %<SFcnParamSettings.CaptureChannel> : Parameter (16bit) %<SFcnParamSettings.CaptureParam> ) */
+             %<tpuSetParam(module, channel, "TPU_NITC_PARAM_ADDR_PARAM", (16 * SFcnParamSettings.CaptureChannel) + (2 * SFcnParamSettings.CaptureParam), "")>
+         %else
+            %% Aquire parameter by name
+            %assign name = SFcnParamSettings.CaptureParamAlias
+            %% Check that the alias has been defined we are using. This will
+            %% error out at C-Code compile time.
+            /* Capture TPU parameter alias "%<name>" */
+            %<tpuParameterAliasCheck(block, name)>
+            %<tpuSetParam(module, channel, "TPU_NITC_PARAM_ADDR_PARAM", tpuParameter16AliasAddress(name), "")>
+         %endif
+      %endif
+     
+      %<tpuSetHSQR(module, channel, "TPU_NITC_HSQR_CONT_NO_LINKS", "Set TPU Host Sequence Register")>
+      /* Channel %<CAST("Number",channel)> */
+      %if TCR_CAPTURE
+         %assign mode = "TPU_NITC_HSRR_TCR_MODE"
+      %else
+         %assign mode = "TPU_NITC_HSRR_PARM_MODE"
+      %endif
+      %<tpuSetHSRR(module, channel, mode, "Set TPU Host Service Request Register")>
+      %<tpuSetChannelPriority(module, channel, channelPri, "Set Channel Priority Register to enable NITC")>
+      %<tpuWaitForClearHSRR(module, channel)>
+   %endif
+%endfunction
+
+
+%% Function: Outputs ==========================================================
+%% Abstract:
+%%      Sets digital output
+%%
+%function Outputs(block, system) Output
+   %if !SLibCodeGenForSim()
+      %% only generate code for RT
+      /* %<Type> Block: %<Name> */
+      /* New Input Capture / Input Transition Counter (NITC)
+         for TPU3 module %<SFcnParamSettings.Module> */
+      %assign module = SFcnParamSettings.Module
+      %assign channel = SFcnParamSettings.Channel
+      %% get reference to the FINAL_TRANS_TIME output signal
+      %assign finalTransTime = LibBlockOutputSignal(0, "", "", 0)
+      %% get reference to the TRANS_COUNT output signal
+      %assign transCount = LibBlockOutputSignal(1, "", "", 0)
+      %% get reference to the LAST_TRANS_TIME output signal
+      %assign lastTransTime = LibBlockOutputSignal(2, "", "", 0)
+     
+      %if SFcnParamSettings.FinalTransTime
+         /* read FINAL_TRANS_TIME */
+         %<finalTransTime> =  %<tpuGetParam(module, channel, "TPU_NITC_FINAL_TRANS_TIME_PARAM")>;
+      %endif
+      %if SFcnParamSettings.TransCount
+         /* read TRANS_COUNT */
+         %<transCount> = %<tpuGetParam(module, channel, "TPU_NITC_TRANS_COUNT_PARAM")>;
+      %endif
+      %if SFcnParamSettings.LastTransTime
+         /* read LAST_TRANS_TIME */
+         %<lastTransTime> = %<tpuGetParam(module, channel, "TPU_NITC_LAST_TRANS_TIME_PARAM")>;
+      %endif
+   %endif
+%endfunction

@@ -1,0 +1,177 @@
+%% File: gen_xml_lib.tlc
+%%
+%% $Revision: 1.8.2.1 $
+%% $Date: 2004/04/19 01:27:19 $
+%%
+%% Copyright 2001-2002 The MathWorks, Inc.
+%%
+%% Abstract: Embedded real-time system target file for Processor in 
+%% the Loop Simulation generation of a Metrowerks CodeWarrior project to
+%% build the generated code.
+%%
+
+%function insertSearchPath (path,type) Output
+  <SETTING>
+      <SETTING><NAME>SearchPath</NAME>
+          <SETTING><NAME>Path</NAME><VALUE>%<path></VALUE></SETTING>
+	  <SETTING><NAME>PathFormat</NAME><VALUE>Windows</VALUE></SETTING>
+	  <SETTING><NAME>PathRoot</NAME><VALUE>%<type></VALUE></SETTING>
+      </SETTING>
+      <SETTING><NAME>Recursive</NAME><VALUE>true</VALUE></SETTING>
+      <SETTING><NAME>HostFlags</NAME><VALUE>All</VALUE></SETTING>
+  </SETTING>
+%endfunction
+
+%function insertCWFile (file) Output
+  <FILE>
+    <PATHTYPE>Name</PATHTYPE>
+    <PATH>%<file></PATH>
+    <PATHFORMAT>Windows</PATHFORMAT>
+    <FILEKIND>%<FILEKIND></FILEKIND>
+    <FILEFLAGS>%<FILEFLAGS></FILEFLAGS>
+  </FILE> \
+%endfunction
+
+%function insertCWFileRef (file) Output
+  <FILEREF>
+    <PATHTYPE>Name</PATHTYPE>
+    <PATH>%<file></PATH>
+    <PATHFORMAT>Windows</PATHFORMAT>
+  </FILEREF> \
+%endfunction
+
+%function insertCWFileRef1 (file) Output
+        <FILEREF>
+            <TARGETNAME>555 Phytec Debug Version</TARGETNAME>
+            <PATHTYPE>Name</PATHTYPE>
+            <PATH>%<file></PATH>
+            <PATHFORMAT>Windows</PATHFORMAT>
+        </FILEREF> \
+%endfunction
+
+%function insertCWFiles (fileList) Output
+%% Need to check for string type fileList - a single file.
+  %if TYPE(fileList) == "String"
+    %<insertCWFile(fileList)>
+  %else
+    %foreach idx = SIZE(fileList,1)
+      %<insertCWFile(fileList[idx])>
+    %endforeach
+  %endif
+%endfunction
+
+%function insertCWFilesStruct (fileList) Output
+%%
+%% fileList {
+%%    int      NumberOfFiles
+%%    list     File {
+%%                    char *name
+%%                  }
+%%          }
+%%
+  %if (SIZE(fileList,1) != 0)
+    %with fileList
+      %foreach idx = NumberOfFiles
+	%<insertCWFile(File[idx].name)>
+      %endforeach
+    %endwith
+  %endif
+%endfunction
+
+%function insertCWFileRefs (fileList) Output
+%% Need to check for string type fileList - a single file.
+  %if TYPE(fileList) == "String"
+    %<insertCWFileRef(fileList)>
+  %else
+    %foreach idx = SIZE(fileList,1)
+      %<insertCWFileRef(fileList[idx])>
+    %endforeach
+  %endif
+%endfunction
+
+%function insertCWFileRefsStruct (fileList) Output
+%%
+%% fileList {
+%%    int      NumberOfFiles
+%%    list     File {
+%%                    char *name
+%%                  }
+%%          }
+%%
+  %if (SIZE(fileList,1) != 0)
+    %with fileList
+      %foreach idx = NumberOfFiles
+	%<insertCWFileRef(File[idx].name)>
+      %endforeach
+    %endwith
+  %endif
+%endfunction
+
+%function insertCWFileRef1s (fileList) Output
+%% Need to check for string type fileList - a single file.
+  %if TYPE(fileList) == "String"
+    %<insertCWFileRef1(fileList)>
+  %else
+    %foreach idx = SIZE(fileList,1)
+      %<insertCWFileRef1(fileList[idx])>
+    %endforeach
+  %endif
+%endfunction
+
+%function insertCWFileRef1sStruct (fileList) Output
+%%
+%% fileList {
+%%    int      NumberOfFiles
+%%    list     File {
+%%                    char *name
+%%                  }
+%%          }
+%%
+  %if (SIZE(fileList,1) != 0)
+    %with fileList
+      %foreach idx = NumberOfFiles
+	%<insertCWFileRef1(File[idx].name)>
+      %endforeach
+    %endwith
+  %endif
+%endfunction
+
+%function testGenXMLlib () Output
+%%  %<insertSearchPath (path,type) >
+%%
+%%  %<insertCWFile (file) >
+%%  %<insertCWFileRef (file) >
+%%  %<insertCWFileRef1 (file) >
+%%
+%%  %<insertCWFiles (fileList) >
+%%  %<insertCWFilesStruct (fileList) >
+%%
+%%  %<insertCWFileRefs (fileList) >
+%%  %<insertCWFileRefsStruct (fileList) >
+%%
+%%  %<insertCWFileRef1s (fileList) >
+%%  %<insertCWFileRef1sStruct (fileList) >
+%%
+
+  %<insertCWFiles([])>
+  %<insertCWFilesStruct([])>
+  %<insertCWFileRefs([])>
+  %<insertCWFileRefsStruct([])>
+  %<insertCWFileRef1s([])>
+  %<insertCWFileRef1sStruct([])>
+  
+  %<insertCWFiles("testfile.c")>
+%%  %<insertCWFilesStruct("testfile.c")>
+  %<insertCWFileRefs("testfile.c")>
+%%  %<insertCWFileRefsStruct("testfile.c")>
+  %<insertCWFileRef1s("testfile.c")>
+%%  %<insertCWFileRef1sStruct("testfile.c")>
+  
+  %<insertCWFiles(["testfile1.c", "testfile2.c"])>
+%%  %<insertCWFilesStruct(["testfile1.c", "testfile2.c"])>
+  %<insertCWFileRefs(["testfile1.c", "testfile2.c"])>
+%%  %<insertCWFileRefsStruct(["testfile1.c", "testfile2.c"])>
+  %<insertCWFileRef1s(["testfile1.c", "testfile2.c"])>
+%%  %<insertCWFileRef1sStruct(["testfile1.c", "testfile2.c"])>
+  
+%endfunction

@@ -1,0 +1,682 @@
+<?xml version="1.0"?>
+<!--
+
+KL 10-09-2003
+Copyright 2001-2004 The Mathworks, Inc.
+
+$Revision: 1.1.6.2 $
+$Date: 2004/02/01 21:54:52 $
+
+-->
+<!--
+
+This XML file is used to store static information for a particular
+vendor's image acquisition devices.  The first element of the file
+must be <ImaqAcquisitionVendorInfo> followed by one or more <Device>
+elements.
+
+Each <Device> element requires a 'name' attribute, which is the
+name of the device, as known by the corresponding adaptor.  This
+name usually is the name of the device from the SDK.  Within the
+<Device> section, there should be one or more <VideoFormat> elements
+as well as zero or more <Property> elements.
+
+Each <VideoFormat> element requires a 'name' attribute, which is the
+video format supported by the device.  This video format usually is
+the name of the video format as used by the adaptor.  The <VideoFormat>
+element also shall contain one or more <Source> elements that
+corresponds to the available sources for the video format.  The
+<VideoFormat> element can also contain <Property> elements that
+are unique to the video format.
+
+Each <Source> element shall have a 'name' and 'id' attributes.  The
+name is the name of the source, as used by the adaptor.  The id
+attribute is a number representation used by adaptors to identify
+this source to the SDK.  The name attribute is used in MATLAB as
+the name of the sources, as the id is only used by the adaptor
+and needs only to be unique between sources.
+
+The <Property> element can be in either the <Device> or <VideoFormat>
+elements depending on if the property is video-format independent
+or not.  Each Property element requires the following attributes:
+  name                - The property name as it should be listed
+  type                - The property data type: "cell", "double", or
+                        "string"
+  constraint          - Constraints on property values: "bounded",
+                        "enum", or "none"
+  readOnly            - "always" if the property is always read-only,
+                        "never" if it's never read-only, and
+                        "whileRunning" if it's read-only while Running
+                        is on.
+  deviceSpecific      - "true" if the property is vendor specific,
+                        "false" if the property is not vendor specific.
+
+A type value of "cell" requires a constraint value of "none".
+A type value of "double" requires a constraint value of "bounded or "none".
+A type value of "string" requires a constraint value of "enum" or "none".
+
+Each Property element can contain the following additional elements:
+  EnumConstraintValue - Required for an "enum" constraint only.
+                        EnumConstraintValue provides an enum value
+                        for the property. There is no limit on the
+                        number of EnumConstraintValue elements a
+                        Property element can contain.
+
+An optional element, <Include> can be used to simplify the XML
+file.  By including this element under the <VideoFormat> element,
+the information contained in the element specified by the required
+'tag' attribute found under the <Device> element is consumed.
+This allows common elements between video formats, i.e., <Property>
+and/or <Source> elements, to be specified only once in the XML
+file.
+
+-->
+<ImageAcquisitionInfo>
+	<Help>
+	   	<AdaptorHelp property="Brightness">Specify the lightness or darkness of an image.
+
+Brightness controls lightness or darkness by specifying the black level offset. You specify the value
+as a percentage. For more information about controlling brightness in a particular camera, see
+the documentation that came with the device.
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device or
+for it to be manually configured.
+
+<SeeAlso>BrightnessMode.</SeeAlso></AdaptorHelp>
+	   
+	   	<AdaptorHelp property="BrightnessMode">Specify whether the Brightness property is controlled manually or automatically.
+
+If specified as 'auto', the device manages brightness. If 
+specified as 'manual', you can control brightness using the Brightness property.
+
+The Brightness and BrightnessMode properties are closely related.
+When you specify a value for the Brightness property, the BrightnessMode property
+is automatically set to 'manual'. Similarly, if you change the BrightnessMode property 
+from 'auto' to 'manual', the Brightness property is automatically set to the current value reported 
+by the device. Note, however, that because some devices in auto mode do not keep their stored property
+values up-to-date, the value of the Brightness property may not 
+reflect the actual brightness value on the device.
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+
+<SeeAlso>Brightness</SeeAlso></AdaptorHelp>
+	   	
+	   	<AdaptorHelp property="AutoExposure">Specify the exposure value (EV).
+	   	
+AutoExposure specifies the exposure value (EV). An EV number defines certain 
+combinations of aperture and shutter speed settings that determine exposure. 
+For more information about controlling the 
+AutoExposure feature of a particular camera, see the documentation that came with the device.
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device
+or for it to be manually configured.
+
+<SeeAlso>AutoExposureMode</SeeAlso></AdaptorHelp>
+	
+	   	<AdaptorHelp property="AutoExposureMode">Specify whether the AutoExposure property is controlled manually or automatically.
+
+If specified as 'auto', the device manages the AutoExposure value. If 
+specified as 'manual', you can control exposure using the AutoExposure property.
+
+The AutoExposure and AutoExposureMode properties are closely related.
+When you specify a value for the AutoExposure property, the AutoExposureMode property
+is automatically set to 'manual'. Similarly, if you change the AutoExposureMode property 
+from 'auto' to 'manual', the AutoExposure property is automatically set to the current value reported 
+by the device. Note, however, that because some devices in auto mode do not keep their stored property
+values up-to-date, the value of the AutoExposure property may not 
+reflect the actual exposure value on the device. 
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+
+<SeeAlso>AutoExposure</SeeAlso></AdaptorHelp>
+	
+	   	<AdaptorHelp property="Sharpness">Specify the image sharpness.
+
+Sharpness specifies the subjective impression of the amount of detailed 
+information provided in a picture image. For more information controlling the sharpness
+feature of a particular camera, see the
+documentation that came with the device.
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.
+<SeeAlso>SharpnessMode</SeeAlso></AdaptorHelp>
+	
+	   	<AdaptorHelp property="SharpnessMode">Specify whether the Sharpness property is controlled manually or automatically.
+
+If specified as 'auto', the device manages the sharpness value. If
+configured to manual, you can control sharpness by using the Sharpness property.
+
+The Sharpness and SharpnessMode properties are closely related.
+When you specify a value for the Sharpness property, the SharpnessMode property
+is automatically set to 'manual'. Similarly, if you change the SharpnessMode property 
+from 'auto' to 'manual', the Sharpness property is set to the current value reported 
+by the device. Note, however, that because some devices in auto mode do not keep their stored property
+values up-to-date, the value of the Sharpness property may not 
+reflect the actual sharpness value on the device. 
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+<SeeAlso>Sharpness</SeeAlso></AdaptorHelp>
+	
+	   	<AdaptorHelp property="WhiteBalance">Specify the color temperature of white.
+	   	
+The term "white balance" describes how a digital camera adjusts the color balance to
+compensate for the ambient lighting. Using the WhiteBalance property, you can specify 
+the color temperature (in Kelvin) of the white value the camera uses to calibrate colors.
+You specify WhiteBalance as a vector containing two values. In YUV video format, WhiteBalance 
+specifies U and V values. In RGB video format, WhiteBalance specifies B and R values.
+For more information about specifying the White Balance on a particular camera, see 
+the documentation that came with the device.
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.
+<SeeAlso>WhiteBalanceMode</SeeAlso></AdaptorHelp>
+
+	   	<AdaptorHelp property="WhiteBalanceMode">Specify whether the WhiteBalance property is controlled manually or automatically.
+
+If specified as 'auto', the device manages white balance adjustment. If
+specified as 'manual', you can control white balance by using the WhiteBalance property.
+
+The WhiteBalance and WhiteBalanceMode properties are closely related.
+When you specify a value for the WhiteBalance property, the WhiteBalanceMode property
+is automatically set to 'manual'. Similarly, if you change the WhiteBalanceMode property 
+from 'auto' to 'manual', the WhiteBalance property is set to the current value reported 
+by the device. Note, however, that because some devices in auto mode do not keep their stored property
+values up-to-date, the value of the WhiteBalance property may not 
+reflect the actual white balance value on the device. 
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+
+<SeeAlso>WhiteBalance</SeeAlso></AdaptorHelp>
+	
+	   	<AdaptorHelp property="Hue">Specify color on color circle.
+	   	
+Hue specifies color as an angle on the color circle. You specify the angle in degrees.
+Positive values specify an angle counterclockwise from the origin; negative
+values specify angles clockwise from the origin. For more information on specifying Hue with
+a particular camera, see the documentation that came with the
+device. 
+
+Depending on the acquisition device, this property may have an
+associated mode property that specifies whether this feature is controlled
+automatically by the device, or can be manually configured. 
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+
+<SeeAlso>HueMode</SeeAlso></AdaptorHelp>
+
+	   	<AdaptorHelp property="HueMode">Specify whether the Hue property is controlled manually or automatically.
+
+If specified as 'auto', the device manages the hue value. If specified as
+'manual', you can configure the hue using the Hue property. 
+
+The Hue and HueMode properties are closely related.
+When you specify a value for the Hue property, the HueMode property
+is automatically set to 'manual'. Similarly, if you change the HueMode property 
+from 'auto' to 'manual', the Hue property is set to the current value reported 
+by the device. Note, however, that because some devices in auto mode do not keep their stored property
+values up-to-date, the value of the Hue property may not 
+reflect the actual hue value on the device. 
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+
+<SeeAlso>Hue</SeeAlso></AdaptorHelp>
+	
+	   	<AdaptorHelp property="Saturation">Specify the intensity of colors.
+	   	
+Saturation specifies the intensity of the colors. Intensity is determined by the 
+amount of gray in a color. A color with more gray is considered less saturated; a color with
+less gray is considered more saturated. You specify the saturation level as
+a percentage with reference to the original image at 100 percent. For more
+information about controlling the color saturation of a particular camera, see
+the documentation that came with the device.
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.
+
+<SeeAlso>SaturationMode</SeeAlso></AdaptorHelp>
+	
+	   	<AdaptorHelp property="SaturationMode">Specify whether the Saturation property is controlled manually or automatically.
+
+If you specify 'auto', the Saturation value is managed by the device. If
+configured to 'manual', you can control saturation using the Saturation property. 
+
+The Saturation and SaturationMode properties are closely related.
+When you specify a value for the Saturation property, the SaturationMode property
+is automatically set to 'manual'. Similarly, if you change the SaturationMode property 
+from 'auto' to 'manual', the Saturation property is automatically set to the current value reported 
+by the device. Note, however, that because some devices in auto mode do not keep their stored property
+values up-to-date, the value of the Saturation property may not 
+reflect the actual saturation value on the device. 
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+<SeeAlso>Saturation</SeeAlso></AdaptorHelp>
+	
+	   	<AdaptorHelp property="Gamma">Specify the gamma control.
+	   	
+The gamma defines the function between the light level input and the light
+level picture output. For more information on the light level relation function
+and the Gamma value, see the documentation that came with the device.
+	   	
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.
+<SeeAlso>GammaMode</SeeAlso></AdaptorHelp>
+
+	   	<AdaptorHelp property="GammaMode">Specify whether the Gamma property is controlled manually or automatically.
+
+If specified as 'auto', the device manages the Gamma value. If specified as
+'manual', you can control gamma using the Gamma property.
+
+The Gamma and GammaMode properties are closely related.
+When you specify a value for the Gamma property, the GammaMode property
+is automatically set to 'manual'. Similarly, if you change the GammaMode property 
+from 'auto' to 'manual', the Gamma property is automatically set to the current value reported 
+by the device. Note, however, that because some devices in auto mode do not keep their stored property
+values up-to-date, the value of the Gamma property may not 
+reflect the actual gamma value on the device. 
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+<SeeAlso>Gamma</SeeAlso></AdaptorHelp>
+	
+	   	<AdaptorHelp property="Shutter">Specify the amount of time that the sensor is exposed to light.
+	   	
+The Shutter property specifies the amount of time that the sensor is exposed to light, also known as
+integration time. You specify the shutter speed in seconds. For more
+information about setting the shutter speed of a particular camera, see the documentation
+that came with the device.
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+
+Depending on the acquisition device, this property may have an
+associated mode property that specifies whether this feature is controlled
+automatically by the device, or can be manually configured. 
+<SeeAlso>ShutterMode</SeeAlso></AdaptorHelp>
+	
+	   	<AdaptorHelp property="ShutterMode">Specify whether the Shutter property is controlled manually or automatically.
+
+If specified as 'auto', the device manages the shutter. If specified as
+'manual', you can configure the shutter speed using the Shutter property. 
+
+The Shutter and ShutterMode properties are closely related.
+When you specify a value for the Shutter property, the ShutterMode property
+is automatically set to 'manual'. Similarly, if you change the ShutterMode property 
+from 'auto' to 'manual', the Shutter property is automatically set to the current value reported 
+by the device. Note, however, that because some devices in auto mode do not keep their stored property
+values up-to-date, the value of the Shutter property may not 
+reflect the actual shutter value on the device. 
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+
+<SeeAlso>Shutter</SeeAlso></AdaptorHelp>
+	
+	   	<AdaptorHelp property="Gain">Specify the gain adjustment.
+
+Gain describes the circuit gain in decibels (dB) with reference to the original
+image at 0. For more information about setting the Gain property for a particular camera, 
+see the documentation that came with the device.
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.
+<SeeAlso>GainMode</SeeAlso></AdaptorHelp>
+	
+	   	<AdaptorHelp property="GainMode">Specify whether the Gain property is controlled manually or automatically.
+
+If specified as 'auto', the device manages the Gain value. If configured to
+'manual', you can control the gain value by using the Gain property.
+
+The Gain and GainMode properties are closely related.
+When you specify a value for the Gain property, the GainMode property
+is automatically set to 'manual'. Similarly, if you change the GainMode property 
+from 'auto' to 'manual', the Gain property is set to the current value reported 
+by the device. Note, however, that because some devices in auto mode do not keep their stored property
+values up-to-date, the value of the Gain property may not 
+reflect the actual gain value on the device. 
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+
+<SeeAlso>Gain</SeeAlso></AdaptorHelp>
+	
+	   	<AdaptorHelp property="Iris">Specify the camera aperature opening.
+
+A camera's iris (or aperture) is the opening through which light enters the camera. Camera's provide a
+mechanism through which you can control the size of this opening. You specify the size as an F number. 
+For more information about controlling the iris of a particular camera, see the documentation
+that came with the device. 
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+
+Depending on the acquisition device, this property may have an
+associated mode property that specifies whether this feature is controlled
+automatically by the device, or can be manually configured. 
+<SeeAlso>IrisMode</SeeAlso></AdaptorHelp>
+	
+	   	<AdaptorHelp property="IrisMode">Specify whether the Iris property is controlled manually or automatically.
+
+If specified as 'auto', the device manages the iris value. If specified as
+'manual', you can control the iris by specifying the value of the Iris property. 
+
+The Iris and IrisMode properties are closely related.
+When you specify a value for the Iris property, the IrisMode property
+is automatically set to 'manual'. Similarly, if you change the IrisMode property 
+from 'auto' to 'manual', the Iris property is automatically set to the current value reported 
+by the device. Note, however, that because some devices in auto mode do not keep their stored property
+values up-to-date, the value of the Iris property may not 
+reflect the actual iris value on the device. 
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+
+<SeeAlso>Iris</SeeAlso></AdaptorHelp>
+	
+	   	<AdaptorHelp property="Focus">Specify the camera-to-subject distance.
+
+Focus is the process of adjusting the distance setting on a camera's
+lens system to produce a sharp image. The Focus property specifies the camera-to-subject 
+distance in meters. For more information about the focusing features of a specific
+ camera, see the documentation that came with the device.
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+
+Depending on the acquisition device, this property may have an
+associated mode property that specifies whether this feature is controlled
+automatically by the device, or can be manually configured.
+
+<SeeAlso>FocusMode</SeeAlso></AdaptorHelp>
+
+	   	<AdaptorHelp property="FocusMode">Specify whether the Focus property is controlled manually or automatically.
+
+If specified as 'auto', the device controls focusing. If
+specified as 'manual', you can control focusing by specifying the camera-to-
+subject distance using the Focus property. 
+
+The Focus and FocusMode properties are closely related.
+When you specify a value for the Focus property, the FocusMode property
+is automatically set to 'manual'. Similarly, if you change the FocusMode property 
+from 'auto' to 'manual', the Focus property is automatically set to the current value reported 
+by the device. Note, however, that because some devices in auto mode do not keep their stored property
+values up-to-date, the value of the Focus property may not 
+reflect the actual focus value on the device. 
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+
+<SeeAlso>Focus</SeeAlso></AdaptorHelp>
+	
+	   	<AdaptorHelp property="Temperature">Specify target temperature for the device.
+
+Temperature specifies the target temperature at which you want the camera to operate. 
+For more information about the temperature capabilities of a particular camera, see the documentation that
+came with the device. 
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.
+<SeeAlso>TemperatureMode</SeeAlso></AdaptorHelp>
+	
+	   	<AdaptorHelp property="TemperatureMode">Specify whether the Temperature property is controlled manually or automatically.
+
+If specified as 'auto', the device manages its operating temperature. If
+configured to 'manual', the camera attempts to maintain the operating temperature
+ you specify in the Temperature property.
+
+The Temperature and TemperatureMode properties are closely related.
+When you specify a value for the Temperature property, the TemperatureMode property
+is automatically set to 'manual'. Similarly, if you change the TemperatureMode property 
+from 'auto' to 'manual', the Temperature property is automatically set to the current value reported 
+by the device. Note, however, that because some devices in auto mode do not keep their stored property
+values up-to-date, the value of the Temperature property may not 
+reflect the actual temperature value on the device. 
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+<SeeAlso>Temperature</SeeAlso></AdaptorHelp>
+	
+	   	<AdaptorHelp property="Zoom">Specify the lens magnification.
+
+Zoom describes the lens magnification. For more information on the
+magnification power of a particular camera, see the documentation that came with
+the device. 
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.
+<SeeAlso>ZoomMode</SeeAlso></AdaptorHelp>
+
+	   	<AdaptorHelp property="ZoomMode">Specify whether the Zoom property is controlled manually or automatically.
+
+If specified as 'auto', the Zoom value is managed by the device. If specified as
+'manual', you can control lens magnification using the Zoom property. 
+
+The Zoom and ZoomMode properties are closely related.
+When you specify a value for the Zoom property, the ZoomMode property
+is automatically set to 'manual'. Similarly, if you change the ZoomMode property 
+from 'auto' to 'manual', the Zoom property is set to the current value reported 
+by the device. Note, however, that because some devices in auto mode do not keep their stored property
+values up-to-date, the value of the Zoom property may not 
+reflect the actual zoom value on the device. 
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+
+<SeeAlso>Zoom</SeeAlso></AdaptorHelp>
+	
+	   	<AdaptorHelp property="Pan">Specify camera horizontal positioning.
+
+Pan specifies the horizontal positioning of a camera in degrees. 
+Positive values indicate clockwise movement from the origin (the camera rotates clockwise 
+when viewed from above); negative values indicate counterclockwise movement from the 
+origin. For more information controlling the panning of a particular camera, see
+the documentation that came with the device. 
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.
+<SeeAlso>PanMode</SeeAlso></AdaptorHelp>
+	
+	   	<AdaptorHelp property="PanMode">Specify whether the Pan property is controlled manually or automatically.
+
+If specified as 'auto', the device manages panning. If specified as
+'manual', you can control panning using the Pan property. 
+
+The Pan and PanMode properties are closely related.
+When you specify a value for the Pan property, the PanMode property
+is automatically set to 'manual'. Similarly, if you change the PanMode property 
+from 'auto' to 'manual', the Pan property is automatically set to the current value reported 
+by the device. Note, however, that because some devices in auto mode do not keep their stored property
+values up-to-date, the value of the Pan property may not 
+reflect the actual pan value on the device. 
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+<SeeAlso>Pan</SeeAlso></AdaptorHelp>
+	
+	   	<AdaptorHelp property="Tilt">Specify camera vertical positioning.
+
+Tilt specifies the vertical positioning of the camera in degrees. Positive values indicate upward
+movement from the origin; negative values indicate downward movement 
+from the origin. For more information on controlling tilt in a particular camera, see
+the documentation that came with the device. 
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.
+
+<SeeAlso>TiltMode</SeeAlso></AdaptorHelp>
+	
+	   	<AdaptorHelp property="TiltMode">Specify whether the Tilt property is controlled manually or automatically.
+
+If specified as 'auto', the device manages vertical positioning. If specified as
+'manual', you can control vertical positioning by using the Tilt property. 
+
+The Tilt and TiltMode properties are closely related.
+When you specify a value for the Tilt property, the TiltMode property
+is automatically set to 'manual'. Similarly, if you change the TiltMode property 
+from 'auto' to 'manual', the Tilt property is set to the current value reported 
+by the device. Note, however, that because some devices in auto mode do not keep their stored property
+values up-to-date, the value of the Tilt property may not 
+reflect the actual tilt value on the device. 
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+<SeeAlso>Tilt</SeeAlso></AdaptorHelp>
+	
+	   	<AdaptorHelp property="OpticalFilter">Specify the optical filter setting.
+
+OpticalFilter describes the camera's optical lens filter function. For more
+information on the optical lens filter and the OpticalFilter value, see the
+documentation that came with the device. 
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+
+Depending on the acquisition device, this property may have an associated 
+mode property allowing this value to be controlled automatically by the device, 
+or for it to be manually configured.
+<SeeAlso>OpticalFilterMode</SeeAlso></AdaptorHelp>
+	
+	   	<AdaptorHelp property="OpticalFilterMode">Specify whether the OpticalFilter property is controlled manually or automatically.
+
+If specified as 'auto', the device manages the OpticalFilter value. If
+specified as manual, you can control the optical filter using the OpticalFilter property.
+
+The OpticalFilter and OpticalFilterMode properties are closely related.
+When you specify a value for the OpticalFilter property, the OpticalFilterMode property
+is automatically set to 'manual'. Similarly, if you change the OpticalFilterMode property 
+from 'auto' to 'manual', the OpticalFilter property is set to the current value reported 
+by the device. Note, however, that because some devices in auto mode do not keep their stored property
+values up-to-date, the value of the OpticalFilter property may not 
+reflect the actual optical filter value on the device. 
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+<SeeAlso>OpticalFilter</SeeAlso></AdaptorHelp>
+	
+	   	<AdaptorHelp property="FrameRate">Specify the device frame rate.
+
+FrameRate determines the rate at which frames are acquired by the device. The
+FrameRate value is measured in number of frames per second.
+
+The availability of this property is strictly contingent on the device's
+support for the interface described in the IIDC 1394-based Digital
+Camera (DCAM) specification published by the 1394 Trade 
+Association (www.1394TA.org).
+</AdaptorHelp>
+
+	</Help>
+</ImageAcquisitionInfo>

@@ -1,0 +1,38 @@
+function ecua=traslaconi(vc)
+%Método de completación de cuadrados para obtener la ecuación
+A=vc(1); B=vc(2); C=vc(3); D=vc(4); F=vc(5);
+syms x y X Y
+if A~=0 & B~=0   
+%Calcular las traslaciones h,k y el t.i. f
+h=C/(-2*A); k=D/(-2*B); %f=A*h^2+B*k^2-F
+%Ecuación canónica
+%a=f/A, b=f/B
+if A*B>0 & A==B
+    disp('La cónica es una circunferencia con ecuación:');
+elseif a*b>0 & a~=b
+    disp('La cónica es una elipse con ecuación:');   
+elseif a*b<0
+    disp('La cónica es una hipérbola con ecuación:');
+end
+ecua=char(A*(x-h)^2+B*(y-k)^2);ecu=strcat(ecua,'=1');ecua2=sym(ecu);pretty(ecua2);
+ezplot(ecua);ezplot(strcat(ecua,'-1'));
+elseif A~=0 & B==0
+  if D==0 
+     disp('La ecuaciòn representa dos rectas o el conjunto vacío')
+     return
+  end 
+    disp('La cónica es una parábola con ecuación:');
+    k=(F-(C/2)^2)/(A*D);h=C/(2*A);p=A/D;par1=(y+k);par2=-p*(x+h)^2;
+    ecu=strcat(char(par1),'=',char(par2)); ecua1=sym(ecu);pretty(ecua1);
+    ecua=A*X^2+D*Y;ezplot(ecua)
+elseif A==0 & B~=0
+  if  D==0
+      disp('La ecuación representa dos rectas paralelas o c. vacío');
+    return
+  end
+ disp('La cónica es una parábola con ecuación:');
+ k=D/(2*B);h=(F-(D/2)^2)/(B*C);p=B/C;par1=(x+h);par2=-p*(y+k)^2;
+ ecu=strcat(char(par1),'=',char(par2));ecua1=sym(ecu); pretty(ecua1);  
+ ecua=C*X+B*Y^2;ezplot(ecua) 
+end
+ 

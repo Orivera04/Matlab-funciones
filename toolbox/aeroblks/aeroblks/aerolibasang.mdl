@@ -1,0 +1,4042 @@
+Library {
+  Name			  "aerolibasang"
+  Version		  5.0
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Mon Oct 07 17:10:36 2002"
+  Creator		  "sgage"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "sgage"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Thu Jul 24 11:36:07 2003"
+  ModelVersionFormat	  "1.%<AutoIncrement:64>"
+  ConfigurationManager	  "None"
+  SimParamPage		  "Solver"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeMexFile	  "ext_comm"
+  ExtModeBatchMode	  off
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock off
+  SimulationMode	  "normal"
+  ConsistencyChecking	  "none"
+  ArrayBoundsChecking	  "none"
+  AlgebraicLoopMsg	  "warning"
+  BlockPriorityViolationMsg "warning"
+  MinStepSizeMsg	  "warning"
+  InheritedTsInSrcMsg	  "warning"
+  DiscreteInheritContinuousMsg "warning"
+  MultiTaskRateTransMsg	  "error"
+  SingleTaskRateTransMsg  "none"
+  CheckForMatrixSingularity "none"
+  IntegerOverflowMsg	  "warning"
+  Int32ToFloatConvMsg	  "warning"
+  ParameterDowncastMsg	  "error"
+  ParameterOverflowMsg	  "error"
+  ParameterPrecisionLossMsg "warning"
+  UnderSpecifiedDataTypeMsg "none"
+  UnnecessaryDatatypeConvMsg "none"
+  VectorMatrixConversionMsg "none"
+  InvalidFcnCallConnMsg	  "error"
+  SignalLabelMismatchMsg  "none"
+  UnconnectedInputMsg	  "warning"
+  UnconnectedOutputMsg	  "warning"
+  UnconnectedLineMsg	  "warning"
+  SfunCompatibilityCheckMsg "none"
+  ProdHWDeviceType	  "Microprocessor"
+  ProdHWWordLengths	  "8,16,32,32"
+  RTWMakeCommand	  "make_rtw"
+  RTWGenerateCodeOnly	  off
+  RTWRetainRTWFile	  off
+  TLCProfiler		  off
+  TLCDebug		  off
+  TLCCoverage		  off
+  TLCAssertion		  off
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Arial"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Assertion
+      Enabled		      on
+      StopWhenAssertionFail   on
+    }
+    Block {
+      BlockType		      BusSelector
+      MuxedOutput	      off
+    }
+    Block {
+      BlockType		      BusCreator
+      Inputs		      "4"
+      DisplayOption	      "none"
+    }
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      ShowAdditionalParam     off
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "sfix(16)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      DataTypeConversion
+      DataType		      "auto"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Demux
+      Outputs		      "4"
+      DisplayOption	      "none"
+      BusSelectionMode	      off
+    }
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ShowAdditionalParam     off
+      ParameterDataTypeMode   "Same as input"
+      ParameterDataType	      "sfix(16)"
+      ParameterScalingMode    "Best Precision: Matrix-wise"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      ShowAdditionalParam     off
+      LatchInput	      off
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Math
+      Operator		      "exp"
+      OutputSignalType	      "auto"
+    }
+    Block {
+      BlockType		      MultiPortSwitch
+      Inputs		      "4"
+      ShowAdditionalParam     off
+      zeroidx		      off
+      InputSameDT	      on
+      OutDataTypeMode	      "Inherit via internal rule"
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Mux
+      Inputs		      "4"
+      DisplayOption	      "none"
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      Product
+      Inputs		      "2"
+      Multiplication	      "Element-wise(.*)"
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Reference
+    }
+    Block {
+      BlockType		      RelationalOperator
+      Operator		      ">="
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      LogicOutDataTypeMode    "Logical (see Advanced Sim. Parameters)"
+      LogicDataType	      "uint(8)"
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      Selector
+      InputType		      "Vector"
+      ElementSrc	      "Internal"
+      Elements		      "1"
+      RowSrc		      "Internal"
+      Rows		      "1"
+      ColumnSrc		      "Internal"
+      Columns		      "1"
+      InputPortWidth	      "-1"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      RTWSystemCode	      "Auto"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Sum
+      IconShape		      "rectangular"
+      Inputs		      "++"
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Terminator
+    }
+    Block {
+      BlockType		      Trigonometry
+      Operator		      "sin"
+      OutputSignalType	      "auto"
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "aerolibasang"
+    Location		    [123, 217, 578, 470]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      "Dynamic Pressure"
+      Ports		      [2, 1]
+      Position		      [50, 141, 120, 194]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Dynamic Pressure"
+      MaskDescription	      "Compute dynamic pressure using velocity and air"
+" density."
+      MaskHelp		      "web(asbhelp);"
+      MaskDisplay	      "port_label('input',1,'V','texmode','on');\nport"
+"_label('input',2,'\\rho','texmode','on');\nport_label('output',1,'q','texmode"
+"','on');\ndisp('^1/_2 \\rhoV^2','texmode','on');"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      System {
+	Name			"Dynamic Pressure"
+	Location		[382, 592, 799, 707]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Velocity"
+	  Position		  [30, 28, 60, 42]
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Air Density"
+	  Position		  [135, 48, 165, 62]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "1/2rhoV^2"
+	  Position		  [255, 31, 300, 59]
+	  Gain			  "1/2"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Dot Product"
+	  Ports			  [2, 1]
+	  Position		  [95, 17, 125, 48]
+	  ShowName		  off
+	  SourceBlock		  "simulink/Math\nOperations/Dot Product"
+	  SourceType		  "Dot Product"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product2"
+	  Ports			  [2, 1]
+	  Position		  [195, 27, 225, 63]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "qbar"
+	  Position		  [335, 38, 365, 52]
+	  InitialOutput		  "0"
+	}
+	Line {
+	  SrcBlock		  "Velocity"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  Branch {
+	    Points		    [0, 5]
+	    DstBlock		    "Dot Product"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, -10]
+	    DstBlock		    "Dot Product"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Dot Product"
+	  SrcPort		  1
+	  DstBlock		  "Product2"
+	  DstPort		  1
+	}
+	Line {
+	  Labels		  [1, 0]
+	  SrcBlock		  "Air Density"
+	  SrcPort		  1
+	  DstBlock		  "Product2"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Product2"
+	  SrcPort		  1
+	  DstBlock		  "1/2rhoV^2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "1/2rhoV^2"
+	  SrcPort		  1
+	  DstBlock		  "qbar"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Ideal Airspeed Correction"
+      Ports		      [3, 1]
+      Position		      [280, 24, 385, 86]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Ideal Airspeed Correction"
+      MaskDescription	      "Calculate equivalent airspeed (EAS), calibrated"
+" airspeed (CAS), or true airspeed (TAS) from one of the other two airspeeds."
+"\n\nBased on assumption of compressible, isentropic (subsonic flow), dry air "
+"with constant specific heat ratio (gamma)."
+      MaskHelp		      "web(asbhelp('idealairspeedcorrection'));"
+      MaskPromptString	      "Units:|Airspeed input:|Airspeed output:|Airspee"
+"d output:|Airspeed output:|Action for out of range input:"
+      MaskStyleString	      "popup(Metric (MKS)|English (Velocity in ft/s)|E"
+"nglish (Velocity in kts)),popup(TAS|EAS|CAS),popup(EAS|CAS),popup(TAS|CAS),po"
+"pup(TAS|EAS),popup(None|Warning|Error)"
+      MaskTunableValueString  "off,off,off,off,off,off"
+      MaskCallbackString      "aeroicon('aeroblkascorr');|aeroicon('aeroblkasc"
+"orr');||||"
+      MaskEnableString	      "on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,off,off,on"
+      MaskToolTipString	      "on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,"
+      MaskVariables	      "units=@1;vel_in=@2;vel_out_tas=@3;vel_out_eas=@"
+"4;vel_out_cas=@5;action=@6;"
+      MaskInitialization      "[vel_case,ports,data] = aeroicon('aeroblkascorr"
+"','icon');\na0=340.2941;\n"
+      MaskDisplay	      "port_label(ports(1).type,ports(1).port,ports(1)"
+".txt,'texmode','on');\nport_label(ports(2).type,ports(2).port,ports(2).txt,'t"
+"exmode','on');\nport_label(ports(3).type,ports(3).port,ports(3).txt,'texmode'"
+",'on');\nport_label(ports(4).type,ports(4).port,ports(4).txt,'texmode','on');"
+"\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "Metric (MKS)|TAS|CAS|CAS|TAS|Error"
+      System {
+	Name			"Ideal Airspeed Correction"
+	Location		[72, 402, 895, 708]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Airspeed In"
+	  Position		  [40, 93, 70, 107]
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Speed of Sound"
+	  Position		  [40, 128, 70, 142]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Pstatic"
+	  Position		  [40, 163, 70, 177]
+	  Port			  "3"
+	}
+	Block {
+	  BlockType		  BusCreator
+	  Name			  "Bus\nCreator"
+	  Ports			  [4, 1]
+	  Position		  [220, 78, 230, 227]
+	  ShowName		  off
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "CAS2EAS"
+	  Ports			  [1, 1]
+	  Position		  [480, 227, 550, 263]
+	  TreatAsAtomicUnit	  on
+	  System {
+	    Name		    "CAS2EAS"
+	    Location		    [220, 433, 774, 625]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In1"
+	      Position		      [20, 78, 50, 92]
+	    }
+	    Block {
+	      BlockType		      BusCreator
+	      Name		      "Bus\nCreator"
+	      Ports		      [2, 1]
+	      Position		      [365, 43, 370, 147]
+	      ShowName		      off
+	      Inputs		      "2"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      BusSelector
+	      Name		      "Bus\nSelector"
+	      Ports		      [1, 4]
+	      Position		      [70, 29, 75, 136]
+	      ShowName		      off
+	      OutputSignals	      "Airspeed_in,SoS,Pstatic,gamma"
+	      Port {
+		PortNumber		1
+		Name			"<Airspeed_in>"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	      Port {
+		PortNumber		2
+		Name			"<SoS>"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	      Port {
+		PortNumber		3
+		Name			"<Pstatic>"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	      Port {
+		PortNumber		4
+		Name			"<gamma>"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "CAS2EAS"
+	      Ports		      [2, 1]
+	      Position		      [165, 42, 220, 93]
+	      SourceBlock	      "simulink/Look-Up\nTables/Look-Up\nTable"
+" (n-D)"
+	      SourceType	      "LookupNDInterp"
+	      numDimsPopupSelect      "   2   "
+	      bp1		      "data.aeroasV_bp"
+	      bp2		      "data.aeroasP_bp"
+	      bp3		      "[1:3]"
+	      bp4		      "[1:3]"
+	      bpcell		      "{ [1:3], [1:3] }"
+	      explicitNumDims	      "2"
+	      searchMode	      "Linear Search"
+	      cacheBpFlag	      "on"
+	      vectorInputFlag	      "off"
+	      tableData		      "[data.aeroasVe_table]'"
+	      interpMethod	      "Cubic Spline"
+	      extrapMethod	      "Cubic Spline"
+	      rangeErrorMode	      "None"
+	      Port {
+		PortNumber		1
+		Name			"Airspeed"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Calculate Mach"
+	      Ports		      [3, 1]
+	      Position		      [245, 89, 310, 151]
+	      TreatAsAtomicUnit	      off
+	      Port {
+		PortNumber		1
+		Name			"Mach"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	      System {
+		Name			"Calculate Mach"
+		Location		[160, 248, 612, 433]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "EAS"
+		  Position		  [235, 43, 265, 57]
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "gamma"
+		  Position		  [20, 88, 50, 102]
+		  Port			  "2"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "Pstatic"
+		  Position		  [60, 113, 90, 127]
+		  Port			  "3"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant"
+		  Position		  [225, 129, 265, 151]
+		  ShowName		  off
+		  Value			  "a0"
+		  ShowAdditionalParam	  on
+		  OutDataTypeMode	  "Inherit via back propagation"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant1"
+		  Position		  [45, 59, 70, 81]
+		  ShowName		  off
+		  Value			  "0"
+		  ShowAdditionalParam	  on
+		  OutDataTypeMode	  "Inherit via back propagation"
+		}
+		Block {
+		  BlockType		  Math
+		  Name			  "Math\nFunction"
+		  Ports			  [1, 1]
+		  Position		  [225, 80, 255, 110]
+		  ShowName		  off
+		  Operator		  "sqrt"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product1"
+		  Ports			  [3, 1]
+		  Position		  [300, 25, 325, 165]
+		  ShowName		  off
+		  Inputs		  "*//"
+		  InputSameDT		  off
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Relative Ratio"
+		  Ports			  [3, 1]
+		  Position		  [105, 60, 175, 130]
+		  SourceBlock		  "aerolibasang/Relative Ratio"
+		  SourceType		  "Relative Ratio"
+		  units			  "Metric (MKS)"
+		  theta			  "off"
+		  sq_theta		  "off"
+		  delta			  "on"
+		  sigma			  "off"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Mach"
+		  Position		  [350, 88, 380, 102]
+		}
+		Line {
+		  SrcBlock		  "Constant1"
+		  SrcPort		  1
+		  DstBlock		  "Relative Ratio"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Constant"
+		  SrcPort		  1
+		  DstBlock		  "Product1"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Math\nFunction"
+		  SrcPort		  1
+		  DstBlock		  "Product1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Relative Ratio"
+		  SrcPort		  1
+		  DstBlock		  "Math\nFunction"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "EAS"
+		  SrcPort		  1
+		  DstBlock		  "Product1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Pstatic"
+		  SrcPort		  1
+		  DstBlock		  "Relative Ratio"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Product1"
+		  SrcPort		  1
+		  DstBlock		  "Mach"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "gamma"
+		  SrcPort		  1
+		  DstBlock		  "Relative Ratio"
+		  DstPort		  2
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Selector
+	      Name		      "Selector"
+	      Ports		      [1, 1]
+	      Position		      [390, 83, 430, 107]
+	      ShowName		      off
+	      Elements		      "[2 1]"
+	      InputPortWidth	      "2"
+	    }
+	    Block {
+	      BlockType		      Terminator
+	      Name		      "Terminator"
+	      Position		      [125, 60, 145, 80]
+	      ShowName		      off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [455, 88, 485, 102]
+	    }
+	    Line {
+	      Name		      "Airspeed"
+	      Labels		      [0, 0]
+	      SrcBlock		      "CAS2EAS"
+	      SrcPort		      1
+	      Points		      [5, 0]
+	      Branch {
+		DstBlock		"Calculate Mach"
+		DstPort			1
+	      }
+	      Branch {
+		Labels			[1, 0]
+		DstBlock		"Bus\nCreator"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      Name		      "<SoS>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      2
+	      DstBlock		      "Terminator"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<Airspeed_in>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      1
+	      Points		      [70, 0]
+	      DstBlock		      "CAS2EAS"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<Pstatic>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      3
+	      Points		      [70, 0]
+	      Branch {
+		Points			[0, 0]
+		DstBlock		"CAS2EAS"
+		DstPort			2
+	      }
+	      Branch {
+		Points			[0, 45]
+		DstBlock		"Calculate Mach"
+		DstPort			3
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "In1"
+	      SrcPort		      1
+	      DstBlock		      "Bus\nSelector"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<gamma>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      4
+	      DstBlock		      "Calculate Mach"
+	      DstPort		      2
+	    }
+	    Line {
+	      Name		      "Mach"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Calculate Mach"
+	      SrcPort		      1
+	      DstBlock		      "Bus\nCreator"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Bus\nCreator"
+	      SrcPort		      1
+	      DstBlock		      "Selector"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Selector"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "CAS2TAS"
+	  Ports			  [1, 1]
+	  Position		  [480, 157, 550, 193]
+	  TreatAsAtomicUnit	  on
+	  System {
+	    Name		    "CAS2TAS"
+	    Location		    [6, 527, 608, 735]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In1"
+	      Position		      [30, 78, 60, 92]
+	    }
+	    Block {
+	      BlockType		      BusCreator
+	      Name		      "Bus\nCreator"
+	      Ports		      [2, 1]
+	      Position		      [475, 52, 480, 183]
+	      ShowName		      off
+	      Inputs		      "2"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      BusSelector
+	      Name		      "Bus\nSelector"
+	      Ports		      [1, 4]
+	      Position		      [80, 28, 85, 142]
+	      ShowName		      off
+	      OutputSignals	      "SoS,Airspeed_in,Pstatic,gamma"
+	      Port {
+		PortNumber		1
+		Name			"<SoS>"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	      Port {
+		PortNumber		2
+		Name			"<Airspeed_in>"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	      Port {
+		PortNumber		3
+		Name			"<Pstatic>"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	      Port {
+		PortNumber		4
+		Name			"<gamma>"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "CAS2EAS"
+	      Ports		      [2, 1]
+	      Position		      [160, 56, 215, 114]
+	      SourceBlock	      "simulink/Look-Up\nTables/Look-Up\nTable"
+" (n-D)"
+	      SourceType	      "LookupNDInterp"
+	      numDimsPopupSelect      "   2   "
+	      bp1		      "data.aeroasV_bp"
+	      bp2		      "data.aeroasP_bp"
+	      bp3		      "[1:3]"
+	      bp4		      "[1:3]"
+	      bpcell		      "{ [1:3], [1:3] }"
+	      explicitNumDims	      "2"
+	      searchMode	      "Linear Search"
+	      cacheBpFlag	      "on"
+	      vectorInputFlag	      "off"
+	      tableData		      "[data.aeroasVe_table]'"
+	      interpMethod	      "Cubic Spline"
+	      extrapMethod	      "Cubic Spline"
+	      rangeErrorMode	      "None"
+	      Port {
+		PortNumber		1
+		Name			"EAS"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Calculate Mach"
+	      Ports		      [3, 1]
+	      Position		      [270, 73, 340, 147]
+	      TreatAsAtomicUnit	      off
+	      Port {
+		PortNumber		1
+		Name			"Mach"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	      System {
+		Name			"Calculate Mach"
+		Location		[160, 248, 617, 437]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "EAS"
+		  Position		  [225, 43, 255, 57]
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "gamma"
+		  Position		  [20, 88, 50, 102]
+		  Port			  "2"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "Pstatic"
+		  Position		  [60, 113, 90, 127]
+		  Port			  "3"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant"
+		  Position		  [215, 129, 255, 151]
+		  ShowName		  off
+		  Value			  "a0"
+		  ShowAdditionalParam	  on
+		  OutDataTypeMode	  "Inherit via back propagation"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant1"
+		  Position		  [45, 59, 70, 81]
+		  ShowName		  off
+		  Value			  "0"
+		  ShowAdditionalParam	  on
+		  OutDataTypeMode	  "Inherit via back propagation"
+		}
+		Block {
+		  BlockType		  Math
+		  Name			  "Math\nFunction"
+		  Ports			  [1, 1]
+		  Position		  [215, 80, 245, 110]
+		  ShowName		  off
+		  Operator		  "sqrt"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product1"
+		  Ports			  [3, 1]
+		  Position		  [290, 25, 315, 165]
+		  ShowName		  off
+		  Inputs		  "*//"
+		  InputSameDT		  off
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Relative Ratio"
+		  Ports			  [3, 1]
+		  Position		  [105, 60, 175, 130]
+		  SourceBlock		  "aerolibasang/Relative Ratio"
+		  SourceType		  "Relative Ratio"
+		  units			  "Metric (MKS)"
+		  theta			  "off"
+		  sq_theta		  "off"
+		  delta			  "on"
+		  sigma			  "off"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Mach"
+		  Position		  [340, 88, 370, 102]
+		}
+		Line {
+		  SrcBlock		  "gamma"
+		  SrcPort		  1
+		  DstBlock		  "Relative Ratio"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Product1"
+		  SrcPort		  1
+		  DstBlock		  "Mach"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Pstatic"
+		  SrcPort		  1
+		  DstBlock		  "Relative Ratio"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "EAS"
+		  SrcPort		  1
+		  DstBlock		  "Product1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Relative Ratio"
+		  SrcPort		  1
+		  DstBlock		  "Math\nFunction"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Math\nFunction"
+		  SrcPort		  1
+		  DstBlock		  "Product1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Constant"
+		  SrcPort		  1
+		  DstBlock		  "Product1"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Constant1"
+		  SrcPort		  1
+		  DstBlock		  "Relative Ratio"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product"
+	      Ports		      [2, 1]
+	      Position		      [395, 27, 420, 138]
+	      ShowName		      off
+	      InputSameDT	      off
+	      Port {
+		PortNumber		1
+		Name			"Airspeed"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	    }
+	    Block {
+	      BlockType		      Selector
+	      Name		      "Selector"
+	      Ports		      [1, 1]
+	      Position		      [500, 108, 530, 132]
+	      ShowName		      off
+	      Elements		      "[2 1]"
+	      InputPortWidth	      "2"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [550, 113, 580, 127]
+	    }
+	    Line {
+	      Name		      "Mach"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Calculate Mach"
+	      SrcPort		      1
+	      Points		      [0, 0; 30, 0]
+	      Branch {
+		DstBlock		"Product"
+		DstPort			2
+	      }
+	      Branch {
+		Labels			[2, 1]
+		Points			[0, 40]
+		DstBlock		"Bus\nCreator"
+		DstPort			2
+	      }
+	    }
+	    Line {
+	      Name		      "<gamma>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      4
+	      Points		      [135, 0; 0, -20]
+	      DstBlock		      "Calculate Mach"
+	      DstPort		      2
+	    }
+	    Line {
+	      Name		      "Airspeed"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Product"
+	      SrcPort		      1
+	      DstBlock		      "Bus\nCreator"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<SoS>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      1
+	      Points		      [160, 0; 0, 15]
+	      DstBlock		      "Product"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<Airspeed_in>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      2
+	      DstBlock		      "CAS2EAS"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "In1"
+	      SrcPort		      1
+	      DstBlock		      "Bus\nSelector"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<Pstatic>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      3
+	      Points		      [55, 0]
+	      Branch {
+		DstBlock		"CAS2EAS"
+		DstPort			2
+	      }
+	      Branch {
+		Points			[0, 35]
+		DstBlock		"Calculate Mach"
+		DstPort			3
+	      }
+	    }
+	    Line {
+	      Name		      "EAS"
+	      Labels		      [0, 0]
+	      SrcBlock		      "CAS2EAS"
+	      SrcPort		      1
+	      DstBlock		      "Calculate Mach"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Bus\nCreator"
+	      SrcPort		      1
+	      DstBlock		      "Selector"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Selector"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant"
+	  Position		  [490, 24, 550, 46]
+	  ShowName		  off
+	  Value			  "vel_case"
+	  ShowAdditionalParam	  on
+	  OutDataTypeMode	  "Inherit via back propagation"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux"
+	  Ports			  [1, 2]
+	  Position		  [640, 121, 645, 159]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  Outputs		  "2"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "EAS2CAS"
+	  Ports			  [1, 1]
+	  Position		  [330, 192, 400, 228]
+	  TreatAsAtomicUnit	  on
+	  System {
+	    Name		    "EAS2CAS"
+	    Location		    [89, 443, 552, 685]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In1"
+	      Position		      [15, 153, 45, 167]
+	    }
+	    Block {
+	      BlockType		      BusCreator
+	      Name		      "Bus\nCreator"
+	      Ports		      [2, 1]
+	      Position		      [360, 19, 365, 186]
+	      ShowName		      off
+	      Inputs		      "2"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      BusSelector
+	      Name		      "Bus\nSelector"
+	      Ports		      [1, 4]
+	      Position		      [70, 104, 75, 211]
+	      ShowName		      off
+	      OutputSignals	      "Airspeed_in,gamma,Pstatic,SoS"
+	      Port {
+		PortNumber		1
+		Name			"<Airspeed_in>"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	      Port {
+		PortNumber		2
+		Name			"<gamma>"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	      Port {
+		PortNumber		3
+		Name			"<Pstatic>"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	      Port {
+		PortNumber		4
+		Name			"<SoS>"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Calculate Mach"
+	      Ports		      [3, 1]
+	      Position		      [240, 25, 305, 95]
+	      TreatAsAtomicUnit	      off
+	      Port {
+		PortNumber		1
+		Name			"Mach"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	      System {
+		Name			"Calculate Mach"
+		Location		[114, 161, 597, 356]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "EAS"
+		  Position		  [220, 43, 250, 57]
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "gamma"
+		  Position		  [20, 88, 50, 102]
+		  Port			  "2"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "Pstatic"
+		  Position		  [60, 113, 90, 127]
+		  Port			  "3"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant"
+		  Position		  [210, 129, 250, 151]
+		  ShowName		  off
+		  Value			  "a0"
+		  ShowAdditionalParam	  on
+		  OutDataTypeMode	  "Inherit via back propagation"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant1"
+		  Position		  [45, 59, 70, 81]
+		  ShowName		  off
+		  Value			  "0"
+		  ShowAdditionalParam	  on
+		  OutDataTypeMode	  "Inherit via back propagation"
+		}
+		Block {
+		  BlockType		  Math
+		  Name			  "Math\nFunction"
+		  Ports			  [1, 1]
+		  Position		  [210, 80, 240, 110]
+		  ShowName		  off
+		  Operator		  "sqrt"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product1"
+		  Ports			  [3, 1]
+		  Position		  [285, 25, 310, 165]
+		  ShowName		  off
+		  Inputs		  "*//"
+		  InputSameDT		  off
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Relative Ratio"
+		  Ports			  [3, 1]
+		  Position		  [105, 60, 175, 130]
+		  SourceBlock		  "aerolibasang/Relative Ratio"
+		  SourceType		  "Relative Ratio"
+		  units			  "Metric (MKS)"
+		  theta			  "off"
+		  sq_theta		  "off"
+		  delta			  "on"
+		  sigma			  "off"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Mach"
+		  Position		  [335, 88, 365, 102]
+		}
+		Line {
+		  SrcBlock		  "Constant1"
+		  SrcPort		  1
+		  DstBlock		  "Relative Ratio"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Constant"
+		  SrcPort		  1
+		  DstBlock		  "Product1"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Math\nFunction"
+		  SrcPort		  1
+		  DstBlock		  "Product1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Relative Ratio"
+		  SrcPort		  1
+		  DstBlock		  "Math\nFunction"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "EAS"
+		  SrcPort		  1
+		  DstBlock		  "Product1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Pstatic"
+		  SrcPort		  1
+		  DstBlock		  "Relative Ratio"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Product1"
+		  SrcPort		  1
+		  DstBlock		  "Mach"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "gamma"
+		  SrcPort		  1
+		  DstBlock		  "Relative Ratio"
+		  DstPort		  2
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "EAS2CAS"
+	      Ports		      [2, 1]
+	      Position		      [245, 117, 300, 168]
+	      SourceBlock	      "simulink/Look-Up\nTables/Look-Up\nTable"
+" (n-D)"
+	      SourceType	      "LookupNDInterp"
+	      numDimsPopupSelect      "   2   "
+	      bp1		      "data.aeroasV_bp"
+	      bp2		      "data.aeroasP_bp"
+	      bp3		      "[1:3]"
+	      bp4		      "[1:3]"
+	      bpcell		      "{ [1:3], [1:3] }"
+	      explicitNumDims	      "2"
+	      searchMode	      "Linear Search"
+	      cacheBpFlag	      "on"
+	      vectorInputFlag	      "off"
+	      tableData		      "[data.aeroasVc_table]'"
+	      interpMethod	      "Cubic Spline"
+	      extrapMethod	      "Cubic Spline"
+	      rangeErrorMode	      "None"
+	      Port {
+		PortNumber		1
+		Name			"Airspeed"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	    }
+	    Block {
+	      BlockType		      Terminator
+	      Name		      "Terminator"
+	      Position		      [130, 185, 150, 205]
+	      ShowName		      off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [385, 98, 415, 112]
+	    }
+	    Line {
+	      Name		      "<Airspeed_in>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      1
+	      Points		      [10, 0]
+	      Branch {
+		Points			[140, 0]
+		DstBlock		"EAS2CAS"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, -85]
+		DstBlock		"Calculate Mach"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      Name		      "<SoS>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      4
+	      DstBlock		      "Terminator"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<Pstatic>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      3
+	      Points		      [130, 0]
+	      Branch {
+		Points			[20, 0]
+		DstBlock		"EAS2CAS"
+		DstPort			2
+	      }
+	      Branch {
+		Points			[0, -85]
+		DstBlock		"Calculate Mach"
+		DstPort			3
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "In1"
+	      SrcPort		      1
+	      DstBlock		      "Bus\nSelector"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "Airspeed"
+	      Labels		      [0, 0]
+	      SrcBlock		      "EAS2CAS"
+	      SrcPort		      1
+	      DstBlock		      "Bus\nCreator"
+	      DstPort		      2
+	    }
+	    Line {
+	      Name		      "<gamma>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      2
+	      Points		      [80, 0; 0, -85]
+	      DstBlock		      "Calculate Mach"
+	      DstPort		      2
+	    }
+	    Line {
+	      Name		      "Mach"
+	      Labels		      [-1, 1]
+	      SrcBlock		      "Calculate Mach"
+	      SrcPort		      1
+	      DstBlock		      "Bus\nCreator"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Bus\nCreator"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "EAS2TAS"
+	  Ports			  [1, 1]
+	  Position		  [480, 87, 550, 123]
+	  TreatAsAtomicUnit	  on
+	  System {
+	    Name		    "EAS2TAS"
+	    Location		    [34, 74, 543, 284]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In1"
+	      Position		      [35, 98, 65, 112]
+	    }
+	    Block {
+	      BlockType		      BusCreator
+	      Name		      "Bus\nCreator"
+	      Ports		      [2, 1]
+	      Position		      [380, 84, 385, 166]
+	      ShowName		      off
+	      Inputs		      "2"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      BusSelector
+	      Name		      "Bus\nSelector"
+	      Ports		      [1, 4]
+	      Position		      [90, 41, 95, 169]
+	      ShowName		      off
+	      OutputSignals	      "SoS,Airspeed_in,gamma,Pstatic"
+	      Port {
+		PortNumber		1
+		Name			"<SoS>"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	      Port {
+		PortNumber		2
+		Name			"<Airspeed_in>"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	      Port {
+		PortNumber		3
+		Name			"<gamma>"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	      Port {
+		PortNumber		4
+		Name			"<Pstatic>"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Calculate Mach"
+	      Ports		      [3, 1]
+	      Position		      [170, 73, 235, 167]
+	      TreatAsAtomicUnit	      off
+	      Port {
+		PortNumber		1
+		Name			"Mach"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	      System {
+		Name			"Calculate Mach"
+		Location		[501, 86, 953, 283]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "EAS"
+		  Position		  [230, 43, 260, 57]
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "gamma"
+		  Position		  [20, 88, 50, 102]
+		  Port			  "2"
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "Pstatic"
+		  Position		  [60, 113, 90, 127]
+		  Port			  "3"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant"
+		  Position		  [220, 129, 260, 151]
+		  ShowName		  off
+		  Value			  "a0"
+		  ShowAdditionalParam	  on
+		  OutDataTypeMode	  "Inherit via back propagation"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant1"
+		  Position		  [45, 59, 70, 81]
+		  ShowName		  off
+		  Value			  "0"
+		  ShowAdditionalParam	  on
+		  OutDataTypeMode	  "Inherit via back propagation"
+		}
+		Block {
+		  BlockType		  Math
+		  Name			  "Math\nFunction"
+		  Ports			  [1, 1]
+		  Position		  [220, 80, 250, 110]
+		  ShowName		  off
+		  Operator		  "sqrt"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product1"
+		  Ports			  [3, 1]
+		  Position		  [295, 25, 320, 165]
+		  ShowName		  off
+		  Inputs		  "*//"
+		  InputSameDT		  off
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Relative Ratio"
+		  Ports			  [3, 1]
+		  Position		  [105, 60, 175, 130]
+		  SourceBlock		  "aerolibasang/Relative Ratio"
+		  SourceType		  "Relative Ratio"
+		  units			  "Metric (MKS)"
+		  theta			  "off"
+		  sq_theta		  "off"
+		  delta			  "on"
+		  sigma			  "off"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Mach"
+		  Position		  [345, 88, 375, 102]
+		}
+		Line {
+		  SrcBlock		  "gamma"
+		  SrcPort		  1
+		  DstBlock		  "Relative Ratio"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Product1"
+		  SrcPort		  1
+		  DstBlock		  "Mach"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Pstatic"
+		  SrcPort		  1
+		  DstBlock		  "Relative Ratio"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "EAS"
+		  SrcPort		  1
+		  DstBlock		  "Product1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Relative Ratio"
+		  SrcPort		  1
+		  DstBlock		  "Math\nFunction"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Math\nFunction"
+		  SrcPort		  1
+		  DstBlock		  "Product1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Constant"
+		  SrcPort		  1
+		  DstBlock		  "Product1"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "Constant1"
+		  SrcPort		  1
+		  DstBlock		  "Relative Ratio"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product"
+	      Ports		      [2, 1]
+	      Position		      [295, 68, 320, 137]
+	      ShowName		      off
+	      InputSameDT	      off
+	      Port {
+		PortNumber		1
+		Name			"Airspeed"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	    }
+	    Block {
+	      BlockType		      Selector
+	      Name		      "Selector"
+	      Ports		      [1, 1]
+	      Position		      [405, 114, 435, 136]
+	      ShowName		      off
+	      Elements		      "[2 1]"
+	      InputPortWidth	      "2"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [455, 118, 485, 132]
+	    }
+	    Line {
+	      Name		      "Airspeed"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Product"
+	      SrcPort		      1
+	      DstBlock		      "Bus\nCreator"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<Pstatic>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      4
+	      DstBlock		      "Calculate Mach"
+	      DstPort		      3
+	    }
+	    Line {
+	      Name		      "Mach"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Calculate Mach"
+	      SrcPort		      1
+	      Points		      [25, 0]
+	      Branch {
+		DstBlock		"Product"
+		DstPort			2
+	      }
+	      Branch {
+		Labels			[2, 1]
+		Points			[0, 25]
+		DstBlock		"Bus\nCreator"
+		DstPort			2
+	      }
+	    }
+	    Line {
+	      Name		      "<SoS>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      1
+	      Points		      [175, 0; 0, 25]
+	      DstBlock		      "Product"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "In1"
+	      SrcPort		      1
+	      DstBlock		      "Bus\nSelector"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<gamma>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      3
+	      DstBlock		      "Calculate Mach"
+	      DstPort		      2
+	    }
+	    Line {
+	      Name		      "<Airspeed_in>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      2
+	      DstBlock		      "Calculate Mach"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Bus\nCreator"
+	      SrcPort		      1
+	      DstBlock		      "Selector"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Selector"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Mach <= 1.0"
+	  Description		  "u <= 1.0"
+	  Ports			  [1]
+	  Position		  [675, 67, 735, 113]
+	  TreatAsAtomicUnit	  off
+	  MaskType		  "Checks_SMax"
+	  MaskDescription	  "Assert that the input signal is less than ("
+"or optionally equal to) a static upper bound.\n"
+	  MaskPromptString	  "Upper bound:|Inclusive boundary|Enable asse"
+"rtion|Simulation callback when assertion fails (optional):|Stop simulation wh"
+"en assertion fails|Output assertion signal|Select icon type:"
+	  MaskStyleString	  "edit,checkbox,checkbox,edit,checkbox,checkb"
+"ox,popup(graphic|text)"
+	  MaskTunableValueString  "on,on,on,on,on,on,on"
+	  MaskCallbackString	  "||||||"
+	  MaskEnableString	  "on,on,on,on,on,on,on"
+	  MaskVisibilityString	  "on,on,on,on,on,on,on"
+	  MaskToolTipString	  "on,on,on,on,on,on,on"
+	  MaskVarAliasString	  ",,,,,,"
+	  MaskVariables		  "max=@1;max_included=@2;enabled=@3;callback="
+"&4;stopWhenAssertionFail=@5;export=@6;icon=@7;"
+	  MaskInitialization	  "update_assert_sys(gcbh);"
+	  MaskDisplay		  "image(imread('Checks_SMax.bmp','bmp'),'cent"
+"er')"
+	  MaskSelfModifiable	  on
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "normalized"
+	  MaskValueString	  "1.0|on|on|aeroassertmsg('aeroblkascorr')|on"
+"|off|graphic"
+	  System {
+	    Name		    "Mach <= 1.0"
+	    Location		    [915, 499, 1250, 702]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "u"
+	      Position		      [20, 53, 50, 67]
+	    }
+	    Block {
+	      BlockType		      Assertion
+	      Name		      "Assertion"
+	      Position		      [260, 117, 295, 153]
+	      AssertionFailFcn	      "aeroassertmsg('aeroblkascorr')"
+	    }
+	    Block {
+	      BlockType		      RelationalOperator
+	      Name		      "max_relop"
+	      Position		      [155, 52, 185, 83]
+	      Operator		      "<="
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "max_val"
+	      Position		      [20, 90, 50, 120]
+	      Value		      "max"
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "mintype"
+	      Position		      [70, 91, 120, 119]
+	    }
+	    Block {
+	      BlockType		      Terminator
+	      Name		      "out"
+	      Position		      [275, 60, 295, 80]
+	    }
+	    Line {
+	      SrcBlock		      "mintype"
+	      SrcPort		      1
+	      Points		      [5, 0; 0, -30]
+	      DstBlock		      "max_relop"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "u"
+	      SrcPort		      1
+	      DstBlock		      "max_relop"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "max_val"
+	      SrcPort		      1
+	      DstBlock		      "mintype"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "max_relop"
+	      SrcPort		      1
+	      Points		      [20, 0]
+	      Branch {
+		Points			[0, 65]
+		DstBlock		"Assertion"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"out"
+		DstPort			1
+	      }
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  MultiPortSwitch
+	  Name			  "Multiport\nSwitch"
+	  Ports			  [7, 1]
+	  Position		  [585, 22, 620, 258]
+	  Inputs		  "6"
+	  InputSameDT		  off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Pressure Conversion"
+	  Ports			  [1, 1]
+	  Position		  [110, 154, 150, 186]
+	  ShowName		  off
+	  SourceBlock		  "aerolibconvert/Pressure Conversion"
+	  SourceType		  "Pressure Conversion"
+	  IU			  "Pa"
+	  OU			  "Pa"
+	  Port {
+	    PortNumber		    1
+	    Name		    "Pstatic"
+	    TestPoint		    off
+	    LinearAnalysisOutput    off
+	    LinearAnalysisInput	    off
+	    RTWStorageClass	    "Auto"
+	    DataLogging		    off
+	    DataLoggingNameMode	    "SignalName"
+	    DataLoggingDecimateData off
+	    DataLoggingDecimation   "2"
+	    DataLoggingLimitDataPoints off
+	    DataLoggingMaxPoints    "5000"
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "TAS2CAS"
+	  Ports			  [1, 1]
+	  Position		  [330, 122, 400, 158]
+	  TreatAsAtomicUnit	  on
+	  System {
+	    Name		    "TAS2CAS"
+	    Location		    [96, 144, 746, 408]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In1"
+	      Position		      [30, 143, 60, 157]
+	    }
+	    Block {
+	      BlockType		      BusCreator
+	      Name		      "Bus\nCreator"
+	      Ports		      [2, 1]
+	      Position		      [565, 25, 570, 205]
+	      ShowName		      off
+	      Inputs		      "2"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      BusSelector
+	      Name		      "Bus\nSelector"
+	      Ports		      [1, 4]
+	      Position		      [80, 51, 85, 249]
+	      ShowName		      off
+	      OutputSignals	      "Airspeed_in,SoS,gamma,Pstatic"
+	      Port {
+		PortNumber		1
+		Name			"<Airspeed_in>"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	      Port {
+		PortNumber		2
+		Name			"<SoS>"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	      Port {
+		PortNumber		3
+		Name			"<gamma>"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	      Port {
+		PortNumber		4
+		Name			"<Pstatic>"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant"
+	      Position		      [315, 178, 360, 202]
+	      ShowName		      off
+	      Value		      "a0"
+	      ShowAdditionalParam     on
+	      OutDataTypeMode	      "Inherit via back propagation"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant1"
+	      Position		      [180, 109, 205, 131]
+	      ShowName		      off
+	      Value		      "0"
+	      ShowAdditionalParam     on
+	      OutDataTypeMode	      "Inherit via back propagation"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "EAS2CAS"
+	      Ports		      [2, 1]
+	      Position		      [450, 132, 505, 183]
+	      SourceBlock	      "simulink/Look-Up\nTables/Look-Up\nTable"
+" (n-D)"
+	      SourceType	      "LookupNDInterp"
+	      numDimsPopupSelect      "   2   "
+	      bp1		      "data.aeroasV_bp"
+	      bp2		      "data.aeroasP_bp"
+	      bp3		      "[1:3]"
+	      bp4		      "[1:3]"
+	      bpcell		      "{ [1:3], [1:3] }"
+	      explicitNumDims	      "2"
+	      searchMode	      "Linear Search"
+	      cacheBpFlag	      "on"
+	      vectorInputFlag	      "off"
+	      tableData		      "[data.aeroasVc_table]'"
+	      interpMethod	      "Cubic Spline"
+	      extrapMethod	      "Cubic Spline"
+	      rangeErrorMode	      "None"
+	      Port {
+		PortNumber		1
+		Name			"Airspeed"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	    }
+	    Block {
+	      BlockType		      Math
+	      Name		      "Math\nFunction"
+	      Ports		      [1, 1]
+	      Position		      [325, 130, 355, 160]
+	      ShowName		      off
+	      Operator		      "sqrt"
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product"
+	      Ports		      [2, 1]
+	      Position		      [155, 50, 175, 150]
+	      ShowName		      off
+	      Inputs		      "*/"
+	      InputSameDT	      off
+	      Port {
+		PortNumber		1
+		Name			"Mach"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product1"
+	      Ports		      [3, 1]
+	      Position		      [380, 74, 400, 216]
+	      ShowName		      off
+	      Inputs		      "3"
+	      InputSameDT	      off
+	      Port {
+		PortNumber		1
+		Name			"EAS"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Relative Ratio"
+	      Ports		      [5, 4]
+	      Position		      [220, 109, 295, 181]
+	      SourceBlock	      "aerolibasang/Relative Ratio"
+	      SourceType	      "Relative Ratio"
+	      units		      "Metric (MKS)"
+	      theta		      "off"
+	      sq_theta		      "off"
+	      delta		      "on"
+	      sigma		      "off"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [595, 108, 625, 122]
+	    }
+	    Line {
+	      Name		      "<gamma>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      3
+	      Points		      [100, 0; 0, -30]
+	      DstBlock		      "Relative Ratio"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Constant1"
+	      SrcPort		      1
+	      DstBlock		      "Relative Ratio"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "EAS"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Product1"
+	      SrcPort		      1
+	      DstBlock		      "EAS2CAS"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Constant"
+	      SrcPort		      1
+	      DstBlock		      "Product1"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Math\nFunction"
+	      SrcPort		      1
+	      DstBlock		      "Product1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Relative Ratio"
+	      SrcPort		      1
+	      Points		      [0, 30]
+	      DstBlock		      "Math\nFunction"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "Mach"
+	      Labels		      [0, 1]
+	      SrcBlock		      "Product"
+	      SrcPort		      1
+	      Points		      [50, 0]
+	      Branch {
+		DstBlock		"Product1"
+		DstPort			1
+	      }
+	      Branch {
+		Labels			[2, 0]
+		Points			[0, -30]
+		DstBlock		"Bus\nCreator"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      Name		      "<SoS>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      2
+	      DstBlock		      "Product"
+	      DstPort		      2
+	    }
+	    Line {
+	      Name		      "<Airspeed_in>"
+	      Labels		      [1, 1]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      1
+	      DstBlock		      "Product"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<Pstatic>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      4
+	      Points		      [110, 0]
+	      Branch {
+		Points			[220, 0; 0, -55]
+		DstBlock		"EAS2CAS"
+		DstPort			2
+	      }
+	      Branch {
+		Points			[0, -55]
+		DstBlock		"Relative Ratio"
+		DstPort			3
+	      }
+	    }
+	    Line {
+	      Name		      "Airspeed"
+	      Labels		      [0, 0]
+	      SrcBlock		      "EAS2CAS"
+	      SrcPort		      1
+	      DstBlock		      "Bus\nCreator"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "In1"
+	      SrcPort		      1
+	      DstBlock		      "Bus\nSelector"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Bus\nCreator"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "TAS2EAS"
+	  Ports			  [1, 1]
+	  Position		  [330, 52, 400, 88]
+	  TreatAsAtomicUnit	  on
+	  System {
+	    Name		    "TAS2EAS"
+	    Location		    [26, 102, 648, 401]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In1"
+	      Position		      [35, 168, 65, 182]
+	    }
+	    Block {
+	      BlockType		      BusCreator
+	      Name		      "Bus\nCreator"
+	      Ports		      [2, 1]
+	      Position		      [480, 48, 485, 212]
+	      ShowName		      off
+	      Inputs		      "2"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      BusSelector
+	      Name		      "Bus\nSelector"
+	      Ports		      [1, 4]
+	      Position		      [90, 76, 95, 274]
+	      ShowName		      off
+	      OutputSignals	      "Airspeed_in,SoS,gamma,Pstatic"
+	      Port {
+		PortNumber		1
+		Name			"<Airspeed_in>"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	      Port {
+		PortNumber		2
+		Name			"<SoS>"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	      Port {
+		PortNumber		3
+		Name			"<gamma>"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	      Port {
+		PortNumber		4
+		Name			"<Pstatic>"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant"
+	      Position		      [335, 203, 380, 227]
+	      ShowName		      off
+	      Value		      "a0"
+	      ShowAdditionalParam     on
+	      OutDataTypeMode	      "Inherit via back propagation"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant1"
+	      Position		      [200, 134, 225, 156]
+	      ShowName		      off
+	      Value		      "0"
+	      ShowAdditionalParam     on
+	      OutDataTypeMode	      "Inherit via back propagation"
+	    }
+	    Block {
+	      BlockType		      Math
+	      Name		      "Math\nFunction"
+	      Ports		      [1, 1]
+	      Position		      [365, 155, 395, 185]
+	      ShowName		      off
+	      Operator		      "sqrt"
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product"
+	      Ports		      [2, 1]
+	      Position		      [165, 75, 185, 175]
+	      ShowName		      off
+	      Inputs		      "*/"
+	      InputSameDT	      off
+	      Port {
+		PortNumber		1
+		Name			"Mach"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product1"
+	      Ports		      [3, 1]
+	      Position		      [420, 99, 440, 241]
+	      ShowName		      off
+	      Inputs		      "3"
+	      InputSameDT	      off
+	      Port {
+		PortNumber		1
+		Name			"Airspeed"
+		TestPoint		off
+		LinearAnalysisOutput	off
+		LinearAnalysisInput	off
+		RTWStorageClass		"Auto"
+		DataLogging		off
+		DataLoggingNameMode	"SignalName"
+		DataLoggingDecimateData	off
+		DataLoggingDecimation	"2"
+		DataLoggingLimitDataPoints off
+		DataLoggingMaxPoints	"5000"
+	      }
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Relative Ratio"
+	      Ports		      [3, 1]
+	      Position		      [255, 134, 325, 206]
+	      SourceBlock	      "aerolibasang/Relative Ratio"
+	      SourceType	      "Relative Ratio"
+	      units		      "Metric (MKS)"
+	      theta		      "off"
+	      sq_theta		      "off"
+	      delta		      "on"
+	      sigma		      "off"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [540, 123, 570, 137]
+	    }
+	    Line {
+	      Name		      "<gamma>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      3
+	      Points		      [105, 0; 0, -30]
+	      DstBlock		      "Relative Ratio"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Constant1"
+	      SrcPort		      1
+	      DstBlock		      "Relative Ratio"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "Airspeed"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Product1"
+	      SrcPort		      1
+	      DstBlock		      "Bus\nCreator"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Constant"
+	      SrcPort		      1
+	      DstBlock		      "Product1"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Math\nFunction"
+	      SrcPort		      1
+	      DstBlock		      "Product1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Relative Ratio"
+	      SrcPort		      1
+	      DstBlock		      "Math\nFunction"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "Mach"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Product"
+	      SrcPort		      1
+	      Points		      [40, 0]
+	      Branch {
+		DstBlock		"Product1"
+		DstPort			1
+	      }
+	      Branch {
+		Labels			[2, 0]
+		Points			[0, -35]
+		DstBlock		"Bus\nCreator"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      Name		      "<SoS>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      2
+	      DstBlock		      "Product"
+	      DstPort		      2
+	    }
+	    Line {
+	      Name		      "<Airspeed_in>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      1
+	      DstBlock		      "Product"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<Pstatic>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      4
+	      Points		      [115, 0; 0, -55]
+	      DstBlock		      "Relative Ratio"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "In1"
+	      SrcPort		      1
+	      DstBlock		      "Bus\nSelector"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Bus\nCreator"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Velocity Conversion"
+	  Ports			  [1, 1]
+	  Position		  [110, 84, 150, 116]
+	  ShowName		  off
+	  SourceBlock		  "aerolibconvert/Velocity Conversion"
+	  SourceType		  "Velocity Conversion"
+	  IU			  "m/s"
+	  OU			  "m/s"
+	  Port {
+	    PortNumber		    1
+	    Name		    "Airspeed_in"
+	    TestPoint		    off
+	    LinearAnalysisOutput    off
+	    LinearAnalysisInput	    off
+	    RTWStorageClass	    "Auto"
+	    DataLogging		    off
+	    DataLoggingNameMode	    "SignalName"
+	    DataLoggingDecimateData off
+	    DataLoggingDecimation   "2"
+	    DataLoggingLimitDataPoints off
+	    DataLoggingMaxPoints    "5000"
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Velocity Conversion1"
+	  Ports			  [1, 1]
+	  Position		  [110, 118, 150, 152]
+	  ShowName		  off
+	  SourceBlock		  "aerolibconvert/Velocity Conversion"
+	  SourceType		  "Velocity Conversion"
+	  IU			  "m/s"
+	  OU			  "m/s"
+	  Port {
+	    PortNumber		    1
+	    Name		    "SoS"
+	    TestPoint		    off
+	    LinearAnalysisOutput    off
+	    LinearAnalysisInput	    off
+	    RTWStorageClass	    "Auto"
+	    DataLogging		    off
+	    DataLoggingNameMode	    "SignalName"
+	    DataLoggingDecimateData off
+	    DataLoggingDecimation   "2"
+	    DataLoggingLimitDataPoints off
+	    DataLoggingMaxPoints    "5000"
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Velocity Conversion2"
+	  Ports			  [1, 1]
+	  Position		  [675, 133, 715, 167]
+	  ShowName		  off
+	  SourceBlock		  "aerolibconvert/Velocity Conversion"
+	  SourceType		  "Velocity Conversion"
+	  IU			  "m/s"
+	  OU			  "m/s"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "gamma"
+	  Position		  [35, 196, 75, 214]
+	  Value			  "1.4"
+	  ShowAdditionalParam	  on
+	  OutDataTypeMode	  "Inherit via back propagation"
+	  Port {
+	    PortNumber		    1
+	    Name		    "gamma"
+	    TestPoint		    off
+	    LinearAnalysisOutput    off
+	    LinearAnalysisInput	    off
+	    RTWStorageClass	    "Auto"
+	    DataLogging		    off
+	    DataLoggingNameMode	    "SignalName"
+	    DataLoggingDecimateData off
+	    DataLoggingDecimation   "2"
+	    DataLoggingLimitDataPoints off
+	    DataLoggingMaxPoints    "5000"
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Airspeed out"
+	  Position		  [740, 143, 770, 157]
+	}
+	Line {
+	  Name			  "gamma"
+	  Labels		  [0, 0]
+	  SrcBlock		  "gamma"
+	  SrcPort		  1
+	  DstBlock		  "Bus\nCreator"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "EAS2CAS"
+	  SrcPort		  1
+	  DstBlock		  "Multiport\nSwitch"
+	  DstPort		  6
+	}
+	Line {
+	  SrcBlock		  "TAS2CAS"
+	  SrcPort		  1
+	  DstBlock		  "Multiport\nSwitch"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "CAS2EAS"
+	  SrcPort		  1
+	  DstBlock		  "Multiport\nSwitch"
+	  DstPort		  7
+	}
+	Line {
+	  SrcBlock		  "CAS2TAS"
+	  SrcPort		  1
+	  DstBlock		  "Multiport\nSwitch"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "TAS2EAS"
+	  SrcPort		  1
+	  DstBlock		  "Multiport\nSwitch"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Bus\nCreator"
+	  SrcPort		  1
+	  Points		  [50, 0]
+	  Branch {
+	    Points		    [0, -15]
+	    Branch {
+	      DstBlock		      "TAS2CAS"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [0, 35]
+	      Branch {
+		Points			[0, 35]
+		Branch {
+		  DstBlock		  "EAS2CAS"
+		  DstPort		  1
+		}
+		Branch {
+		  Points		  [0, 35]
+		  DstBlock		  "CAS2EAS"
+		  DstPort		  1
+		}
+	      }
+	      Branch {
+		DstBlock		"CAS2TAS"
+		DstPort			1
+	      }
+	    }
+	  }
+	  Branch {
+	    Points		    [0, -50]
+	    Branch {
+	      Points		      [0, -35]
+	      DstBlock		      "TAS2EAS"
+	      DstPort		      1
+	    }
+	    Branch {
+	      DstBlock		      "EAS2TAS"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Line {
+	  SrcBlock		  "Multiport\nSwitch"
+	  SrcPort		  1
+	  DstBlock		  "Demux"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Velocity Conversion2"
+	  SrcPort		  1
+	  DstBlock		  "Airspeed out"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "SoS"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Velocity Conversion1"
+	  SrcPort		  1
+	  DstBlock		  "Bus\nCreator"
+	  DstPort		  2
+	}
+	Line {
+	  Name			  "Airspeed_in"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Velocity Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Bus\nCreator"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Pstatic"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Pressure Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Bus\nCreator"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Pstatic"
+	  SrcPort		  1
+	  DstBlock		  "Pressure Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Speed of Sound"
+	  SrcPort		  1
+	  DstBlock		  "Velocity Conversion1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Airspeed In"
+	  SrcPort		  1
+	  DstBlock		  "Velocity Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Constant"
+	  SrcPort		  1
+	  DstBlock		  "Multiport\nSwitch"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "EAS2TAS"
+	  SrcPort		  1
+	  DstBlock		  "Multiport\nSwitch"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  2
+	  DstBlock		  "Velocity Conversion2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  1
+	  Points		  [10, 0]
+	  DstBlock		  "Mach <= 1.0"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Incidence \n& Airspeed"
+      Ports		      [1, 2]
+      Position		      [65, 24, 125, 71]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Incidence&Airspeed"
+      MaskDescription	      "Calculate the angle between the body and the ve"
+"locity vector (incidence) and the velocity magnitude from the components in b"
+"ody axes (U,w)."
+      MaskHelp		      "web(asbhelp('incidenceairspeed'));"
+      MaskDisplay	      "port_label('input',1,'U, w','texmode','on');\np"
+"ort_label('output',1,'{\\alpha}','texmode','on');\nport_label('output',2,'V',"
+"'texmode','on');"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      System {
+	Name			"Incidence \n& Airspeed"
+	Location		[241, 89, 578, 253]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "U,w"
+	  Position		  [20, 53, 50, 67]
+	}
+	Block {
+	  BlockType		  Math
+	  Name			  "Airspeed"
+	  Ports			  [1, 1]
+	  Position		  [170, 20, 200, 50]
+	  Operator		  "sqrt"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux"
+	  Ports			  [1, 2]
+	  Position		  [110, 84, 115, 131]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  Outputs		  "2"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Dot Product"
+	  Ports			  [2, 1]
+	  Position		  [110, 15, 140, 50]
+	  ShowName		  off
+	  SourceBlock		  "simulink/Math\nOperations/Dot Product"
+	  SourceType		  "Dot Product"
+	  InputSameDT		  "off"
+	  OutputDataTypeScalingMode "Inherit via internal rule"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^-10"
+	  LockScale		  "off"
+	  RndMeth		  "Floor"
+	  DoSatur		  "off"
+	}
+	Block {
+	  BlockType		  Trigonometry
+	  Name			  "Incidence"
+	  Ports			  [2, 1]
+	  Position		  [170, 72, 200, 103]
+	  Operator		  "atan2"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Alpha"
+	  Position		  [235, 83, 265, 97]
+	  InitialOutput		  "0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "V"
+	  Position		  [235, 28, 265, 42]
+	  Port			  "2"
+	  InitialOutput		  "0"
+	}
+	Line {
+	  SrcBlock		  "Airspeed"
+	  SrcPort		  1
+	  DstBlock		  "V"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Incidence"
+	  SrcPort		  1
+	  DstBlock		  "Alpha"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "U,w"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    Points		    [0, -30; 20, 0]
+	    Branch {
+	      DstBlock		      "Dot Product"
+	      DstPort		      1
+	    }
+	    Branch {
+	      DstBlock		      "Dot Product"
+	      DstPort		      2
+	    }
+	  }
+	  Branch {
+	    Points		    [0, 50]
+	    DstBlock		    "Demux"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Dot Product"
+	  SrcPort		  1
+	  DstBlock		  "Airspeed"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  1
+	  DstBlock		  "Incidence"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  2
+	  Points		  [20, 0; 0, -40]
+	  DstBlock		  "Incidence"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Incidence, Sideslip,\n& Airspeed"
+      Ports		      [1, 3]
+      Position		      [170, 22, 230, 68]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Incidence,Sideslip,&Airspeed"
+      MaskDescription	      "Calculate the angles between the body and the v"
+"elocity vector (incidence and sideslip), and the velocity magnitude from the "
+"components in body axes (Vb)."
+      MaskHelp		      "web(asbhelp('incidence'));"
+      MaskDisplay	      "port_label('input',1,'V_b','texmode','on');\npo"
+"rt_label('output',1,'\\alpha','texmode','on');\nport_label('output',2,'\\beta"
+"','texmode','on');\nport_label('output',3,'V','texmode','on');"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      System {
+	Name			"Incidence, Sideslip,\n& Airspeed"
+	Location		[114, 161, 502, 361]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Vb"
+	  Position		  [20, 53, 50, 67]
+	}
+	Block {
+	  BlockType		  Math
+	  Name			  "Airspeed"
+	  Ports			  [1, 1]
+	  Position		  [205, 115, 235, 145]
+	  Operator		  "sqrt"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux"
+	  Ports			  [1, 2]
+	  Position		  [155, 17, 160, 48]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  Outputs		  "2"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Dot Product"
+	  Ports			  [2, 1]
+	  Position		  [125, 110, 155, 145]
+	  ShowName		  off
+	  SourceBlock		  "simulink/Math\nOperations/Dot Product"
+	  SourceType		  "Dot Product"
+	}
+	Block {
+	  BlockType		  Trigonometry
+	  Name			  "Incidence"
+	  Ports			  [2, 1]
+	  Position		  [205, 17, 235, 48]
+	  Operator		  "atan2"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product"
+	  Ports			  [2, 1]
+	  Position		  [175, 61, 190, 94]
+	  ShowName		  off
+	  Inputs		  "*/"
+	  InputSameDT		  off
+	}
+	Block {
+	  BlockType		  Selector
+	  Name			  "Selector"
+	  Ports			  [1, 1]
+	  Position		  [115, 49, 125, 91]
+	  ShowName		  off
+	  Elements		  "2"
+	  InputPortWidth	  "3"
+	}
+	Block {
+	  BlockType		  Selector
+	  Name			  "Selector1"
+	  Ports			  [1, 1]
+	  Position		  [90, 14, 100, 56]
+	  ShowName		  off
+	  Elements		  "[3 1]"
+	  InputPortWidth	  "3"
+	}
+	Block {
+	  BlockType		  Trigonometry
+	  Name			  "Sideslip"
+	  Ports			  [1, 1]
+	  Position		  [205, 64, 235, 96]
+	  Operator		  "asin"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Alpha"
+	  Position		  [300, 28, 330, 42]
+	  InitialOutput		  "0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Beta"
+	  Position		  [300, 73, 330, 87]
+	  Port			  "2"
+	  InitialOutput		  "0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "V"
+	  Position		  [300, 123, 330, 137]
+	  Port			  "3"
+	  InitialOutput		  "0"
+	}
+	Line {
+	  SrcBlock		  "Selector"
+	  SrcPort		  1
+	  DstBlock		  "Product"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sideslip"
+	  SrcPort		  1
+	  DstBlock		  "Beta"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Vb"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    Points		    [0, 70]
+	    Branch {
+	      Points		      [0, -60]
+	      DstBlock		      "Selector"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [15, 0]
+	      Branch {
+		Points			[0, 5]
+		DstBlock		"Dot Product"
+		DstPort			2
+	      }
+	      Branch {
+		Points			[0, -10]
+		DstBlock		"Dot Product"
+		DstPort			1
+	      }
+	    }
+	  }
+	  Branch {
+	    DstBlock		    "Selector1"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Incidence"
+	  SrcPort		  1
+	  DstBlock		  "Alpha"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Airspeed"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    DstBlock		    "V"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -20; -100, 0]
+	    DstBlock		    "Product"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  SrcBlock		  "Dot Product"
+	  SrcPort		  1
+	  DstBlock		  "Airspeed"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Selector1"
+	  SrcPort		  1
+	  DstBlock		  "Demux"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  2
+	  DstBlock		  "Incidence"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  1
+	  DstBlock		  "Incidence"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Product"
+	  SrcPort		  1
+	  DstBlock		  "Sideslip"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Mach Number"
+      Ports		      [2, 1]
+      Position		      [155, 141, 230, 194]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Mach Number"
+      MaskDescription	      "Compute Mach number using velocity and speed of"
+" sound."
+      MaskHelp		      "web(asbhelp);"
+      MaskDisplay	      "port_label('input',1,'V','texmode','on');\nport"
+"_label('input',2,'a','texmode','on');\nport_label('output',1,'Mach','texmode'"
+",'on');\n"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      System {
+	Name			"Mach Number"
+	Location		[418, 273, 843, 388]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "V"
+	  Position		  [30, 28, 60, 42]
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "a"
+	  Position		  [190, 48, 220, 62]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Dot Product"
+	  Ports			  [2, 1]
+	  Position		  [90, 22, 120, 53]
+	  ShowName		  off
+	  SourceBlock		  "simulink/Math\nOperations/Dot Product"
+	  SourceType		  "Dot Product"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product1"
+	  Ports			  [2, 1]
+	  Position		  [260, 32, 290, 63]
+	  ShowName		  off
+	  Inputs		  "*/"
+	}
+	Block {
+	  BlockType		  Math
+	  Name			  "vt"
+	  Ports			  [1, 1]
+	  Position		  [145, 25, 175, 55]
+	  Operator		  "sqrt"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Mach"
+	  Position		  [315, 43, 345, 57]
+	}
+	Line {
+	  SrcBlock		  "V"
+	  SrcPort		  1
+	  Points		  [0, 0; 5, 0]
+	  Branch {
+	    Points		    [0, 10]
+	    DstBlock		    "Dot Product"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, -5]
+	    DstBlock		    "Dot Product"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "a"
+	  SrcPort		  1
+	  DstBlock		  "Product1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "vt"
+	  SrcPort		  1
+	  DstBlock		  "Product1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Product1"
+	  SrcPort		  1
+	  DstBlock		  "Mach"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Dot Product"
+	  SrcPort		  1
+	  DstBlock		  "vt"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Relative Ratio"
+      Ports		      [5, 4]
+      Position		      [280, 124, 395, 206]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Relative Ratio"
+      MaskDescription	      "Calculate the relative atmospheric ratios inclu"
+"ding relative temperature ratio (theta), square root of theta, relative press"
+"ure ratio (delta), and relative density ratio (sigma). \n\nTheta represents t"
+"he ratio of the air stream temperature at a chosen reference station relative"
+" to sea level standard atmospheric conditions. \n\nDelta represents the ratio"
+" of the air stream pressure at a chosen reference station relative to sea lev"
+"el standard atmospheric conditions. \n\nSigma represents the ratio of the air"
+" stream density at a chosen reference station relative to sea level standard "
+"atmospheric conditions. "
+      MaskHelp		      "web(asbhelp('relativeratio'));"
+      MaskPromptString	      "Units:|Theta:|Square root of theta:|Delta:|Sigm"
+"a:"
+      MaskStyleString	      "popup(Metric (MKS)|English),checkbox,checkbox,c"
+"heckbox,checkbox"
+      MaskTunableValueString  "off,off,off,off,off"
+      MaskCallbackString      "|aeroicon('aeroblkratio','','theta');\n|aeroico"
+"n('aeroblkratio','','sq_theta');\n\n|aeroicon('aeroblkratio','','delta');\n\n"
+"|aeroicon('aeroblkratio','','sigma');\n\n"
+      MaskEnableString	      "on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on"
+      MaskVarAliasString      ",,,,"
+      MaskVariables	      "units=@1;theta=@2;sq_theta=@3;delta=@4;sigma=@5"
+";"
+      MaskInitialization      "ports = aeroicon('aeroblkratio','icon');"
+      MaskDisplay	      "port_label(ports(1).type,ports(1).port,ports(1)"
+".txt,'texmode','on');\nport_label(ports(2).type,ports(2).port,ports(2).txt,'t"
+"exmode','on');\nport_label(ports(3).type,ports(3).port,ports(3).txt,'texmode'"
+",'on');\nport_label(ports(4).type,ports(4).port,ports(4).txt,'texmode','on');"
+"\nport_label(ports(5).type,ports(5).port,ports(5).txt,'texmode','on');\nport_"
+"label(ports(6).type,ports(6).port,ports(6).txt,'texmode','on');\nport_label(p"
+"orts(7).type,ports(7).port,ports(7).txt,'texmode','on');\nport_label(ports(8)"
+".type,ports(8).port,ports(8).txt,'texmode','on');\nport_label(ports(9).type,p"
+"orts(9).port,ports(9).txt,'texmode','on');"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "Metric (MKS)|on|on|on|on"
+      System {
+	Name			"Relative Ratio"
+	Location		[114, 161, 870, 444]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Mach"
+	  Position		  [105, 23, 135, 37]
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "gamma"
+	  Position		  [15, 163, 45, 177]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Tstatic"
+	  Position		  [415, 38, 445, 52]
+	  Port			  "3"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Pstatic"
+	  Position		  [485, 173, 515, 187]
+	  Port			  "4"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "rho_static"
+	  Position		  [400, 113, 430, 127]
+	  Port			  "5"
+	}
+	Block {
+	  BlockType		  Math
+	  Name			  "1/(gamma-1)"
+	  Ports			  [1, 1]
+	  Position		  [145, 176, 175, 214]
+	  Operator		  "reciprocal"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  "Demux"
+	  Ports			  [1, 2]
+	  Position		  [415, 166, 420, 204]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  Outputs		  "2"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Density Conversion"
+	  Ports			  [1, 1]
+	  Position		  [445, 109, 535, 131]
+	  ShowName		  off
+	  SourceBlock		  "aerolibconvert/Density Conversion"
+	  SourceType		  "Density Conversion"
+	  IU			  "kg/m^3"
+	  OU			  "kg/m^3"
+	}
+	Block {
+	  BlockType		  Math
+	  Name			  "Math\nFunction"
+	  Ports			  [1, 1]
+	  Position		  [620, 45, 650, 75]
+	  ShowName		  off
+	  Operator		  "sqrt"
+	}
+	Block {
+	  BlockType		  Math
+	  Name			  "Math\nFunction1"
+	  Ports			  [2, 1]
+	  Position		  [370, 163, 400, 207]
+	  ShowName		  off
+	  Operator		  "pow"
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  Ports			  [2, 1]
+	  Position		  [320, 166, 325, 219]
+	  ShowName		  off
+	  Inputs		  "2"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Po"
+	  Position		  [440, 200, 500, 220]
+	  ShowName		  off
+	  Value			  "1/101325"
+	  ShowAdditionalParam	  on
+	  OutDataTypeMode	  "Inherit via back propagation"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Po1"
+	  Position		  [475, 139, 540, 161]
+	  ShowName		  off
+	  Value			  "1/1.225"
+	  ShowAdditionalParam	  on
+	  OutDataTypeMode	  "Inherit via back propagation"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Pressure Conversion"
+	  Ports			  [1, 1]
+	  Position		  [530, 170, 570, 190]
+	  ShowName		  off
+	  SourceBlock		  "aerolibconvert/Pressure Conversion"
+	  SourceType		  "Pressure Conversion"
+	  IU			  "Pa"
+	  OU			  "Pa"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product1"
+	  Ports			  [3, 1]
+	  Position		  [610, 115, 655, 155]
+	  ShowName		  off
+	  Inputs		  "3"
+	  ShowAdditionalParam	  on
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product5"
+	  Ports			  [4, 1]
+	  Position		  [210, 21, 255, 99]
+	  ShowName		  off
+	  Inputs		  "4"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product6"
+	  Ports			  [3, 1]
+	  Position		  [540, 36, 585, 84]
+	  ShowName		  off
+	  Inputs		  "3"
+	  ShowAdditionalParam	  on
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product7"
+	  Ports			  [3, 1]
+	  Position		  [610, 175, 655, 215]
+	  ShowName		  off
+	  Inputs		  "3"
+	  ShowAdditionalParam	  on
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum1"
+	  Ports			  [2, 1]
+	  Position		  [280, 50, 300, 70]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "|++"
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum2"
+	  Ports			  [2, 1]
+	  Position		  [70, 160, 90, 180]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "|+-"
+	  ShowAdditionalParam	  on
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Temperature Conversion"
+	  Ports			  [1, 1]
+	  Position		  [475, 36, 505, 54]
+	  ShowName		  off
+	  SourceBlock		  "aerolibconvert/Temperature Conversion"
+	  SourceType		  "Temperature Conversion"
+	  IU			  "K"
+	  OU			  "K"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "To"
+	  Position		  [455, 65, 500, 85]
+	  NamePlacement		  "alternate"
+	  ShowName		  off
+	  Value			  "1/288.15"
+	  ShowAdditionalParam	  on
+	  OutDataTypeMode	  "Inherit via back propagation"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "gamma/(gamma-1)"
+	  Ports			  [2, 1]
+	  Position		  [235, 186, 280, 219]
+	  InputSameDT		  off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "one"
+	  Position		  [275, 95, 305, 125]
+	  Orientation		  "up"
+	  ShowName		  off
+	  Value			  "1.0"
+	  ShowAdditionalParam	  on
+	  OutDataTypeMode	  "Inherit via back propagation"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "one1"
+	  Position		  [65, 195, 95, 225]
+	  Orientation		  "up"
+	  ShowName		  off
+	  Value			  "1.0"
+	  ShowAdditionalParam	  on
+	  OutDataTypeMode	  "Inherit via back propagation"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "two"
+	  Position		  [150, 75, 180, 105]
+	  ShowName		  off
+	  Value			  "0.5"
+	  ShowAdditionalParam	  on
+	  OutDataTypeMode	  "Inherit via back propagation"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "theta"
+	  Position		  [675, 13, 705, 27]
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "sqrt(theta)"
+	  Position		  [675, 53, 705, 67]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "delta"
+	  Position		  [680, 188, 710, 202]
+	  Port			  "3"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "sigma"
+	  Position		  [680, 128, 710, 142]
+	  Port			  "4"
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  DstBlock		  "Math\nFunction1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "gamma/(gamma-1)"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "1/(gamma-1)"
+	  SrcPort		  1
+	  Points		  [0, 0; 35, 0]
+	  Branch {
+	    Points		    [0, -15]
+	    DstBlock		    "Mux"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "gamma/(gamma-1)"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Sum2"
+	  SrcPort		  1
+	  Points		  [35, 0]
+	  Branch {
+	    DstBlock		    "1/(gamma-1)"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -100]
+	    DstBlock		    "Product5"
+	    DstPort		    3
+	  }
+	}
+	Line {
+	  SrcBlock		  "one1"
+	  SrcPort		  1
+	  DstBlock		  "Sum2"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "gamma"
+	  SrcPort		  1
+	  Points		  [0, 0; 5, 0]
+	  Branch {
+	    Points		    [0, 65; 165, 0]
+	    DstBlock		    "gamma/(gamma-1)"
+	    DstPort		    2
+	  }
+	  Branch {
+	    DstBlock		    "Sum2"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Temperature Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Product6"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Tstatic"
+	  SrcPort		  1
+	  DstBlock		  "Temperature Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Math\nFunction"
+	  SrcPort		  1
+	  DstBlock		  "sqrt(theta)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Product6"
+	  SrcPort		  1
+	  Points		  [0, 0; 5, 0]
+	  Branch {
+	    DstBlock		    "Math\nFunction"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -40]
+	    DstBlock		    "theta"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "To"
+	  SrcPort		  1
+	  DstBlock		  "Product6"
+	  DstPort		  3
+	}
+	Line {
+	  Labels		  [1, 0]
+	  SrcBlock		  "Demux"
+	  SrcPort		  1
+	  Points		  [10, 0; 0, -40]
+	  DstBlock		  "Product1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Math\nFunction1"
+	  SrcPort		  1
+	  DstBlock		  "Demux"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Pressure Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Product7"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Pstatic"
+	  SrcPort		  1
+	  DstBlock		  "Pressure Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Po"
+	  SrcPort		  1
+	  DstBlock		  "Product7"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Demux"
+	  SrcPort		  2
+	  DstBlock		  "Product7"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Product7"
+	  SrcPort		  1
+	  DstBlock		  "delta"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "two"
+	  SrcPort		  1
+	  DstBlock		  "Product5"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Product5"
+	  SrcPort		  1
+	  DstBlock		  "Sum1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "one"
+	  SrcPort		  1
+	  DstBlock		  "Sum1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Sum1"
+	  SrcPort		  1
+	  Points		  [0, 0; 40, 0]
+	  Branch {
+	    DstBlock		    "Product6"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, 115]
+	    DstBlock		    "Math\nFunction1"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Mach"
+	  SrcPort		  1
+	  Points		  [0, 0; 15, 0]
+	  Branch {
+	    DstBlock		    "Product5"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 20]
+	    DstBlock		    "Product5"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  SrcBlock		  "Po1"
+	  SrcPort		  1
+	  DstBlock		  "Product1"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Product1"
+	  SrcPort		  1
+	  DstBlock		  "sigma"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "rho_static"
+	  SrcPort		  1
+	  DstBlock		  "Density Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Density Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Product1"
+	  DstPort		  1
+	}
+      }
+    }
+  }
+}

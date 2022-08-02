@@ -1,0 +1,73 @@
+<html>
+<!-- $New for R14 $  $Date: 2003/09/01 09:17:37 $ -->
+<head><title>Embedded Target for Motorola MPC555 Demo: demos</title></head>
+<body>
+
+<p style="color:#990000; font-weight:bold; font-size:x-large">Fuel Control System Demo for Simulation, Cosimulation and Deployment</p>
+<p> This model demonstrates the use of library blocks for a multimodel approach to simulation, software-in-the-loop (SIL) simulation, processor-in-the-loop (PIL) cosimulation, and real-time deployment. The controller algorithm (Fuel Rate Controller subsystem) library block is entirely separate from the target specific functions of device drivers and signal conditioning. This approach makes it simple to use the common subsystem to implement separate models for simulation and code generation. The simulation and code generation models have been bundled into a project library together with the common controller - this use of a library safeguards against introducing changes that are not applied to all models containing the controller. This demo is based on the original Stateflow Fuelsys demo.
+</p>
+<p>You can use the two demo models contained in the project library for real-time deployment and simulation.</p>
+<ul>
+<li>The MPC555 RT Implementation model deploys the Fuel Rate Controller block in Real-Time (RT) on an MPC555 processor. This model contains device driver blocks that interface to the input/output pins of an MPC555 processor.
+<li>The Plant Model is a closed-loop simulation model using the same Fuel Rate Controller. This model can be used for normal simulation, software-in-the-loop (SIL) and processor-in-the-loop (PIL) co-simulation with an MPC555.
+</ul>
+
+
+<p>
+<h3>How to open this library:</h3>
+</p>
+<p>Click the link below or at the command line type </a><a href="matlab:open mpc555_fuelsys_project">mpc555_fuelsys_project</a>.
+</p>
+
+<p>To run the demo in simulation and co-simulation, double-click to open the <strong>Plant Model</strong>.</p>
+<ol start="1">
+<li>Select <strong>Simulation -&gt; Simulation Parameters</strong>. Look at the <strong>RTW</strong> options. Notice that the selected <strong>System target file</strong> is <code>mpc555pil.tlc</code>. The model is preconfigured for PIL.
+</li>
+<li>You can choose to to generate and display an HTML code generation report by selecting the checkbox on the <code>General</code> tab.
+</li>
+<li>Select the <code>ET MPC555 (processor-in-the-loop) options</code> tab.
+</li>
+<li>Select <code>Download_and_run</code> from the <strong>Build action</strong> drop-down menu.
+</li>
+<li><a name="15707"></a>Right-click on the <code>fuel rate controller</code> subsystem and select <strong>Real-Time Workshop-&gt;Build Subsystem</strong>. Click <strong>Build</strong> in the following dialog to continue the code generation process. 
+</li>
+<ul><li>Code is generated in the <code>fuel_mpc555pil</code> directory.
+</li>
+<li>An S-Function "wrapper" block is created and presented in an <code>Untitled</code> model.
+</li>
+<li>Your cross compiler (Diab or CodeWarrior) is invoked to create a binary file for the MPC555.
+</li>
+<li>Your debugger (SingleStep or CodeWarrior) is invoked and downloads the code to the target. The model code starts running on the target.
+</li>
+</ul>
+<li>In the newly created library called <code>fuel_lib</code> use the double-click convenience button ("==&gt;") to replace the original fuel rate controller subsystem in the model with the generated configurable subsystem.
+</li>
+<li>Right click on the <code>fuel rate controller</code> subsystem in your model and select <strong>Block choice</strong>. You have three choices, corresponding to the original subsystem, SIL, or PIL. For PIL choose <code>fuel rate controller(PIL)</code>.
+</li>
+<li>Start the Simulink simulation of the model <code>mpc555_fuelsys</code> by clicking the play button. View processor-in-the-loop simulation results in the Simulink scope blocks.
+</li>
+</ol>
+<p>Note you can also run this model in software-in-the-loop (SIL) mode by choosing <code>fuel rate controller (SIL) </code>from the <strong>Block choice</strong> context menu. Selecting this option directs Simulink to call a generated wrapper S-function that implements the controller algorithm in highly efficient Real-Time Workshop Embedded Coder generated code. You can now run a SIL simulation. </p>
+<p>To generate code and deploy the demo on an MPC555 in Real-Time, double-click to open the <strong>MPC555 RT Implementation</strong> model.</p>
+<p>This version of the model is specifically targeted for code generation for the Motorola MPC555. The model contains the same controller block as the simulation and co-simulation model, but here the controller is connected to MPC555 I/O device driver blocks (Analog In and Pulse Width Modulation (PWM) Out). The model also contains blocks required for correct operation on the target hardware: data type conversion, scaling and normalization blocks, and an MPC555 Resource Configuration block.
+</p>
+<ol start="1">
+<li>Select <strong>Simulation -&gt; Simulation Parameters</strong>. Look at the <strong>RTW</strong> options. Notice the <strong>System target file</strong> for real-time deployment is <code>mpc555rt.tlc</code>.
+</li>
+<li>You can choose to to generate and display an HTML code generation report by selecting the checkbox on the <code>General</code> tab, then click <strong>Apply</strong>.
+</li>
+<li>In the model, select <strong>Tools -&gt; Real-Time Workshop -&gt; Build Model</strong> (or press <strong>CTRL+B</strong>). Click <strong>Build</strong> in the following dialog to continue the code generation process.
+</li>
+</ol>
+<ul><li>Code is generated in the <code>fuel_mpc555rt</code> directory.
+</li>
+<li>Your toolchain is invoked and downloads the code to the target. The model code starts running on the target.
+</li>
+
+
+<p>For more information about using the Embedded Target for Motorola MPC555 for PIL, SIL and real-time deployment, see the tutorials contained in the User's Guide on PIL Cosimulation and Generating Stand-Alone Real-Time Applications.</p>
+
+
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+BeamLength=0.60; %meters
+ArmLength=0.45; %meters
+ElementLength=0.32; %meters
+Radius=0.02; %meters
+Force=deg2xy([30,200,BeamLength,0]);
+BendingMomentY=mag(Force,'x')*ArmLength;
+NAZ=Radius;
+BendingMomentZ=mag(Force,'y')*(BeamLength-ElementLength);
+NAY=0;
+Torque=mag(Force,'y')*ArmLength;
+Area=circle(Radius,'area');
+I=circle(Radius,'Iy');
+J=circle(Radius,'J');
+QArea=halfcircle(Radius,'n','area');
+QYBar=halfcircle(Radius,'n','centY');
+Q=QArea*QYBar;
+Thickness=2*Radius;
+StressNormal=mag(Force,'x')/Area;
+StressBendingY=BendingMomentY*NAZ/I;
+StressBendingZ=BendingMomentZ*NAY/I;
+StressTorque=Torque*Radius/J;
+StressShear=mag(Force,'y')*Q/(I*Thickness);
+StressX=StressNormal+StressBendingY+StressBendingZ;
+ShearXY=StressTorque+StressShear;
+StressState=[StressX, 0, ShearXY];
+mohrs (StressState, 'plane stress')

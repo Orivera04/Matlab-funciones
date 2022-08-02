@@ -1,0 +1,1533 @@
+Library {
+  Name			  "aerolib6dofsys"
+  Version		  5.0
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Thu Mar 06 19:42:11 2003"
+  Creator		  "sgage"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "sgage"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Thu Jun 26 10:49:05 2003"
+  ModelVersionFormat	  "1.%<AutoIncrement:31>"
+  ConfigurationManager	  "None"
+  SimParamPage		  "Solver"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeMexFile	  "ext_comm"
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock off
+  ConsistencyChecking	  "none"
+  ArrayBoundsChecking	  "none"
+  AlgebraicLoopMsg	  "warning"
+  BlockPriorityViolationMsg "warning"
+  MinStepSizeMsg	  "warning"
+  InheritedTsInSrcMsg	  "warning"
+  DiscreteInheritContinuousMsg "warning"
+  MultiTaskRateTransMsg	  "error"
+  SingleTaskRateTransMsg  "none"
+  CheckForMatrixSingularity "none"
+  IntegerOverflowMsg	  "warning"
+  Int32ToFloatConvMsg	  "warning"
+  ParameterDowncastMsg	  "error"
+  ParameterOverflowMsg	  "error"
+  ParameterPrecisionLossMsg "warning"
+  UnderSpecifiedDataTypeMsg "none"
+  UnnecessaryDatatypeConvMsg "none"
+  VectorMatrixConversionMsg "none"
+  InvalidFcnCallConnMsg	  "error"
+  SignalLabelMismatchMsg  "none"
+  UnconnectedInputMsg	  "warning"
+  UnconnectedOutputMsg	  "warning"
+  UnconnectedLineMsg	  "warning"
+  SfunCompatibilityCheckMsg "none"
+  ProdHWDeviceType	  "Microprocessor"
+  ProdHWWordLengths	  "8,16,32,32"
+  TargetHWChar		  2
+  TargetHWWordLengths	  "8,16,32,32"
+  RTWMakeCommand	  "make_rtw"
+  RTWGenerateCodeOnly	  off
+  RTWRetainRTWFile	  off
+  TLCProfiler		  off
+  TLCDebug		  off
+  TLCCoverage		  off
+  TLCAssertion		  off
+  SimulationMode	  "normal"
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      ShowAdditionalParam     off
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "sfix(16)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Demux
+      Outputs		      "4"
+      DisplayOption	      "none"
+      BusSelectionMode	      off
+    }
+    Block {
+      BlockType		      Fcn
+      Expr		      "sin(u[1])"
+    }
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ShowAdditionalParam     off
+      ParameterDataTypeMode   "Same as input"
+      ParameterDataType	      "sfix(16)"
+      ParameterScalingMode    "Best Precision: Matrix-wise"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Ground
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      ShowAdditionalParam     off
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      LatchInput	      off
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Integrator
+      ExternalReset	      "none"
+      InitialConditionSource  "internal"
+      InitialCondition	      "0"
+      LimitOutput	      off
+      UpperSaturationLimit    "inf"
+      LowerSaturationLimit    "-inf"
+      ShowSaturationPort      off
+      ShowStatePort	      off
+      AbsoluteTolerance	      "auto"
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      Math
+      Operator		      "exp"
+      OutputSignalType	      "auto"
+    }
+    Block {
+      BlockType		      Mux
+      Inputs		      "4"
+      DisplayOption	      "none"
+      NonVirtualBus	      off
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      Product
+      Inputs		      "2"
+      Multiplication	      "Element-wise(.*)"
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      PortCounts	      "[]"
+      SFunctionModules	      "''"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      RTWSystemCode	      "Auto"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Sum
+      IconShape		      "rectangular"
+      Inputs		      "++"
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Terminator
+    }
+    Block {
+      BlockType		      Trigonometry
+      Operator		      "sin"
+      OutputSignalType	      "auto"
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "aerolib6dofsys"
+    Location		    [356, 81, 962, 355]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      "DCM & Euler Angles (Euler)"
+      Ports		      [1, 2]
+      Position		      [60, 51, 130, 109]
+      TreatAsAtomicUnit	      off
+      MaskType		      "DCM & Euler Angles (Euler)"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"DCM & Euler Angles (Euler)"
+	Location		[370, 701, 755, 905]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "p q r "
+	  Position		  [25, 88, 55, 102]
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Euler Angles to \nDirection Cosine Matrix"
+	  Ports			  [1, 1]
+	  Position		  [240, 23, 310, 77]
+	  SourceBlock		  "aerolibtransform2/Euler Angles to \nDirecti"
+"on Cosine Matrix"
+	  SourceType		  "Euler2DCM"
+	}
+	Block {
+	  BlockType		  Integrator
+	  Name			  "phi\ntheta\npsi"
+	  Ports			  [1, 1]
+	  Position		  [165, 100, 185, 120]
+	  InitialCondition	  "eul_0"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "phidot\nthetadot\npsidot"
+	  Ports			  [2, 1]
+	  Position		  [90, 83, 140, 132]
+	  ShowPortLabels	  off
+	  TreatAsAtomicUnit	  off
+	  System {
+	    Name		    "phidot\nthetadot\npsidot"
+	    Location		    [21, 74, 636, 313]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "p\nq\nr"
+	      Position		      [15, 50, 35, 70]
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "phi\ntheta\npsi"
+	      Position		      [15, 120, 35, 140]
+	      Port		      "2"
+	    }
+	    Block {
+	      BlockType		      Mux
+	      Name		      "Mux1"
+	      Ports		      [3, 1]
+	      Position		      [105, 34, 110, 176]
+	      ShowName		      off
+	      Inputs		      "[3 3 3]"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      Mux
+	      Name		      "Mux2"
+	      Ports		      [3, 1]
+	      Position		      [505, 35, 510, 175]
+	      ShowName		      off
+	      Inputs		      "3"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "SinCos"
+	      Ports		      [1, 2]
+	      Position		      [50, 84, 85, 171]
+	      SourceBlock	      "aerolibutil/SinCos"
+	      SourceType	      "SinCos"
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "phidot"
+	      Position		      [155, 49, 460, 71]
+	      Expr		      "u[1]+(u[2]*u[4]+u[3]*u[7])*(u[5]/u[8])"
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "psidot"
+	      Position		      [155, 139, 460, 161]
+	      Expr		      "(u[2]*u[4]+u[3]*u[7])/u[8]"
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "thetadot"
+	      Position		      [155, 94, 460, 116]
+	      Expr		      "u[2]*u[7]-u[3]*u[4]"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "phidot\nthetadot\npsi"
+	      Position		      [570, 95, 590, 115]
+	      InitialOutput	      "0"
+	    }
+	    Line {
+	      SrcBlock		      "SinCos"
+	      SrcPort		      2
+	      DstBlock		      "Mux1"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "SinCos"
+	      SrcPort		      1
+	      DstBlock		      "Mux1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Mux2"
+	      SrcPort		      1
+	      DstBlock		      "phidot\nthetadot\npsi"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "phidot"
+	      SrcPort		      1
+	      DstBlock		      "Mux2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "thetadot"
+	      SrcPort		      1
+	      DstBlock		      "Mux2"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "psidot"
+	      SrcPort		      1
+	      DstBlock		      "Mux2"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "phi\ntheta\npsi"
+	      SrcPort		      1
+	      DstBlock		      "SinCos"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "p\nq\nr"
+	      SrcPort		      1
+	      DstBlock		      "Mux1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Mux1"
+	      SrcPort		      1
+	      Points		      [10, 0]
+	      Branch {
+		DstBlock		"thetadot"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, -45]
+		DstBlock		"phidot"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 45]
+		DstBlock		"psidot"
+		DstPort			1
+	      }
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "DCM"
+	  Position		  [330, 43, 360, 57]
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Euler"
+	  Position		  [235, 103, 265, 117]
+	  Port			  "2"
+	}
+	Line {
+	  SrcBlock		  "Euler Angles to \nDirection Cosine Matrix"
+	  SrcPort		  1
+	  DstBlock		  "DCM"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "p q r "
+	  SrcPort		  1
+	  DstBlock		  "phidot\nthetadot\npsidot"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "phidot\nthetadot\npsidot"
+	  SrcPort		  1
+	  DstBlock		  "phi\ntheta\npsi"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "phi\ntheta\npsi"
+	  SrcPort		  1
+	  Points		  [0, 0; 25, 0]
+	  Branch {
+	    DstBlock		    "Euler"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 70; -140, 0]
+	    DstBlock		    "phidot\nthetadot\npsidot"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, -60]
+	    DstBlock		    "Euler Angles to \nDirection Cosine Matrix"
+	    DstPort		    1
+	  }
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "DCM & Euler Angles (Quaternion)"
+      Ports		      [1, 2]
+      Position		      [60, 144, 130, 206]
+      TreatAsAtomicUnit	      off
+      MaskType		      "DCM & Euler Angles (Quaternion)"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"DCM & Euler Angles (Quaternion)"
+	Location		[376, 764, 816, 1011]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "p q r"
+	  Position		  [25, 33, 55, 47]
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Euler Angles to \nQuaternions"
+	  Ports			  [1, 1]
+	  Position		  [130, 110, 195, 160]
+	  SourceBlock		  "aerolibtransform2/Euler Angles to Quaternio"
+"ns"
+	  SourceType		  "Euler2Quaternion"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Initial\nEuler Angles"
+	  Position		  [65, 120, 110, 150]
+	  Value			  "eul_0"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Quaternions to \nDirection Cosine Matrix"
+	  Ports			  [1, 1]
+	  Position		  [290, 48, 355, 102]
+	  SourceBlock		  "aerolibtransform2/Quaternions to \nDirectio"
+"n Cosine Matrix"
+	  SourceType		  "Quaternion2DCM"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Quaternions to Euler Angles"
+	  Ports			  [1, 1]
+	  Position		  [290, 169, 355, 221]
+	  SourceBlock		  "aerolibtransform2/Quaternions to Euler Angl"
+"es"
+	  SourceType		  "Quaternion2Euler"
+	}
+	Block {
+	  BlockType		  Integrator
+	  Name			  "q0\nq1\nq2\nq3"
+	  Ports			  [2, 1]
+	  Position		  [215, 39, 245, 106]
+	  InitialConditionSource  "external"
+	  InitialCondition	  "[e0_0 e1_0 e2_0 e3_0]"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "qdot"
+	  Ports			  [2, 1]
+	  Position		  [80, 26, 110, 79]
+	  ShowPortLabels	  off
+	  TreatAsAtomicUnit	  off
+	  System {
+	    Name		    "qdot"
+	    Location		    [68, 211, 810, 451]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "p\nq\nr"
+	      Position		      [250, 65, 270, 85]
+	      NamePlacement	      "alternate"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "q0\nq1\nq2\nq3"
+	      Position		      [15, 90, 35, 110]
+	      Port		      "2"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant"
+	      Position		      [90, 110, 120, 140]
+	      ShowName		      off
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Dot Product"
+	      Ports		      [2, 1]
+	      Position		      [90, 156, 120, 189]
+	      SourceBlock	      "simulink/Math\nOperations/Dot Product"
+	      SourceType	      "Dot Product"
+	      InputSameDT	      off
+	      OutputDataTypeScalingMode	"Inherit via internal rule"
+	      OutDataType	      "sfix(16)"
+	      OutScaling	      "2^-10"
+	      LockScale		      off
+	      RndMeth		      "Floor"
+	      DoSatur		      off
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "High Gain\nQuaternion\nNormalization"
+	      Position		      [175, 106, 270, 144]
+	      Gain		      "k_quat"
+	    }
+	    Block {
+	      BlockType		      Mux
+	      Name		      "Mux1"
+	      Ports		      [3, 1]
+	      Position		      [295, 64, 300, 136]
+	      ShowName		      off
+	      Inputs		      "[3 4 1]"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      Mux
+	      Name		      "Mux2"
+	      Ports		      [4, 1]
+	      Position		      [650, 78, 655, 137]
+	      ShowName		      off
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum"
+	      Ports		      [2, 1]
+	      Position		      [135, 115, 155, 135]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "|+-"
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "q0dot"
+	      Position		      [330, 43, 570, 67]
+	      Expr		      "-0.5 * ( u[5]*u[1]+u[6]*u[2]+u[7]*u[3] "
+") + u[8]*u[4]"
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "q1dot"
+	      Position		      [335, 87, 570, 113]
+	      Expr		      "0.5 * ( u[4]*u[1]+u[6]*u[3]-u[7]*u[2] )"
+" + u[8]*u[5]"
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "q2dot"
+	      Position		      [335, 139, 570, 161]
+	      Expr		      "0.5 * ( u[4]*u[2]+u[7]*u[1]-u[5]*u[3] )"
+" + u[8]*u[6]"
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "q3dot"
+	      Position		      [335, 185, 570, 205]
+	      Expr		      "0.5 * ( u[4]*u[3]+u[5]*u[2]-u[6]*u[1] )"
+" + u[8]*u[7]"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "qdot"
+	      Position		      [700, 100, 720, 120]
+	      InitialOutput	      "0"
+	    }
+	    Line {
+	      SrcBlock		      "q0\nq1\nq2\nq3"
+	      SrcPort		      1
+	      Points		      [30, 0]
+	      Branch {
+		Points			[0, 0]
+		DstBlock		"Mux1"
+		DstPort			2
+	      }
+	      Branch {
+		Points			[0, 65]
+		Branch {
+		  Points		  [0, 15]
+		  DstBlock		  "Dot Product"
+		  DstPort		  2
+		}
+		Branch {
+		  DstBlock		  "Dot Product"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "q3dot"
+	      SrcPort		      1
+	      Points		      [25, 0; 0, -65]
+	      DstBlock		      "Mux2"
+	      DstPort		      4
+	    }
+	    Line {
+	      SrcBlock		      "Mux1"
+	      SrcPort		      1
+	      Points		      [-20, 0; 25, 0]
+	      Branch {
+		Points			[25, 0]
+		DstBlock		"q1dot"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, -45]
+		DstBlock		"q0dot"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 50]
+		Branch {
+		  Points		  [0, 45]
+		  DstBlock		  "q3dot"
+		  DstPort		  1
+		}
+		Branch {
+		  DstBlock		  "q2dot"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "q2dot"
+	      SrcPort		      1
+	      Points		      [15, 0; 0, -35]
+	      DstBlock		      "Mux2"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "q1dot"
+	      SrcPort		      1
+	      DstBlock		      "Mux2"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "q0dot"
+	      SrcPort		      1
+	      Points		      [15, 0; 0, 30]
+	      DstBlock		      "Mux2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Mux2"
+	      SrcPort		      1
+	      DstBlock		      "qdot"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Constant"
+	      SrcPort		      1
+	      DstBlock		      "Sum"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Sum"
+	      SrcPort		      1
+	      DstBlock		      "High Gain\nQuaternion\nNormalization"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "High Gain\nQuaternion\nNormalization"
+	      SrcPort		      1
+	      DstBlock		      "Mux1"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Dot Product"
+	      SrcPort		      1
+	      Points		      [20, 0]
+	      DstBlock		      "Sum"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "p\nq\nr"
+	      SrcPort		      1
+	      DstBlock		      "Mux1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "DCM"
+	  Position		  [380, 68, 410, 82]
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Euler"
+	  Position		  [385, 188, 415, 202]
+	  Port			  "2"
+	}
+	Line {
+	  SrcBlock		  "qdot"
+	  SrcPort		  1
+	  DstBlock		  "q0\nq1\nq2\nq3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "q0\nq1\nq2\nq3"
+	  SrcPort		  1
+	  Points		  [0, 0; 10, 0]
+	  Branch {
+	    Points		    [0, 120]
+	    Branch {
+	      Points		      [-210, 0; 0, -130]
+	      DstBlock		      "qdot"
+	      DstPort		      2
+	    }
+	    Branch {
+	      DstBlock		      "Quaternions to Euler Angles"
+	      DstPort		      1
+	    }
+	  }
+	  Branch {
+	    DstBlock		    "Quaternions to \nDirection Cosine Matrix"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Euler Angles to \nQuaternions"
+	  SrcPort		  1
+	  DstBlock		  "q0\nq1\nq2\nq3"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Initial\nEuler Angles"
+	  SrcPort		  1
+	  DstBlock		  "Euler Angles to \nQuaternions"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "p q r"
+	  SrcPort		  1
+	  DstBlock		  "qdot"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Quaternions to \nDirection Cosine Matrix"
+	  SrcPort		  1
+	  DstBlock		  "DCM"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Quaternions to Euler Angles"
+	  SrcPort		  1
+	  DstBlock		  "Euler"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Mass & Inertia (custom)"
+      Ports		      [6, 4]
+      Position		      [445, 52, 515, 203]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Mass & Inertia (custom)"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"Mass & Inertia (custom)"
+	Location		[220, 362, 485, 676]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Vb"
+	  Position		  [35, 53, 65, 67]
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "forces"
+	  Position		  [35, 18, 65, 32]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "mass "
+	  Position		  [35, 123, 65, 137]
+	  Port			  "3"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "mdot"
+	  Position		  [35, 83, 65, 97]
+	  Port			  "4"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "I"
+	  Position		  [35, 173, 65, 187]
+	  Port			  "5"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "I_dot"
+	  Position		  [35, 213, 65, 227]
+	  Port			  "6"
+	}
+	Block {
+	  BlockType		  Ground
+	  Name			  "Ground"
+	  Position		  [105, 255, 125, 275]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Matrix\nConcatenation"
+	  Ports			  [2, 1]
+	  Position		  [85, 161, 140, 239]
+	  ShowName		  off
+	  SourceBlock		  "simulink/Math\nOperations/Matrix\nConcatena"
+"tion"
+	  SourceType		  "Matrix Concatenation"
+	  numInports		  "2"
+	  catMethod		  "Vertical"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product"
+	  Ports			  [2, 1]
+	  Position		  [90, 53, 115, 97]
+	  ShowName		  off
+	  InputSameDT		  off
+	  RndMeth		  "Floor"
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum"
+	  Ports			  [2, 1]
+	  Position		  [150, 15, 170, 35]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "|+-"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "forces "
+	  Position		  [195, 18, 225, 32]
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "mass"
+	  Position		  [195, 123, 225, 137]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "I, I_dot "
+	  Position		  [195, 193, 225, 207]
+	  Port			  "3"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out9"
+	  Position		  [195, 258, 225, 272]
+	  Port			  "4"
+	}
+	Line {
+	  SrcBlock		  "Ground"
+	  SrcPort		  1
+	  DstBlock		  "Out9"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "I"
+	  SrcPort		  1
+	  DstBlock		  "Matrix\nConcatenation"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "mass "
+	  SrcPort		  1
+	  DstBlock		  "mass"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Matrix\nConcatenation"
+	  SrcPort		  1
+	  DstBlock		  "I, I_dot "
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "I_dot"
+	  SrcPort		  1
+	  DstBlock		  "Matrix\nConcatenation"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "mdot"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  DstBlock		  "Product"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "forces"
+	  SrcPort		  1
+	  DstBlock		  "Sum"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Vb"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  DstBlock		  "Product"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sum"
+	  SrcPort		  1
+	  DstBlock		  "forces "
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Product"
+	  SrcPort		  1
+	  Points		  [40, 0]
+	  DstBlock		  "Sum"
+	  DstPort		  2
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Mass & Inertia (fixed)"
+      Ports		      [6, 4]
+      Position		      [205, 53, 275, 202]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Mass & Inertia (fixed)"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"Mass & Inertia (fixed)"
+	Location		[198, 367, 488, 736]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Vb"
+	  Position		  [35, 18, 65, 32]
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "forces"
+	  Position		  [35, 53, 65, 67]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "mass "
+	  Position		  [35, 203, 65, 217]
+	  Port			  "3"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "m_dot"
+	  Position		  [35, 168, 65, 182]
+	  Port			  "4"
+	  ShowAdditionalParam	  on
+	  DataType		  "double"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "I"
+	  Position		  [35, 238, 65, 252]
+	  Port			  "5"
+	  ShowAdditionalParam	  on
+	  DataType		  "double"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "I_dot"
+	  Position		  [35, 273, 65, 287]
+	  Port			  "6"
+	  ShowAdditionalParam	  on
+	  DataType		  "double"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant"
+	  Position		  [95, 95, 145, 115]
+	  ShowName		  off
+	  Value			  "mass_0"
+	  ShowAdditionalParam	  on
+	  OutDataTypeMode	  "Inherit via back propagation"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant1"
+	  Position		  [55, 128, 145, 152]
+	  ShowName		  off
+	  Value			  "[inertia; zeros(3,3)]"
+	  ShowAdditionalParam	  on
+	  OutDataTypeMode	  "Inherit via back propagation"
+	}
+	Block {
+	  BlockType		  Ground
+	  Name			  "Ground"
+	  Position		  [120, 200, 140, 220]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  "Terminator"
+	  Position		  [90, 235, 110, 255]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  "Terminator1"
+	  Position		  [90, 165, 110, 185]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  "Terminator2"
+	  Position		  [90, 270, 110, 290]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  "Terminator3"
+	  Position		  [90, 200, 110, 220]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  "Terminator4"
+	  Position		  [85, 15, 105, 35]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "forces "
+	  Position		  [170, 53, 200, 67]
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "mass"
+	  Position		  [170, 98, 200, 112]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "inertia, 0"
+	  Position		  [170, 133, 200, 147]
+	  Port			  "3"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out9"
+	  Position		  [170, 203, 200, 217]
+	  Port			  "4"
+	}
+	Line {
+	  SrcBlock		  "Constant"
+	  SrcPort		  1
+	  DstBlock		  "mass"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Constant1"
+	  SrcPort		  1
+	  DstBlock		  "inertia, 0"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Ground"
+	  SrcPort		  1
+	  DstBlock		  "Out9"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "I"
+	  SrcPort		  1
+	  DstBlock		  "Terminator"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "m_dot"
+	  SrcPort		  1
+	  DstBlock		  "Terminator1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "I_dot"
+	  SrcPort		  1
+	  DstBlock		  "Terminator2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "mass "
+	  SrcPort		  1
+	  DstBlock		  "Terminator3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "forces"
+	  SrcPort		  1
+	  DstBlock		  "forces "
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Vb"
+	  SrcPort		  1
+	  DstBlock		  "Terminator4"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Mass & Inertia (simple)"
+      Ports		      [6, 4]
+      Position		      [325, 53, 395, 202]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Mass & Inertia (simple)"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"Mass & Inertia (simple)"
+	Location		[528, 289, 909, 674]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Vb"
+	  Position		  [15, 48, 45, 62]
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "forces"
+	  Position		  [15, 18, 45, 32]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "mass "
+	  Position		  [20, 348, 50, 362]
+	  Port			  "3"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "mdot"
+	  Position		  [15, 108, 45, 122]
+	  Port			  "4"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "I"
+	  Position		  [20, 283, 50, 297]
+	  Port			  "5"
+	  ShowAdditionalParam	  on
+	  DataType		  "double"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "I_dot"
+	  Position		  [20, 313, 50, 327]
+	  Port			  "6"
+	  ShowAdditionalParam	  on
+	  DataType		  "double"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Estimate\nInertia Tensor"
+	  Ports			  [2, 2]
+	  Position		  [195, 226, 265, 259]
+	  SourceBlock		  "aerolibbdyn/Estimate\nInertia Tensor"
+	  SourceType		  "Estimate Inertia"
+	  fmass			  "mass_f"
+	  emass			  "mass_e"
+	  fI			  "inertia_f"
+	  eI			  "inertia_e"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Matrix\nConcatenation"
+	  Ports			  [2, 1]
+	  Position		  [280, 228, 300, 257]
+	  ShowName		  off
+	  SourceBlock		  "simulink/Math\nOperations/Matrix\nConcatena"
+"tion"
+	  SourceType		  "Matrix Concatenation"
+	  numInports		  "2"
+	  catMethod		  "Vertical"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product"
+	  Ports			  [2, 1]
+	  Position		  [100, 47, 125, 83]
+	  ShowName		  off
+	  InputSameDT		  off
+	  RndMeth		  "Floor"
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum"
+	  Ports			  [2, 1]
+	  Position		  [150, 15, 170, 35]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "|+-"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  "Terminator"
+	  Position		  [80, 280, 100, 300]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  "Terminator1"
+	  Position		  [80, 310, 100, 330]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  "Terminator2"
+	  Position		  [80, 345, 100, 365]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Integrator
+	  Name			  "mass  "
+	  Ports			  [1, 2]
+	  Position		  [75, 89, 105, 136]
+	  InitialCondition	  "mass_0"
+	  LimitOutput		  on
+	  UpperSaturationLimit	  "mass_f"
+	  LowerSaturationLimit	  "mass_e"
+	  ShowSaturationPort	  on
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "forces "
+	  Position		  [320, 18, 350, 32]
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "mass"
+	  Position		  [320, 93, 350, 107]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "I, I_dot"
+	  Position		  [315, 238, 345, 252]
+	  Port			  "3"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "tank limit"
+	  Position		  [125, 118, 155, 132]
+	  Port			  "4"
+	}
+	Line {
+	  SrcBlock		  "mass  "
+	  SrcPort		  2
+	  DstBlock		  "tank limit"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "mass  "
+	  SrcPort		  1
+	  Points		  [60, 0]
+	  Branch {
+	    DstBlock		    "mass"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 135]
+	    DstBlock		    "Estimate\nInertia Tensor"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "mdot"
+	  SrcPort		  1
+	  Points		  [10, 0]
+	  Branch {
+	    DstBlock		    "mass  "
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -40]
+	    DstBlock		    "Product"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, 135]
+	    DstBlock		    "Estimate\nInertia Tensor"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  SrcBlock		  "Estimate\nInertia Tensor"
+	  SrcPort		  1
+	  DstBlock		  "Matrix\nConcatenation"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "I"
+	  SrcPort		  1
+	  DstBlock		  "Terminator"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Estimate\nInertia Tensor"
+	  SrcPort		  2
+	  DstBlock		  "Matrix\nConcatenation"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Matrix\nConcatenation"
+	  SrcPort		  1
+	  DstBlock		  "I, I_dot"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "I_dot"
+	  SrcPort		  1
+	  DstBlock		  "Terminator1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "mass "
+	  SrcPort		  1
+	  DstBlock		  "Terminator2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "forces"
+	  SrcPort		  1
+	  DstBlock		  "Sum"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Vb"
+	  SrcPort		  1
+	  DstBlock		  "Product"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sum"
+	  SrcPort		  1
+	  DstBlock		  "forces "
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Product"
+	  SrcPort		  1
+	  Points		  [30, 0]
+	  DstBlock		  "Sum"
+	  DstPort		  2
+	}
+      }
+    }
+  }
+}

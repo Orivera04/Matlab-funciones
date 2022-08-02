@@ -1,0 +1,15 @@
+function N=numceros(num)
+clc;
+[c,r]=cores(num)
+if r==0 && rem(c,10)~=0
+    N=1
+    return
+elseif r~
+end
+k=0;r=0;
+while r==0
+[c,r]=cores(num,10^(k+1));
+num=c;
+k=k+1;
+end
+N=k;

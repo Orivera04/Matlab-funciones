@@ -1,0 +1,298 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Workspace plotting</title>
+<style>
+<!--
+span.mcode   { font-family: Fixedsys; color: #993300 }
+-->
+</style>
+</head>
+
+<body>
+
+
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1">
+  <tr>
+    <td width="70%">
+    <h2>Workspace plotting</h2>
+    </td>
+    <td width="3%">&nbsp;</td>
+    <td width="27%">
+    <img border="0" src="../images/plt.png" width="215" height="105" align="right"></td>
+  </tr>
+</table>
+
+<p>
+</p>
+
+<p>
+</p>
+
+<p>
+</p>
+
+<p>
+</p>
+
+<p>
+</p>
+
+<p>
+</p>
+
+<p>
+</p>
+
+<p>
+</p>
+
+<p>
+</p>
+
+<p>
+</p>
+
+<p>
+</p>
+
+<p>
+</p>
+
+<p style="margin-top: -5; margin-bottom: -5">&nbsp;</p>
+
+<table border="0" cellpadding="5" cellspacing="5" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber2" height="539">
+  <tr>
+    <td width="27%" height="439" valign="top">
+    <img border="0" src="../images/PltSel0.png" width="278" height="457"></td>
+    <td width="73%" height="439">
+
+<h3>Starting the workspace plotter</h3>
+
+<p>The workspace plotter is a fast way to plot the variables in your 
+current workspace. There is no need for you to type in all those long variable 
+names and incur the errors that result when you type them wrong. Just type
+<span class="mcode">plt</span> (with no arguments) at the command prompt and a 
+window will appear such as the one shown to the left. (This window was actually 
+generated with the included
+<span class="mcode">pltvar.m</span> script example which creates the variables 
+listed and then calls plt with no arguments.) All the variables in your workspace (except for 
+scalars and strings) will be listed in the workspace plotter figure. The size of 
+the variable (row, column) appears right after the variable name. If your 
+workspace contains many variables, the variable list may appear in several 
+columns. If your workspace includes 1x1 structures which include vector fields, 
+than these fields will also appear in the workspace plotter figure using the 
+usual structure notation (<span class="mcode">struct.field</span>)</p>
+
+<h3>Choosing a x-vector</h3>
+
+<p>The first thing you should do is select the x-vector that you want to plot 
+along the x-axis. As you can see from the instructions (in blue) at the top of 
+the figure, you should do this by clicking on the desired x-vector using the 
+right* mouse button. You 
+may click on any of the variables shown in white. Note that in this example, the 
+variable called <span class="mcode">long_variable_name</span> is grayed out. 
+This is done because only a row or column vector is allowed. Since
+<span class="mcode">long_variable_name</span> has three rows of 400 elements it 
+can't be chosen as the x vector.</p>
+
+    </td>
+  </tr>
+  <tr>
+    <td width="27%" height="22" valign="top">
+    <img border="0" src="../images/PltSel1.png" width="278" height="457"></td>
+    <td width="73%" height="22">Suppose you choose to plot the 400 element row vector <span class="mcode">sec</span> 
+along the x axis. After you click on that vector, it turns red for identification 
+and visibility and <font face="Times New Roman">the tag <span class="mcode">&#8592;x</span></font> 
+is placed after the variable name indicating this is the chosen x vector  as 
+shown to the left.<p><font size="2">* Actually in this initial situation you can 
+    also select the x-vector with a left click. (Normally a left click is 
+    reserved for selecting y-vectors, but here you can't do that since a 
+    x-vector must be chosen first.)&nbsp; So even though a left click is allowed 
+    here, you still might want to stick with the right click to develop a habit 
+    that will make things easier later on.</font> </p>
+    <h3>Choosing a y-vector</h3>
+
+<p>Next you must choose the array (or arrays) to plot along the y axis. The plot 
+routine requires that one of the dimensions of the y array match the length of 
+the x vector. So in this example, the y arrays must have either 400 rows or 400 
+columns. The first three and the last two variables in the list do not meet this 
+condition, so they are grayed out and you will not be allowed to select 
+them.</p>
+
+    </td>
+  </tr>
+  <tr>
+    <td width="27%" height="22" valign="top">
+    <img border="0" src="../images/PltSel2.png" width="278" height="457"></td>
+    <td width="73%" height="22">Suppose you then click on these 3 array names: <span class="mcode">
+long_variable_name</span>, <span class="mcode">psvb3</span>, and
+<span class="mcode">psvb4</span>. As you click on them, the names will turn 
+yellow and the tag <font face="Times New Roman"><span class="mcode">&#8592;y</span></font> 
+is placed after the variable names to indicate that these arrays are to be 
+plotted along the y axis.<p>If you then click on the &quot;Plot&quot; button plt will create a plot containing five 
+traces. The first 3 traces will be the 3 rows of the array <span class="mcode">
+long_variable_name</span>. In the trace selection box, these traces will be 
+identified as <span class="mcode">longv1</span>, <span class="mcode">longv2</span>, 
+and <span class="mcode">longv3</span> respectively. (Underscores are not used 
+when the six character trace identifiers are created). The fourth trace will 
+contain the data from <span class="mcode">psvb3</span> and will be called
+<span class="mcode">psvb3</span> in the trace selection box. Similarly, the 
+fifth trace will contain the data from <span class="mcode">psvb4</span> and will 
+be called <span class="mcode">psvb4</span> in the trace selection box. </p>
+
+<p>Since a single x vector is being used, the x vector name (<span class="mcode">sec</span>) 
+is used as the x-axis label. In this example, the y-axis is labeled with <span class="mcode">Y 
+axis</span> for lack of anything better. If you had selected just a single 
+y-axis variable for plotting, that variable name would be used as the y-axis label.</p>
+
+    </td>
+  </tr>
+  <tr>
+    <td width="27%" height="22" valign="top">
+    <img border="0" src="../images/PltSel3.png" width="278" height="457"></td>
+    <td width="73%" height="22">Starting from the previous situation, suppose 
+    the numbers in psvb3 were far bigger than the other selected y variables. 
+    Thus the other traces are difficult to see when plotted on the same y-axis 
+    scale. One way to solve this problem is to plot psvb3 on the right hand axis 
+    and leave the other variables on the left side. To do this, double click on 
+    psvb3. Note that the color changes to orange and the <font face="Times New Roman"> <span class="mcode">&#8592;y</span></font> 
+    changes to <font face="Times New Roman"> <span class="mcode">&#8592;yR</span></font> 
+    to indicate that this variable will be plotted on the right hand axis. Since 
+    plt always plots the right hand axis last, psvb3 will become trace 5 and 
+    psvb4 will become trace 4. Only one trace may be plotted on the right hand 
+    axis, so if you now double click on psvb4, that will turn orange and psvb3 
+    will go back to yellow (and be plotted on the left axis). Double clicking on
+    <span class="mcode">long_variable_name</span> will have no effect since plt 
+    can't put three traces on the right hand side. To change a <font face="Times New Roman"> <span class="mcode">&#8592;yR</span></font> 
+    (orange) to a <font face="Times New Roman"> <span class="mcode">&#8592;y</span></font> 
+    (yellow) single click a few times on the variable name. (The exact number of 
+    clicks depends somewhat on the situation.)</td>
+  </tr>
+  <tr>
+    <td width="27%" height="56" valign="top">
+    <img border="0" src="../images/PltSel4.png" width="278" height="457"></td>
+    <td width="73%" height="56">So far you have only selected a single x vector. 
+    Although this will be sufficient most of the time, the workspace plotter 
+    allows multiple x vectors to be selected. Suppose you now right click on
+    <span class="mcode">seconds</span> and <span class="mcode">vb2rep</span>. 
+    (Since they are grayed out, they won't accept a left click, but in this 
+    situation they will accept a right click). These two variables will then 
+    turn red to indicate that they are to be used as x vectors. They will also 
+    be marked with <font face="Times New Roman"> <span class="mcode">&#8592;x2</span></font> 
+    and <font face="Times New Roman"> <span class="mcode">&#8592;x3</span></font> 
+    respectively and the <font face="Times New Roman"> <span class="mcode">&#8592;x</span> </font>
+    marking on <span class="mcode">sec</span> will change to <font face="Times New Roman"> <span class="mcode">&#8592;x1</span></font>. 
+    The digits after the &quot;<span class="mcode">x</span>&quot; make it easier to know 
+    which x vector you have selected for each y vector. Also the first two 
+    variables (<span class="mcode">b1catb3</span> and <span class="mcode">
+    b2catb4</span>), which were grayed out before, now turn white because these 
+    800 element row vectors now can be plotted versus either x2 or x3.<br>
+    <br>
+    Suppose you then click once on both <span class="mcode">b1catb3</span> and
+    <span class="mcode">b2catb4</span>. They will both turn yellow and be marked 
+    with <font face="Times New Roman"> <span class="mcode">&#8592;y2</span></font> 
+    indicating that they should be plotted with respect to <font face="Times New Roman"> <span class="mcode">
+    x2</span></font> (<span class="mcode">seconds</span>). In this case there is 
+    more than one choice of x vectors, so if you click on <span class="mcode">
+    b2catb4</span> again, its mark changes from <font face="Times New Roman"> <span class="mcode">&#8592;y2</span></font> 
+    to <font face="Times New Roman"> <span class="mcode">&#8592;y3</span></font> as shown in the figure to the left. Since there are no other possible x 
+    vectors to choose from, if you click on <span class="mcode">b2catb4</span> 
+    one more time the <font face="Times New Roman"> <span class="mcode">&#8592;y3</span></font> 
+    mark will disappear and the variable name will change back to white, indicating that it is 
+    no longer selected.</td>
+  </tr>
+</table>
+
+<p style="margin-bottom: -18">
+</p>
+
+<p style="margin-bottom: -18">Every time you click the &quot;Plot&quot; button, the 
+workspace plotter will create a new figure window containing the plot you 
+specified by the various <font face="Times New Roman"> <span class="mcode">&#8592;x</span></font> 
+and <font face="Times New Roman"> <span class="mcode">&#8592;y</span></font> 
+tags. When you have created many plots, pressing the &quot;CloseAll&quot; button is a 
+convenient way to close all of these figure windows (although the workspace 
+browser window itself remains open). If you have chosen to plot more than one y 
+variable, the workspace plotter will attempt to identify the selected variables 
+using the six character ID tags. For (1 x n) or (n x 1) vectors the first 5 
+characters and the last character of the variable name are used for the ID tag. 
+For (n x m) arrays only the first 4 characters of the variable name are used 
+since an extra character is needed to specify one of the rows or columns. If you 
+have many long variable names, you may not be happy with the 6 character ID tags 
+that are generated. In that case, you can specify longer ID tags by typing a 
+command such as <span class="mcode">TraceIDlen=17 </span>before calling the 
+workspace plotter. (Try this before typing <span class="mcode">pltvar</span>). 
+However you will find that the 17 character ID tags run into the main plot axis. 
+In this example using pltvar, and 17 character ID tags, you could fix that 
+problem by typing <span class="mcode">pltopt={'AxisPos',[1.8 1 .86 1 2.8]};</span> 
+before starting pltvar. The &quot;1.8&quot; tells plt to make the blank space to the left 
+of the axis 80% bigger (to make room for the bigger ID tags). The &quot;.86&quot; tells 
+plt to make the plot width 86% of the former size so that the plot doesn't run 
+off the right edge. The &quot;2.8&quot; tells plt to make the TraceID box 280% of its 
+former size so that the large trace IDs fit inside. Unfortunately in the general 
+case it may require a small bit of experimentation to determine the best choice 
+for all these numbers. If you want to use more than 6 characters in the ID 
+strings by default, put the TraceIDlen and pltopt assignments in the pltdef.m 
+file (see below).<br>
+&nbsp;</p>
+
+<h3>pltdef.m</h3>
+
+<p>If a file named <span class="mcode">pltdef.m</span> exists on your Matlab path then that 
+file will be run before the workspace plotter is opened. This file may contain 
+any Matlab commands, however the usual use for this file is to allow defining workspace plotter 
+defaults.</p>
+
+<p style="margin-bottom: -18">The workspace plotter looks for any variable that 
+contains the characters <span class="mcode">pltopt</span> anywhere in its name. If it 
+finds any such variables it will use the parameters they contain as arguments to 
+plt when you press the &quot;Plot&quot; button. For example suppose <span class="mcode">
+pltdef.m</span> contains these two lines:<br>
+<br>
+<span class="mcode">pltopt1 = {'Title','This is a plot title','ylim',[-2 7]};<br>
+pltopt2 = {'FigName','Workspace plotter'};</span><br>
+<br>
+Then any plot created by the workspace plotter will have its y-axis lower and 
+upper limits initialized to -2 and 7 and it will use the axis title specified in
+<span class="mcode">pltopt1</span> and the figure name specified in
+<span class="mcode">pltopt2</span>. (See section three - &quot;Command line 
+arguments&quot; - for a complete description of the arguments allowed). You can also 
+specify default parameters in a similar manner from the command window. For 
+instance, if before you press the workspace plotter's &quot;Plot&quot; button you type this 
+into the Matlab command window:<br>
+<br>
+<span class="mcode">another_pltoption = {'Xlim',[-10 10]};</span><br>
+<br>
+then the workspace plotter will use those x limits as the default for subsequent 
+plots. Note that it is picky about the variable name. For instance, it would not 
+use any parameters that you defined in a variable called <span class="mcode">
+another_plt_option</span> because of the underscore character after the &quot;plt&quot;. 
+The variable <span class="mcode">
+QuickpltOptions_A</span> would also not be recognized by the workspace plotter 
+because of the capital O, although that would work fine if you changed it to a 
+lower case o.</p>
+
+<p style="margin-bottom: -18"><br>
+<span class="mcode">pltdef.m</span> may also define other variables unrelated to 
+plotting options. For example you could include this in your <span class="mcode">
+pltdef.m</span>:<br>
+<br>
+<span class="mcode">UnitCirc = exp((0:.04:2)*pi*1j); % 50 point unit circle<br>
+circleX&nbsp; = real(UnitCirc);<br>
+circleY&nbsp; = imag(UnitCirc);</span><br>
+<br>
+If you were often plotting poles and zeros in the z-plane, <span class="mcode">
+circleX</span> and <span class="mcode">circleY</span> would come in handy as a way 
+to plot the unit circle - a much needed reference in z-plane plots.<br>
+&nbsp;</p>
+
+<p>&nbsp;</p>
+
+</body>
+
+</html>

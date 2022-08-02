@@ -1,0 +1,456 @@
+%% File: pil_ctrl_template.tlc
+%%
+%% $Revision: 1.18.4.3 $
+%% $Date: 2004/04/29 03:40:18 $
+%%
+%% Copyright 2001-2003 The MathWorks, Inc.
+%%
+%% Abstract: Embedded real-time system target file for Processor in 
+%% the Loop Simulation generation communications interface.
+%%
+
+%with CompiledModel
+
+%assign USE_ERROR_HANDLING = 0
+
+/*
+ * %<ModelName>_ctrl.c -- file generated from pil_ctrl_template.tlc
+ *
+%<SLibCommonHeaderInfo()>\
+ *
+ * Abstract:
+ *   Provides model step, init and terminate functions for the Processor In the 
+ *   Loop system. 
+ */
+
+/* 
+ * Local macros: 
+ * EXECUTE_SIL 		: When this macro is defined, a local 
+ *	   		  version of the model will be executed.
+ *
+ * EXECUTE_PIL 		: When this macro is defined, a remote 
+ *   		  	  version of the model will be executed.
+ *
+ * PIL_THROUGH_SFUN	: When this macro is defined, the remote 
+ *     	     	     	  version of the model will be executed 
+ *			  from the S-function, otherwise, it will 
+ *			  be executed from the local model.
+ *
+ * VALIDATE_PIL_WITH_SIL: When this macro is defined, the outputs 
+ *     	     	     	  from the remote version of the model 
+ *			  will be compared with the outputs from
+ *	 	 	  the local version of the model.
+ *			  
+ */
+
+#include "mex.h"
+
+#define USE_EXCEPTION_FREE_ERRORS_not
+#define mexErrMsgTxt mexPrintf
+#undef mexErrMsgTxt 
+
+#include "%<ModelName>.h"
+
+typedef void SimStruct;
+
+extern SimStruct *PIL_S;
+extern SimStruct *ROOT_S;
+
+#include "pil_comm_api.h"
+#include "pilMarshall.h"
+
+#define USE_SIM
+#define USE_PIL
+#define VALIDATE_PIL_WITH_SIL
+
+%assign stepArgDecl = "void"
+%assign localTid = ""
+%if disc_NumSampleTimes > 1
+  %assign stepArgDecl = "int stepTid"
+  %assign localTid = "stepTid"
+%endif
+
+#if defined(USE_SIM)
+extern void %<ModelName>_step_sim(%<stepArgDecl>);
+extern void %<ModelName>_initialize_sim(boolean_T firstTime);
+extern void %<ModelName>_terminate_sim(void);
+#endif
+
+%if !LibDWorkStructIsEmpty()
+  #define %<tDWork>_AVAILABLE
+  /* Declare external DWork structure */
+  extern %<tDWorkType> %<tDWork>;
+%endif
+%if !LibExternalInputsStructIsEmpty()
+  #define %<tInput>_AVAILABLE
+  /* Declare external inputs structure, U_DATA */
+    extern %<tInputType> %<tInput>;
+%endif
+%if !LibExternalOutputsStructIsEmpty()
+  #define %<tOutput>_AVAILABLE
+  /* Declare external outputs structure, Y_DATA */
+  extern %<tOutputType> %<tOutput>;
+%endif
+
+#if defined(USE_SIM)
+#define EXECUTE_SIL                     1
+#define EXECUTE_PIL                     1
+#if defined(VALIDATE_PIL_WITH_SIL)
+#undef VALIDATE_PIL_WITH_SIL
+#define VALIDATE_PIL_WITH_SIL           1
+#endif
+#else
+#if defined(VALIDATE_PIL_WITH_SIL)
+#undef VALIDATE_PIL_WITH_SIL
+#endif
+#endif
+
+#if !defined(USE_SIM) && !defined(USE_PIL)
+#error Either USE_SIM or USE_PIL must be defined.
+#endif
+
+/* Start of Functions in model "%<ModelName>" */
+
+#if defined(VALIDATE_PIL_WITH_SIL)
+#ifdef %<tOutput>_AVAILABLE
+static %<tOutputType> %<ModelName>_Y_Copy;
+#endif
+#ifdef %<tInput>_AVAILABLE
+static %<tInputType>  %<ModelName>_U_Copy;
+#endif
+#ifdef %<tDWork>_AVAILABLE
+static %<tDWorkType>  %<ModelName>_DWork_Copy;
+#endif
+#endif
+
+%<InsertPILMarshallingCode()>
+
+void pilMarshallInitSFcnSimStruct(SimStruct *S)
+{
+  PIL_S = S;
+}
+
+void pilMarshallInitRootSimStruct(SimStruct *S)
+{
+  ROOT_S = S;
+}
+
+%%
+%% Create an export declaration and the function for validating 
+%% the model checksum
+%%
+%<PilCacheExportPrototype("extern int CommConfirmModelChecksum();")>
+int CommConfirmModelChecksum() 
+{
+    int Status;
+    PILModelChecksum localModelChecksum;
+    pilMarshallOutput(&localModelChecksum,&mdlChecksum,4,SS_UINT32,-1,NULL,NULL);
+    /* Send the data to the target */
+    Status = CommDSRSendPacket((char *)&localModelChecksum,sizeof(localModelChecksum), MODEL_CHECKSUM_PACKET);
+    return Status;
+}
+
+/* model step function */
+void %<ModelName>_step(%<stepArgDecl>)
+{
+    int Status;
+
+  %if !LibExternalOutputsStructIsEmpty()
+  %<tOutputType> *TargetYStruct=NULL;
+    int             TargetYStructSize=0;
+  %endif 
+
+%if !EXISTS(PIL_USE_SIL)
+%assign PIL_USE_SIL = 1
+%endif
+
+  %if PIL_USE_SIL == 1
+    #if defined(EXECUTE_SIL)
+    /* Execute the ERT S-function within Simulink */
+    %<ModelName>_step_sim(%<localTid>);
+    #endif
+  %endif
+  
+  %% 
+  %% When disc_NumSampleTimes is 1, indicating a SingleRate model, localTid
+  %% is defeind as "". 
+  %%
+  %% When disc_NumSampleTimes is >1, indicating a MultiRate mode, localTid
+  %% is defined as "stepTid". "stepTid" is passed as an argument from
+  %% mdlOuputs in MultiRate models.
+  %%
+  %% SingleTasking/MultiTasking can be determined from
+  %% CompiledModel.FixedStepOpts.SolverMode.
+  %%
+  %% PIL executes with the base rate, tid 0.
+  %% - When MultiTasking, PIL executes with tid 0, which is available
+  %% through localTid.
+  %% - When SingleTasking, every pass calls PIL. (Every pass is tid 0)
+  %% 
+  %if FixedStepOpts.SolverMode == "MultiTasking"
+    if (%<localTid> == 0)
+  %endif
+    {
+  %if PIL_USE_SIL == 1
+      #if defined(EXECUTE_SIL) & defined(VALIDATE_PIL_WITH_SIL)
+      /* Copy the data structures share between simulation and PIL for validation */
+      #ifdef %<tOutput>_AVAILABLE
+      memcpy(&%<ModelName>_Y_Copy,&%<tOutput>,sizeof(%<tOutput>));
+      #endif
+      #ifdef %<tInput>_AVAILABLE
+      memcpy(&%<ModelName>_U_Copy,&%<tInput>,sizeof(%<tInput>));
+      #endif
+      #ifdef %<tDWork>_AVAILABLE
+      memcpy(&%<ModelName>_DWork_Copy,&%<tDWork>,sizeof(%<tDWork>));
+      #endif
+      #endif                                  /* VALIDATE */
+    %endif
+    
+    {
+      %if !LibExternalInputsStructIsEmpty()
+	#ifdef %<tInput>_AVAILABLE
+	{
+	  /* Send the input data to the PIL */
+	  %<tInputType> TargetUStruct;
+	  %<ModelName>_MarshallOutput(&TargetUStruct,&%<tInput>);
+	again: 
+	  Status = CommDSRSendPacket((char *)&TargetUStruct,sizeof(%<tInput>), UDATA_PACKET);
+	  
+	  /* in case not get anything, send the former packet again */
+	  if (Status != 0) {
+	    if (!UserStopSimulation("Repeating send of UDATA to target..., Click OK to stop simulation ")) {
+	      goto again;
+	    } else {
+	      pil_error(ROOT_S, "Step error handling: Send UDATA");
+	      return;
+	    }
+	  } else {
+	    CloseUI();
+	  }
+	}
+	#endif /* %<tInput>_AVAILABLE */
+      %endif
+      
+      /* Tell the PIL to Step */
+      reStep:
+      Status = CommDSRSendStep();
+      if (Status != 0) {
+	if (!UserStopSimulation("Repeating send of step command to target..., Click OK to stop simulation")) {
+	  goto reStep;
+	} else {
+	  pil_error(ROOT_S, "Step error handling: Send STEP command");
+	  return;
+	}
+      } else {
+	CloseUI();
+      }
+      %if !LibExternalOutputsStructIsEmpty()
+	{
+	  /* Get the UStruct from COMM and put it in place. */
+	  again2:   
+	  Status = CommGetPacket((char **)&TargetYStruct,&TargetYStructSize);
+	  if (Status != 0) {
+	    if (!UserStopSimulation("Waiting to receive YStruct from target..., Click OK to stop simulation")) {
+	      goto again2;
+	    } else {
+	      pil_error(ROOT_S, "Step error handling: Wait for YStruct");
+	      return;
+	    }
+	  } else {
+	    CloseUI();
+	  }
+	  if (TargetYStructSize != sizeof(%<tOutput>)) {
+	    1;
+	  }
+	  %<ModelName>_MarshallInput(&%<tOutput>,TargetYStruct);
+	}
+      %endif
+      
+      %if PIL_USE_SIL
+	#if defined(EXECUTE_SIL) & defined(VALIDATE_PIL_WITH_SIL)
+	%if !LibExternalOutputsStructIsEmpty()
+	  /* Compare %<tOutput> to the copy */
+	  {
+	    int Status;
+	    Status = memcmp(&%<tOutput>,&%<ModelName>_Y_Copy,sizeof(%<tOutput>));
+	    if (Status != POSIX_SUCCESS) {
+	      1;
+	      
+	      #define USE_SIL_RESULTS_NOT
+	      #if defined(EXECUTE_SIL) & defined(USE_SIL_RESULTS)
+	      /* Copy the data structures share between simulation and PIL for validation */
+	      
+	      memcpy(TargetYStruct,&%<tOutput>,sizeof(%<tOutput>));
+	      memcpy(&%<tOutput>,&%<ModelName>_Y_Copy,sizeof(%<tOutput>));
+	      
+	      #endif                   /* defined(EXECUTE_SIL) & defined(USE_SIL_RESULTS) */
+	    }
+	  }
+	%endif
+	#endif                                  /* VALIDATE */
+      %endif
+    }
+  }
+}
+
+/* init model assoicated commapi routines */
+void %<ModelName>_init()
+{
+#ifdef _WIN32
+%assign local_overtime_in_sec = 4
+%if EXISTS("CommTimeout")
+  %assign local_overtime_in_sec = "%<CommTimeout>"
+%endif
+%assign local_baud = 57600
+%if EXISTS("COM_BAUD")
+  %assign local_baud = %<COM_BAUD>
+%endif
+%assign local_bits = 8
+%if EXISTS("COM_BITS")
+  %assign local_bits = %<COM_BITS>
+%endif
+%assign local_parity = 0
+%if EXISTS("COM_PARITY")
+  %switch (COM_PARITY) 
+    %case "None" 
+      %assign local_parity = 0
+      %break
+    %default 
+      %assign local_parity = 0
+  %endswitch 
+%endif
+%assign local_stop = 0
+%if EXISTS("COM_STOP")
+  %switch (COM_STOP) 
+    %case 1
+      %assign local_stop = 0
+      %break
+    %case 1.5
+      %assign local_stop = 1
+      %break
+    %case 2 
+      %assign local_stop = 2
+      %break
+    %default 
+      %assign local_stop = 0
+  %endswitch 
+%endif
+
+  set_tlc_callback(&%<ModelName>_step, &%<ModelName>_initialize, &%<ModelName>_initialize, &%<ModelName>_terminate, &%<ModelName>_terminate);
+  set_tlc_RS232(%<local_baud>, %<local_bits>, %<local_parity>, %<local_stop>, %<local_overtime_in_sec>);    
+#endif
+}
+
+/* model initialize function */
+void %<ModelName>_initialize(boolean_T firstTime)
+{
+%assign local_port = 1
+%if EXISTS("COM_PORT")
+  %switch (COM_PORT) 
+      %case "COM1" 
+	%assign local_port = 1
+	%break
+      %case "COM2" 
+	%assign local_port = 2
+	%break
+      %default 
+	%assign local_port = 1
+  %endswitch 
+%endif
+
+  %<ModelName>_init();
+  /*
+   * Start connection process. This blocks until a connection is
+   * established, not any more.
+   */
+  if (!CommWaitForConnection(%<local_port>)) {
+    pil_error(ROOT_S, "Could not build connection with target");
+    return;  
+  }
+
+  /* 
+  
+  The %<ModelName>_initialize_sim routine is the standard ERT
+  S-function routine for model initialization. So this is
+  of a pass through call for standard S-function execution.
+  
+  */
+  %<ModelName>_initialize_sim(firstTime);
+
+  /* 
+  
+  The CommSendInit routine executes in the shared Simulink/S-Function/PIL
+  environment. It represents the function that should be called as follows
+  <model>_sf -> <model>_ctrl -> <model>_comm. It is responsible for
+  performing initialization related to execution of the PIL.
+
+  This need not be performed at model initialization time, it can be
+  deferred to model start time, but for simplicity and to behave as
+  S-functions behave today, it is being called at model initialization
+  time.
+  
+  */
+         
+    if (CommConfirmModelChecksum() != 0) {
+	pil_error(ROOT_S, "Initialization error handling: Checksum mismatch");
+	return;
+    }
+
+    while (CommDSRSendInit() != 0) {
+	if (!UserStopSimulation("Repeating send of init command to target..., Click OK to stop simulation")) {
+	    continue;
+	} else {
+	    pil_error(ROOT_S, "Initialization error handling: Send Init");
+	    return;
+	}
+    } 
+    CloseUI();
+}
+
+/* model terminate function */
+void %<ModelName>_terminate(void)
+{
+  int Status;
+
+  /* 
+  
+  The %<ModelName>_terminate_sim routine is the standard ERT
+  S-function routine for model termination. So this is
+  of a pass through call for standard S-function execution.
+  
+  */
+  %<ModelName>_terminate_sim();
+
+  /* 
+  
+  The CommSendTerminate routine executes in the shared Simulink/S-Function/PIL
+  environment. It represents the function that should be called as follows
+  <model>_sf -> <model>_ctrl -> <model>_comm. It is responsible for
+  performing termination related to execution of the PIL.
+
+  */
+reTerminate:  
+  Status = CommSendTerminate();
+  if (Status != 0) {
+     if (!UserStopSimulation("Repeating send of terminate command to target..., Click OK to stop simulation")) {
+       goto reTerminate;
+     } else {
+       pil_error(ROOT_S, "Terminate error handling: terminate");
+       return;
+     }
+  } else {
+     CloseUI();
+  }
+#ifdef USE_EXCEPTION_FREE_ERRORS
+  if (Status != POSIX_SUCCESS) {
+#ifndef USE_EXCEPTION_FREE_ERRORS
+      mexErrMsgTxt("Failed to complete terminate\n");
+#else
+      ssSetErrorStatus(PIL_S,"Failed to complete terminate\n");
+#endif
+  }
+#endif
+}
+
+ /* [EOF] %<ModelName>_ctrl.c */
+%endwith

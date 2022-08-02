@@ -1,0 +1,232 @@
+%%
+%% $Revision: 1.2 $ 
+%% $RCSfile: osekdbuffer.tlc,v $
+%%
+%% Abstract:
+%%      TLC file for the OSEK Asynchronous Double Buffer Block.
+%%
+%% Copyright 2002 The MathWorks, Inc.
+
+%implements "osekdbuffer" "C"
+
+%include "osekblocklib.tlc"
+
+%% Function: BlockTypeSetup ===================================================
+%% Abstract:
+%%      Add OSEK API headers for the selected implementation to the generated
+%%      model.c file as this block will generate OSEK API calls in model.c.
+%%
+%function BlockTypeSetup(block, system) void
+  %<OSLibIncludeImpHeaderInModel()>
+%endfunction
+
+%% Function: BlockInstanceSetup ===============================================
+%% Abstract:
+%%        Perform test to make sure that 2 and only 2 Double Buffer Blocks are
+%%        connected.  Generate code for .h, .prm. Only one of the pair needs to
+%%        do these.
+%function BlockInstanceSetup(block, system) void
+  %% Determine unmangled subsystem block name for error reporting.
+  %if EXISTS("SLName")
+    %assign BufferBlockName = STRING(LibUnmangledPathName(SLName))
+  %else
+    %assign BufferBlockName = STRING(LibUnmangledPathName(Name))
+  %endif
+  
+  %assign DbWrite = 0
+  %assign DbRead = 0
+
+  %if Connections.DirectDstConn[0] == "yes"
+    %% Get downstream block
+    %assign dsSysIdx = \
+      Connections.DataOutputPort[0].ConnPoint[0].DstBlockAndPortEl[0]
+    %assign dsBlkIdx = \
+      Connections.DataOutputPort[0].ConnPoint[0].DstBlockAndPortEl[1]
+    %assign DownstreamBlockRef = CompiledModel.System[dsSysIdx].Block[dsBlkIdx]
+    %if DownstreamBlockRef.Type == "S-Function"
+      %assign sfuncName = DownstreamBlockRef.ParamSettings.FunctionName
+      %if sfuncName == "osekdbuffer"
+	%% This is a valid Write Buffer
+	%assign DbWrite = 1
+	%assign DownstreamBlock = [%<dsSysIdx>, %<dsBlkIdx>]
+	%assign block = block + DownstreamBlock
+      %endif
+    %endif
+  %endif
+  %if Connections.DirectSrcConn[0] == "yes"
+    %% Get upstream block
+    %assign UpstreamBlockRef = LibSourceSignalBlock(DataInputPort.SignalSrc[0])
+    %if TYPE(UpstreamBlockRef) != "Number" && ...
+         UpstreamBlockRef.Type == "S-Function"
+      %assign sfuncName = UpstreamBlockRef.ParamSettings.FunctionName
+      %if sfuncName == "osekdbuffer"
+	%% This is a valid Read Buffer
+	%assign DbRead = 1
+	%% Get system and block indices
+	%assign signal    = SLibGetSourceRecord(DataInputPort, 0)
+	%assign usSysIdx  = signal.SigSrc[0]
+	%assign usBlkIdx  = signal.SigSrc[2]
+	%assign UpstreamBlock = [%<usSysIdx>, %<usBlkIdx>]
+	%assign block = block + UpstreamBlock
+      %endif
+    %endif
+  %endif
+  %% Cache info in this block
+  %assign block = block + DbWrite
+  %assign block = block + DbRead
+  %% For more readable comments in generated code
+  %assign block = block + BufferBlockName
+  
+  %% Check if connections are incorrect first, as this is the simpler mistake.
+  %if (DbWrite && DbRead)  || (!DbWrite && !DbRead )  
+    %assign errTxt = "The OSEK Double Buffer block '%<BufferBlockName>' "\
+      "is not connected correctly. It should be only used in Write/Read pairs "\
+      "with no other blocks connected between the pair."
+    %exit %<errTxt>
+  %endif
+  
+  %% Verify user used a Read side as reader and a Write side as a writer.
+  %% I.E. Want the work vectors to only appear for the Read side.
+  %assign errTxt = "The OSEK Double Buffer block '%<BufferBlockName>' "\
+    "is not connected correctly. It should be only used in pairs with the "\
+    "Write Side driving the Read Side."
+  %if DbRead
+    %if NumDWork != 5
+      %% Should have been 5 DWorks created by C-Mex file for Read side.
+      %exit %<errTxt>
+    %endif
+  %else
+    %% DbWrite
+    %if NumDWork != 0
+      %exit %<errTxt>
+    %endif
+  %endif
+  
+  %% Finally, check that at least 1 block of the pair is in a function-call SS
+  %assign errTxt = "The OSEK Double Buffer block '%<BufferBlockName>' "\
+    "is not used correctly. One or both of the pair needs to be inside "\
+    "a function-call subsystem."
+  %if system.Type != "function-call"
+    %if DbRead
+      %% DbRead
+      %% The Upstream block has to be in a function-call SS
+      %assign signal = SLibGetSourceRecord(DataInputPort, 0)            
+      %if signal.RecordType != "BlockOutput"
+	%exit Internal error, expected mapSource == "B"
+      %endif
+      %assign usSysIdx = signal.SigSrc[0]
+      %if System[usSysIdx].Type != "function-call"
+	%exit %<errTxt>
+      %endif
+    %else
+      %% DbWrite
+      %% The Downstream block has to be in a function-call SS
+      %if System[dsSysIdx].Type != "function-call"
+	%exit %<errTxt>
+      %endif
+    %endif
+  %endif
+%endfunction
+
+%function Start(block, system) Output
+  %% Cache code for the shared control variables into MdlStart 
+  %% for this double buffer pair.
+  %% Only one of pair needs to do this, so read side will do it.
+  %if DbRead
+    %assign usSysIdx  = UpstreamBlock[0]
+    %assign usBlkIdx  = UpstreamBlock[1]
+    %assign UpstreamBlockRef = CompiledModel.System[usSysIdx].Block[usBlkIdx] 
+    /* Setup variables used by: %<BufferBlockName> (Reader) and*/
+    /* %<UpstreamBlockRef.BufferBlockName> (Writer) */
+    %<LibBlockDWork(Reading,"","",0)> = -1;
+    %<LibBlockDWork(Writing,"","",0)> = -1;
+    %<LibBlockDWork(Last,"","",0)> = 0;
+    %% Use Write side BIO vector for one of the 2 buffers,
+    %% need to be in Write side block scope to access it.
+    %with CompiledModel.System[usSysIdx]
+      %with UpstreamBlockRef 
+	%assign tmpVar = LibBlockOutputSignalAddr(0, "", "", 0)
+      %endwith
+    %endwith %% CompiledModel.System[usSysIdx]
+    %<LibBlockDWork(BufPtrs,"","",0)> = %<tmpVar>;
+    %<LibBlockDWork(BufPtrs,"","",1)> = %<LibBlockDWorkAddr(Buffer0,"","",0)>;
+    
+  %endif
+%endfunction
+
+%function Outputs(block, system) Output
+  %% This code is generated for each occurrence of double buffer pairs
+  %% in the model.  At some # of pairs in a model, it may be better to
+  %% do a function call to reduce code size.
+  %assign dtName = LibBlockOutputSignalDataTypeName(0,tRealPart)
+  %if DbRead
+    %% This is the Read block
+    /* %<Type> Block: %<Name> (Reader)*/
+    {
+      DisableAllInterrupts();
+      if (%<LibBlockDWork(Writing,"","",0)> == 0) {
+	%<LibBlockDWork(Reading,"","",0)> = 1;
+      } else if (%<LibBlockDWork(Writing,"","",0)> == 1) {
+	%<LibBlockDWork(Reading,"","",0)> = 0;
+      } else {
+	%<LibBlockDWork(Reading,"","",0)> = %<LibBlockDWork(Last,"","",0)>;
+      }
+      EnableAllInterrupts();
+      %assign tmpVar = LibBlockDWork(Reading,"","",0)
+      
+      %% Use memcpy because its fast and vector is contiguous.
+      /* Read 1 of the 2 buffers and Write to output*/
+      memcpy(%<LibBlockOutputSignalAddr(0, "", "", 0)>, 
+      %<LibBlockDWork(BufPtrs,tmpVar,"","")>,
+      %<LibBlockOutputSignalWidth(0)> * sizeof(%<dtName>));
+      
+      %<LibBlockDWork(Reading,"","",0)> = -1;
+    }
+  %else
+    %% This is the Write block, but run control sections in scope 
+    %% of Read block to use it's LibBlock*Works.
+    %assign dsSysIdx  = DownstreamBlock[0]
+    %assign dsBlkIdx  = DownstreamBlock[1]
+    %assign DownstreamBlockRef = CompiledModel.System[dsSysIdx].Block[dsBlkIdx] 
+      /* %<Type> Block: %<Name> (Writer)*/
+    %with DownstreamBlockRef
+      {
+	%<dtName> *currentBuf;
+
+	DisableAllInterrupts();
+	if (%<LibBlockDWork(Reading,"","",0)> == 0) {
+	  %<LibBlockDWork(Writing,"","",0)> = 1;
+	} else if (%<LibBlockDWork(Reading,"","",0)> == 1) {
+	  %<LibBlockDWork(Writing,"","",0)> = 0;
+	} else {
+	  %<LibBlockDWork(Writing,"","",0)> = ...
+	    (%<LibBlockDWorkDataTypeName(Writing, tRealPart)>)!%<LibBlockDWork(Last,"","",0)>;
+	}
+	EnableAllInterrupts();
+	
+	%% Generate code which uses DWorks of Read block
+	%assign tmpVar  = LibBlockDWork(Writing,"","",0)
+	currentBuf = (%<dtName> *)(%<LibBlockDWork(BufPtrs, tmpVar, "", "")>);
+    %endwith
+	%% Use roll since input to the Write block can be discontiguous.
+	%% Since Output vector is accessed via 1 of 2 elements of the Reader
+	%% blocks DWork pointers, use only index portion of LibBlockOutputSignal.
+	%assign rollVars = ["U"]
+	%roll sigIdx = RollRegions, lcv = RollThreshold, block, "Roller", rollVars
+	  %assign u = LibBlockInputSignal(0, "", lcv, sigIdx)
+	  %% Instead of using a rolled [index] for currentBuf, use ++ to so
+	  %% each region continues where previous left off.
+	  *currentBuf++ = %<u>;
+	%endroll
+	
+	%with DownstreamBlockRef
+        DisableAllInterrupts();
+	%<LibBlockDWork(Last,"","",0)> = %<LibBlockDWork(Writing,"","",0)>;
+	%<LibBlockDWork(Writing,"","",0)> = -1;
+	EnableAllInterrupts();
+    %endwith
+      }
+  %endif    
+%endfunction
+
+%% [EOF] osekdbuffer.tlc

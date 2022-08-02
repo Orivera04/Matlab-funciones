@@ -1,0 +1,91 @@
+%  rain5.m
+% Matlab file for Part 5 of the Raindrops module
+
+disp('**************************************************')
+disp('Part 5:  Modeling Large Raindrops');
+disp('**************************************************')
+disp('  ')    
+
+    format short
+
+    disp('Type g and n to check these parameters')
+    disp('are correctly entered from Part 4.')    
+    disp('           (n should be 100.)' )
+    disp('  If not, reenter the values.')
+    disp(' ')
+
+    disp('Enter MATLAB commands to make a=0.115 and')
+    disp('Delta=2/n.')
+    disp(' ')
+    disp('--------------------------------------------')
+    disp('What are the units for a?  (Answer as a')
+    disp('MATLAB comment in your diary file.)')
+    disp(' ')
+    disp('To continue afterwards, type the word return')
+    disp('and hit enter!')
+    disp(' ')
+
+    keyboard;   
+    disp(' ')
+
+    disp('--------------------------------------------')
+    disp('We want to draw the slope field for the')
+    disp('new differential equation: ')
+    disp(' ')
+    disp(' dv/dt = g - a v^2')
+    disp('       = 32.2 - 0.115 v^2')
+    disp(' ')
+    disp('Time t will run from 0 to 2 and ')
+    disp('velocity v will run from 0 to 25.')
+    disp(' ')
+    disp('Remember you have to change the ')
+    disp('dfun.m file before you can use the')
+    disp('   slpfield(0,2,0,25)     command.')
+    disp('To hold the plot, type: hold on.')
+    disp(' ')
+    disp('--------------------------------------------')
+    disp('You should be able to estimate the')
+    disp('terminal velocity by looking at the')
+    disp('slope field.  Include a MATLAB comment')
+    disp('in your diary file.')
+    disp(' ')
+    disp('To continue afterwards, type the word return')
+    disp('and hit enter!')
+    disp(' ')
+
+    keyboard;
+    disp(' ')
+
+    disp('-----------------------------------------------')
+    disp('Now, your job is to use Euler''s method to')
+    disp('generate the points on the v(t) solution')
+    disp('curve, and then plot these points on top')
+    disp('of the slope field plot, just as we did')
+    disp('in Part 4 of this module.')
+    disp(' ')
+    disp('Your equally spaced t values should go')
+    disp('from 0 to 2 in steps of 0.02 this time.')
+    disp('Your plot should use: axis([0,2,0,25]).')  
+    disp(' ')
+    disp('To continue after your plot is done,')
+    disp('type the word return and hit enter!')
+    disp(' ') 
+
+    keyboard;
+    disp(' ')
+
+    disp('-----------------------------------------------')
+    disp('Get the terminal velocity in feet/sec.')
+    disp('(Hint: You can get the k-th point on the')
+    disp(' velocity curve by typing v(k), where k')
+    disp(' is a specific number.)')
+    disp(' ')
+    disp('Put your answers for the terminal velocity,')
+    disp('both in units of ft/sec and mi/hr, into your')
+    disp('diary file.  Answer there also the remaining ')
+    disp('questions in Part 5.')
+    disp(' ')
+    disp('----------------------------------------------')
+    disp('To go on to part 6 of this module,')
+    disp('type: rain6')
+    disp(' ')

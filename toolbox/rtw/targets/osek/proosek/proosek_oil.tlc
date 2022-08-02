@@ -1,0 +1,167 @@
+%% $RCSfile: proosek_oil.tlc,v $
+%% $Revision: 1.6.4.1 $
+%%
+%% Copyright 2002-2004 The MathWorks, Inc.
+%%
+%% Abstract:
+%%   Library file to create an ProOSEK OIL file for a given model.
+%%
+%selectfile NULL_FILE
+
+%function OSLibOSEKCreateOSEKOil(mdlName) void
+
+  %% Use openfile instead of SLibAddModelFile() to avoid adding to MODULES list
+  %openfile oilfile = "%<mdlName>.oil"
+  //
+  //OIL file: %<mdlName>.oil
+  //
+  
+  OIL_VERSION = "2.0"; /*$r1*/
+
+  %<OSLibOSEKImpSpecificImplOil(mdlName)>
+
+  CPU %<mdlName> {
+
+    
+    /**************************************************************************/
+    /*             Tasks                                                      */
+    /**************************************************************************/
+    
+    %<OSLibOSEKDumpAddOilTasks()>
+
+    TASK init {
+      TYPE = BASIC;
+      SCHEDULE = NON;
+      PRIORITY = %<basePriority + 1>;
+      ACTIVATION = 1;
+      AUTOSTART = TRUE;
+      STACKSIZE = 40;
+      %<OSLibOSEKImplDeclareFPU()>
+    };
+    
+    %if NumSynchronousSampleTimes == 1 || SLibSingleTasking()
+      TASK singleRate {
+	TYPE = BASIC;
+	SCHEDULE = FULL;
+	PRIORITY = %<basePriority>;
+	ACTIVATION = 1;
+	AUTOSTART = FALSE;
+	STACKSIZE = %<stackSize>;
+	%<OSLibOSEKImplDeclareFPU()>
+      };
+    %else
+      TASK baseRate {
+	TYPE = BASIC;
+	SCHEDULE = FULL;
+	PRIORITY = %<basePriority>;
+	ACTIVATION = 1;
+	AUTOSTART = FALSE;
+	STACKSIZE = %<stackSize>;
+	%<OSLibOSEKImplDeclareFPU()>
+      };
+      
+      %foreach i = NumSynchronousSampleTimes-1
+	%assign idx = i + 1
+	
+	TASK subRate_%<idx>
+	{
+	  TYPE = BASIC;
+	  SCHEDULE = FULL;
+	  PRIORITY = %<basePriority - idx>;
+	  ACTIVATION = 1;
+	  AUTOSTART = FALSE;
+	  STACKSIZE = %<stackSize>;
+	  %<OSLibOSEKImplDeclareFPU()>
+	};
+      %endforeach
+    %endif    
+    
+    
+    /**************************************************************************/
+    /*             Alarms                                                     */
+    /**************************************************************************/
+    
+    %<OSLibOSEKDumpAddOilAlarms()>
+
+    %if NumSynchronousSampleTimes == 1 || SLibSingleTasking()
+      ALARM singleAlarm {
+	COUNTER = SystemTimer;
+	ACTION = ACTIVATETASK {
+	  TASK = singleRate;
+	};
+      };
+      
+    %else
+      ALARM baseAlarm {
+	COUNTER = SystemTimer;
+	ACTION = ACTIVATETASK {
+	  TASK = baseRate;
+	};
+      };
+      
+      %foreach i = NumSynchronousSampleTimes-1
+	%assign idx = i + 1
+	
+	ALARM subAlarm_%<idx> {
+	  COUNTER = SystemTimer;
+	  ACTION = ACTIVATETASK {
+	    TASK = subRate_%<idx>;
+	  };
+	};
+      %endforeach
+    %endif
+    
+    /**************************************************************************/
+    /*             Counters                                                   */
+    /**************************************************************************/
+
+    %<OSLibOSEKDumpAddOilCounters()>
+    
+    %% ProOSEK associates the SystemTimer COUNTER with the PIT in this case. 
+    %% The ISR SystemTimerISR is attached to the PIT vector and will
+    %% increment this COUNTER every TIME_IN_NS. TICKSPERBASE is given the number of
+    %% increments that occur in the period of the model's base rate. 
+    COUNTER SystemTimer {
+      MAXALLOWEDVALUE = 65535;
+      %% For OSEKWorks, SystemTimer has this as ticks per second
+      TICKSPERBASE = %<CAST("Number", CompiledModel.OSEKData.CounterAlarmData.TICKSPERBASE)>;
+      MINCYCLE = 1;
+      PPC_TYPE = PPC_PIT;
+      TIME_IN_NS = %<CompiledModel.OSEKData.CounterAlarmData.TIME_IN_NS>;
+    };
+    
+    
+    /**************************************************************************/
+    /*             ISRs                                                       */
+    /**************************************************************************/
+    
+    %<OSLibOSEKDumpAddOilISRs()>
+    
+    /**************************************************************************/
+    /*             O/S                                                        */
+    /**************************************************************************/
+    
+    OS StdOS {
+      CC = AUTO;
+      STATUS = EXTENDED;
+      SCHEDULE = AUTO;
+      STARTUPHOOK = FALSE;
+%if IncludeErrHook == 1
+      ERRORHOOK = TRUE;
+%else
+      ERRORHOOK = FALSE;
+%endif
+      SHUTDOWNHOOK = FALSE;
+      PRETASKHOOK = FALSE;
+      POSTTASKHOOK = FALSE;
+      MICROCONTROLLER = MPC555;
+      USERMAIN = FALSE;
+      PPC_NODISPATCHER = FALSE;
+    };
+    
+  };
+
+  %closefile oilfile
+  %<SLibIndentFile("%<mdlName>.oil","")>
+  
+%endfunction

@@ -1,0 +1,61 @@
+%% $RCSfile: tidmcrampcntl.tlc,v $
+%% $Revision: 1.1.6.1 $ $Date: 2004/04/01 16:14:40 $
+%% Copyright 2004 The MathWorks, Inc.
+%%
+%% Abstract: TI C28x DMC library Ramp Generation
+
+%implements tidmcrampcntl "C"
+
+%include "fix_published.tlc"
+
+
+%% Function: BlockTypeSetup ==============================================
+%function BlockTypeSetup(block, system) void
+    %<LibAddToCommonIncludes("<IQmathLib.h>")>
+%endfunction %% BlockTypeSetup
+
+
+%% Function: Outputs ==========================================================
+%%
+%function Outputs(block, system) Output
+
+	%assign OUTPORT_X  = 0
+	%assign dataTyp = LibBlockOutputSignalDataTypeId(OUTPORT_X)
+	%assign fracLen = FixPt_DataTypeFractionLength(block,dataTyp)
+    %assign IQN   = "_IQ%<fracLen>"
+        
+    /* C28x DMC Library (%<ParamSettings.FunctionName>) - '%<Name>' */
+    {
+        int32_T* ptrrampDlyCntl = %<LibBlockDWorkAddr (RAMP_DLY_CNTL, "", "", 0)>;
+        int32_T* ptrOldSetPoint = %<LibBlockDWorkAddr (PREV_SETPOINT, "", "", 0)>;
+        
+        %assign rollVars = ["U", "Y"]
+        %roll idx = RollRegions, lcv = RollThreshold, block,"Roller", rollVars
+        
+            if ( %<LibBlockInputSignal(0,"",lcv,idx)> != *ptrOldSetPoint ) {
+                *ptrrampDlyCntl += 1;
+                if (*ptrrampDlyCntl >= (long) %<LibBlockParameterValue(P1, 0)>) {
+                    if (%<LibBlockInputSignal(0,"",lcv,idx)> >= *ptrOldSetPoint) {
+                        %<LibBlockOutputSignal(0,"",lcv,idx)> = *ptrOldSetPoint + %<IQN>(0.0000305);
+                        if (%<LibBlockOutputSignal(0,"",lcv,idx)> > %<IQN>(%<LibBlockParameterValue(P3, 0)>))
+                            %<LibBlockOutputSignal(0,"",lcv,idx)> = %<IQN>(%<LibBlockParameterValue(P3, 0)>);           
+                        *ptrrampDlyCntl = 0;
+                    } else {
+                        %<LibBlockOutputSignal(0,"",lcv,idx)> = *ptrOldSetPoint - %<IQN>(0.0000305);
+                        if (%<LibBlockOutputSignal(0,"",lcv,idx)> < %<IQN>(%<LibBlockParameterValue(P2, 0)>))
+                            %<LibBlockOutputSignal(0,"",lcv,idx)> = %<IQN>(%<LibBlockParameterValue(P2, 0)>);           
+                        *ptrrampDlyCntl = 0;
+                    }
+                    *ptrOldSetPoint++ = %<LibBlockOutputSignal(0,"",lcv,idx)>;
+                }
+            } else {
+                %<LibBlockOutputSignal(1,"",lcv,idx)> = 0x7FFFFFFF;
+            }
+            ptrrampDlyCntl++;
+            
+        %endroll
+    }
+
+%endfunction
+
+%% [EOF] tidmcrampcntl.tlc

@@ -1,0 +1,175 @@
+<!--
+Copyright 2001-2004 The MathWorks, Inc.
+$Revision: 1.1.6.2 $ $Date: 2004/03/24 20:39:37 $
+-->
+
+<!--
+This HTML is auto-generated from an m-file.
+Your changes will be overwritten.
+--><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:x-large">Determining the Rate of Acquisition</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Using the timestamps provided by the GETDATA function, the
+device frame rate can be estimated using MATLAB functions.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium;">Overview</p><ul xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd"><li><a href="#Step 1: Access and Configure a Device.">Step 1: Access and Configure a Device.</a></li><li><a href="#Step 2: Log and Retrieve Data.">Step 2: Log and Retrieve Data.</a></li><li><a href="#Step 3: Calculate the Acquisition Rate.">Step 3: Calculate the Acquisition Rate.</a></li></ul><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Step 1: Access and Configure a Device.<a name="Step 1: Access and Configure a Device."></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Create a video input object and access its video source object to
+configure the desired acquisition rate. The acquisition rate is
+determined by the value of the device specific FrameRate property of the
+video source object.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Note, since FrameRate is a device specific property, not all devices
+may support it.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Access an image acquisition device.</span>
+vidobj = videoinput(<span style="color:#B20000">'winvideo'</span>, 1);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Configure the number of frames to log.</span>
+vidobj.FramesPerTrigger = 50;</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Skip the first few frames the device provides</span>
+<span style="color:green">% before logging data.</span>
+videobj.TriggerFrameDelay = 5;</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Access the device's video source.</span>
+src = getselectedsource(vidobj);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Configure the device's frame rate (frames per second).</span>
+actualRate = 15.15;
+src.FrameRate = num2str(actualRate);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Step 2: Log and Retrieve Data.<a name="Step 2: Log and Retrieve Data."></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Initiate the acquisition and retrieve the logged frames and timestamps.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Start the acquisition.</span>
+start(vidobj)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Wait for data logging to end before retrieving data.</span>
+wait(vidobj, 10);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Retrieve the data and timestamps.</span>
+[frames, timeStamp] = getdata(vidobj);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Step 3: Calculate the Acquisition Rate.<a name="Step 3: Calculate the Acquisition Rate."></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">By plotting each frame's timestamp, one can verify that the rate of acquisition
+is constant.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Graph frames vs time.</span>
+plot(timeStamp,<span style="color:#B20000">'x'</span>)
+xlabel(<span style="color:#B20000">'Frame Index'</span>)
+ylabel(<span style="color:#B20000">'Time(s)'</span>) </pre><img xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" src="demoimaq_AcquisitionRate_img_10_01.gif"><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">The average time difference can also be determined to compare to the
+expected acquisition rate.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Find the time difference between frames.</span>
+diffFrameTime = diff(timeStamp);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Graph the time differences.</span>
+plot(diffFrameTime, <span style="color:#B20000">'x'</span>);
+xlabel(<span style="color:#B20000">'Frame Index'</span>)
+ylabel(<span style="color:#B20000">'Time Difference(s)'</span>)
+set(gca, <span style="color:#B20000">'ylim'</span>, [0 .12])</pre><img xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" src="demoimaq_AcquisitionRate_img_12_01.gif"><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Find the average time difference between frames.</span>
+avgTime = mean(diffFrameTime)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+avgTime =
+
+    0.0667
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Determine the experimental frame rate.</span>
+expRate = 1/avgTime</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+expRate =
+
+   15.0012
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Comparing the time difference between the experimental and the known
+frame rate, the percent error can be calculated. Since a generic USB web camera is being used as the acquisition device,
+it is to be expected that the actual device frame rate will fluctuate. 
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Determine the percent error between the determined and actual frame rate.</span>
+diffRates = abs(actualRate - expRate)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+diffRates =
+
+    0.1488
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">percentError = (diffRates/actualRate) * 100</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+percentError =
+
+    0.9824
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Once the video input object is no longer needed, delete</span>
+<span style="color:green">% it and clear it from the workspace.</span>
+delete(vidobj)
+clear vidobj</pre><originalCode xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" code="%% Determining the Rate of Acquisition
+&#xA;% Using the image timestamps provided by the GETDATA function, the
+&#xA;% device frame rate can be estimated using MATLAB functions.
+&#xA;
+&#xA;%% Step 1: Access and Configure a Device.
+&#xA;% Create a video input object and access its video source object to
+&#xA;% configure the desired acquisition rate. The acquisition rate is
+&#xA;% determined by the value of the device specific FrameRate property of the
+&#xA;% video source object.
+&#xA;%
+&#xA;% Note, since FrameRate is a device specific property, not all devices
+&#xA;% may provide it.
+&#xA;
+&#xA;% Access an image acquisition device.
+&#xA;vidobj = videoinput('winvideo', 1);
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Configure the number of frames to log.
+&#xA;vidobj.FramesPerTrigger = 50;
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Skip the first few frames the device provides
+&#xA;% before logging data.
+&#xA;videobj.TriggerFrameDelay = 5;
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Access the device's video source.
+&#xA;src = getselectedsource(vidobj);
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Configure the device's frame rate (frames per second).
+&#xA;actualRate = '15.15';
+&#xA;src.FrameRate = actualRate;
+&#xA;
+&#xA;%% Step 2: Log and Retrieve Data.
+&#xA;% Initiate the acquisition and retrieve the logged frames and timestamps.
+&#xA;
+&#xA;% Start the acquisition.
+&#xA;start(vidobj)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Wait for data logging to end before retrieving data.
+&#xA;wait(vidobj, 10);
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Retrieve the data and timestamps.
+&#xA;[frames, timeStamp] = getdata(vidobj);
+&#xA;
+&#xA;%% Step 3: Calculate the Acquisition Rate.
+&#xA;% By plotting each frame's timestamp, one can verify that the rate of acquisition 
+&#xA;% is constant. 
+&#xA;
+&#xA;% Graph frames vs time.
+&#xA;plot(timeStamp,'x')
+&#xA;xlabel('Frame Index')
+&#xA;ylabel('Time(s)') 
+&#xA;
+&#xA;%%
+&#xA;% The average time difference can also be determined to compare to the 
+&#xA;% expected acquisition rate. 
+&#xA;
+&#xA;% Find the time difference between frames.
+&#xA;diffFrameTime = diff(timeStamp);
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Graph the time differences.
+&#xA;plot(diffFrameTime, 'x');
+&#xA;xlabel('Frame Index')
+&#xA;ylabel('Time Difference(s)')
+&#xA;set(gca, 'ylim', [0 .12])
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Find the average time difference between frames.
+&#xA;avgTime = mean(diffFrameTime)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Determine the experimental frame rate.
+&#xA;expRate = 1/avgTime
+&#xA;
+&#xA;%%
+&#xA;% Comparing the time difference between the experimental and the known 
+&#xA;% frame rate, the percent error can be calculated.
+&#xA;
+&#xA;% Determine the percent error between the determined and actual frame rate.
+&#xA;actualRate = str2num(actualRate);
+&#xA;diffRates = abs(actualRate - expRate)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;percentError = (diffRates/actualRate) * 100
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Once the video input object is no longer needed, delete
+&#xA;% it and clear it from the workspace.
+&#xA;delete(vidobj)
+&#xA;clear vidobj
+&#xA;"></originalCode>

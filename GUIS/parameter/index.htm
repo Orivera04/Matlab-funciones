@@ -1,0 +1,1169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>parameters: A class for painlessly generating MATLAB GUIs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#FFCC99">
+<h1>Painless MATLAB graphical user interfaces  for everybody</h1>
+<h2>Table of contents</h2>
+<ul>
+  <li><a href="#21">Introduction</a></li>
+  <li><a href="#22">Example</a></li>
+  <li><a href="#23">download the source code and installation</a></li>
+  <li><a href="#24">System requirement</a></li>
+  <li><a href="#25">creating a parameter gui object</a></li>
+  <li><a href="#26">add different parameter types
+  </a>    <ul>
+      <li><a href="#1">float</a></li>
+      <li><a href="#11">slider</a></li>
+      <li><a href="#2">int</a></li>
+      <li><a href="#3">string</a></li>
+      <li><a href="#4">bool</a></li>
+      <li><a href="#5">panel</a></li>
+      <li><a href="#6">radiobutton</a></li>
+      <li><a href="#7">pop-up menu</a></li>
+      <li><a href="#8">filename</a></li>
+      <li><a href="#9">directoryname</a></li>
+      <li><a href="#10">button</a></li>
+    </ul>
+  </li>
+  <li><a href="#27">Callbacks</a></li>
+  <li><a href="#28">Units</a></li>
+  <li><a href="#29">Function reference</a></li>
+  <li><a href="#30">FAQ</a></li>
+</ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>Introduction<a name="21" id="21"></a></h2>
+<p>The functions described on this page offer an extraordinary easy
+  access for every MATLAB user to produce comfortable user interaction in any
+  MATLAB program. Its possibilities
+  are unlimited,
+  its
+  use idiot proof. Virtually no programming is required to use it; certainly
+  no knowledge about
+programming is required to understand it. It uses MATLAB classes but hides them
+  from the user. </p>
+<p>All functions described here can also be constructed using GUIDE, but with
+  considerable more time and pain... Furthermore the result are less reusable,
+  transferable or readable.</p>
+<p>&nbsp;</p>
+<h2><a href="mfiles/example1.m">Example</a>: interactive drawing<a name="22" id="22"></a></h2>
+<p>Imagine you want to call a function with a couple of parameters. You don't
+  want to type each parameter in the command line every time and want to make
+  your function usable to others and give it a nice graphical user interface
+  that everybody can understand. Here is the solution! The following example
+  shows how the parameter class makes live easy for you from now on!</p>
+<h2></h2>
+<p>First follow the download and installation instructions <a href="#23">here</a>. Then download
+  the following function (example1) to a file called example1.m and execute it:</p>
+<p><a href="example1.html">view the source code</a></p>
+<p><a href="mfiles/example1.m">download the .m-file</a></p>
+<p><br>
+call the function by typing &quot;example1&quot; (without parameters)</p>
+<p>A window pops up that looks like:</p>
+<p><img src="draw1.jpg" width="512" height="281"></p>
+<p><em>figure: The gui that appears on the screen executing example1</em></p>
+<p>&nbsp;</p>
+<p>In the actual source code exactly 10 lines are necessary to define this GUI
+  and bring it on the screen. The user interaction form now on is very simple
+  by only one command: <font face="Courier New, Courier, mono">get</font></p>
+<p>&nbsp;</p>
+<p>Pressing the 'draw' button now plots a circle with the radius ~1 cm (not exactly,
+  for demonstration purposes only. The actual size depends on your screen resolution).
+  <br>
+  Try to change the radius or the shape from the gui and redraw them. The tick
+  box &quot;hold
+  on&quot; determines if the figure is cleared before drawing. Try also a negative
+radius. Playing in it with three times pressing the &quot;draw&quot; button with
+different shapes results for example in the following picture:</p>
+<p><img src="example_output.jpg" width="356" height="318"></p>
+<p><em>figure: example output from the gui above</em></p>
+<p>&nbsp;</p>
+<h3>Conventions in this manual:</h3>
+<p><font face="Courier New, Courier, mono">MATLAB input/output is plotted in
+Courier</font></p>
+<p>function names are plotted <strong>bold</strong></p>
+<p>names that can be freely defined are in <font color="#00FFFF">blue.</font></p>
+<p><font color="#000000">identifying strings are <font color="#FF0000">red</font></font></p>
+<p>units are <font color="#00FF40">green</font></p>
+<p>&nbsp;</p>
+<h1>getting the source code and installation<a name="23" id="23"></a></h1>
+<ol><li>download the code <a href="mfiles.zip">here</a> (local) or <a href="http://www.mathworks.com/matlabcentral/fileexchange/loadFile.do?objectId=5615&objectType=FILE">here</a> (MATLAB
+    file exchange).</li>
+  <li>unpack the zip file - you get two folders (units and @parameter), the main
+    file &quot;parametergui.m&quot; and a couple of examples (from this page). </li>
+  <li>add the directory <strong>and the subdirectories </strong>to the MATLAB
+  path.</li>
+</ol>
+<h1><img src="fileafterzip.jpg" width="761" height="407"></h1>
+<p><em>figure: filecontent after unpacking the zip file</em></p>
+<h1>System requirement<a name="24" id="24"></a></h1>
+<p>parameters needs MATLAB 7.0</p>
+<p>&nbsp;</p>
+<h1>creating a parameter bui object<a name="25" id="25"></a></h1>
+<p>An  object of the class parameter is created by calling:</p>
+<p><font face="Courier New, Courier, mono">a=<strong>parameter;</strong></font></p>
+<p>or with a name:</p>
+<p><font face="Courier New, Courier, mono">params=<strong>parameter</strong>('some parameter');</font></p>
+<p>&nbsp;</p>
+<h1>add different parameter types<a name="26" id="26"></a></h1>
+<p>All the examples for parameter types work by adding them to a parameter object
+  and calling the gui. Since that is always the same it is only shown once:</p>
+<p><font face="Courier New, Courier, mono">params=<strong>parameter</strong></font></p>
+<p><font face="Courier New, Courier, mono">params=<strong>add</strong>(params,something(see
+    below)) </font>&lt;- substitute by any example below</p>
+<p><font face="Courier New, Courier, mono">parametergui(params);</font></p>
+<p>&nbsp;</p>
+<p>parameter types can be one of the following:</p>
+<table width="100%" border="1">
+  <tr>
+    <td width="29%"><strong><font size="+1"><a href="#1">float</a></font></strong></td>
+    <td width="71%">a floating point variable with a unit</td>
+  </tr>
+  <tr>
+    <td><strong><font size="+1"><a href="#11">slider</a></font></strong></td>
+    <td>a floating point variable with a unit and a slider connected to it</td>
+  </tr>
+  <tr>
+    <td><strong><font size="+1"><a href="#2">int</a></font></strong></td>
+    <td>an integer value.</td>
+  </tr>
+  <tr>
+    <td><strong><font size="+1"><a href="#3">string</a></font></strong></td>
+    <td>a string value</td>
+  </tr>
+  <tr>
+    <td><strong><font size="+1"><a href="#4">bool</a></font></strong></td>
+    <td>a checkbox with values either zero or one</td>
+  </tr>
+  <tr>
+    <td><strong><font size="+1"><a href="#5">panel</a></font></strong></td>
+    <td>a grey rectangle that collects a number of items together</td>
+  </tr>
+  <tr>
+    <td><strong><font size="+1"><a href="#6">radiobutton</a></font></strong></td>
+    <td>a radiobutton is one of several buttons in a box. </td>
+  </tr>
+  <tr>
+    <td><strong><font size="+1"><a href="#7">pop-up menu</a></font></strong></td>
+    <td> pop-up menu that allows the choice between different strings</td>
+  </tr>
+  <tr>
+    <td><strong><font size="+1"><a href="#8">filename</a></font></strong></td>
+    <td>a  string and a button for selection of a file name</td>
+  </tr>
+  <tr>
+    <td><strong><font size="+1"><a href="#9">directoryname</a></font></strong></td>
+    <td> a string and a button for selection of a directory name</td>
+  </tr>
+  <tr>
+    <td><strong><font size="+1"><a href="#10">button</a></font></strong></td>
+    <td>a push button that calls a call back routine</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<h2><a href="mfiles/example7.m">Example</a>: All possible parameter types in
+  one gui:</h2>
+<p><img src="bigpanel.jpg" width="585" height="390"></p>
+<p><em>Figure: Example with all possible types of parameters. Each item line
+    is one line in the code, each value can be set or get with the <font face="Courier New, Courier, mono">set()</font> or <font face="Courier New, Courier, mono">get() </font>command.
+    Each item in this example is connected with a callback that tells it to display
+    the new values as soon its value has changed.</em></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1>All different parameter types:</h1>
+<p>&nbsp;</p>
+<h1>float<a name="1"></a></h1>
+<p>a floating point variable with a unit. See below for more details about units</p>
+<p></p>
+<p><em>calling convention:</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono">obj</font><font face="Courier New, Courier, mono">=<strong>add</strong>(obj,<font color="#FF0000">'float'</font>,<font color="#00FFFF">name</font>,<font color="#00FF40">unit_type</font>,value,<font color="#00FF40">unit</font>,[min_val],[max_val]);</font></p>
+  <p><font face="Courier New, Courier, mono">obj</font> is an existing object of type <font face="Courier New, Courier, mono">parameter</font></p>
+  <p><font face="Courier New, Courier, mono"><font color="#FF0000">'float'</font></font> identifies
+    the type of the parameter. </p>
+  <p><font face="Courier New, Courier, mono"><font color="#00FFFF">name</font></font> is
+    the the text that appears to the left of the input field and with which the
+  value is returned or set.</p>
+  <p><font face="Courier New, Courier, mono"><font color="#00FF40">unit_type</font></font> can
+    be of type (easily extendable see below): </p>
+  <blockquote>
+    <p>	unit_time,unit_length,unit_none,unit_freq, etc.</p>
+    <blockquote>
+      <p>If unit is unit_none than no unit select box is displayed</p>
+    </blockquote>
+  </blockquote>
+  <p><font face="Courier New, Courier, mono"><font color="#00FF40">unit</font></font> is
+    the actual unit of that type (e.g. 'cm' for unit_lenght or 'Hz' for unit_freq)</p>
+  <p><font face="Courier New, Courier, mono">value</font> is the value of the
+    item. This is stored with the actual unit.</p>
+  <p>min_val and max_val are optional. These are checked automatically by the
+  gui</p>
+  <p><font face="Courier New, Courier, mono"><font color="#00FFFF"></font></font></p>
+</blockquote>
+<p><em>example:</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono">params=<strong>add</strong>(params,<font color="#FF0000">'float'</font>,<font color="#00FFFF">'radius'</font>,<font color="#00FF40">unit_length</font>,pi,<font color="#00FF40">'cm'</font>,0,inf);</font></p>
+  <p><img src="float.jpg" width="237" height="246"></p>
+  <p><font face="Courier New, Courier, mono">params=<strong>add</strong>(params,<font color="#FF0000">'float'</font>,<font color="#00FFFF">'float
+          with no unit'</font>,<font color="#00FF40">unit_none</font>,'0:0.1:1');</font></p>
+  <p><font face="Courier New, Courier, mono">or </font></p>
+  <p><font face="Courier New, Courier, mono">params=<strong>add</strong>(params,<font color="#FF0000">'float'</font>,<font color="#00FFFF">'float
+  with no unit'</font>,'0:0.1:1');</font></p>
+  <p><font face="Courier New, Courier, mono"><img src="float2.jpg" width="233" height="92"></font></p>
+  <p>&nbsp;</p>
+  <p>compare with</p>
+  <p><font face="Courier New, Courier, mono">params=<strong>add</strong>(params,<font color="#FF0000">'float'</font>,<font color="#00FFFF">'some
+        float'</font>,0:0.3:1); </font>(numerical value instead of string)</p>
+  <p><img src="float3.jpg" width="255" height="96"></p>
+  <p>&nbsp;</p>
+</blockquote>
+<p><em>retrieving values:</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono">val=getas(obj,<font color="#00FFFF">'name'</font>,<font color="#00FF00">'unit'</font>)
+      </font>(returns the value in that specific unit)</p>
+  <p><font face="Courier New, Courier, mono">val=get(obj,'name') </font>(returns
+  the value in its original unit)</p>
+  <p><font face="Courier New, Courier, mono">val=getstringvalue(obj,'name') </font>(returns
+  the value in its form on the screen)</p>
+  <p>If the value of a float is returned by <font face="Courier New, Courier, mono">get</font>()
+    or <font face="Courier New, Courier, mono">getas() </font>then the numeric
+    values are returned as a number or a vector. If the input is of the form
+    1:10 or similar then <font face="Courier New, Courier, mono">getasstringvalue() </font>returns
+    the string value. Accordingly <font face="Courier New, Courier, mono">setstringvalue </font>sets
+    the value as string. In this case the automatic unit transformation does
+  not transform the numbers. </p>
+  <p><em></em></p>
+</blockquote>
+<p><em>possible inputs</em></p>
+<p>inputs can be in be in  normal MATLAB input conventions. </p>
+<blockquote>
+  <p>	<em>Examples for float input</em> </p>
+  <blockquote>
+    <p>1:0.1:1 results in 0,0.1...1</p>
+    <p>[1:10] results in 0,1,2,...10</p>
+    <p>0,1.2,3 results in 0,1.2,3</p>
+    <p>'0:3' (in colons) -&gt; the value in the field is always carried as a string,
+      but the values you get with <font face="Courier New, Courier, mono">get() </font>are      0
+      1 2 3</p>
+    <p>inf, -inf</p>
+    <p>a float value can also have the value 'auto'. In this case it
+    is a string. You can check this from your program. (with isequal())</p>
+    <p>If no value is given, the value is automatically set to 0.</p>
+  </blockquote>
+</blockquote>
+<p><em>out of bound error</em></p>
+<blockquote>
+<blockquote>
+  <p>By default floats are restricted to the range -realmax to +realmax (1.7977e+308).
+    By setting the min and max values these are checked automatically by the
+    gui. A warning box pops up if a value is entered that is not valid</p>
+  <p><em><img src="toosmallerror.jpg" width="363" height="218"></em></p>
+  <p>&nbsp;</p>
+  </blockquote>
+</blockquote>
+<p align="left">floats are left aligned</p>
+<p align="left">&nbsp;</p>
+<p>&nbsp;</p>
+<h1>slider<a name="11" id="11"></a></h1>
+<p>a floating point variable with a unit and a slider on its side . The value
+  of the edit field and the slider field are connected, so when one is changed,
+  the other one is automatically updated. Sliders are float values and have therefore
+  an unit</p>
+<p></p>
+<p><em>calling convention:</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono">obj</font><font face="Courier New, Courier, mono">=<strong>add</strong>(obj,<font color="#FF0000">'slider'</font>,<font color="#00FFFF">name</font>,<font color="#00FF40">unit_type</font>,value,<font color="#00FF40">unit</font>,min_val,max_val[,is_log]);</font></p>
+  <p><font face="Courier New, Courier, mono">obj</font> is an existing object
+    of type <font face="Courier New, Courier, mono">parameter</font></p>
+  <p><font face="Courier New, Courier, mono"><font color="#FF0000">'float'</font></font> identifies
+    the type of the parameter. </p>
+  <p><font face="Courier New, Courier, mono"><font color="#00FFFF">name</font></font> is
+    the the text that appears to the left of the input field and with which the
+    value is returned or set.</p>
+  <p><font face="Courier New, Courier, mono"><font color="#00FF40">unit_type</font></font> can
+    be of type (easily extendable see below): </p>
+  <blockquote>
+    <p> unit_time,unit_length,unit_none,unit_freq, etc.</p>
+    <blockquote>
+      <p>If unit is unit_none than no unit select box is displayed</p>
+    </blockquote>
+  </blockquote>
+  <p><font face="Courier New, Courier, mono"><font color="#00FF40">unit</font></font> is
+    the actual unit of that type (e.g. 'cm' for unit_lenght or 'Hz' for unit_freq)</p>
+  <p><font face="Courier New, Courier, mono">value</font> is the value of the
+    item. This is stored with the actual unit.</p>
+  <p>min_val and max_val are <strong>not </strong>optional. They must be set!.
+    These are checked automatically by the gui</p>
+  <p>is_log defines if the slider incement is linear (default) or logarithmic
+    (that means, if you click on the right arrow, is the value increased by a
+    constant amount or multiplied with a constant factor. possible values: 0
+    (linear), 1 (logarithmic)<br>
+  </p>
+  <p><font face="Courier New, Courier, mono"><font color="#00FFFF"></font></font></p>
+</blockquote>
+<p><em>example:</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono">params=<strong>add</strong>(params,<font color="#FF0000">'slider'</font>,<font color="#00FFFF">'float'</font>,<font color="#00FF40">unit_length</font>,pi,<font color="#00FF40">'cm'</font>,1,10,1);</font></p>
+  <p><img src="slider.jpg" width="550" height="147"></p>
+  <p>&nbsp;</p>
+  <p><a href="#10">example</a>: (works with copy/paste)</p>
+  <p><font face="Courier New, Courier, mono">params=parameter('slider panel');<br>
+  </font><font face="Courier New, Courier, mono">params=add(params,'slider','a
+  slider value',unit_length,5,'cm',1,10,0);<br>
+    params=add(params,'slider','another slider value',5,1,10);<br>
+    params=add(params,'button','OK');<br>
+  </font><font face="Courier New, Courier, mono">params=parametergui(params);</font></p>
+</blockquote>
+<p align="left">&nbsp;</p>
+<h1>int <a name="2" id="2"></a></h1>
+<p>An integer value. Integer values can also be of the form 1:10 or [1:10 13,15]
+etc... </p>
+<p><em>calling convention:</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono">obj</font><font face="Courier New, Courier, mono">=add(obj,<font color="#FF0000">'int'</font>,<font color="#00FFFF">name</font>[,value][,min_val][,max_val]);</font></p>
+  <p><font face="Courier New, Courier, mono">obj</font> is an existing object
+    of
+type <font face="Courier New, Courier, mono">parameter</font></p>
+  <p><font face="Courier New, Courier, mono"><font color="#FF0000">'float'</font></font> identifies
+    the type of the parameter. </p>
+  <p><font face="Courier New, Courier, mono"><font color="#00FFFF">name</font></font> is
+    the the text that appears to the left of the input field and with which the
+    value is returned or set.</p>
+  <p><font face="Courier New, Courier, mono">value</font> is the value of the
+    item. If the value is a numerical value then the value of the parameter is
+    set to this value. If it is given as a string ('1:10') then it is kept internally
+    as string. If no value is given, the value is automatically set to 0.</p>
+  <p>min_val and max_val are optional, if not set they are set to -intmax and
+      +intmax.. If included these are checked automatically by the gui</p>
+  <p>&nbsp;</p>
+</blockquote>
+<p><em>example:</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono">params=add(params,<font color="#FF0000">'int'</font>,<font color="#00FFFF">'some
+        int value'</font>,'1:3',0,inf);</font></p>
+</blockquote>
+<p><img src="int.jpg" width="270" height="92"></p>
+<p><em>retrieving values:</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono">get()</font> returns the numerical
+    value. If you are interested in the entry in the form as in 1:10 get it with <font face="Courier New, Courier, mono">getstringvalue()</font>.
+    Otherwise the standard<font face="Courier New, Courier, mono"> get() </font> function
+  returns in this case [1 2 3 ...10].</p>
+  <p>	a int value can also have the value 'auto'. In this case it is a string.
+  You can check this from your program. (with isequal())</p>
+</blockquote>
+<p></p>
+<p>Integer values are right aligned. </p>
+<h1>string <a name="3" id="3"></a></h1>
+<p>string values are normal MATLAB strings. No checking is done with them.</p>
+<p><em>calling convention:</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono">obj</font><font face="Courier New, Courier, mono">=<strong>add</strong>(obj,<font color="#FF0000">'string'</font>,<font color="#00FFFF">name</font>,value,gui_length);</font></p>
+  <p><font face="Courier New, Courier, mono">obj</font> is an existing object
+    of
+type <font face="Courier New, Courier, mono">parameter</font></p>
+  <p><font face="Courier New, Courier, mono"><font color="#FF0000">'float'</font></font> identifies
+    the type of the parameter. </p>
+  <p><font face="Courier New, Courier, mono"><font color="#00FFFF">name</font></font> is
+    the the text that appears to the left of the input field and with which the
+    value is returned or set.</p>
+  <p></p>
+  <p><font face="Courier New, Courier, mono">value</font> is the string value
+    of the item. </p>
+  <p>&nbsp;</p>
+</blockquote>
+<p><em>example:</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono">params=<strong>add</strong>(params,<font color="#FF0000">'string'</font>,<font color="#00FFFF">'some
+        string value'</font>,'hallo world',33);</font></p>
+  <p><font face="Courier New, Courier, mono"><img src="string.jpg" width="325" height="91"></font></p>
+</blockquote>
+<p>&nbsp;</p>
+<p><em>retrieving values</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono"> string_value=<strong>get</strong>(params,<font color="#00FFFF">'some
+        int value'</font>) </font>returns
+    the string value</p>
+</blockquote>
+<h1>bool<a name="4" id="4"></a></h1>
+<p>bool: a checkbox with values either zero or one</p>
+<p><em>calling convention:</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono">obj</font><font face="Courier New, Courier, mono">=<strong>add</strong>(obj,<font color="#FF0000">'bool'</font>,<font color="#00FFFF">name</font>,value);</font></p>
+  <p><font face="Courier New, Courier, mono">obj</font> is an existing object
+    of
+type <font face="Courier New, Courier, mono">parameter</font></p>
+  <p><font face="Courier New, Courier, mono"><font color="#FF0000">'bool'</font></font> identifies
+    the type of the parameter. </p>
+  <p><font face="Courier New, Courier, mono"><font color="#00FFFF">name</font></font> is
+    the the text that appears to the left of the input field and with which the
+    value is returned or set.</p>
+  <p><font face="Courier New, Courier, mono">value</font> is either 0 or 1 or
+    'true' or 'false'</p>
+</blockquote>
+<p><em>example:</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono">params=<strong>add</strong>(params,<font color="#FF0000">'bool'</font>,<font color="#00FFFF">'yes
+        or no'</font>,'true');<img src="bool.jpg" width="192" height="94"></font></p>
+</blockquote>
+<p><em>retrieving values</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono"> bool_value=<strong>get</strong>(params,<font color="#00FFFF">'yes
+    or no'</font>) </font></p>
+</blockquote>
+<p><em>remarks:</em></p>
+<blockquote>
+  <p>bool items can be used to enable or disable other parameter to make guis
+    easier to understand for other users. <a href="mfiles/example2.m">Example</a> (runs with copy/paste):<br>
+    <font face="Courier New, Courier, mono">params=parameter('example parameters');<br>
+    params=add(params,'panel','',3);<br>
+    params=add(params,'bool','enable the following:',1);<br>
+    params=add(params,'string','one parameter','is enabled');<br>
+    params=add(params,'string','another parameter','is disabled');<br>
+    params=enablefield(params,'enable the following:','one parameter');<br>
+    params=disablefield(params,'enable the following:','another parameter');<br>
+    params=add(params,'button','OK')<br>
+    params=parametergui(params);<br>
+  <img src="enable1.jpg" width="283" height="203"> <img src="enable2.jpg" width="283" height="206">   </font> </p>
+  <p><em>figure: ticking the first line enables or disables the following lines</em></p>
+  <p>&nbsp;</p>
+</blockquote>
+<p></p>
+<p></p>
+<h1>panel<a name="5" id="5"></a></h1>
+<p>panels group together several items visually by a rectangle. Except from radiobutton
+  they only have an optic effect. </p>
+<p><em>calling convention:</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono">obj</font><font face="Courier New, Courier, mono">=<strong>add</strong>(obj,<font color="#FF0000">'panel'</font>,<font color="#00FFFF">name</font>,nr_rows);</font></p>
+  <p><font face="Courier New, Courier, mono">obj</font> is an existing object
+    of type <font face="Courier New, Courier, mono">parameter</font></p>
+  <p><font face="Courier New, Courier, mono"><font color="#FF0000">'panel'</font></font> identifies
+    the type of the parameter. </p>
+  <p><font face="Courier New, Courier, mono"><font color="#00FFFF">name</font></font> is
+    the the text that appears in the top line of the rectangular.</p>
+  <p><font face="Courier New, Courier, mono">nr_rows </font>indicates how
+    many of the next objects are grouped in this panel.</p>
+</blockquote>
+<p><em>example:</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono">params=<strong>add</strong>(params,<font color="#FF0000">'panel'</font>,<font color="#00FFFF">'a
+        panel with 2 items',2</font>);</font></p>
+  <p><font face="Courier New, Courier, mono">params=add(params,'float','first
+  line',unit_none,1);</font><font face="Courier New, Courier, mono"><br>
+  params=add(params,'float','second line',unit_none,2);</font></p>
+  <p><font face="Courier New, Courier, mono"><br>
+    <img src="panel.jpg" width="298" height="145"></font></p>
+</blockquote>
+<blockquote><div align="left">
+  <p>&nbsp;</p>
+  </div>
+</blockquote>
+<p align="left"><em>remarks</em></p>
+<blockquote>
+  <p align="left">there can be as many panels in a gui as you want. Parameters
+    in different panels can have the same name! They are referred to with the
+    name of the panel in the end. See example for radiobutton</p>
+  <p align="left">If two items have the same name and are in different panels
+    then they must be referred by by adding the panel name in the <font face="Courier New, Courier, mono">get() </font>or <font face="Courier New, Courier, mono">set()</font>    methods.</p>
+  <p align="left">&nbsp;</p>
+</blockquote>
+<h1>radiobutton<a name="6" id="6"></a></h1>
+<p>a radiobutton is one of several buttons in a box. Radiobuttons only make sense
+  in plural. </p>
+<p><em>calling convention:</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono">obj</font><font face="Courier New, Courier, mono">=<strong>add</strong>(obj,<font color="#FF0000">'radiobutton'</font>,<font color="#00FFFF">name</font>,[value]);</font></p>
+  <p><font face="Courier New, Courier, mono">obj</font> is an existing object
+    of type <font face="Courier New, Courier, mono">parameter</font></p>
+  <p><font face="Courier New, Courier, mono"><font color="#FF0000">'radiobutton'</font></font> identifies
+    the type of the parameter. </p>
+  <p><font face="Courier New, Courier, mono"><font color="#00FFFF">name</font></font> is
+    the the text that appears to the left of the input field and with which the
+    value is returned or set.</p>
+  <p><font face="Courier New, Courier, mono">value</font> is either 0 or 1 or
+    'true' or 'false'. If no value is given it is automatically set to 0.</p>
+</blockquote>
+<p><em>example:</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono">params=<strong>add</strong>(params,<font color="#FF0000">'panel'</font>,<font color="#00FFFF">'make
+        your choice',</font>3);</font></p>
+  <p><font face="Courier New, Courier, mono"></font><font face="Courier New, Courier, mono">params=<strong>add</strong>(params,<font color="#FF0000">'radiobutton'</font>,<font color="#00FFFF">'choice
+  1'</font>);</font></p>
+  <p><font face="Courier New, Courier, mono">params=<strong>add</strong>(params,<font color="#FF0000">'radiobutton'</font>,<font face="Courier New, Courier, mono"><font color="#00FFFF">'choice
+    2</font></font><font color="#00FFFF">'</font>,1);</font></p>
+  <p><font face="Courier New, Courier, mono">params=<strong>add</strong>(params,<font color="#FF0000">'radiobutton'</font>,<font face="Courier New, Courier, mono"><font color="#00FFFF">'choice
+  3</font></font><font color="#00FFFF">'</font>);</font></p>
+  <p><font face="Courier New, Courier, mono"><img src="radiobutton.jpg" width="225" height="174"></font></p>
+  <p>&nbsp;</p>
+  <p><em>retrieving values</em></p>
+</blockquote>
+<blockquote>
+  <p><font face="Courier New, Courier, mono"> string_value=<strong>get</strong>(params,<font color="#00FFFF">'make
+        your choice'</font>) </font>returns the actual selected string of the
+        radiobutton.</p>
+</blockquote>
+<h2></h2>
+<p><em>remarks</em></p>
+<blockquote>
+  <p>radiobuttons only make sense in groups. Groups are defined by items of the
+    type <font face="Courier New, Courier, mono"><font color="#FF0000">'panel'</font></font>.</p>
+  <p>if one of the items of a radiobutton is called 'other...' then it gets an
+    extra string input box to the right where you can type in a string 'other...'
+    must be in exact form (with three dots)</p>
+  <blockquote>
+    <p><font face="Courier New, Courier, mono">params=<strong>add</strong>(params,<font color="#FF0000">'panel'</font>,<font color="#00FFFF">'make
+          your choice',</font>3);</font></p>
+    <p><font face="Courier New, Courier, mono"></font><font face="Courier New, Courier, mono">params=<strong>add</strong>(params,<font color="#FF0000">'radiobutton'</font>,<font color="#00FFFF">'choice
+          1'</font>);</font></p>
+    <p><font face="Courier New, Courier, mono">params=<strong>add</strong>(params,<font color="#FF0000">'radiobutton'</font>,<font face="Courier New, Courier, mono"><font color="#00FFFF">'choice
+            2</font></font><font color="#00FFFF">'</font>,1);</font></p>
+    <p><font face="Courier New, Courier, mono">params=<strong>add</strong>(params,<font color="#FF0000">'radiobutton'</font>,<font face="Courier New, Courier, mono"><font color="#00FFFF">'other</font></font><font color="#00FFFF">'<font color="#000000">,'what
+            else'</font></font>);</font></p>
+    <p><img src="radiobutton2.jpg" width="225" height="174"></p>
+    <p>&nbsp;</p>
+    <p><font face="Courier New, Courier, mono"><strong>get()</strong></font>now returns either the string 'choice 1' or 'choice 2' as before or the
+    string that the user typed next to the 'other...' radiobutton. If a string
+      is entered in the box the selection is automatically set to this box. If
+      the
+      'other...'
+      radiobutton is selected, the box is automatically highlighted and selected.</p>
+  </blockquote>
+  <p>&nbsp;</p>
+</blockquote>
+<p>&nbsp;</p>
+<h1>pop-up menu<a name="7" id="7"></a></h1>
+<p>creates a pop-up menu that allows the choice between different strings</p>
+<p><em>calling convention:</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono">obj</font><font face="Courier New, Courier, mono">=<strong>add</strong>(obj,<font color="#FF0000">'</font><font face="Courier New, Courier, mono"><font color="#FF0000">pop-up
+  menu'</font></font>,<font color="#00FFFF">name</font>,string_struct);</font></p>
+  <p><font face="Courier New, Courier, mono">obj</font> is an existing object
+    of type <font face="Courier New, Courier, mono">parameter</font></p>
+  <p><font face="Courier New, Courier, mono"><font color="#FF0000">'pop-up menu'</font></font> identifies
+    the type of the parameter. </p>
+  <p><font face="Courier New, Courier, mono"><font color="#00FFFF">name</font></font> is
+      the the text that appears to the left of the input field and with which
+    the value is returned or set.</p>
+  <p><font face="Courier New, Courier, mono">string_struct </font>is a structure
+    of strings.</p>
+</blockquote>
+<p><em>example:</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono">string_struct</font>={'selection
+  1','selection
+  2','selection
+  3'};</p>
+  <p><font face="Courier New, Courier, mono">params=<strong>add</strong>(params,<font color="#FF0000">'pop-up
+          menu'</font>,<font color="#00FFFF">'several strings'</font>,string_struct);</font></p>
+  <p><img src="popupmenu.jpg" width="250" height="126"></p>
+</blockquote>
+<p><em>retrieving values</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono"> string_value=<strong>get</strong>(params,<font color="#00FFFF">'several
+        strings'</font>). </font>This returns the actual string that was selected.</p>
+</blockquote>
+<p>&nbsp;</p>
+<h1>filename<a name="8" id="8"></a></h1>
+<p>generates a string box with a button. If you
+  press the button a file select box pops up that allows to select a file.</p>
+<p><em>calling convention:</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono">obj</font><font face="Courier New, Courier, mono">=<strong>add</strong>(obj,<font color="#FF0000">'<font face="Courier New, Courier, mono">filename'</font></font>,<font color="#00FFFF">name</font>[,default_file]);</font></p>
+  <p><font face="Courier New, Courier, mono">obj</font> is an existing object
+    of type <font face="Courier New, Courier, mono">parameter</font></p>
+  <p><font face="Courier New, Courier, mono"><font color="#FF0000">'filename'</font></font> identifies
+    the type of the parameter. </p>
+  <p><font face="Courier New, Courier, mono"><font color="#00FFFF">name</font></font> is
+    the the text that appears to the left of the input field and with which the
+    value is returned or set.</p>
+  <p><font face="Courier New, Courier, mono">default_file</font> is    the name
+    of any file.</p>
+</blockquote>
+<p><em>example:</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono">params=<strong>add</strong>(params,<font color="#FF0000">'filename</font></font><font face="Courier New, Courier, mono"><font color="#FF0000">'</font>,<font color="#00FFFF">'select
+        file name'</font>,'c:\test.m');</font></p>
+  <p><img src="filename.jpg" width="287" height="92"></p>
+  <p>&nbsp;</p>
+</blockquote>
+<p><em>retrieving values</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono"> file_name=<strong>get</strong>(params,<font color="#00FFFF">'select
+        file name'</font>). </font>This
+    returns the actual file that is selected.</p>
+</blockquote>
+<p><em>remarks</em></p>
+<blockquote>
+  <p>filename opens the file box in the directory that is given in the input
+    box. After selecting a file the file is referenced absolute (with path). </p>
+</blockquote>
+<p>&nbsp;</p>
+<h1>directoryname<a name="9" id="9"></a></h1>
+<p>works exactly like 'filename', but works with directories instead</p>
+<p><em>calling convention:</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono">obj</font><font face="Courier New, Courier, mono">=<strong>add</strong>(obj,<font color="#FF0000">'directory<font face="Courier New, Courier, mono">name'</font></font>,<font color="#00FFFF">name</font>[,default_file]);</font></p>
+  <p><font face="Courier New, Courier, mono">obj</font> is an existing object
+    of type <font face="Courier New, Courier, mono">parameter</font></p>
+  <p><font face="Courier New, Courier, mono"><font color="#FF0000">'filename'</font></font> identifies
+    the type of the parameter. </p>
+  <p><font face="Courier New, Courier, mono"><font color="#00FFFF">name</font></font> is
+    the the text that appears to the left of the input field and with which the
+    value is returned or set.</p>
+  <p><font face="Courier New, Courier, mono">default_file</font> is the name
+    of any file.</p>
+</blockquote>
+<p><em>example:</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono">params=<strong>add</strong>(params,<font color="#FF0000">'directoryname</font></font><font face="Courier New, Courier, mono"><font color="#FF0000">'</font>,<font color="#00FFFF">'select
+        directory name'</font>,'c:\temp');</font></p>
+  <p><img src="directoryname.jpg" width="393" height="97"></p>
+  <p>&nbsp;</p>
+</blockquote>
+<p><em>retrieving values</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono"> folder_name=<strong>get</strong>(params,<font color="#00FFFF">'select
+        </font><font face="Courier New, Courier, mono"><font color="#00FFFF">directory</font></font><font color="#00FFFF"> name'</font>). </font>This
+        returns the actual directory that is selected.</p>
+</blockquote>
+<p>&nbsp;</p>
+<h1>button<a name="10" id="10"></a></h1>
+<p>creates a push button that calls a call back routine</p>
+<p><em>calling convention:</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono">obj</font><font face="Courier New, Courier, mono">=<strong>add</strong>(obj,<font color="#FF0000">'button<font face="Courier New, Courier, mono">'</font></font>,<font color="#00FFFF">name,</font>callback_function);</font></p>
+  <p><font face="Courier New, Courier, mono">obj</font> is an existing object
+    of type <font face="Courier New, Courier, mono">parameter</font></p>
+  <p><font face="Courier New, Courier, mono"><font color="#FF0000">'button'</font></font> identifies
+    the type of the parameter. </p>
+  <p><font face="Courier New, Courier, mono"><font color="#00FFFF">name</font></font> is
+    the the text that appears to the left of the input field and with which the
+    value is returned or set.</p>
+  <p><font face="Courier New, Courier, mono">callback_function</font> is the
+    name of a function or some code that is executed when the button is pressed</p>
+</blockquote>
+<p><em>example:</em></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono">params=<strong>add</strong>(params,<font color="#FF0000">'button</font></font><font face="Courier New, Courier, mono"><font color="#FF0000">'</font>,<font color="#00FFFF">'press
+        this button'</font>,'msgbox(''button pressed'')');</font></p>
+  <p><img src="button.jpg" width="234" height="93"></p>
+</blockquote>
+<blockquote>&nbsp;</blockquote>
+<p><em>remarks</em></p>
+<blockquote>
+    <h3>setting a button as default button:</h3>
+  <p>the button can be made the default button by adding a &quot;1&quot; in the calling
+      line <font face="Courier New, Courier, mono">params=<strong>add</strong>(params,<font color="#FF0000">'button</font></font><font face="Courier New, Courier, mono"><font color="#FF0000">'</font>,<font color="#00FFFF">'press
+    this button'</font>,'msgbox(''button pressed'')',1)</font></p>
+  <p>If nothing else is selected the callback of this function is called when
+    the space bar or return is pressed on the keyboard.</p>
+  <p>Since MATLAB unfortunately does not support a proper graphic for that a
+    black box is plotted around the button instead. </p>
+  <h3>OK button</h3>
+  <p>If a button is called with the string 'OK', it is automatically designed
+    as a close button, no call back function is required:</p>
+  <p><font face="Courier New, Courier, mono">params=<strong>add</strong>(params,<font color="#FF0000">'button</font></font><font face="Courier New, Courier, mono"><font color="#FF0000">'</font>,<font color="#00FFFF">'OK'</font>)</font></p>
+  <blockquote>
+    <p>&nbsp;</p>
+  </blockquote>
+</blockquote>
+<h1>Callbacks<a name="27" id="27"></a></h1>
+<p>all of the different types can be assigned with a callback so that the action
+takes place immediately when you changed the selection. This is done by </p>
+<p><font face="Courier New, Courier, mono">params=<strong>setcallback</strong>(params,<font color="#00FFFF">'name'</font>,callback);</font></p>
+<p>The callback is now called every time the item looses its focus.</p>
+<p></p>
+<h1>Usage without gui</h1>
+<p>Objects of the parameter class can be used without gui. This is useful for
+  collecting data structures in a single object, saving and loading them to disk
+  or whatever. Furthermore parameters can be used to translate between units.</p>
+<h1>displaying parameters</h1>
+<p>Parameters are displayed when you type the name in the MATLAB command line
+  or when you move the mouse over them in the editor.</p>
+<p><em>Example (works with copy/paste)</em></p>
+<p><font face="Courier New, Courier, mono">params=parameter('example parameters');<br>
+  params=add(params,'float','time parameter',unit_time,1,'s')<br>
+  params=add(params,'button','OK')</font></p>
+<p></p>
+<p>produces the following output:</p>
+<p><font face="Courier New, Courier, mono">example parameters: object of class datastruct with 2 entries:<br>
+  ( float) time parameter = 1 s<br>
+  ( button) OK (callback:) close</font>
+</p>
+<p>&nbsp;</p>
+<h1>Accessing  parameter</h1>
+<p>Each parameter can be accessed by a number of different ways:</p>
+<p>given a float value:</p>
+<p><font face="Courier New, Courier, mono">params=add(params,'float','a
+      float value','1:5')</font></p>
+<ol>
+  <li>By its complete name: <font face="Courier New, Courier, mono">get(params,'a
+  float value') </font>produces 1 2 3 4 5 </li>
+  <li>By an abbriviated  name: <font face="Courier New, Courier, mono">get(params,'float
+      val') </font>produces
+    1 2 3 4 5 </li>
+  <li>if the value is in a panel then it can also accessed with the panel name
+  in the end: <br>
+  <font face="Courier New, Courier, mono">get(params,'a
+    float value','in panel') </font>this is helpful if there are a couple of
+  parameters with the same name in different panels</li>
+</ol>
+<p></p>
+<h1>Setting parameter values</h1>
+<p>The value of each parameter can be set with the command <font face="Courier New, Courier, mono">set(param,'name',value).
+</font>In case of floats it can also be set with a unit: <font face="Courier New, Courier, mono">setas(param,'name',value,'unit'). </font>When
+the parameter group has an open representation in a gui on the screen, the value
+in the gui is automatically updated.</p>
+<p><em>Example (works with copy/paste)</em></p>
+<p><font face="Courier New, Courier, mono">params=parameter('watch!');<br>
+  params=add(params,'int','random value');<br>
+  params=parametergui(params);<br>
+  setval='set(params,''random value'',rand*100);';<br>
+start(timer('period',0.5,'timerfcn',setval,'ExecutionMode','fixedDelay'));</font><br>
+</p>
+<h1>Units<a name="28" id="28"></a></h1>
+<p>Every float value has a unit (unless its defined without a unit or with &quot;unit_none&quot;)</p>
+<p>Units  work automatically. The value of the parameter can be recalled either
+  with the standard &quot;get&quot; function (in the same unit as it was defined in the
+  first place) or with the getas function in any unit.</p>
+<p><em><a href="mfiles/example3.m">Example</a> (works with copy/paste): Translation from cm to inches:</em></p>
+<blockquote>
+  <p>	<font face="Courier New, Courier, mono">P=parameter;</font></p>
+  <p><font face="Courier New, Courier, mono">P=<strong>add</strong>(P,'float','cm value',unit_length,1,'cm')</font></p>
+  <p><font face="Courier New, Courier, mono">in_inch=getas(P,'cm value','inch')</font></p>
+  <p>&nbsp;</p>
+</blockquote>
+<p>Units that are implemented:</p>
+<table width="85%" border="1">
+  <tr>
+    <td width="23%"><font size="+1"><strong>unit type</strong></font></td>
+    <td width="27%"><font size="+1"><strong>unit type class name</strong></font></td>
+    <td width="50%"><font size="+1"><strong>implemented units of this type (first one is the definition unit)</strong></font></td>
+  </tr>
+  <tr>
+    <td>time</td>
+    <td><font face="Courier New, Courier, mono">unit_time</font></td>
+    <td>s, ms, &micro;s, Hz, min, hours, days, weeks</td>
+  </tr>
+  <tr>
+    <td>length</td>
+    <td><font face="Courier New, Courier, mono">unit_length</font></td>
+    <td>m, cm, mm, &micro;m, inch, yards, mile,foot, parsec, points</td>
+  </tr>
+  <tr>
+    <td height="26">frequency</td>
+    <td><font face="Courier New, Courier, mono">unit_frequency</font></td>
+    <td>Hz, KHz, MHz, sec, ms</td>
+  </tr>
+  <tr>
+    <td>frequency ratio</td>
+    <td><font face="Courier New, Courier, mono">unit_fratio</font></td>
+    <td>ratio, octave</td>
+  </tr>
+  <tr>
+    <td>voltage</td>
+    <td><font face="Courier New, Courier, mono">unit_voltage</font></td>
+    <td>V, mV, &micro;V, nV</td>
+  </tr>
+  <tr>
+    <td>voltage ratio</td>
+    <td><font face="Courier New, Courier, mono">unit_vratio</font></td>
+    <td>ratio, dB, dB(attenuation)</td>
+  </tr>
+  <tr>
+    <td>modulation depth</td>
+    <td><font face="Courier New, Courier, mono">unit_mod</font></td>
+    <td>lin, perc,dB, dB(attenuation), max_to_min</td>
+  </tr>
+  <tr>
+    <td>angle</td>
+    <td><font face="Courier New, Courier, mono">unit_angle</font></td>
+    <td>deg, rad, perc, frac</td>
+  </tr>
+  <tr>
+    <td>weight</td>
+    <td><font face="Courier New, Courier, mono">unit_weight</font></td>
+    <td>g, kg, t, mg, &micro;g</td>
+  </tr>
+  <tr>
+    <td>capacity</td>
+    <td><font face="Courier New, Courier, mono">unit_capacity</font></td>
+    <td>F, mF, &micro;F, nF, pF</td>
+  </tr>
+  <tr>
+    <td>temperature</td>
+    <td><font face="Courier New, Courier, mono">unit_temperature</font></td>
+    <td>Celsius, Kelvin, Fahrenheit</td>
+  </tr>
+  <tr>
+    <td>resistance</td>
+    <td><font face="Courier New, Courier, mono">unit_resistance</font></td>
+    <td>Ohm, KOhm, MOhm, GOhm</td>
+  </tr>
+  <tr>
+    <td>current</td>
+    <td><font face="Courier New, Courier, mono">unit_current</font></td>
+    <td>A, mA, &micro;A, nA</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><font face="Courier New, Courier, mono">&nbsp;</font></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><font face="Courier New, Courier, mono">&nbsp;</font></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>no unit</td>
+    <td><font face="Courier New, Courier, mono">unit_none</font></td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<h2><a href="mfiles/example4.m">Example</a>: <em>all units in one gui. </em></h2>
+<h2><em>this is the result of the following code (works
+  with copy/paste)</em></h2>
+<p><img src="all_units.jpg" width="334" height="425"></p>
+<p><font face="Courier New, Courier, mono">params=parameter('example parameters');<br>
+  params=add(params,'float','time parameter',unit_time,1,'s');<br>
+  params=add(params,'float','length parameter',unit_length,1,'cm');<br>
+  params=add(params,'float','frequency parameter',unit_frequency,1,'Hz');<br>
+  params=add(params,'float','frequency ratio parameter',unit_fratio,1,'frequency
+  ratio');<br>
+  params=add(params,'float','voltage parameter',unit_voltage,1,'V');<br>
+  params=add(params,'float','voltage ratio parameter',unit_vratio,1,'volt ratio');<br>
+  params=add(params,'float','modulation depth parameter',unit_mod,1,'lin');<br>
+  params=add(params,'float','angle parameter',unit_angle,1,'deg');<br>
+  params=add(params,'float','weight parameter',unit_weight,1,'g');<br>
+  params=add(params,'float','capacity parameter',unit_capacity,1,'F');<br>
+  params=add(params,'float','temperature parameter',unit_temperature,1,'&deg;C');<br>
+  params=add(params,'float','resistance parameter',unit_resistance,1,'Ohm');<br>
+  params=add(params,'float','current parameter',unit_current,1,'A');<br>
+params=parametergui(params)</font></p>
+<p>after copy paste the output is as follows</p>
+<p><font face="Courier New, Courier, mono">example parameters: object of class datastruct with 13 entries:<br>
+  ( float) time parameter = 1 s<br>
+  ( float) length parameter = 1 cm<br>
+  ( float) frequency parameter = 1 Hz<br>
+  ( float) frequency ratio parameter = 1 frequency ratio<br>
+  ( float) voltage parameter = 1 V<br>
+  ( float) voltage ratio parameter = 1 volt ratio<br>
+  ( float) modulation depth parameter = 1 lin<br>
+  ( float) angle parameter = 1 deg<br>
+  ( float) weight parameter = 1 g<br>
+  ( float) capacity parameter = 1 F<br>
+  ( float) temperature parameter = 1 &deg;C<br>
+  ( float) resistance parameter = 1 Ohm<br>
+( float) current parameter = 1 A</font></p>
+<p>please free to add your own units (and send  copy to stefan@bleeck.de!), Adding
+  your own units is straightforward. For a start just copy one of the existing
+  units to a new directory and rename it. Then change the names and units translations
+  accordingly.</p>
+<p>Units have nice tooltips that describe them when you move the mouse over them</p>
+<h2><a href="mfiles/example6.m">Example</a>: a quick way to convert &deg;Celsius to &deg;Fahrenheit:</h2>
+<p><em>(runs with copy/paste)</em></p>
+<p><font face="Courier New, Courier, mono">params=parameter('convert scales');<br>
+  params=add(params,'float','temperature',unit_temperature,23,'&deg;C');<br>
+params=parametergui(params);</font></p>
+<p><img src="tempscale1.jpg" width="262" height="98"></p>
+<p>If the unit is changed to &deg;Fahrenheit, the result is (with tooltips)</p>
+<p><img src="tempscale2.jpg" width="266" height="97"></p>
+<p>The result can be retrieved by:</p>
+<p>(in Celsius:)<font face="Courier New, Courier, mono"> getas(params,'temperature','&deg;C')</font></p>
+<p> (in Fahrenheit:) <font face="Courier New, Courier, mono">getas(params,'temperature','&deg;F')</font></p>
+<p>(in Kelvin:)<font face="Courier New, Courier, mono"> getas(params,'temperature','K')</font></p>
+<p> </p>
+<h1>Function reference<a></a><a name="29" id="29"></a></h1>
+<h2>Constructors</h2>
+<p>  The following constructors are available: </p>
+<p><font face="Courier New, Courier, mono">parameter</font></p>
+<p><font face="Courier New, Courier, mono">  parameter(name[,mode][,position])</font></p>
+<h3>mode</h3>
+<blockquote>
+  <p>mode is either 'modal' or 'nonmodal'</p>
+  <p>if mode is modal then the the gui is modal that means no other action is possible
+    until the gui is closed. </p>
+  <p>The default is nonmodal</p>
+</blockquote>
+<h3>position</h3>
+<blockquote>
+  <p>position defines where on the screen the gui is placed</p>
+  <p>position must be one of the following</p>
+  <p>% north - top center edge of screen <br>
+    % south - bottom center edge of screen <br>
+    % east - right center edge of screen <br>
+    % west - left center edge of screen <br>
+    % northeast - top right corner of screen <br>
+    % northwest - top left corner of screen <br>
+    % southeast - bottom right corner of screen <br>
+    % southwest - bottom left corner <br>
+    % center - center of screen <br>
+    % onscreen - nearest location with respect to current location that is on<br>
+    % screen The position argument can also be a two-element vector [h,v], where
+        depending on sign, h specifies the <br>
+  </p>
+  <p>the default position of the gui is in the top right corner</p>
+  <p>&nbsp;</p>
+</blockquote>
+<h2>the graphical user interface (gui)</h2>
+<p>every object of the parameter class can be displayed as graphical user interface.
+  From here user interaction with the object is possible. To display the gui
+call </p>
+<p><font face="Courier New, Courier, mono">parametergui(params) </font>or </p>
+<p><font face="Courier New, Courier, mono">params=parametergui(params) </font>in
+  this case the new parameter object is returned. In case of a modal dialog the
+  result is returned when the gui is closed. In
+  nonmodal dialogs the object is returned immediately with the handles so that
+  the program can continue to communicate with it.<br>
+</p>
+<h2>methods</h2>
+<table width="100%" border="1">
+  <tr>
+    <td width="42%"><p><font face="Courier New, Courier, mono">param=add(param,type,text,<br>
+      argument4,argument5,argument6,<br>
+      argument7,argument8)</font></p>
+    <p>&nbsp;</p></td>
+    <td width="58%"><p>adds an item to a parameter object (description see above)</p>
+      <p>param must be an object of type <font face="Courier New, Courier, mono">parameter</font></p>      <p>type can be one of the following:<br>
+      'bool'<br>
+      'button'
+        <br>
+      'int'<br>
+      'filename'
+      <br>
+      'float'<br>
+      'panel'<br>
+      'pop-up menu'<br>
+      'radiobutton'<br>
+      'string'
+      </p>
+      <p>text is the description of the item</p>
+      <p>the usage of the arguments4 to 8 depend on the type of item.<br>
+      </p></td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">param=disablefield(param,<br>
+      paramtext,
+    disablesthese,<br>
+    in_panel)</font></td>
+    <td>when the parameter in paramtext is of type &quot;bool&quot; then switching it off
+      enables the fields in disablethese</td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">disp(params)</font></td>
+    <td>shows the content of the parameter param when you move the mouse over
+      it</td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">display(params)</font></td>
+    <td>shows the content of the parameter param on the screen</td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">param=enable(param,text,<br>
+    disablevalue,in_panel)</font></td>
+    <td>if it has a grafical representation then enable or disable according
+    to value of disablevalue<br></td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">param=enablefield(param,<br>
+    paramtext,enablesthese,in_panel)</font></td>
+    <td>when the parameter in paramtext is of type &quot;bool&quot; then switching
+    it on enables the fields in disablethese</td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">val=exist(param,text,in_panel)</font></td>
+    <td>returns 0 or 1 accoring to the existence of the parameter in text</td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono"> val=get(param,text,in_panel)</font></td>
+    <td>returns the value of the parameter</td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">val=getas(param,text,unit,in_panel)</font></td>
+    <td>returns the value of the floating parameter with the unit</td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">param=getdefaultbutton(param)</font></td>
+    <td>returns the parameter that is set as the default button</td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">entry=getentrybyhandle(param,<br>
+      hand)<br>
+    </font></td>
+    <td>returns the entry with that handle</td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">nr=getentrynumberbytext(param,<br>
+    text,in_panel)</font></td>
+    <td>returns the numbe of the entry with that name</td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">val=getfirstfocus(param)</font></td>
+    <td>returns the entry that gets the first focus after opening the gui</td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">hand=gethandle(param,text,<br>
+    in_panel,handnr)</font></td>
+    <td>returns the handle to the entry with that name</td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">val=getmode(param)</font></td>
+    <td>returns the mode. Either 'modal' or 'nonmodal'</td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">name=getname(param)</font></td>
+    <td>returns the name of the parameter object</td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">pos=getposition(param)<br>
+    </font></td>
+    <td> moves the figure identified by handle h to the specified screen location, <br>
+ preserving the figure's size. The position argument can be any of the following
+  strings: <br>
+ north - top center edge of screen <br>
+ south - bottom center edge of screen <br>
+ east - right center edge of screen <br>
+ west - left center edge of screen <br>
+ northeast - top right corner of screen <br>
+ northwest - top left corner of screen <br>
+ southeast - bottom right corner of screen <br>
+ southwest - bottom left corner <br>
+ center - center of screen <br>
+ onscreen - nearest location with respect to current location that is on screen
+The position argument can also be a two-element vector [h,v], where depending
+on sign, h specifies the </td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono"> val=getraw(param,text,in_panel)</font></td>
+    <td>returns the current value of the parameter as it is, no transformation</td>
+  </tr>
+  <tr>
+    <td><p><font face="Courier New, Courier, mono">function val=getstringvalue(param,<br>
+    </font><font face="Courier New, Courier, mono">text,in_panel)<br>
+        </font></p>
+    </td>
+    <td> returns the current value of the parameter as a string<br>
+ this is particulary useful for integer values in the form 1:10</td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">name=gettext(param,i,in_panel)<br>
+    </font></td>
+    <td> return the description text of the parameter with the entry number
+      i.<br>
+ if i is a string then return the full string of the probably abbreviated</td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">data=getuserdata(param,text,in_panel)<br>
+    </font></td>
+    <td> the whole struct can have an user entry and every part of the structure<br>
+ as well. These can be used by the user for example for the 'other...'<br>
+% radiobutton</td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">val=getversion(param)</font></td>
+    <td>returns the version number of the parameter project</td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">param=set(param,text,newvalue,in_panel)<br>
+    </font></td>
+    <td> sets the parameter value in the parameter &quot;text&quot; in the
+      panel &quot;in_panel&quot; to
+ the value &quot;value&quot;.<br>
+ if its a float then the unit is assumed to be the one with wich the
+ parameter was first defined</td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono"> param=setas(param,text,value,<br>
+      unit,in_panel)<br>
+    </font></td>
+    <td>sets the parameter value in the parameter &quot;text&quot; in the
+      panel &quot;in_panel&quot; to the value &quot;value&quot;. <br>
+ param must be of type float or int<br></td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">param=setcallback(param,text,<br>
+      cback,in_panel)<br>
+      </font></td>
+    <td>every entry can have a callback function that is called when the item
+ looses its focus</td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">params=setfirstfocus(params,where)<br>
+    </font></td>
+    <td> sets the first focus to an element. When the gui is opend this one
+      gets
+ the focus</td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">param=sethandle(param,text,hand,<br>
+      in_panel,handle_nr)<br>
+    </font></td>
+    <td> sets the handle of this item. handles_nr is usually 1 but can be 2
+      in cases when more then one object is on the screen (float with unit,
+      filename...)</td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">param=setmode(param,mode)<br>
+    </font></td>
+    <td> sets the mode of the gui. Can be 'modal' or 'nonmodal'</td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">param=setposition(param,mode)</font></td>
+    <td>see getposition()</td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">function param=setstringvalue(param,<br>
+      text,strvalue,in_panel)<br>
+    </font></td>
+    <td> sets the parameter value in the parameter &quot;text&quot; in the
+      panel &quot;in_panel&quot; to the value &quot;strvalue&quot; no units
+      or anything are used</td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">param=setuserdata(param,data,text,in_panel)<br>
+    </font></td>
+    <td> the whole struct can have an user entry and every part of the structure
+      as well. These can be used by the user for example for the 'other...'
+radiobutton</td>
+  </tr>
+  <tr>
+    <td><font face="Courier New, Courier, mono">aram=settooltip(param,text,<br>
+      tooltiptext,in_panel)<br>
+    </font></td>
+    <td>defines the tooltip for that entry</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<h1>Frequently asked questions<a></a><a name="30" id="30"></a></h1>
+<p>Question:</p>
+<blockquote>
+  <p>I have unziped your file, but I still get the same message:<br>
+&gt;&gt; cd mfiles<br>
+&gt;&gt; example1<br>
+    ??? Undefined function or variable 'unit_length'.</p>
+</blockquote>
+<p>Answer</p>
+<blockquote>
+  <p>You have to include the folder and the subfolders in the MATLAB path (File/Set
+    Path...)</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+</blockquote>
+<hr>
+<p>&copy;Stefan Bleeck, University of Cambridge, 2004</p>
+<p>many thanks to M. Lloyd for the idea!</p>
+<blockquote>
+  <p>&nbsp;</p>
+</blockquote>
+</body>
+</html>

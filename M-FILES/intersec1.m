@@ -1,0 +1,25 @@
+function corte=intersec1(P,Q,v,w)
+%Determina si el segmento MN intersecta a alguno de los segmentos v,w.
+global corte 
+clc;
+n=numel(v);conta=0;
+for i= 1:n-1
+    R=[v(i),w(i)];
+    S=[v(i+1),w(i+1)];
+    AB=[P(1),P(2),Q(1),Q(2)];
+    CD=[v(i),w(i),v(i+1),w(i+1)];
+    A=isalaizq2(P,CD)==0;B=isalaizq2(Q,CD)==1;
+    C=isalaizq2(P,CD)==0;D=isalaizq2(Q,CD)==1;
+    E=isalaizq2(R,AB)==1;F=isalaizq2(S,AB)==0;
+    G=isalaizq2(R,AB)==1;H=isalaizq2(S,AB)==0; 
+    I= A&B;J=E&F; K=C&D;L=G&H;
+    N=[i,i+1]
+    %M=[I,J,K,L]
+if  ((A&B)&(E&F))|((C&D)&(G&H))
+    conta=1;
+    corte=conta;
+    break
+end
+end
+corte=conta
+    

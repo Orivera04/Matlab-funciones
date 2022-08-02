@@ -1,0 +1,57 @@
+<html>
+  <h1> Figure Management </h1>
+<p style="text-align: justify;">These M-files are a collection of utilities for
+managing groups of figures. The concept of a figure group is
+introduced as a collection of figures which may be treated
+as a single group. A figure group can be tiled on the screen with any 
+desired layout. New groups can be created or a group or can be formed from 
+figures already created. A figure group can also be simply brought to the front 
+of the display screen. Figure groups will work with multiple monitor displays, 
+also known<img border="2" src="Figure%20Tiling.gif" width="512" height="384" align="right" hspace="4" vspace="8"> as the extended desktop, though figure groups do not span more than 
+one monitor. Figure groups are defined and accessed by a variable which is an 
+array of the figure handles in the group. Thus for example to close the entire 
+figure group, use <i>close(a)</i> where <i>a</i> is the array of figure handles 
+(i.e. [1,3,4,6,7,9]).</p>
+<p style="text-align: justify;">Actions such as tiling, creating, and viewing 
+can create figure groups. At right is an example of 6 figures tiled on the 
+screen with room for the taskbar. The figures have their own numbering scheme 
+designated by <i>#N</i>. Thus if the figure group is referenced by the variable
+<i>a</i>, then <i>a(2)</i> refers to the second figure in the group irregardless 
+of the figure's handle number.</p>
+	<p style="text-align: justify;">Support is also provided for working with 
+	docked figures in the Matlab desktop using DOCKFIG and NEWDFIG. The utility MAXFIG will maximize a 
+	figure to fill the screen, remembering it's prior position and size. A 
+	subsequent call to MAXFIG will restore the figure. Two versions are provided 
+	for MAXFIG, NEWFIG, and TILEFIG in the folders &quot;Windows&quot; and &quot;Platform 
+	Independent&quot; to provide support for multiple monitors. The &quot;Windows&quot; 
+	versions use the root property &quot;MonitorPositions&quot; and thus may not work 
+	properly on all platforms and will not work for Matlab versions prior to 
+	version 7 (R14). The &quot;Platform Independent&quot; versions should work on earlier 
+	releases and all platforms.</p>
+<h2>Folder Contents</h2>
+	<p><a href="dockfig.html" source="blank">dockfig</a>  &nbsp;&nbsp; DOCK one or more FIGures.<br>
+	<a href="newdfig.html" source="blank">newdfig</a>  &nbsp;&nbsp; create NEW Docked FIGures.<br>
+<a href="vf.html" source="blank">vf</a>  &nbsp;&nbsp; View one or more Figures.<br>
+<a href="getfigdim.html" source="blank">getfigdim</a>  &nbsp;&nbsp; GET FIGure DIMensions.<br>
+	</p>
+<h3>&nbsp;&nbsp;&nbsp; Platform Independent Folder</h3>
+&nbsp;&nbsp;&nbsp;
+<a href="Platform Independent/maxfig.html">maxfig</a>  &nbsp;&nbsp; MAXimize a FIGure to fill the screen.<br>
+&nbsp;&nbsp;&nbsp;
+<a href="Platform Independent/newfig.html">newfig</a>  &nbsp;&nbsp; create NEW FIGures.<br>
+&nbsp;&nbsp;&nbsp;
+<a href="Platform Independent/tilefig.html">tilefig</a>  &nbsp;&nbsp; TILE 1 or more FIGures.<br>
+<h3>&nbsp;&nbsp;&nbsp; Windows Folder</h3>
+&nbsp;&nbsp;&nbsp;
+<a href="Windows/maxfig.html">maxfig</a>  &nbsp;&nbsp; MAXimize a FIGure to fill the screen.  <br>
+&nbsp;&nbsp;&nbsp;
+<a href="Windows/newfig.html">newfig</a>  &nbsp;&nbsp; create NEW FIGures.<br>
+&nbsp;&nbsp;&nbsp; <a href="Windows/tilefig.html">tilefig</a>  &nbsp;&nbsp; TILE 1 or more FIGures.<br>
+&nbsp;&nbsp;&nbsp;
+<a href="Windows/getmondim.html">getmondim</a>  &nbsp;&nbsp;  GET MONitor DIMensions.<br>
+&nbsp;&nbsp;&nbsp;
+<a href="Windows/screenxyabs.html">screenxyabs</a>  &nbsp;&nbsp; SCREEN X-Y ABSolute coordinates.<br>
+&nbsp;&nbsp;&nbsp;
+<a href="Windows/screenxymon.html">screenxymon</a>&nbsp; &nbsp; SCREEN X-Y MONitor coordinates.<br>
+	
+</html>

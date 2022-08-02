@@ -1,0 +1,27 @@
+%Programa para ordenar los elementos de un arreglo en orden ascendente
+%Lectura del No. de elementos del arreglo A
+clear N;
+clear A;
+N = input('Deme el No. de elementos del arreglo: N = ');
+for J = 1:N
+    fprintf('A(%2.0f)',J);
+    A(J) = input(' = ');
+end;
+
+A
+for K = 1:N-1
+    I = N-K
+    for L = 1:I
+        if A(L) > A(L+1)
+            temp = A(L);
+            A(L) = A(L+1);
+            A(L+1) = temp;
+            A
+        end
+    end
+end;
+disp('El arreglo ordenado es: ');
+  for M = 1:N
+      disp(A(M))
+  end
+      

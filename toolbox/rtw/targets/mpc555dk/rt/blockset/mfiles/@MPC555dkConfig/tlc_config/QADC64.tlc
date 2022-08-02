@@ -1,0 +1,43 @@
+%% File: toolbox/rtw/targets/mpc555dk/rt/blockset/mfiles/@MPC555dkConfig/tlc_config/QADC64.tlc
+%%
+%% Abstract:
+%%   
+%%
+%% $Revision: 1.7.4.3 $
+%% $Date: 2004/04/19 01:29:19 $
+%%
+%% Copyright 2001-2003 The MathWorks, Inc.
+
+%implements * "C"
+
+%function DriverConfiguration(record) void
+
+    %openfile buffer
+        #include "mpc5xx.h"
+    %closefile buffer
+    %<LibCacheIncludes(buffer)>
+
+%endfunction
+
+%function Start(record) Output
+    %<QADCConfig(SLibSubsRef(record,"QADC_A"), "QADC_A")>
+    %<QADCConfig(SLibSubsRef(record,"QADC_B"), "QADC_B")>
+%endfunction
+
+
+%function QADCConfig( moduleRecord, module ) Output
+    
+       /* -- %<module> Configuration --- */
+
+       %assign mcr0 = "%<module>.QADC64MCR.B"
+       %assign mcr1 = "%<module>.QACR0.B"
+       %assign mcr2 = "%<module>.QACR1.B"
+       %<mcr0>.STOP = 0;
+       %<mcr0>.FRZ  = 1;
+       %<mcr0>.SUPV = 0;
+       %<mcr1>.MUX = %<SLibEnumSubsRef(moduleRecord, "QADC64_MULTIPLEX_MODE", "Multiplex_Mode")>;
+       %<mcr1>.TRG = 0;
+       %<mcr1>.PSH = %<SLibSubsRef(moduleRecord,"Prescaler_Clock_High_Time")>;
+       %<mcr1>.PSL = %<SLibSubsRef(moduleRecord,"Prescaler_Clock_Low_Time")>;
+
+%endfunction

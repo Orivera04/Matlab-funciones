@@ -1,0 +1,14 @@
+zeta = [0 .2 .5 .8 1]'; zeta2 = sqrt(1-zeta.^2);
+WnT = linspace(0,20,200);
+z = exp(-zeta*WnT).*(cos(zeta2*WnT)-sqrt(-1)*sin(zeta2*WnT));
+axis('square'); plot(z','-'); hold on;
+for v = 0:15:180;
+  text(cos(v*pi/180),sin(v*pi/180),num2str(v));
+end;
+for v = 0:15:360; plot([0 cos(v*pi/180)],[0 sin(v*pi/180)],'y:'); end;
+for v = .2:.2:.8; plot(v*sin(0:.1:2*pi),v*cos(0:.1:2*pi),'y:'); end;
+for i = 2:length(zeta);
+  text(real(z(i,12)),-imag(z(i,12)),num2str(zeta(i)));
+end;
+xlabel('Real Z'); ylabel('Imaginary Z'); 
+axis('normal'); hold off;

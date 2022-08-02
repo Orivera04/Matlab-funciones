@@ -1,0 +1,2 @@
+run ../monscript
+monscript

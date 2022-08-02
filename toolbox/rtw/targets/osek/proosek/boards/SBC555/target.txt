@@ -1,0 +1,49 @@
+% $Revision: 1.1 $
+Notes for operating the EVB555 evaluation board 
+===============================================
+
+Running from internal flash:
+
+To run from internal flash you have to place all code and constant
+data within the address range 0x000000 - 0x06ffff. Execution after
+reset will start at address 0x100.
+
+Consult your BDM software´s documentation on how to program the
+flash memory of the MPC555.
+
+The factory settings should be suitable for running code out of
+internal flash. As long as only the internal RAM is used, no
+additional hardware initializations should be needed and the
+startup code can directly be located to address 0x100.
+
+Consult the EVB555 quick reference to find out about problems
+booting from internal flash with old versions of the MPC555.
+
+
+Running from external RAM:
+
+While developing using a BDM you can execute the code from external
+RAM on the EVB555 board. It is possible to compile and link your
+application the same way as for internal flash.
+
+Before loading the code into RAM you must disable the FLEN bit
+(either by setting the corresponding dip switch 20 of the hard
+reset configuration to zero or by disabling the bit in the IMMR
+using your BDM software). Then, disable CS0 and activate CS1
+(e.g. write 0x00000002 to 0x2fc100 and 0x00000003 to 0x2fc108).
+
+Now, the external RAM should be accessible from address 0 and the
+application can be downloaded and run using BDM.
+
+
+Performance considerations:
+
+To get the optimal performance you should:
+
+- run code from internal flash only
+- use only internal RAM
+- increase the PLL multiplication factor (by default the MPC555
+  on the EVB555 runs only at 20MHz)
+- disconnect the BDM interface
+- set the CPU core to normal mode and turn off show cylces
+  (set ISCT_SER in the ICTRL register to 111)

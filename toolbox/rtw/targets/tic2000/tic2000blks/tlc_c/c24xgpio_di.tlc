@@ -1,0 +1,202 @@
+%% $RCSfile: c24xgpio_di.tlc,v $
+%% $Revision: 1.1.6.1 $ $Date: 2004/04/01 16:14:32 $
+%% Copyright 2004 The MathWorks, Inc.
+
+
+
+%implements c24xgpio_di "C"
+
+%% Function: GetUsedChannels ====================================================
+%% Abstract:
+%%     Encode indices of all used channels into an integer number
+%%  
+%function GetUsedChannels(GPIO_Bit0,GPIO_Bit1, GPIO_Bit2, GPIO_Bit3, GPIO_Bit4, GPIO_Bit5, GPIO_Bit6, GPIO_Bit7) Output
+                          
+    %assign usedChannels = (GPIO_Bit0==1)*1 + (GPIO_Bit1==1)*2 + (GPIO_Bit2==1)*4 + (GPIO_Bit3==1)*8 + \
+                           (GPIO_Bit4==1)*16 + (GPIO_Bit5==1)*32 + (GPIO_Bit6==1)*64 + (GPIO_Bit7==1)*128 
+    %return usedChannels
+    
+%endfunction %% GetUsedChannels
+
+
+
+%% Function: GetNextOutput ====================================================
+%function GetNextOutput(block, chanIndex)
+
+    %if (numChannels == 1)
+        %assign OutputString = "%<LibBlockOutputSignal(0,"","",0)>"
+    %else
+        %assign OutputString = "%<LibBlockOutputSignal(0,"","","%<chanIndex>")>"
+    %endif
+    %return OutputString
+    
+%endfunction %% GetNextOutput
+
+
+
+%% Function: BlockTypeSetup ==============================================
+%function BlockTypeSetup(block, system) void
+
+    %openfile buffer
+        #include "DSP24_Device.h"
+    %closefile buffer
+    %<LibCacheIncludes(buffer)>
+    
+%endfunction %% BlockTypeSetup
+
+
+
+%% Function: BlockInstanceSetup ===============================================
+%%
+%function BlockInstanceSetup(block,system) void
+
+    %<AddParamsToBlock(block)>
+    
+%endfunction %% BlockInstanceSetup
+
+
+
+%% Function: Start ============================================================
+%%
+%%  Initialize GPIO registers for GPIO mode. Set the direction at the same time
+%%
+%function Start(block,system) Output
+
+    %switch(useIOPort)
+        %case "IOPA"
+	        MMREGS[MCRA] &= %<muxAll>; 				/* Configures the GPIO MUX registers are used to select IOPAx */
+            MMREGS[P%<PortName>DATDIR] &= %<dirAll>;          /* Configures IOPAx as input port */
+        %break    
+        %case "IOPB"
+	        MMREGS[MCRA] &= %<muxAll>; 				/* Configures the GPIO MUX registers are used to select IOPBx */
+            MMREGS[P%<PortName>DATDIR] &= %<dirAll>;          /* Configures IOPBx as input port */
+        %break
+        %case "IOPC"
+	        MMREGS[MCRB] &=%<muxAll>; 				/* Configures the GPIO MUX registers are used to select IOPCx */
+            MMREGS[P%<PortName>DATDIR] &=%<dirAll>;          /* Configures IOPCx as input port */
+        %break
+        %case "IOPD"
+	        MMREGS[MCRB] &= %<muxAll>; 				/* Configures the GPIO MUX registers are used to select IOPDx */
+            MMREGS[P%<PortName>DATDIR] &= %<dirAll>;          /* Configures IOPDx as input port */
+        %break
+        %case "IOPE"
+	        MMREGS[MCRC] &= %<muxAll>; 				/* Configures the GPIO MUX registers are used to select IOPEx */
+            MMREGS[P%<PortName>DATDIR] &= %<dirAll>;          /* Configures IOPEx as input port */
+        %break
+        %case "IOPF"
+	        MMREGS[MCRC] &= %<muxAll>; 				/* Configures the GPIO MUX registers are used to select IOPFx */
+            MMREGS[P%<PortName>DATDIR] &= %<dirAll>;          /* Configures IOPFx as input port */
+        %break      
+        %endswitch     	
+
+%endfunction %% Start
+
+
+
+%% Function: Outputs ==========================================================
+%%
+%%  Read input buffer (when ready), convert to output format and send out.
+%%
+%function Outputs(block,system) Output
+
+/* %<Type> Block: %<Name> (%<ParamSettings.FunctionName>) */
+{
+    %assign chanIndex = 0   
+    
+    %if(GPIO_Bit0==1)
+        %<GetNextOutput(block, chanIndex)>  = (MMREGS[P%<PortName>DATDIR]&Bit0Hi); 
+        %assign chanIndex = chanIndex + 1
+    %endif
+    %if(GPIO_Bit1==1)
+        %<GetNextOutput(block, chanIndex)>  = (MMREGS[P%<PortName>DATDIR]&Bit1Hi)>>1;
+        %assign chanIndex = chanIndex + 1
+    %endif
+    %if(GPIO_Bit2==1)
+        %<GetNextOutput(block, chanIndex)>  = (MMREGS[P%<PortName>DATDIR]&Bit2Hi)>>2;
+        %assign chanIndex = chanIndex + 1
+    %endif
+    %if(GPIO_Bit3==1)
+        %<GetNextOutput(block, chanIndex)>  = (MMREGS[P%<PortName>DATDIR]&Bit3Hi)>>3;
+        %assign chanIndex = chanIndex + 1
+    %endif
+    %if(GPIO_Bit4==1)
+        %<GetNextOutput(block, chanIndex)>  = (MMREGS[P%<PortName>DATDIR]&Bit4Hi)>>4;
+        %assign chanIndex = chanIndex + 1
+    %endif
+    %if(GPIO_Bit5==1)
+        %<GetNextOutput(block, chanIndex)>  = (MMREGS[P%<PortName>DATDIR]&Bit5Hi)>>5;
+        %assign chanIndex = chanIndex + 1
+    %endif
+    %if(GPIO_Bit6==1)
+        %<GetNextOutput(block, chanIndex)>  = (MMREGS[P%<PortName>DATDIR]&Bit6Hi)>>6;
+        %assign chanIndex = chanIndex + 1
+    %endif
+    %if(GPIO_Bit7==1)
+        %<GetNextOutput(block, chanIndex)>  = (MMREGS[P%<PortName>DATDIR]&Bit7Hi)>>7;
+        %assign chanIndex = chanIndex + 1
+    %endif
+}
+
+%endfunction %% Outputs
+
+
+
+%% Function: AddParamsToBlock =================================================
+%function AddParamsToBlock(block) void
+
+    %assign useIOPort   = SFcnParamSettings.useIOPort
+    %assign GPIO_Bit0   = SFcnParamSettings.GPIO_Bit0
+    %assign GPIO_Bit1   = SFcnParamSettings.GPIO_Bit1
+    %assign GPIO_Bit2   = SFcnParamSettings.GPIO_Bit2
+    %assign GPIO_Bit3   = SFcnParamSettings.GPIO_Bit3
+    %assign GPIO_Bit4   = SFcnParamSettings.GPIO_Bit4
+    %assign GPIO_Bit5   = SFcnParamSettings.GPIO_Bit5
+    %assign GPIO_Bit6   = SFcnParamSettings.GPIO_Bit6
+    %assign GPIO_Bit7   = SFcnParamSettings.GPIO_Bit7
+    %assign sampleTime  = SFcnParamSettings.sampleTime     
+    %assign dataType    = SFcnParamSettings.dataType       
+    %assign numChannels = SFcnParamSettings.numChannels      
+   
+    %switch(useIOPort)     
+        %case "IOPA"
+            %assign PortName = "A"
+            %assign muxAll      = 65535 - SFcnParamSettings.muxAll            
+            %assign dirAll      = 65535 - (SFcnParamSettings.dirAll<<8)
+        %break
+        %case "IOPB"
+            %assign PortName = "B"
+            %assign muxAll      = 65535 - (SFcnParamSettings.muxAll<<8)            
+            %assign dirAll      = 65535 - (SFcnParamSettings.dirAll<<8)            
+        %break
+        %case "IOPC"
+            %assign PortName = "C"
+            %assign muxAll      = 65535 - SFcnParamSettings.muxAll            
+            %assign dirAll      = 65535 - (SFcnParamSettings.dirAll<<8)            
+        %break
+        %case "IOPD"
+            %assign PortName = "D"
+            %assign muxAll      = 65535 - (SFcnParamSettings.muxAll<<8)            
+            %assign dirAll      = 65535 - (SFcnParamSettings.dirAll<<8)            
+        %break
+        %case "IOPE"
+            %assign PortName = "E"
+            %assign muxAll      = 65535 - SFcnParamSettings.muxAll            
+            %assign dirAll      = 65535 - (SFcnParamSettings.dirAll<<8)            
+        %break
+        %case "IOPF"
+            %assign PortName = "F"
+            %assign muxAll      = 65535 - (SFcnParamSettings.muxAll<<8)           
+            %assign dirAll      = 65535 - (SFcnParamSettings.dirAll<<8)            
+        %break        
+    %endswitch    
+    
+    %assign usedChannels = GetUsedChannels (%<GPIO_Bit0>, %<GPIO_Bit1>, %<GPIO_Bit2>, %<GPIO_Bit3>, \
+                                                     %<GPIO_Bit4>, %<GPIO_Bit5>, %<GPIO_Bit6>, %<GPIO_Bit7>)
+
+    %assign block = block + useIOPort + numChannels + usedChannels + sampleTime + dataType \
+                          + GPIO_Bit0 + GPIO_Bit1 + GPIO_Bit2 + GPIO_Bit3 + GPIO_Bit4 + GPIO_Bit5 + GPIO_Bit6 + GPIO_Bit7 \
+                          + muxAll + dirAll + PortName
+ 
+%endfunction  %% AddParamsToBlock
+
+%% [EOF] c24xgpio_di.tlc

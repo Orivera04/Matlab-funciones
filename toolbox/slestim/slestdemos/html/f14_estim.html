@@ -1,0 +1,224 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>f14_estim</title>
+      <meta name="generator" content="MATLAB 7.0.0.548 (R14) Beta 2">
+      <meta name="date" content="2004-01-27">
+      <meta name="m-file" content="f14_estim">
+      <meta name="title" content="">
+      <meta name="description" content=""><style>
+body {
+  background-color: white;
+}
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+pre.codeinput {
+  margin-left: 30px;
+}
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.showbuttons {
+  margin-left: 30px;
+  border: solid black 2px;
+  padding: 4px;
+  background: #EBEFF3;
+}
+
+pre.codeoutput {
+  color: gray;
+  font-style: italic;
+}
+pre.error {
+  color: red;
+}
+    </style></head>
+   <body>
+      <h2>Contents</h2>
+      <ul>
+         <li><a href="#2">Open the model and load experimental data.</a></li>
+         <li><a href="#3">Plot measured data and simulation results</a></li>
+         <li><a href="#4">Create objects to represent the experimental data sets.</a></li>
+         <li><a href="#5">Create objects to represent parameters.</a></li>
+         <li><a href="#6">Create objects to represent estimated initial states.</a></li>
+         <li><a href="#7">Create the estimation object and run estimation</a></li>
+         <li><a href="#8">Setup estimation options</a></li>
+         <li><a href="#9">Run the estimation</a></li>
+         <li><a href="#10">Plot measured data and final simulation results</a></li>
+         <li><a href="#11">Look at the estimated values</a></li>
+      </ul><pre class="codeinput"><span class="comment">% F14_ESTIM</span>
+<span class="comment">% F14 Parameter Estimation Demo</span>
+<span class="comment">% Estimate three model parameters (Md, Ta, Zd) using experimental data.</span>
+
+<span class="comment">% Author(s): Bora Eryilmaz</span>
+<span class="comment">% Revised:</span>
+</pre><h2>Open the model and load experimental data.<a name="2"></a></h2><pre class="codeinput">open_system(<span class="string">'f14'</span>)
+load f14_estim_data
+</pre><h2>Plot measured data and simulation results<a name="3"></a></h2><pre class="codeinput">[T,X,Y] = sim(<span class="string">'f14'</span>, time, [], [time iodata(:,1)]);
+plot(time, iodata(:,2:3), T, Y, <span class="string">'--'</span>);
+legend( <span class="string">'Measured angle of attack'</span>,  <span class="string">'Measured pilot g force'</span>, <span class="keyword">...</span>
+        <span class="string">'Simulated angle of attack'</span>, <span class="string">'Simulated pilot g force'</span>);
+</pre><img vspace="5" hspace="5" src="f14_estim_01.png"><h2>Create objects to represent the experimental data sets.<a name="4"></a></h2><pre class="codeinput">hExp = ParameterEstimator.TransientExperiment(gcs);
+set(hExp.InputData(1), <span class="string">'Data'</span>, iodata(:,1), <span class="string">'Time'</span>, time);
+
+set(hExp.OutputData(1), <span class="string">'Data'</span>, iodata(:,2), <span class="string">'Time'</span>, time, <span class="string">'Weight'</span>, 5);
+set(hExp.OutputData(2), <span class="string">'Data'</span>, iodata(:,3), <span class="string">'Time'</span>, time);
+</pre><h2>Create objects to represent parameters.<a name="5"></a></h2><pre class="codeinput">hPar(1) = ParameterEstimator.Parameter(<span class="string">'Ta'</span>); <span class="comment">% Initial value: Ta = 0.5</span>
+set(hPar(1), <span class="string">'Minimum'</span>, 0.01, <span class="string">'Maximum'</span>, 1, <span class="string">'Estimated'</span>, true)
+
+hPar(2) = ParameterEstimator.Parameter(<span class="string">'Md'</span>); <span class="comment">% Initial value: Md = -1</span>
+set(hPar(2), <span class="string">'Minimum'</span>, -10, <span class="string">'Maximum'</span>, 0, <span class="string">'Estimated'</span>, true)
+
+hPar(3) = ParameterEstimator.Parameter(<span class="string">'Zd'</span>); <span class="comment">% Initial value: Zd = -80</span>
+set(hPar(3), <span class="string">'Minimum'</span>, -100, <span class="string">'Maximum'</span>, 0, <span class="string">'Estimated'</span>, true)
+</pre><h2>Create objects to represent estimated initial states.<a name="6"></a></h2><pre class="codeinput">hIc(1) = ParameterEstimator.State(<span class="string">'f14/Actuator Model'</span>);
+set(hIc(1), <span class="string">'Minimum'</span>, 0, <span class="string">'Estimated'</span>, false)
+</pre><h2>Create the estimation object and run estimation<a name="7"></a></h2><pre class="codeinput">hEst = ParameterEstimator.Estimation(gcs, hPar, hExp);
+hEst.States = hIc;
+</pre><h2>Setup estimation options<a name="8"></a></h2><pre class="codeinput">hEst.OptimOptions.Algorithm    = <span class="string">'lsqnonlin'</span>;
+hEst.OptimOptions.GradientType = <span class="string">'refined'</span>;
+hEst.OptimOptions.Display      = <span class="string">'iter'</span>;
+</pre><h2>Run the estimation<a name="9"></a></h2><pre class="codeinput">estimate(hEst);
+</pre><pre class="codeoutput">Creating the temporary model 'tp372656' for computing gradients...
+...Completed.
+
+                                         Norm of      First-order 
+ Iteration  Func-count     f(x)          step          optimality   CG-iterations
+     0          1          118351                     9.34e+005
+     1          2         41131.6       0.819774      2.36e+005            1
+     2          3         12463.6       0.903429      4.74e+004            1
+     3          4         3782.03        1.01679      9.59e+003            1
+     4          5          1073.6        0.75752      2.54e+003            1
+     5          6         244.667       0.478213            767            1
+     6          7         25.9756       0.374151            134            1
+     7          8         1.45973        1.00585            110            1
+     8          9      0.00789984       0.537131            1.4            1
+     9         10      0.00112732      0.0429286        0.00872            1
+Optimization terminated: first-order optimality less than OPTIONS.TolFun,
+ and no negative/zero curvature detected in trust region model.
+</pre><h2>Plot measured data and final simulation results<a name="10"></a></h2><pre class="codeinput">[T,X,Y] = sim(<span class="string">'f14'</span>, time, [], [time iodata(:,1)]);
+figure
+plot(time, iodata(:,2:3), T, Y, <span class="string">'--'</span>);
+legend( <span class="string">'Measured angle of attack'</span>,  <span class="string">'Measured pilot g force'</span>, <span class="keyword">...</span>
+        <span class="string">'Simulated angle of attack'</span>, <span class="string">'Simulated pilot g force'</span>);
+</pre><img vspace="5" hspace="5" src="f14_estim_02.png"><h2>Look at the estimated values<a name="11"></a></h2><pre class="codeinput">find(hEst.Parameters, <span class="string">'Estimated'</span>, true)
+</pre><pre class="codeoutput">
+(1) Parameter data for 'Ta':
+
+       Parameter value : 0.05
+         Initial guess : 0.5
+
+             Estimated : true
+
+          Referenced by:
+
+(2) Parameter data for 'Md':
+
+       Parameter value : -6.884
+         Initial guess : -1
+
+             Estimated : true
+
+          Referenced by:
+
+(3) Parameter data for 'Zd':
+
+       Parameter value : -63.99
+         Initial guess : -80
+
+             Estimated : true
+
+          Referenced by:
+
+</pre><p class="footer">Copyright 1986-2003 The MathWorks, Inc.<br></p>
+      <!--
+##### SOURCE BEGIN #####
+% F14_ESTIM 
+% F14 Parameter Estimation Demo
+% Estimate three model parameters (Md, Ta, Zd) using experimental data.
+
+% Author(s): Bora Eryilmaz
+% Revised: 
+% Copyright 1986-2003 The MathWorks, Inc.
+% $Revision: 1.1.6.2 $ $Date: 2004/02/06 00:37:33 $
+
+%% Open the model and load experimental data.
+open_system('f14')
+load f14_estim_data
+
+%% Plot measured data and simulation results
+[T,X,Y] = sim('f14', time, [], [time iodata(:,1)]);
+plot(time, iodata(:,2:3), T, Y, 'REPLACE_WITH_DASH_DASH');
+legend( 'Measured angle of attack',  'Measured pilot g force', ...
+        'Simulated angle of attack', 'Simulated pilot g force');
+
+%% Create objects to represent the experimental data sets.
+hExp = ParameterEstimator.TransientExperiment(gcs);
+set(hExp.InputData(1), 'Data', iodata(:,1), 'Time', time);
+
+set(hExp.OutputData(1), 'Data', iodata(:,2), 'Time', time, 'Weight', 5);
+set(hExp.OutputData(2), 'Data', iodata(:,3), 'Time', time);
+
+%% Create objects to represent parameters.
+hPar(1) = ParameterEstimator.Parameter('Ta'); % Initial value: Ta = 0.5
+set(hPar(1), 'Minimum', 0.01, 'Maximum', 1, 'Estimated', true)
+
+hPar(2) = ParameterEstimator.Parameter('Md'); % Initial value: Md = -1
+set(hPar(2), 'Minimum', -10, 'Maximum', 0, 'Estimated', true)
+
+hPar(3) = ParameterEstimator.Parameter('Zd'); % Initial value: Zd = -80
+set(hPar(3), 'Minimum', -100, 'Maximum', 0, 'Estimated', true)
+
+%% Create objects to represent estimated initial states.
+hIc(1) = ParameterEstimator.State('f14/Actuator Model');
+set(hIc(1), 'Minimum', 0, 'Estimated', false)
+
+%% Create the estimation object and run estimation
+hEst = ParameterEstimator.Estimation(gcs, hPar, hExp);
+hEst.States = hIc;
+
+%% Setup estimation options
+hEst.OptimOptions.Algorithm    = 'lsqnonlin';
+hEst.OptimOptions.GradientType = 'refined';
+hEst.OptimOptions.Display      = 'iter';
+
+%% Run the estimation
+estimate(hEst);
+
+%% Plot measured data and final simulation results
+[T,X,Y] = sim('f14', time, [], [time iodata(:,1)]);
+figure
+plot(time, iodata(:,2:3), T, Y, 'REPLACE_WITH_DASH_DASH');
+legend( 'Measured angle of attack',  'Measured pilot g force', ...
+        'Simulated angle of attack', 'Simulated pilot g force');
+
+%% Look at the estimated values
+find(hEst.Parameters, 'Estimated', true)
+
+##### SOURCE END #####
+-->
+   </body>
+</html>

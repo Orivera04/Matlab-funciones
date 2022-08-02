@@ -1,0 +1,43 @@
+%% $RCSfile: stiiqmath_iqsqrt.tlc,v $
+%% $Revision: 1.1.6.2 $ $Date: 2004/04/08 21:00:07 $
+%% Copyright 2003-2004 The MathWorks, Inc.
+%%
+%% Abstract: TI C28x IQmath library "IQsqrt" (optimized IQ square root function)
+
+%implements stiiqmath_iqsqrt "C"
+
+%include "fix_published.tlc"
+
+
+%% Function: BlockTypeSetup ==============================================
+%function BlockTypeSetup(block, system) void
+    %<LibAddToCommonIncludes("<IQmathLib.h>")>
+%endfunction %% BlockTypeSetup
+
+
+%% Function: Outputs ==========================================================
+%%
+%function Outputs(block, system) Output
+	%assign OUTPORT_Y  = 0
+	%assign dataTypeIdY = LibBlockOutputSignalDataTypeId(OUTPORT_Y)
+	%assign fractionLengthY = FixPt_DataTypeFractionLength( block, dataTypeIdY )
+	%assign option = LibBlockParameterValue(P1, 0)
+
+	/* C28x IQmath Library (%<ParamSettings.FunctionName>) - '%<Name>' */
+	{
+	    %assign rollVars = ["U", "Y"]
+        %roll idx = RollRegions, lcv = RollThreshold, block,"Roller", rollVars
+			%switch %<option>
+			%case 1
+				%<LibBlockOutputSignal (0, "", lcv, idx)> = _IQ%<fractionLengthY>sqrt (%<LibBlockInputSignal (0, "", lcv, idx)>);
+			%break
+			%case 2
+				%<LibBlockOutputSignal (0, "", lcv, idx)> = _IQ%<fractionLengthY>isqrt (%<LibBlockInputSignal (0, "", lcv, idx)>);
+			%break
+			%endswitch
+		%endroll
+	}
+  
+%endfunction
+
+%% [EOF] stiiqmath_iqsqrt.tlc

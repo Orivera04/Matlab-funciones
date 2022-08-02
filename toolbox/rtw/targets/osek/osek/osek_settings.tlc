@@ -1,0 +1,197 @@
+%%
+%% $Revision: 1.9.6.3 $
+%%
+%% Copyright 2002-2003 The MathWorks, Inc.
+%%
+%% Abstract:
+%%   Defines settings for OSEK target and generates errors for unsupported
+%%   but inherited ERT options.
+%%
+%selectfile NULL_FILE
+
+%function OSEK_Settings() void
+%% Read user preferences for the target and add to CompiledModel
+%assign prefs = FEVAL("RTW.TargetPrefs.load","osek.prefs","structure")
+%assign prefs.Implementation = FEVAL("lower","%<prefs.Implementation>")
+%addtorecord CompiledModel Settings prefs
+%switch CompiledModel.Settings.Implementation
+  %case "proosek"
+    %assign TargetCompiler = "GNU"
+    %break
+  %case "osekworks"
+    %assign TargetCompiler = "Diab"
+    %break
+  %default
+    %assign msg = "Unsupported OSEK implementation selected in OSEK Target Preferences."
+    %exit %<msg>
+    %break
+%endswitch
+%assign CompiledModel.Settings = CompiledModel.Settings + TargetCompiler
+
+%% Add PathInfo record, used by Code Profile reporting
+%addtorecord CompiledModel      \  
+  PathInfo {			\
+  	MODEL_FILE	""	\
+  	MODEL_REL_PATH	""	\
+  	PWD		""	\
+	PATH_SEP        ""	\
+	MODEL_ABS_PATH  ""	\
+	MATLABROOT      ""	\
+	TLC_FILE        ""	\
+	TLC_DIR         ""	\
+	TARGET_TLC_DIR  ""	\
+	TARGET_ROOT_DIR ""	\
+	PROFILE_DIR     ""      \
+  }
+  
+%% Get (3) files from TLCFILES and find which one if the model file
+%assign LOCAL_MODEL_FILE = ""
+%assign TARGET_TLC_FILE = ""
+%assign TLCFILE_1 = FEVAL("strtokn", "%<TLCFILES>","[, ]",1)
+%assign TLCFILE_2 = FEVAL("strtokn", "%<TLCFILES>","[, ]",2)
+%assign TLCFILE_3 = FEVAL("strtokn", "%<TLCFILES>","[, ]",3)
+
+%assign FILE_EXT = FEVAL("filepart", "%<TLCFILE_1>","ext")
+%if "%<FILE_EXT>" == ".rtw"
+  %assign LOCAL_MODEL_FILE = "%<TLCFILE_1>"
+%endif
+
+%assign FILE_EXT = FEVAL("filepart", "%<TLCFILE_2>","ext")
+%if "%<FILE_EXT>" == ".rtw"
+  %assign LOCAL_MODEL_FILE = "%<TLCFILE_2>"
+%endif
+
+%assign FILE_EXT = FEVAL("filepart", "%<TLCFILE_3>","ext")
+%if "%<FILE_EXT>" == ".rtw"
+  %assign LOCAL_MODEL_FILE = "%<TLCFILE_3>"
+%endif
+
+%if "%<LOCAL_MODEL_FILE>" == ""
+  %assign msg = "Unable to locate RTW file in TLCFILES: %<TLCFILES>"
+  %exit %<msg>
+%endif
+
+%with CompiledModel.PathInfo
+	%assign CompiledModel.PathInfo.MODEL_FILE      = "%<LOCAL_MODEL_FILE>"
+	%assign CompiledModel.PathInfo.PWD             = FEVAL("pwd")
+	%assign CompiledModel.PathInfo.PATH_SEP        = FEVAL("filesep")
+	%assign CompiledModel.PathInfo.MATLABROOT      = FEVAL("matlabroot")
+
+%% MODEL_REL_PATH is no longer available use invoking TLC.
+%%	%assign CompiledModel.PathInfo.MODEL_REL_PATH  = FEVAL("filepart", "%<LOCAL_MODEL_FILE>","path")
+	%assign CompiledModel.PathInfo.MODEL_ABS_PATH  = FEVAL("filepart", "%<LOCAL_MODEL_FILE>","path")
+
+	%assign CompiledModel.PathInfo.TLC_FILE        = "%<TLCFILE_2>"
+	%assign CompiledModel.PathInfo.TLC_DIR         = FEVAL("filepart", "%<TLC_FILE>","path")
+	%assign CompiledModel.PathInfo.TARGET_TLC_DIR  = FEVAL("filepart", "%<TLC_FILE>","path")
+	%assign CompiledModel.PathInfo.TARGET_ROOT_DIR = FEVAL("filepart", "%<TLC_DIR>","path")
+	%assign CompiledModel.PathInfo.PROFILE_DIR     = ...
+	  "%<TARGET_ROOT_DIR>%<PATH_SEP>common%<PATH_SEP>profile"
+
+	%% Add Target specific TLC paths
+	%addincludepath "%<TARGET_ROOT_DIR>%<PATH_SEP>%<CompiledModel.Settings.Implementation>"
+	%addincludepath "%<MATLABROOT>%<PATH_SEP>toolbox%<PATH_SEP>rtw%<PATH_SEP>targets%<PATH_SEP>common%<PATH_SEP>profile%<PATH_SEP>memory"
+%endwith
+
+%% Indicate to ECoder that we do not need the SetEvents function or the base step function
+%assign ::SuppressSetEventsForThisBaseRateFcn = 1
+
+%% Setup environment to use the common resource configuration mechanism
+%include "osekenv.tlc"
+%<osek_set_env()>
+
+%% Check for unsupported Embedded Coder options and error/warn appropriately
+%if !EXISTS("SuppressErrorStatus")
+  %assign msg = "Unable to find RTW-Embedded Coder TLC variable 'SuppressErrorStatus'. Ensure RTW-Embedded Coder has been installed."
+  %exit %<msg>
+%endif
+
+%if SuppressErrorStatus == 0 
+  %assign SuppressErrorStatus = 1
+  %assign msg = "Suppressing Error Status as it is not used by this target."
+  %warning %<msg>
+%endif
+%if GenerateSampleERTMain == 1
+  %assign msg = "Generating an example main is not supported as the proper main function is inherently generated. Unselect the \"Generate an example main program\" checkbox under ERT code generation options."
+  %exit %<msg>
+%endif
+
+%if GenerateErtSFunction == 1
+  %assign msg = "Generating a Simulink S-Function is not supported. Unselect the \"Create Simulink(S-Function) block\" checkbox under ERT code generation options."
+  %exit %<msg>
+%endif
+
+%if ExtMode == 1
+  %assign msg = "External Mode is not currently supported. Unselect the \"External mode\" checkbox under ERT code generation options."
+  %exit %<msg>
+%endif
+
+%if MatFileLogging == 1
+  %assign msg = "MAT-file logging is not currently supported. Unselect the \"MAT-file logging\" checkbox under ERT code generation options."
+  %exit %<msg>
+%endif
+
+%if GenFloatMathFcnCalls == "ISO_C"
+  %% ProOSEK/GNU does not have math library
+  %if CompiledModel.Settings.Implementation == "proosek"
+    %assign msg = "ProOSEK implemenation does not currently support math libraries for single-precision, ignoring 'Target floaing-point math environment' selection."
+    %assign ::GenFloatMathFcnCalls = "ANSI_C"
+    %warning %<msg>
+  %endif
+%endif   %%ISO_C
+
+%% To display added TLC settings for debugging purposes, set EchoConfigSettings to 1.
+%if !EXISTS("EchoConfigSettings")
+  %assign EchoConfigSettings = 0
+%endif
+%if EchoConfigSettings
+  %selectfile STDOUT
+  ######################################################################
+  
+  IMPLEMENTATION is:
+  %<CompiledModel.Settings.Implementation>
+  
+  IMPLEMENTATION path is:
+  %<CompiledModel.Settings.ImpPath>
+  
+  MODEL_FILE path is:
+  %<CompiledModel.PathInfo.MODEL_FILE>
+
+  MODEL_REL_PATH path is:
+  %<CompiledModel.PathInfo.MODEL_REL_PATH>
+
+  PWD path is:
+  %<CompiledModel.PathInfo.PWD>  
+
+  PATH_SEP path is:     
+  %<CompiledModel.PathInfo.PATH_SEP>
+
+  MODEL_ABS_PATH path is:
+  %<CompiledModel.PathInfo.MODEL_ABS_PATH>
+
+  MATLABROOT path is:
+  %<CompiledModel.PathInfo.MATLABROOT>  
+
+  TLC_FILE path is:
+  %<CompiledModel.PathInfo.TLC_FILE>      
+
+  TLC_DIR path is:
+  %<CompiledModel.PathInfo.TLC_DIR>        
+
+  TARGET_TLC_DIR path is:
+  %<CompiledModel.PathInfo.TARGET_TLC_DIR>
+
+  TARGET_ROOT_DIR path is:
+  %<CompiledModel.PathInfo.TARGET_ROOT_DIR>
+
+  PROFILE_DIR path is:
+  %<CompiledModel.PathInfo.PROFILE_DIR>
+    
+  ######################################################################
+  %selectfile NULL_FILE
+%endif
+%endfunction
+
+%<OSEK_Settings()>
+
+%% EOF

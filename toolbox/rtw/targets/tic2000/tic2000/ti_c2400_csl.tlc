@@ -1,0 +1,763 @@
+%% $RCSfile: ti_c2400_csl.tlc,v $
+%% $Revision: 1.10.6.4 $ $Date: 2004/04/01 16:14:08 $
+%% Copyright 2003-2004 The MathWorks, Inc.
+
+
+
+%% ==========================================================================
+%% Function: render_init_board
+%% Abstract:
+
+%function render_init_board() void
+%openfile buff
+
+/* Function: init_board() -------------------------------------
+ *
+ * Abstract:
+ *      This function initializes the board
+ */
+
+void init_board ()
+{
+/*** Configure the System Control and Status registers ***/
+    MMREGS[SCSR1] = 0x00FD;
+/*
+ bit 15        0:      reserved
+ bit 14        0:      CLKOUT = CPUCLK
+ bit 13-12     00:     IDLE1 selected for low-power mode
+ bit 11-9      000:    PLL x4 mode
+ bit 8         0:      reserved
+ bit 7         1:      1 = enable ADC module clock
+ bit 6         1:      1 = enable SCI module clock
+ bit 5         1:      1 = enable SPI module clock
+ bit 4         1:      1 = enable CAN module clock
+ bit 3         1:      1 = enable EVB module clock
+ bit 2         1:      1 = enable EVA module clock
+ bit 1         0:      reserved
+ bit 0         1:      clear the ILLADR bit
+*/
+
+    MMREGS[SCSR2] = (MMREGS[SCSR2] | 0x000B) & 0x000F;
+/*
+ bit 15-6      0's:    reserved
+ bit 5         0:      do NOT clear the WD OVERRIDE bit
+ bit 4         0:      XMIF_HI-Z, 0=normal mode, 1=Hi-Z'd
+ bit 3         1:      disable the boot ROM, enable the FLASH
+ bit 2     no change   MP/MC* bit reflects state of MP/MC* pin
+ bit 1-0      11:      11 = SARAM mapped to prog and data
+*/
+
+/*** Disable the watchdog timer ***/
+    MMREGS[WDCR]  = 0x00E8;
+/*
+ bits 15-8     0's:     reserved
+ bit 7         1:       clear WD flag
+ bit 6         1:       disable the dog
+ bit 5-3       101:     must be written as 101
+ bit 2-0       000:     WDCLK divider = 1
+*/
+
+/*** Setup external memory interface for LF2407 EVM ***/
+    MMREGS[WSGR] = 0x0040;
+/*
+ bit 15-11     0's:    reserved
+ bit 10-9      00:     bus visibility off
+ bit 8-6       001:    1 wait-state for I/O space
+ bit 5-3       000:    0 wait-state for data space
+ bit 2-0       000:    0 wait state for program space
+*/
+
+/*** Setup shared I/O pins ***/
+    MMREGS[MCRA] = 0x0040;                     /* group A pins */
+/*
+ bit 15        0:      0=IOPB7,     1=TCLKINA
+ bit 14        0:      0=IOPB6,     1=TDIRA
+ bit 13        0:      0=IOPB5,     1=T2PWM/T2CMP
+ bit 12        0:      0=IOPB4,     1=T1PWM/T1CMP
+ bit 11        0:      0=IOPB3,     1=PWM6
+ bit 10        0:      0=IOPB2,     1=PWM5
+ bit 9         0:      0=IOPB1,     1=PWM4
+ bit 8         0:      0=IOPB0,     1=PWM3
+ bit 7         0:      0=IOPA7,     1=PWM2
+ bit 6         1:      0=IOPA6,     1=PWM1
+ bit 5         0:      0=IOPA5,     1=CAP3
+ bit 4         0:      0=IOPA4,     1=CAP2/QEP2
+ bit 3         0:      0=IOPA3,     1=CAP1/QEP1
+ bit 2         0:      0=IOPA2,     1=XINT1
+ bit 1         0:      0=IOPA1,     1=SCIRXD
+ bit 0         0:      0=IOPA0,     1=SCITXD
+*/
+
+    MMREGS[MCRB] = 0xFE00;                     /* group B pins */
+/*
+ bit 15        1:      0=reserved,  1=TMS2 (always write as 1)
+ bit 14        1:      0=reserved,  1=TMS  (always write as 1)
+ bit 13        1:      0=reserved,  1=TD0  (always write as 1)
+ bit 12        1:      0=reserved,  1=TDI  (always write as 1)
+ bit 11        1:      0=reserved,  1=TCK  (always write as 1)
+ bit 10        1:      0=reserved,  1=EMU1 (always write as 1)
+ bit 9         1:      0=reserved,  1=EMU0 (always write as 1)
+ bit 8         0:      0=IOPD0,     1=XINT2/ADCSOC
+ bit 7         0:      0=IOPC7,     1=CANRX
+ bit 6         0:      0=IOPC6,     1=CANTX
+ bit 5         0:      0=IOPC5,     1=SPISTE
+ bit 4         0:      0=IOPC4,     1=SPICLK
+ bit 3         0:      0=IOPC3,     1=SPISOMI
+ bit 2         0:      0=IOPC2,     1=SPISIMO
+ bit 1         0:      0=IOPC1,     1=BIO*
+ bit 0         0:      0=IOPC0,     1=W/R*
+*/
+
+    MMREGS[MCRC] = 0x0000;                     /* group C pins */
+/*
+ bit 15        0:      reserved
+ bit 14        0:      0=IOPF6,     1=IOPF6
+ bit 13        0:      0=IOPF5,     1=TCLKINB
+ bit 12        0:      0=IOPF4,     1=TDIRB
+ bit 11        0:      0=IOPF3,     1=T4PWM/T4CMP
+ bit 10        0:      0=IOPF2,     1=T3PWM/T3CMP
+ bit 9         0:      0=IOPF1,     1=CAP6
+ bit 8         0:      0=IOPF0,     1=CAP5/QEP4
+ bit 7         0:      0=IOPE7,     1=CAP4/QEP3
+ bit 6         0:      0=IOPE6,     1=PWM12
+ bit 5         0:      0=IOPE5,     1=PWM11
+ bit 4         0:      0=IOPE4,     1=PWM10
+ bit 3         0:      0=IOPE3,     1=PWM9
+ bit 2         0:      0=IOPE2,     1=PWM8
+ bit 1         0:      0=IOPE1,     1=PWM7
+ bit 0         0:      0=IOPE0,     1=CLKOUT    
+*/
+
+/*** Configure IOPC0 pin as an output ***/
+    MMREGS[PCDATDIR] = MMREGS[PCDATDIR] | 0x0100;
+
+/*** Setup the core interrupts ***/
+    MMREGS[IMR] = 0x0000;                      /* clear the IMR register */
+    MMREGS[IFR] = 0x003F;                      /* clear any pending core interrupts */
+
+/*** Setup the event manager interrupts ***/
+    MMREGS[EVAIFRA] = 0xFFFF;                  /* clear all EVA group A interrupts */
+    MMREGS[EVAIFRB] = 0xFFFF;                  /* clear all EVA group B interrupts */
+    MMREGS[EVAIFRC] = 0xFFFF;                  /* clear all EVA group C interrupts */
+    MMREGS[EVBIFRA] = 0xFFFF;                  /* clear all EVB group A interrupts */
+    MMREGS[EVBIFRB] = 0xFFFF;                  /* clear all EVB group B interrupts */
+    MMREGS[EVBIFRC] = 0xFFFF;                  /* clear all EVB group C interrupts */
+
+%if     (c2000TgtPrefOptions.CodeGenerationSchedulerTimer == "EVA_timer1")    
+    MMREGS[EVAIMRA] = 0x0080;                  /* enable desired EVA group A interrupts */
+%else
+    MMREGS[EVAIMRA] = 0x0000;                  /* enable desired EVA group A interrupts */
+%endif
+%if (c2000TgtPrefOptions.CodeGenerationSchedulerTimer == "EVA_timer2")    
+    MMREGS[EVAIMRB] = 0x0001;                  /* enable desired EVA group B interrupts */
+%else
+    MMREGS[EVAIMRB] = 0x0000;                  /* enable desired EVA group B interrupts */
+%endif    
+    MMREGS[EVAIMRC] = 0x0000;                  /* enable desired EVA group C interrupts */
+%if     (c2000TgtPrefOptions.CodeGenerationSchedulerTimer == "EVB_timer3")    
+    MMREGS[EVBIMRA] = 0x0080;                  /* enable desired EVB group A interrupts */
+%else
+    MMREGS[EVBIMRA] = 0x0000;                  /* enable desired EVB group A interrupts */   
+%endif 
+%if (c2000TgtPrefOptions.CodeGenerationSchedulerTimer == "EVB_timer4")    
+    MMREGS[EVBIMRB] = 0x0001;                  /* enable desired EVB group B interrupts */ 
+%else
+    MMREGS[EVBIMRB] = 0x0000;                  /* enable desired EVB group B interrupts */
+%endif        
+    MMREGS[EVBIMRC] = 0x0000;                  /* enable desired EVB group C interrupts */ 
+
+%if (c2000ModelIRInfo.numCANs>0)
+	%assign BRT   = CAST("Number",c2000TgtPrefOptions.DSPBoardDSPChipCANBitRatePrescaler) - 1
+	%assign TSEG1 = CAST("Number",c2000TgtPrefOptions.DSPBoardDSPChipCANTSEG1) - 1
+	%assign TSEG2 = CAST("Number",c2000TgtPrefOptions.DSPBoardDSPChipCANTSEG2) - 1
+	%assign SBG   = (c2000TgtPrefOptions.DSPBoardDSPChipCANSBG == "Both_falling_and_rising_edges") 
+	%assign SJW   = CAST("Number",c2000TgtPrefOptions.DSPBoardDSPChipCANSJW) - 1 
+	%assign SAM   = (c2000TgtPrefOptions.DSPBoardDSPChipCANSAM == "Sample_three_times")
+	/* Initialize eCANModule with following parameters:
+     *    BRP=%<BRT>, TSEG1=%<TSEG1>, TSEG2=%<TSEG2>
+     *    Resynchronize on: %<c2000TgtPrefOptions.DSPBoardDSPChipCANSBG>
+     *    Level of CAN bus: %<c2000TgtPrefOptions.DSPBoardDSPChipCANSAM>
+     *    Synchronization jump width = %<SJW> */
+	init_CAN (%<BRT>, %<TSEG1>, %<TSEG2>, %<SBG>, %<SJW>, %<SAM>);
+%endif
+}
+
+%closefile buff
+%return buff
+%endfunction %% render_init_board
+
+
+
+%% ==========================================================================
+%% Function: render_config_schedulerTimer
+%% Abstract:
+
+%function render_config_schedulerTimer(timerPeriod) void
+%openfile buff
+
+/*-----------------------------------------------------------------------------
+* void config_schedulerTimer(void)
+ *
+ * Abstract:
+ *      This function configures timer with the period of %<timerPeriod> usec.
+ */
+ 
+void config_schedulerTimer(void)
+{
+  %assign TPS = CAST ("Number", c2000TgtPrefOptions.CodeGenerationSchedulerTimerClockPrescaler)
+  
+  %assign period = 40000000 * timerPeriod / TPS
+  %if (period>65535)
+       %<LibReportError("Base sample time too long. Try increasing timer prescaler.")>
+  %endif
+
+  uint16_T timer2_per = (uint16_T) (40.0e6 * %<timerPeriod> / %<TPS>);
+  
+  %if     (c2000TgtPrefOptions.CodeGenerationSchedulerTimer == "EVA_timer1") 
+      %assign index = 1
+  %elseif (c2000TgtPrefOptions.CodeGenerationSchedulerTimer == "EVA_timer2")  
+      %assign index = 2  
+  %elseif (c2000TgtPrefOptions.CodeGenerationSchedulerTimer == "EVB_timer3")  
+      %assign index = 3
+  %elseif (c2000TgtPrefOptions.CodeGenerationSchedulerTimer == "EVB_timer4")  
+      %assign index = 4  
+  %endif
+  
+  %% compute bit-field representing timer prescaler: loop from 0 to 7 incrementing temporary 
+  %% prescaler (TPSTEMP) until it matches the actual one (TPS)
+  %assign TPSTEMP = 1
+  %foreach i = 8
+      %assign TPSBITS = i
+      %if (TPSTEMP == TPS)
+          %break
+      %else
+          %assign TPSTEMP = TPSTEMP * 2              
+      %endif
+  %endforeach
+  
+  MMREGS[T%<index>CNT] = 0x0000; // clear timer counter
+  MMREGS[T%<index>PR] = timer2_per; // set timer period
+  MMREGS[T%<index>CON] = 0xD040 | (%<TPSBITS><<8); // configure T2CON register 
+/*   
+ bit 15-14     11:     stop immediately on emulator suspend
+ bit 13        0:      reserved
+ bit 12-11     10:     10 = continous-up count mode
+ bit 10-8      111:    111 = x/128 prescaler
+ bit 7         0:      T2SWT1, 0 = use own TENABLE bit
+ bit 6         1:      TENABLE, 1 = enable timer
+ bit 5-4       00:     00 = CPUCLK is clock source
+ bit 3-2       00:     00 = reload compare reg on underflow
+ bit 1         0:      0 = disable timer compare
+ bit 0         0:      SELT1PR, 0 = use own period register
+*/  
+}
+
+%closefile buff
+%return buff
+%endfunction %% render_config_schedulerTimer
+
+
+
+%% ==========================================================================
+%% Function: render_schedulerTimer_ISR
+%% Abstract:
+
+%function render_schedulerTimer_ISR() void
+%openfile buff
+
+/* Function: schedulerTimer_ISR() -------------------------------------
+ *
+ * Abstract:
+ *      This function services interrupts posted by scheduler timer
+ */
+
+interrupt void schedulerTimer_ISR(void)
+{
+	%if (CompiledModel.FixedStepOpts.SolverMode == "SingleTasking")
+		pendingInterrupt = 1;
+	%endif
+	
+	%if     (c2000TgtPrefOptions.CodeGenerationSchedulerTimer == "EVA_timer1")
+        MMREGS[EVAIFRA] = MMREGS[EVAIFRA] & 0x0080;      /* clear T2PINT flag */
+	%elseif (c2000TgtPrefOptions.CodeGenerationSchedulerTimer == "EVA_timer2")
+        MMREGS[EVAIFRB] = MMREGS[EVAIFRB] & 0x0001;      /* clear T2PINT flag */
+	%elseif (c2000TgtPrefOptions.CodeGenerationSchedulerTimer == "EVB_timer3")
+        MMREGS[EVBIFRA] = MMREGS[EVBIFRA] & 0x0080;      /* clear T2PINT flag */
+	%elseif (c2000TgtPrefOptions.CodeGenerationSchedulerTimer == "EVB_timer4")
+        MMREGS[EVBIFRB] = MMREGS[EVBIFRB] & 0x0001;      /* clear T2PINT flag */
+	%endif
+
+	%if CompiledModel.FixedStepOpts.SolverMode == "MultiTasking"
+        rt_OneStep();
+	%endif
+}
+
+%closefile buff
+%return buff
+%endfunction %% render_schedulerTimer_ISR
+
+
+
+%% ==========================================================================
+%% Function: render_getNextChannel
+%% Abstract:
+
+%function render_getNextChannel() void
+%openfile buff
+
+int16_T getNextChannel (uint16_T usedChannels, uint16_T startInd)
+{
+	int16_T ind = startInd;
+	while ( (ind<16) && !(usedChannels & 0x0001<<ind)) ind++;
+	return ind;
+}
+
+%closefile buff
+%return buff
+%endfunction %% render_getNextChannel
+
+
+
+%% ==========================================================================
+%% Function: render_config_PWM
+%% Abstract:
+
+%function render_config_PWM(PWMInfo) void
+%openfile buff
+
+%assign UNIT = PWMInfo.useModule
+ 
+/* Function: config_PWM_%<UNIT> ------------------------------
+ *
+ * Abstract:
+ *      Configure PWM_%<UNIT>
+ */
+
+void config_PWM_%<UNIT>(uint16_T timerPeriod, uint16_T waveformType, 
+         uint16_T unit1Status, char* unit1Source, uint16_T unit1Value, 
+         uint16_T unit2Status, char* unit2Source, uint16_T unit2Value, 
+         uint16_T unit3Status, char* unit3Source, uint16_T unit3Value, uint16_T controlLogic,
+         uint16_T enableDeadband1, uint16_T enableDeadband2, uint16_T enableDeadband3,
+         uint16_T deadbandPrescaler, uint16_T deadbandPeriod, uint16_T timerToADC)
+{
+    const uint16_T DISABLED=0;
+    
+%if PWMInfo.useModule == "A"
+    /* Initalize EVA Timer2 which controls PWM1-PWM6 */
+    MMREGS[T1PR]     = timerPeriod;
+    MMREGS[T1CNT]    = 0x0000;                                 // reset counter
+    MMREGS[T1CON]    = 0x0046;                                 // enable; compare enable; default TMODE
+    MMREGS[T1CON]   |= waveformType<<11;                       // adjust Timer TMODE     
+    /* Set ADC SOC signal according to user's request */
+    MMREGS[GPTCONA] |= timerToADC<<7;    
+    /* Enable compare for PWM1-PWM6 */
+    MMREGS[CMPR1]    = unit1Status ? unit1Value : DISABLED;
+    MMREGS[CMPR2]    = unit2Status ? unit2Value : DISABLED;
+    MMREGS[CMPR3]    = unit3Status ? unit3Value : DISABLED;  
+    /* Compare action control: Action that takes place on a compare event */    
+    MMREGS[ACTRA]    = controlLogic;   
+    MMREGS[DBTCONA] |= enableDeadband1<<5;
+    MMREGS[DBTCONA] |= enableDeadband2<<6;
+    MMREGS[DBTCONA] |= enableDeadband3<<7;
+    MMREGS[DBTCONA] |= deadbandPeriod<<8;
+    MMREGS[DBTCONA] |= deadbandPrescaler<<2;   
+    MMREGS[COMCONA]  = 0xA600;     
+%else
+    /* Initalize EVB Timer4 which controls PWM7-PWM12 */
+    MMREGS[T3PR]     = timerPeriod;
+    MMREGS[T3CNT]    = 0x0000;                                 // reset counter
+    MMREGS[T3CON]    = 0x0046;                                 // enable; compare enable; default TMODE     
+    MMREGS[T3CON]   |= waveformType<<11;                       // adjust Timer TMODE  
+    /* Set ADC SOC signal according to user's request */
+    MMREGS[GPTCONB]  |= timerToADC<<7;       
+    /* Enable compare for PWM7-PWM12 */
+    MMREGS[CMPR4]    = unit1Status ? unit1Value : DISABLED;
+    MMREGS[CMPR5]    = unit2Status ? unit2Value : DISABLED;
+    MMREGS[CMPR6]    = unit3Status ? unit3Value : DISABLED;  
+    /* Compare action control: Action that takes place on a compare event */    
+    MMREGS[ACTRB]    = controlLogic;   
+    MMREGS[DBTCONB] |= enableDeadband1<<5;
+    MMREGS[DBTCONB] |= enableDeadband2<<6;
+    MMREGS[DBTCONB] |= enableDeadband3<<7;
+    MMREGS[DBTCONB] |= deadbandPeriod<<8;
+    MMREGS[DBTCONB] |= deadbandPrescaler<<2;   
+    MMREGS[COMCONB]  = 0xA600;
+%endif
+}
+
+%closefile buff
+%return buff
+%endfunction %% render_config_PWM	
+
+
+
+%% ==========================================================================
+%% Function: render_config_AD
+%% Abstract:
+
+%function render_config_AD(ADCInfo) void
+%openfile buff
+
+%assign module = ADCInfo.useModule
+
+ %if (module=="A" || module=="A and B")
+     %assign UNIT = "A"
+ %else
+     %assign UNIT = "B"
+ %endif
+ 
+/* Function: config_ADC_%<UNIT> ------------------------------
+ *
+ * Abstract:
+ *      Configure ADC_%<UNIT>
+ */
+
+void config_ADC_%<UNIT>( int16_T numOfConversions, uint16_T usedChannels )
+{
+    int16_T index = 0;
+    	
+    /* Configure ADC: */
+%%
+%if (module=="A" || module=="A and B")    
+    MMREGS[MAX_CONV] = MMREGS[MAX_CONV] & ~07;
+    MMREGS[MAX_CONV] = MMREGS[MAX_CONV] | numOfConversions; 
+%else
+    MMREGS[MAX_CONV] = MMREGS[MAX_CONV] & ~(07<<4);
+    MMREGS[MAX_CONV] = MMREGS[MAX_CONV] | numOfConversions<<4;
+%endif
+%%
+%if (module=="A" || module=="A and B")
+    if (numOfConversions >= 0) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+       	MMREGS[CHSELSEQ1] = index++;
+    }
+    if (numOfConversions >= 1) {
+        index = (int16_T) getNextChannel(usedChannels,index);    
+        MMREGS[CHSELSEQ1] |= (index++)<<4;
+    }
+    if (numOfConversions >= 2) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        MMREGS[CHSELSEQ1] |= (index++)<<8;        
+    }
+    if (numOfConversions >= 3) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        MMREGS[CHSELSEQ1] |= (index++)<<12;        
+    }
+    if (numOfConversions >= 4) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        MMREGS[CHSELSEQ2] |= index++;         
+    }
+    if (numOfConversions >= 5) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        MMREGS[CHSELSEQ2] |= (index++)<<4;        
+    }
+    if (numOfConversions >= 6) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        MMREGS[CHSELSEQ2] |= (index++)<<8;        
+    }
+    if (numOfConversions >= 7) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        MMREGS[CHSELSEQ2] |= (index++)<<12;        
+    }
+ %endif
+ %if (module=="B" || module=="A and B")
+    %if (module=="B")
+        %assign ind = 0
+    %else
+        %assign ind = 8
+    %endif
+    if (numOfConversions >= %<ind>) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        MMREGS[CHSELSEQ3] |= index++;        
+    }
+    %assign ind = ind + 1
+    if (numOfConversions >= %<ind>) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        MMREGS[CHSELSEQ3] |= (index++)<<4;
+    }
+    %assign ind = ind + 1
+    if (numOfConversions >= %<ind>) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        MMREGS[CHSELSEQ3] |= (index++)<<8;        
+    }
+    %assign ind = ind + 1
+    if (numOfConversions >= %<ind>) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        MMREGS[CHSELSEQ3] |= (index++)<<12;        
+    }
+    %assign ind = ind + 1
+    if (numOfConversions >= %<ind>) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        MMREGS[CHSELSEQ4] |= index++;        
+    }
+    %assign ind = ind + 1
+    if (numOfConversions >= %<ind>) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        MMREGS[CHSELSEQ4] |= (index++)<<4;        
+    }
+    %assign ind = ind + 1
+    if (numOfConversions >= %<ind>) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        MMREGS[CHSELSEQ4] |= (index++)<<8;        
+    }
+    %assign ind = ind + 1
+    if (numOfConversions == %<ind>) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        MMREGS[CHSELSEQ4] |= (index++)<<12;        
+    }
+    
+%endif
+
+%if (module=="A" || module=="B")
+    MMREGS[ADCTRL1] = 0x3000;             // Enable Dual sequencer
+%elseif (module=="A and B")
+    MMREGS[ADCTRL1] = 0x3010;             // Enable Cascaded sequencer
+%endif
+%%
+%if (module=="A")
+    MMREGS[ADCTRL2] |= 0x0700;            // Enable SEQ1 start by EVA  
+%elseif (module=="B")
+    MMREGS[ADCTRL2] |= 0x0001;            // Enable SEQ2 start by EVB
+%endif
+}
+
+%closefile buff
+%return buff
+%endfunction %% render_config_AD
+
+
+
+%function render_init_CAN(c2000ModelIRInfo) void
+%openfile buff
+
+/* Function: init_CAN----------------------------
+ *
+ * Abstract:
+ *      Configure CAN module
+ */
+ 
+void init_CAN ( uint16_T bitRatePrescaler, uint16_T timeSeg1, uint16_T timeSeg2, uint16_T sbg, uint16_T sjw, uint16_T sam)
+{
+	MMREGS[MCRB] |= 0x00C0;                   // enable CAN TX and RX with MUX
+	
+	MMREGS[MDER] = 0x0000;                    // disable all mboxes
+	MMREGS[MCR] = 0x1000;                     // set change configuration request in master control register
+	
+	while ((MMREGS[GSR] & 0x0010) == 0);      // check status register for write access to config. registers
+	
+	MMREGS[BCR2]   = bitRatePrescaler;
+	MMREGS[BCR1]   = timeSeg2 | timeSeg1<<3 | sam<<7 | sjw<<8 | sbg<<10;
+	
+	MMREGS[MCR] = 0x0080; // Normal mode Requested
+	
+	MMREGS[LAM0_H] = 0x0000;                  // Local acceptance mask, mboxes 0 & 1, high word
+	MMREGS[LAM0_L] = 0x0000;                  // Local acceptance mask, mboxes 0 & 1, low word
+	MMREGS[LAM1_H] = 0x0000;                  // Local acceptance mask, mboxes 2 & 3, high word
+	MMREGS[LAM1_L] = 0x0000;                  // Local acceptance mask, mboxes 2 & 3, low word
+	
+	while ((MMREGS[GSR] & 0x0010) != 0);      // check status register for write access to config. registers
+
+	%if (c2000TgtPrefOptions.DSPBoardDSPChipCANSelfTestMode == "on")
+        MMREGS[MCR] = 0x04C0;                 // Configure CAN for self-test mode, DBO =1, ABO = 1
+    %else
+        MMREGS[MCR] = 0x0480;                 // Configure CAN for normal mode, DBO = 1, ABO = 1    
+    %endif
+}
+
+%closefile buff
+%return buff
+%endfunction %% render_init_CAN
+
+
+
+%% ==========================================================================
+%% Function: render_config_CANmbx
+%% Abstract:
+
+%function render_config_CANmbx() void
+%openfile buff
+
+/* Function: config_CANmbx--------------------------------
+ *
+ * Abstract:
+ *      Configure CAN mailbox using following parameters:
+ *            mbxNo   = 0 through 5
+ *            mbxType = receive (0) OR transmit (1)
+ *            msgType = standard (0) OR extended (1)
+ */
+ 
+void config_CANmbx (uint16_T mbxType, uint16_T mbxNo, uint32_T msgID, uint16_T msgType)
+{
+  #define MSGIDH   (MSGID0H  + 0x0008*mbxNo)
+  #define MSGIDL   (MSGID0L  + 0x0008*mbxNo) 
+  #define MSGCTRL  (MSGCTRL0 + 0x0008*mbxNo) 
+
+  MMREGS[MDER] &= ~(0x1 << mbxNo);                            // disable mbox
+  
+  if (msgType==0)
+      MMREGS[MSGIDH] = ((msgID<<2) & 0x1FFF) | 0x2000;        // Standard frame, IDE=1, AME=0, AAM=1 
+  else
+      MMREGS[MSGIDH] = (((msgID>>16)<<2) & 0x1FFF) | 0xA000;  // Extended frame, IDE=1, AME=0, AAM=1
+
+  MMREGS[MSGIDL] = (msgID & 0xFFFF);
+  
+  if (mbxNo==2 || mbxNo==3)
+     MMREGS[MDER] |= (!mbxType)<< (mbxNo+4);                  // for mboxes 2 and 3 set XMT or RCV
+
+  MMREGS[MDER] |= 0x0001 << mbxNo;                            // enable mailbox
+  MMREGS[MCR] = 0x04C0;                                       // DBO - 1,  ABO - 1, STM - 1
+}
+
+%closefile buff
+%return buff
+%endfunction %% render_config_CANmbx
+
+
+
+%% ==========================================================================
+%% Function: render_config_QEP
+%% Abstract:
+
+%function render_config_QEP(QEPInfo) void
+%openfile buff
+
+%assign UNIT = QEPInfo.useModule
+ 
+/* Function: config_QEP_%<UNIT> ------------------------------
+ *
+ * Abstract:
+ *      Configure QEP_%<UNIT>
+ */
+
+void config_QEP_%<UNIT>(uint16_T initialCount)
+{
+	%if(QEPInfo.useModule=="A")  
+        // QEP1/QEP2 Control register setting (Timer2)
+        MMREGS[T2CNT]    = initialCount; // Timer 2 counter register,initial value = user define
+        MMREGS[T2CON]    = 0x1870;       // Timer 2 control register: Continuous-Up Count Mode
+        MMREGS[T2PR]     = 0xFFFF;       // Timer 2 period register,initial value = 65535
+        MMREGS[MCRA]    |= 0x0018;       // I/O Mux Control Register A: MCRA.4~5 Bit as compare 
+        MMREGS[CAPCONA] |= 0xE000;       // Enable QEP circuit. Disable Capture Units 1/2 and 3
+	%else  
+        // QEP3/QEP4 Control register setting (Timer4)
+        MMREGS[T4CNT]    = initialCount; // Timer 4 counter register,initial value = user define
+        MMREGS[T4CON]    = 0x1870;       // Timer 4 control register: Continuous-Up Count Mode
+        MMREGS[T4PR]     = 0xFFFF;       // Timer 4 period register,initial value = 65535;
+        MMREGS[MCRC]    |= 0x0180;       // I/O Mux Control Register C: MCRC.7~8 Bit as compare   
+        MMREGS[CAPCONB] |= 0xE000;       // Enable QEP circuit. Disable Capture Units 1/2 and 3        
+	%endif
+}
+
+%closefile buff
+%return buff
+%endfunction %% render_config_QEP	
+
+
+
+%% ==========================================================================
+%% Function: render_enable_interrupts
+%% Abstract:
+
+%function render_enable_interrupts() void
+%openfile buff
+
+/* Function: enable_interrupts -------------------------------
+ *
+ * Abstract:
+ *      Enable required c2400 DSP interrupts
+ */
+ 
+void enable_interrupts()
+{
+	%if     (c2000TgtPrefOptions.CodeGenerationSchedulerTimer == "EVA_timer1") || \   
+            (c2000TgtPrefOptions.CodeGenerationSchedulerTimer == "EVB_timer3")  
+        MMREGS[IMR] = 0x0002;
+	%elseif (c2000TgtPrefOptions.CodeGenerationSchedulerTimer == "EVA_timer2") || \   
+            (c2000TgtPrefOptions.CodeGenerationSchedulerTimer == "EVB_timer4")  
+        MMREGS[IMR] = 0x0004;
+	%endif
+    asm("  CLRC  INTM ");         // enable global interrupts
+}
+
+%closefile buff
+%return buff
+%endfunction %% render_enable_interrupts
+
+
+
+%% ==========================================================================
+%% Function: render_disable_interrupts
+%% Abstract:
+
+%function render_disable_interrupts() void
+%openfile buff
+
+/* Function: disable_interrupts -------------------------------
+ *
+ * Abstract:
+ *      Disable required c2400 DSP interrupts
+ */
+ 
+void disable_interrupts()
+{
+	%if     (c2000TgtPrefOptions.CodeGenerationSchedulerTimer == "EVA_timer1") || \   
+            (c2000TgtPrefOptions.CodeGenerationSchedulerTimer == "EVB_timer3")  
+        MMREGS[IMR] = 0x0000;
+	%elseif (c2000TgtPrefOptions.CodeGenerationSchedulerTimer == "EVA_timer2") || \   
+            (c2000TgtPrefOptions.CodeGenerationSchedulerTimer == "EVB_timer4")  
+        MMREGS[IMR] = 0x0000; 
+	%endif
+    asm("  SETC  INTM ");         // disable global interrupts
+}
+
+%closefile buff
+%return buff
+%endfunction %% render_disable_interrupts
+
+
+
+%% ==========================================================================
+%% Entry point for creating chip support library for ti_c2400dsp 
+
+%openfile cslFile = "MW_c24xx_csl.c"
+%selectfile cslFile
+%%
+#include "DSP24_Device.h"
+#include "rtwtypes.h"
+#include "%<CompiledModel.Name>.h"
+#include "%<CompiledModel.Name>_private.h"
+
+volatile int pendingInterrupt = 0;
+
+%<render_schedulerTimer_ISR()>
+%<render_config_schedulerTimer(c2000ModelIRInfo.timerIntPeriod)>
+
+%if (c2000ModelIRInfo.numADCs > 0)
+    %<render_getNextChannel()>
+	%foreach k = c2000ModelIRInfo.numADCs
+        %<render_config_AD (c2000ModelIRInfo.ADC[k])>
+	%endforeach    
+%endif
+
+%foreach k = c2000ModelIRInfo.numPWMs    
+    %<render_config_PWM (c2000ModelIRInfo.PWM[k])>
+%endforeach  
+
+%if (c2000ModelIRInfo.numCANs != 0)    
+    %<render_init_CAN(c2000ModelIRInfo)>
+    %<render_config_CANmbx()>
+%endif  
+
+%foreach k = c2000ModelIRInfo.numQEPs      
+    %<render_config_QEP (c2000ModelIRInfo.QEP[k])>
+%endforeach 
+
+%<render_enable_interrupts()>
+
+%<render_disable_interrupts()>
+
+%<render_init_board()>
+
+%closefile cslFile
+
+%% [EOF] ti_c2400_csl.tlc

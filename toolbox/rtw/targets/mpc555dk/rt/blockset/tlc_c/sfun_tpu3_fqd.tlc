@@ -1,0 +1,116 @@
+%% File: sfun_tpu3_fqd.tlc
+%%
+%% Abstract:
+%%   Implement device driver for FQD using Timer Processing
+%%   Unit, TPU3.
+%%
+%% Disclaimers / restrictions if any.
+%%
+%% $Revision: 1.4.4.2 $
+%% $Date: 2004/04/19 01:30:28 $
+%%
+%% Copyright 2002-2003 The MathWorks, Inc.
+
+%implements sfun_tpu3_fqd "C"
+%include "mpc555_common_includes.tlc"
+%include "tpu3_function_library.tlc"
+
+%% Function: BlockInstanceSetup ===============================================
+%% Abstract:
+%%   Pre-code generation work
+%%
+%function BlockInstanceSetup(block, system) void
+   %% %if !ISEMPTY(SFcnParamSettings.PC_ALIAS)
+        %assign ch = SFcnParamSettings.Channel
+        %assign pr = "TPU_FQD_POSITION_COUNT_PARAM"
+        %assign al = SFcnParamSettings.PC_ALIAS
+        %<tpuGenerateParameterAliasDefines(al, ch, pr)>
+  %%  %endif
+%endfunction
+
+%% Function: Start ==========================================================
+%% Abstract:
+%%      Sets up TPU channels for FQD 
+%%
+%function Start(block, system) Output 
+   %if !SLibCodeGenForSim()
+      %% only generate code for RT
+      /* %<Type> Block: %<Name> */
+      /* FQD setup for TPU3 module %<SFcnParamSettings.Module> */
+      /* Refer to Motorola Programming Note TPUPN02/D */
+      %assign module = SFcnParamSettings.Module
+      %assign priChannel = SFcnParamSettings.Channel
+      %% secondary channel is always primary channel + 1
+      %assign secChannel = SFcnParamSettings.Channel + 1
+      %assign channelPri = SFcnParamSettings.ChannelPriority
+      /* Select TPU FQD in Channel Function Select Registers for 
+       * Primary Channel and Secondary Channel */
+      %<tpuFunctionSelect(module, priChannel, "TPU_FN_FQD", "")>
+      %<tpuFunctionSelect(module, secChannel, "TPU_FN_FQD", "")>
+      
+      /* Initialise CORR_PINSTATE_ADDR in paramater RAM of both channels */
+      /* CORR_PINSTATE_ADDR contains the address of the CHAN_PINSTATE 
+       * parameter of the other (corresponding) channel */
+      %assign TPU_FQD_PINSTATE_OFFSET = 6U
+      %<tpuSetParam(module, priChannel, "TPU_FQD_CORR_PINSTATE_ADDR_PARAM", (16 * secChannel) + TPU_FQD_PINSTATE_OFFSET, "")>
+      %<tpuSetParam(module, secChannel, "TPU_FQD_CORR_PINSTATE_ADDR_PARAM", (16 * priChannel) + TPU_FQD_PINSTATE_OFFSET, "")>
+   
+      /* Initialise EDGE_TIME_LSB_ADDR in paramter RAM of both channels */
+      /* EDGE_TIME_LSB_ADDR contains the (odd) address of the EDGE_TIME
+       * parameter.  This parameter (EDGE_TIME) along with POSITION_COUNT
+       * will reside in the parameter RAM of the primary channel, and both
+       * EDGE_TIME_LSB_ADDR paramaters will point to this location */
+       %assign TPU_FQD_EDGETIME_LSB_OFFSET = 1U
+       %<tpuSetParam(module, priChannel, "TPU_FQD_EDGE_TIME_LSB_ADDR_PARAM", (16 * priChannel) + TPU_FQD_EDGETIME_LSB_OFFSET, "")>
+       %<tpuSetParam(module, secChannel, "TPU_FQD_EDGE_TIME_LSB_ADDR_PARAM", (16 * priChannel) + TPU_FQD_EDGETIME_LSB_OFFSET, "")>
+       
+      /* Initialise POSITION_COUNT parameter to desired initial value */
+      %<tpuSetParam(module, priChannel, "TPU_FQD_POSITION_COUNT_PARAM", SFcnParamSettings.InitPositionCount, "")>
+
+      /* Select Primary and Secondary channels, and Normal Mode 
+       * by writing Host Sequence Registers */
+      %<tpuSetHSQR(module, priChannel, "TPU_FQD_HSQR_PRI_NORM", "Primary Channel, Normal Mode")>
+      %<tpuSetHSQR(module, secChannel, "TPU_FQD_HSQR_SEC_NORM", "Secondary Channel")>
+      
+      /*  Initialise the function by writing Host Service Request Registers of each channel */
+      %<tpuSetHSRR(module, priChannel, "TPU_FQD_HSRR_INIT", "Primary Channel, initialise")>
+      %<tpuSetHSRR(module, secChannel, "TPU_FQD_HSRR_INIT", "")>
+  
+      /* Set Channel Priority to enable function */
+      %<tpuSetChannelPriority(module, priChannel, channelPri, "Primary Channel")>
+      %<tpuSetChannelPriority(module, secChannel, channelPri, "Secondary Channel")>
+      
+      %<tpuWaitForClearHSRR(module, priChannel)>
+      %<tpuWaitForClearHSRR(module, secChannel)>
+   %endif
+%endfunction
+
+%% Function: Outputs ==========================================================
+%% Abstract:
+%%      Sets POSITION_COUNT Output and optionally changes the decode mode 
+%%
+%function Outputs(block, system) Output
+   %if !SLibCodeGenForSim()
+      %% only generate code for RT
+      /* %<Type> Block: %<Name> */
+      /* FQD output for TPU3 module %<SFcnParamSettings.Module> */
+      %assign module = SFcnParamSettings.Module
+      %assign priChannel = SFcnParamSettings.Channel
+      %assign fastMode = SFcnParamSettings.FastMode
+      %% get reference to the output signal
+      %assign outputSignal = LibBlockOutputSignal(0, "", "", 0)
+      %% get reference to input signal
+      %assign inputSignal = LibBlockInputSignal(0, "", "", 0)
+      /* read POSITION_COUNT parameter */
+      %<outputSignal> = %<tpuGetParam(module, priChannel, "TPU_FQD_POSITION_COUNT_PARAM")>;
+      %if fastMode == 1
+         /* write to the primary channel Host Sequence Register to possibly change the decode mode */
+         if (%<inputSignal>) {
+            %<tpuSetHSQR(module, priChannel, "TPU_FQD_HSQR_PRI_FAST", "Fast Mode")>
+         }
+         else {
+            %<tpuSetHSQR(module, priChannel, "TPU_FQD_HSQR_PRI_NORM", "Normal Mode")>
+         }
+      %endif
+  %endif
+%endfunction

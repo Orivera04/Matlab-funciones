@@ -1,0 +1,460 @@
+From: <Guardado por Microsoft Internet Explorer 5>
+Subject: 
+Date: Wed, 13 Aug 2008 12:43:29 -0600
+MIME-Version: 1.0
+Content-Type: text/html;
+	charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.mathworks.com/matlabcentral/files/2796/record.m
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.3198
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD>
+<META http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dwindows-1252">
+<META content=3D"MSHTML 6.00.2900.3314" name=3DGENERATOR></HEAD>
+<BODY><PRE>%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File:   record.m                             %
+% Author: Jesse Hansen (12-1-01)               %
+% Email:  hansenj@ele.uri.edu                  %
+% Web:    www.ele.uri.edu/~hansenj/            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Type "record" in the matlab command window to
+% run the program. Note: I believe you need the
+% signal processing toolbox for the program to
+% successfully execute.
+
+% Last updated on 9-21-02
+
+function record(op)
+
+global H_RECORD F_RECORD AXIS_RECORD ai data z_data R_fs R_samp_len
+
+global ZOOM_HISTORY
+
+if nargin =3D=3D 0 % if no input argument, draw the GUI
+   op =3D 0;
+end
+
+%spec =3D 'wideband';
+spec =3D 'narrowband';
+wideband_time =3D 4e-3;
+narrowband_time =3D 25e-3;
+%window_width =3D 200;	% window width for FFT
+%step_size    =3D 100;  % window movement
+fft_pts      =3D 2048; % # of points in the FFT
+
+switch op
+  =20
+case 0 % Draw figure
+  =20
+   clear global data  % erase any previously recorded data
+  =20
+   width =3D 950;
+   height =3D 700;
+  =20
+   F_RECORD =3D figure('Position',[25 50 width height],...
+      'NumberTitle','off',...
+      'Color',[.8 .8 .8],...
+      'Name','Record');
+  =20
+   H_RECORD(1) =3D uicontrol('Style','pushbutton',... % record button
+      'Units','normalized',...
+      'Position',[190/width (height-75)/height 80/width 30/height],...
+      'ForegroundColor',[1 0 0],...
+      'FontWeight','bold',...
+      'String','Play',...
+      'String','Record',...
+      'Visible','on',...
+      'CallBack','record(1)');
+  =20
+   H_RECORD(2) =3D uicontrol('Style','text',...
+      'Units','normalized', ...
+      'Position',[190/width (height-45)/height 80/width 20/height],...
+      'BackgroundColor',[.8 .8 .8],...
+      'String','      ');
+  =20
+   H_RECORD(3) =3D uicontrol('Style','pushbutton',... % play button
+      'Units','normalized', ...
+      'Position',[300/width (height-75)/height 80/width 30/height],...
+      'ForegroundColor',[.2 .4 .2],...
+      'FontWeight','bold',...
+      'String','Play',...
+      'Enable','off',...
+      'CallBack','record(2)');
+  =20
+   H_RECORD(4) =3D uicontrol('Style','Slider',... % user selects time =
+length=20
+      'Units','normalized', ...
+      'Position',[60/width (height-70)/height 100/width 20/height],...
+      'Min',1,'Max',6,'Value',2,...
+      'SliderStep',[1/5-0.000001 1/5],...
+      'Callback','record(3)');
+  =20
+   H_RECORD(5) =3D uicontrol('Style','text',...  % diplays time length
+      'Units','normalized', ...
+      'Position',[50/width (height-45)/height 120/width 20/height],...
+      'BackgroundColor',[.8 .8 .8],...
+      'String','Length - 2 sec');
+  =20
+   H_RECORD(6) =3D uicontrol('Style','pushbutton',... % Zoom in on data
+      'Units','normalized', ...
+      'Position',[(width-240)/width (height-72.5)/height 75/width =
+25/height],...
+      'ForegroundColor',[.2 .4 .2],...
+      'FontWeight','bold',...
+      'String','Zoom In',...
+      'Enable','off',...
+      'CallBack','record(4)');
+  =20
+   H_RECORD(7) =3D uicontrol('Style','pushbutton',... % Zoom out
+      'Units','normalized', ...
+      'Position',[(width-135)/width (height-72.5)/height 75/width =
+25/height],...
+      'ForegroundColor',[.2 .4 .2],...
+      'FontWeight','bold',...
+      'String','Zoom Out',...
+      'Enable','off',...
+      'CallBack','record(5)');
+  =20
+   H_RECORD(8) =3D uicontrol('Style','pushbutton',... % Load data from =
+wav file
+      'Units','normalized', ...
+      'Position',[(width-395)/width (height-72.5)/height 75/width =
+25/height],...
+      'ForegroundColor',[.2 .4 .2],...
+      'FontWeight','bold',...
+      'String','Load',...
+      'Enable','on',...
+      'CallBack','record(6)');
+  =20
+   H_RECORD(9) =3D uicontrol('Style','pushbutton',... % Save data to wav =
+file
+      'Units','normalized', ...
+      'Position',[(width-500)/width (height-72.5)/height 75/width =
+25/height],...
+      'ForegroundColor',[.2 .4 .2],...
+      'FontWeight','bold',...
+      'String','Save',...
+      'Enable','off',...
+      'CallBack','record(7)');
+
+  =20
+case 1 % record button
+  =20
+	% Set sampling and length info
+	%R_fs =3D 11025;
+	R_fs =3D 16000;
+	R_samp_len =3D get(H_RECORD(4),'Value');
+  =20
+	% get handles for sound input and output
+	ai =3D init_sound(R_fs,R_samp_len);
+	R_fs =3D get(ai, 'SampleRate'); % in case actual rate doesn't match =
+desired
+	  =20
+	% gets an array named data from the microphone=20
+	nogo=3D0;
+  =20
+   while not (nogo)
+      set(H_RECORD(1),'String','Recording');
+      set(H_RECORD(2),'String','Speak now...');
+      start(ai); =20
+      try
+         data =3D getdata(ai);
+         nogo=3D1;
+      catch
+         disp('10 seconds elapsed... try again!');
+         stop(ai);
+      end
+   end
+	delete(ai);
+   set(H_RECORD(1),'String','Record');
+   set(H_RECORD(2),'String','         ');
+  =20
+   % Make "Play", "Zoom In/Out", and "Save" buttons available
+   set(H_RECORD(3),'enable','on');
+   set(H_RECORD(6),'enable','on');
+   set(H_RECORD(7),'enable','on');
+	set(H_RECORD(9),'enable','on');
+  =20
+	% normalize sound data to 99% of max
+   data =3D 0.99*data/max(abs(data));
+   z_data =3D data;
+	% displays the time graph of the voice signal
+   AXIS_RECORD(1) =3D timedata(F_RECORD,data,R_fs,0.06,0.50,0.88,0.30);
+   xlims =3D get(AXIS_RECORD(1),'XLim');
+   ylims =3D get(AXIS_RECORD(1),'YLim');
+   ZOOM_HISTORY =3D [];
+   ZOOM_HISTORY =3D push(ZOOM_HISTORY,[xlims ylims]);
+  =20
+	% Sampling rate dependent window width
+	if strcmp(spec,'narrowband')
+		window_width =3D round(R_fs*narrowband_time);
+		step_size =3D round(window_width/8);
+	elseif strcmp(spec,'wideband')
+		window_width =3D round(R_fs*wideband_time);
+		step_size =3D round(window_width/2);
+	end
+	=09
+   % calculates the spectrum of the voice signal
+	X =3D =
+specgram(data,fft_pts,1,hamming(window_width),window_width-step_size);
+	X =3D abs(X);
+   % displays the spectrum of the voice signal
+	AXIS_RECORD(2) =3D =
+spectdata(F_RECORD,X,R_fs,step_size,window_width,0.06,0.11,0.88,0.30);
+	axis([xlims get(gca,'YLim')])
+  =20
+case 2  % Play recording
+  =20
+   % sends an array named z_data to the speakers/headphones
+   if length(z_data) ~=3D 0
+      sound(z_data,R_fs)
+	end
+
+case 3  % Display time length text
+
+   % Allow the user to set the time length of sample
+   num =3D get(H_RECORD(4),'Value');
+   set(H_RECORD(5),'String',['Length - ' num2str(num) ' sec']);
+  =20
+case 4
+  =20
+   % Zoom in on the data
+     =20
+   axes(AXIS_RECORD(1))
+  =20
+   % Allow the user to draw a rectangle on the area
+   % they would like to zoom in on
+   RECT =3D getrect;
+  =20
+   xmin =3D RECT(1);
+   xmax =3D RECT(1) + RECT(3);
+   ymin =3D RECT(2);
+   ymax =3D RECT(2) + RECT(4);
+  =20
+   % Set maximum zoom limits to the data edges
+   xaxis_limits =3D get(AXIS_RECORD(1),'XLim');
+   yaxis_limits =3D get(AXIS_RECORD(1),'YLim');
+  =20
+   if xmin &lt; xaxis_limits(1)
+      xmin =3D xaxis_limits(1);
+   end
+  =20
+   if xmax &gt; xaxis_limits(2)
+      xmax =3D xaxis_limits(2);
+   end
+
+   if ymin &lt; yaxis_limits(1)
+      ymin =3D yaxis_limits(1);
+   end
+  =20
+   if ymax &gt; yaxis_limits(2)
+      ymax =3D yaxis_limits(2);
+   end
+  =20
+   % if the choosen zoom range is acceptable...
+   if ~((ymin &gt; ymax) | (xmin &gt; xmax))
+     =20
+      % zoom in on the time data
+      axis([xmin xmax ymin ymax]);
+      % define the last limits
+      last_axis_limits =3D [xaxis_limits yaxis_limits];
+      ZOOM_HISTORY =3D push(ZOOM_HISTORY,last_axis_limits);
+     =20
+      % zoom in on the frequency data by adjusting the xaxis
+      % limits to be the same as those of the time data
+      axes(AXIS_RECORD(2))
+      yaxis_limits =3D get(AXIS_RECORD(2),'YLim');
+      axis([xmin xmax yaxis_limits(1) yaxis_limits(2)]);
+     =20
+      % define the zoomed in data (for playback purposes)
+      imin =3D round(xmin*R_fs)+1;
+      imax =3D round(xmax*R_fs)+1;
+      z_data =3D data(imin:imax);
+     =20
+   end
+  =20
+case 5
+  =20
+   zoom_level =3D length(ZOOM_HISTORY);
+  =20
+   if zoom_level &gt; 1
+      [ZOOM_HISTORY,axis_limits] =3D pop(ZOOM_HISTORY);
+   else
+      axis_limits =3D ZOOM_HISTORY{1};
+   end
+  =20
+   % zoom out to the full time data
+   axes(AXIS_RECORD(1))
+   axis(axis_limits);
+  =20
+   % zoom out to the full frequency data
+   axes(AXIS_RECORD(2))
+   ymin =3D 0;
+   ymax =3D R_fs/2000;
+   axis([axis_limits(1:2) ymin ymax]);
+     =20
+   % define the zoomed in data (for playback purposes)
+   imin =3D round(axis_limits(1)*R_fs)+1;
+   imax =3D round(axis_limits(2)*R_fs)+1;
+   z_data =3D data(imin:imax);
+   %z_data =3D data;
+  =20
+case 6 % Load button
+  =20
+   [filename, pathname] =3D uigetfile('*.wav','Select Data File');
+  =20
+   if filename ~=3D 0
+	=09
+		cd(pathname);
+     =20
+      %  Get data and sampling rate
+      [data,R_fs] =3D wavread([pathname filename]);
+      if min(size(data))&gt;1
+         error('Can''t load stereo data')
+      end
+   	% Make "Play", "Zoom In/Out", and "Save" buttons available
+	   set(H_RECORD(3),'enable','on');
+	   set(H_RECORD(6),'enable','on');
+	   set(H_RECORD(7),'enable','on');
+		set(H_RECORD(9),'enable','on');
+	  =20
+	   z_data =3D data;
+		% displays the time graph of the voice signal
+	   AXIS_RECORD(1) =3D timedata(F_RECORD,data,R_fs,0.06,0.50,0.88,0.30);
+	   xlims =3D get(AXIS_RECORD(1),'XLim');
+	   ylims =3D get(AXIS_RECORD(1),'YLim');
+	   ZOOM_HISTORY =3D [];
+	   ZOOM_HISTORY =3D push(ZOOM_HISTORY,[xlims ylims]);
+
+		% Sampling rate dependent window width
+		if strcmp(spec,'narrowband')
+			window_width =3D round(R_fs*narrowband_time);
+			step_size =3D round(window_width/8);
+		elseif strcmp(spec,'wideband')
+			window_width =3D round(R_fs*wideband_time);
+			step_size =3D round(window_width/2);
+		end
+	=09
+	   % calculates the spectrum of the voice signal
+		X =3D =
+specgram(data,fft_pts,1,hamming(window_width),window_width-step_size);
+		X =3D abs(X);
+	   % displays the spectrum of the voice signal
+		AXIS_RECORD(2) =3D =
+spectdata(F_RECORD,X,R_fs,step_size,window_width,0.06,0.11,0.88,0.30);
+		axis([xlims get(gca,'YLim')])
+	=09
+   end
+=09
+case 7 % Save waveform
+=09
+	[filename, pathname] =3D uiputfile('*.wav', 'Save Data to Wave File');
+	if filename ~=3D 0
+		wavwrite(z_data,R_fs,[pathname filename])
+	end
+  =20
+end
+
+
+
+%---------------------------------------------------------------
+% SUBFUNCTION
+function H =3D timedata(Fig,x,fs,left,bottom,width,height)
+% This function plots time data at location specified by user
+% Left, bottom, width, height are relative locations less than 1
+
+figure(Fig);
+
+samp_len =3D length(x)/fs;
+delta_t =3D 1/fs;
+t =3D 0:delta_t:(samp_len-delta_t);
+
+% display the signal
+H =3D subplot('position',[left bottom width height]);
+plot(t,x), xlabel('Time [sec]'), ylabel('Amplitude')
+axis([0 t(length(x)-1) -1 1 ]);
+
+
+%---------------------------------------------------------------
+% SUBFUNCTION
+function H =3D spectdata(Fig,x,fs,step,ww,left,bottom,width,height)
+% This function plots spectral data at location specified by user
+% Left, bottom, width, height are relative locations less than 1
+
+figure(Fig);
+
+% frequency axis vector
+y_len =3D size(x,1); % num of rows
+f =3D [0:y_len-1]*fs/y_len/2;
+f =3D f/1000; % kHz scale
+
+% time axis vector
+x_len =3D size(x,2); % num of columns
+%t =3D [0.5:1:x_len+0.5]*step/fs;
+%t =3D [(ww-1)/2-0.5:step:step*x_len+(ww-1)/2-1.5]/fs;
+t =3D [(ww-1)/2:step:(x_len-1)*step+(ww-1)/2]/fs;
+
+% display the signal
+H =3D subplot('position',[left bottom width height]);
+log_data =3D -log10(x+0.0001);
+imagesc(t,f,log_data), xlabel('Time [sec]'), ylabel('Frequency [kHz]')
+set(gca,'YDir','normal')
+
+
+%---------------------------------------------------------------
+% SUBFUNCTION
+function ai =3D init_sound(fs,samp_len)
+% Function 'init_sound' initializes microphone input for voice
+% 'fs' is the sampling rate, 'samp_len' is the time to record
+%   in seconds.
+
+v =3D ver;
+name =3D {v.Name};
+ind =3D find(strcmp(name,'MATLAB'));
+if isempty(ind)
+	ind =3D find(strcmp(name,'MATLAB Toolbox'));
+end
+
+v_num =3D str2num(v(ind).Version);
+
+ai =3D analoginput('winsound');
+addchannel(ai, 1);
+if (v_num =3D=3D 6.1) | (v_num =3D=3D 6.5)
+	set(ai, 'StandardSampleRates', 'Off');
+end
+set(ai, 'SampleRate', fs);
+actual_fs =3D get(ai, 'SampleRate');
+set(ai, 'TriggerType', 'software');
+set(ai, 'TriggerRepeat', 0);               =20
+set(ai, 'TriggerCondition', 'Rising');=20
+set(ai, 'TriggerConditionValue', 0.01);
+set(ai, 'TriggerChannel', ai.Channel(1));=20
+set(ai, 'TriggerDelay', -0.1);
+set(ai, 'TriggerDelayUnits', 'seconds');
+set(ai, 'SamplesPerTrigger', actual_fs*samp_len+1);
+set(ai, 'TimeOut', 10);
+
+
+%---------------------------------------------------------------
+% SUBFUNCTION
+function s =3D push(s,new_item)
+% Function 'push' adds 'new_item' to stack 's'
+if ~isempty(s)
+	height =3D length(s);
+   s{height+1} =3D new_item;
+else
+   s{1} =3D new_item;
+end
+  =20
+%---------------------------------------------------------------
+% SUBFUNCTION
+function [s,x] =3D pop(s)
+% Function 'pop' removes item from top of stack 's'
+height =3D length(s);
+x =3D s{height};
+s =3D s(1:height-1);
+
+</PRE></BODY></HTML>

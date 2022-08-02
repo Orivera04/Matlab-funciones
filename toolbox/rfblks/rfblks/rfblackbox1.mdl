@@ -1,0 +1,726 @@
+Library {
+  Name			  "rfblackbox1"
+  Version		  6.0
+  RequirementInfo	  "9"
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "d"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  BlockNameDataTip	  off
+  BlockParametersDataTip  on
+  BlockDescriptionStringDataTip	off
+  ToolBar		  off
+  StatusBar		  off
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Tue Oct 20 09:15:41 1998"
+  Creator		  "tdelve"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "rzeng"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Mon Mar 01 14:31:27 2004"
+  ModelVersionFormat	  "1.%<AutoIncrement:34>"
+  ConfigurationManager	  "none"
+  SimParamPage		  "Solver"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock off
+  ProdHWDeviceType	  "Specified"
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.0.3"
+      Array {
+	Type			"Handle"
+	Dimension		8
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.0.3"
+	  StartTime		  "0.0"
+	  StopTime		  "10.0"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  RelTol		  "1e-3"
+	  SolverMode		  "SingleTasking"
+	  Solver		  "ode45"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.0.3"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SaveTime		  on
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsOut"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    5
+	    Cell		    "ZeroExternalMemoryAtStartup"
+	    Cell		    "ZeroInternalMemoryAtStartup"
+	    Cell		    "InitFltsAndDblsToZero"
+	    Cell		    "OptimizeModelRefInitCode"
+	    Cell		    "NoFixptDivByZeroProtection"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.0.3"
+	  BlockReduction	  on
+	  BooleanDataType	  off
+	  ConditionallyExecuteInputs on
+	  ConditionalExecOptimization "on_for_testing"
+	  InlineParams		  off
+	  InlineInvariantSignals  on
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  on
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  ParameterPooling	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.0.3"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg on
+	  CheckExecutionContextRuntimeOutputMsg	on
+	  SignalResolutionControl "TryResolveAllWithWarning"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  SolverPrmCheckMsg	  "none"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterPrecisionLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.0.3"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "Specified"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  on
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.0"
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    1
+	    Cell		    "IncludeHyperlinkInReport"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.0.3"
+	  SystemTargetFile	  "grt.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  TemplateMakefile	  "grt_default_tmf"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Array {
+		Type			"Cell"
+		Dimension		9
+		Cell			"IgnoreCustomStorageClasses"
+		Cell			"InsertBlockDesc"
+		Cell			"SFDataObjDesc"
+		Cell			"SimulinkDataObjDesc"
+		Cell			"DefineNamingRule"
+		Cell			"SignalNamingRule"
+		Cell			"ParamNamingRule"
+		Cell			"InlinedPrmAccess"
+		Cell			"CustomSymbolStr"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.0.3"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      CustomSymbolStr	      "$R$N$M"
+	      MangleLength	      1
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    Simulink.GRTTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Array {
+		Type			"Cell"
+		Dimension		12
+		Cell			"IncludeMdlTerminateFcn"
+		Cell			"CombineOutputUpdateFcns"
+		Cell			"SuppressErrorStatus"
+		Cell			"ERTCustomFileBanners"
+		Cell			"GenerateSampleERTMain"
+		Cell			"MultiInstanceERTCode"
+		Cell			"PurelyIntegerCode"
+		Cell			"SupportNonFinite"
+		Cell			"SupportComplex"
+		Cell			"SupportAbsoluteTime"
+		Cell			"SupportContinuousTime"
+		Cell			"SupportNonInlinedSFcns"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.0.3"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns off
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      ExtMode		      off
+	      ExtModeStaticAlloc      off
+	      ExtModeTesting	      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTransport	      0
+	      ExtModeMexFile	      "ext_comm"
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	      GenerateASAP2	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	Simulink.SFSimCC {
+	  $ObjectID		  11
+	  Version		  "1.0.3"
+	  SFSimApplyToAllLibs	  on
+	  SFSimEnableDebug	  on
+	  SFSimOverflowDetection  on
+	  SFSimEcho		  on
+	  SFSimBuildMode	  "Incremental"
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      SimulationMode	      "normal"
+      CurrentDlgPage	      "Solver"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      PMComponent
+      SubClassName	      "unknown"
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "rfblackbox1"
+    Location		    [8, 46, 447, 327]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      PMComponent
+      Name		      "General\nPassive Network"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [110, 176, 200, 224]
+      DeleteFcn		      "rfblksblackbox1(gcb,'rfDelete');"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "general-passive-network"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      MaskType		      "General Passive Network"
+      MaskDescription	      "Two-port passive network described by an RFDATA"
+" object. \n\nData interpolation is used during simulation."
+      MaskHelp		      "helpview(rfbhelp)"
+      MaskPromptString	      "RFDATA Object:|Interpolation method:|Plot the n"
+"etwork parameters of this block|Source of frequency data:|Source of frequency"
+" data:|Frequency data (Hz):|Plot type:|Parameter:|Parameter:|Parameter:|Forma"
+"t:|Format:|Format:"
+      MaskStyleString	      "edit,popup(Linear|Spline|Cubic),checkbox,popup("
+"Derived from Input Port parameters|Extracted from RFDATA object|User specifie"
+"d),popup(Extracted from RFDATA object|User specified),edit,popup(Composite da"
+"ta|X-Y plane|Polar plane|Z Smith chart|Y Smith chart|ZY Smith chart),popup(S1"
+"1|S12|S21|S22|VSWRIn|VSWROut),popup(S11|S22),popup(S11|S12|S21|S22),popup(Mag"
+"nitude (decibels)|Magnitude (linear)|Angle (degrees)|Real|Imaginary),popup(Ma"
+"gnitude (decibels)|None),popup(None)"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off,off,off,off,off"
+",off"
+      MaskCallbackString      "||rfblksblackbox1(gcb,'rfUpdateBlockMask');|rfb"
+"lksblackbox1(gcb,'rfUpdateBlockMask');|rfblksblackbox1(gcb,'rfUpdateBlockMask"
+"');||rfblksblackbox1(gcb,'rfUpdateBlockMask');|rfblksblackbox1(gcb,'rfUpdateB"
+"lockMask');|rfblksblackbox1(gcb,'rfUpdateBlockMask');|rfblksblackbox1(gcb,'rf"
+"UpdateBlockMask');|||"
+      MaskEnableString	      "on,on,on,off,off,off,off,off,off,off,off,off,of"
+"f"
+      MaskVisibilityString    "on,on,on,off,on,off,on,on,off,off,on,off,off"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,,,,"
+      MaskVariables	      "RFDATA=@1;InterpMethod=@2;DisplayData=&3;PlotFr"
+"eq=&4;PlotFreqNoSim=&5;Freq=@6;AllPlotType=&7;NetworkData=&8;SmithData=&9;Pol"
+"arData=&10;ComplexFormat=&11;DBFormat=&12;NoneFormat=&13;"
+      MaskInitialization      "mStr = rfblksblackbox1(gcb, 'rfInit');\nif(~ise"
+"mpty(mStr.emsg)) error(mStr.emsg); end\nif(~isempty(mStr.wmsg)) warning(mStr."
+"wmsg); end"
+      MaskDisplay	      "disp('General\\nPassive Network');\n\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "read(rfdata.data, 'passive.s2p')|Linear|off|Der"
+"ived from Input Port parameters|Extracted from RFDATA object|[0.3e6:0.1e6:6e9"
+"]|X-Y plane|S21|S11|S11|Magnitude (decibels)|Magnitude (decibels)|None"
+      MaskTabNameString	      ",,,,,,,,,,,,"
+    }
+    Block {
+      BlockType		      PMComponent
+      Name		      "General \nCircuit Element"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [250, 176, 340, 224]
+      DeleteFcn		      "rfblkspassives1(gcb,'rfDelete');"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "general-circuit-element"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      MaskType		      "General Circuit Element"
+      MaskDescription	      "Two-port network described by an RFCKT object. "
+      MaskHelp		      "helpview(rfbhelp)"
+      MaskPromptString	      "RFCKT object:|Plot its network parameters at th"
+"e specified frequencies|Source of frequency data:|Source of frequency data:|F"
+"requency range (Hz):|Plot type:|Parameter:|Parameter:|Parameter:|Format:|Form"
+"at:|Format:"
+      MaskStyleString	      "edit,checkbox,popup(Derived from Input Port par"
+"ameters|User specified),popup(User specified),edit,popup(Composite data|X-Y p"
+"lane|Polar plane|Z Smith chart|Y Smith chart|ZY Smith chart),popup(S11|S12|S2"
+"1|S22|VSWRIn|VSWROut),popup(S11|S22),popup(S11|S12|S21|S22),popup(Magnitude ("
+"decibels)|Magnitude (linear)|Angle (degrees)|Real|Imaginary),popup(Magnitude "
+"(decibels)|None),popup(None)"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off,off,off,off,off"
+      MaskCallbackString      "|rfblkspassives1(gcb,'rfUpdateBlockMask');|rfbl"
+"kspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask'"
+");||rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateBl"
+"ockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfU"
+"pdateBlockMask');|||"
+      MaskEnableString	      "on,on,off,off,off,off,off,off,off,off,off,off"
+      MaskVisibilityString    "on,on,off,on,on,on,on,off,off,on,off,off"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,,,"
+      MaskVariables	      "Ckt=@1;DisplayData=&2;PlotFreq=&3;PlotFreqNoSim"
+"=&4;Freq=@5;AllPlotType=&6;NetworkData=&7;SmithData=&8;PolarData=&9;ComplexFo"
+"rmat=&10;DBFormat=&11;NoneFormat=&12;"
+      MaskInitialization      "mStr = rfblkspassives1(gcb,'rfInit');\nif(~isem"
+"pty(mStr.emsg)) error(mStr.emsg); end\nif(~isempty(mStr.wmsg)) warning(mStr.w"
+"msg); end"
+      MaskDisplay	      "disp('General\\nCircuit Element');\n\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "rfckt.txline|off|Derived from Input Port parame"
+"ters|User specified|[1.9e9:1.0e6:2.2e9]|X-Y plane|S21|S11|S11|Magnitude (deci"
+"bels)|Magnitude (decibels)|None"
+      MaskTabNameString	      ",,,,,,,,,,,"
+    }
+    Block {
+      BlockType		      PMComponent
+      Name		      "S-Parameters\nPassive Network"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [35, 81, 125, 129]
+      DeleteFcn		      "rfblksblackbox1(gcb,'rfDelete');"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "s-params-passive-network"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      MaskType		      "S-Parameters Passive Network"
+      MaskDescription	      "Two-port passive network described by the frequ"
+"ency-dependent S-Parameters (2x2xM array),  the Reference impedance (scalar o"
+"r vector of length M), and the Frequency (vector of length M).  M is the numb"
+"er of frequencies.\n\nData interpolation is used during simulation."
+      MaskHelp		      "helpview(rfbhelp)"
+      MaskPromptString	      "S-Parameters:|Reference impedance:|Frequency (H"
+"z):|Interpolation method:|Plot the network parameters of this block|Source of"
+" frequency data:|Source of frequency data:|Frequency data (Hz):|Plot type:|Pa"
+"rameter:|Parameter:|Parameter:|Format:|Format:|Format:"
+      MaskStyleString	      "edit,edit,edit,popup(Linear|Spline|Cubic),check"
+"box,popup(Derived from Input Port parameters|Same as the Frequency parameter|"
+"User specified),popup(Same as the Frequency parameter|User specified),edit,po"
+"pup(Composite data|X-Y plane|Polar plane|Z Smith chart|Y Smith chart|ZY Smith"
+" chart),popup(S11|S12|S21|S22|VSWRIn|VSWROut),popup(S11|S22),popup(S11|S12|S2"
+"1|S22),popup(Magnitude (decibels)|Magnitude (linear)|Angle (degrees)|Real|Ima"
+"ginary),popup(Magnitude (decibels)|None),popup(None)"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off,off,off,off,off"
+",off,off,off"
+      MaskCallbackString      "||||rfblksblackbox1(gcb,'rfUpdateBlockMask');|r"
+"fblksblackbox1(gcb,'rfUpdateBlockMask');|rfblksblackbox1(gcb,'rfUpdateBlockMa"
+"sk');||rfblksblackbox1(gcb,'rfUpdateBlockMask');|rfblksblackbox1(gcb,'rfUpdat"
+"eBlockMask');|rfblksblackbox1(gcb,'rfUpdateBlockMask');|rfblksblackbox1(gcb,'"
+"rfUpdateBlockMask');|||"
+      MaskEnableString	      "on,on,on,on,on,off,off,off,off,off,off,off,off,"
+"off,off"
+      MaskVisibilityString    "on,on,on,on,on,off,on,off,on,on,off,off,on,off,"
+"off"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,,,,,,"
+      MaskVariables	      "NetParamData=@1;Z0=@2;NetParamFreq=@3;InterpMet"
+"hod=@4;DisplayData=&5;PlotFreq=&6;PlotFreqNoSim=&7;Freq=@8;AllPlotType=&9;Net"
+"workData=&10;SmithData=&11;PolarData=&12;ComplexFormat=&13;DBFormat=&14;NoneF"
+"ormat=&15;"
+      MaskInitialization      "mStr = rfblksblackbox1(gcb, 'rfInit');\nif(~ise"
+"mpty(mStr.emsg)) error(mStr.emsg); end\nif(~isempty(mStr.wmsg)) warning(mStr."
+"wmsg); end"
+      MaskDisplay	      "disp('S');\n\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "[0,0;1,0]|50|1.0e9|Linear|off|User specified|Sa"
+"me as the Frequency parameter|1.0e9|X-Y plane|S21|S11|S11|Magnitude (decibels"
+")|Magnitude (decibels)|None"
+      MaskTabNameString	      ",,,,,,,,,,,,,,"
+    }
+    Block {
+      BlockType		      PMComponent
+      Name		      "Y-Parameters\nPassive Network"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [175, 81, 265, 129]
+      DeleteFcn		      "rfblksblackbox1(gcb,'rfDelete');"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "y-params-passive-network"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      MaskType		      "Y-Parameters Passive Network"
+      MaskDescription	      "Two-port passive network described by the frequ"
+"ency-dependent Y-Parameters (2x2xM array), and the Frequency (vector of lengt"
+"h M).  M is the number of frequencies.\n\nData interpolation is used during s"
+"imulation."
+      MaskHelp		      "helpview(rfbhelp)"
+      MaskPromptString	      "Y-Parameters:|Frequency (Hz):|Interpolation met"
+"hod:|Plot the network parameters of this block|Source of frequency data:|Sour"
+"ce of frequency data:|Frequency data (Hz):|Plot type:|Parameter:|Parameter:|P"
+"arameter:|Format:|Format:|Format:"
+      MaskStyleString	      "edit,edit,popup(Linear|Spline|Cubic),checkbox,p"
+"opup(Derived from Input Port parameters|Same as the Frequency parameter|User "
+"specified),popup(Same as the Frequency parameter|User specified),edit,popup(C"
+"omposite data|X-Y plane|Polar plane|Z Smith chart|Y Smith chart|ZY Smith char"
+"t),popup(S11|S12|S21|S22|VSWRIn|VSWROut),popup(S11|S22),popup(S11|S12|S21|S22"
+"),popup(Magnitude (decibels)|Magnitude (linear)|Angle (degrees)|Real|Imaginar"
+"y),popup(Magnitude (decibels)|None),popup(None)"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off,off,off,off,off"
+",off,off"
+      MaskCallbackString      "|||rfblksblackbox1(gcb,'rfUpdateBlockMask');|rf"
+"blksblackbox1(gcb,'rfUpdateBlockMask');|rfblksblackbox1(gcb,'rfUpdateBlockMas"
+"k');||rfblksblackbox1(gcb,'rfUpdateBlockMask');|rfblksblackbox1(gcb,'rfUpdate"
+"BlockMask');|rfblksblackbox1(gcb,'rfUpdateBlockMask');|rfblksblackbox1(gcb,'r"
+"fUpdateBlockMask');|||"
+      MaskEnableString	      "on,on,on,on,off,off,off,off,off,off,off,off,off"
+",off"
+      MaskVisibilityString    "on,on,on,on,off,on,off,on,on,off,off,on,off,off"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,,,,,"
+      MaskVariables	      "NetParamData=@1;NetParamFreq=@2;InterpMethod=@3"
+";DisplayData=&4;PlotFreq=&5;PlotFreqNoSim=&6;Freq=@7;AllPlotType=&8;NetworkDa"
+"ta=&9;SmithData=&10;PolarData=&11;ComplexFormat=&12;DBFormat=&13;NoneFormat=&"
+"14;"
+      MaskInitialization      "mStr = rfblksblackbox1(gcb, 'rfInit');\nif(~ise"
+"mpty(mStr.emsg)) error(mStr.emsg); end\nif(~isempty(mStr.wmsg)) warning(mStr."
+"wmsg); end"
+      MaskDisplay	      "disp('Y');\n\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "[0.0200,0;-0.0400, 0.0200]|1.0e9|Linear|off|Der"
+"ived from Input Port parameters|Same as the Frequency parameter|1.0e9|X-Y pla"
+"ne|S21|S11|S11|Magnitude (decibels)|Magnitude (decibels)|None"
+      MaskTabNameString	      ",,,,,,,,,,,,,"
+    }
+    Block {
+      BlockType		      PMComponent
+      Name		      "Z-Parameters\nPassive Network"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [315, 81, 405, 129]
+      DeleteFcn		      "rfblksblackbox1(gcb,'rfDelete');"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "z-params-passive-network"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      MaskType		      "Z-Parameters Passive Network"
+      MaskDescription	      "Two-port passive network described by the frequ"
+"ency-dependent Z-Parameters (2x2xM array), and the Frequency (vector of lengt"
+"h M).  M is the number of frequencies.\n\nData interpolation is used during s"
+"imulation."
+      MaskHelp		      "helpview(rfbhelp)"
+      MaskPromptString	      "Z-Parameters:|Frequency (Hz):|Interpolation met"
+"hod:|Plot the network parameters of this block|Source of frequency data:|Sour"
+"ce of frequency data:|Frequency range (Hz):|Plot type:|Parameter:|Parameter:|"
+"Parameter:|Format:|Format:|Format:"
+      MaskStyleString	      "edit,edit,popup(Linear|Spline|Cubic),checkbox,p"
+"opup(Derived from Input Port parameters|Same as the Frequency parameter|User "
+"specified),popup(Same as the Frequency parameter|User specified),edit,popup(C"
+"omposite data|X-Y plane|Polar plane|Z Smith chart|Y Smith chart|ZY Smith char"
+"t),popup(S11|S12|S21|S22|VSWRIn|VSWROut),popup(S11|S22),popup(S11|S12|S21|S22"
+"),popup(Magnitude (decibels)|Magnitude (linear)|Angle (degrees)|Real|Imaginar"
+"y),popup(Magnitude (decibels)|None),popup(None)"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off,off,off,off,off"
+",off,off"
+      MaskCallbackString      "|||rfblksblackbox1(gcb,'rfUpdateBlockMask');|rf"
+"blksblackbox1(gcb,'rfUpdateBlockMask');|rfblksblackbox1(gcb,'rfUpdateBlockMas"
+"k');||rfblksblackbox1(gcb,'rfUpdateBlockMask');|rfblksblackbox1(gcb,'rfUpdate"
+"BlockMask');|rfblksblackbox1(gcb,'rfUpdateBlockMask');|rfblksblackbox1(gcb,'r"
+"fUpdateBlockMask');|||"
+      MaskEnableString	      "on,on,on,on,off,off,off,off,off,off,off,off,off"
+",off"
+      MaskVisibilityString    "on,on,on,on,off,on,off,on,on,off,off,on,off,off"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,,,,,"
+      MaskVariables	      "NetParamData=@1;NetParamFreq=@2;InterpMethod=@3"
+";DisplayData=&4;PlotFreq=&5;PlotFreqNoSim=&6;Freq=@7;AllPlotType=&8;NetworkDa"
+"ta=&9;SmithData=&10;PolarData=&11;ComplexFormat=&12;DBFormat=&13;NoneFormat=&"
+"14;"
+      MaskInitialization      "mStr = rfblksblackbox1(gcb, 'rfInit');\nif(~ise"
+"mpty(mStr.emsg)) error(mStr.emsg); end\nif(~isempty(mStr.wmsg)) warning(mStr."
+"wmsg); end"
+      MaskDisplay	      "disp('Z');\n\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "[50,0;100,50]|1.0e9|Linear|off|Derived from Inp"
+"ut Port parameters|Same as the Frequency parameter|1.0e9|X-Y plane|S21|S11|S1"
+"1|Magnitude (decibels)|Magnitude (decibels)|None"
+      MaskTabNameString	      ",,,,,,,,,,,,,"
+    }
+    Annotation {
+      Name		      "Black Box Elements"
+      Position		      [219, 31]
+      FontName		      "Arial"
+      FontSize		      14
+      FontWeight	      "bold"
+    }
+  }
+}

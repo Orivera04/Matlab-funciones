@@ -1,0 +1,83 @@
+%  fundata1.m
+% Matlab file for Part 1 of the Functions Defined by Data
+% module
+
+disp('********************************************')
+disp('Part 1:  First Class Postage Rates')
+disp('********************************************')
+disp('  ')    
+
+    format short
+
+    disp('Below find two lists.  The first is a list')
+    disp('of years from 1885 to 1998.  The second list')
+    disp('gives the first class postage rate (in cents)')
+    disp('for each of the years.  Follow the following')
+    disp('instructions to enter the lists into MATLAB.')
+    disp(' ')
+    disp('Copy the following commands and paste them as')
+    disp('a group at a MATLAB prompt, then execute them.')
+    disp(' ')
+    disp(' year=[1885,1917,1919,1932,1958,1963,1968, ...')
+    disp('  1971,1974,1976,1978,1981,1982,1985,1988, ...')
+    disp('  1991,1995,1998]; ')
+    disp(' rate=[2,3,2,3,4,5,6,8,10,13,15,18,20,22, ...')
+    disp('  25,29,32,33]; ')  
+    disp(' ')
+    disp('After you have entered the lists, check that')
+    disp('they match up by entering the command')
+    disp('  [year;rate]''  ')
+    disp('to see the data in table form.')
+    disp(' ')
+    disp('To continue afterwards, type the word return')
+    disp('and hit enter!')
+    disp(' ')
+
+    keyboard;
+    disp('----------------------------------------------')
+    disp(' ')
+
+    disp('We can make a scatter plot of the data')
+    disp('pairs (year,rate) by using the MATLAB')
+    disp('plot command.  We will use little-o''s')
+    disp('to mark each data point.')
+    disp(' ')
+    disp('Copy the following command and paste it at')
+    disp('a MATLAB prompt, then execute it.')
+    disp(' ')
+    disp('  plot(year,rate,''o'') ')
+    disp(' ')
+    disp('To continue afterwards, type the word return')
+    disp('and hit enter!')
+    disp(' ')
+
+    keyboard;
+    disp('----------------------------------------------')
+    disp(' ')
+ 
+    disp('You can label the axes and give the plot')
+    disp('a title.  Watch how the commands below')
+    disp('magically add features to the existing plot.')
+    disp(' ')
+    disp('Copy the following commands and paste them at')
+    disp('a MATLAB prompt, then execute them.')
+    disp(' ')
+    disp('  xlabel(''year'')  ')
+    disp('  ylabel(''postage rate (cents)'')  ')
+    disp('  title(''Postage Rates in United States'') ')
+    disp(' ')
+    disp('To continue afterwards, type the word return')
+    disp('and hit enter!')
+    disp(' ')
+    
+    keyboard;
+    disp('----------------------------------------------')
+    disp(' ')
+    disp('Write a brief description of what you learn')
+    disp('from the graph about postage costs in the')
+    disp('United States.  Write as MATLAB comments in')
+    disp('your diary file.')
+    disp(' ') 
+    disp('When your description is done, to go on to')
+    disp('part 2 of this module, type: fundata2.')
+    disp(' ')

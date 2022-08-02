@@ -1,0 +1,11 @@
+hd = [0 .25 .5 1 2 3];
+plot([1 6],[0 .7],'.'); grid; hold on;
+title('Amplitude characteristics for the describing function of Hysteresis');
+xlabel('M / D'); ylabel('D | N / K1 |');
+for ii = 1:length(hd);
+  md = linspace(1+hd(ii),6); dm = (0*md+1)./md;
+  nd = relays(dm,hd(ii));
+  plot(md,abs(nd),'b-',[md(1) md(1)],[0 abs(nd(1))],'g--');
+  text(md(8),abs(nd(8))-.025,['h/d = ' num2str(hd(ii))]);
+end;
+hold off;

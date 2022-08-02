@@ -1,0 +1,1504 @@
+Library {
+  Name			  "aerolibprivatev1p5"
+  Version		  5.0
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Thu Jul  3 10:47:28 2003"
+  Creator		  "sgage"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "sgage"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Mon Jul 14 14:21:49 2003"
+  ModelVersionFormat	  "1.%<AutoIncrement:37>"
+  ConfigurationManager	  "None"
+  SimParamPage		  "Solver"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeMexFile	  "ext_comm"
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock off
+  ConsistencyChecking	  "none"
+  ArrayBoundsChecking	  "none"
+  AlgebraicLoopMsg	  "warning"
+  BlockPriorityViolationMsg "warning"
+  MinStepSizeMsg	  "warning"
+  InheritedTsInSrcMsg	  "warning"
+  DiscreteInheritContinuousMsg "warning"
+  MultiTaskRateTransMsg	  "error"
+  SingleTaskRateTransMsg  "none"
+  CheckForMatrixSingularity "none"
+  IntegerOverflowMsg	  "warning"
+  Int32ToFloatConvMsg	  "warning"
+  ParameterDowncastMsg	  "error"
+  ParameterOverflowMsg	  "error"
+  ParameterPrecisionLossMsg "warning"
+  UnderSpecifiedDataTypeMsg "none"
+  UnnecessaryDatatypeConvMsg "none"
+  VectorMatrixConversionMsg "none"
+  InvalidFcnCallConnMsg	  "error"
+  SignalLabelMismatchMsg  "none"
+  UnconnectedInputMsg	  "warning"
+  UnconnectedOutputMsg	  "warning"
+  UnconnectedLineMsg	  "warning"
+  SfunCompatibilityCheckMsg "none"
+  ProdHWDeviceType	  "Microprocessor"
+  ProdHWWordLengths	  "8,16,32,32"
+  TargetHWChar		  2
+  TargetHWWordLengths	  "8,16,32,32"
+  RTWMakeCommand	  "make_rtw"
+  RTWGenerateCodeOnly	  off
+  RTWRetainRTWFile	  off
+  TLCProfiler		  off
+  TLCDebug		  off
+  TLCCoverage		  off
+  TLCAssertion		  off
+  SimulationMode	  "normal"
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      ActionPort
+      InitializeStates	      "held"
+      ActionType	      "unset"
+    }
+    Block {
+      BlockType		      BusSelector
+      MuxedOutput	      off
+    }
+    Block {
+      BlockType		      BusCreator
+      Inputs		      "4"
+      DisplayOption	      "none"
+      NonVirtualBus	      off
+    }
+    Block {
+      BlockType		      Clock
+      DisplayTime	      off
+    }
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      ShowAdditionalParam     off
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "sfix(16)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Demux
+      Outputs		      "4"
+      DisplayOption	      "none"
+      BusSelectionMode	      off
+    }
+    Block {
+      BlockType		      EnablePort
+      StatesWhenEnabling      "held"
+      ShowOutputPort	      off
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      From
+    }
+    Block {
+      BlockType		      Fcn
+      Expr		      "sin(u[1])"
+    }
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ShowAdditionalParam     off
+      ParameterDataTypeMode   "Same as input"
+      ParameterDataType	      "sfix(16)"
+      ParameterScalingMode    "Best Precision: Matrix-wise"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Goto
+    }
+    Block {
+      BlockType		      If
+      NumInputs		      "1"
+      IfExpression	      "u1 > 0"
+      ShowElse		      on
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      ShowAdditionalParam     off
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      LatchInput	      off
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Integrator
+      ExternalReset	      "none"
+      InitialConditionSource  "internal"
+      InitialCondition	      "0"
+      LimitOutput	      off
+      UpperSaturationLimit    "inf"
+      LowerSaturationLimit    "-inf"
+      ShowSaturationPort      off
+      ShowStatePort	      off
+      AbsoluteTolerance	      "auto"
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      Logic
+      Operator		      "AND"
+      Inputs		      "2"
+      ShowAdditionalParam     off
+      AllPortsSameDT	      on
+      OutDataTypeMode	      "Logical (see Advanced Sim. Parameters)"
+      LogicDataType	      "uint(8)"
+    }
+    Block {
+      BlockType		      Math
+      Operator		      "exp"
+      OutputSignalType	      "auto"
+    }
+    Block {
+      BlockType		      Merge
+      Inputs		      "2"
+      InitialOutput	      "[]"
+      AllowUnequalInputPortWidths off
+      InputPortOffsets	      "[]"
+    }
+    Block {
+      BlockType		      Mux
+      Inputs		      "4"
+      DisplayOption	      "none"
+      NonVirtualBus	      off
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      Product
+      Inputs		      "2"
+      Multiplication	      "Element-wise(.*)"
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Reference
+    }
+    Block {
+      BlockType		      RelationalOperator
+      Operator		      ">="
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      LogicOutDataTypeMode    "Logical (see Advanced Sim. Parameters)"
+      LogicDataType	      "uint(8)"
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      Saturate
+      UpperLimit	      "0.5"
+      LowerLimit	      "-0.5"
+      LinearizeAsGain	      on
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      Selector
+      InputType		      "Vector"
+      IndexMode		      "One-based"
+      ElementSrc	      "Internal"
+      Elements		      "1"
+      RowSrc		      "Internal"
+      Rows		      "1"
+      ColumnSrc		      "Internal"
+      Columns		      "1"
+      InputPortWidth	      "-1"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      RTWSystemCode	      "Auto"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Sum
+      IconShape		      "rectangular"
+      Inputs		      "++"
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Terminator
+    }
+    Block {
+      BlockType		      Trigonometry
+      Operator		      "sin"
+      OutputSignalType	      "auto"
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "aerolibprivatev1p5"
+    Location		    [556, 305, 1196, 829]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      "3DoF (Body Axes)"
+      Ports		      [3, 6]
+      Position		      [435, 51, 595, 239]
+      TreatAsAtomicUnit	      off
+      MaskType		      "3DOF bridge"
+      MaskDescription	      "Block to bridge changes from version 1.0 and 1."
+"0.1 to version 1.5.  Please consider updating your model.\n\nIntegrate the th"
+"ree-degrees-of-freedom equations of motion to determine body position, veloci"
+"ty, attitude, and related values.\n"
+      MaskHelp		      "web(asbhelp('3dofbodyaxes'));"
+      MaskPromptString	      "Initial velocity (m/s):|Initial body attitude ("
+"rad):|Initial incidence (rad):|Initial body rotation rate (rad/s):|Initial po"
+"sition (m):|Mass (kg):|Inertia (kg.m^2):|Acceleration due to gravity [m/s/s]:"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit,edit"
+      MaskTunableValueString  "on,on,on,on,on,on,on,on"
+      MaskCallbackString      "|||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,"
+      MaskVariables	      "v_ini=@1;theta_ini=@2;alpha_ini=@3;q_ini=@4;pos"
+"_ini=@5;mass=@6;Iyy=@7;g=@8;"
+      MaskDisplay	      "port_label('input',1,'F_{X} (N)','texmode','on'"
+");\nport_label('input',2,'F_{Z} (N)','texmode','on');\nport_label('input',3,'"
+"M (N-m)','texmode','on');\nport_label('output',1,'\\theta (rad)','texmode','o"
+"n');\nport_label('output',2,'\\omega_{Y} (rad/s)','texmode','on');\nport_labe"
+"l('output',3,'d\\omega_{Y}/dt','texmode','on');\nport_label('output',5,'U w ("
+"m/s)','texmode','on');\nport_label('output',4,'X_e Z_e (m)','texmode','on');"
+"\nport_label('output',6,'A_X A_Z','texmode','on');\n"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "100|0|0|0|[0 0]|1.0|1.0|9.81"
+      System {
+	Name			"3DoF (Body Axes)"
+	Location		[821, 819, 1242, 1049]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Fx\n(N)"
+	  Position		  [40, 38, 70, 52]
+	  ShowAdditionalParam	  on
+	  DataType		  "double"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Fz\n(N)"
+	  Position		  [15, 73, 45, 87]
+	  Port			  "2"
+	  ShowAdditionalParam	  on
+	  DataType		  "double"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "M\n(N-m)"
+	  Position		  [40, 108, 70, 122]
+	  Port			  "3"
+	  ShowAdditionalParam	  on
+	  DataType		  "double"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "3DoF (Body Axes)"
+	  Ports			  [4, 6]
+	  Position		  [105, 29, 275, 161]
+	  SourceBlock		  "aerolib3dof2/3DoF (Body Axes)"
+	  SourceType		  "3DoF EoM"
+	  units			  "Metric (MKS)"
+	  mtype			  "Fixed"
+	  v_ini			  "v_ini"
+	  theta_ini		  "theta_ini"
+	  alpha_ini		  "alpha_ini"
+	  q_ini			  "q_ini"
+	  pos_ini		  "pos_ini"
+	  mass			  "mass"
+	  mass_e		  "0.5"
+	  mass_f		  "3.0"
+	  Iyy			  "Iyy"
+	  Iyy_e			  "0.5"
+	  Iyy_f			  "3.0"
+	  g_in			  "External"
+	  g			  "9.81"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "gravity"
+	  Position		  [15, 142, 45, 158]
+	  Value			  "g"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Attitude\n(rad)"
+	  Position		  [305, 38, 335, 52]
+	  InitialOutput		  "0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "q\n(rad/s)"
+	  Position		  [345, 58, 375, 72]
+	  Port			  "2"
+	  InitialOutput		  "0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "qdot\n(rad/s^2)"
+	  Position		  [305, 78, 335, 92]
+	  Port			  "3"
+	  InitialOutput		  "0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Xe,Ze\n(m)"
+	  Position		  [350, 98, 380, 112]
+	  Port			  "4"
+	  InitialOutput		  "0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "U,w \n(m/s) "
+	  Position		  [305, 118, 335, 132]
+	  Port			  "5"
+	  InitialOutput		  "0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Ax,Az\n(m/s^2)"
+	  Position		  [350, 138, 380, 152]
+	  Port			  "6"
+	  InitialOutput		  "0"
+	}
+	Line {
+	  SrcBlock		  "gravity"
+	  SrcPort		  1
+	  DstBlock		  "3DoF (Body Axes)"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "M\n(N-m)"
+	  SrcPort		  1
+	  DstBlock		  "3DoF (Body Axes)"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Fz\n(N)"
+	  SrcPort		  1
+	  DstBlock		  "3DoF (Body Axes)"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Fx\n(N)"
+	  SrcPort		  1
+	  DstBlock		  "3DoF (Body Axes)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "3DoF (Body Axes)"
+	  SrcPort		  1
+	  DstBlock		  "Attitude\n(rad)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "3DoF (Body Axes)"
+	  SrcPort		  2
+	  DstBlock		  "q\n(rad/s)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "3DoF (Body Axes)"
+	  SrcPort		  3
+	  DstBlock		  "qdot\n(rad/s^2)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "3DoF (Body Axes)"
+	  SrcPort		  4
+	  DstBlock		  "Xe,Ze\n(m)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "3DoF (Body Axes)"
+	  SrcPort		  5
+	  DstBlock		  "U,w \n(m/s) "
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "3DoF (Body Axes)"
+	  SrcPort		  6
+	  DstBlock		  "Ax,Az\n(m/s^2)"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "6DoF (Euler Angles)"
+      Ports		      [2, 7]
+      Position		      [40, 51, 200, 239]
+      TreatAsAtomicUnit	      off
+      MaskType		      "6DOF EA Bridge"
+      MaskDescription	      "Block to bridge changes from version 1.0 and 1."
+"0.1 to version 1.5.  Please consider updating your model.\n\nIntegrate the si"
+"x-degrees-of-freedom equations of motion using an Euler angle representation "
+"for the orientation of the body in space."
+      MaskHelp		      "web(asbhelp('6dofeulerangles'));"
+      MaskPromptString	      "Initial position in inertial axes [Xe,Ye,Ze] (m"
+"):|Initial velocity in body axes [U,v,w] (m/s):|Initial Euler orientation [ro"
+"ll, pitch, yaw] (rad):|Initial body rotation rates [p,q,r] (rad/s):|Mass (kg)"
+":|Inertia matrix (kg.m^2):"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit"
+      MaskTunableValueString  "on,on,on,on,on,on"
+      MaskCallbackString      "|||||"
+      MaskEnableString	      "on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,"
+      MaskVariables	      "xme_0=@1;Vm_0=@2;eul_0=@3;pm_0=@4;Mass=@5;Inert"
+"ia=@6;"
+      MaskDisplay	      "port_label('input',1,'F_{XYZ} (N)','texmode','o"
+"n');\nport_label('input',2,'M_{XYZ} (N-m)','texmode','on');\nport_label('outp"
+"ut',1,'V_e (m/s)','texmode','on');\nport_label('output',2,'X_e (m)','texmode'"
+",'on');\nport_label('output',3,'\\phi \\theta \\psi (rad)','texmode','on');\n"
+"port_label('output',4,'DCM','texmode','on');\nport_label('output',5,'V_b (m/s"
+")','texmode','on');\nport_label('output',6,'\\omega (rad/s)','texmode','on');"
+"\nport_label('output',7,'d\\omega/dt','texmode','on');\ndisp('Euler Angles')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "[0 0 0]|[0 0 0]|[ 0 0 0]|[0 0 0]|1.0|eye(3)"
+      System {
+	Name			"6DoF (Euler Angles)"
+	Location		[819, 455, 1240, 724]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Forces\nX\nY\nZ\n(N)"
+	  Position		  [25, 63, 55, 77]
+	  ShowAdditionalParam	  on
+	  DataType		  "double"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Moments\nL\nM\nN\n(N-m)"
+	  Position		  [25, 153, 55, 167]
+	  Port			  "2"
+	  ShowAdditionalParam	  on
+	  DataType		  "double"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "6DoF (Euler Angles)"
+	  Ports			  [2, 8]
+	  Position		  [80, 26, 280, 204]
+	  SourceBlock		  "aerolib6dof2/6DoF (Euler Angles)"
+	  SourceType		  "6DoF EoM (Body Axis)"
+	  units			  "Metric (MKS)"
+	  mtype			  "Fixed"
+	  rep			  "Euler Angles"
+	  xme_0			  "xme_0"
+	  Vm_0			  "Vm_0"
+	  eul_0			  "eul_0"
+	  pm_0			  "pm_0"
+	  mass_0		  "Mass"
+	  mass_e		  "0.5"
+	  mass_f		  "2.0"
+	  inertia		  "Inertia"
+	  inertia_e		  "eye(3)"
+	  inertia_f		  "2*eye(3)"
+	  k_quat		  "1.0"
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  "Terminator"
+	  Position		  [355, 179, 375, 191]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Ve\n(m/s)"
+	  Position		  [310, 38, 340, 52]
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Xe\n(m)"
+	  Position		  [350, 58, 380, 72]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Euler\n(rad)"
+	  Position		  [305, 78, 335, 92]
+	  Port			  "3"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "DCM"
+	  Position		  [350, 98, 380, 112]
+	  Port			  "4"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Vb\n(m/s)"
+	  Position		  [305, 118, 335, 132]
+	  Port			  "5"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "p,q,r\n(rad/s)"
+	  Position		  [350, 138, 380, 152]
+	  Port			  "6"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "pdot,qdot,rdot\n(rad/s^2)"
+	  Position		  [305, 158, 335, 172]
+	  Port			  "7"
+	}
+	Line {
+	  SrcBlock		  "6DoF (Euler Angles)"
+	  SrcPort		  7
+	  DstBlock		  "pdot,qdot,rdot\n(rad/s^2)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Moments\nL\nM\nN\n(N-m)"
+	  SrcPort		  1
+	  DstBlock		  "6DoF (Euler Angles)"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "6DoF (Euler Angles)"
+	  SrcPort		  6
+	  DstBlock		  "p,q,r\n(rad/s)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "6DoF (Euler Angles)"
+	  SrcPort		  5
+	  DstBlock		  "Vb\n(m/s)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "6DoF (Euler Angles)"
+	  SrcPort		  4
+	  DstBlock		  "DCM"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "6DoF (Euler Angles)"
+	  SrcPort		  3
+	  DstBlock		  "Euler\n(rad)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Forces\nX\nY\nZ\n(N)"
+	  SrcPort		  1
+	  DstBlock		  "6DoF (Euler Angles)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "6DoF (Euler Angles)"
+	  SrcPort		  2
+	  DstBlock		  "Xe\n(m)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "6DoF (Euler Angles)"
+	  SrcPort		  1
+	  DstBlock		  "Ve\n(m/s)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "6DoF (Euler Angles)"
+	  SrcPort		  8
+	  DstBlock		  "Terminator"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "6DoF (Quaternion)"
+      Ports		      [2, 7]
+      Position		      [240, 51, 400, 239]
+      TreatAsAtomicUnit	      off
+      MaskType		      "6DOF Q Bridge"
+      MaskDescription	      "Block to bridge changes from version 1.0 and 1."
+"0.1 to version 1.5.  Please consider updating your model.\n\nIntegrate the si"
+"x-degrees-of-freedom equations of motion using a quaternion representation fo"
+"r the orientation of the body in space."
+      MaskHelp		      "web(asbhelp('6dofquaternion'));"
+      MaskPromptString	      "Initial position in inertial axes [Xe,Ye,Ze] (m"
+"):|Initial velocity in body axes [U,v,w] (m/s):|Initial Euler orientation [ro"
+"ll, pitch, yaw] (rad):|Initial body rotation rates [p,q,r] (rad/s):|Mass (kg)"
+":|Inertia matrix (kg.m^2):|Gain for quaternion normalization:"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit"
+      MaskTunableValueString  "on,on,on,on,on,on,on"
+      MaskCallbackString      "||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,"
+      MaskVariables	      "xme_0=@1;Vm_0=@2;eul_0=@3;pm_0=@4;Mass=@5;Inert"
+"ia=@6;k_quat=@7;"
+      MaskDisplay	      "port_label('input',1,'F_{XYZ} (N)','texmode','o"
+"n');\nport_label('input',2,'M_{XYZ} (N-m)','texmode','on');\nport_label('outp"
+"ut',1,'V_e (m/s)','texmode','on');\nport_label('output',2,'X_e (m)','texmode'"
+",'on');\nport_label('output',3,'\\phi \\theta \\psi (rad)','texmode','on');\n"
+"port_label('output',4,'DCM','texmode','on');\nport_label('output',5,'V_b (m/s"
+")','texmode','on');\nport_label('output',6,'\\omega (rad/s)','texmode','on');"
+"\nport_label('output',7,'d\\omega/dt','texmode','on');\ndisp('Quaternion')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "[0 0 0]|[0 0 0]|[ 0 0 0]|[0 0 0]|1.0|eye(3)|1.0"
+      System {
+	Name			"6DoF (Quaternion)"
+	Location		[819, 455, 1240, 724]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Forces\nX\nY\nZ\n(N)"
+	  Position		  [25, 63, 55, 77]
+	  ShowAdditionalParam	  on
+	  DataType		  "double"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Moments\nL\nM\nN\n(N-m)"
+	  Position		  [25, 153, 55, 167]
+	  Port			  "2"
+	  ShowAdditionalParam	  on
+	  DataType		  "double"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "6DoF (Quaternion)"
+	  Ports			  [2, 8]
+	  Position		  [80, 26, 280, 204]
+	  SourceBlock		  "aerolib6dof2/6DoF (Euler Angles)"
+	  SourceType		  "6DoF EoM (Body Axis)"
+	  units			  "Metric (MKS)"
+	  mtype			  "Fixed"
+	  rep			  "Quaternion"
+	  xme_0			  "xme_0"
+	  Vm_0			  "Vm_0"
+	  eul_0			  "eul_0"
+	  pm_0			  "pm_0"
+	  mass_0		  "Mass"
+	  mass_e		  "0.5"
+	  mass_f		  "2.0"
+	  inertia		  "Inertia"
+	  inertia_e		  "eye(3)"
+	  inertia_f		  "2*eye(3)"
+	  k_quat		  "k_quat"
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  "Terminator"
+	  Position		  [355, 179, 375, 191]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Ve\n(m/s)"
+	  Position		  [310, 38, 340, 52]
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Xe\n(m)"
+	  Position		  [350, 58, 380, 72]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Euler\n(rad)"
+	  Position		  [305, 78, 335, 92]
+	  Port			  "3"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "DCM"
+	  Position		  [350, 98, 380, 112]
+	  Port			  "4"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Vb\n(m/s)"
+	  Position		  [305, 118, 335, 132]
+	  Port			  "5"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "p,q,r\n(rad/s)"
+	  Position		  [350, 138, 380, 152]
+	  Port			  "6"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "pdot,qdot,rdot\n(rad/s^2)"
+	  Position		  [305, 158, 335, 172]
+	  Port			  "7"
+	}
+	Line {
+	  SrcBlock		  "6DoF (Quaternion)"
+	  SrcPort		  7
+	  DstBlock		  "pdot,qdot,rdot\n(rad/s^2)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Moments\nL\nM\nN\n(N-m)"
+	  SrcPort		  1
+	  DstBlock		  "6DoF (Quaternion)"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "6DoF (Quaternion)"
+	  SrcPort		  6
+	  DstBlock		  "p,q,r\n(rad/s)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "6DoF (Quaternion)"
+	  SrcPort		  5
+	  DstBlock		  "Vb\n(m/s)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "6DoF (Quaternion)"
+	  SrcPort		  4
+	  DstBlock		  "DCM"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "6DoF (Quaternion)"
+	  SrcPort		  3
+	  DstBlock		  "Euler\n(rad)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Forces\nX\nY\nZ\n(N)"
+	  SrcPort		  1
+	  DstBlock		  "6DoF (Quaternion)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "6DoF (Quaternion)"
+	  SrcPort		  2
+	  DstBlock		  "Xe\n(m)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "6DoF (Quaternion)"
+	  SrcPort		  1
+	  DstBlock		  "Ve\n(m/s)"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "6DoF (Quaternion)"
+	  SrcPort		  8
+	  DstBlock		  "Terminator"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "COESA Atmosphere Model"
+      Ports		      [1, 4]
+      Position		      [110, 282, 315, 368]
+      TreatAsAtomicUnit	      off
+      MaskType		      "COESA Atmosphere Bridge"
+      MaskDescription	      "Block to bridge changes from version 1.0 and 1."
+"0.1 to version 1.5.  Please consider updating your model.\n\nCalculate 1976 C"
+"OESA-extended U.S. Standard Atmosphere. Given geopotential altitude, calculat"
+"e absolute temperature, pressure, and density using standard interpolation fo"
+"rmulas (linear in temperature and logarithmic in pressure).\n \nExtrapolate t"
+"emperature linearly and pressure  logarithmically beyond the range\n         "
+"  0 <= altitude <= 84852 m\n\nDensity is calculated using a perfect gas relat"
+"ionship.\n \nData used is from the 15-OCT-1976 COESA extensions to the U.S. S"
+"tandard Atmosphere, 1976, published by the U.S. Government Printing Office, W"
+"ashington, D.C.\n\nThe unit system selected applies to both input and outputs"
+". "
+      MaskHelp		      "web(asbhelp('COESA Atmosphere Model'));"
+      MaskPromptString	      "Units:"
+      MaskStyleString	      "popup(Metric|English)"
+      MaskTunableValueString  "off"
+      MaskEnableString	      "on"
+      MaskVisibilityString    "on"
+      MaskToolTipString	      "on"
+      MaskVariables	      "units=@1;"
+      MaskInitialization      "[ports] = aeroicon('aeroblkcoesa','icon');"
+      MaskDisplay	      "port_label(ports(1).type,ports(1).port,ports(1)"
+".txt);\nport_label(ports(2).type,ports(2).port,ports(2).txt);\nport_label(por"
+"ts(3).type,ports(3).port,ports(3).txt);\nport_label(ports(4).type,ports(4).po"
+"rt,ports(4).txt);\nport_label(ports(5).type,ports(5).port,ports(5).txt);"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "Metric"
+      System {
+	Name			"COESA Atmosphere Model"
+	Location		[96, 159, 841, 417]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Height"
+	  Position		  [20, 113, 50, 127]
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "COESA Atmosphere Model"
+	  Ports			  [1, 4]
+	  Position		  [185, 38, 310, 202]
+	  SourceBlock		  "aerolibatmos2/COESA Atmosphere Model"
+	  SourceType		  "Atmosphere Model"
+	  units			  "Metric (MKS)"
+	  spec			  "1976 COESA-extended U.S. Standard Atmospher"
+"e"
+	  model			  "Profile"
+	  profile_var		  "High temperature"
+	  profile_percent	  "1%"
+	  profile_alt		  "5 km (16404 ft)"
+	  envelope_var		  "High temperature"
+	  envelope_percent	  "1%"
+	  action		  "Warning"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Density Conversion"
+	  Ports			  [1, 1]
+	  Position		  [440, 165, 530, 195]
+	  SourceBlock		  "aerolibconvert/Density Conversion"
+	  SourceType		  "Density Conversion"
+	  IU			  "kg/m^3"
+	  OU			  "kg/m^3"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Length Conversion"
+	  Ports			  [1, 1]
+	  Position		  [90, 105, 125, 135]
+	  SourceBlock		  "aerolibconvert/Length Conversion"
+	  SourceType		  "Length Conversion"
+	  IU			  "m"
+	  OU			  "m"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Pressure Conversion"
+	  Ports			  [1, 1]
+	  Position		  [365, 125, 410, 155]
+	  SourceBlock		  "aerolibconvert/Pressure Conversion"
+	  SourceType		  "Pressure Conversion"
+	  IU			  "Pa"
+	  OU			  "Pa"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Temperature Conversion"
+	  Ports			  [1, 1]
+	  Position		  [370, 45, 410, 75]
+	  SourceBlock		  "aerolibconvert/Temperature Conversion"
+	  SourceType		  "Temperature Conversion"
+	  IU			  "K"
+	  OU			  "K"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Velocity Conversion"
+	  Ports			  [1, 1]
+	  Position		  [470, 85, 515, 115]
+	  SourceBlock		  "aerolibconvert/Velocity Conversion"
+	  SourceType		  "Velocity Conversion"
+	  IU			  "m/s"
+	  OU			  "m/s"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Temperature"
+	  Position		  [565, 53, 595, 67]
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Speed of Sound"
+	  Position		  [565, 93, 595, 107]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Air Pressure"
+	  Position		  [565, 133, 595, 147]
+	  Port			  "3"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Air Density"
+	  Position		  [565, 173, 595, 187]
+	  Port			  "4"
+	}
+	Line {
+	  SrcBlock		  "Length Conversion"
+	  SrcPort		  1
+	  DstBlock		  "COESA Atmosphere Model"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Velocity Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Speed of Sound"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "COESA Atmosphere Model"
+	  SrcPort		  2
+	  DstBlock		  "Velocity Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "COESA Atmosphere Model"
+	  SrcPort		  1
+	  DstBlock		  "Temperature Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "COESA Atmosphere Model"
+	  SrcPort		  3
+	  DstBlock		  "Pressure Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "COESA Atmosphere Model"
+	  SrcPort		  4
+	  DstBlock		  "Density Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Temperature Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Temperature"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Height"
+	  SrcPort		  1
+	  DstBlock		  "Length Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Pressure Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Air Pressure"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Density Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Air Density"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Discrete Wind Gust Model"
+      Ports		      [1, 1]
+      Position		      [185, 396, 315, 464]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Discrete Wind Gust Bridge"
+      MaskDescription	      "Block to bridge changes from version 1.0 and 1."
+"0.1 to version 1.5.  Please consider updating your model.\n\nGenerate a discr"
+"ete wind gust. The gust profile takes the '1-cosine' form. "
+      MaskHelp		      "web(asbhelp('discretewindgustmodel'));"
+      MaskPromptString	      "Units of velocity:|Check for gust in u-axis|Che"
+"ck for gust in v-axis|Check for gust in w-axis|Gust start time (seconds):|Gus"
+"t length [dx dy dz] (meters):|Gust amplitude [ug vg wg] (meters/second):"
+      MaskStyleString	      "popup(meters/second|feet/second|knots),checkbox"
+",checkbox,checkbox,edit,edit,edit"
+      MaskTunableValueString  "off,on,on,on,on,on,on"
+      MaskCallbackString      "aeroicon('aeroblkwindgust')||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,"
+      MaskVariables	      "v_units=&1;Gx=@2;Gy=@3;Gz=@4;t_0=@5;d_m=@6;v_m="
+"@7;"
+      MaskInitialization      "blk = gcb;\nblk_g = [blk, '/Discrete Wind Gust "
+"Model'];\nif strcmp(v_units, 'meters/second')\n  mask_text1='m';\n  mask_text"
+"2='m/s';\n  set_param(blk_g,'units','Metric (MKS)');\nelseif strcmp(v_units, "
+"'feet/second')\n  mask_text1='ft';\n  mask_text2='ft/s';\n  set_param(blk_g,'"
+"units','English (Velocity in ft/s)');\nelse\n  mask_text1='ft';\n  mask_text2"
+"='knots';\n  set_param(blk_g,'units','English (Velocity in kts)');\nend\nif ("
+"Gx == 1)\n	set_param(blk_g,'Gx','on');\nelse\n	set_param(blk_g,"
+"'Gx','off');\nend\nif (Gy == 1)\n	set_param(blk_g,'Gy','on');\nelse\n"
+"	set_param(blk_g,'Gy','off');\nend\nif (Gz == 1)\n	set_param(bl"
+"k_g,'Gz','on');\nelse\n	set_param(blk_g,'Gz','off');\nend"
+      MaskDisplay	      "port_label('output', 1, ['V_{wind} (', mask_tex"
+"t2, ')'],'texmode','on')\nport_label('input', 1, ['V (', mask_text2, ')'],'te"
+"xmode','on')"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "meters/second|on|on|on|5|[120 120 80]|[3.5 3.5 "
+"3.0]"
+      System {
+	Name			"Discrete Wind Gust Model"
+	Location		[86, 197, 537, 428]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Airspeed"
+	  Position		  [40, 93, 70, 107]
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Discrete Wind Gust Model"
+	  Ports			  [1, 1]
+	  Position		  [115, 60, 295, 140]
+	  SourceBlock		  "aerolibwind2/Discrete Wind Gust Model"
+	  SourceType		  "Discrete Wind Gust Model"
+	  units			  "Metric (MKS)"
+	  Gx			  on
+	  Gy			  on
+	  Gz			  on
+	  t_0			  "t_0"
+	  d_m			  "d_m"
+	  v_m			  "v_m"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Wind\nSpeed"
+	  Position		  [345, 93, 375, 107]
+	}
+	Line {
+	  SrcBlock		  "Discrete Wind Gust Model"
+	  SrcPort		  1
+	  DstBlock		  "Wind\nSpeed"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Airspeed"
+	  SrcPort		  1
+	  DstBlock		  "Discrete Wind Gust Model"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Dryden Wind Turbulence Model"
+      Ports		      [2, 2]
+      Position		      [365, 283, 555, 367]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Dryden Wind Turbulence Bridge"
+      MaskDescription	      "Block to bridge changes from version 1.0 and 1."
+"0.1 to version 1.5.  Please consider updating your model.\n\nGenerate atmosph"
+"eric turbulence. White noise is passed through a filter to give the turbulenc"
+"e the Dryden velocity spectra."
+      MaskHelp		      "web(asbhelp('Dryden Wind Turbulence Model (Cont"
+"inuous)'));"
+      MaskPromptString	      "Units of velocity:|Wind speed at 6 m defines th"
+"e low-altitude intensity (meters/second):|Probability of exceedance of high-a"
+"ltitude intensity|Scale length at medium/high altitudes (meters):|Wingspan (m"
+"eters):|Band-limited noise sample time (seconds):|Noise seeds [ug vg wg pg]:|"
+"Turbulence on"
+      MaskStyleString	      "popup(meters/second|feet/second|knots),edit,pop"
+"up(2x10^-1|10^-1|10^-2 - Light |10^-3 - Moderate|10^-4|10^-5 - Severe|10^-6),"
+"edit,edit,edit,edit,checkbox"
+      MaskTunableValueString  "off,on,on,on,on,on,on,on"
+      MaskCallbackString      "aeroicon('aeroblkwindturb')|||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,"
+      MaskVariables	      "v_units=&1;W20=@2;TurbProb=&3;L_high=@4;Wingspa"
+"n=@5;ts=@6;Seed=@7;T_on=@8;"
+      MaskInitialization      "blk=gcb;\nblk_t=[blk '/Dryden Wind Turbulence M"
+"odel'];\nif strcmp(v_units, 'meters/second')\n    mask_text1='m';\n    mask_t"
+"ext2='m/s';\n    set_param(blk_t,'units','Metric (MKS)');\nelseif strcmp(v_un"
+"its, 'feet/second')\n    mask_text1='ft';\n    mask_text2='ft/s';\n    set_pa"
+"ram(blk_t,'units','English (Velocity in ft/s)');\nelse\n    mask_text1='ft';"
+"\n    mask_text2='knots';\n    set_param(blk_t,'units','English (Velocity in "
+"kts)');\nend\nif T_on == 1\n  set_param(blk_t,'T_on','on');\nelse\n  set_para"
+"m(blk_t,'T_on','off');\nend\nif strcmp(TurbProb,'2x10^-1')\n    set_param(blk"
+"_t,'TurbProb','2x10^-1');\nelseif strcmp(TurbProb,'10^-1')\n    set_param(blk"
+"_t,'TurbProb','10^-1');\nelseif strcmp(TurbProb,'10^-2 - Light ')\n    set_pa"
+"ram(blk_t,'TurbProb','10^-2 - Light ');\nelseif strcmp(TurbProb,'10^-3 - Mode"
+"rate')\n	set_param(blk_t,'TurbProb','10^-3 - Moderate');\nelseif strcm"
+"p(TurbProb,'10^-4')\n    set_param(blk_t,'TurbProb','10^-4');\nelseif strcmp("
+"TurbProb,'10^-5 - Severe')\n	set_param(blk_t,'TurbProb','10^-5 - Sever"
+"e');\nelse\n    set_param(blk_t,'TurbProb','10^-6');\nend\n"
+      MaskDisplay	      "port_label('output', 1, ['V_{wind} (', mask_tex"
+"t2, ')'],'texmode','on')\nport_label('output', 2, '\\omega_{wind} (rad/sec)',"
+"'texmode','on')\nport_label('input', 1, ['h (', mask_text1, ')'])\nport_label"
+"('input', 2, ['V (', mask_text2, ')'])"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "meters/second|15|10^-1|533|10|0.1|[23341 23342 "
+"23343 23344]|on"
+      System {
+	Name			"Dryden Wind Turbulence Model"
+	Location		[51, 295, 651, 497]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Altitude"
+	  Position		  [135, 58, 165, 72]
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Airspeed"
+	  Position		  [175, 82, 205, 98]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant2"
+	  Position		  [45, 91, 120, 139]
+	  NamePlacement		  "alternate"
+	  ShowName		  off
+	  Value			  "[1 0 0; 0 1 0; 0 0 1]"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Dryden Wind Turbulence Model"
+	  Ports			  [3, 2]
+	  Position		  [235, 50, 415, 130]
+	  SourceBlock		  "aerolibwind2/Dryden Wind Turbulence Model "
+"\n(Continuous (+q -r))"
+	  SourceType		  "Wind Turbulence Model"
+	  units			  "Metric (MKS)"
+	  spec			  "MIL-F-8785C"
+	  model			  "Continuous Dryden (+q -r)"
+	  W20			  "W20"
+	  Wdeg			  "0"
+	  TurbProb		  "10^-1"
+	  L_high		  "L_high"
+	  Wingspan		  "Wingspan"
+	  ts			  "ts"
+	  Seed			  "Seed"
+	  T_on			  on
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "ug,vg,wg"
+	  Position		  [460, 63, 490, 77]
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "pg,qg,rg"
+	  Position		  [460, 103, 490, 117]
+	  Port			  "2"
+	}
+	Line {
+	  SrcBlock		  "Altitude"
+	  SrcPort		  1
+	  DstBlock		  "Dryden Wind Turbulence Model"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Airspeed"
+	  SrcPort		  1
+	  DstBlock		  "Dryden Wind Turbulence Model"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Dryden Wind Turbulence Model"
+	  SrcPort		  1
+	  DstBlock		  "ug,vg,wg"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Dryden Wind Turbulence Model"
+	  SrcPort		  2
+	  DstBlock		  "pg,qg,rg"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Constant2"
+	  SrcPort		  1
+	  DstBlock		  "Dryden Wind Turbulence Model"
+	  DstPort		  3
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Wind Shear Model"
+      Ports		      [2, 1]
+      Position		      [365, 399, 485, 466]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Wind Shear Bridge"
+      MaskDescription	      "Block to bridge changes from version 1.0 and 1."
+"0.1 to version 1.5.  Please consider updating your model.\n\nCalculate the wi"
+"nd shear from conditions measured at a height of 6 meters (20 feet) above the"
+" ground. "
+      MaskHelp		      "web(asbhelp('windshearmodel'));"
+      MaskPromptString	      "Units of velocity:|Flight phase:|Wind speed at "
+"6 meters altitude (meters/second):|Wind direction at 6 meters altitude (degre"
+"es clockwise from north):"
+      MaskStyleString	      "popup(meters/second|feet/second|knots),popup(Ca"
+"tegory C - Terminal Flight Phase|Other),edit,edit"
+      MaskTunableValueString  "off,on,on,on"
+      MaskCallbackString      "aeroicon('aeroblkwindshear')|||"
+      MaskEnableString	      "on,on,on,on"
+      MaskVisibilityString    "on,on,on,on"
+      MaskToolTipString	      "on,on,on,on"
+      MaskVarAliasString      ",,,"
+      MaskVariables	      "v_units=&1;phase=@2;W_20=@3;Wdeg=@4;"
+      MaskInitialization      "blk=gcb;\nblk_s=[blk '/Wind Shear Model'];\nif "
+"strcmp(v_units, 'meters/second')\n  mask_text1='m';\n  mask_text2='m/s';\n  s"
+"et_param(blk_s,'units','Metric (MKS)');\nelseif strcmp(v_units, 'feet/second'"
+")\n  mask_text1='ft';\n  mask_text2='ft/s';\n  set_param(blk_s,'units','Engli"
+"sh (Velocity in ft/s)');\nelse\n  mask_text1='ft';\n  mask_text2='knots';\n  "
+"set_param(blk_s,'units','English (Velocity in kts)');\nend\nif phase == 1\n  "
+"set_param(blk_s,'phase','Category C - Terminal Flight Phase');\nelse\n  set_p"
+"aram(blk_s,'phase','Other');\nend\n"
+      MaskDisplay	      "port_label('output', 1, ['V_{wind} (', mask_tex"
+"t2, ')'],'texmode','on')\nport_label('input', 1, ['h (', mask_text1, ')'])\np"
+"ort_label('input', 2, 'DCM')"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "meters/second|Category C - Terminal Flight Phas"
+"e|15|0"
+      System {
+	Name			"Wind Shear Model"
+	Location		[54, 658, 466, 867]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Altitude"
+	  Position		  [50, 73, 80, 87]
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "DCM"
+	  Position		  [50, 113, 80, 127]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Wind Shear Model"
+	  Ports			  [2, 1]
+	  Position		  [110, 59, 290, 141]
+	  SourceBlock		  "aerolibwind2/Wind Shear Model"
+	  SourceType		  "Wind Shear Model"
+	  units			  "Metric (MKS)"
+	  phase			  "Category C - Terminal Flight Phase"
+	  W_20			  "W_20"
+	  Wdeg			  "Wdeg"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Mean\nWind"
+	  Position		  [315, 93, 345, 107]
+	}
+	Line {
+	  SrcBlock		  "Wind Shear Model"
+	  SrcPort		  1
+	  DstBlock		  "Mean\nWind"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Altitude"
+	  SrcPort		  1
+	  DstBlock		  "Wind Shear Model"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "DCM"
+	  SrcPort		  1
+	  DstBlock		  "Wind Shear Model"
+	  DstPort		  2
+	}
+      }
+    }
+    Annotation {
+      Name		      "This library is to be used only for automated l"
+"ibrary forwarding"
+      Position		      [323, 28]
+      FontSize		      14
+      FontWeight	      "bold"
+    }
+  }
+}

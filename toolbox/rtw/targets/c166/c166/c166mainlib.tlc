@@ -1,0 +1,867 @@
+%% File: toolbox/rtw/targets/c166/c166/c166mainlib.tlc
+%% $Revision: 1.10.4.8 $
+%%
+%% Copyright 1994-2004 The MathWorks, Inc.
+%%
+%% Abstract:
+%%   Library file to create a C166 'main' for a given model. The 
+%%   functions in this file either override or augment the functions
+%%   in ertmainlib.tlc. 
+%%
+%selectfile NULL_FILE
+
+%%
+%% Functions for creating the appropriate scheduler
+%%
+
+%function FcnSimpleNonOSMain() Output
+  /* The "main" function initializes and executes the generated code.
+  */
+  void main(void)
+  {
+    %assign rootSystem = System[NumSystems-1]
+    %assign reqInsts = LibGetSystemField(rootSystem, "ReqRootPrmHdrDataInsts")
+    %if ExtMode == 1
+      
+      /* External mode */
+      rtERTExtModeParseArgs(argc, argv, &%<RTMGet("TFinal")>);
+    %endif
+
+    /* Ensure interrupts are disabled */
+    IEN=0;
+
+    /* Initialize the task dispatcher */
+    InitDispatcher();
+
+    /* Initialize model */
+    %<FcnMdlName()>_initialize(%<SLibModelFcnArgs("Initialize",TLC_TRUE,"")>);
+    
+    /* Initialize input/output drivers here */
+    %if InputOutputDriverHooks == 1
+      user_io_initialize();
+    %endif
+    
+    %assign rootSystem = System[NumSystems-1]
+    %assign reqInsts = LibGetSystemField(rootSystem,"ReqRootPrmHdrDataInsts")
+    %if !reqInsts.SimStructInst && !EmptyRealTimeObject
+      %assign simstructArg = tSimStruct
+    %else
+      %assign simstructArg = ""
+    %endif
+    
+    %if ExecutionProfilingEnabled == 1
+    /* General initialization for execution profiling */
+    profile_init();
+    %endif
+    
+    %if SLibC166TimersInfoAvailable() == 0
+      /* Simulating step behavior */
+      while (%<RTMGetErrStat()> == NULL) {
+	dispatch_p();
+      }
+    %else
+      %<SLibC166TimersInitSystemTimer()>
+      %<SLibC166TimersInitFreeRunningTimer()>
+      /* Enable interrupts */
+      IEN=1;
+
+      while (%<RTMGetErrStat()> == NULL) {
+	%if ExecutionProfilingEnabled == 1
+	  profile_state_update();
+	%endif
+	
+	/* Perform other application tasks here */
+      }
+    %endif
+
+  }
+%endfunction
+
+%%function FcnCallMdlStep(tid) is inherited from ertmainlib.tlc
+
+%function FcnRTOneStepDescription() Output
+
+  /* rt_OneStep is called by the dispatcher. If no base rate overruns occur
+  * rt_OneStep will be called once per sample period. In the event that overruns
+  * do occur, the dispatcher ensures that only one instance of rt_OneStep is
+  * is running at any one time; in this case rt_OneStep must "catch up" by
+  * updating the base rate as many times as necessary within the same
+  * function call until all base rate overruns are cleared.
+  */
+%endfunction
+
+%% Generate an assembler file that contains the function hooked into the 
+%% system timer interrupts. This assembler function is responsible for
+%% calling each of the model rates.
+%function FcnDispatcherAsm(multiTasking) void
+  
+%assign dispatcher_file = "dispatcher.asm"
+
+%openfile bld_file = "%<dispatcher_file>"
+; Real-Time Workshop code generation for Simulink model "%<FcnMdlName()>"
+;
+; Real-Time Workshop file version      : %<Version>
+; Real-Time Workshop file generated on : %<GeneratedOn>
+; Assembly code generated on           : %<TLC_TIME>
+;
+; Description:
+;    This file contains a function that is hooked into the system timer interrupt.
+;    It is responsible for calling the functions that implement each model rate.
+;
+; For more information:
+;    o Real-Time Workshop User's Guide
+;    o Real-Time Workshop Embedded Coder User's Guide
+;    o Embedded Target for Infineon C166® Microcontrollers User's Guide
+;    o C166 User's Guide
+;
+
+$CASE					; case sensitive
+
+$include( head.asm )
+
+GLOBAL _OverrunCounter
+GLOBAL _InitDispatcher
+%if SLibC166TimersInfoAvailable() == 0
+GLOBAL _dispatch_p
+%else
+%assign systemTimerTrap = "%<SLibC166TimersSystemTimer()>_TRAP"
+%<systemTimerTrap> EQU %<SLibC166TimersSystemTimerTrap("h")>
+%endif
+
+; The dispatcher task is designed not to require a register bank, however, the
+; assembler requires that a register bank is always specified. To avoid
+; specifying a new register bank, we specify the same register bank as for task
+; 0. The register bank is not used by this task, rather the required registers
+; are explicitly pushed/popped.
+REGISTER_BANK_TASK_0	REGDEF
+
+; Tasking C compiler uses DPP3 for page 3
+ASSUME DPP3:SYSTEM
+
+DISPATCH_BITDATA_SCT SECTION DATA BITADDRESSABLE
+taskRunningFlags DSW %<FcnNumST()>  ; 1 bit for each model rate
+DISPATCH_BITDATA_SCT ENDS
+
+%foreach i = FcnNumST()
+taskRunning%<i> BIT taskRunningFlags.%<i>
+%endforeach
+	
+DISPATCH_RAM_DATA_SCT SECTION DATA IRAMADDRESSABLE COMMON
+_OverrunCounter DSW %<FcnNumST()>
+DISPATCH_RAM_DATA_SCT ENDS
+		
+DISPATCH_SCT	SECTION CODE WORD
+;***********************************************************************
+;* Timer-based task dispatcher
+;*
+;* The task dispatcher is attached to a timer interrupt and is called once
+;* per base sample time. The dispatcher is designed to be re-entrant, however,
+;* the functions that implement each timer task are not. The dispatcher is
+;* therefore responsible for ensuring that at most one instance of any timer 
+;* task is executing at one time.
+;* 
+;* The update for each task is executed via a software trap. In this
+;* way each task can be allocated its own register bank. This is
+;* necessary to ensure that the task's context is not destroyed when
+;* it is pre-empted.
+;*
+;***********************************************************************
+%if SLibC166TimersInfoAvailable() == 0
+@if( @eqs(@MODEL,"LARGE") | @EQS(@MODEL,"SMALL") )
+_dispatch_p	proc far    ; entry for small and large model
+@else
+_dispatch_p	proc near   ; entry for tiny and medium model
+@endi
+%else  
+_dispatch_p PROC TASK DISPATCH_T INTNO=%<systemTimerTrap>
+%endif
+   PUSH R12
+ 
+%if SLibC166TimersInfoAvailable() != 0
+  %assign reloadTimer = SLibC166TimersGetReloadTimer()
+  %assign systemTimer = SLibC166TimersSystemTimer()
+  %if reloadTimer == ""
+    %assign reloadValue = "%<SPRINTF("0%xh",SLibC166TimersGetTimerReloadValue())>"
+   ; System timer must be re-loaded by software
+   MOV %<systemTimer>, #%<reloadValue>
+  %endif
+  %if systemTimer == "T14"
+    ; Re-enable interrupts for Real Time Clock (RTC)
+    EXTR #1
+    %if C166Reg.rtcir == "T14IR"
+    ; Work-around for error in Tasking v8.0r1 .def file to achieve BCLR %<C166Reg.rtcir>
+    BCLR 0xf10c.1
+    %else
+    BCLR %<C166Reg.rtcir>
+    %endif
+  %endif
+%endif
+  
+   ;
+   ;  model base-rate (task 0)
+   ;
+   SUB _OverrunCounter, ONES ; increment overruns flag for base-rate
+   JB taskRunning0, dispatch_exit
+
+   ; At this point it is guaranteed that no other instance of the base-rate
+   ; task is running. It is possible, however, that one or more of the sub-rates
+   ; is running (and is therefore about to be pre-empted). */
+   BSET taskRunning0
+call_task_0:
+   TRAP #%<FcnGetTrapNumberForTask(0,"h")>
+   BCLR taskRunning0
+	   
+%foreach i_m1 = FcnNumST()-1		
+  %assign i = i_m1+1
+
+   ; Model sub-rate %<i> (task %<i>)
+   ; Test if an instance of this task is already running. If so any further
+   ; invocation is delayed until the current instance is complete.
+   JB taskRunning%<i>, dispatch_exit
+   MOV R12, _OverrunCounter+%<i*2>
+   JMPR cc_NZ, call_task_%<i>  ; call task %<i> its overrun flag is not clear
+   JMPR cc_UC, task_%<i>_complete
+call_task_%<i>:
+   BSET taskRunning%<i>
+   TRAP #%<FcnGetTrapNumberForTask(i,"h")>
+   BCLR taskRunning%<i>
+task_%<i>_complete:	
+%endforeach
+
+dispatch_exit:
+		POP	R12
+
+		RET
+_dispatch_p	ENDP
+
+;*****************************************************************************
+;* InitDispatcher 		Dispatcher initialization function
+;*****************************************************************************
+@if( @eqs(@MODEL,"LARGE") | @EQS(@MODEL,"SMALL") )
+_InitDispatcher	proc far    ; entry for small and large model
+@else
+_InitDispatcher	proc near   ; entry for tiny and medium model
+@endi
+
+%foreach i = FcnNumST()
+   ; Clear overrun counter for task %<i>
+   MOV _OverrunCounter+%<i*2>, ZEROS
+   ; Clear task running flag for task %<i>
+   BCLR taskRunning%<i>
+
+ %endforeach
+RET
+
+_InitDispatcher ENDP
+
+DISPATCH_SCT	ENDS
+	END
+
+
+
+%closefile bld_file
+
+%endfunction
+
+%function FcnSingleRateWithoutOS(cFile) void
+  %assign multiTasking = 0
+
+  %openfile tmpFcnBuf
+  /* Control the behaviour of the model when overruns occur */
+  #define BASE_RATE_MAX_OVERRUNS 5
+  
+  %closefile tmpFcnBuf
+  %<SLibSetModelFileAttribute(cFile, "Defines", tmpFcnBuf)>  
+
+  %openfile tmpFcnBuf
+  extern volatile uint16_T OverrunCounter;
+
+  %closefile tmpFcnBuf
+  %<SLibSetModelFileAttribute(cFile, "ExternData", tmpFcnBuf)>  
+
+  %openfile tmpFcnBuf  
+  %<FcnTrapNumberDefines(multiTasking)>
+  %closefile tmpFcnBuf
+  %<SLibSetModelFileAttribute(cFile, "Defines", tmpFcnBuf)>
+
+  %openfile tmpFcnBuf
+
+  %<FcnRTOneStepDescription()>
+  
+  
+  _interrupt ( TASK_0_TRAP ) void rt_OneStep( void ) 
+  {
+    /* Check if an error status has been set by an overrun or generated code */
+    if (%<RTMGetErrStat()> != NULL) {
+      return;
+    }
+    
+    while (OverrunCounter > 0) {
+      %if ExecutionProfilingEnabled == 1
+	/* Task execution profiling */
+	IEN = 0;
+	profile_task_start(0);
+	IEN = 1;
+      %endif
+      
+      /* Re-enable timer interrupt. To achieve this the CPU priority 
+      * level is lowered so that timer interrupts are acknowledged
+      * by the CPU.
+      */
+      %<SLibC166TimersLowerCPULevel()>
+      
+      /* Set model inputs here */
+      %if InputOutputDriverHooks == 1
+	base_rate_model_inputs();
+      %endif
+      
+      %<FcnCallMdlStep("")>\
+      
+#ifdef CCP_DAQ_LIST_ENABLED
+        /* Single rate, single tasking only rate in the model is TID 0 */
+        c_fire_DAQs(0);
+#endif
+      
+      /* Get model outputs here */
+      %if InputOutputDriverHooks == 1
+	base_rate_model_outputs();
+      %endif
+
+      %<SLibC166TimersRestoreCPULevel()>
+
+      %if ExecutionProfilingEnabled == 1
+	overrun_max_log(OverrunCounter, 0);
+      %endif
+      
+      /* Check if too many overruns occurred */
+      if (OverrunCounter > BASE_RATE_MAX_OVERRUNS) {
+	%<RTMSetErrStat("\"Overrun\"")>;
+      }
+      
+      /* Decrement the overrun flag */
+      OverrunCounter--;
+      
+      %if ExecutionProfilingEnabled == 1
+	/* Task execution profiling */
+	IEN = 0;
+	profile_task_end(0);
+	IEN = 1;
+      %endif
+      
+    }
+  }    
+
+  %assign multiTasking = 0
+  %<FcnDispatcherAsm(multiTasking)>
+  
+  %<FcnSimpleNonOSMain()>\
+  %closefile tmpFcnBuf
+  %return tmpFcnBuf
+%endfunction %% SingleRateWithoutOS
+  
+%function FcnMultiRateSingletaskingWithoutOS(cFile) void
+
+  %assign multiTasking = 0
+  
+  %openfile tmpFcnBuf
+  /* Control the behaviour of the model when overruns occur */
+  #define BASE_RATE_MAX_OVERRUNS 5
+  %closefile tmpFcnBuf
+  %<SLibSetModelFileAttribute(cFile, "Defines", tmpFcnBuf)>  
+
+  %openfile tmpFcnBuf
+  extern volatile uint16_T OverrunCounter;
+  %closefile tmpFcnBuf
+  %<SLibSetModelFileAttribute(cFile, "ExternData", tmpFcnBuf)>  
+
+  %openfile tmpFcnBuf  
+  %<FcnTrapNumberDefines(multiTasking)>
+  %closefile tmpFcnBuf
+  %<SLibSetModelFileAttribute(cFile, "Defines", tmpFcnBuf)>
+
+
+  
+  %openfile tmpFcnBuf
+  
+  %<FcnRTOneStepDescription()>\
+  _interrupt ( TASK_0_TRAP ) void rt_OneStep( void ) 
+  {
+    /* Check if an error status has been set by an overrun or the generated code
+    */
+    if (%<RTMGetErrStat()> != NULL) {
+      return;
+    }
+    
+    while (OverrunCounter > 0) {
+      int_T i;
+
+      #ifdef CCP_DAQ_LIST_ENABLED
+      /* Local variable to store which tids need to be fired 
+      * we always fire the base rate so we don't need to store any 
+      * information about it */
+      uint8_T tids_to_fire[TOTAL_NUM_TIDS - 1];
+      #endif
+      
+      %if ExecutionProfilingEnabled == 1
+	/* Task execution profiling */
+	IEN = 0;
+	profile_task_start(0);
+	IEN = 1;
+      %endif
+
+      %<SLibC166TimersLowerCPULevel()>
+      
+#ifdef CCP_DAQ_LIST_ENABLED
+        /* Work out which task DAQ lists need firing after the 
+         * stepping the model. This must be done before stepping the 
+         * as that function updates the timing information */
+        for (i=1; i<TOTAL_NUM_TIDS; i++) {
+            if ( %<LibIsSampleHit("i")> ) {
+                /* Fire DAQ list for TID i after the model step */
+                tids_to_fire[i-1] = 1;
+            }
+            else {
+                /* do not fire TID i after the model step */
+                tids_to_fire[i-1] = 0;
+            }
+        }
+#endif
+             
+      /* Set model inputs here */
+      %if InputOutputDriverHooks == 1
+	base_rate_model_inputs();
+      %endif
+
+      %<FcnCallMdlStep(0)>\
+
+      /* Get model outputs here */
+      %if InputOutputDriverHooks == 1
+	base_rate_model_outputs();
+      %endif
+
+      #ifdef CCP_DAQ_LIST_ENABLED
+      /* multi-rate, single tasking */
+      
+      /* always fire the base rate */
+      c_fire_DAQs(0);
+      
+      /* now fire any other tids that are required */
+      for (i=1; i<TOTAL_NUM_TIDS; i++) {
+	if (tids_to_fire[i-1] == 1) {
+	  c_fire_DAQs(i);
+	}
+      }
+      #endif
+      
+      %<SLibC166TimersRestoreCPULevel()>
+      
+      %if ExecutionProfilingEnabled == 1
+	overrun_max_log(OverrunCounter, 0);
+      %endif
+      
+      /* Check if too many overruns occurred */
+      if (OverrunCounter > BASE_RATE_MAX_OVERRUNS) {
+	%<RTMSetErrStat("\"Overrun\"")>;
+      }      
+      
+      /* Decrement the overrun flag */
+      OverrunCounter--;
+      
+      %if ExecutionProfilingEnabled == 1
+	/* Task execution profiling */
+	IEN = 0;
+	profile_task_end(0);
+	IEN = 1;
+      %endif
+    }
+  }
+  
+  %assign multiTasking = 0
+  %<FcnDispatcherAsm(multiTasking)>
+
+  %<FcnSimpleNonOSMain()>\
+  %closefile tmpFcnBuf
+  %return tmpFcnBuf
+%endfunction
+
+%function FcnCallEventFlagsFunction() Output
+  %assign fcnName = "%<Name>_SetEventsForThisBaseStep"
+  /*
+  * The rates that need to execute this base step must be buffered locally
+  * to allow for overlapping preemption.  The generated code includes
+  * 
+  * Function: %<fcnName>()
+  *
+  * which sets the rates that need to run this time step (values are
+  * 1/0 for true/false, respectively)
+  */
+  %if MultiInstanceERTCode
+    %<fcnName>(eventFlags, %<tSimStruct>);
+  %else
+    %<fcnName>(eventFlags);
+  %endif
+%endfunction
+
+%function FcnMultiRateMultitaskingWithoutOS(cFile) void
+
+  %assign multiTasking = 1
+  
+  %openfile tmpFcnBuf
+  /* Control the behaviour of the model when overruns occur */
+  #define BASE_RATE_MAX_OVERRUNS %<BaseRateMaxOverrunsValue>
+  %if SubRateMaxOverrunsValue < 1
+    /* Sub-rate overruns are not allowed and will be handled as an
+    * error, if they occur. */
+  %endif
+  #define SUB_RATE_MAX_OVERRUNS %<SubRateMaxOverrunsValue>
+  
+  %closefile tmpFcnBuf
+  %<SLibSetModelFileAttribute(cFile, "Defines", tmpFcnBuf)>  
+  
+  %openfile tmpFcnBuf
+  extern volatile uint16_T OverrunCounter[%<FcnNumST()>];
+  %closefile tmpFcnBuf
+  %<SLibSetModelFileAttribute(cFile, "ExternData", tmpFcnBuf)>  
+  
+  %openfile tmpFcnBuf  
+  %<FcnTrapNumberDefines(multiTasking)>
+  %closefile tmpFcnBuf
+  %<SLibSetModelFileAttribute(cFile, "Defines", tmpFcnBuf)>
+
+  %openfile tmpFcnBuf
+  
+  %foreach i = FcnNumST()-1
+    %assign idx = i + 1
+    %assign taskName = "tRate%<idx>"
+    %assign regBankName = "REGISTER_BANK_TASK_%<idx>"
+    /* Function to perform model update for Task %<idx>. This function is
+    * implemented as an interrupt service routine and is called via a 
+    * software trap.
+    */
+    _interrupt ( TASK_%<idx>_TRAP ) _using( %<regBankName> ) void rt_StepTask%<idx>(void)
+    {
+      
+      /* Check if an error status has been set by an overrun or the generated code
+      */
+      if (%<RTMGetErrStat()> != NULL) {
+	return;
+      }
+    
+      %if ExecutionProfilingEnabled == 1
+	/* Task execution profiling */
+	IEN = 0;
+	profile_task_start(%<idx>);
+	IEN = 1;
+      %endif
+      
+      %<SLibC166TimersLowerCPULevel()>
+	  
+      /* Set model inputs associated with sub-rates here */
+      %if InputOutputDriverHooks == 1
+	sub_rate_%<idx>_model_inputs();
+      %endif
+
+      %<FcnCallMdlStep(idx)>\
+      
+      /* Get model outputs associated with sub-rates here */
+      %if InputOutputDriverHooks == 1
+	sub_rate_%<idx>_model_outputs();
+      %endif
+      
+#ifdef CCP_DAQ_LIST_ENABLED
+            /* multi rate, multi tasking 
+             * must fire DAQ lists for the subrate after the 
+             * MODEL_STEP(%<idx>) */
+            c_fire_DAQs(%<idx>);
+#endif
+      
+      %<SLibC166TimersRestoreCPULevel()>
+      
+      OverrunCounter[%<idx>]--;
+      
+      %if ExecutionProfilingEnabled == 1
+	/* Task execution profiling */
+	IEN = 0;
+	profile_task_end(%<idx>);
+	IEN = 1;
+      %endif
+    }
+    
+  %endforeach
+  
+  
+  %<FcnRTOneStepDescription()>\
+  _interrupt ( TASK_0_TRAP ) void rt_OneStep( void )
+  {
+
+    /* Check if an error status has been set by an overrun or the generated code
+    */
+    if (%<RTMGetErrStat()> != NULL) {
+      return;
+    }
+      
+    /* Update the base rate */
+    while (OverrunCounter[0] > 0) {
+      int_T i;
+      boolean_T eventFlags[%<FcnNumST()>]; /* Model has %<FcnNumST()> rates */
+      
+      %if ExecutionProfilingEnabled == 1
+	/* Task execution profiling */
+	IEN = 0;
+	profile_task_start(0);
+	IEN = 1;
+      %endif
+
+      %<SLibC166TimersLowerCPULevel()>
+    
+      %<FcnCallEventFlagsFunction()>
+    
+      /* Set model inputs associated with base rate here */
+      %if InputOutputDriverHooks == 1
+	base_rate_model_inputs();
+      %endif
+      
+      %<FcnCallMdlStep(0)>\
+    
+      /* Get model outputs associated with base rate here */
+      %if InputOutputDriverHooks == 1
+	base_rate_model_outputs();
+      %endif
+      
+      #ifdef CCP_DAQ_LIST_ENABLED
+      /* multi rate, multi tasking
+      * fire DAQ list for TID 0 */
+      c_fire_DAQs(0);
+      #endif      
+      
+      %<SLibC166TimersRestoreCPULevel()>
+      
+      %if ExecutionProfilingEnabled == 1
+	/* Task execution profiling */
+	overrun_max_log(OverrunCounter[0], 0);
+      %endif
+      
+      /* Check if too many overruns occurred */
+      if (OverrunCounter[0] > BASE_RATE_MAX_OVERRUNS) {
+	%<RTMSetErrStat("\"Overrun\"")>;
+      }      
+      
+      OverrunCounter[0]--;
+      
+      %if ExecutionProfilingEnabled == 1
+	/* Task execution profiling */
+	IEN = 0;
+	profile_task_end(0);
+	IEN = 1;
+      %endif
+      
+      /* Update event flags for any other sample times (sub-rates) */
+      for (i = 1; i < %<FcnNumST()>; i++) {
+	if (eventFlags[i]) {
+	  if (OverrunCounter[i]++ > SUB_RATE_MAX_OVERRUNS) {
+	    /* Sampling too fast */
+	    %<RTMSetErrStat("\"Overrun\"")>;
+	  }
+	  %if ExecutionProfilingEnabled == 1
+	    overrun_max_log(OverrunCounter[i], i);
+	  %endif
+	}
+      }
+    }
+    
+    return;
+    
+  }
+
+  %<FcnDispatcherAsm(multiTasking)>
+
+  %<FcnSimpleNonOSMain()>\
+  %closefile tmpFcnBuf
+  %return tmpFcnBuf
+%endfunction
+
+
+
+%function FcnGenerateMainFunctions(retDesc,cFile) void
+  %assign singleTasking = SLibSingleTasking()
+  %assign delim = "*   "
+  %if FcnNumST() == 1
+    
+    %% Single rate
+    
+    %if TargetOS != "BareBoardExample"
+      %openfile message
+      Attempt to generate code for real-time operating system. Presently,
+      The Embedded Target for Infineon C166® Microcontrollers can only 
+      generate code for a bareboard system. 
+      %closefile message
+      %exit %<message>
+    %else
+      %return retDesc ? ...
+	"%<delim>Real-Time Workshop Embedded Coder single rate scheduler assuming\n" ...
+	"%<delim>no operating system.\n" : ...
+	FcnSingleRateWithoutOS(cFile)
+    %endif
+  
+  %elseif !singleTasking
+  
+    %% Multirate/Multitasking
+    
+    %if TargetOS != "BareBoardExample"
+      %openfile message
+      Attempt to generate code for real-time operating system. Presently,
+      The Embedded Target for Infineon C166® Microcontrollers can only 
+      generate code for a bareboard system. 
+      %closefile message
+      %exit %<message>
+    %else
+      %return retDesc ? ...
+	"%<delim>Real-Time Workshop Embedded Coder multiple rate scheduler assuming\n" ...
+	"%<delim>no operating system.  This example code contains a determanistic\n" ...
+	"%<delim>implementation of a rate monotonic scheduler.\n" : ...
+	FcnMultiRateMultitaskingWithoutOS(cFile)
+    %endif
+  
+  %else
+  
+    %% Multirate/Singletasking
+    
+    %if TargetOS != "BareBoardExample"
+      %openfile message
+      Attempt to generate code for real-time operating system. Presently,
+      The Embedded Target for Infineon C166® Microcontrollers can only 
+      generate code for a bareboard system. 
+      %closefile message
+      %exit %<message>
+    %else
+      %return retDesc ? ...
+	"%<delim>Real-Time Workshop Embedded Coder multi-rate singletasking\n" ...
+	"%<delim>main assuming no operating system.\n" : ...
+	FcnMultiRateSingletaskingWithoutOS(cFile)
+    %endif
+  
+  %endif
+%endfunction
+
+%function FcnTrapNumberDefines(multiTasking) Output
+  
+  %assign numTasks = (multiTasking == 1) ? FcnNumST() : 1
+  /* Trap numbers used for each task */
+  %foreach i = numTasks
+    #define TASK_%<i>_TRAP %<FcnGetTrapNumberForTask(i,"0x")>
+  %endforeach
+%endfunction
+
+
+%function FcnGetTrapNumberForTask(taskNumber,format) void
+  %assign trapNumberUpper = 121
+  %assign trapNumber = trapNumberUpper-taskNumber
+  %if format =="h"
+    %return SPRINTF("%xh",trapNumber)
+  %else
+    %return SPRINTF("0x%x",trapNumber)
+  %endif
+%endfunction
+
+
+%function FcnFileHeaderVerbose(cFile) Output
+  /*
+   * Real-Time Workshop code generation for Simulink model "%<FcnMdlName()>"
+   *
+   * Real-Time Workshop file version      : %<Version>
+   * Real-Time Workshop file generated on : %<GeneratedOn>
+   * C source code generated on           : %<TLC_TIME>
+   *
+   * Description:
+   %<FcnGenerateMainFunctions(1,cFile)>\
+   *
+   * For more information:
+   *   o Real-Time Workshop User's Guide
+   *   o Real-Time Workshop Embedded Coder User's Guide
+   *   o Embedded Target for Infineon C166® Microcontrollers User's Guide
+   *   o C166 User's Guide
+   *
+   */
+%endfunction
+
+%function FcnFileHeaderShort() Output
+  /*
+   * Real-Time Workshop code generation for Simulink model "%<FcnMdlName()>"
+   *
+   * Real-Time Workshop file version      : %<Version>
+   * Real-Time Workshop file generated on : %<GeneratedOn>
+   * C source code generated on           : %<TLC_TIME>
+   */
+%endfunction
+
+
+%function SLibCreateC166Main(fName) void
+  
+
+  
+  %if SLibC166TimersInfoAvailable() != 0
+    %<SLibC166TimersInitialize()>
+  %else
+    %% Generating code that is not driven by timer interrupts
+  %endif
+  
+  %assign cFile = LibCreateSourceFile("Source","Custom",fName)
+  
+  %openfile tmpFcnBuf
+  %<SLibDeclareModelFcnArgs(TLC_TRUE)>\
+  %closefile tmpFcnBuf
+  %<LibSetSourceFileSection(cFile, "Definitions", tmpFcnBuf)>
+
+  %openfile tmpFcnBuf
+  %<FcnFileHeaderVerbose(cFile)>
+  %closefile tmpFcnBuf
+  
+  %<LibSetSourceFileSection(cFile, "Banner", tmpFcnBuf)>
+  %<LibSetSourceFileSection(cFile, "Functions", FcnGenerateMainFunctions(0,cFile))>
+  
+  %openfile tmpFcnBuf
+  #include <%<CompiledModel.Settings.TaskingRegisterDefs>> /* For selected C166 architecture */
+  #include "rtwtypes.h"
+  #include "%<FcnGetPublicModelHeaderFile()>" /* Model's header file */
+  %if ExtMode
+    #include "ext_work.h" /* External mode header file */
+  %endif
+  %if InputOutputDriverHooks == 1
+    #include "user_io.h" /* User-supplied header file */
+  %endif  
+  #include "profile_vars.h"
+  #include "profile.h"
+    
+  %closefile tmpFcnBuf
+  
+  %<LibSetSourceFileSection(cFile, "Includes", tmpFcnBuf)>
+
+  %openfile tmpFcnBuf
+  %if SLibC166TimersInfoAvailable() != 0
+    %<SLibC166TimersDefines()>
+  %else
+    %% Generating code that is not driven by timer interrupts
+  %endif
+  %closefile tmpFcnBuf
+  %<LibSetSourceFileSection(cFile, "Defines", tmpFcnBuf)>
+  
+  %openfile tmpFcnBuf
+  /* CAN Calibration Protocol: function to fire the DAQ lists */
+  #ifdef CCP_DAQ_LIST_ENABLED
+  extern void c_fire_DAQs(uint8_T); 
+  #endif
+  
+  /* Assembler function that initializes the task dispatcher. */
+  extern void InitDispatcher(void);
+  
+%if SLibC166TimersInfoAvailable() == 0
+  /* Allow assembler function that calls model tasks to be called
+  * directly instead of as the timer interrupt service routine. */
+  extern void dispatch_p(void);
+%endif
+  
+  %closefile tmpFcnBuf
+
+  %<LibSetSourceFileSection(cFile, "UserTop", tmpFcnBuf)>
+  
+%endfunction

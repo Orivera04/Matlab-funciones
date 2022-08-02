@@ -1,0 +1,179 @@
+%% File: hc12_settings.tlc
+%%
+%% Abstract:
+%%   Defines settings for hc12 target.
+%%
+%% $Revision: 1.1.6.3 $
+%% $Date: 2004/03/30 13:13:22 $
+%%
+%% Copyright 2002-2004 The MathWorks, Inc.
+%selectfile NULL_FILE
+
+%function HC12_settings() void
+%% Read user preferences for the target and add to CompiledModel
+%assign prefs = FEVAL("RTW.TargetPrefs.load","hc12.prefs","structure")
+%assign CWInfo = FEVAL("eval","getCWInfo(RTW.TargetPrefs.load('hc12.prefs'))")
+%addtorecord CompiledModel TargetPrefs prefs
+
+%addtorecord CompiledModel \  
+  PathInfo {			\
+  	MODEL_FILE	""	    \
+  	MODEL_REL_PATH	""	\
+  	PWD		""	        \
+	PATH_SEP        ""	\
+	MODEL_ABS_PATH  ""	\
+	MATLABROOT      ""	\
+	TLC_FILE        ""	\
+	TLC_DIR         ""	\
+	TARGET_TLC_DIR  ""	\
+	TARGET_ROOT_DIR ""	\
+	PROFILE_DIR     ""  \
+  }
+
+%addtorecord CompiledModel  \  
+  Settings {			    \
+  	TargetCompiler	"CodeWarrior"	\
+  	ToolVersion	CAST("Real",CWInfo.cwversion)	\
+  	ToolRoot	CWInfo.cwroot	\
+  }
+  
+%% Get (3) files from TLCFILES and find which one is the model file
+%assign LOCAL_MODEL_FILE = ""
+%assign TARGET_TLC_FILE = ""
+%assign TLCFILE_1 = FEVAL("strtokn", "%<TLCFILES>","[, ]",1)
+%assign TLCFILE_2 = FEVAL("strtokn", "%<TLCFILES>","[, ]",2)
+%assign TLCFILE_3 = FEVAL("strtokn", "%<TLCFILES>","[, ]",3)
+%assign TLCFILE_4 = FEVAL("strtokn", "%<TLCFILES>","[, ]",4)
+
+%assign FILE_EXT = FEVAL("filepart", "%<TLCFILE_1>","ext")
+%if "%<FILE_EXT>" == ".rtw"
+  %assign LOCAL_MODEL_FILE = "%<TLCFILE_1>"
+%endif
+
+%assign FILE_EXT = FEVAL("filepart", "%<TLCFILE_2>","ext")
+%if "%<FILE_EXT>" == ".rtw"
+  %assign LOCAL_MODEL_FILE = "%<TLCFILE_2>"
+%endif
+
+%assign FILE_EXT = FEVAL("filepart", "%<TLCFILE_3>","ext")
+%if "%<FILE_EXT>" == ".rtw"
+  %assign LOCAL_MODEL_FILE = "%<TLCFILE_3>"
+%endif  
+
+%assign FILE_EXT = FEVAL("filepart", "%<TLCFILE_4>","ext")
+%if "%<FILE_EXT>" == ".rtw"
+  %assign LOCAL_MODEL_FILE = "%<TLCFILE_4>"
+%endif  
+
+%if "%<LOCAL_MODEL_FILE>" == ""
+  %assign msg = "Unable to locate RTW file in TLCFILES: %<TLCFILES>"
+  %exit %<msg>
+%endif
+
+%% The determination of TARGET_TLC_DIR comes here because the TLCFILES 
+%% list is simplest. Moving this can change the answer. 
+%%
+%with CompiledModel.PathInfo
+	%assign CompiledModel.PathInfo.MODEL_FILE      = "%<LOCAL_MODEL_FILE>"
+	%assign CompiledModel.PathInfo.PWD             = FEVAL("pwd")
+	%assign CompiledModel.PathInfo.PATH_SEP        = FEVAL("filesep")
+	%assign CompiledModel.PathInfo.MATLABROOT      = FEVAL("matlabroot")
+	
+    %% MODEL_REL_PATH is no longer available use invoking TLC. 		
+	%assign CompiledModel.PathInfo.MODEL_REL_PATH  = FEVAL("filepart", "%<LOCAL_MODEL_FILE>","path")
+	%assign CompiledModel.PathInfo.MODEL_ABS_PATH  = FEVAL("filepart", "%<LOCAL_MODEL_FILE>","path")
+
+    %assign CompiledModel.PathInfo.TLC_FILE        = "%<TLCFILE_2>"
+	%assign CompiledModel.PathInfo.TLC_DIR         = FEVAL("filepart", "%<TLC_FILE>","path")
+	%assign CompiledModel.PathInfo.TARGET_TLC_DIR  = FEVAL("filepart", "%<TLC_FILE>","path")
+	%assign CompiledModel.PathInfo.TARGET_ROOT_DIR = FEVAL("filepart", "%<TLC_DIR>","path")
+	%assign CompiledModel.PathInfo.PROFILE_DIR     = "%<TARGET_ROOT_DIR>%<PATH_SEP>profile"
+        
+    %% Add Target specific TLC include path for the HC12 target
+    %addincludepath "./../codewarrior"  
+    %addincludepath "./../common" 
+    %addincludepath "%<CompiledModel.PathInfo.PROFILE_DIR>"
+%endwith
+
+  %if GenerateSampleERTMain == 1
+    %assign msg = "Generating an example main is not supported as the proper main function is inherently generated. Unselect the \"Generate an example main program\" checkbox under ERT code generation options."
+    %exit %<msg>
+  %endif
+  
+  %if GenerateErtSFunction == 1
+    %assign msg = "Generating a Simulink S-Function is not supported. Unselect the \"Create Simulink(S-Function) block\" checkbox under ERT code generation options."
+    %exit %<msg>
+  %endif
+  
+  %if ExtMode == 1
+    %assign msg = "External Mode is not currently supported. Unselect the \"External mode\" checkbox under ERT code generation options."
+    %exit %<msg>
+  %endif
+  
+  %if MatFileLogging == 1
+    %assign msg = "MAT-file logging is not currently supported. Unselect the \"MAT-file logging\" checkbox under ERT code generation options."
+    %exit %<msg>
+  %endif
+  
+  %if GenFloatMathFcnCalls == "ISO_C"
+    %assign msg = "Generate reuseable code is not currently supported. Unselect the \"Generate reuseable code\" checkbox under ERT code generation options."
+    %exit %<msg>
+  %endif  
+
+
+  %assign EchoConfigSettings = 0
+  %if EchoConfigSettings
+  %selectfile STDOUT
+  ######################################################################
+  
+  ### PATHINFO ###
+  
+  ### PWD is:
+  	%<CompiledModel.PathInfo.PWD>
+  
+  ### MODEL_ABS_PATH is:
+  	%<CompiledModel.PathInfo.MODEL_ABS_PATH>
+  
+  ### TLC_FILE is: 
+  	%<CompiledModel.PathInfo.TLC_FILE>
+  
+  ### TLC_DIR is:
+  	%<CompiledModel.PathInfo.TLC_DIR>
+  
+  ### TARGET_ROOT_DIR is:
+  	%<CompiledModel.PathInfo.TARGET_ROOT_DIR>
+  
+  ### PROFILE_DIR is: 
+  	%<CompiledModel.PathInfo.PROFILE_DIR>
+  
+  
+  ### TARGETPREFS ###
+  
+  ### TargetCompiler is: 
+  	%<CompiledModel.TargetPrefs.TargetCompiler> %% = HC12_PREFS.TargetCompiler
+  
+  ### ProjectPathAndFile_RAM is:
+      %<CompiledModel.TargetPrefs.ProjectStationery.ProjectPathAndFile_RAM> 
+        
+  ### ProjectPathAndFile_Flash is:
+      %<CompiledModel.TargetPrefs.ProjectStationery.ProjectPathAndFile_Flash> 
+          
+  ### ProjectPathAndFile_Banked is:
+      %<CompiledModel.TargetPrefs.ProjectStationery.ProjectPathAndFile_Banked> 
+          
+  ### TargetProjectType is:
+      %<CompiledModel.TargetPrefs.TargetProjectType>         
+          
+  ### StaticLibraryDirectory is:  
+      %<CompiledModel.TargetPrefs.ProjectStationery.StaticLibraryDirectory>          
+  
+  
+  ######################################################################
+  %selectfile NULL_FILE
+  %endif
+
+%endfunction
+
+%<HC12_settings()>
+
+%% EOF hc12_settings.tlc     

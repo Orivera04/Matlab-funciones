@@ -1,0 +1,33 @@
+%% $Revision: 1.1.6.1 $
+%%
+%% Copyright 2002 The MathWorks, Inc.
+%%
+%% Abstract: 
+%%   
+%%   This file is temporary solution to leverage current UDD based mat file
+%%   approach to mathlib function support in R14. The R13 TLC based approach
+%%   is no longer supported. This current solution uses a model parameter
+%%   and is set too late to affect CGIR. A solution still under development
+%%   will provide a hidden property on ConfigSets. Once this is implemented,
+%%   the below code and it's call can likely be removed.
+%%    
+
+%if EXISTS("_MPC555_MATHLIB_") == 0
+%assign _MPC555_MATHLIB_ = 1
+
+%% LibRegisterMPC555ISOCMathFcnPrototypes ============================================
+%% Abstract:
+%%
+%%    This function registers ISO C math function mat file for Diab 4.4b for PowerPC.
+%%
+%function LibRegisterMPC555ISOCMathFcnPrototypes() void
+  %if EXISTS(::OrigName)
+    %matlab set_param(::OrigName,"RTWMathFcnLibMatFile","osekworks_math_tmw.mat")
+  %else
+    %matlab set_param(::CompiledModel.Name,"RTWMathFcnLibMatFile","osekworks_math_tmw.mat")
+  %endif
+%endfunction
+
+%endif %% _MPC555_MATHLIB_
+
+%% [EOF] mpc555mathlib.tlc

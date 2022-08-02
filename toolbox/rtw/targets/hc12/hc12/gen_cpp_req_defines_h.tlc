@@ -1,0 +1,60 @@
+%% $RCSfile: gen_cpp_req_defines_h.tlc,v $
+%% $Revision: 1.1.6.2 $
+%% $Date: 2004/04/19 01:23:36 $
+%%
+%% Copyright 2002-2003 The MathWorks, Inc.
+%%
+%% Abstract:
+%% Generate "cpp_req_defines.h"
+%% The generated header file "cpp_req_defines.h"
+%% allows a CodeWarrior project to access preprocessor
+%% flags (defines) by including the generated
+%% header file in the generated code.
+
+%% Original form used in makefiles: 
+%%
+%% CPP_REQ_DEFINES = 
+%% -DMODEL=$(MODEL) 
+%% -DERT 
+%% -DNUMST=$(NUMST) 
+%% -DTID01EQ=$(TID01EQ) 
+%% -DMT=$(MULTITASKING)
+%% -DMAT_FILE=0 
+%% -DINTEGER_CODE=$(INTEGER_CODE) 
+%% -DONESTEPFCN=$(ONESTEPFCN) 
+%% -DTERMFCN=0 
+%% -DHAVESTDIO
+
+%%
+%openfile CPP_REQ_DEFINES = "cpp_req_defines.h"
+#ifndef _CPP_REQ_DEFINES_
+#define _CPP_REQ_DEFINES_
+#define MODEL %<CompiledModel.Name> 
+#define ERT  1
+#define NUMST %<CompiledModel.NumSampleTimes>          
+#define TID01EQ %<CompiledModel.FixedStepOpts.TID01EQ> 
+%%
+%if CompiledModel.FixedStepOpts.SolverMode == "MultiTasking"
+#define MT  1
+#define MULTITASKING  1
+%else
+#define MT  0          
+#define MULTITASKING  0 
+%endif
+%%
+%% #define MAT_FILE %<MatFileLogging>
+#define MAT_FILE  0
+#define INTEGER_CODE %<PurelyIntegerCode>      
+#define ONESTEPFCN %<CombineOutputUpdateFcns> 
+#define TERMFCN %<IncludeMdlTerminateFcn>
+%%
+#define MULTI_INSTANCE_CODE  0
+#define HAVESTDIO  0
+%%
+/* Eliminate preprocessor warnings */
+#define __BORLANDC__  0
+#define __WATCOMC__  0
+%%
+#endif
+%closefile CPP_REQ_DEFINES
+

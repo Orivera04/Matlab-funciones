@@ -1,0 +1,11 @@
+%Programa para llenado de regiones
+x = linspace(0, 4, 100);
+plot(x, cos(x), 'k-', x,sin(x) , 'k--', [4.73, 4.73], [-1, 1], 'k')
+xlabel('x')
+ylabel('Value of functions')
+title('Visualization of two intersecting curves')
+text(4.8, -0.1, 'x = pi/4')
+legend('cos(x) ', 'sin(x) ', 3)
+xn = linspace(pi/4, 50);
+hold on
+fill([xn, fliplr(xn)], [sin(xn), fliplr(cos(xn))], 'c')

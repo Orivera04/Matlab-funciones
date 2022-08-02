@@ -1,0 +1,81 @@
+/*
+ * File: main.c
+ *
+ * Abstract:
+ *    Simple main for use with test build.
+ *
+ *
+ * $Revision: 1.1.6.2 $
+ * $Date: 2004/04/19 01:18:54 $
+ *
+ * Copyright 2002-2003 The MathWorks, Inc.
+ */
+
+/* Trap numbers used for timer task */
+#define T3_TRAP                     0x23
+
+/*
+ * System timer interrupt control register:
+ *    Interrupt priority level = 7
+ *    Interrupt group level = 0
+ */
+#define SYSTEM_TIMER_IC                 0x5c
+
+/*
+ * Using timer T3 to generate interrupts at the model base sample rate 
+ *
+ * Sample period                          = 1.0 seconds
+ * Calculations based on System Frequency = 20000000 Hz
+ */
+#define TIMER_RELOAD                    0x9897
+
+/* 
+ * Initial value for system timer control register T3CON
+ *    Prescaler field:  T3I  = 6 
+ *    Mode Control:     T3M  = 0
+ *    Up/down field:    T3UD = 1 
+ *    Reload:           automatically from T2
+ */
+#define SYSTEM_TIMER_CON                0xc6
+
+
+#include <regxc167ci.h>
+
+void main(void)
+{
+    unsigned long i = 0;
+
+    DP9_4 = 1;                           /* initialize LED pin for output     */
+
+    /* Configure automatic reload of system timer, T3, from reload timer, T2 */
+    GPT12E_T2 = TIMER_RELOAD;
+    GPT12E_T2CON = 0x0027;
+
+    /* Initialize the system timer initial value, control register,
+     * and interrupts */
+    GPT12E_T3 = TIMER_RELOAD;
+    GPT12E_T3CON = SYSTEM_TIMER_CON;
+    GPT12E_T3IC = SYSTEM_TIMER_IC;
+    
+    /* Enable interrupts */
+    IEN=1;
+ 
+    /* Background loop runs forever */
+    while (1);
+    
+}
+
+/* LED state variable */
+int ledState = 0;
+
+_interrupt (T3_TRAP) void step( void ) {
+    
+    if (ledState == 1) {
+        ledState = 0;
+        P9_4 = 0;
+    } else {
+        ledState = 1;
+        P9_4 = 1;
+    }
+}
+

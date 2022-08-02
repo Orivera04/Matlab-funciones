@@ -1,0 +1,1914 @@
+# $Revision: 1.9.4.5 $
+Model {
+  Name			  "mpc555rt_iohost"
+  Version		  6.0
+  GraphicalInterface {
+    NumRootInports	    0
+    NumRootOutports	    0
+    ParameterArgumentNames  ""
+    ComputedModelVersion    "1.61"
+    NumModelReferences	    0
+    NumTestPointedSignals   0
+  }
+  SaveDefaultBlockParams  on
+  SampleTimeColors	  off
+  LibraryLinkDisplay	  "none"
+  WideLines		  on
+  ShowLineDimensions	  on
+  ShowPortDataTypes	  on
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  ShowStorageClass	  off
+  ShowTestPointIcons	  on
+  ShowViewerIcons	  on
+  SortedOrder		  off
+  ExecutionContextIcon	  off
+  ShowLinearizationAnnotations on
+  RecordCoverage	  off
+  CovPath		  "/"
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeVarName	  "covCumulativeData"
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  DataTypeOverride	  "UseLocalSettings"
+  MinMaxOverflowLogging	  "UseLocalSettings"
+  MinMaxOverflowArchiveMode "Overwrite"
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Thu Oct 11 11:22:24 2001"
+  Creator		  "The MathWorks Inc."
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "batserve"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Wed Apr 21 04:03:28 2004"
+  ModelVersionFormat	  "1.%<AutoIncrement:61>"
+  ConfigurationManager	  "None"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  AccelSystemTargetFile	  "accel.tlc"
+  AccelTemplateMakefile	  "accel_default_tmf"
+  AccelMakeCommand	  "make_rtw"
+  TryForcingSFcnDF	  off
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock off
+  BufferReuse		  on
+  ProdHWDeviceType	  "Specified"
+  ShowModelReferenceBlockVersion off
+  ShowModelReferenceBlockIO off
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.0.4"
+      Array {
+	Type			"Handle"
+	Dimension		7
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.0.4"
+	  StartTime		  "0.0"
+	  StopTime		  "inf"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  RelTol		  "1e-3"
+	  SolverMode		  "Auto"
+	  Solver		  "FixedStepDiscrete"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.0.4"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SaveTime		  on
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "sigsOut"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Version		  "1.0.4"
+	  BlockReduction	  on
+	  BooleanDataType	  off
+	  ConditionallyExecuteInputs on
+	  ConditionalExecOptimization "on_for_testing"
+	  InlineParams		  off
+	  InlineInvariantSignals  off
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  on
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  ParameterPooling	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.0.4"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg on
+	  CheckExecutionContextRuntimeOutputMsg	on
+	  SignalResolutionControl "TryResolveAllWithWarning"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  SolverPrmCheckMsg	  "none"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  TasksWithSamePriorityMsg "warning"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterPrecisionLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  ModelReferenceSimTargetVerbose off
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	  ModelReferenceSymbolNameMessage "warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.0.4"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "Specified"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  off
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.0.4"
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Version		  "1.0.4"
+	  SystemTargetFile	  "grt.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  TemplateMakefile	  "grt_default_tmf"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Version		      "1.0.4"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement on
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      CustomSymbolStr	      "$R$N$M"
+	      MangleLength	      1
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    Simulink.GRTTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Version		      "1.0.4"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns off
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      ExtMode		      off
+	      ExtModeStaticAlloc      off
+	      ExtModeTesting	      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTransport	      0
+	      ExtModeMexFile	      "ext_comm"
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	      GenerateASAP2	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      SimulationMode	      "normal"
+      CurrentDlgPage	      "Solver"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "sfix(16)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "2^0"
+      SampleTime	      "inf"
+    }
+    Block {
+      BlockType		      Display
+      Format		      "short"
+      Decimation	      "10"
+      Floating		      off
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ParameterDataTypeMode   "Same as input"
+      ParameterDataType	      "sfix(16)"
+      ParameterScalingMode    "Best Precision: Matrix-wise"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Inport
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      PortCounts	      "[]"
+      SFunctionModules	      "''"
+    }
+    Block {
+      BlockType		      SignalSpecification
+      Dimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Sum
+      IconShape		      "rectangular"
+      Inputs		      "++"
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      TriggerPort
+      TriggerType	      "rising"
+      StatesWhenEnabling      "inherit"
+      ShowOutputPort	      off
+      OutputDataType	      "auto"
+      SampleTimeType	      "triggered"
+      SampleTime	      "1"
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      UnitDelay
+      X0		      "0"
+      SampleTime	      "1"
+      StateMustResolveToSignalObject off
+      RTWStateStorageClass    "Auto"
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "mpc555rt_iohost"
+    Location		    [454, 158, 1284, 800]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      Reference
+      Name		      " Vector CAN Configuration  "
+      Ports		      []
+      Position		      [120, 293, 221, 341]
+      SourceBlock	      "vector_candrivers/ Vector CAN Configuration"
+      SourceType	      "Vector CAN Configuration"
+      ShowPortLabels	      on
+      tag_param		      "config1"
+      channel_param	      "None"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Data received over CAN"
+      Ports		      [0, 6]
+      Position		      [335, 21, 490, 294]
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      System {
+	Name			"Data received over CAN"
+	Location		[61, 122, 932, 895]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Function-Call\nSubsystem"
+	  Ports			  [1, 1, 0, 1]
+	  Position		  [375, 376, 545, 404]
+	  ShowName		  off
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "Function-Call\nSubsystem"
+	    Location		    [286, 537, 1187, 893]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "message"
+	      Position		      [50, 153, 80, 167]
+	      Port		      "1"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      TriggerPort
+	      Name		      "message rx"
+	      Ports		      []
+	      Position		      [210, 15, 230, 35]
+	      TriggerType	      "function-call"
+	      ZeroCross		      off
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "CAN Message Unpacking"
+	      Ports		      [1, 1]
+	      Position		      [220, 139, 415, 181]
+	      FontName		      "Arial"
+	      SourceBlock	      "canblocks/CAN Message Unpacking/CAN Mes"
+"sage Unpacking"
+	      SourceType	      "CAN Message Unpacking"
+	      showData		      on
+	      showID		      off
+	      showLength	      off
+	      endian		      "Big Endian (Motorola)"
+	    }
+	    Block {
+	      BlockType		      SignalSpecification
+	      Name		      "Signal Specification"
+	      Position		      [480, 148, 555, 172]
+	      Dimensions	      "2"
+	      DataType		      "single"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "qadc"
+	      Position		      [615, 153, 645, 167]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "message"
+	      SrcPort		      1
+	      DstBlock		      "CAN Message Unpacking"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "CAN Message Unpacking"
+	      SrcPort		      1
+	      DstBlock		      "Signal Specification"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Signal Specification"
+	      SrcPort		      1
+	      DstBlock		      "qadc"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Function-Call\nSubsystem1"
+	  Ports			  [1, 1, 0, 1]
+	  Position		  [380, 482, 545, 508]
+	  ShowName		  off
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "Function-Call\nSubsystem1"
+	    Location		    [388, 82, 1199, 345]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "message"
+	      Position		      [15, 98, 45, 112]
+	      Port		      "1"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      TriggerPort
+	      Name		      "message rx"
+	      Ports		      []
+	      Position		      [210, 15, 230, 35]
+	      TriggerType	      "function-call"
+	      ZeroCross		      off
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "CAN Message Unpacking"
+	      Ports		      [1, 1]
+	      Position		      [185, 84, 380, 126]
+	      FontName		      "Arial"
+	      SourceBlock	      "canblocks/CAN Message Unpacking/CAN Mes"
+"sage Unpacking"
+	      SourceType	      "CAN Message Unpacking"
+	      showData		      on
+	      showID		      off
+	      showLength	      off
+	      endian		      "Big Endian (Motorola)"
+	    }
+	    Block {
+	      BlockType		      SignalSpecification
+	      Name		      "Signal Specification"
+	      Position		      [435, 93, 510, 117]
+	      Dimensions	      "4"
+	      DataType		      "uint8"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [650, 98, 680, 112]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "message"
+	      SrcPort		      1
+	      DstBlock		      "CAN Message Unpacking"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "CAN Message Unpacking"
+	      SrcPort		      1
+	      DstBlock		      "Signal Specification"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Signal Specification"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Function-Call\nSubsystem2"
+	  Ports			  [1, 1, 0, 1]
+	  Position		  [375, 57, 540, 83]
+	  ShowName		  off
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "Function-Call\nSubsystem2"
+	    Location		    [108, 169, 816, 361]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "message"
+	      Position		      [50, 103, 80, 117]
+	      Port		      "1"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      TriggerPort
+	      Name		      "message rx"
+	      Ports		      []
+	      Position		      [210, 15, 230, 35]
+	      TriggerType	      "function-call"
+	      ZeroCross		      off
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "CAN Message Unpacking"
+	      Ports		      [1, 1]
+	      Position		      [225, 89, 420, 131]
+	      FontName		      "Arial"
+	      SourceBlock	      "canblocks/CAN Message Unpacking/CAN Mes"
+"sage Unpacking"
+	      SourceType	      "CAN Message Unpacking"
+	      showData		      on
+	      showID		      off
+	      showLength	      off
+	      endian		      "Big Endian (Motorola)"
+	    }
+	    Block {
+	      BlockType		      SignalSpecification
+	      Name		      "Signal Specification"
+	      Position		      [465, 98, 540, 122]
+	      Dimensions	      "8"
+	      DataType		      "uint8"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [610, 103, 640, 117]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "message"
+	      SrcPort		      1
+	      DstBlock		      "CAN Message Unpacking"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "CAN Message Unpacking"
+	      SrcPort		      1
+	      DstBlock		      "Signal Specification"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Signal Specification"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Function-Call\nSubsystem3"
+	  Ports			  [1, 1, 0, 1]
+	  Position		  [370, 157, 540, 183]
+	  ShowName		  off
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "Function-Call\nSubsystem3"
+	    Location		    [103, 167, 798, 316]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "message"
+	      Position		      [35, 83, 65, 97]
+	      Port		      "1"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      TriggerPort
+	      Name		      "message rx"
+	      Ports		      []
+	      Position		      [210, 15, 230, 35]
+	      TriggerType	      "function-call"
+	      ZeroCross		      off
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "CAN Message Unpacking"
+	      Ports		      [1, 1]
+	      Position		      [210, 69, 405, 111]
+	      FontName		      "Arial"
+	      SourceBlock	      "canblocks/CAN Message Unpacking/CAN Mes"
+"sage Unpacking"
+	      SourceType	      "CAN Message Unpacking"
+	      showData		      on
+	      showID		      off
+	      showLength	      off
+	      endian		      "Big Endian (Motorola)"
+	    }
+	    Block {
+	      BlockType		      SignalSpecification
+	      Name		      "Signal Specification"
+	      Position		      [450, 78, 525, 102]
+	      Dimensions	      "1"
+	      DataType		      "single"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [615, 83, 645, 97]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "message"
+	      SrcPort		      1
+	      DstBlock		      "CAN Message Unpacking"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "CAN Message Unpacking"
+	      SrcPort		      1
+	      DstBlock		      "Signal Specification"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Signal Specification"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Function-Call\nSubsystem4"
+	  Ports			  [1, 1, 0, 1]
+	  Position		  [375, 258, 540, 282]
+	  ShowName		  off
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "Function-Call\nSubsystem4"
+	    Location		    [106, 165, 811, 362]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "message"
+	      Position		      [45, 123, 75, 137]
+	      Port		      "1"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      TriggerPort
+	      Name		      "message rx"
+	      Ports		      []
+	      Position		      [210, 15, 230, 35]
+	      TriggerType	      "function-call"
+	      ZeroCross		      off
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "CAN Message Unpacking"
+	      Ports		      [1, 1]
+	      Position		      [215, 109, 410, 151]
+	      FontName		      "Arial"
+	      SourceBlock	      "canblocks/CAN Message Unpacking/CAN Mes"
+"sage Unpacking"
+	      SourceType	      "CAN Message Unpacking"
+	      showData		      on
+	      showID		      off
+	      showLength	      off
+	      endian		      "Big Endian (Motorola)"
+	    }
+	    Block {
+	      BlockType		      SignalSpecification
+	      Name		      "Signal Specification"
+	      Position		      [455, 118, 530, 142]
+	      Dimensions	      "1"
+	      DataType		      "single"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [625, 123, 655, 137]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "message"
+	      SrcPort		      1
+	      DstBlock		      "CAN Message Unpacking"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "CAN Message Unpacking"
+	      SrcPort		      1
+	      DstBlock		      "Signal Specification"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Signal Specification"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Function-Call\nSubsystem5"
+	  Ports			  [1, 1, 0, 1]
+	  Position		  [375, 617, 540, 643]
+	  ShowName		  off
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "Function-Call\nSubsystem5"
+	    Location		    [66, 197, 877, 460]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "message"
+	      Position		      [15, 98, 45, 112]
+	      Port		      "1"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      TriggerPort
+	      Name		      "message rx"
+	      Ports		      []
+	      Position		      [210, 15, 230, 35]
+	      TriggerType	      "function-call"
+	      ZeroCross		      off
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "CAN Message Unpacking"
+	      Ports		      [1, 1]
+	      Position		      [185, 84, 380, 126]
+	      FontName		      "Arial"
+	      SourceBlock	      "canblocks/CAN Message Unpacking/CAN Mes"
+"sage Unpacking"
+	      SourceType	      "CAN Message Unpacking"
+	      showData		      on
+	      showID		      off
+	      showLength	      off
+	      endian		      "Big Endian (Motorola)"
+	    }
+	    Block {
+	      BlockType		      SignalSpecification
+	      Name		      "Signal Specification"
+	      Position		      [435, 93, 510, 117]
+	      Dimensions	      "1"
+	      DataType		      "uint8"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [650, 98, 680, 112]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "Signal Specification"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "CAN Message Unpacking"
+	      SrcPort		      1
+	      DstBlock		      "Signal Specification"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "message"
+	      SrcPort		      1
+	      DstBlock		      "CAN Message Unpacking"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Vector CAN RX"
+	  Tag			  "config1"
+	  Ports			  [0, 2]
+	  Position		  [25, 345, 215, 405]
+	  FontName		  "Arial"
+	  SourceBlock		  "vector_candrivers/Vector CAN Receive"
+	  SourceType		  "Vector CAN Receive"
+	  tag_param		  "config1"
+	  ids			  "3"
+	  frame_type_in		  "Extended (29-bit identifier)"
+	  sample_time		  "1"
+	  output_time		  off
+	  loop			  off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Vector CAN RX1"
+	  Tag			  "config1"
+	  Ports			  [0, 2]
+	  Position		  [30, 452, 220, 508]
+	  FontName		  "Arial"
+	  SourceBlock		  "vector_candrivers/Vector CAN Receive"
+	  SourceType		  "Vector CAN Receive"
+	  tag_param		  "config1"
+	  ids			  "[5] "
+	  frame_type_in		  "Extended (29-bit identifier)"
+	  sample_time		  "1"
+	  output_time		  off
+	  loop			  off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Vector CAN RX2"
+	  Tag			  "config1"
+	  Ports			  [0, 2]
+	  Position		  [25, 26, 215, 84]
+	  FontName		  "Arial"
+	  SourceBlock		  "vector_candrivers/Vector CAN Receive"
+	  SourceType		  "Vector CAN Receive"
+	  tag_param		  "config1"
+	  ids			  "4"
+	  frame_type_in		  "Extended (29-bit identifier)"
+	  sample_time		  "1"
+	  output_time		  off
+	  loop			  off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Vector CAN RX3"
+	  Tag			  "config1"
+	  Ports			  [0, 2]
+	  Position		  [25, 126, 215, 184]
+	  FontName		  "Arial"
+	  SourceBlock		  "vector_candrivers/Vector CAN Receive"
+	  SourceType		  "Vector CAN Receive"
+	  tag_param		  "config1"
+	  ids			  "1"
+	  frame_type_in		  "Extended (29-bit identifier)"
+	  sample_time		  "1"
+	  output_time		  off
+	  loop			  off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Vector CAN RX4"
+	  Tag			  "config1"
+	  Ports			  [0, 2]
+	  Position		  [25, 226, 215, 284]
+	  FontName		  "Arial"
+	  SourceBlock		  "vector_candrivers/Vector CAN Receive"
+	  SourceType		  "Vector CAN Receive"
+	  tag_param		  "config1"
+	  ids			  "2"
+	  frame_type_in		  "Extended (29-bit identifier)"
+	  sample_time		  "1"
+	  output_time		  off
+	  loop			  off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Vector CAN RX5"
+	  Tag			  "config1"
+	  Ports			  [0, 2]
+	  Position		  [25, 587, 215, 643]
+	  FontName		  "Arial"
+	  SourceBlock		  "vector_candrivers/Vector CAN Receive"
+	  SourceType		  "Vector CAN Receive"
+	  tag_param		  "config1"
+	  ids			  "[6] "
+	  frame_type_in		  "Extended (29-bit identifier)"
+	  sample_time		  "1"
+	  output_time		  off
+	  loop			  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "MIOS digital inputs"
+	  Position		  [620, 63, 650, 77]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "MIOS pulse width measurement"
+	  Position		  [620, 163, 650, 177]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "MIOS period measurement\n"
+	  Position		  [630, 263, 660, 277]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "QADC analog inputs"
+	  Position		  [635, 383, 665, 397]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "QADC digital inputs"
+	  Position		  [630, 488, 660, 502]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "TPU Digital Input"
+	  Position		  [630, 623, 660, 637]
+	  Port			  "6"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "Vector CAN RX2"
+	  SrcPort		  2
+	  DstBlock		  "Function-Call\nSubsystem2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Vector CAN RX2"
+	  SrcPort		  1
+	  Points		  [235, 0]
+	  DstBlock		  "Function-Call\nSubsystem2"
+	  DstPort		  trigger
+	}
+	Line {
+	  SrcBlock		  "Function-Call\nSubsystem3"
+	  SrcPort		  1
+	  DstBlock		  "MIOS pulse width measurement"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Function-Call\nSubsystem4"
+	  SrcPort		  1
+	  DstBlock		  "MIOS period measurement\n"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Vector CAN RX"
+	  SrcPort		  1
+	  Points		  [240, 0]
+	  DstBlock		  "Function-Call\nSubsystem"
+	  DstPort		  trigger
+	}
+	Line {
+	  SrcBlock		  "Vector CAN RX"
+	  SrcPort		  2
+	  DstBlock		  "Function-Call\nSubsystem"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Vector CAN RX1"
+	  SrcPort		  1
+	  Points		  [235, 0]
+	  DstBlock		  "Function-Call\nSubsystem1"
+	  DstPort		  trigger
+	}
+	Line {
+	  SrcBlock		  "Vector CAN RX1"
+	  SrcPort		  2
+	  DstBlock		  "Function-Call\nSubsystem1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Function-Call\nSubsystem"
+	  SrcPort		  1
+	  DstBlock		  "QADC analog inputs"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Function-Call\nSubsystem1"
+	  SrcPort		  1
+	  DstBlock		  "QADC digital inputs"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Function-Call\nSubsystem2"
+	  SrcPort		  1
+	  DstBlock		  "MIOS digital inputs"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Vector CAN RX3"
+	  SrcPort		  2
+	  DstBlock		  "Function-Call\nSubsystem3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Vector CAN RX3"
+	  SrcPort		  1
+	  Points		  [235, 0]
+	  DstBlock		  "Function-Call\nSubsystem3"
+	  DstPort		  trigger
+	}
+	Line {
+	  SrcBlock		  "Vector CAN RX4"
+	  SrcPort		  2
+	  DstBlock		  "Function-Call\nSubsystem4"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Vector CAN RX4"
+	  SrcPort		  1
+	  Points		  [235, 0]
+	  DstBlock		  "Function-Call\nSubsystem4"
+	  DstPort		  trigger
+	}
+	Line {
+	  SrcBlock		  "Vector CAN RX5"
+	  SrcPort		  2
+	  DstBlock		  "Function-Call\nSubsystem5"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Vector CAN RX5"
+	  SrcPort		  1
+	  Points		  [235, 0]
+	  DstBlock		  "Function-Call\nSubsystem5"
+	  DstPort		  trigger
+	}
+	Line {
+	  SrcBlock		  "Function-Call\nSubsystem5"
+	  SrcPort		  1
+	  DstBlock		  "TPU Digital Input"
+	  DstPort		  1
+	}
+	Annotation {
+	  Name			  "\n"
+	  Position		  [489, 31]
+	  HorizontalAlignment	  "left"
+	}
+      }
+    }
+    Block {
+      BlockType		      Display
+      Name		      "Display1"
+      Ports		      [1]
+      Position		      [540, 321, 640, 349]
+      ShowName		      off
+      Decimation	      "1"
+    }
+    Block {
+      BlockType		      Display
+      Name		      "Display2"
+      Ports		      [1]
+      Position		      [685, 20, 790, 180]
+      ShowName		      off
+      Decimation	      "1"
+    }
+    Block {
+      BlockType		      Display
+      Name		      "Display3"
+      Ports		      [1]
+      Position		      [540, 76, 640, 104]
+      ShowName		      off
+      Decimation	      "1"
+    }
+    Block {
+      BlockType		      Display
+      Name		      "Display4"
+      Ports		      [1]
+      Position		      [540, 120, 640, 150]
+      ShowName		      off
+      Decimation	      "1"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Double-Click to\nsend CAN Message\nwith Standar"
+"d ID=1"
+      Position		      [40, 100, 70, 130]
+      ForegroundColor	      "red"
+      OpenFcn		      "if strcmp(get_param(gcb,'value'),'1'), set_para"
+"m(gcb,'value','-1'); else set_param(gcb,'value','1'); end"
+    }
+    Block {
+      BlockType		      Display
+      Name		      "Handshake Count"
+      Ports		      [1]
+      Position		      [220, 19, 305, 51]
+      Decimation	      "1"
+    }
+    Block {
+      BlockType		      Display
+      Name		      "Handshake Data"
+      Ports		      [1]
+      Position		      [220, 76, 305, 244]
+      Decimation	      "1"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Handshake Test"
+      Ports		      [1, 2]
+      Position		      [125, 23, 170, 207]
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      System {
+	Name			"Handshake Test"
+	Location		[577, 174, 1413, 633]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [20, 33, 50, 47]
+	  Port			  "1"
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "RX Message\nID = 2"
+	  Ports			  [1, 2, 0, 1]
+	  Position		  [585, 81, 690, 194]
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "RX Message\nID = 2"
+	    Location		    [88, 141, 779, 418]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "CAN message"
+	      Position		      [60, 188, 90, 202]
+	      Port		      "1"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      TriggerPort
+	      Name		      "function"
+	      Ports		      [0, 1]
+	      Position		      [95, 65, 115, 85]
+	      TriggerType	      "function-call"
+	      ShowOutputPort	      on
+	      ZeroCross		      off
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "CAN Message Unpacking"
+	      Ports		      [1, 1]
+	      Position		      [165, 170, 365, 220]
+	      FontName		      "Arial"
+	      SourceBlock	      "canblocks/CAN Message Unpacking/CAN Mes"
+"sage Unpacking"
+	      SourceType	      "CAN Message Unpacking"
+	      showData		      on
+	      showID		      off
+	      showLength	      off
+	      endian		      "Big Endian (Motorola)"
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Gain"
+	      Position		      [145, 60, 190, 90]
+	      Gain		      "0.5"
+	    }
+	    Block {
+	      BlockType		      SignalSpecification
+	      Name		      "Signal Specification"
+	      Position		      [445, 183, 520, 207]
+	      Dimensions	      "8"
+	      DataType		      "uint8"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum"
+	      Ports		      [2, 1]
+	      Position		      [215, 65, 235, 85]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "|++"
+	    }
+	    Block {
+	      BlockType		      UnitDelay
+	      Name		      "Unit Delay"
+	      Position		      [325, 55, 360, 95]
+	      SampleTime	      "-1"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "count"
+	      Position		      [330, 18, 360, 32]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "data"
+	      Position		      [595, 188, 625, 202]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "function"
+	      SrcPort		      1
+	      DstBlock		      "Gain"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Sum"
+	      SrcPort		      1
+	      Points		      [45, 0]
+	      Branch {
+		DstBlock		"Unit Delay"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, -50]
+		DstBlock		"count"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Unit Delay"
+	      SrcPort		      1
+	      Points		      [60, 0; 0, 55; -200, 0]
+	      DstBlock		      "Sum"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "CAN message"
+	      SrcPort		      1
+	      DstBlock		      "CAN Message Unpacking"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "CAN Message Unpacking"
+	      SrcPort		      1
+	      DstBlock		      "Signal Specification"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Signal Specification"
+	      SrcPort		      1
+	      DstBlock		      "data"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Gain"
+	      SrcPort		      1
+	      DstBlock		      "Sum"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Transmit Message\nStd ID = 1"
+	  Ports			  [0, 1, 0, 1]
+	  Position		  [110, 140, 210, 190]
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "Transmit Message\nStd ID = 1"
+	    Location		    [250, 367, 1161, 616]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      TriggerPort
+	      Name		      "function"
+	      Ports		      []
+	      Position		      [210, 15, 230, 35]
+	      TriggerType	      "function-call"
+	      ZeroCross		      off
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "CAN Message Packing"
+	      Ports		      [1, 1]
+	      Position		      [460, 122, 610, 168]
+	      FontName		      "Arial"
+	      SourceBlock	      "canblocks/CAN Message Packing"
+	      SourceType	      "CAN Message Packing"
+	      id		      "1"
+	      message_type	      "Standard (11-bit identifier)"
+	      endian		      "Big Endian (Motorola)"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant"
+	      Position		      [30, 132, 230, 158]
+	      Value		      "uint8([1 1 1 1 1 1 1 1])"
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum"
+	      Ports		      [2, 1]
+	      Position		      [285, 135, 305, 155]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "|++"
+	    }
+	    Block {
+	      BlockType		      UnitDelay
+	      Name		      "Unit Delay"
+	      Position		      [335, 125, 370, 165]
+	      X0		      "uint8([1 2 3 4 5 6 7 8])"
+	      SampleTime	      "-1"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Vector CAN TX"
+	      Tag		      "config1"
+	      Ports		      [1]
+	      Position		      [650, 124, 825, 166]
+	      SourceBlock	      "vector_candrivers/Vector CAN Transmit"
+	      SourceType	      "Vector CAN Transmit"
+	      tag_param		      "config1"
+	      sample_time	      "-1"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Transmitted Data"
+	      Position		      [500, 53, 530, 67]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	      InitialOutput	      "uint8([1 2 3 4 5 6 7 8])"
+	    }
+	    Line {
+	      SrcBlock		      "CAN Message Packing"
+	      SrcPort		      1
+	      DstBlock		      "Vector CAN TX"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Sum"
+	      SrcPort		      1
+	      DstBlock		      "Unit Delay"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Unit Delay"
+	      SrcPort		      1
+	      Points		      [0, 0; 25, 0]
+	      Branch {
+		Points			[0, 65; -105, 0]
+		DstBlock		"Sum"
+		DstPort			2
+	      }
+	      Branch {
+		Points			[20, 0]
+		Branch {
+		  Points		  [0, -85]
+		  DstBlock		  "Transmitted Data"
+		  DstPort		  1
+		}
+		Branch {
+		  DstBlock		  "CAN Message Packing"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Constant"
+	      SrcPort		      1
+	      DstBlock		      "Sum"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Display
+	  Name			  "Transmitted Handshake Data"
+	  Ports			  [1]
+	  Position		  [245, 77, 330, 253]
+	  Decimation		  "1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Vector CAN RX3\nStd ID = 2"
+	  Tag			  "config1"
+	  Ports			  [0, 2]
+	  Position		  [385, 45, 535, 85]
+	  FontName		  "Arial"
+	  SourceBlock		  "vector_candrivers/Vector CAN Receive"
+	  SourceType		  "Vector CAN Receive"
+	  tag_param		  "config1"
+	  ids			  "[2] "
+	  frame_type_in		  "Standard (11-bit identifier)"
+	  sample_time		  "1"
+	  output_time		  off
+	  loop			  off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "trigger2fcn"
+	  Ports			  [1, 1]
+	  Position		  [70, 28, 145, 52]
+	  SourceBlock		  "mpc555extras/Trigger to\nFunction-Call"
+	  SourceType		  "Trigger to function call conversion"
+	  ShowPortLabels	  on
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "count"
+	  Position		  [735, 103, 765, 117]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "data"
+	  Position		  [735, 158, 765, 172]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "trigger2fcn"
+	  SrcPort		  1
+	  Points		  [10, 0]
+	  DstBlock		  "Transmit Message\nStd ID = 1"
+	  DstPort		  trigger
+	}
+	Line {
+	  SrcBlock		  "Vector CAN RX3\nStd ID = 2"
+	  SrcPort		  1
+	  Points		  [95, 0]
+	  DstBlock		  "RX Message\nID = 2"
+	  DstPort		  trigger
+	}
+	Line {
+	  SrcBlock		  "Vector CAN RX3\nStd ID = 2"
+	  SrcPort		  2
+	  Points		  [20, 0; 0, 65]
+	  DstBlock		  "RX Message\nID = 2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "trigger2fcn"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "RX Message\nID = 2"
+	  SrcPort		  1
+	  DstBlock		  "count"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "RX Message\nID = 2"
+	  SrcPort		  2
+	  DstBlock		  "data"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Transmit Message\nStd ID = 1"
+	  SrcPort		  1
+	  DstBlock		  "Transmitted Handshake Data"
+	  DstPort		  1
+	}
+	Annotation {
+	  Name			  "HANDSHAKE TEST"
+	  Position		  [81, 305]
+	  ForegroundColor	  "red"
+	  FontName		  "Arial"
+	  FontSize		  12
+	}
+	Annotation {
+	  Name			  "An outgoing CAN message with standard ID = "
+"1 is sent over the CAN bus whenever a trigger occurs.  All elements of the ou"
+"tgoing message data \nare incremented, by one, each time a new message is sen"
+"t.\n\nIf the target model is running on the MPC555 hardware, it will receive "
+"the message ID=1 and respond by sending a new message with ID = 2.\nThis new "
+"message is constructed from the data in the received message.\n\nThe new mess"
+"age is received on the host by the block group on the right."
+	  Position		  [23, 381]
+	  HorizontalAlignment	  "left"
+	  FontName		  "Arial"
+	  FontSize		  12
+	}
+      }
+    }
+    Block {
+      BlockType		      Display
+      Name		      "QADC Analog Inputs"
+      Ports		      [1]
+      Position		      [540, 160, 640, 210]
+      ShowName		      off
+      Decimation	      "1"
+    }
+    Block {
+      BlockType		      Display
+      Name		      "QADC Digital Inputs"
+      Ports		      [1]
+      Position		      [540, 220, 640, 310]
+      ShowName		      off
+      Decimation	      "1"
+    }
+    Line {
+      SrcBlock		      "Double-Click to\nsend CAN Message\nwith Standar"
+"d ID=1"
+      SrcPort		      1
+      DstBlock		      "Handshake Test"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Data received over CAN"
+      SrcPort		      4
+      Points		      [30, 0]
+      DstBlock		      "QADC Analog Inputs"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Data received over CAN"
+      SrcPort		      5
+      Points		      [15, 0; 0, 40]
+      DstBlock		      "QADC Digital Inputs"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Data received over CAN"
+      SrcPort		      1
+      Points		      [160, 0; 0, 55]
+      DstBlock		      "Display2"
+      DstPort		      1
+    }
+    Line {
+      Labels		      [1, 0]
+      SrcBlock		      "Data received over CAN"
+      SrcPort		      2
+      DstBlock		      "Display3"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Handshake Test"
+      SrcPort		      1
+      Points		      [30, 0]
+      DstBlock		      "Handshake Count"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Handshake Test"
+      SrcPort		      2
+      DstBlock		      "Handshake Data"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Data received over CAN"
+      SrcPort		      3
+      DstBlock		      "Display4"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Data received over CAN"
+      SrcPort		      6
+      Points		      [5, 0; 0, 65]
+      DstBlock		      "Display1"
+      DstPort		      1
+    }
+    Annotation {
+      Name		      "This model is intended for use as a companion m"
+"odel to mpc555rt_io which runs on the MPC555 \ntarget hardware. To use the mo"
+"del mpc555rt_iohost, you must have suitable CAN hardware and \nCAN drivers fr"
+"om Vector-Informatik installed on your PC. \n\nStart the model mpc555rt_io ru"
+"nning on the MPC555.\n\nDouble-click on the block Vector CAN Configuration in"
+" this model, mpc555rt_iohost,  and set the \nChannel parameter according to y"
+"our installed CAN hardware.\n\nRun this model, mpc555rt_iohost, in Simulink o"
+"n your host PC.\n\nCAN messages are received from the MPC555 and displayed in"
+" the numeric display blocks above."
+      Position		      [103, 516]
+      HorizontalAlignment     "left"
+      DropShadow	      on
+      FontName		      "Arial"
+      FontSize		      14
+    }
+    Annotation {
+      Name		      "Change the channel according\nto your installed"
+" hardware"
+      Position		      [166, 380]
+      ForegroundColor	      "blue"
+    }
+    Annotation {
+      Name		      "Try connecting a signal generator to the \ncorr"
+"esponding input pins on the MPC555 hardware\nthat is running the companion mo"
+"del"
+      Position		      [501, 379]
+      ForegroundColor	      "blue"
+      FontName		      "Arial"
+    }
+  }
+}

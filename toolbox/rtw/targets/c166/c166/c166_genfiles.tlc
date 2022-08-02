@@ -1,0 +1,79 @@
+%% File: c166_genfiles.tlc
+%%
+%% Abstract:
+%%   This tlc file will generate files needed to build the 
+%%   c166 target.
+%%
+%% $Revision: 1.6.6.3 $
+%% $Date: 2004/04/19 01:18:32 $
+%%
+%% Copyright 2002-2003 The MathWorks, Inc.
+%selectfile NULL_FILE
+
+%with CompiledModel.PathInfo
+%with CompiledModel.Settings
+%with CompiledModel
+
+%assign ModelName = CompiledModel.Name
+
+%%
+%% Create CrossView Startup Options ans Playback files
+%%
+%include "crossview_startup_options.tlc"
+
+%assign model_xvw_startup_options_file = "crossview_startup_options.txt"
+%<CreateXVWStartupOptions(model_xvw_startup_options_file)>
+
+%assign model_xvw_playback_file = "crossview_playback.txt"
+%<CreateXVWPlayback(model_xvw_playback_file)>
+
+
+%%
+%% Create Minimon script file
+%%
+%assign model_minimon_script_file = "minimon_script.scm"
+%assign minimon_script_file = "minimon_script.tlc"
+
+%if RTWVerbose
+%selectfile STDOUT
+### Creating %<model_minimon_script_file>
+%selectfile NULL_FILE
+%endif
+
+%include "%<minimon_script_file>"
+%openfile bld_file = "%<model_minimon_script_file>"
+%<CreateMinimonScript()>
+
+%closefile bld_file
+
+%if RTWVerbose
+    %selectfile STDOUT
+    ### Creating profile_vars.h
+    %closefile  STDOUT
+%endif
+%openfile buffer = "profile_vars.h"
+/*
+* profile_vars.h
+*
+%<SLibCommonHeaderInfo()>\
+*
+  * Description  : Header file to define model dependent variables required
+*                by execution profiling, if it is enabled.
+*/
+
+#include <%<CompiledModel.Settings.TaskingRegisterDefs>> /* For selected C166 architecture */
+
+%<SLibC166TimersFreeRunningTimerDefines()>
+
+%closefile buffer
+
+%% Indent non standard files
+SLibIndentFile("profile_vars.h","")
+
+
+
+
+
+%endwith
+%endwith
+%endwith

@@ -1,0 +1,2061 @@
+# $Revision: 1.1.6.5 $
+Library {
+  Name			  "aerolib6dof2"
+  Version		  6.0
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  off
+  StatusBar		  off
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Tue Aug 21 13:57:06 2001"
+  Creator		  "sgage"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "sgage"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Fri Mar 12 13:23:34 2004"
+  ModelVersionFormat	  "1.%<AutoIncrement:132>"
+  ConfigurationManager	  "None"
+  SimParamPage		  "Solver"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock off
+  ProdHWDeviceType	  "32-bit Generic"
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.0.2"
+      Array {
+	Type			"Handle"
+	Dimension		8
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.0.2"
+	  StartTime		  "0.0"
+	  StopTime		  "10.0"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  RelTol		  "1e-3"
+	  SolverMode		  "SingleTasking"
+	  Solver		  "ode45"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.0.2"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SaveTime		  on
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsOut"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    5
+	    Cell		    "ZeroExternalMemoryAtStartup"
+	    Cell		    "ZeroInternalMemoryAtStartup"
+	    Cell		    "InitFltsAndDblsToZero"
+	    Cell		    "OptimizeModelRefInitCode"
+	    Cell		    "NoFixptDivByZeroProtection"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.0.2"
+	  BlockReduction	  on
+	  BooleanDataType	  off
+	  ConditionallyExecuteInputs on
+	  ConditionalExecOptimization "on_for_testing"
+	  InlineParams		  off
+	  InlineInvariantSignals  on
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  on
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  ParameterPooling	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  OptimizeModelRefInitCode off
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.0.2"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg on
+	  CheckExecutionContextRuntimeOutputMsg	on
+	  SignalResolutionControl "TryResolveAllWithWarning"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  SolverPrmCheckMsg	  "none"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterPrecisionLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.0.2"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "32-bit Generic"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  on
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.0.2"
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    1
+	    Cell		    "IncludeHyperlinkInReport"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.0.2"
+	  SystemTargetFile	  "grt.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  TemplateMakefile	  "grt_default_tmf"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Array {
+		Type			"Cell"
+		Dimension		9
+		Cell			"IgnoreCustomStorageClasses"
+		Cell			"InsertBlockDesc"
+		Cell			"SFDataObjDesc"
+		Cell			"SimulinkDataObjDesc"
+		Cell			"DefineNamingRule"
+		Cell			"SignalNamingRule"
+		Cell			"ParamNamingRule"
+		Cell			"InlinedPrmAccess"
+		Cell			"CustomSymbolStr"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.0.2"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      CustomSymbolStr	      "$R$N$M"
+	      MangleLength	      1
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    Simulink.GRTTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Array {
+		Type			"Cell"
+		Dimension		13
+		Cell			"IncludeMdlTerminateFcn"
+		Cell			"CombineOutputUpdateFcns"
+		Cell			"SuppressErrorStatus"
+		Cell			"ERTCustomFileBanners"
+		Cell			"GenerateSampleERTMain"
+		Cell			"MultiInstanceERTCode"
+		Cell			"PurelyIntegerCode"
+		Cell			"SupportNonFinite"
+		Cell			"SupportComplex"
+		Cell			"SupportAbsoluteTime"
+		Cell			"SupportContinuousTime"
+		Cell			"SupportNonInlinedSFcns"
+		Cell			"LifeSpan"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.0.2"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns off
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      LifeSpan		      "inf"
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      ExtMode		      off
+	      ExtModeStaticAlloc      off
+	      ExtModeTesting	      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTransport	      0
+	      ExtModeMexFile	      "ext_comm"
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	      GenerateASAP2	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	Simulink.SFSimCC {
+	  $ObjectID		  11
+	  Version		  "1.0.2"
+	  SFSimApplyToAllLibs	  on
+	  SFSimEnableDebug	  on
+	  SFSimOverflowDetection  on
+	  SFSimEcho		  on
+	  SFSimBuildMode	  "Incremental"
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      SimulationMode	      "normal"
+      CurrentDlgPage	      "Solver"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "sfix(16)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "2^0"
+      SampleTime	      "inf"
+    }
+    Block {
+      BlockType		      Fcn
+      Expr		      "sin(u[1])"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ParameterDataTypeMode   "Same as input"
+      ParameterDataType	      "sfix(16)"
+      ParameterScalingMode    "Best Precision: Matrix-wise"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Ground
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Integrator
+      ExternalReset	      "none"
+      InitialConditionSource  "internal"
+      InitialCondition	      "0"
+      LimitOutput	      off
+      UpperSaturationLimit    "inf"
+      LowerSaturationLimit    "-inf"
+      ShowSaturationPort      off
+      ShowStatePort	      off
+      AbsoluteTolerance	      "auto"
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      Math
+      Operator		      "exp"
+      OutputSignalType	      "auto"
+      SampleTime	      "-1"
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Mux
+      Inputs		      "4"
+      DisplayOption	      "none"
+      BusObject		      "BusObject"
+      NonVirtualBus	      off
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      Product
+      Inputs		      "2"
+      Multiplication	      "Element-wise(.*)"
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Reference
+    }
+    Block {
+      BlockType		      Selector
+      InputType		      "Vector"
+      IndexMode		      "One-based"
+      ElementSrc	      "Internal"
+      Elements		      "1"
+      RowSrc		      "Internal"
+      Rows		      "1"
+      ColumnSrc		      "Internal"
+      Columns		      "1"
+      InputPortWidth	      "-1"
+      IndexIsStartValue	      off
+      OutputPortSize	      "1"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Sum
+      IconShape		      "rectangular"
+      Inputs		      "++"
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Terminator
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "aerolib6dof2"
+    Location		    [76, 79, 578, 739]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      "6DoF (Euler Angles)"
+      Ports		      [2, 8]
+      Position		      [40, 21, 240, 199]
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskType		      "6DoF EoM (Body Axis)"
+      MaskDescription	      "Integrate the six-degrees-of-freedom equations "
+"of motion using an Euler angle representation for the orientation of the body"
+" in space."
+      MaskHelp		      "web(asbhelp('6dofeulerangles'));"
+      MaskPromptString	      "Units:|Mass type:|Representation:|Initial posit"
+"ion in inertial axes [Xe,Ye,Ze]:|Initial velocity in body axes [U,v,w]:|Initi"
+"al Euler orientation [roll, pitch, yaw]:|Initial body rotation rates [p,q,r]:"
+"|Initial mass:|Empty mass:|Full mass:|Inertia:|Empty inertia matrix:|Full ine"
+"rtia matrix:|Gain for quaternion normalization:"
+      MaskStyleString	      "popup(Metric (MKS)|English (Velocity in ft/s)|E"
+"nglish (Velocity in kts)),popup(Fixed|Simple Variable|Custom Variable),popup("
+"Euler Angles|Quaternion),edit,edit,edit,edit,edit,edit,edit,edit,edit,edit,ed"
+"it"
+      MaskTunableValueString  "off,off,off,on,on,on,on,on,on,on,on,on,on,on"
+      MaskCallbackString      "aeroicon('aeroblk6dofbody');|aeroicon('aeroblk6"
+"dofbody');|aeroicon('aeroblk6dofbody');|||||||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on,off,off,on,off,off,off"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,,,,,"
+      MaskVariables	      "units=&1;mtype=&2;rep=&3;xme_0=@4;Vm_0=@5;eul_0"
+"=@6;pm_0=@7;mass_0=@8;mass_e=@9;mass_f=@10;inertia=@11;inertia_e=@12;inertia_"
+"f=@13;k_quat=@14;"
+      MaskInitialization      "[x y xp yp highstr lowstr maxy miny]=aeroimage("
+"'sixdofbody');\nports=aeroicon('aeroblk6dofbody','icon');\n"
+      MaskDisplay	      "port_label(ports(1).type,ports(1).port,ports(1)"
+".txt,'texmode','on');\nport_label(ports(2).type,ports(2).port,ports(2).txt,'t"
+"exmode','on');\nport_label(ports(3).type,ports(3).port,ports(3).txt,'texmode'"
+",'on');\nport_label(ports(4).type,ports(4).port,ports(4).txt,'texmode','on');"
+"\nport_label(ports(5).type,ports(5).port,ports(5).txt,'texmode','on');\nport_"
+"label(ports(6).type,ports(6).port,ports(6).txt,'texmode','on');\nport_label(p"
+"orts(7).type,ports(7).port,ports(7).txt,'texmode','on');\nport_label(ports(8)"
+".type,ports(8).port,ports(8).txt,'texmode','on');\nport_label(ports(9).type,p"
+"orts(9).port,ports(9).txt,'texmode','on');\nport_label(ports(10).type,ports(1"
+"0).port,ports(10).txt,'texmode','on');\nport_label(ports(11).type,ports(11).p"
+"ort,ports(11).txt,'texmode','on');\nport_label(ports(12).type,ports(12).port,"
+"ports(12).txt,'texmode','on');\nport_label(ports(13).type,ports(13).port,port"
+"s(13).txt,'texmode','on');\nport_label(ports(14).type,ports(14).port,ports(14"
+").txt,'texmode','on');\nport_label(ports(15).type,ports(15).port,ports(15).tx"
+"t,'texmode','on');\ntext(0.5,maxy+0.05,highstr{:},'horizontalAlignment','cent"
+"er')\ntext(0.5,miny-0.05,lowstr{:},'horizontalAlignment','center')\nplot(x,y)"
+";\npatch(xp, yp);"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "Metric (MKS)|Fixed|Euler Angles|[0 0 0]|[0 0 0]"
+"|[0 0 0]|[0 0 0]|1.0|0.5|2.0|eye(3)|eye(3)|2*eye(3)|1.0"
+      MaskTabNameString	      ",,,,,,,,,,,,,"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+      Port {
+	PortType		0
+	PortNumber		2
+	ShowSigGenPortName	on
+      }
+      System {
+	Name			"6DoF (Euler Angles)"
+	Location		[107, 634, 957, 1053]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Forces"
+	  Position		  [20, 108, 50, 122]
+	  NamePlacement		  "alternate"
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Moments"
+	  Position		  [20, 323, 50, 337]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Calculate DCM &\nEuler Angles"
+	  Ports			  [1, 2]
+	  Position		  [540, 266, 610, 324]
+	  SourceBlock		  "aerolib6dofsys/DCM & Euler Angles (Euler)"
+	  SourceType		  "DCM & Euler Angles (Euler)"
+	  ShowPortLabels	  on
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Calculate omega_dot"
+	  Ports			  [3, 1]
+	  Position		  [265, 239, 385, 351]
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    2
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    3
+	    ShowSigGenPortName	    on
+	  }
+	  System {
+	    Name		    "Calculate omega_dot"
+	    Location		    [245, 272, 903, 537]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "p q r"
+	      Position		      [140, 188, 170, 202]
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "I, I_dot"
+	      Position		      [15, 108, 45, 122]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Moments"
+	      Position		      [365, 83, 395, 97]
+	      Port		      "3"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "I x w"
+	      Ports		      [2, 1]
+	      Position		      [195, 184, 240, 226]
+	      NamePlacement	      "alternate"
+	      ShowName		      off
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortType		0
+		PortNumber		2
+		ShowSigGenPortName	on
+	      }
+	      System {
+		Name			"I x w"
+		Location		[314, 174, 549, 292]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "p q r"
+		  Position		  [25, 73, 55, 87]
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "Inertia"
+		  Position		  [25, 23, 55, 37]
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product"
+		  Ports			  [2, 1]
+		  Position		  [110, 56, 155, 89]
+		  Multiplication	  "Matrix(*)"
+		  RndMeth		  "Floor"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		  Port {
+		    PortType		    0
+		    PortNumber		    2
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "I * w"
+		  Position		  [180, 68, 210, 82]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Line {
+		  SrcBlock		  "p q r"
+		  SrcPort		  1
+		  DstBlock		  "Product"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Inertia"
+		  SrcPort		  1
+		  Points		  [35, 0]
+		  DstBlock		  "Product"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Product"
+		  SrcPort		  1
+		  DstBlock		  "I * w"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "I x w1"
+	      Ports		      [2, 1]
+	      Position		      [285, 102, 350, 153]
+	      NamePlacement	      "alternate"
+	      ShowName		      off
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortType		0
+		PortNumber		2
+		ShowSigGenPortName	on
+	      }
+	      System {
+		Name			"I x w1"
+		Location		[314, 174, 549, 292]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "I_dot"
+		  Position		  [25, 23, 55, 37]
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "p q r"
+		  Position		  [25, 73, 55, 87]
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product"
+		  Ports			  [2, 1]
+		  Position		  [110, 56, 155, 89]
+		  Multiplication	  "Matrix(*)"
+		  RndMeth		  "Floor"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		  Port {
+		    PortType		    0
+		    PortNumber		    2
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Id * w"
+		  Position		  [180, 68, 210, 82]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Line {
+		  SrcBlock		  "Product"
+		  SrcPort		  1
+		  DstBlock		  "Id * w"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "I_dot"
+		  SrcPort		  1
+		  Points		  [35, 0]
+		  DstBlock		  "Product"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "p q r"
+		  SrcPort		  1
+		  DstBlock		  "Product"
+		  DstPort		  2
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product2"
+	      Ports		      [2, 1]
+	      Position		      [460, 26, 510, 164]
+	      NamePlacement	      "alternate"
+	      ShowName		      off
+	      Inputs		      "/*"
+	      Multiplication	      "Matrix(*)"
+	      InputSameDT	      off
+	      RndMeth		      "Floor"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortType		0
+		PortNumber		2
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Reshape"
+	      Ports		      [1, 1]
+	      Position		      [535, 83, 565, 107]
+	      ShowName		      off
+	      SourceBlock	      "simulink/Math\nOperations/Reshape"
+	      SourceType	      "Reshape"
+	      OutputDimensionality    "1-D array"
+	      OutputDimensions	      "[1,1]"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Selector
+	      Name		      "Selector"
+	      Ports		      [1, 1]
+	      Position		      [90, 195, 130, 235]
+	      ShowName		      off
+	      InputType		      "Matrix"
+	      Elements		      "[1 2 1]"
+	      Rows		      "1:3"
+	      Columns		      "-1"
+	      InputPortWidth	      "2"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Selector
+	      Name		      "Selector1"
+	      Ports		      [1, 1]
+	      Position		      [180, 95, 220, 135]
+	      ShowName		      off
+	      InputType		      "Matrix"
+	      Elements		      "[1 2 1]"
+	      Rows		      "4:6"
+	      Columns		      "-1"
+	      InputPortWidth	      "2"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Selector
+	      Name		      "Selector2"
+	      Ports		      [1, 1]
+	      Position		      [255, 40, 295, 80]
+	      ShowName		      off
+	      InputType		      "Matrix"
+	      Elements		      "[1 2 1]"
+	      Rows		      "1:3"
+	      Columns		      "-1"
+	      InputPortWidth	      "2"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum2"
+	      Ports		      [3, 1]
+	      Position		      [410, 120, 430, 140]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "+--"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via internal rule"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortType		0
+		PortNumber		2
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortType		0
+		PortNumber		3
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "wx(Iw)"
+	      Ports		      [2, 1]
+	      Position		      [275, 160, 350, 220]
+	      SourceBlock	      "aerolibutil/3x3 Cross Product"
+	      SourceType	      "CrossProduct"
+	      ShowPortLabels	      "on"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortType		0
+		PortNumber		2
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "pdot qdot rdot"
+	      Position		      [600, 88, 630, 102]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "I x w"
+	      SrcPort		      1
+	      DstBlock		      "wx(Iw)"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "wx(Iw)"
+	      SrcPort		      1
+	      Points		      [65, 0]
+	      DstBlock		      "Sum2"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Selector1"
+	      SrcPort		      1
+	      DstBlock		      "I x w1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "I x w1"
+	      SrcPort		      1
+	      DstBlock		      "Sum2"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Moments"
+	      SrcPort		      1
+	      Points		      [20, 0]
+	      DstBlock		      "Sum2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Sum2"
+	      SrcPort		      1
+	      DstBlock		      "Product2"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Product2"
+	      SrcPort		      1
+	      DstBlock		      "Reshape"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "p q r"
+	      SrcPort		      1
+	      Points		      [0, 0; 5, 0]
+	      Branch {
+		Points			[0, 0; 0, -20]
+		Branch {
+		  Points		  [0, -35]
+		  DstBlock		  "I x w1"
+		  DstPort		  2
+		}
+		Branch {
+		  DstBlock		  "wx(Iw)"
+		  DstPort		  1
+		}
+	      }
+	      Branch {
+		DstBlock		"I x w"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "I, I_dot"
+	      SrcPort		      1
+	      Points		      [20, 0]
+	      Branch {
+		DstBlock		"Selector1"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, -55]
+		DstBlock		"Selector2"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 100]
+		DstBlock		"Selector"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Selector2"
+	      SrcPort		      1
+	      DstBlock		      "Product2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Selector"
+	      SrcPort		      1
+	      DstBlock		      "I x w"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Reshape"
+	      SrcPort		      1
+	      DstBlock		      "pdot qdot rdot"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Determine Force, \nMass & Inertia"
+	  Ports			  [6, 4]
+	  Position		  [70, 76, 140, 229]
+	  SourceBlock		  "aerolib6dofsys/Mass & Inertia (fixed)"
+	  SourceType		  "Mass & Inertia (fixed)"
+	  ShowPortLabels	  on
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    2
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    3
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    4
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    5
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    6
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Ground
+	  Name			  "I"
+	  Position		  [20, 183, 50, 197]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Ground
+	  Name			  "I_dot"
+	  Position		  [20, 208, 50, 222]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  "Out9"
+	  Position		  [155, 208, 185, 222]
+	  ShowName		  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product"
+	  Ports			  [2, 1]
+	  Position		  [170, 76, 205, 154]
+	  ShowName		  off
+	  Inputs		  "*/"
+	  InputSameDT		  off
+	  RndMeth		  "Floor"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    2
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum"
+	  Ports			  [2, 1]
+	  Position		  [255, 105, 275, 125]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "|++"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    2
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Math
+	  Name			  "Transpose"
+	  Ports			  [1, 1]
+	  Position		  [605, 225, 635, 255]
+	  Orientation		  "up"
+	  Operator		  "transpose"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Vbxw"
+	  Ports			  [2, 1]
+	  Position		  [300, 164, 380, 206]
+	  Orientation		  "left"
+	  SourceBlock		  "aerolibutil/3x3 Cross Product"
+	  SourceType		  "CrossProduct"
+	  ShowPortLabels	  on
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    2
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Velocity Conversion"
+	  Ports			  [1, 1]
+	  Position		  [450, 64, 495, 96]
+	  ShowName		  off
+	  SourceBlock		  "aerolibconvert/Velocity Conversion"
+	  SourceType		  "Velocity Conversion"
+	  ShowPortLabels	  on
+	  IU			  "m/s"
+	  OU			  "m/s"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Velocity Conversion1"
+	  Ports			  [1, 1]
+	  Position		  [720, 114, 765, 146]
+	  ShowName		  off
+	  SourceBlock		  "aerolibconvert/Velocity Conversion"
+	  SourceType		  "Velocity Conversion"
+	  ShowPortLabels	  on
+	  IU			  "m/s"
+	  OU			  "m/s"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Ground
+	  Name			  "m_dot"
+	  Position		  [20, 158, 50, 172]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Ground
+	  Name			  "mass"
+	  Position		  [20, 133, 50, 147]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Integrator
+	  Name			  "p,q,r "
+	  Ports			  [1, 1]
+	  Position		  [460, 285, 480, 305]
+	  InitialCondition	  "pm_0"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "transform to\nInertial axes "
+	  Ports			  [2, 1]
+	  Position		  [640, 168, 690, 197]
+	  ShowPortLabels	  off
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  MaskType		  "Vector Transformation"
+	  MaskDisplay		  "disp('L_EB')"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    2
+	    ShowSigGenPortName	    on
+	  }
+	  System {
+	    Name		    "transform to\nInertial axes "
+	    Location		    [374, 617, 624, 766]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "x\ny\nz"
+	      Position		      [30, 65, 50, 85]
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "transform\ncoefficients"
+	      Position		      [30, 15, 50, 35]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product"
+	      Ports		      [2, 1]
+	      Position		      [110, 51, 155, 84]
+	      Multiplication	      "Matrix(*)"
+	      RndMeth		      "Floor"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortType		0
+		PortNumber		2
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Ve"
+	      Position		      [180, 63, 210, 77]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Product"
+	      SrcPort		      1
+	      DstBlock		      "Ve"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "transform\ncoefficients"
+	      SrcPort		      1
+	      Points		      [40, 0]
+	      DstBlock		      "Product"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "x\ny\nz"
+	      SrcPort		      1
+	      DstBlock		      "Product"
+	      DstPort		      2
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Integrator
+	  Name			  "ub,vb,wb"
+	  Ports			  [1, 1]
+	  Position		  [330, 105, 350, 125]
+	  InitialCondition	  "Vm_0"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Integrator
+	  Name			  "xe,ye,ze"
+	  Ports			  [1, 1]
+	  Position		  [720, 175, 740, 195]
+	  InitialCondition	  "xme_0"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Ve"
+	  Position		  [790, 123, 820, 137]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Xe"
+	  Position		  [790, 178, 820, 192]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Euler"
+	  Position		  [790, 303, 820, 317]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "DCM"
+	  Position		  [790, 273, 820, 287]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Vb"
+	  Position		  [790, 73, 820, 87]
+	  Port			  "5"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "p,q,r"
+	  Position		  [550, 188, 580, 202]
+	  Port			  "6"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "pdot,qdot,rdot"
+	  Position		  [450, 243, 480, 257]
+	  Port			  "7"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Ab"
+	  Position		  [270, 58, 300, 72]
+	  Port			  "8"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Line {
+	  SrcBlock		  "Velocity Conversion1"
+	  SrcPort		  1
+	  DstBlock		  "Ve"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Velocity Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Vb"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Determine Force, \nMass & Inertia"
+	  SrcPort		  3
+	  Points		  [75, 0; 0, 120]
+	  DstBlock		  "Calculate omega_dot"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Calculate DCM &\nEuler Angles"
+	  SrcPort		  2
+	  DstBlock		  "Euler"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Vbxw"
+	  SrcPort		  1
+	  Points		  [-30, 0]
+	  DstBlock		  "Sum"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "ub,vb,wb"
+	  SrcPort		  1
+	  Points		  [65, 0; 0, -35]
+	  Branch {
+	    Points		    [20, 0]
+	    DstBlock		    "Velocity Conversion"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 95]
+	    Branch {
+	      DstBlock		      "transform to\nInertial axes "
+	      DstPort		      1
+	    }
+	    Branch {
+	      DstBlock		      "Vbxw"
+	      DstPort		      1
+	    }
+	  }
+	  Branch {
+	    Points		    [0, -55; -365, 0]
+	    DstBlock		    "Determine Force, \nMass & Inertia"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Sum"
+	  SrcPort		  1
+	  DstBlock		  "ub,vb,wb"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "xe,ye,ze"
+	  SrcPort		  1
+	  DstBlock		  "Xe"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "transform to\nInertial axes "
+	  SrcPort		  1
+	  Points		  [0, 0; 5, 0]
+	  Branch {
+	    Points		    [0, -55]
+	    DstBlock		    "Velocity Conversion1"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "xe,ye,ze"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "p,q,r "
+	  SrcPort		  1
+	  Points		  [35, 0]
+	  Branch {
+	    Points		    [0, 0; 0, -100]
+	    Branch {
+	      DstBlock		      "p,q,r"
+	      DstPort		      1
+	    }
+	    Branch {
+	      DstBlock		      "Vbxw"
+	      DstPort		      2
+	    }
+	  }
+	  Branch {
+	    Points		    [0, 0]
+	    Branch {
+	      Points		      [0, -70; -285, 0; 0, 35]
+	      DstBlock		      "Calculate omega_dot"
+	      DstPort		      1
+	    }
+	    Branch {
+	      DstBlock		      "Calculate DCM &\nEuler Angles"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Line {
+	  SrcBlock		  "Moments"
+	  SrcPort		  1
+	  DstBlock		  "Calculate omega_dot"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Forces"
+	  SrcPort		  1
+	  DstBlock		  "Determine Force, \nMass & Inertia"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Product"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    DstBlock		    "Sum"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -50]
+	    DstBlock		    "Ab"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Calculate DCM &\nEuler Angles"
+	  SrcPort		  1
+	  Points		  [0, 0; 5, 0]
+	  Branch {
+	    DstBlock		    "DCM"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Transpose"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Transpose"
+	  SrcPort		  1
+	  Points		  [0, -30]
+	  DstBlock		  "transform to\nInertial axes "
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "mass"
+	  SrcPort		  1
+	  DstBlock		  "Determine Force, \nMass & Inertia"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Determine Force, \nMass & Inertia"
+	  SrcPort		  2
+	  DstBlock		  "Product"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "m_dot"
+	  SrcPort		  1
+	  DstBlock		  "Determine Force, \nMass & Inertia"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Determine Force, \nMass & Inertia"
+	  SrcPort		  4
+	  DstBlock		  "Out9"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Calculate omega_dot"
+	  SrcPort		  1
+	  Points		  [15, 0]
+	  Branch {
+	    Points		    [0, -45]
+	    DstBlock		    "pdot,qdot,rdot"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "p,q,r "
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "I"
+	  SrcPort		  1
+	  DstBlock		  "Determine Force, \nMass & Inertia"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "I_dot"
+	  SrcPort		  1
+	  DstBlock		  "Determine Force, \nMass & Inertia"
+	  DstPort		  6
+	}
+	Line {
+	  SrcBlock		  "Determine Force, \nMass & Inertia"
+	  SrcPort		  1
+	  DstBlock		  "Product"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "6DoF (Quaternion)"
+      Ports		      [2, 8]
+      Position		      [265, 20, 465, 200]
+      SourceBlock	      "aerolib6dof2/6DoF (Euler Angles)"
+      SourceType	      "6DoF EoM (Body Axis)"
+      ShowPortLabels	      on
+      units		      "Metric (MKS)"
+      mtype		      "Fixed"
+      rep		      "Quaternion"
+      xme_0		      "[0 0 0]"
+      Vm_0		      "[0 0 0]"
+      eul_0		      "[0 0 0]"
+      pm_0		      "[0 0 0]"
+      mass_0		      "1.0"
+      mass_e		      "0"
+      mass_f		      "0"
+      inertia		      "eye(3)"
+      inertia_e		      "eye(3)"
+      inertia_f		      "eye(3)"
+      k_quat		      "1.0"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+      Port {
+	PortType		0
+	PortNumber		2
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Custom Variable Mass 6DoF (Euler Angles)"
+      Ports		      [6, 8]
+      Position		      [40, 441, 240, 619]
+      SourceBlock	      "aerolib6dof2/6DoF (Euler Angles)"
+      SourceType	      "6DoF EoM (Body Axis)"
+      ShowPortLabels	      on
+      units		      "Metric (MKS)"
+      mtype		      "Custom Variable"
+      rep		      "Euler Angles"
+      xme_0		      "[0 0 0]"
+      Vm_0		      "[0 0 0]"
+      eul_0		      "[0 0 0]"
+      pm_0		      "[0 0 0]"
+      mass_0		      "1.0"
+      mass_e		      "0"
+      mass_f		      "0"
+      inertia		      "eye(3)"
+      inertia_e		      "eye(3)"
+      inertia_f		      "eye(3)"
+      k_quat		      "1.0"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+      Port {
+	PortType		0
+	PortNumber		2
+	ShowSigGenPortName	on
+      }
+      Port {
+	PortType		0
+	PortNumber		3
+	ShowSigGenPortName	on
+      }
+      Port {
+	PortType		0
+	PortNumber		4
+	ShowSigGenPortName	on
+      }
+      Port {
+	PortType		0
+	PortNumber		5
+	ShowSigGenPortName	on
+      }
+      Port {
+	PortType		0
+	PortNumber		6
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Custom Variable Mass 6DoF (Quaternion)"
+      Ports		      [6, 8]
+      Position		      [265, 440, 465, 620]
+      SourceBlock	      "aerolib6dof2/6DoF (Euler Angles)"
+      SourceType	      "6DoF EoM (Body Axis)"
+      ShowPortLabels	      on
+      units		      "Metric (MKS)"
+      mtype		      "Custom Variable"
+      rep		      "Quaternion"
+      xme_0		      "[0 0 0]"
+      Vm_0		      "[0 0 0]"
+      eul_0		      "[0 0 0]"
+      pm_0		      "[0 0 0]"
+      mass_0		      "1.0"
+      mass_e		      "0"
+      mass_f		      "0"
+      inertia		      "eye(3)"
+      inertia_e		      "eye(3)"
+      inertia_f		      "eye(3)"
+      k_quat		      "1.0"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+      Port {
+	PortType		0
+	PortNumber		2
+	ShowSigGenPortName	on
+      }
+      Port {
+	PortType		0
+	PortNumber		3
+	ShowSigGenPortName	on
+      }
+      Port {
+	PortType		0
+	PortNumber		4
+	ShowSigGenPortName	on
+      }
+      Port {
+	PortType		0
+	PortNumber		5
+	ShowSigGenPortName	on
+      }
+      Port {
+	PortType		0
+	PortNumber		6
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Simple Variable Mass 6DoF (Euler Angles)"
+      Ports		      [3, 9]
+      Position		      [40, 231, 240, 409]
+      SourceBlock	      "aerolib6dof2/6DoF (Euler Angles)"
+      SourceType	      "6DoF EoM (Body Axis)"
+      ShowPortLabels	      on
+      units		      "Metric (MKS)"
+      mtype		      "Simple Variable"
+      rep		      "Euler Angles"
+      xme_0		      "[0 0 0]"
+      Vm_0		      "[0 0 0]"
+      eul_0		      "[0 0 0]"
+      pm_0		      "[0 0 0]"
+      mass_0		      "1.0"
+      mass_e		      "0.5"
+      mass_f		      "2.0"
+      inertia		      "eye(3)"
+      inertia_e		      "eye(3)"
+      inertia_f		      "2*eye(3)"
+      k_quat		      "1.0"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+      Port {
+	PortType		0
+	PortNumber		2
+	ShowSigGenPortName	on
+      }
+      Port {
+	PortType		0
+	PortNumber		3
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Simple Variable Mass 6DoF (Quaternion)"
+      Ports		      [3, 9]
+      Position		      [265, 229, 465, 411]
+      SourceBlock	      "aerolib6dof2/6DoF (Euler Angles)"
+      SourceType	      "6DoF EoM (Body Axis)"
+      ShowPortLabels	      on
+      units		      "Metric (MKS)"
+      mtype		      "Simple Variable"
+      rep		      "Quaternion"
+      xme_0		      "[0 0 0]"
+      Vm_0		      "[0 0 0]"
+      eul_0		      "[0 0 0]"
+      pm_0		      "[0 0 0]"
+      mass_0		      "1.0"
+      mass_e		      "0.5"
+      mass_f		      "2.0"
+      inertia		      "eye(3)"
+      inertia_e		      "eye(3)"
+      inertia_f		      "2*eye(3)"
+      k_quat		      "1.0"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+      Port {
+	PortType		0
+	PortNumber		2
+	ShowSigGenPortName	on
+      }
+      Port {
+	PortType		0
+	PortNumber		3
+	ShowSigGenPortName	on
+      }
+    }
+    Annotation {
+      Position		      [280, 253]
+    }
+  }
+}

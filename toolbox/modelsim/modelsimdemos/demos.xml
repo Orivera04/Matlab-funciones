@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--$Revision: 1.4.4.1 $  $Date: 2004/04/01 16:12:54 $-->
+<!--Copyright 2003 The MathWorks, Inc. -->
+<demos>
+	<name>Link for ModelSim</name>  
+	<type>toolbox</type> 
+	<icon>$toolbox/matlab/icons/matlabicon.gif</icon>    
+
+<description>
+
+&lt;p&gt;The Link for ModelSim(R) integrates MathWorks tools into the Electronic Design Automation 
+(EDA) tool flow by providing a communication interface between Model Technology's HDL Simulator, 
+ModelSim, and The MathWorks products MATLAB and Simulink. Link for ModelSim enables hardware 
+designers and system integrators to efficiently create, design, validate,
+and verify hardware designs with an integrated tools environment. The integrated
+environment enables designers to&lt;/p&gt;
+
+&lt;p&gt;* Easily create test signals and test benches to verify algorithms&lt;/p&gt;
+&lt;p&gt;* Validate models against reference designs&lt;/p&gt;
+&lt;p&gt;* Translate legacy HDL descriptions into system-level views&lt;/p&gt;
+
+&lt;h2&gt;Test Benching with MATLAB&lt;/h2&gt;
+&lt;p&gt;Link for ModleSim provides an interface
+for validating and visualizing ModelSim VHDL models within the MATLAB environment.
+To apply the interface, you need to code a VHDL model and an M-function such
+that they can share data. Once you complete the coding, you link the applications and start a 
+test benching session.&lt;/p&gt;
+
+&lt;p&gt;Link for ModelSim offers flexibility
+in how you start and control a test benching session.
+A session can consist of a single MATLAB function invocation, a series of timed invocations,
+or invocations based on timing data returned by an M-function to ModelSim.&lt;/p&gt;
+
+&lt;p&gt;Link for ModelSim MATLAB demos include:&lt;/p&gt;
+
+&lt;p&gt;* Random Number Generator&lt;/p&gt;
+&lt;p&gt;* Manchester Receiver&lt;/p&gt;
+&lt;p&gt;* Oscillator&lt;/p&gt;
+
+&lt;p&gt;The Manchester Receiver can also be used as a tutorial. This demo tests three components 
+of a VHDL Manchester receiver. After each of the first two components is tested, press any key to 
+trigger the test for the next component.&lt;/p&gt;
+
+&lt;h2&gt;Cosimulating with Simulink&lt;/h2&gt;
+&lt;p&gt;Together, ModelSim, Simulink, and Simulink blocksets provide a powerful 
+modeling and cosimulation environment for EDA. 
+ModelSim Cosimulation blocks link hardware components that are concurrently simulating in ModelSim to 
+the rest of a Simulink model. One usage scenario is a single ModelSim Cosimulation block that 
+fits into the framework of a larger system-oriented Simulink model.  Another scenario is a Simulink 
+model that is a collection of ModelSim Cosimulation blocks, each representing a specific hardware
+component.&lt;/p&gt;
+
+&lt;p&gt;Link for ModelSim Simulink demos include:&lt;/p&gt;
+
+&lt;p&gt;* Manchester Receiver&lt;/p&gt;
+&lt;p&gt;* Manchester Receiver using Communication Blockset&lt;/p&gt;
+&lt;p&gt;* Manchester Receiver using multiple VHDL Cosimulation blocks&lt;/p&gt;
+
+</description> 
+
+    <demosection>
+	<label>Link for ModelSim MATLAB demos</label>
+    	<demoitem>
+		<label>Random Number Generator</label>
+		<callback>modsimrand</callback>
+	</demoitem>
+      <demoitem>
+      	<label>Manchester Receiver</label>
+		<file>html/manchesterreceiverdemo.html</file>
+     		<callback>manchestertutorial</callback>
+      </demoitem>
+	<demoitem>
+      	<label>Oscillator</label>
+		<callback>modsimosc</callback>
+      </demoitem>
+
+    </demosection>
+
+    <demosection>
+       <label>Link for ModelSim Simulink Demos</label>
+       <demoitem>          
+		<label>Manchester Receiver</label> 
+		<callback>manchestermodel</callback>
+       </demoitem>
+       <demoitem> 
+        	<label>Manchester Receiver using Communication Blockset</label>
+         	<callback>manchestermodelcommblks</callback>
+      </demoitem>
+	<demoitem> 
+        	<label>Manchester Receiver using multiple VHDL Cosimulation blocks</label>
+         	<callback>multimanchester</callback>
+      </demoitem>
+    <demoitem> 
+        	<label>Manchester Receiver using mixed design(Verilog and VHDL)</label>
+         	<callback>mixedmanchester</callback>
+      </demoitem>
+    </demosection>
+
+</demos>
+

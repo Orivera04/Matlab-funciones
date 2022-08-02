@@ -1,0 +1,9 @@
+function P=tri_pascal(n)
+%Matriz del triángulo de Pascal.
+clc;
+P1=fliplr(pascal(n+1));M=[];
+for i=2:n+1
+    x=[diag(P1,i-1)',zeros(1,i-2)];
+    M=[M;x];
+end
+P=flipud(M);

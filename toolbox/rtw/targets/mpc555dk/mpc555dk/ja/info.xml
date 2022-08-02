@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="shift_jis"?>
+
+<!-- $Revision:$ $Date:$ -->
+<productinfo
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://www.mathworks.com/namespace/info/v1/info.xsd">
+<?xml-stylesheet type="text/xsl" href="http://www.mathworks.com/namespace/info/v1/info.xsl"?>
+
+<matlabrelease>14</matlabrelease>
+<name>Embedded Target for Motorola&#174; MPC555</name>
+<type>simulink</type>
+<icon>$toolbox/matlab/icons/boardicon.gif</icon>
+<help_location>$docroot/toolbox/mpc555dk</help_location>
+<help_addon name="CAN Blockset" productlevel="false">$docroot/toolbox/can_blocks</help_addon>
+
+<list>
+
+<listitem>
+<label>ヘルプ</label>
+<callback>doc mpc555dk/</callback>
+<icon>$toolbox/matlab/icons/book_sim.gif</icon>
+</listitem>
+
+<listitem>
+<label>環境設定</label>
+<callback>helpview([docroot '/toolbox/mpc555dk/mpc555dk.map'],'MPC555_setup_verify')</callback>
+<icon>$toolbox/matlab/icons/book_sim.gif</icon>
+</listitem>
+
+<listitem>
+<label>デモ</label>
+<callback>demo simulink 'Embedded Target for Motorola&#174; MPC555'</callback>
+<icon>$toolbox/matlab/icons/demoicon.gif</icon>
+</listitem>
+
+<listitem>
+<label>MPC5xx Driver Library</label>
+<callback>mpc555drivers</callback>
+<icon>$toolbox/simulink/simulink/simulinkicon.gif</icon>
+</listitem>
+
+<listitem>
+<label>CAN Message Blocks</label>
+<callback>canblocks</callback>
+<icon>$toolbox/simulink/simulink/simulinkicon.gif</icon>
+</listitem>
+
+<listitem>
+<label>CAN Drivers (Vector) Library</label>
+<callback>vector_candrivers</callback>
+<icon>$toolbox/simulink/simulink/simulinkicon.gif</icon>
+</listitem>
+
+<listitem>
+    <label>MPC5xx Target Preferences</label>
+    <callback>mpc555_infoxml_actions('prefsgui');</callback>
+    <icon>$toolbox/rtw/targets/common/configuration/resource/target_launchpad_icon.gif</icon>
+</listitem>
+
+<listitem>
+   <label>Install MPC5xx Bootcode</label>
+    <callback>mpc555_bootcode_download</callback>
+    <icon>$toolbox/matlab/icons/demoicon.gif</icon>
+</listitem>
+
+<listitem>
+   <label>Run Simple MPC5xx Test Application (via BDM)</label>
+    <callback>mpc555_bdm_blinky</callback>
+    <icon>$toolbox/matlab/icons/demoicon.gif</icon>
+</listitem>
+
+<listitem>
+    <label>Inspect The MPC5xx Hardware (via BDM)</label>
+   <callback>mpc555_application_debug('ram','');</callback>
+   <icon>$toolbox/matlab/icons/demoicon.gif</icon>
+</listitem>
+
+<listitem>
+   <label>Debug RAM Based Application (via BDM)</label>
+   <callback>mpc555_application_debug('ram');</callback>
+   <icon>$toolbox/matlab/icons/demoicon.gif</icon>
+</listitem>
+
+<listitem>
+   <label>Debug FLASH Based Application Already in FLASH (via BDM)</label>
+   <callback>mpc555_application_debug('flash');</callback>
+   <icon>$toolbox/matlab/icons/demoicon.gif</icon>
+</listitem>
+
+<listitem>
+   <label>Download RAM / FLASH Based Application (via CAN / Serial)</label>
+    <callback>mpc555_launch_downloader</callback>
+    <icon>$toolbox/matlab/icons/demoicon.gif</icon>
+</listitem>
+
+<listitem>
+   <label>Download FLASH Based Application (via BDM and CAN / Serial)</label>
+   <callback>mpc555_launch_downloader('', 0, 1);</callback>
+   <icon>$toolbox/matlab/icons/demoicon.gif</icon>
+</listitem>
+
+<listitem>
+   <label>Initialise visionPROBE For Selected Target Board (WindRiver Only)</label>
+   <callback>mpc5xx_visionPROBE_init</callback>
+    <icon>$toolbox/matlab/icons/demoicon.gif</icon>
+</listitem>
+
+<listitem>
+    <label>Rebuild The MPC5xx Driver Library</label>
+    <callback>mpc555_build_drivers;</callback>
+    <icon>$toolbox/matlab/icons/demoicon.gif</icon>
+</listitem>
+
+<listitem>
+    <label>製品ページ (Web)</label>
+    <callback>web('http://www.mathworks.com/products/target_mpc555/', '-browser');</callback>
+    <icon>$toolbox/matlab/icons/webicon.gif</icon>
+</listitem>
+
+</list>
+
+</productinfo>

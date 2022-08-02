@@ -1,0 +1,150 @@
+%% $RCSfile: Invariant.tlc,v $
+%% $Revision: 1.1.4.2 $
+%%
+%% Copyright 1990-2002 The MathWorks, Inc.
+%% 
+%implements * "C"
+%selectfile NULL_FILE
+
+%% Struct is a custom storage class that is used to pack scalar data
+%% into a structure, for example structures used for health monitoring
+
+%% Function: DataAccess ================================================
+%% Abstract:
+%%   DataAccess provides an API for requesting code fragments or other
+%%   information corresponding to data of this custom storage class.
+%%
+%function DataAccess(record, request, idx, reim) void
+  %assign structname = "%<CompiledModel.Name>_invariant"
+
+  %switch request
+    
+    %case "contents"
+      %% The data is accessed as <STRUCT_NAME>.<DATA_NAME>
+      %assign id = LibGetRecordIdentifier(record)
+      %return "%<structname>.%<id>%<idx>"
+      %break
+      
+    %case "address"
+      %% The data has address &<STRUCT_NAME>.<DATA_NAME>
+      %assign id = LibGetRecordIdentifier(record)
+      %return "&%<structname>.%<id>%<idx>"
+      %break
+      
+    %case "initialize"
+      %% Initialize external I/O to ground
+      %assign gndValue = LibGetGroundValue(record, tRealPart)
+      %assign id = LibGetRecordIdentifier(record)
+      %return "%<structname>.%<id>%<idx> = %<gndValue>;"
+      %break
+      
+    %case "declare"
+      %% The data is not individually declared; the structure as a 
+      %% whole is declared in the storage class setup.
+      %return
+      %break
+      
+    %case "define"
+      %% The data is not individually declared; the structure as a 
+      %% whole is defined in the storage class setup.
+      %return
+      %break
+      
+    %case "layout"
+      %% Uses The Mathworks' data layout.
+      %return LibDefaultCustomStorageLayout(record)
+      %break
+      
+    %default
+      %% Unknown access type.
+      %return LibDefaultCustomStorageUnknownDataAccessType ...
+	(record, request, idx, reim)
+      %break
+
+  %endswitch
+%endfunction
+
+
+
+%% Function: ClassAccess =============================================
+%% Abstract:
+%%  SClassAccess provides an API for requesting information or action
+%%   corresponding to the custom storage class
+%%
+%function ClassAccess(record, request) void
+
+  
+  %switch request
+    %case "setup"
+      %assign init_v  = ""
+      %assign structname = "%<CompiledModel.Name>_invariant"
+      %assign typedef = "typedef struct %<structname>_tag {\n"
+
+      %assign numData = LibCustomStorageClassRecordNumData(record)
+      %assign initFieldSep = ", "
+      %foreach idx = numData
+	
+	%assign item = LibGetDataRecord(record, idx)
+	
+	%% Make sure the record is non-complex parameter
+	%<LibCustomStorageVerifyRecordIsNonComplex(item)>
+	%<LibCustomStorageVerifyRecordIsModelParameter(item)>
+	
+	%assign props = item.Object.ObjectProperties
+	%assign id = LibGetRecordIdentifier(item)
+	%assign dtypeName = LibGetRecordCompositeDataTypeName(item)
+	
+	%assign width = LibGetDataWidth(item)
+	%assign dims = ""
+	%if width > 1
+	  %assign dims = "[%<width>]"
+	%endif
+	%assign typedef = "%<typedef>%<dtypeName> %<id>%<dims>;\n"
+	%assign v = item.Value
+	%if idx == numData - 1
+	  %assign initFieldSep = ""
+	%endif
+	%if width > 1
+	  %openfile data_init_v
+	  %assign dummy = GENERATE_FORMATTED_VALUE(v, "%<id>")
+	  %closefile data_init_v
+	  %assign data_init_v = "%<data_init_v>%<initFieldSep>"
+	%else
+	  %assign v = v[0]
+	  %assign data_init_v = "%<v>%<initFieldSep> /* %<id> */\n"
+	%endif
+	%assign init_v = "%<init_v>%<data_init_v>"
+
+      %endforeach
+    
+      %% Complete the typedef and initializer for each structure, then
+      %% cache the typedef in the export header file and the definition
+      %% in the parameter definition file.
+      %assign structtype = "%<structname>_struct"
+      %assign typedef = "%<typedef>} %<structtype>;\n"
+      %<LibExportFileCustomCode("%<typedef>\n","trailer")>
+      %<LibExportFileCustomCode(...
+	"extern %<structtype> %<structname>;\n\n","trailer")>
+      %<LibPrmFileCustomCode(...
+	"%<structtype> %<structname> = \n{%<init_v>};\n\n","trailer")>
+      %return
+      %break
+      
+    %case "comment"
+      %return ""
+      %break
+
+    %default
+      %% Unknown access type.
+      %return LibDefaultCustomStorageUnknownClassAccessType ...
+	(record, request)
+      %break
+      
+  %endswitch
+      
+
+
+%endfunction
+
+  
+%% [EOF] Struct.tlc

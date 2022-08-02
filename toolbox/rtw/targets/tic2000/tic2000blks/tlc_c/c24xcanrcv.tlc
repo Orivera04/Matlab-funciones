@@ -1,0 +1,159 @@
+%% $RCSfile: c24xcanrcv.tlc,v $
+%% $Revision: 1.1.6.2 $ $Date: 2004/04/08 20:59:38 $
+%% Copyright 2003-2004 The MathWorks, Inc.
+
+
+
+%implements c24xcanrcv "C"
+
+%% Function: JustCreatedCompiledModelRecord ==================================
+%function JustCreatedCompiledModelRecord(recordName) void
+
+    %assign fullRecordName = "::CompiledModel." + recordName
+    %%
+    %if !EXISTS("%<fullRecordName>")
+        %assign retval = 1  %% First call
+
+        %% Create record since it does not yet exist:
+        %assign %<recordName> = 1
+        %assign ::CompiledModel = ::CompiledModel + %<recordName>
+        %undef %<recordName>  %% Remove from current scope
+    %else
+        %assign retval = 0  %% Subsequent call
+
+    %endif
+    %return retval
+
+%endfunction %% JustCreatedCompiledModelRecord
+
+
+%% Function: BlockTypeSetup ==============================================
+%function BlockTypeSetup(block, system) void
+
+    %openfile buffer
+    #include "DSP24_Device.h"
+    %closefile buffer
+    %<LibCacheIncludes(buffer)>
+    
+    %% guard is needed since both CAN blocks declare this function
+    %if JustCreatedCompiledModelRecord("config_CANmbx_prototype") 
+        %openfile buffer
+        void config_CANmbx (uint16_T mbxType, uint16_T mbxNo, uint32_T msgID, uint16_T msgType);
+        %closefile buffer
+        %<LibCacheDefine(buffer)>
+    %endif    
+    
+%endfunction %% BlockTypeSetup
+
+
+
+%% Function: BlockInstanceSetup ===============================================
+%%
+%function BlockInstanceSetup(block,system) void
+
+    %<AddParamsToBlock(block)>
+    
+%endfunction %% BlockInstanceSetup
+
+
+
+%% Function: Start ============================================================
+%%
+%%  Initialize CAN receive mailbox.
+%%
+%function Start(block,system) Output
+    
+    /* Configure mailbox %<mailboxNo> to receive messages with the ID: %<messageID> */
+    config_CANmbx (0U, %<mailboxNo>, %<messageID>, %<messageType>);
+
+%endfunction %% Start
+
+
+
+%% Function: Outputs ==========================================================
+%%
+%%  Read the message received from CAN and send out to Simulink model.
+%%
+%function Outputs(block,system) Output  
+
+/* %<Type> Block: %<Name> (%<ParamSettings.FunctionName>) */
+{
+    if ( MMREGS[RCR] & (0x0010<<%<mailboxNo>) ) {
+        /* reenable the mailbox to receive the next message */
+        MMREGS[RCR] = 0x0010<<%<mailboxNo>; 
+      
+        %switch (dataType)
+        %case "uint16_T"
+            %<LibBlockOutputSignal(1,"","",0)> = (uint16_T) (MMREGS[MBOX%<mailboxNo>A]);  
+            %<LibBlockOutputSignal(1,"","",1)> = (uint16_T) (MMREGS[MBOX%<mailboxNo>B]);  
+            %<LibBlockOutputSignal(1,"","",2)> = (uint16_T) (MMREGS[MBOX%<mailboxNo>C]);
+            %<LibBlockOutputSignal(1,"","",3)> = (uint16_T) (MMREGS[MBOX%<mailboxNo>D]); 
+            %break
+        %case "uint32_T"
+            %<LibBlockOutputSignal(1,"","",0)> = (uint32_T) (MMREGS[MBOX%<mailboxNo>A]) | (uint32_T) (MMREGS[MBOX%<mailboxNo>B])<<16;
+            %<LibBlockOutputSignal(1,"","",1)> = (uint32_T) (MMREGS[MBOX%<mailboxNo>C]) | (uint32_T) (MMREGS[MBOX%<mailboxNo>D])<<16;
+            %break
+        %endswitch
+    
+        %assign index = 1
+
+        %% if creation of the "message length port" is requested by the user ... 
+        %if (bIsMsgLengthPort)
+            %assign index = index + 1
+            %<LibBlockOutputSignal(index,"","",0)> = MMREGS[MSGCTRL%<mailboxNo>] & 0x000F;  
+        %endif
+
+        %% following block is just a placeholder for the future block upgrade
+        %% if creation of the "message timestamp port" is requested by the user ...         
+        %%if (bIsMsgTimeStampPort)
+            %%assign index = index + 1
+            %%<LibBlockOutputSignal(index,"","",0)> = ?????????????????????;   
+        %%endif
+        
+        %% make a function call to a subsystem conected to the function call port
+        %<MakeFcnCall(block,system,0)> 
+    }
+}
+
+%endfunction %% Outputs
+
+
+
+%% ---------------------------------------------
+%% Call the function call subsystem
+%% ---------------------------------------------
+%function MakeFcnCall(block,system,fcnIdx) Output
+   /* -- Call CAN RX Fcn-Call_%<fcnIdx> -- */
+   %with SFcnSystemOutputCall[%<fcnIdx>]
+      %% skip unconnected function call outputs
+      %if LibIsEqual(BlockToCall, "unconnected")
+        %return
+      %endif
+      %assign sysIdx = BlockToCall[0]
+      %assign blkIdx = BlockToCall[1]
+      %assign ssBlock = System[sysIdx].Block[blkIdx]
+      %assign sysToCall = System[ssBlock.ParamSettings.SystemIdx]
+      %<LibCallFCSS(sysToCall, tSimStruct, FcnPortElement, ParamSettings.SampleTimesToSet[0][1])>
+   %endwith
+%endfunction
+
+
+
+%% Function: AddParamsToBlock =================================================
+%%
+%%  Rename the S-Function parameter for easy reference.
+%%
+%function AddParamsToBlock(block) void
+
+    %assign mailboxNo           = SFcnParamSettings.mailboxNo
+    %assign messageID           = SFcnParamSettings.messageID
+    %assign messageType         = SFcnParamSettings.messageType
+    %assign sampleTime          = SFcnParamSettings.sampleTime
+    %assign dataType            = SFcnParamSettings.dataType
+    %assign bIsMsgLengthPort    = SFcnParamSettings.bIsMsgLengthPort 
+    %assign bIsMsgTimeStampPort = SFcnParamSettings.bIsMsgTimeStampPort 
+    %assign block = block + mailboxNo + messageID + messageType + sampleTime + dataType + bIsMsgLengthPort + bIsMsgTimeStampPort
+    
+%endfunction  %% AddParamsToBlock
+
+%% [EOF] c24xcanrcv.tlc

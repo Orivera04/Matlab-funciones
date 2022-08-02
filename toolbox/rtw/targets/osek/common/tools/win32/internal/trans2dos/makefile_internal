@@ -1,0 +1,43 @@
+# File: toolbox/rtw/targets/mpc555dk/common/tools/win32/internal/makefile_internal
+#
+# Abstract:
+#   Makefile to build trans2dos win32 command line utility. 
+#
+# $Revision: 1.1.6.2 $
+# $Date: 2004/05/01 14:36:41 $
+#
+# Copyright 2002 The MathWorks, Inc.
+
+################################
+# Input requirements:
+#   MATLABROOT must be defined and point to a valid MATLAB sandbox directory.
+################################
+
+################################
+# Compiler and linker parameters
+################################
+
+
+#####################################
+# Macro definition
+#####################################
+MBUILD              = $(MATLABROOT)\bin\win32\mbuild.bat
+# .exe extension will be automatically expanded by mbuild tool
+PROGRAM             = ..\..\trans2dos
+SOURCE              = .\trans2dos.cpp
+# mbuild will create a sub directory bin under current directory
+INTERMEDIATE        = .\bin
+
+###########################
+# TARGETS:
+###########################
+
+default: BUILD clean
+	@echo *** Completed [$@] ***
+
+BUILD: $(SOURCE)
+	$(MBUILD) -f $(MATLABROOT)\bin\win32\mbuildopts\mbuildopts.bat $(SOURCE) -output $(PROGRAM)
+	
+clean: 
+#       rmdir /s: recursive /q: silent mode, no ask.
+	@-rmdir /s /q $(INTERMEDIATE) > nul 2> nul

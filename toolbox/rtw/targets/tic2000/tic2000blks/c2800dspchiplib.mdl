@@ -1,0 +1,793 @@
+# $Revision: 1.2 $
+Library {
+  Name			  "c2800dspchiplib"
+  Version		  6.0
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  off
+  StatusBar		  off
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Mon Dec 09 11:37:22 2002"
+  Creator		  "zgalijas"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "zgalijas"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Fri Apr 09 13:23:58 2004"
+  ModelVersionFormat	  "1.%<AutoIncrement:274>"
+  ConfigurationManager	  "None"
+  SimParamPage		  "Solver"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  ProdHWDeviceType	  "32-bit Generic"
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.0.3"
+      Array {
+	Type			"Handle"
+	Dimension		8
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.0.3"
+	  StartTime		  "0.0"
+	  StopTime		  "10.0"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  RelTol		  "1e-3"
+	  SolverMode		  "SingleTasking"
+	  Solver		  "ode45"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.0.3"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SaveTime		  on
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsOut"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    4
+	    Cell		    "ZeroExternalMemoryAtStartup"
+	    Cell		    "ZeroInternalMemoryAtStartup"
+	    Cell		    "InitFltsAndDblsToZero"
+	    Cell		    "OptimizeModelRefInitCode"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.0.3"
+	  BlockReduction	  on
+	  BooleanDataType	  off
+	  ConditionallyExecuteInputs on
+	  ConditionalExecOptimization "on_for_testing"
+	  InlineParams		  off
+	  InlineInvariantSignals  on
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  on
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  ParameterPooling	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.0.3"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg on
+	  CheckExecutionContextRuntimeOutputMsg	on
+	  SignalResolutionControl "TryResolveAllWithWarning"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  SolverPrmCheckMsg	  "none"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterPrecisionLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.0.3"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "32-bit Generic"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  on
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.0.3"
+	  UpdateModelReferenceTargets "IfOutOfDate"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    1
+	    Cell		    "IncludeHyperlinkInReport"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.0.3"
+	  SystemTargetFile	  "grt.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  TemplateMakefile	  "grt_default_tmf"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Array {
+		Type			"Cell"
+		Dimension		8
+		Cell			"IgnoreCustomStorageClasses"
+		Cell			"InsertBlockDesc"
+		Cell			"SFDataObjDesc"
+		Cell			"SimulinkDataObjDesc"
+		Cell			"DefineNamingRule"
+		Cell			"SignalNamingRule"
+		Cell			"ParamNamingRule"
+		Cell			"InlinedPrmAccess"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.0.3"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      CustomSymbolStr	      "$R$N$M"
+	      MangleLength	      1
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    Simulink.GRTTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Array {
+		Type			"Cell"
+		Dimension		12
+		Cell			"IncludeMdlTerminateFcn"
+		Cell			"CombineOutputUpdateFcns"
+		Cell			"SuppressErrorStatus"
+		Cell			"ERTCustomFileBanners"
+		Cell			"GenerateSampleERTMain"
+		Cell			"MultiInstanceERTCode"
+		Cell			"PurelyIntegerCode"
+		Cell			"SupportNonFinite"
+		Cell			"SupportComplex"
+		Cell			"LifeSpan"
+		Cell			"NoFixptDivByZeroProtection"
+		Cell			"CustomSymbolStr"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.0.3"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns off
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      ExtMode		      off
+	      ExtModeStaticAlloc      off
+	      ExtModeTesting	      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTransport	      0
+	      ExtModeMexFile	      "ext_comm"
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	      GenerateASAP2	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	Simulink.SFSimCC {
+	  $ObjectID		  11
+	  Version		  "1.0.3"
+	  SFSimApplyToAllLibs	  on
+	  SFSimEnableDebug	  on
+	  SFSimOverflowDetection  on
+	  SFSimEcho		  on
+	  SFSimBuildMode	  "Incremental"
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      SimulationMode	      "normal"
+      CurrentDlgPage	      "Solver"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      PortCounts	      "[]"
+      SFunctionModules	      "''"
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "c2800dspchiplib"
+    Location		    [92, 141, 417, 664]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      "S-Function"
+      Name		      "C28x ADC"
+      Ports		      [0, 1]
+      Position		      [35, 180, 135, 230]
+      InitFcn		      "c28xadc_callback ('dynamic');"
+      FunctionName	      "c28xadc"
+      Parameters	      "useModule,A0,A1,A2,A3,A4,A5,A6,A7,B0,B1,B2,B3,B"
+"4,B5,B6,B7,sampleTime,sourceSOC"
+      MaskType		      "C28x ADC"
+      MaskDescription	      "Configures the ADC to output a constant stream "
+"of data collected from the ADC pins on the c28x DSP."
+      MaskHelp		      "web(c2000bhelp);"
+      MaskPromptString	      "Module:|ADCINA0|ADCINA1|ADCINA2|ADCINA3|ADCINA4"
+"|ADCINA5|ADCINA6|ADCINA7|ADCINB0|ADCINB1|ADCINB2|ADCINB3|ADCINB4|ADCINB5|ADCI"
+"NB6|ADCINB7|Sample time:|Source SOC"
+      MaskStyleString	      "popup(A|B|A and B),checkbox,checkbox,checkbox,c"
+"heckbox,checkbox,checkbox,checkbox,checkbox,checkbox,checkbox,checkbox,checkb"
+"ox,checkbox,checkbox,checkbox,checkbox,edit,popup(Software|Underflow interrup"
+"t|Period interrupt|Compare interrupt)"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off,off,off,off,off"
+",off,off,off,off,off,off,off"
+      MaskCallbackString      "c28xadc_callback ('dynamic');||||||||||||||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+",on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on,on,off,off,off,off,off,"
+"off,off,off,on,off"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+",on,on,on"
+      MaskVarAliasString      ",,,,,,,,,,,,,,,,,,"
+      MaskVariables	      "useModule=@1;A0=@2;A1=@3;A2=@4;A3=@5;A4=@6;A5=@"
+"7;A6=@8;A7=@9;B0=@10;B1=@11;B2=@12;B3=@13;B4=@14;B5=@15;B6=@16;B7=@17;sampleT"
+"ime=@18;sourceSOC=@19;"
+      MaskDisplay	      "disp('\\nC28x ADC\\n');"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "A|on|off|off|off|off|off|off|off|on|off|off|off"
+"|off|off|off|off|1|Software"
+      MaskTabNameString	      ",,,,,,,,,,,,,,,,,,"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "C28x From Memory"
+      Ports		      [0, 1]
+      Position		      [35, 90, 135, 140]
+      SourceBlock	      "memblks/From Memory"
+      SourceType	      "From Memory"
+      memAddressMask	      "8000000F"
+      dType		      "uint32"
+      Ts		      "1"
+      frameSize		      "1"
+    }
+    Block {
+      BlockType		      "S-Function"
+      Name		      "C28x PWM"
+      Ports		      []
+      Position		      [185, 178, 285, 228]
+      InitFcn		      "c28xpwm_callback ('dynamic');"
+      FunctionName	      "c28xpwm"
+      Parameters	      "useModule,timerSource,timerPeriod,waveformType,"
+"unit1Status,unit1Source,unit1Value,unit2Status,unit2Source,unit2Value,unit3St"
+"atus,unit3Source,unit3Value,unit1_1Logic,unit1_2Logic,unit2_1Logic,unit2_2Log"
+"ic,unit3_1Logic,unit3_2Logic,enableDeadband1,enableDeadband2,enableDeadband3,"
+"deadbandPrescaler,deadbandPeriod,adcstartEvent"
+      MaskType		      "C28x PWM"
+      MaskDescription	      "Configures the Event Manager of the C28x DSP to"
+" generate PWM waveforms."
+      MaskHelp		      "web(c2000bhelp);"
+      MaskPromptString	      "Module:|Waveform period source:|Waveform period"
+" (clock cycles):|Waveform type:|Enable PWM1/PWM2|Pulse width source:|Pulse wi"
+"dth (clock cycles):|Enable PWM3/PWM4|Pulse width source:|Pulse width (clock c"
+"ycles):|Enable PWM5/PWM6|Pulse width source:|Pulse width (clock cycles):|PWM1"
+" control logic:|PWM2 control logic:|PWM3 control logic:|PWM4 control logic:|P"
+"WM5 control logic:|PWM6 control logic:|Use deadband for PWM1/PWM2|Use deadban"
+"d for PWM3/PWM4|Use deadband for PWM5/PWM6|Deadband prescaler:|Deadband perio"
+"d:|ADC start event"
+      MaskStyleString	      "popup(A|B),popup(Specify via dialog|Input port)"
+",edit,popup(Symmetric|Asymmetric),checkbox,popup(Specify via dialog|Input por"
+"t),edit,checkbox,popup(Specify via dialog|Input port),edit,checkbox,popup(Spe"
+"cify via dialog|Input port),edit,popup(Active low|Active high),popup(Active l"
+"ow|Active high),popup(Active low|Active high),popup(Active low|Active high),p"
+"opup(Active low|Active high),popup(Active low|Active high),checkbox,checkbox,"
+"checkbox,popup(1|2|4|8|16|32),popup(1|2|3|4|5|6|7|8|9|10|11|12|13|14|15),popu"
+"p(None|Underflow interrupt|Period interrupt|Compare interrupt)"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off,off,off,off,off"
+",off,off,off,off,off,off,off,off,off,off,off,off,off"
+      MaskCallbackString      "c28xpwm_callback ('modulechanged');|c28xpwm_cal"
+"lback ('dynamic');|||c28xpwm_callback ('dynamic');|c28xpwm_callback ('dynamic"
+"');||c28xpwm_callback ('dynamic');|c28xpwm_callback ('dynamic');||c28xpwm_cal"
+"lback ('dynamic');|c28xpwm_callback ('dynamic');||||||||c28xpwm_callback ('dy"
+"namic');|c28xpwm_callback ('dynamic');|c28xpwm_callback ('dynamic');|||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+",on,on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,off,on,on,off,on,on,off,on,on"
+",on,on,on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+",on,on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,,,,,,,,,,,,,,,,"
+      MaskVariables	      "useModule=@1;timerSource=@2;timerPeriod=@3;wave"
+"formType=@4;unit1Status=@5;unit1Source=@6;unit1Value=@7;unit2Status=@8;unit2S"
+"ource=@9;unit2Value=@10;unit3Status=@11;unit3Source=@12;unit3Value=@13;unit1_"
+"1Logic=@14;unit1_2Logic=@15;unit2_1Logic=@16;unit2_2Logic=@17;unit3_1Logic=@1"
+"8;unit3_2Logic=@19;enableDeadband1=@20;enableDeadband2=@21;enableDeadband3=@2"
+"2;deadbandPrescaler=@23;deadbandPeriod=@24;adcstartEvent=@25;"
+      MaskInitialization      "c28xpwm_callback ('portlabels');"
+      MaskDisplay	      "disp('\\nC28x PWM\\n');"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "A|Specify via dialog|64000|Symmetric|on|Specify"
+" via dialog|2000|off|Input port|2000|off|Input port|2000|Active high|Active l"
+"ow|Active high|Active low|Active high|Active low|off|off|off|1|1|None"
+      MaskTabNameString	      "Timer,Timer,Timer,Timer,Output 1,Output 1,Outpu"
+"t 1,Output 2,Output 2,Output 2,Output 3,Output 3,Output 3,Output 1,Output 1,O"
+"utput 2,Output 2,Output 3,Output 3,Deadband,Deadband,Deadband,Deadband,Deadba"
+"nd,ADC Control"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "C28x To Memory"
+      Ports		      [1]
+      Position		      [185, 90, 285, 140]
+      SourceBlock	      "memblks/To Memory"
+      SourceType	      "To Memory"
+      memAddressMask	      "8000000F"
+      dType		      "uint32"
+      useInitValue	      off
+      initValue		      "0"
+      useTermValue	      off
+      termValue		      "0"
+      isRealtimeEnabled	      on
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      "S-Function"
+      Name		      "C28x eCAN Receive"
+      Ports		      [0, 2]
+      Position		      [35, 267, 135, 318]
+      InitFcn		      "c28xcan_callback ('dynamic');"
+      FontName		      "Arial"
+      FunctionName	      "c28xcanrcv"
+      Parameters	      "mailboxNo, messageID, messageType, sampleTime, "
+"dataType, outputMessageLength, outputMessageTimeStamp"
+      MaskType		      "C28x eCAN Receive"
+      MaskDescription	      "Configures an eCAN mailbox to receive messages "
+"from the eCAN bus pins on the c28x DSP. When the message is received, emits t"
+"he function call to the connected function-call subsystem as well as outputs "
+"the message data in selected format and the message data length in bytes."
+      MaskHelp		      "web(c2000bhelp);"
+      MaskPromptString	      "Mailbox number:|Message identifier:|Message typ"
+"e:|Sample time:|Data type:|Output message length|Output mesage time-stamp"
+      MaskStyleString	      "edit,edit,popup(Standard (11-bit identifier)|Ex"
+"tended (29-bit identifier)),edit,popup(uint16|uint32),checkbox,checkbox"
+      MaskTunableValueString  "off,off,off,off,off,off,off"
+      MaskCallbackString      "c28xcan_callback ('dynamic');||||||"
+      MaskEnableString	      "on,on,on,on,on,on,off"
+      MaskVisibilityString    "on,on,on,on,on,on,off"
+      MaskToolTipString	      "on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,"
+      MaskVariables	      "mailboxNo=@1;messageID=@2;messageType=@3;sample"
+"Time=@4;dataType=@5;outputMessageLength=@6;outputMessageTimeStamp=@7;"
+      MaskInitialization      "[portidx, lbl] = c28xcan_callback ('dynamic');"
+      MaskDisplay	      "disp([ '\\nMailbox: ' &1 '\\nC28x eCAN\\nReceiv"
+"e\\n']);\nport_label('output', 1, 'f()');\nport_label('output', 2, 'Msg');\np"
+"ort_label('output', portidx{3}, lbl{3});\nport_label('output', portidx{4}, lb"
+"l{4});\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "0|bin2dec('111000111')|Standard (11-bit identif"
+"ier)|1|uint16|off|off"
+      MaskTabNameString	      ",,,,,,"
+    }
+    Block {
+      BlockType		      "S-Function"
+      Name		      "C28x eCAN Transmit"
+      Ports		      [1]
+      Position		      [185, 265, 285, 315]
+      InitFcn		      "c28xcan_callback ('dynamic');"
+      FontName		      "Arial"
+      FunctionName	      "c28xcanxmt"
+      Parameters	      "mailboxNo, messageID, messageType"
+      MaskType		      "C28x eCAN Transmit"
+      MaskDescription	      "Configures an eCAN mailbox to transmit message "
+"to the CAN bus pins on the c28x DSP."
+      MaskHelp		      "web(c2000bhelp);"
+      MaskPromptString	      "Mailbox number:|Message identifier:|Message typ"
+"e:"
+      MaskStyleString	      "edit,edit,popup(Standard (11-bit identifier)|Ex"
+"tended (29-bit identifier))"
+      MaskTunableValueString  "off,off,off"
+      MaskCallbackString      "c28xcan_callback ('dynamic');||"
+      MaskEnableString	      "on,on,on"
+      MaskVisibilityString    "on,on,on"
+      MaskToolTipString	      "on,on,on"
+      MaskVarAliasString      ",,"
+      MaskVariables	      "mailboxNo=@1;messageID=@2;messageType=@3;"
+      MaskDisplay	      "disp(['Mailbox: ' &1 '\\nC28x eCAN\\nTransmit']"
+");\nport_label('input', 1, 'Msg');"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "1|bin2dec('111000111')|Standard (11-bit identif"
+"ier)"
+      MaskTabNameString	      ",,"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      "S-Function"
+      Name		      "C28xGPIO_DI"
+      Ports		      [0, 1]
+      Position		      [35, 355, 135, 405]
+      FunctionName	      "c28xgpio_di"
+      Parameters	      "useIOPort, GPIO_Bit0, GPIO_Bit1, GPIO_Bit2, GPI"
+"O_Bit3, GPIO_Bit4, GPIO_Bit5, GPIO_Bit6, GPIO_Bit7, GPIO_Bit8, GPIO_Bit9, GPI"
+"O_Bit10, GPIO_Bit11, GPIO_Bit12, GPIO_Bit13, GPIO_Bit14, GPIO_Bit15, sampleTi"
+"me, dataType"
+      MaskType		      "C28x GPIO Digital Input"
+      MaskDescription	      "The digital I/O ports module provides a flexibl"
+"e method for controlling both dedicated I/O and shared pin functions. All I/O"
+" and shared pin functions are controlled using nine 16-bit registers."
+      MaskHelp		      "web(c2000bhelp);"
+      MaskPromptString	      "IO Port:|Bit 0|Bit 1|Bit 2|Bit 3|Bit 4|Bit 5|Bi"
+"t 6|Bit 7|Bit 8|Bit 9|Bit 10|Bit 11|Bit 12|Bit 13|Bit 14|Bit 15|Sample time:|"
+"Data type:"
+      MaskStyleString	      "popup(GPIOA|GPIOB|GPIOD|GPIOE|GPIOF|GPIOG),chec"
+"kbox,checkbox,checkbox,checkbox,checkbox,checkbox,checkbox,checkbox,checkbox,"
+"checkbox,checkbox,checkbox,checkbox,checkbox,checkbox,checkbox,edit,popup(aut"
+"o|double|single|int8|uint8|int16|uint16|int32|uint32|boolean)"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off,off,off,off,off"
+",off,off,off,off,off,off,off"
+      MaskCallbackString      "c28xgpio_callback('dynamic');||||||||||||||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+",on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+",on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+",on,on,on"
+      MaskVarAliasString      ",,,,,,,,,,,,,,,,,,"
+      MaskVariables	      "useIOPort=&1;GPIO_Bit0=@2;GPIO_Bit1=@3;GPIO_Bit"
+"2=@4;GPIO_Bit3=@5;GPIO_Bit4=@6;GPIO_Bit5=@7;GPIO_Bit6=@8;GPIO_Bit7=@9;GPIO_Bi"
+"t8=@10;GPIO_Bit9=@11;GPIO_Bit10=@12;GPIO_Bit11=@13;GPIO_Bit12=@14;GPIO_Bit13="
+"@15;GPIO_Bit14=@16;GPIO_Bit15=@17;sampleTime=@18;dataType=@19;"
+      MaskDisplay	      "disp('\\nC28x GPIO DI\\n');"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "GPIOA|on|off|off|off|off|off|off|off|off|off|of"
+"f|off|off|off|off|off|0.001|auto"
+      MaskTabNameString	      ",,,,,,,,,,,,,,,,,,"
+    }
+    Block {
+      BlockType		      "S-Function"
+      Name		      "C28xGPIO_DO"
+      Ports		      [1]
+      Position		      [185, 355, 285, 405]
+      FunctionName	      "c28xgpio_do"
+      Parameters	      "useIOPort, GPIO_Bit0, GPIO_Bit1, GPIO_Bit2, GPI"
+"O_Bit3, GPIO_Bit4, GPIO_Bit5, GPIO_Bit6, GPIO_Bit7, GPIO_Bit8, GPIO_Bit9, GPI"
+"O_Bit10, GPIO_Bit11, GPIO_Bit12, GPIO_Bit13, GPIO_Bit14, GPIO_Bit15"
+      MaskType		      "C28x GPIO Digital Output"
+      MaskDescription	      "The digital I/O ports module provides a flexibl"
+"e method for controlling both dedicated I/O and shared pin functions. All I/O"
+" and shared pin functions are controlled using nine 16-bit registers."
+      MaskHelp		      "web(c2000bhelp);"
+      MaskPromptString	      "IO Port:|Bit 0|Bit 1|Bit 2|Bit 3|Bit 4|Bit 5|Bi"
+"t 6|Bit 7|Bit 8|Bit 9|Bit 10|Bit 11|Bit 12|Bit 13|Bit 14|Bit 15"
+      MaskStyleString	      "popup(GPIOA|GPIOB|GPIOD|GPIOE|GPIOF|GPIOG),chec"
+"kbox,checkbox,checkbox,checkbox,checkbox,checkbox,checkbox,checkbox,checkbox,"
+"checkbox,checkbox,checkbox,checkbox,checkbox,checkbox,checkbox"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off,off,off,off,off"
+",off,off,off,off,off"
+      MaskCallbackString      "c28xgpio_callback('dynamic');||||||||||||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+",on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+",on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+",on"
+      MaskVarAliasString      ",,,,,,,,,,,,,,,,"
+      MaskVariables	      "useIOPort=&1;GPIO_Bit0=@2;GPIO_Bit1=@3;GPIO_Bit"
+"2=@4;GPIO_Bit3=@5;GPIO_Bit4=@6;GPIO_Bit5=@7;GPIO_Bit6=@8;GPIO_Bit7=@9;GPIO_Bi"
+"t8=@10;GPIO_Bit9=@11;GPIO_Bit10=@12;GPIO_Bit11=@13;GPIO_Bit12=@14;GPIO_Bit13="
+"@15;GPIO_Bit14=@16;GPIO_Bit15=@17;"
+      MaskDisplay	      "disp('\\nC28x GPIO DO\\n');"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "GPIOA|on|off|off|off|off|off|off|off|off|off|of"
+"f|off|off|off|off|off"
+      MaskTabNameString	      ",,,,,,,,,,,,,,,,"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      "S-Function"
+      Name		      "C28xQEP"
+      Ports		      [0, 1]
+      Position		      [35, 445, 135, 495]
+      FunctionName	      "c28xqep"
+      Parameters	      "useModule, countingMode, positiveRotation, init"
+"ialCount, encoderResolution, sampleTime, dataType"
+      MaskType		      "C28x QEP"
+      MaskDescription	      "Configures quadrature encoder pulse circuit ass"
+"ociated with the selected Event Manager module to decode and count quadrature"
+" encoded pulses applied to related input pins (QEP1 and QEP2 for EVA or QEP3 "
+"and QEP4 for EVB). Depending on the selected counting mode, the output is eit"
+"her the pulse count or the rotor speed (when a pulse signal comes from an opt"
+"ical encoder mounted on a rotating machine)."
+      MaskHelp		      "web(c2000bhelp);"
+      MaskPromptString	      "Module:|Counting mode:|Positive rotation:|Initi"
+"al count :|Encoder resolution (pulse/revolution):|Sample time:|Data type:"
+      MaskStyleString	      "popup(A|B),popup(Counter|RPM),popup(Clockwise|C"
+"ounterclockwise),edit,edit,edit,popup(auto|double|single|int8|uint8|int16|uin"
+"t16|int32|uint32|boolean)"
+      MaskTunableValueString  "off,off,off,off,off,off,off"
+      MaskCallbackString      "|c2000qep_callback('dynamic')|||||"
+      MaskEnableString	      "on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,off,off,off,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,"
+      MaskVariables	      "useModule=@1;countingMode=@2;positiveRotation=@"
+"3;initialCount=@4;encoderResolution=@5;sampleTime=@6;dataType=@7;"
+      MaskDisplay	      "disp('\\nC28x QEP\\n');"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "A|Counter|Clockwise|0|1024|0.001|auto"
+      MaskTabNameString	      ",,,,,,"
+    }
+    Annotation {
+      Name		      "C2800 DSP\nChip Support Library"
+      Position		      [159, 39]
+      FontName		      "Arial"
+      FontSize		      12
+      FontWeight	      "bold"
+    }
+  }
+}

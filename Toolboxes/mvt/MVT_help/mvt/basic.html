@@ -1,0 +1,173 @@
+<html>
+
+<head>
+	<title>Basics (Marine Visualization Toolbox)</title>
+	<link rel=stylesheet href="docstyle1.css" type="text/css">
+</head>
+
+<body bgcolor=#ffffff>
+
+<table border=0 width="100%" cellpadding=0 cellspacing=0><tr>
+	<td valign=baseline bgcolor="#ffe4b0"><b>Marine Visualization Toolbox</b></td>
+	<td valign=baseline bgcolor="#ffe4b0" align=right><a href="install.html"><img src="b_prev.gif" border=0></a>  <a href="examples.html"><img src="b_next.gif" border=0></a></td>
+</tr></table>
+
+<p><font size=+2 color="#990000"><b>Marine Visualization Basics</b></font><br>
+
+Basic knowledge needed to use the Marine Visualization Toolbox:
+<ul>
+	<li>The <a href="#coord">coordinate system</a>, understanding directions and rotations</li>
+	<li>Use of <a href="#struct_arr">structures and arrays</a> with MATLAB and MVT</li>
+	<li><a href="#dof">6 DOF data</a>, how movement of marine vessels are described</li>
+	<li><a href="#virtual">3D models</a> and VRML files in MVT</li>
+</ul>
+
+<p><font size=+2 color="#990000"><b><A name=coord>The coordinate system</A></b></font><br>
+
+<p>The coordinate systems used in MVT follows the convention from (SNAME,
+1950). Figure 1 illustrates the positive directions of the inertial frame and
+the rotation axis of the body fixed vessel frame.
+
+<p>The vessels are translated according to the inertial frame's origo, and the
+vessels' body fixed frame are rotated about their local origo. Translation
+inputs to MVT are assumed to be the time varying x, y and z-positions relative
+to the inertial frame origo, and rotations are assumed to be Euler rotations:
+phi, theta and psi, see example in figure 2. Note that the axis directions of
+a <EM>non rotated body </EM>fixed frame is parallel to the inertial frame.<br>
+
+<img border=0 width=630 height=320 src="fig_01.jpg">
+<br>Figure 1. Inertial and body fixed frames.
+
+<p><font size=+2 color="#990000"><b><A name=dof>6 DOF data</A></b></font><br>
+
+<p>The six input variables described above are often referred to as the six
+degrees of freedom (Fossen, 2002). In MVT such a set of time varying positions
+and rotations will be referred to as 6 DOF data. The 6 DOF data in MATLAB are
+implemented as double precision <a href="#struct_arr">arrays</a>, with dimensions
+N rows by 6 columns, where N is the number of samples. Each column contains
+the values of x(n), y(n), z(n), phi(n), theta(n) and psi(n), where sample
+number n = 1, 2, ..., N.
+
+<img border=0 width=531 height=226 src="fig_02.jpg">
+<br>Figure 2. Body fixed frame translated [x<SUB>n</SUB> y<SUB>n</SUB> z<SUB>n</SUB>]
+and rotated psi<SUB>n</SUB> about the z axis.
+
+<p><font size=+2 color="#990000"><b><A name=struct_arr>Structures and arrays in MATLAB
+and MVT</A></b></font><br>
+
+<p>In MVT arrays are used as input to and output from functions.
+MATLAB arrays are analog to mathematical matrices and may be of any dimension,
+MVT only uses one and two dimensional arrays, a one dimensional array equals a
+vector.
+
+<p>The <a href="#dof">6 DOF data</a> array has dimensions
+Nx6, the following command examples show how to manipulate and retrieve
+information from certain columns, rows or the whole array:
+
+<p>Create an 10x6 array of zeros:
+
+<p><span style='font-size:10.0pt;font-family:"Courier New"'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+my_array = zeros(10,6)
+</span>
+
+<p>Using the colon operator to address specific columns
+and rows. First command sets each value in the first column equal to their row
+number. Second command retrieves the fourth row from the newly created array:
+
+<p><span style='font-size:10.0pt;font-family:"Courier New"'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	my_array(:,1) = [1:10]'<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	third_row = my_array(4,:)<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	third_row = my_array(4,:)<br>
+</span>
+
+<p>The 6 DOF data array now contain zeros for all vessel variables, except
+for <EM>x</EM>-position. From this data we know that the vessel moves straight
+forward (since psi<SUB>n</SUB>=0 for all n) from x=1 to x=10. We now have to
+define a time vector (Nx1 array, a column vector) which identifies the time of
+each sample in <EM>my_array</EM>. The
+following command creates a linear time vector of the same length as the 6 DOF
+data, with time steps of 0.1 seconds:
+
+<p><span style='font-size:10.0pt;font-family:"Courier New"'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	time_vector = 0.1 * [1:10]'
+</span>
+
+<p>The ' operator transposes the row vector to a column vector (see help on :).The
+time_vector now contain sample time information for the 6 DOF data in my_array.
+Before you pass these two arrays to a MVT function assign them to a structure (MATLAB
+<EM>struct</EM>) by typing:
+
+<p><span style='font-size:10.0pt;font-family:"Courier New"'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	vessel_struct.x = my_array<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	vessel_struct.t = time_vector<br>
+</span>
+
+<p>The structure vessel_struct can now be used as input argument to MVT functions
+that require 6 DOF data input. And the fields of vessel_struct x and t may be used as
+ordinary arrays, for example:
+
+<p><span style='font-size:10.0pt;font-family:"Courier New"'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	vessel_struct.x(:,2) = ones(10,1)
+</span>
+
+<p>To create a array of structures (in case you have more than one vessel) simply
+more append entries to the existing structure. Imagine there's a vessel moving from
+x=10 to x=28 simultaneously as the first vessel moves from x=1 to x=10:
+
+<p><span style='font-size:10.0pt;font-family:"Courier New"'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	my_second_array = zeros(10,6)<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	my_second_array(:,1) = [10:2:28]'<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	my_second_array = zeros(10,6)<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	vessel_struct(2).t = time_vector
+</span>
+
+<p>Once 6 DOF data for all your vessels are assigned to
+one structure, it might be a good idea to save (see MATLAB <EM>save</EM>) the
+structure for future use, retrieve saved structures with <EM>load</EM>.<br>
+
+<p><font size=+2 color="#990000"><b><A name=virtual>VRML 3D models in MVT</A></b></font><br>
+
+<p>Two components are needed to display a 3D model in MVT.
+A VRML file describing the properties of the 3D model and a VRML viewer to draw
+the 3D model onto the screen. Short description of terms in this chapter:
+
+<ul>
+	<li><B>VRML</B> (Virtual Reality Modelling Language) is combination of a 3D modelling language
+		and a network communication language (Carey and Bell, 1997). VRML features are simple
+		geometric shapes and extensive user multi user functionality. MVT combines
+		several geomtric shapes to model complex 3D models. Figure 3 shows a 3D VRML
+		model displayed by MVT.</li>
+	<li>A <B>3D model</B> refer to any three dimensional model, such as an off-shore
+		supply vessel, a coast line etc. A VRML 3D model refer to a 3D model written in
+		this specific modelling language.</li>
+	<li>The <B>VRML viewer</B> displays the 3D model, MVT uses the viewer supplied
+		with the <A HREF="req_prod.html">Virtual Reality Toolbox</A> to do this. A VRML
+		editor is also supplied with the toolbox, use this editor to create your own 3D
+		models (see <EM>Examples</EM>).
+	<li>All <B>interactions</B> with the displayed VRML model, such as moving and
+		rotating a vessel, utilize the functions of the <a href="req_prod.html">Virtual
+		Reality Toolbox</a>.</li>
+</ul>
+
+<p><font size=+2 color="#990000"><b><A name=virtual>References</A></b></font><br>
+
+<p>Carey, R. and Bell, G. (1997). <EM>The Annoted VRML 2.0 Reference Manual</EM>.
+Addison-Wesley Developers Press.
+
+<p>Fossen, T. I. (2002). <EM>Marine
+Control Systems, Guidance, Navigation
+and Control of Ships, Rigs and Underwater Vehicles</EM>. Marine Cybernetics.
+
+<p>SNAME (1950). Nomenclature for treating the motion of a submerged body
+through a fluid. Technical Report Bulletin 1-5, Society of Naval Architects and
+Marine Engineers, New York, USA.
+
+<p><table bgcolor="#ffe4b0" border=0 width="100%" cellpadding=0 cellspacing=0><tr valign=center>
+    <td align=left width=20><a href="install.html"><img src="b_prev.gif" border=0 align=center></a></td>
+    <td align=left> Installation</td><td align=right>Examples</td>
+    <td align=right width=20><a href="examples.html"><img src="b_next.gif" border=0 align=center></a></td></tr>
+   </table>
+
+</body>
+
+</html>

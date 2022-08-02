@@ -1,0 +1,684 @@
+# $Revision: 1.10.4.5 $
+Library {
+  Name			  "vector_candrivers"
+  Version		  6.0
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  off
+  StatusBar		  off
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Mon Dec 03 08:32:26 2001"
+  Creator		  "The MathWorks Inc."
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "batserve"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Wed Apr 21 04:03:03 2004"
+  ModelVersionFormat	  "1.%<AutoIncrement:115>"
+  ConfigurationManager	  "None"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock off
+  ProdHWDeviceType	  "Specified"
+  ShowModelReferenceBlockVersion off
+  ShowModelReferenceBlockIO off
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.0.4"
+      Array {
+	Type			"Handle"
+	Dimension		7
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.0.4"
+	  StartTime		  "0.0"
+	  StopTime		  "10.0"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  RelTol		  "1e-3"
+	  SolverMode		  "SingleTasking"
+	  Solver		  "ode45"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.0.4"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SaveTime		  on
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsOut"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Version		  "1.0.4"
+	  BlockReduction	  on
+	  BooleanDataType	  off
+	  ConditionallyExecuteInputs on
+	  ConditionalExecOptimization "on_for_testing"
+	  InlineParams		  off
+	  InlineInvariantSignals  on
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  on
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  ParameterPooling	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.0.4"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg on
+	  CheckExecutionContextRuntimeOutputMsg	on
+	  SignalResolutionControl "TryResolveAllWithWarning"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  SolverPrmCheckMsg	  "none"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  TasksWithSamePriorityMsg "warning"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterPrecisionLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  ModelReferenceSimTargetVerbose off
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	  ModelReferenceSymbolNameMessage "warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.0.4"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "Specified"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  off
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.0.4"
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Version		  "1.0.4"
+	  SystemTargetFile	  "grt.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  TemplateMakefile	  "grt_default_tmf"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Version		      "1.0.4"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      CustomSymbolStr	      "$R$N$M"
+	      MangleLength	      1
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    Simulink.GRTTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Version		      "1.0.4"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns off
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      ExtMode		      off
+	      ExtModeStaticAlloc      off
+	      ExtModeTesting	      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTransport	      0
+	      ExtModeMexFile	      "ext_comm"
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	      GenerateASAP2	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      SimulationMode	      "normal"
+      CurrentDlgPage	      "Solver"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      PortCounts	      "[]"
+      SFunctionModules	      "''"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "vector_candrivers"
+    Location		    [67, 76, 420, 422]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      " Vector CAN Configuration"
+      Ports		      []
+      Position		      [45, 108, 146, 156]
+      OpenFcn		      "open_system(gcb,'mask');\ndos('vcanconf &');   "
+"   "
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskType		      "Vector CAN Configuration"
+      MaskDescription	      "Configure Vector Informatik, host-side CAN hard"
+"ware. Use one of these blocks for each application channel required by your m"
+"odel. If you do not have Vector CAN hardware and software drivers installed, "
+"you can disable the Vector CAN blocks without removing them from the model.\n"
+"\nYou must specify an identification tag, which allows Vector CAN Receive and"
+" Vector CAN Transmit blocks to be associated with a particular Vector CAN Con"
+"figuration block.\n\nCAN bit timings for the application channels can be set "
+"in the CAN Driver Configuration utility."
+      MaskHelp		      "helpview([docroot '/toolbox/can_blocks/can_bloc"
+"ks.map'], 'Vector_CAN_config');"
+      MaskPromptString	      "Identification tag:|Application channel:"
+      MaskStyleString	      "edit,popup(MATLAB 1|MATLAB 2|MATLAB 3|MATLAB 4|"
+"MATLAB 5|MATLAB 6|MATLAB 7|MATLAB 8|MATLAB 9|MATLAB 10|None)"
+      MaskTunableValueString  "off,off"
+      MaskCallbackString      "|%vector_auto_mask('channel_callback',gcb);"
+      MaskEnableString	      "on,on"
+      MaskVisibilityString    "on,on"
+      MaskToolTipString	      "on,on"
+      MaskVarAliasString      ","
+      MaskVariables	      "tag_param=&1;channel_param=@2;"
+      MaskInitialization      "dispstr = sprintf('Vector CAN \\nConfiguration "
+"\\n(%s)', tag_param);\n\n% map to 0 based index\nchannel_param = channel_para"
+"m - 1;\n\nif strcmp(get_param(gcb,'channel_param'), 'None')\n	disabled"
+" = 1;\nelse\n	disabled = 0;\nend;\n\n% make sure the config tag for th"
+"is block is unique!\n% search for config blocks.\n% disable warnings whilst d"
+"oing find_system because there may be unintialised parameters\n%\nsysroot=str"
+"tok(gcs,'/');\nsws = warning;\nwarning off\nconfigblock = find_system(sysroot"
+",'LookUnderMasks','on',...\n			  'FollowLinks','on',..."
+"\n			  'MaskType',...\n			  'Vector"
+" CAN Configuration');\nwarning(sws);\n\n% initially no error\nestring = 'null"
+"';\nfor i=1:length(configblock)\n    % skip if it is the current block!\n    "
+"if (strcmp(get_param(configblock{i},'Name'),get_param(gcbh,'Name'))==1)\n    "
+"  continue;\n    end;\n    if (strcmp(get_param(configblock{i},'tag_param'), "
+"tag_param)==1)\n      % note: error string is passed back for evaluation in t"
+"he mask.\n      % this allows the mask display to be updated correctly.\n    "
+"  estring = sprintf('Another configuration block exists with tag %s. \\n Chan"
+"ge the tag in one of the configuration blocks and associate the required TX a"
+"nd RX blocks with that tag.',tag_param);\n    end;\nend;\n\n% check for any e"
+"rrors - this allows the display to update.\nif (strcmp(estring,'null') == 0)"
+"\n   error(estring);\nend"
+      MaskDisplay	      "disp(dispstr);"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "config1|None"
+      MaskTabNameString	      ","
+      System {
+	Name			" Vector CAN Configuration"
+	Location		[62, 105, 265, 318]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  "CAN Type Registration\nS-function"
+	  Ports			  []
+	  Position		  [30, 108, 160, 172]
+	  FunctionName		  "sfun_register_can_types"
+	}
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  "Vector CAN Configuration\nS-Function"
+	  Ports			  []
+	  Position		  [25, 15, 161, 76]
+	  AncestorBlock		  "vector_candrivers/Vector CAN Configuration"
+	  FunctionName		  "sfun_vector_can_app_init"
+	  Parameters		  "channel_param disabled tag_param"
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Open CAN\nMessage Blocks"
+      Ports		      []
+      Position		      [250, 120, 275, 145]
+      OpenFcn		      "canblocks"
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskInitialization      "[x colormap] = imread([matlabroot '\\toolbox\\r"
+"tw\\targets\\common\\tgtcommon\\model.gif']);\nrgb = ind2rgb(x, colormap);\n"
+      MaskDisplay	      "image(rgb)"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"Open CAN\nMessage Blocks"
+	Location		[433, 403, 931, 703]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	ZoomFactor		"100"
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Vector CAN Configuration"
+      Ports		      []
+      Position		      [45, 188, 146, 236]
+      ForegroundColor	      "gray"
+      CopyFcn		      "vector_init_mask_config('copyfcn_callback', gcb"
+")"
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskType		      "Vector CAN Configuration"
+      MaskDescription	      "Configure Vector Informatik, host-side CAN hard"
+"ware. Use one of these blocks for each CAN channel required by your model. If"
+" you do not have Vector CAN hardware and software drivers installed, you can "
+"disable the Vector CAN blocks without removing them from the model.\n\nYou mu"
+"st specify an identification tag, which allows Vector CAN Receive and Vector "
+"CAN Transmit blocks to be associated with a particular Vector CAN Configurati"
+"on block."
+      MaskHelp		      "helpview([docroot '/toolbox/can_blocks/can_bloc"
+"ks.map'], 'Vector_CAN_config');"
+      MaskPromptString	      "Identification tag:|Channel:|Set bit timing par"
+"ameters manually|Pre-calculated bit rate:|Bit rate prescaler (BRP):|Synchroni"
+"zation jump width (SJW):|Time segment 1 (TSEG1):|Time segment 2 (TSEG2):|Samp"
+"le mode:"
+      MaskStyleString	      "edit,popup(Virtual 1|Virtual 2|CanAc2Pci 1|CanA"
+"c2Pci 2|CanAc2 1|CanAc2 2|CanCardX 1|CanCardX 2|CanPari|CanCardXL 1|CanCardXL"
+" 2|None),checkbox,popup(1 MBaud|500 kBaud|100 kBaud|10 kBaud),edit,edit,edit,"
+"edit,popup(1 sample per bit|3 samples per bit)"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off,off"
+      MaskCallbackString      "|vector_init_mask_config('channel',gcb);|vector"
+"_init_mask_config('timing',gcb);|vector_init_mask_config('baud_rate',gcb);|||"
+"||"
+      MaskEnableString	      "on,on,off,off,off,off,off,off,off"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,"
+      MaskVariables	      "tag_param=&1;channel_param=@2;manual_bit_timing"
+"s=@3;baud_rate=@4;presc_in=@5;sjw_in=@6;tseg1_in=@7;tseg2_in=@8;sam_in=@9;"
+      MaskInitialization      "[sam, disabled, dispstr, estring] = ...\nvector"
+"_init_mask(tag_param,baud_rate,...\npresc_in,sjw_in,tseg1_in,tseg2_in,sam_in,"
+"manual_bit_timings,gcb);\n\ndispstr = sprintf('Vector CAN \\nConfiguration \\"
+"n(superseded)');\n\n% check for any errors - this allows the display to updat"
+"e.\nif (strcmp(estring,'null') == 0)\n   error(estring);\nend"
+      MaskDisplay	      "disp(dispstr);"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "config1_old|None|off|500 kBaud|1|1|8|7|1 sample"
+" per bit"
+      MaskTabNameString	      ",,,,,,,,"
+      System {
+	Name			"Vector CAN Configuration"
+	Location		[62, 105, 265, 318]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  "CAN Type Registration\nS-function"
+	  Ports			  []
+	  Position		  [30, 108, 160, 172]
+	  FunctionName		  "sfun_register_can_types"
+	}
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  "Vector CAN Configuration\nS-Function"
+	  Ports			  []
+	  Position		  [25, 15, 161, 76]
+	  AncestorBlock		  "vector_candrivers/Vector CAN Configuration"
+	  FunctionName		  "sfun_vector_can_init"
+	  Parameters		  "channel_param presc_in sjw_in tseg1_in tseg"
+"2_in sam disabled tag_param"
+	}
+      }
+    }
+    Block {
+      BlockType		      "S-Function"
+      Name		      "Vector CAN Receive"
+      Ports		      [0, 2]
+      Position		      [45, 29, 145, 76]
+      FontName		      "Arial"
+      FunctionName	      "sfun_vector_can_read"
+      Parameters	      "sample_time frame_type ids output_time loop dis"
+"abled tag_param"
+      MaskType		      "Vector CAN Receive"
+      MaskDescription	      "Reads CAN messages from a CAN channel using the"
+" Vector-Informatik CAN driver software (must be installed separately)."
+      MaskHelp		      "helpview([docroot '/toolbox/can_blocks/can_bloc"
+"ks.map'], 'Vector_CAN_RX');"
+      MaskPromptString	      "Identification tag (link to configuration block"
+"):|CAN message identifiers:|CAN message type:|Sample time:|Output timestamp|L"
+"oop to clear message queue"
+      MaskStyleString	      "edit,edit,popup(Standard (11-bit identifier)|Ex"
+"tended (29-bit identifier)),edit,checkbox,checkbox"
+      MaskTunableValueString  "off,off,off,off,off,off"
+      MaskCallbackString      "|||||"
+      MaskEnableString	      "on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,"
+      MaskVariables	      "tag_param=&1;ids=@2;frame_type_in=@3;sample_tim"
+"e=@4;output_time=@5;loop=@6;"
+      MaskInitialization      "dispstr = '???'; % default\n\n% check for valid"
+" CAN identifier\nvector_can_msg_ids_check(ids,frame_type_in);\n\n% sort the i"
+"ds so binary search \n% can be used in the s-function\nids = uint32(sort(ids)"
+");\n\n[frame_type,frame_disp,disabled,dispstr,estring] = ...\n    vector_rx_m"
+"ask(tag_param, frame_type_in, output_time);\n\n% check for any errors - this "
+"allows the display to update.\nif (strcmp(estring,'null') == 0)\n   error(est"
+"ring);\nend"
+      MaskDisplay	      "disp(dispstr)\n\nport_label('output',1,'f()')\n"
+"port_label('output',2,'Msg')"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "config1|[hex2dec('0001') 2 3]|Standard (11-bit "
+"identifier)|1|off|on"
+      MaskTabNameString	      ",,,,,"
+    }
+    Block {
+      BlockType		      "S-Function"
+      Name		      "Vector CAN Transmit"
+      Tag		      "PassThroughFriendly"
+      Ports		      [1]
+      Position		      [215, 27, 315, 73]
+      FunctionName	      "sfun_vector_can_send"
+      Parameters	      "sample_time disabled tag_param"
+      MaskType		      "Vector CAN Transmit"
+      MaskDescription	      "Sends CAN messages on a CAN channel using the V"
+"ector-Informatik CAN driver software (must be installed separately)."
+      MaskHelp		      "helpview([docroot '/toolbox/can_blocks/can_bloc"
+"ks.map'], 'Vector_CAN_TX');"
+      MaskPromptString	      "Identification tag (link to configuration block"
+"):|Sample time:"
+      MaskStyleString	      "edit,edit"
+      MaskTunableValueString  "off,off"
+      MaskCallbackString      "|"
+      MaskEnableString	      "on,on"
+      MaskVisibilityString    "on,on"
+      MaskToolTipString	      "on,on"
+      MaskVarAliasString      ","
+      MaskVariables	      "tag_param=&1;sample_time=@2;"
+      MaskInitialization      " [disabled,dispstr,estring] = vector_tx_mask(ta"
+"g_param);\n% check for any errors - this allows the display to update.\nif (s"
+"trcmp(estring,'null') == 0)\n   error(estring);\nend"
+      MaskDisplay	      "disp(dispstr)\n\nport_label('input',1,'Msg')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "config1|-1"
+      MaskTabNameString	      ","
+    }
+    Annotation {
+      Name		      "Vector CAN Message Blocks for Host PC\nCopyrigh"
+"t (c) 1990-2002 The MathWorks, Inc."
+      Position		      [178, 302]
+      FontName		      "Arial"
+    }
+  }
+}

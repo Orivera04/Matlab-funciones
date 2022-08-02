@@ -1,0 +1,72 @@
+%% $RCSfile: tidmcpid.tlc,v $
+%% $Revision: 1.1.6.1 $ $Date: 2004/04/01 16:14:39 $
+%% Copyright 2004 The MathWorks, Inc.
+%%
+%% Abstract: TI C28x DMC library Ramp Generation
+
+%implements tidmcpid "C"
+
+%include "fix_published.tlc"
+
+
+%% Function: BlockTypeSetup ==============================================
+%function BlockTypeSetup(block, system) void
+    %<LibAddToCommonIncludes("<IQmathLib.h>")>
+%endfunction %% BlockTypeSetup
+
+
+%% Function: Outputs ==========================================================
+%%
+%function Outputs(block, system) Output
+
+	%assign OUTPORT_X  = 0
+	%assign dataTyp = LibBlockOutputSignalDataTypeId(OUTPORT_X)
+	%assign fracLen = FixPt_DataTypeFractionLength(block,dataTyp)
+    %assign IQN = "_IQ%<fracLen>"
+    %assign prop_gain = %<LibBlockParameterValue(P1, 0)>
+    %assign intg_gain = %<LibBlockParameterValue(P2, 0)>
+    %assign delt_gain = %<LibBlockParameterValue(P3, 0)>
+    %assign derv_gain = %<LibBlockParameterValue(P4, 0)>
+    %assign min_out = %<LibBlockParameterValue(P5, 0)>
+    %assign max_out = %<LibBlockParameterValue(P6, 0)>
+
+	/* C28x DMC Library (%<ParamSettings.FunctionName>) - '%<Name>' */
+	{
+	 	int32_T error, up_reg3, saterr_reg3, uprsat_reg3;
+        int32_T* ptrUIReg3 = %<LibBlockDWorkAddr (UI_REG3, "", "", 0)>;
+        int32_T* ptrUDReg3 = %<LibBlockDWorkAddr (UD_REG3, "", "", 0)>;
+        int32_T *ptrPrevOut = %<LibBlockDWorkAddr (PREV_OUT, "", "", 0)>;
+            
+        %assign rollVars = ["U", "Y"]
+        %roll idx = RollRegions, lcv = RollThreshold, block,"Roller", rollVars
+
+			error = %<LibBlockInputSignal(0,"",lcv,idx)> - 
+			        %<LibBlockInputSignal(1,"",lcv,idx)>;
+
+			up_reg3 = _IQ%<fracLen>mpy (%<IQN>(%<prop_gain>), error);
+
+			uprsat_reg3 = up_reg3 + *ptrUIReg3 + *ptrUDReg3;
+
+			if (uprsat_reg3 > %<IQN>(%<max_out>)) {
+				%<LibBlockOutputSignal(0,"",lcv,idx)> = %<IQN>(%<max_out>);
+			} else if (uprsat_reg3 < %<IQN>(%<min_out>)) {
+				%<LibBlockOutputSignal(0,"",lcv,idx)> = %<IQN>(%<min_out>);  
+			} else {
+				%<LibBlockOutputSignal(0,"",lcv,idx)> = uprsat_reg3;
+			}
+
+			saterr_reg3 = %<LibBlockOutputSignal(0,"",lcv,idx)> - uprsat_reg3;
+
+			*ptrUIReg3++ = *ptrUIReg3 + _IQ%<fracLen>mpy (%<IQN>(%<intg_gain>), up_reg3) 
+				                      + _IQ%<fracLen>mpy (%<IQN>(%<delt_gain>), saterr_reg3);
+
+			*ptrUDReg3++ = _IQ%<fracLen>mpy (%<IQN>(%<derv_gain>), up_reg3 - *ptrPrevOut);
+				
+			*ptrPrevOut++ = up_reg3;
+ 
+        %endroll
+	}
+
+%endfunction
+
+%% [EOF] tidmcpid.tlc

@@ -1,0 +1,186 @@
+<!--
+Copyright 2001-2004 The MathWorks, Inc.
+$Revision: 1.1.6.2 $ $Date: 2004/03/24 20:39:47 $
+-->
+
+<!--
+This HTML is auto-generated from an m-file.
+Your changes will be overwritten.
+--><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:x-large">Viewing Events</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Events occur during an acquisition at a particular time when a condition is met.
+These events include:
+</p><ul xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd"><li>Error
+</li><li>FramesAcquired
+</li><li>Start
+</li><li>Stop
+</li><li>Timer
+</li><li>Trigger
+</li></ul><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">All acquisitions consist of at least 3 events:
+</p><ul xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd"><li>Starting the device
+</li><li>Triggering the device
+</li><li>Stopping the device.
+</li></ul><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Access an image acquisition device.</span>
+vidobj = videoinput(<span style="color:#B20000">'winvideo'</span>, 1);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Acquire data continuously.</span>
+vidobj.FramesPerTrigger = Inf;</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Use a manual trigger to initiate data logging.</span>
+triggerconfig(vidobj, <span style="color:#B20000">'manual'</span>);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Start the acquisition.</span>
+start(vidobj)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Trigger the object to start logging.</span>
+trigger(vidobj)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Stop the acquisition</span>
+stop(vidobj)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">To view event information for the acquisition, access the EventLog
+property of the video input object. Events are recorded in chronological order.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% View the event log.</span>
+events = vidobj.EventLog</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+events = 
+
+1x3 struct array with fields:
+    Type
+    Data
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Each event provides information on the state of the object at the
+time the event ocurred.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Display first event.</span>
+event1 = events(1)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+event1 = 
+
+    Type: 'Start'
+    Data: [1x1 struct]
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">data1 = events(1).Data</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+data1 = 
+
+             AbsTime: [2003 1 15 12 58 52.9700]
+    FrameMemoryLimit: 339222528
+     FrameMemoryUsed: 0
+         FrameNumber: 0
+       RelativeFrame: 0
+        TriggerIndex: 0
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Display second event.</span>
+event2 = events(2)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+event2 = 
+
+    Type: 'Trigger'
+    Data: [1x1 struct]
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">data2 = events(2).Data</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+data2 = 
+
+             AbsTime: [2003 1 15 12 58 53.7650]
+    FrameMemoryLimit: 339222528
+     FrameMemoryUsed: 230400
+         FrameNumber: 0
+       RelativeFrame: 0
+        TriggerIndex: 1
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Display third event.</span>
+event3 = events(3)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+event3 = 
+
+    Type: 'Stop'
+    Data: [1x1 struct]
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">data3 = events(3).Data</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+data3 = 
+
+             AbsTime: [2003 1 15 12 58 54.3490]
+    FrameMemoryLimit: 339222528
+     FrameMemoryUsed: 1612800
+         FrameNumber: 7
+       RelativeFrame: 7
+        TriggerIndex: 1
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Once the video input object is no longer needed, delete</span>
+<span style="color:green">% it and clear it from the workspace.</span>
+delete(vidobj)
+clear vidobj</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">See also IMAQHELP, IMAQDEVICE/PROPINFO.
+</p><originalCode xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" code="%% Viewing Events
+&#xA;
+&#xA;%%
+&#xA;% Events occur during an acquisition at a particular time when a condition is met.
+&#xA;% These events include:
+&#xA;%
+&#xA;% * Error
+&#xA;% * FramesAcquired
+&#xA;% * Start
+&#xA;% * Stop
+&#xA;% * Timer
+&#xA;% * Trigger
+&#xA;%
+&#xA;% All acquisitions consist of at least 3 events:
+&#xA;%
+&#xA;% * Starting the device
+&#xA;% * Triggering the device
+&#xA;% * Stopping the device.
+&#xA;
+&#xA;% Access an image acquisition device.
+&#xA;vidobj = videoinput('winvideo', 1);
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Acquire data continuously.
+&#xA;vidobj.FramesPerTrigger = Inf;
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Use a manual trigger to initiate data logging.
+&#xA;triggerconfig(vidobj, 'manual');
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Start the acquisition.
+&#xA;start(vidobj)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Trigger the object to start logging.
+&#xA;trigger(vidobj)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Stop the acquisition
+&#xA;stop(vidobj)
+&#xA;
+&#xA;%%
+&#xA;% To view event information for the acquisition, access the EventLog 
+&#xA;% property of the video input object. Events are recorded in chronological order.
+&#xA;
+&#xA;% View the event log.
+&#xA;events = vidobj.EventLog
+&#xA;
+&#xA;%%
+&#xA;% Each event provides information on the state of the object at the
+&#xA;% time the event ocurred.
+&#xA;
+&#xA;% Display first event.
+&#xA;event1 = events(1)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;data1 = events(1).Data
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Display second event.
+&#xA;event2 = events(2)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;data2 = events(2).Data
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Display third event.
+&#xA;event3 = events(3)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;data3 = events(3).Data
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Once the video input object is no longer needed, delete
+&#xA;% it and clear it from the workspace.
+&#xA;delete(vidobj)
+&#xA;clear vidobj
+&#xA;
+&#xA;%%
+&#xA;% See also IMAQHELP, IMAQDEVICE/PROPINFO.
+&#xA;"></originalCode>

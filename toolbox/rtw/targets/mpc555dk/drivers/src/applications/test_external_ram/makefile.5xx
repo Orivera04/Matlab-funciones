@@ -1,0 +1,26 @@
+# File : makefile
+#
+# Abstract : makefile for the external ram test file
+#
+# $Revision: 1.1.6.3 $
+# $Date: 2004/04/19 01:25:17 $
+#
+# Copyright 2003-2004 The MathWorks, Inc.
+#
+.PHONY : default all
+
+default : all
+
+COMPONENT=external_ram
+include $(COMPONENT_MANAGER)
+
+OBJECTS += main.o 
+
+S19_TARGET =  $(OBJDIR)/test_external_ram.s19
+
+all: setup $(S19_TARGET)
+
+$(S19_TARGET) : $(OBJECT_TARGETS) makefile makefile.5xx
+	$(build-srec-file)
+
+$(OBJECT_TARGETS) : makefile makefile.5xx

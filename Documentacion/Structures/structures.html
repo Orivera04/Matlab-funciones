@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+    <title> Matlab Programming - Structures Data Type  </title>
+
+    
+    
+    
+    
+
+<!-- Main CSS -->
+<link href="structures_files/topics.css" rel="stylesheet" type="text/css">
+
+
+  <!-- Lecture/Lab/Assignment Style CSS -->
+  <link href="structures_files/popups.css" rel="stylesheet" type="text/css">
+   
+
+
+  <!-- For In-line Tabs -->
+  <script type="text/javascript" src="structures_files/tabpane.js"></script>
+  <link type="text/css" rel="StyleSheet" href="structures_files/tab.css">
+
+  
+
+  <!-- For Syntax Highlighting -->
+  <script type="text/javaScript" src="structures_files/jquery-1.js"></script> 
+  <script type="text/javascript" src="structures_files/jquery.js"></script>
+  <script type="text/javascript"> 
+    ChiliBook.recipeFolder     = "http://www.cs.utah.edu/~germain/PPS/JS_Libraries/Chili/";  
+    ChiliBook.stylesheetFolder = "http://www.cs.utah.edu/~germain/PPS/JS_Libraries/Chili/";  
+  </script>
+
+  <!-- For code setoff box -->
+  <link href="structures_files/code_styles.css" rel="stylesheet" type="text/css">
+
+   
+
+
+    
+    <meta name="AUTHOR" content="H. James de St. Germain">
+  <link href="structures_files/matlab.css" type="text/css" rel="stylesheet"></head>
+
+  <body>
+
+    <!-- Last Updated Fall 2008 -->
+    <!-- H. James de St. Germain -->
+    <!-- University of Utah -->
+
+    <div id="topics_header">
+
+      <h1> The Structure Data Type in Matlab</h1>
+
+      <p class="synopsis">
+        A Structure is a named collection of data representing a single idea or "object".
+        For anything in a computer more complicated than a list of numbers, structures can
+        be used.  Inside a structure are a <b>list of fields</b> each being a variable
+        name for some sub-piece of data.  Structures are similar to arrays in that they
+        contain multiple data, but the main difference is, instead of an Index to each
+        piece of data, we have a "name"; and instead of every piece of data being the same
+        type, we can have a different type for each "field".
+      </p>
+
+    </div>
+
+    <div id="topics_body">
+
+      <h1> Structures in Matlab</h1>
+
+      <p>
+        A Structure is one of the 5 data types in programming.  A structure is used to
+        represent information about something more complicated than a single number,
+        character, or boolean can do (and more complicated than an array of the above data
+        types can do).  For example, a Student can be defined by his or her name, gpa,
+        age, uid, etc.  Each of these pieces of information should be <b>labeled</b> with
+        an easily understood descriptive title, and then <b>combined</b> to form a whole
+        (the structure).
+      </p>
+
+      <p>
+        Structures give us a way to "combine" multiple types of information under a single
+        variable.  The nice thing is that structures allow us to use <b>Human Readable</b>
+        descriptions for our data.  This is almost ALWAYS a better way to go then to use a
+        group of arrays or even a cell array.
+      </p>
+
+      <p>
+	Below is the code to show a single variable (named student) which contains two
+	<b>fields</b> which are "sub-components" of what it means to be a student.  Each
+	field has its own <b>name</b> and its own <b>type</b>.
+      </p>
+      
+      <pre class="code">        <code class="matlab">&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;student.name&nbsp;=&nbsp;<span class="string">'jim'</span>;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;student.gpa&nbsp;&nbsp;=&nbsp;<span class="number">4.0</span>;&nbsp;<br>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>
+      </pre>
+      
+      <hr>
+      
+      <h1> Structure Example </h1>    
+
+      <p>
+        Here is an example of how to use arrays to represent "logically connected"
+        data:
+      </p>
+
+      <pre class="code">        <code class="matlab">&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;student_ages&nbsp;=&nbsp;[&nbsp;<span class="number">21</span>,&nbsp;<span class="number">33</span>,&nbsp;<span class="number">25</span>,&nbsp;<span class="number">24</span>&nbsp;];&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;student_names&nbsp;=&nbsp;{&nbsp;<span class="string">'Jim'</span>,&nbsp;<span class="string">'Jane'</span>,&nbsp;<span class="string">'Joe'</span>,&nbsp;<span class="string">'Janet'</span>&nbsp;};&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>
+      </pre>
+
+      <p>
+        To the computer, these two variables are completely separate.  It has no way for
+        the computer to know that 'Jim' is 21.  We have to rely on the fact that the
+        programmer (you) sees that both variables have similar names, and thus they
+        "might" be related.
+      </p>
+      
+      <p>
+        Here is an example of how to create a structure (actually an array of structures)
+        to represent the same data.
+      </p>
+
+      <pre class="code">        <code class="matlab">&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students(<span class="number">1</span>).name&nbsp;&nbsp;=&nbsp;<span class="string">'jim'</span>;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students(<span class="number">1</span>).age&nbsp;&nbsp;&nbsp;=&nbsp;<span class="number">21</span>;&nbsp;<br>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students(<span class="number">2</span>).name&nbsp;&nbsp;=&nbsp;<span class="string">'Jane'</span>;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students(<span class="number">2</span>).age&nbsp;&nbsp;&nbsp;=&nbsp;<span class="number">33</span>;&nbsp;<br>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students(<span class="number">3</span>).name&nbsp;&nbsp;=&nbsp;'Joe;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students(<span class="number">3</span>).age&nbsp;&nbsp;&nbsp;=&nbsp;<span class="number">25</span>;&nbsp;<br>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students(<span class="number">4</span>).name&nbsp;&nbsp;=&nbsp;'Janet;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students(<span class="number">4</span>).age&nbsp;&nbsp;&nbsp;=&nbsp;<span class="number">24</span>;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>
+      </pre>
+
+      <div class="helpme">
+        Here are some Wrong ways to do it:
+        <div class="popup">
+          <pre class="code">            <code class="matlab">&nbsp;<br><span class="com">%&nbsp;The&nbsp;following&nbsp;is&nbsp;the&nbsp;WRONG&nbsp;way&nbsp;to&nbsp;do&nbsp;it,</span>&nbsp;<br><span class="com">%&nbsp;Unfortunately,&nbsp;some&nbsp;of&nbsp;you&nbsp;will&nbsp;do&nbsp;it&nbsp;on&nbsp;the&nbsp;midterm&nbsp;and&nbsp;the</span>&nbsp;<br><span class="com">%&nbsp;&nbsp;final...&nbsp;&nbsp;Do&nbsp;not&nbsp;use&nbsp;the&nbsp;underscore&nbsp;when&nbsp;you&nbsp;mean&nbsp;array&nbsp;(&nbsp;index&nbsp;).&nbsp;&nbsp;</span>&nbsp;<br>&nbsp;<br>students_1.name&nbsp;&nbsp;=&nbsp;<span class="string">'jim'</span>;&nbsp;&nbsp;<br>students_1.age&nbsp;&nbsp;&nbsp;=&nbsp;<span class="number">21</span>;&nbsp;<br>&nbsp;<br>students_2.name&nbsp;&nbsp;=&nbsp;<span class="string">'Jane'</span>;&nbsp;&nbsp;<br>students_2.age&nbsp;&nbsp;&nbsp;=&nbsp;<span class="number">33</span>;&nbsp;<br>&nbsp;<br>students_3.name&nbsp;&nbsp;=&nbsp;'Joe;&nbsp;<br>students_3.age&nbsp;&nbsp;&nbsp;=&nbsp;<span class="number">25</span>;&nbsp;<br>&nbsp;<br>students_4.name&nbsp;&nbsp;=&nbsp;'Janet;&nbsp;&nbsp;<br>students_4.age&nbsp;&nbsp;&nbsp;=&nbsp;<span class="number">24</span>;&nbsp;<br>&nbsp;<br>&nbsp;<br><span class="com">%&nbsp;The&nbsp;following&nbsp;is&nbsp;ALSO&nbsp;the&nbsp;WRONG&nbsp;way&nbsp;to&nbsp;do&nbsp;it...</span>&nbsp;<br><span class="com">%&nbsp;Note&nbsp;that&nbsp;we&nbsp;want&nbsp;an&nbsp;array&nbsp;of&nbsp;students.&nbsp;&nbsp;Below&nbsp;we&nbsp;have&nbsp;a&nbsp;single</span>&nbsp;<br><span class="com">%&nbsp;student&nbsp;who&nbsp;has&nbsp;many&nbsp;names&nbsp;and&nbsp;many&nbsp;ages.</span>&nbsp;<br>&nbsp;<br>students.name(<span class="number">1</span>)&nbsp;&nbsp;=&nbsp;<span class="string">'jim'</span>;&nbsp;&nbsp;<br>students.age(<span class="number">1</span>)&nbsp;&nbsp;&nbsp;=&nbsp;<span class="number">21</span>;&nbsp;<br>&nbsp;<br>students.name(<span class="number">2</span>)&nbsp;&nbsp;=&nbsp;<span class="string">'Jane'</span>;&nbsp;&nbsp;<br>students.age(<span class="number">2</span>)&nbsp;&nbsp;&nbsp;=&nbsp;<span class="number">33</span>;&nbsp;<br>&nbsp;<br>students.name(<span class="number">3</span>)&nbsp;&nbsp;=&nbsp;'Joe;&nbsp;<br>students.age(<span class="number">3</span>)&nbsp;&nbsp;&nbsp;=&nbsp;<span class="number">25</span>;&nbsp;<br>&nbsp;<br>students.name(<span class="number">4</span>)&nbsp;&nbsp;=&nbsp;'Janet;&nbsp;&nbsp;<br>students.age(<span class="number">4</span>)&nbsp;&nbsp;&nbsp;=&nbsp;<span class="number">24</span>;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>
+          </pre>
+        </div>
+      </div>
+
+      <p>
+        We now have an <b>SINGLE</b> array variable "students" containing many Student
+        Data Structures. Thus:
+      </p>
+
+      <pre class="code">        <code class="matlab">&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students(<span class="number">1</span>)&nbsp;<span class="com">%&nbsp;gives&nbsp;us:&nbsp;</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;=&nbsp;<span class="string">'jim'</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;age&nbsp;=&nbsp;<span class="number">21</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>
+      </pre>
+
+      <p>
+        The computer can now keep track of all the information dealing with a single
+        student as a single "structure".  (Again, above we create an array of these
+        structures so that we can have lots of student records.)
+      </p>
+
+      <hr>
+      
+      <h1> Structure Syntax </h1>    
+
+      <p>
+        The syntax of a structure is "The Variable Name" followed by a "period" followed
+        by the "field".  Thus <b>student</b> is the name of the "structure variable".
+      </p>
+
+      <p>
+        The "field" is the name of the sub part of the variable (the part the follows the
+        dot.  So with our student structure, we currently have two fields (i.e., name and
+        age).  Each field has a data type associated with it (which can be: numbers,
+        characters, booleans, structures, or arrays).
+      </p>
+
+      <hr>
+
+      <h2> Abstract Data Types </h2>
+
+      <p>
+        This is the beginning of using <b>Abstract Data Types</b>.  ADTs are collections
+        of data and functions that work on the data.  In this case the data is the student
+        structure.
+      </p>
+      
+      <p>
+        What kind of functions could we write using the data structure above?
+      </p>
+
+      <p>How about:</p>
+      
+      <pre class="code">        <code class="matlab">&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a_student&nbsp;=&nbsp;find_student(students,&nbsp;<span class="string">'jim'</span>);&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;</code>
+      </pre>
+
+      <p>
+        This function would search through the entire array of students for any student
+        with the name jim.  We could then write a function that would compute the average
+        quiz grade for a student.
+      </p>
+
+      <p>
+        Such a function would return the grade for that student, assuming of course the
+        student structure contained a list of grades.  To do that we would say:
+      </p>
+
+      <pre class="code">        <code class="matlab">&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a_student&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;find_student(students,&nbsp;<span class="string">'jim'</span>);&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;average_grade&nbsp;=&nbsp;compute_average_quiz_grade(a_student);&nbsp;<br>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="com">%&nbsp;of&nbsp;course&nbsp;this&nbsp;would&nbsp;imply&nbsp;that&nbsp;each&nbsp;student&nbsp;had</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="com">%&nbsp;an&nbsp;array&nbsp;of&nbsp;quiz&nbsp;scores&nbsp;inside&nbsp;the&nbsp;student&nbsp;structure.&nbsp;&nbsp;Such&nbsp;a&nbsp;field</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="com">%&nbsp;could&nbsp;be&nbsp;added&nbsp;using&nbsp;code&nbsp;like:</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students(<span class="number">1</span>).quiz_scores&nbsp;=&nbsp;[<span class="number">98</span>,&nbsp;<span class="number">87</span>,&nbsp;<span class="number">89</span>,&nbsp;<span class="number">76</span>,&nbsp;<span class="number">95</span>,&nbsp;<span class="number">92</span>];&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>
+      </pre>
+
+      <p>
+	Notice that the above code adds a third field (called quiz_scores) to the student
+	structure.  This field contains an ARRAY of data. Notice how we combine structures
+	and arrays to build up more complex data types.
+      </p>
+
+      <p>
+	Here we have an array of structures (i.e., students).  Each structure contains two
+	arrays (i.e., a string and an array of numbers, (name, quiz_scores) and a single
+	number (i.e., age (an integer)).
+      </p>
+
+      <p>
+	What do you think student(2).grades contains at this point?  Try it on the
+	computer.
+      </p>
+
+      <hr>
+      
+
+<hr>
+
+<a href="http://www.cs.utah.edu/%7Egermain/PPS/Topics/index.html"> Back to Topics List </a>
+
+
+    </div>
+
+  
+
+</body></html>

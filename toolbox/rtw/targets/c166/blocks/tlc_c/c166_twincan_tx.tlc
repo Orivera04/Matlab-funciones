@@ -1,0 +1,110 @@
+%% File: c166_twincan_tx.tlc
+%%
+%% Abstract:
+%%   TwinCAN transmit block
+%%
+%% $Revision: 1.1.6.3 $
+%% $Date: 2004/04/19 01:17:49 $
+%%
+%% Copyright 2002-2003 The MathWorks, Inc.
+
+%implements c166_twincan_tx "C"
+%include "c166_common_includes.tlc"
+%include "can_comm_setup.tlc"
+%include "c166timers.tlc"
+
+
+%% Function: BlockTypeSetup
+%% Abstract:
+%%
+%function BlockTypeSetup(block,system) void
+  %<SetupCanDataTypes(block)>
+%endfunction %% BlockTypeSetup
+ 
+%% Function: Start =============================================
+%% Abstract:
+%%
+%function Start(block,system) Output
+
+  %assign twinCAN = FEVAL("c166cache","get","TwinCAN")
+  %if ( !SLibCodeGenForSim() ) && ( twinCAN == 1 )
+     
+     %if SFcnParamSettings.TxMode==2
+       
+       %switch SFcnParamSettings.Module
+	 %case 1
+	   %assign nodeLetter = "A"
+	   %assign nodeNo = 0
+	   %break
+	 %case 2
+	   %assign nodeLetter = "B"
+	   %assign nodeNo = 1
+	   %break
+	 %default
+	   %exit "Invalid value for Module, Module = %<Module>"
+       %endswitch
+       
+       %assign bufferIndex=SFcnParamSettings.Buffers[0]
+
+       %assign qlen = SFcnParamSettings.FifoQueueLength
+	/* Initialize CAN module %<nodeLetter>, buffer %<bufferIndex> for operation with FIFO 
+	* queue of length %<qlen>; the queue is used to buffer messages to be transmitted.
+	 */
+	 { 
+	 static MESSAGE_CIRCULAR_BUFFER msgBuf;
+	 static CAN_FRAME can_frames[%<qlen>];
+	 %<LibBlockPWork(pCanTxCircBuffer,"","",0)> = &msgBuf;
+	 init_transmit_fifo(%<bufferIndex>,&msgBuf, can_frames, %<qlen>, %<nodeNo>);
+	 }
+       %endif
+   %endif
+
+%endfunction %% Start
+
+
+%% Function: Outputs ========================================================
+%% Abstract:
+%%
+%function Outputs(block,system) Output
+
+  %assign twinCAN = FEVAL("c166cache","get","TwinCAN")
+  %if ( !SLibCodeGenForSim() ) && ( twinCAN == 1 )
+
+    %switch SFcnParamSettings.Module
+      %case 1
+	%assign nodeLetter = "A"
+	%assign nodeNo = 0
+	%break
+      %case 2
+	%assign nodeLetter = "B"
+	%assign nodeNo = 1
+	%break
+      %default
+	%exit "Invalid value for Module, Module = %<Module>"
+    %endswitch
+    
+    %assign module = SFcnParamSettings.Module
+    %assign bufferIndex=SFcnParamSettings.Buffers[0]
+    
+    %assign rollVars = ["U"]
+    %roll idx = RollRegions, lcv = RollThreshold, block, "Roller", rollVars
+      %if SFcnParamSettings.TxMode==1
+	/* Send message on TwinCAN node %<nodeLetter> using dedicated buffer */
+	can_load_msg(%<LibBlockInputSignalAddr(0, "", lcv, idx)>, \
+	%<CAST("Unsigned", bufferIndex)>, %<nodeNo>U );
+      %elseif SFcnParamSettings.TxMode==2
+	%assign client = "TwinCAN node %<nodeLetter>"
+	/* Send message using FIFO queue and dedicated hardware buffer; note
+	* that interrupts for %<client> must be disabled while the send 
+	* function is called */
+	%<SLibC166TimersRaiseCPUPriority(client,SFcnParamSettings.IntLevel)>
+	send_can_message_fifo(%<LibBlockInputSignalAddr(0, "", lcv, idx)>,
+	%<LibBlockPWork(pCanTxCircBuffer,"","",0)>, 
+	%<CAST("Unsigned", bufferIndex)>, %<nodeNo>U );	
+	%<SLibC166TimersLowerCPULevel()> 
+      %endif
+    %endroll
+  %endif
+  
+%endfunction %%Outputs
+

@@ -1,0 +1,789 @@
+%% $RCSfile: ti_c2800_csl.tlc,v $
+%% $Revision: 1.16.6.3 $ $Date: 2004/04/01 16:14:10 $
+%% Copyright 2003-2004 The MathWorks, Inc.
+
+
+
+%% ==========================================================================
+%% Function: render_disableWatchdog
+%% Abstract: Render the code that handles interrupt overrun situation
+%%
+
+%function render_disableWatchdog() void
+%openfile buff
+void disableWatchdog(void)
+{
+    int *WatchdogWDCR = (void *) 0x7029;
+    asm(" EALLOW ");
+    *WatchdogWDCR = 0x0068;
+    asm(" EDIS ");
+}
+%closefile buff
+%return buff
+%endfunction %% render_disableWatchdog  
+
+
+
+%% ==========================================================================
+%% Function: render_init_board
+%% Abstract:
+
+%function render_init_board() void
+%openfile buff
+
+/* Function: init_board() -------------------------------------
+ *
+ * Abstract:
+ *      This function initializes the board
+ */
+
+void init_board ()
+{
+    InitSysCtrl();
+    %%
+    %if c2000TgtPrefOptions.BuildOptionsLinkerOptionsLinkerCMDFile == "Full_memory_map"
+		/* Perform additional configuration of the XTINF for speed up */
+		XintfRegs.XINTCNF2.bit.XTIMCLK = 0;			// XTIMCLK=SYSCLKOUT/1
+		XintfRegs.XINTCNF2.bit.CLKOFF = 0;			// XCLKOUT is enabled
+		XintfRegs.XINTCNF2.bit.CLKMODE = 0;			// XCLKOUT = XTIMCLK
+		
+		// Make sure write buffer is empty before configuring buffering depth
+		while(XintfRegs.XINTCNF2.bit.WLEVEL != 0);	// poll the WLEVEL bit
+		XintfRegs.XINTCNF2.bit.WRBUFF = 0;			// No write buffering
+		
+		// Example: Assume Zone 7 is slow, so add additional BCYC cycles whenever
+		// switching from Zone 7 to another Zone.  This will help avoid bus contention.
+		XintfRegs.XBANK.bit.BCYC = 7;				// Add 7 cycles
+		XintfRegs.XBANK.bit.BANK = 7;				// select zone 7
+		
+		/* Zone 0 Configuration */
+		XintfRegs.XTIMING0.bit.X2TIMING = 0;	// Timing scale factor = 1
+		XintfRegs.XTIMING0.bit.XSIZE = 3;		// Always write as 11b
+		XintfRegs.XTIMING0.bit.READYMODE = 1; 	// XREADY is asynchronous
+		XintfRegs.XTIMING0.bit.USEREADY = 0;	// Disable XREADY
+		XintfRegs.XTIMING0.bit.XRDLEAD = 1;		// Read lead time
+		XintfRegs.XTIMING0.bit.XRDACTIVE = 2;	// Read active time
+		XintfRegs.XTIMING0.bit.XRDTRAIL = 0;	// Read trail time
+		XintfRegs.XTIMING0.bit.XWRLEAD = 1;		// Write lead time
+		XintfRegs.XTIMING0.bit.XWRACTIVE = 2;	// Write active time
+		XintfRegs.XTIMING0.bit.XWRTRAIL = 0;	// Write trail time
+		
+		/* Zone 1 Configuration */
+		XintfRegs.XTIMING1.bit.X2TIMING = 0;	// Timing scale factor = 1
+		XintfRegs.XTIMING1.bit.XSIZE = 3;		// Always write as 11b
+		XintfRegs.XTIMING1.bit.READYMODE = 1; 	// XREADY is asynchronous
+		XintfRegs.XTIMING1.bit.USEREADY = 0;	// Disable XREADY
+		XintfRegs.XTIMING1.bit.XRDLEAD = 1;		// Read lead time
+		XintfRegs.XTIMING1.bit.XRDACTIVE = 2;	// Read active time
+		XintfRegs.XTIMING1.bit.XRDTRAIL = 0;	// Read trail time
+		XintfRegs.XTIMING1.bit.XWRLEAD = 1;		// Write lead time
+		XintfRegs.XTIMING1.bit.XWRACTIVE = 2;	// Write active time
+		XintfRegs.XTIMING1.bit.XWRTRAIL = 0;	// Write trail time
+		
+		/* Zone 2 Configuration */
+		XintfRegs.XTIMING2.bit.X2TIMING = 0;	// Timing scale factor = 1
+		XintfRegs.XTIMING2.bit.XSIZE = 3;		// Always write as 11b
+		XintfRegs.XTIMING2.bit.READYMODE = 1; 	// XREADY is asynchronous
+		XintfRegs.XTIMING2.bit.USEREADY = 0;	// Disable XREADY
+		XintfRegs.XTIMING2.bit.XRDLEAD = 1;		// Read lead time
+		XintfRegs.XTIMING2.bit.XRDACTIVE = 2;	// Read active time
+		XintfRegs.XTIMING2.bit.XRDTRAIL = 0;	// Read trail time
+		XintfRegs.XTIMING2.bit.XWRLEAD = 1;		// Write lead time
+		XintfRegs.XTIMING2.bit.XWRACTIVE = 2;	// Write active time
+		XintfRegs.XTIMING2.bit.XWRTRAIL = 0;	// Write trail time
+		
+		/* Zone 6 Configuration */
+		XintfRegs.XTIMING6.bit.X2TIMING = 0;	// Timing scale factor = 1
+		XintfRegs.XTIMING6.bit.XSIZE = 3;		// Always write as 11b
+		XintfRegs.XTIMING6.bit.READYMODE = 1; 	// XREADY is asynchronous
+		XintfRegs.XTIMING6.bit.USEREADY = 0;	// Disable XREADY
+		XintfRegs.XTIMING6.bit.XRDLEAD = 1;		// Read lead time
+		XintfRegs.XTIMING6.bit.XRDACTIVE = 2;	// Read active time
+		XintfRegs.XTIMING6.bit.XRDTRAIL = 0;	// Read trail time
+		XintfRegs.XTIMING6.bit.XWRLEAD = 1;		// Write lead time
+		XintfRegs.XTIMING6.bit.XWRACTIVE = 2;	// Write active time
+		XintfRegs.XTIMING6.bit.XWRTRAIL = 0;	// Write trail time
+		
+		/* Zone 7 Configuration */
+		XintfRegs.XTIMING7.bit.X2TIMING = 0;	// Timing scale factor = 1
+		XintfRegs.XTIMING7.bit.XSIZE = 3;		// Always write as 11b
+		XintfRegs.XTIMING7.bit.READYMODE = 1; 	// XREADY is asynchronous
+		XintfRegs.XTIMING7.bit.USEREADY = 0;	// Disable XREADY
+		XintfRegs.XTIMING7.bit.XRDLEAD = 1;		// Read lead time
+		XintfRegs.XTIMING7.bit.XRDACTIVE = 2;	// Read active time
+		XintfRegs.XTIMING7.bit.XRDTRAIL = 0;	// Read trail time
+		XintfRegs.XTIMING7.bit.XWRLEAD = 1;		// Write lead time
+		XintfRegs.XTIMING7.bit.XWRACTIVE = 2;	// Write active time
+		XintfRegs.XTIMING7.bit.XWRTRAIL = 0;	// Write trail time
+		
+		/* Flush pipeline to ensure that the write is complete. Wait to be sure. */
+		asm(" RPT #6 || NOP");
+    %endif
+    
+    /* Disable and clear all CPU interrupts */
+	DINT;
+	IER = 0x0000;
+	IFR = 0x0000;
+
+	InitPieCtrl();
+	InitPieVectTable();	
+	
+	%if (c2000ModelIRInfo.numCANs>0)
+    
+        %assign BRT   = CAST("Number",c2000TgtPrefOptions.DSPBoardDSPChipeCANBitRatePrescaler)
+        %assign TSEG1 = CAST("Number",c2000TgtPrefOptions.DSPBoardDSPChipeCANTSEG1)
+        %assign TSEG2 = CAST("Number",c2000TgtPrefOptions.DSPBoardDSPChipeCANTSEG2)
+        %assign SBG   = (c2000TgtPrefOptions.DSPBoardDSPChipeCANSBG == "Both_falling_and_rising_edges") + 1 
+        %assign SJW   = CAST("Number",c2000TgtPrefOptions.DSPBoardDSPChipeCANSJW) 
+        %assign SAM   = (c2000TgtPrefOptions.DSPBoardDSPChipeCANSAM == "Sample_three_times") + 1
+        /* Initialize eCANModule with following parameters:
+         *    BRP=%<BRT>, TSEG1=%<TSEG1>, TSEG2=%<TSEG2>
+         *    Resynchronize on: %<c2000TgtPrefOptions.DSPBoardDSPChipeCANSBG>
+         *    Level of CAN bus: %<c2000TgtPrefOptions.DSPBoardDSPChipeCANSAM>
+         *    Synchronization jump width = %<SJW> */
+        init_eCAN (%<BRT>, %<TSEG1>, %<TSEG2>, %<SBG>, %<SJW>, %<SAM>);
+    %endif
+}
+
+%closefile buff
+%return buff
+%endfunction %% render_init_board
+
+
+
+%% ==========================================================================
+%% Function: render_config_schedulerTimer
+%% Abstract:
+
+%function render_config_schedulerTimer(timerPeriod) void
+%openfile buff
+
+/*-----------------------------------------------------------------------------
+* void config_schedulerTimer(void)
+ *
+ * Abstract:
+ *      This function configures scheduler timer
+ */
+ 
+void config_schedulerTimer(void)
+{
+    InitCpuTimers();
+    
+    /* Reassign the PIE vector for TINT0 to point to a specific ISR */
+	EALLOW;
+	PieVectTable.TINT0 = &schedulerTimer_ISR;
+	EDIS;
+	
+    %%limit for timerprescaler=1 is ~28.63 sec
+    %if (timerPeriod>28.6331153)
+        %<LibReportError("Base sample time too long.")>
+    %endif
+    
+    /* Configure CPU-Timer 0 to interrupt every %<timerPeriod> sec. */
+    /* Parameters:  Timer Pointer, CPU Freq in MHz, Period in usec. */
+	ConfigCpuTimer(&CpuTimer0, 150, %<timerPeriod> * 1000000);
+ 	StartCpuTimer0();
+ 	
+    %%/* Enable interrupt CPU INT1 which is connected to CPU Timer 0  */
+	%%IER |= M_INT1;
+	
+    /* Enable TINT0 in the PIE: Group 1 interrupt 7 */
+	PieCtrlRegs.PIEIER1.bit.INTx7 = 1; 
+}
+
+%closefile buff
+%return buff
+%endfunction %% render_config_schedulerTimer
+
+
+
+%% ==========================================================================
+%% Function: render_schedulerTimer_ISR
+%% Abstract:
+
+%function render_schedulerTimer_ISR() void
+%openfile buff
+
+/* Function: schedulerTimer_ISR() -------------------------------------
+ *
+ * Abstract:
+ *      This function services interrupts posted by scheduler timer
+ */
+
+interrupt void schedulerTimer_ISR(void)
+{
+	%if SLibSingleTasking()
+		pendingInterrupt = 1;
+        PieCtrlRegs.PIEACK.all = PIEACK_GROUP1; // Enable CPU INT1 - hooked to CPU Timer 0
+	%else
+        rt_OneStep();
+	%endif
+}
+
+%closefile buff
+%return buff
+%endfunction %% render_schedulerTimer_ISR
+
+
+
+%% ==========================================================================
+%% Function: render_config_EV
+%% Abstract:
+
+%function render_config_EV(ADCInfo) void
+%openfile buff
+
+%assign module = ADCInfo.useModule
+
+%if (module=="A" || module=="A and B")
+    %assign EVREGS = "EvaRegs"
+    %assign TIMER = "T1"
+    %assign EVMUNIT = "A"
+%else
+    %assign EVREGS = "EvbRegs"
+    %assign TIMER = "T3"
+    %assign EVMUNIT = "B"
+%endif
+
+/* Function: config_EV_%<EVMUNIT> ------------------------------
+ *
+ * Abstract:
+ *      Configure EV_%<EVMUNIT>
+ */
+ 
+void config_EV_%<EVMUNIT>()
+{
+     %if (ADCInfo.SamplePeriod > 65535) %% 16-bit timer period register can't have this value
+         %error "Sampling time is too long for this device"
+     %elseif (ADCInfo.SamplePeriod < 1) %% timer period has theoretical lower bound equal to 1
+         %error "Sampling time is too short for this device"
+     %endif
+
+     /* Configure EV%<EVMUNIT>:                                       */
+     /* Assume EV%<EVMUNIT> Clock is already enabled in InitSysCtrl() */
+     %<EVREGS>.%<TIMER>CMPR = 0x0080;     // Setup timer compare value
+     %<EVREGS>.%<TIMER>PR = %<ADCInfo.SamplePeriod>;     // Setup timer period register
+     %<EVREGS>.GPTCON%<EVMUNIT>.bit.%<TIMER>TOADC = 1;     // Enable EV%<EVMUNIT>SOC in EV
+     %<EVREGS>.%<TIMER>CON.all = 0x1042;     // Enable timer compare (upcount mode)
+}
+
+%closefile buff
+%return buff
+%endfunction %% render_config_EV
+
+
+
+%% ==========================================================================
+%% Function: render_getNextChannel
+%% Abstract:
+
+%function render_getNextChannel() void
+%openfile buff
+
+int16_T getNextChannel (uint16_T usedChannels, uint16_T startInd)
+{
+	int16_T ind = startInd;
+	while ( (ind<16) && !(usedChannels & 0x0001<<ind)) ind++;
+	return ind;
+}
+
+%closefile buff
+%return buff
+%endfunction %% render_getNextChannel
+
+
+
+%% ==========================================================================
+%% Function: render_config_PWM
+%% Abstract:
+
+%function render_config_PWM(PWMInfo) void
+%openfile buff
+
+%assign UNIT = PWMInfo.useModule
+ 
+/* Function: config_PWM_%<UNIT> ------------------------------
+ *
+ * Abstract:
+ *      Configure PWM_%<UNIT>
+ */
+
+void config_PWM_%<UNIT>(uint16_T timerPeriod, uint16_T waveformType, 
+         uint16_T unit1Status, char* unit1Source, uint16_T unit1Value, 
+         uint16_T unit2Status, char* unit2Source, uint16_T unit2Value, 
+         uint16_T unit3Status, char* unit3Source, uint16_T unit3Value, uint16_T controlLogic,
+         uint16_T enableDeadband1, uint16_T enableDeadband2, uint16_T enableDeadband3,
+         uint16_T deadbandPrescaler, uint16_T deadbandPeriod, uint16_T timerToADC)
+{
+    const uint16_T DISABLED=0;
+    
+%if PWMInfo.useModule == "A"
+    /* Initalize EVA Timer1 which controls PWM1-PWM6 */
+    EvaRegs.T1PR = timerPeriod;             // period
+    EvaRegs.T1CMPR = 0x3C00;                // compare
+    EvaRegs.T1CNT = 0x0000;                 // counter
+    EvaRegs.T1CON.all = 0x1042;             // enable; compare enable; default TMODE 
+    EvaRegs.T1CON.bit.TMODE = waveformType; // adjust Timer TMODE
+    /* Set ADC SOC signal according to user's request */
+    EvaRegs.GPTCONA.bit.T1TOADC = timerToADC;
+    /* Enable compare for PWM1-PWM6 */
+    EvaRegs.CMPR1 = unit1Status ? unit1Value : DISABLED;
+    EvaRegs.CMPR2 = unit2Status ? unit2Value : DISABLED;
+    EvaRegs.CMPR3 = unit3Status ? unit3Value : DISABLED;
+    /* Compare action control: Action that takes place on a compare event */
+    EvaRegs.ACTRA.all = controlLogic;
+    EvaRegs.DBTCONA.bit.EDBT1 = enableDeadband1;
+    EvaRegs.DBTCONA.bit.EDBT2 = enableDeadband2;
+    EvaRegs.DBTCONA.bit.EDBT3 = enableDeadband3;
+    EvaRegs.DBTCONA.bit.DBT   = deadbandPeriod;
+    EvaRegs.DBTCONA.bit.DBTPS = deadbandPrescaler;
+    EvaRegs.COMCONA.all = 0xA600;
+%else
+    /* Initalize EVA Timer3 which controls PWM7-PWM12 */
+    EvbRegs.T3PR = timerPeriod;             // period
+    EvbRegs.T3CMPR = 0x3C00;                // compare
+    EvbRegs.T3CNT = 0x0000;                 // counter
+    EvbRegs.T3CON.all = 0x1042;             // enable; compare enable; default TMODE
+    EvbRegs.T3CON.bit.TMODE = waveformType; // adjust Timer TMODE
+    /* Set ADC SOC signal according to user's request */
+    EvbRegs.GPTCONB.bit.T3TOADC = timerToADC;    
+    /* Enable compare for PWM7-PWM12 */
+    EvbRegs.CMPR4 = unit1Status ? unit1Value : DISABLED;
+    EvbRegs.CMPR5 = unit2Status ? unit2Value : DISABLED;
+    EvbRegs.CMPR6 = unit3Status ? unit3Value : DISABLED;
+    /* Compare action control: Action that takes place on a compare event */
+    EvbRegs.ACTRB.all = controlLogic;
+    EvbRegs.DBTCONB.bit.EDBT1 = enableDeadband1;
+    EvbRegs.DBTCONB.bit.EDBT2 = enableDeadband2;
+    EvbRegs.DBTCONB.bit.EDBT3 = enableDeadband3;
+    EvbRegs.DBTCONB.bit.DBT   = deadbandPeriod;
+    EvbRegs.DBTCONB.bit.DBTPS = deadbandPrescaler;
+    EvbRegs.COMCONB.all = 0xA600;
+%endif
+}
+
+%closefile buff
+%return buff
+%endfunction %% render_config_PWM	
+
+
+
+%% ==========================================================================
+%% Function: render_config_AD
+%% Abstract:
+
+%function render_config_AD(ADCInfo) void
+%openfile buff
+
+%assign module = ADCInfo.useModule
+
+ %if (module=="A" || module=="A and B")
+     %assign UNIT = "A"
+ %else
+     %assign UNIT = "B"
+ %endif
+ 
+/* Function: config_ADC_%<UNIT> ------------------------------
+ *
+ * Abstract:
+ *      Configure ADC_%<UNIT>
+ */
+
+void config_ADC_%<UNIT>( int16_T numOfConversions, uint16_T usedChannels )
+{
+    int16_T index = 0;
+    
+    /* Configure ADC: */
+%%
+%if (module=="A" || module=="A and B")    
+    AdcRegs.ADCMAXCONV.bit.MAX_CONV1 = 0;
+    AdcRegs.ADCMAXCONV.bit.MAX_CONV1 = numOfConversions; 
+%else
+    AdcRegs.ADCMAXCONV.bit.MAX_CONV2 = 0;
+    AdcRegs.ADCMAXCONV.bit.MAX_CONV2 = numOfConversions;
+%endif
+%%    
+%if (module=="A" || module=="A and B")
+    if (numOfConversions >= 0) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        AdcRegs.ADCCHSELSEQ1.bit.CONV00 = index++;
+    }
+    if (numOfConversions >= 1) {
+        index = (int16_T) getNextChannel(usedChannels,index);    
+        AdcRegs.ADCCHSELSEQ1.bit.CONV01 = index++;
+    }
+    if (numOfConversions >= 2) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        AdcRegs.ADCCHSELSEQ1.bit.CONV02 = index++;
+    }
+    if (numOfConversions >= 3) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        AdcRegs.ADCCHSELSEQ1.bit.CONV03 = index++;
+    }
+    if (numOfConversions >= 4) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        AdcRegs.ADCCHSELSEQ2.bit.CONV04 = index++;
+    }
+    if (numOfConversions >= 5) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        AdcRegs.ADCCHSELSEQ2.bit.CONV05 = index++;
+    }
+    if (numOfConversions >= 6) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        AdcRegs.ADCCHSELSEQ2.bit.CONV06 = index++;
+    }
+    if (numOfConversions >= 7) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        AdcRegs.ADCCHSELSEQ2.bit.CONV07 = index++;
+    }
+ %endif
+ %if (module=="B" || module=="A and B")
+    %if (module=="B")
+        %assign ind = 0
+    %else
+        %assign ind = 8
+    %endif
+    if (numOfConversions >= %<ind>) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        AdcRegs.ADCCHSELSEQ3.bit.CONV08 = index++;
+    }
+    %assign ind = ind + 1
+    if (numOfConversions >= %<ind>) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        AdcRegs.ADCCHSELSEQ3.bit.CONV09 = index++;
+    }
+    %assign ind = ind + 1
+    if (numOfConversions >= %<ind>) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        AdcRegs.ADCCHSELSEQ3.bit.CONV10 = index++;
+    }
+    %assign ind = ind + 1
+    if (numOfConversions >= %<ind>) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        AdcRegs.ADCCHSELSEQ3.bit.CONV11 = index++;
+    }
+    %assign ind = ind + 1
+    if (numOfConversions >= %<ind>) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        AdcRegs.ADCCHSELSEQ4.bit.CONV12 = index++;
+    }
+    %assign ind = ind + 1
+    if (numOfConversions >= %<ind>) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        AdcRegs.ADCCHSELSEQ4.bit.CONV13 = index++;
+    }
+    %assign ind = ind + 1
+    if (numOfConversions >= %<ind>) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        AdcRegs.ADCCHSELSEQ4.bit.CONV14 = index++;
+    }
+    %assign ind = ind + 1
+    if (numOfConversions == %<ind>) {
+        index = (int16_T) getNextChannel(usedChannels,index);
+        AdcRegs.ADCCHSELSEQ4.bit.CONV15 = index++;
+    }
+    
+%endif
+
+%if (module=="A" || module=="A and B")
+    AdcRegs.ADCTRL2.bit.EVA_SOC_SEQ1 = 1;   // Enable EVASOC to start SEQ1
+    AdcRegs.ADCTRL2.bit.INT_ENA_SEQ1 = 1;   // Enable SEQ1 interrupt (every EOS)
+%else
+    AdcRegs.ADCTRL2.bit.EVB_SOC_SEQ2 = 1;   // Enable EVBSOC to start SEQ2
+    AdcRegs.ADCTRL2.bit.INT_ENA_SEQ2 = 1;   // Enable SEQ2 interrupt (every EOS)
+%endif
+
+%if (module=="A and B")
+    AdcRegs.ADCTRL1.bit.SEQ_CASC = 1;       // Enable Cascades sequencer
+%endif
+
+AdcRegs.ADCTRL1.bit.CPS = 1;                // Ensure correct ADC operation
+
+}
+
+%closefile buff
+%return buff
+%endfunction %% render_config_AD
+
+
+
+%function render_init_eCAN(c2000ModelIRInfo) void
+%openfile buff
+
+/* Function: init_eCAN----------------------------
+ *
+ * Abstract:
+ *      Configure eCAN module
+ */
+ 
+void init_eCAN ( uint16_T bitRatePrescaler, uint16_T timeSeg1, uint16_T timeSeg2, uint16_T sbg, uint16_T sjw, uint16_T sam)
+{
+	struct ECAN_REGS ECanaShadow;
+	
+	/* Configure CAN pins using GPIO regs */
+	EALLOW;
+	GpioMuxRegs.GPFMUX.bit.CANTXA_GPIOF6 = 1;
+	GpioMuxRegs.GPFMUX.bit.CANRXA_GPIOF7 = 1;
+	EDIS;
+	
+	/* Configure the RX and TX pins for transmission */
+	EALLOW;
+	ECanaShadow.CANTIOC.all = ECanaRegs.CANTIOC.all;
+	ECanaShadow.CANTIOC.bit.TXFUNC = 1;
+	ECanaRegs.CANTIOC.all = ECanaShadow.CANTIOC.all;
+	ECanaShadow.CANRIOC.all = ECanaRegs.CANRIOC.all;
+	ECanaShadow.CANRIOC.bit.RXFUNC = 1;
+	ECanaRegs.CANRIOC.all = ECanaShadow.CANRIOC.all;
+	EDIS;
+	
+	/* Disable all Mailboxes */
+	ECanaRegs.CANME.all = 0;
+	%%// Default all Mailboxes are Tx (no particular reason) 
+	%%ECanaRegs.CANMD.all = 0x00000000;
+    
+	EALLOW;
+	ECanaRegs.CANMIM.all = 0xFFFFFFFF;
+    ECanaShadow.CANMC.all = ECanaRegs.CANMC.all;
+	ECanaShadow.CANMC.bit.CCR = 1;            
+	ECanaRegs.CANMC.all = ECanaShadow.CANMC.all;
+    EDIS;
+    
+    do {
+      ECanaShadow.CANES.all = ECanaRegs.CANES.all;
+    } while(ECanaShadow.CANES.bit.CCE != 1 );      // Wait for CCE bit to be set..
+    
+    /* Configure the eCAN timing parameters */
+    EALLOW;
+    ECanaShadow.CANBTC.all = ECanaRegs.CANBTC.all;
+    ECanaShadow.CANBTC.bit.BRPREG = bitRatePrescaler-1;
+    ECanaShadow.CANBTC.bit.TSEG2REG = timeSeg2-1; 
+    ECanaShadow.CANBTC.bit.TSEG1REG = timeSeg1-1; 
+    ECanaShadow.CANBTC.bit.SAM = sam-1; 
+    ECanaShadow.CANBTC.bit.SJWREG = sjw-1; 
+    //ECanaShadow.CANBTC.bit.ERM = sbg-1; 
+    ECanaRegs.CANBTC.all = ECanaShadow.CANBTC.all; 
+    ECanaShadow.CANMC.all = ECanaRegs.CANMC.all;
+    ECanaShadow.CANMC.bit.CCR = 0 ;                // Set CCR = 0
+    ECanaRegs.CANMC.all = ECanaShadow.CANMC.all;
+    EDIS;
+
+    do {
+      ECanaShadow.CANES.all = ECanaRegs.CANES.all;
+    } while (ECanaShadow.CANES.bit.CCE != 0 );     // Wait for CCE bit to be cleared..
+
+    EALLOW;
+    ECanaShadow.CANMC.all = ECanaRegs.CANMC.all;
+    %if (c2000TgtPrefOptions.DSPBoardDSPChipeCANSelfTestMode == "on")
+        ECanaShadow.CANMC.bit.STM = 1;             // Configure CAN for self-test mode
+    %else
+        ECanaShadow.CANMC.bit.STM = 0;             // Configure CAN for normal mode    
+    %endif
+    %if (c2000TgtPrefOptions.DSPBoardDSPChipeCANEnhancedCANMode == "on")
+        ECanaShadow.CANMC.bit.SCB = 1;             // User has selected eCAN mode
+    %else
+        ECanaShadow.CANMC.bit.SCB = 0;             // User has selected SCC mode   
+    %endif
+    ECanaShadow.CANMC.bit.DBO = 1;                 // Set byte order: least significant first
+    ECanaRegs.CANMC.all = ECanaShadow.CANMC.all;
+    EDIS;
+}
+
+%closefile buff
+%return buff
+%endfunction %% render_init_eCAN
+
+
+
+%% ==========================================================================
+%% Function: render_config_eCANmbx
+%% Abstract:
+
+%function render_config_eCANmbx() void
+%openfile buff
+
+/* Function: config_eCANmbx--------------------------------
+ *
+ * Abstract:
+ *      Configure eCAN mailbox using following parameters:
+ *            mbxNo   = 0 through 15 ( or 31)
+ *            mbxType = receive (0) OR transmit (1)
+ *            msgType = standard (0) OR extended (1)
+ */
+ 
+void config_eCANmbx (uint16_T mbxType, uint16_T mbxNo, uint32_T msgID, uint16_T msgType)
+{
+	Uint32 maskRx, maskTx;  
+	struct ECAN_REGS ECanaShadow;
+	
+	volatile struct MBOX *mbx = &ECanaMboxes.MBOX0 + mbxNo;
+
+	%% mailbox 15 is special case since processor can't handle left shift by 15
+    maskTx = 0x0;
+	maskRx = mbxNo==15 ? 0x8000 : ( mbxNo<16 ? 0x1<<mbxNo : 0x10000<<mbxNo-16 );
+	
+	mbx->MSGCTRL.bit.RTR = 0;
+
+    ECanaShadow.CANME.all = ECanaRegs.CANME.all;
+	ECanaRegs.CANME.all = 0x00000000; 
+	
+    if (msgType==1) mbx->MSGID.all = msgID;   /* For Extended ID use bits  0:28 */
+    else mbx->MSGID.bit.STDMSGID = msgID;   /* For Standard ID use bits 18:28 */
+    
+	mbx->MSGID.bit.AME = 0;   
+    mbx->MSGID.bit.AAM = 0;
+    mbx->MSGID.bit.IDE = msgType;
+	
+	ECanaShadow.CANMD.all = ECanaRegs.CANMD.all;  
+	ECanaShadow.CANMD.all |= (mbxType==0)? maskRx : maskTx;
+	ECanaRegs.CANMD.all = ECanaShadow.CANMD.all; 
+	
+    ECanaShadow.CANME.all |= maskRx;
+    ECanaRegs.CANME.all = ECanaShadow.CANME.all;  
+}
+
+%closefile buff
+%return buff
+%endfunction %% render_config_eCANmbx
+
+
+
+%% ==========================================================================
+%% Function: render_config_QEP
+%% Abstract:
+
+%function render_config_QEP(QEPInfo) void
+%openfile buff
+
+%assign UNIT = QEPInfo.useModule
+ 
+/* Function: config_QEP_%<UNIT> ------------------------------
+ *
+ * Abstract:
+ *      Configure QEP_%<UNIT>
+ */
+
+void config_QEP_%<UNIT>(uint16_T initialCount)
+{
+	%if(QEPInfo.useModule=="A")  
+        // QEP1/QEP2 Control register setting (Timer2)
+        EvaRegs.T2CNT           = initialCount; // Timer 2 counter register,initial value = user define
+        EvaRegs.T2CON.all       = 0x1070;       // Timer 2 control register: Continuous-Up Count Mode
+        EvaRegs.T2PR            = 0xFFFF;       // Timer 2 period register,initial value = 65535
+        GpioMuxRegs.GPAMUX.all |= 0x0700;       // I/O Mux Control Register GPAMUX: Bit 8~10 Bit as compare 
+        EvaRegs.CAPCONA.all    |= 0xE000;       // Enable QEP circuit. Disable Capture Units 1/2 and 3
+	%else  
+        // QEP3/QEP4 Control register setting (Timer4)
+        EvbRegs.T4CNT           = initialCount; // Timer 4 counter register,initial value = user define
+        EvbRegs.T4CON.all       = 0x1070;       // Timer 4 control register: Continuous-Up Count Mode
+        EvbRegs.T4PR            = 0xFFFF;       // Timer 4 period register,initial value = 65535;
+        GpioMuxRegs.GPBMUX.all |= 0x0700;       // I/O Mux Control Register GPBMUX: Bit 8~10 Bit as compare  
+        EvbRegs.CAPCONB.all    |= 0xE000;       // Enable QEP circuit. Disable Capture Units 1/2 and 3        
+	%endif
+}
+
+%closefile buff
+%return buff
+%endfunction %% render_config_QEP	
+
+
+
+%% ==========================================================================
+%% Function: render_enable_interrupts
+%% Abstract:
+
+%function render_enable_interrupts() void
+%openfile buff
+
+/* Function: enable_interrupts -------------------------------
+ *
+ * Abstract:
+ *      Enable required c2800 DSP interrupts
+ */
+ 
+void enable_interrupts()
+{
+    PieCtrlRegs.PIEACK.all = PIEACK_GROUP1; // Enable CPU INT1 - hooked to CPU Timer 0
+    IER |= M_INT1;                          // Enable Global INT1 (CPU Interrupt 1)
+    EINT;                                   // Enable Global interrupt INTM
+}
+
+%closefile buff
+%return buff
+%endfunction %% render_enable_interrupts
+
+
+
+%% ==========================================================================
+%% Function: render_disable_interrupts
+%% Abstract:
+
+%function render_disable_interrupts() void
+%openfile buff
+
+/* Function: disable_interrupts -------------------------------
+ *
+ * Abstract:
+ *      Disable required c2800 DSP interrupts
+ */
+ 
+void disable_interrupts()
+{
+    IER &= M_INT1;                        // Disable Global INT1 (CPU Interrupt 1)
+    DINT;                                 // Disable Global interrupt INTM
+}
+
+%closefile buff
+%return buff
+%endfunction %% render_disable_interrupts
+
+
+
+%% ==========================================================================
+%% Entry point for creating chip support library for ti_c2800dsp 
+
+%openfile cslFile = "MW_c28xx_csl.c"
+%selectfile cslFile
+%%
+#include "DSP281x_Device.h"
+#include "rtwtypes.h"
+#include "%<CompiledModel.Name>.h"
+#include "%<CompiledModel.Name>_private.h"
+
+%if (CompiledModel.ConfigSet.IsERTTarget == 0) || (CompiledModel.FixedStepOpts.SolverMode != "MultiTasking")
+    volatile int pendingInterrupt = 0;
+%endif
+
+%<render_schedulerTimer_ISR()>
+%<render_config_schedulerTimer (c2000ModelIRInfo.timerIntPeriod)>
+
+%<render_disableWatchdog()>
+
+%if (c2000ModelIRInfo.numADCs > 0)
+    %<render_getNextChannel ()>
+    %foreach k = c2000ModelIRInfo.numADCs    
+        %<render_config_AD (c2000ModelIRInfo.ADC[k])>
+    %endforeach    
+%endif
+
+%foreach k = c2000ModelIRInfo.numPWMs    
+    %<render_config_PWM (c2000ModelIRInfo.PWM[k])>
+%endforeach  
+
+%if (c2000ModelIRInfo.numCANs != 0)    
+    %<render_init_eCAN (c2000ModelIRInfo)>
+    %<render_config_eCANmbx ()>
+%endif  
+
+%foreach k = c2000ModelIRInfo.numQEPs      
+    %<render_config_QEP (c2000ModelIRInfo.QEP[k])>
+%endforeach 
+
+%<render_enable_interrupts()>
+
+%<render_disable_interrupts()>
+
+%<render_init_board()>
+
+%closefile cslFile
+
+%% [EOF] ti_c2800_csl.tlc

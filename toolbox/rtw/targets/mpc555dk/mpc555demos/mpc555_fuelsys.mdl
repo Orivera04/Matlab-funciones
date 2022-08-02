@@ -1,0 +1,2321 @@
+# $Revision: 1.1.4.6 $
+Model {
+  Name			  "mpc555_fuelsys"
+  Version		  6.0
+  GraphicalInterface {
+    NumRootInports	    0
+    NumRootOutports	    0
+    ParameterArgumentNames  ""
+    ComputedModelVersion    "1.531"
+    NumModelReferences	    0
+    NumTestPointedSignals   0
+  }
+  SavedCharacterEncoding  "US-ASCII"
+  PreLoadFcn		  "RTWConfigurationCB('preloadfcn', bdroot);load mpc55"
+"5_fuelsysdata.mat"
+  SaveDefaultBlockParams  on
+  SampleTimeColors	  on
+  LibraryLinkDisplay	  "none"
+  WideLines		  on
+  ShowLineDimensions	  off
+  ShowPortDataTypes	  on
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  ShowStorageClass	  off
+  ShowTestPointIcons	  on
+  ShowViewerIcons	  on
+  SortedOrder		  off
+  ExecutionContextIcon	  off
+  ShowLinearizationAnnotations on
+  RecordCoverage	  off
+  CovPath		  "/"
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "d"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeVarName	  "covCumulativeData"
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  DataTypeOverride	  "UseLocalSettings"
+  MinMaxOverflowLogging	  "UseLocalSettings"
+  MinMaxOverflowArchiveMode "Overwrite"
+  BlockNameDataTip	  off
+  BlockParametersDataTip  on
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  CloseFcn		  "rtwprivate ssgencode ModelCloseRequest ssdemo_pil_b"
+"uild"
+  Created		  "Tue Jun 02 16:11:43 1998"
+  Creator		  "The MathWorks Inc."
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "batserve"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Wed Apr 28 03:59:05 2004"
+  ModelVersionFormat	  "1.%<AutoIncrement:531>"
+  ConfigurationManager	  "none"
+  TargetProperties	  "DataTag0"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  AccelSystemTargetFile	  "accel.tlc"
+  AccelTemplateMakefile	  "accel_default_tmf"
+  AccelMakeCommand	  "make_rtw"
+  TryForcingSFcnDF	  off
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "oneshot"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  off
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock off
+  BufferReuse		  on
+  ProdHWDeviceType	  "Motorola PowerPC"
+  ShowModelReferenceBlockVersion off
+  ShowModelReferenceBlockIO off
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.0.4"
+      Array {
+	Type			"Handle"
+	Dimension		7
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.0.4"
+	  StartTime		  "0.0"
+	  StopTime		  "8"
+	  AbsTol		  "1e-6"
+	  FixedStep		  "0.01"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  RelTol		  "1e-5"
+	  SolverMode		  "SingleTasking"
+	  Solver		  "ode3"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.0.4"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  off
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  off
+	  SaveState		  off
+	  SaveTime		  off
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "sigsOut"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Version		  "1.0.4"
+	  BlockReduction	  off
+	  BooleanDataType	  on
+	  ConditionallyExecuteInputs on
+	  ConditionalExecOptimization "on_for_testing"
+	  InlineParams		  on
+	  InlineInvariantSignals  off
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  on
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  ParameterPooling	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  OptimizeModelRefInitCode on
+	  LifeSpan		  "1"
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.0.4"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg on
+	  CheckExecutionContextRuntimeOutputMsg	on
+	  SignalResolutionControl "TryResolveAllWithWarning"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  SolverPrmCheckMsg	  "none"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  TasksWithSamePriorityMsg "warning"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "none"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterPrecisionLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  ModelReferenceSimTargetVerbose off
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	  ModelReferenceSymbolNameMessage "warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.0.4"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "BigEndian"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "Motorola PowerPC"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "32-bit Generic"
+	  TargetUnknown		  off
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.0.4"
+	  UpdateModelReferenceTargets "IfOutOfDate"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Version		  "1.0.4"
+	  SystemTargetFile	  "mpc555pil.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  TemplateMakefile	  "mpc555pil_default_tmf"
+	  Description		  "Embedded Target for Motorola MPC555 (proces"
+"sor-in-the-loop)"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  on
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ProcessScript		  "mpc555pil_make_rtw_hook"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Version		      "1.0.4"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses off
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement on
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      CustomSymbolStr	      "$R$N$M"
+	      MangleLength	      1
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    Simulink.STFCustomTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Version		      "1.0.4"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant off
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns on
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    on
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      off
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      SystemTargetFile	      "mpc555pil.tlc"
+	      DialogCategory	      0
+	      Array {
+		Type			"Handle"
+		Dimension		1
+		Simulink.ERTTargetCC {
+		  $BackupClass		  "Simulink.TargetCC"
+		  $ObjectID		  11
+		  Version		  "1.0.4"
+		  TargetFcnLib		  "ansi_tfl_tmw.mat"
+		  GenFloatMathFcnCalls	  "ANSI_C"
+		  UtilityFuncGeneration	  "Auto"
+		  GenerateFullHeader	  on
+		  GenerateSampleERTMain	  off
+		  IsPILTarget		  off
+		  ModelReferenceCompliant off
+		  IncludeMdlTerminateFcn  on
+		  CombineOutputUpdateFcns on
+		  SuppressErrorStatus	  off
+		  IncludeFileDelimiter	  "Auto"
+		  ERTCustomFileBanners	  on
+		  SupportAbsoluteTime	  on
+		  LogVarNameModifier	  "rt_"
+		  MatFileLogging	  off
+		  MultiInstanceERTCode	  off
+		  SupportNonFinite	  on
+		  SupportComplex	  on
+		  PurelyIntegerCode	  off
+		  SupportContinuousTime	  on
+		  SupportNonInlinedSFcns  on
+		  GenerateErtSFunction	  off
+		  GenerateASAP2		  off
+		  ExtMode		  off
+		  ExtModeTransport	  0
+		  ExtModeStaticAlloc	  off
+		  ExtModeStaticAllocSize  1000000
+		  ExtModeTesting	  off
+		  ExtModeMexFile	  "ext_comm"
+		  InlinedParameterPlacement "Hierarchical"
+		  TargetOS		  "BareBoardExample"
+		  MultiInstanceErrorCode  "Error"
+		  RateGroupingCode	  on
+		  RootIOFormat		  "Individual Arguments"
+		  RTWCAPISignals	  off
+		  RTWCAPIParams		  off
+		  RTWCAPIStates		  off
+		  ERTSrcFileBannerTemplate "ert_code_template.cgt"
+		  ERTHdrFileBannerTemplate "ert_code_template.cgt"
+		  ERTDataSrcFileTemplate  "ert_code_template.cgt"
+		  ERTDataHdrFileTemplate  "ert_code_template.cgt"
+		  ERTCustomFileTemplate	  "example_file_process.tlc"
+		  InitialValueSource	  "Model"
+		  ModuleNamingRule	  "Unspecified"
+		  SignalDisplayLevel	  10
+		  ParamTuneLevel	  10
+		  GlobalDataDefinition	  "Auto"
+		  GlobalDataReference	  "Auto"
+		  GRTInterface		  off
+		}
+		PropName		"Components"
+	      }
+	      CustomProperty {
+		DataType		"RTWOptions_EnumType__toolbox_rtw_targ"
+"ets_mpc555dk_mpc555dk_mpc555pil_MPC555_OPTIMIZATION_SWITCH"
+		EnumStrPairs {
+		  Value			  0
+		  String		  "speed"
+		  Value			  1
+		  String		  "size"
+		  Value			  2
+		  String		  "debug"
+		  Value			  3
+		  String		  "custom"
+		}
+		Name			"MPC555_OPTIMIZATION_SWITCH"
+		Value			"speed"
+	      }
+	      CustomProperty {
+		DataType		"string"
+		Name			"MPC555_OPTIMIZATION_FLAGS"
+		Value			"' -XO '"
+	      }
+	      CustomProperty {
+		DataType		"RTWOptions_EnumType__toolbox_rtw_targ"
+"ets_mpc555dk_mpc555dk_mpc555pil_BuildAction"
+		EnumStrPairs {
+		  Value			  0
+		  String		  "None"
+		  Value			  1
+		  String		  "Launch_Download_Control_Panel"
+		  Value			  2
+		  String		  "Run_via_BDM"
+		  Value			  3
+		  String		  "Debug_via_BDM"
+		}
+		Name			"BuildAction"
+		Value			"None"
+	      }
+	      CustomProperty {
+		DataType		"slbool"
+		Name			"STATIC_RTWLIB"
+		Value			on
+	      }
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      SimulationMode	      "normal"
+      CurrentDlgPage	      "Real-Time Workshop"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Clock
+      DisplayTime	      off
+    }
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "sfix(16)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "2^0"
+      SampleTime	      "inf"
+    }
+    Block {
+      BlockType		      DataTypeConversion
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      ConvertRealWorld	      "Real World Value (RWV)"
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Demux
+      Outputs		      "4"
+      DisplayOption	      "none"
+      BusSelectionMode	      off
+    }
+    Block {
+      BlockType		      DiscreteIntegrator
+      IntegratorMethod	      "Integration: Forward Euler"
+      gainval		      "1.0"
+      ExternalReset	      "none"
+      InitialConditionSource  "internal"
+      InitialCondition	      "0"
+      InitialConditionMode    "State and output"
+      SampleTime	      "1"
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	off
+      LimitOutput	      off
+      UpperSaturationLimit    "inf"
+      LowerSaturationLimit    "-inf"
+      ShowSaturationPort      off
+      ShowStatePort	      off
+      StateMustResolveToSignalObject off
+      RTWStateStorageClass    "Auto"
+    }
+    Block {
+      BlockType		      DiscreteTransferFcn
+      Numerator		      "[1]"
+      Denominator	      "[1 0.5]"
+      SampleTime	      "1"
+      StateMustResolveToSignalObject off
+      RTWStateStorageClass    "Auto"
+      Realization	      "auto"
+    }
+    Block {
+      BlockType		      EnablePort
+      StatesWhenEnabling      "held"
+      ShowOutputPort	      off
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      Fcn
+      Expr		      "sin(u[1])"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ParameterDataTypeMode   "Same as input"
+      ParameterDataType	      "sfix(16)"
+      ParameterScalingMode    "Best Precision: Matrix-wise"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      SignalConversion
+      OverrideOpt	      off
+    }
+    Block {
+      BlockType		      Inport
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Integrator
+      ExternalReset	      "none"
+      InitialConditionSource  "internal"
+      InitialCondition	      "0"
+      LimitOutput	      off
+      UpperSaturationLimit    "inf"
+      LowerSaturationLimit    "-inf"
+      ShowSaturationPort      off
+      ShowStatePort	      off
+      AbsoluteTolerance	      "auto"
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      Logic
+      Operator		      "AND"
+      Inputs		      "2"
+      AllPortsSameDT	      on
+      OutDataTypeMode	      "Logical (see Configuration Parameters: Optimiza"
+"tion)"
+      LogicDataType	      "uint(8)"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Lookup
+      InputValues	      "[-4:5]"
+      OutputValues	      " rand(1,10)-0.5"
+      LookUpMeth	      "Interpolation-Extrapolation"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+      LUTDesignTableMode      "Redesign Table"
+      LUTDesignDataSource     "Block Dialog"
+      LUTDesignFunctionName   "sqrt(x)"
+      LUTDesignUseExistingBP  on
+      LUTDesignRelError	      "0.01"
+      LUTDesignAbsError	      "1e-6"
+    }
+    Block {
+      BlockType		      Lookup2D
+      RowIndex		      "[0 1]"
+      ColumnIndex	      "[0 1]"
+      OutputValues	      "[0 0;0 0]"
+      LookUpMeth	      "Interpolation-Extrapolation"
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+      LUTDesignTableMode      "Redesign Table"
+      LUTDesignDataSource     "Block Dialog"
+      LUTDesignFunctionName   "sqrt(x)"
+      LUTDesignUseExistingBP  on
+      LUTDesignRelError	      "0.01"
+      LUTDesignAbsError	      "1e-6"
+    }
+    Block {
+      BlockType		      MinMax
+      Function		      "min"
+      Inputs		      "1"
+      InputSameDT	      on
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      MultiPortSwitch
+      Inputs		      "4"
+      zeroidx		      off
+      InputSameDT	      on
+      OutDataTypeMode	      "Inherit via internal rule"
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Mux
+      Inputs		      "4"
+      DisplayOption	      "none"
+      BusObject		      "BusObject"
+      NonVirtualBus	      off
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      Product
+      Inputs		      "2"
+      Multiplication	      "Element-wise(.*)"
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      RateTransition
+      Integrity		      on
+      Deterministic	      on
+      X0		      "0"
+      OutPortSampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Reference
+    }
+    Block {
+      BlockType		      RelationalOperator
+      Operator		      ">="
+      InputSameDT	      on
+      LogicOutDataTypeMode    "Logical (see Configuration Parameters: Optimiza"
+"tion)"
+      LogicDataType	      "uint(8)"
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Saturate
+      UpperLimit	      "0.5"
+      LowerLimit	      "-0.5"
+      LinearizeAsGain	      on
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Scope
+      Floating		      off
+      ModelBased	      off
+      TickLabels	      "OneTimeTick"
+      ZoomMode		      "on"
+      Grid		      "on"
+      TimeRange		      "auto"
+      YMin		      "-5"
+      YMax		      "5"
+      SaveToWorkspace	      off
+      SaveName		      "ScopeData"
+      LimitDataPoints	      on
+      MaxDataPoints	      "5000"
+      Decimation	      "1"
+      SampleInput	      off
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Selector
+      InputType		      "Vector"
+      IndexMode		      "One-based"
+      ElementSrc	      "Internal"
+      Elements		      "1"
+      RowSrc		      "Internal"
+      Rows		      "1"
+      ColumnSrc		      "Internal"
+      Columns		      "1"
+      InputPortWidth	      "-1"
+      IndexIsStartValue	      off
+      OutputPortSize	      "1"
+    }
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      PortCounts	      "[]"
+      SFunctionModules	      "''"
+    }
+    Block {
+      BlockType		      Signum
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Sum
+      IconShape		      "rectangular"
+      Inputs		      "++"
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Switch
+      Criteria		      "u2 >= Threshold"
+      Threshold		      "0"
+      InputSameDT	      on
+      OutDataTypeMode	      "Inherit via internal rule"
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Terminator
+    }
+    Block {
+      BlockType		      ZeroOrderHold
+      SampleTime	      "1"
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "mpc555_fuelsys"
+    Location		    [16, 108, 664, 810]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    212
+    ScreenColor		    "white"
+    PaperOrientation	    "portrait"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      Constant
+      Name		      "Constant2"
+      Position		      [200, 175, 220, 195]
+      Orientation	      "up"
+      NamePlacement	      "alternate"
+      ShowName		      off
+      Value		      "0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant3"
+      Position		      [195, 230, 215, 250]
+      Orientation	      "up"
+      NamePlacement	      "alternate"
+      ShowName		      off
+      Value		      "12"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant4"
+      Position		      [205, 115, 225, 135]
+      Orientation	      "up"
+      NamePlacement	      "alternate"
+      ShowName		      off
+      Value		      "0"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant5"
+      Position		      [195, 295, 215, 315]
+      Orientation	      "up"
+      NamePlacement	      "alternate"
+      ShowName		      off
+      Value		      "0"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "EGO sensor"
+      Ports		      [2, 1]
+      Position		      [230, 193, 270, 237]
+      SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
+      SourceType	      "Manual Switch"
+      ShowPortLabels	      on
+      sw		      "1"
+      action		      "0"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Fuel Rate Controller"
+      Ports		      [4, 1]
+      Position		      [340, 105, 440, 265]
+      BackgroundColor	      "green"
+      SourceBlock	      "mpc555_fuelsys_project/Fuel Rate Controller"
+      SourceType	      "SubSystem"
+      ShowPortLabels	      on
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "High Speed\n(rad./Sec.)"
+      Position		      [30, 183, 60, 197]
+      Value		      "700"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "MAP sensor"
+      Ports		      [2, 1]
+      Position		      [235, 254, 275, 296]
+      SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
+      SourceType	      "Manual Switch"
+      ShowPortLabels	      on
+      sw		      "1"
+      action		      "0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Metered Fuel"
+      Ports		      [1]
+      Position		      [475, 265, 505, 295]
+      Location		      [669, 57, 944, 244]
+      Open		      on
+      NumInputPorts	      "1"
+      TickLabels	      "on"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      TimeRange		      "8"
+      YMin		      "0.75"
+      YMax		      "2.25"
+      SaveName		      "ScopeData1"
+      DataFormat	      "Array"
+      LimitDataPoints	      off
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Nominal\nSpeed"
+      Position		      [30, 163, 60, 177]
+      NamePlacement	      "alternate"
+      Value		      "300"
+    }
+    Block {
+      BlockType		      RateTransition
+      Name		      "Rate Transition"
+      Position		      [295, 82, 315, 108]
+      ShowName		      off
+      OutPortSampleTime	      "0.01"
+    }
+    Block {
+      BlockType		      RateTransition
+      Name		      "Rate Transition1"
+      Position		      [295, 142, 315, 168]
+      ShowName		      off
+      OutPortSampleTime	      "0.01"
+    }
+    Block {
+      BlockType		      RateTransition
+      Name		      "Rate Transition2"
+      Position		      [295, 202, 315, 228]
+      ShowName		      off
+      OutPortSampleTime	      "0.01"
+    }
+    Block {
+      BlockType		      RateTransition
+      Name		      "Rate Transition3"
+      Position		      [295, 262, 315, 288]
+      ShowName		      off
+      OutPortSampleTime	      "0.01"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Subsystem"
+      Ports		      []
+      Position		      [285, 629, 402, 686]
+      BackgroundColor	      "lightBlue"
+      DropShadow	      on
+      ShowName		      off
+      OpenFcn		      "mpc555_fuelsys_project"
+      FontName		      "Arial"
+      FontSize		      12
+      FontWeight	      "bold"
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      MaskDisplay	      "disp(sprintf('Project Library'));"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"Subsystem"
+	Location		[433, 403, 931, 703]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	ZoomFactor		"100"
+      }
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "air/fuel\nmixture ratio"
+      Ports		      [1]
+      Position		      [540, 265, 570, 295]
+      Orientation	      "left"
+      Location		      [668, 303, 946, 492]
+      Open		      on
+      NumInputPorts	      "1"
+      TickLabels	      "on"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      TimeRange		      "8"
+      YMin		      "11"
+      YMax		      "16"
+      DataFormat	      "Array"
+      LimitDataPoints	      off
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "engine\nspeed"
+      Ports		      [2, 1]
+      Position		      [85, 158, 130, 202]
+      NamePlacement	      "alternate"
+      SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
+      SourceType	      "Manual Switch"
+      ShowPortLabels	      on
+      sw		      "1"
+      action		      "0"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "engine \ngas\ndynamics"
+      Ports		      [3, 3]
+      Position		      [475, 60, 570, 210]
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      System {
+	Name			"engine \ngas\ndynamics"
+	Location		[22, 163, 610, 359]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "engine speed"
+	  Position		  [25, 63, 55, 77]
+	  Port			  "1"
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "throttle angle"
+	  Position		  [30, 145, 60, 160]
+	  Orientation		  "up"
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "fuel"
+	  Position		  [25, 33, 55, 47]
+	  NamePlacement		  "alternate"
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Mixing & Combustion"
+	  Ports			  [2, 2]
+	  Position		  [330, 25, 450, 85]
+	  NamePlacement		  "alternate"
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "Mixing & Combustion"
+	    Location		    [606, 497, 1198, 676]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "fuel\nrate"
+	      Position		      [30, 68, 60, 82]
+	      Port		      "1"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "air flow"
+	      Position		      [30, 43, 60, 57]
+	      NamePlacement	      "alternate"
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant4"
+	      Position		      [72, 120, 98, 140]
+	      Orientation	      "up"
+	      NamePlacement	      "alternate"
+	      ShowName		      off
+	      Value		      "0.1"
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "EGO Sensor"
+	      Position		      [340, 60, 505, 80]
+	      Expr		      "(1-tanh(4*(u[1]-14.6)))/2"
+	    }
+	    Block {
+	      BlockType		      MinMax
+	      Name		      "MinMax"
+	      Ports		      [2, 1]
+	      Position		      [100, 67, 130, 98]
+	      ShowName		      off
+	      Function		      "max"
+	      Inputs		      "2"
+	    }
+	    Block {
+	      BlockType		      Product
+	      Name		      "Product"
+	      Ports		      [2, 1]
+	      Position		      [160, 33, 195, 102]
+	      ShowName		      off
+	      Inputs		      "*/"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "system lag"
+	      Ports		      [1, 1]
+	      Position		      [225, 52, 285, 88]
+	      SourceBlock	      "simulink_extras/Additional\nLinear/Tran"
+"sfer Fcn\n(with initial outputs)"
+	      SourceType	      "Transfer Function with Initial Outputs"
+	      ShowPortLabels	      "on"
+	      N			      "3"
+	      D			      "[1 3]"
+	      Y0		      "1/14.6"
+	      U0		      "1/14.6"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "o2_out"
+	      Position		      [540, 63, 570, 77]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	      InitialOutput	      "0"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "air/fuel\nratio"
+	      Position		      [540, 103, 570, 117]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	      InitialOutput	      "0"
+	    }
+	    Line {
+	      SrcBlock		      "air flow"
+	      SrcPort		      1
+	      DstBlock		      "Product"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "EGO Sensor"
+	      SrcPort		      1
+	      DstBlock		      "o2_out"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "system lag"
+	      SrcPort		      1
+	      Points		      [20, 0]
+	      Branch {
+		DstBlock		"EGO Sensor"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 40]
+		DstBlock		"air/fuel\nratio"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Product"
+	      SrcPort		      1
+	      DstBlock		      "system lag"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "MinMax"
+	      SrcPort		      1
+	      DstBlock		      "Product"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "fuel\nrate"
+	      SrcPort		      1
+	      DstBlock		      "MinMax"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Constant4"
+	      SrcPort		      1
+	      DstBlock		      "MinMax"
+	      DstPort		      2
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Throttle & Manifold"
+	  Ports			  [2, 2]
+	  Position		  [100, 51, 280, 124]
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "Throttle & Manifold"
+	    Location		    [274, 543, 854, 896]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Engine Speed, N"
+	      Position		      [130, 220, 150, 240]
+	      Port		      "1"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Throttle Ang."
+	      Position		      [30, 50, 50, 70]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Atmospheric\nPressure, Pa\n(bar)"
+	      Position		      [100, 110, 120, 130]
+	      Value		      "1.0"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Intake Manifold"
+	      Ports		      [2, 2]
+	      Position		      [215, 178, 450, 247]
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"Intake Manifold"
+		Location		[52, 472, 898, 741]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "mdot Input \n(g/s)"
+		  Position		  [40, 60, 60, 80]
+		  Port			  "1"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "N (rad/sec)"
+		  Position		  [250, 140, 270, 160]
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Mux
+		  Name			  "Mux"
+		  Ports			  [2, 1]
+		  Position		  [350, 61, 355, 179]
+		  BackgroundColor	  "black"
+		  ShowName		  off
+		  Inputs		  "2"
+		}
+		Block {
+		  BlockType		  Fcn
+		  Name			  "Pumping"
+		  Position		  [400, 106, 755, 134]
+		  Expr			  "-0.366 + 0.08979*u[1]*u[2] - 0.0337"
+"*u[2]*u[1]*u[1] + 0.0001*u[1]*u[2]*u[2]"
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "RT/Vm"
+		  Position		  [170, 70, 265, 110]
+		  Gain			  "0.41328"
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum"
+		  Ports			  [2, 1]
+		  Position		  [125, 49, 140, 131]
+		  ShowName		  off
+		  Inputs		  "+-"
+		}
+		Block {
+		  BlockType		  Integrator
+		  Name			  "p0 = 0.589 bar"
+		  Ports			  [1, 1]
+		  Position		  [285, 61, 315, 119]
+		  InitialCondition	  ".589"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "mdot to\nCylinder\n (g/s)"
+		  Position		  [795, 110, 815, 130]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		  InitialOutput		  "0"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Manifold Pressure,\nPm (bar)"
+		  Position		  [430, 15, 450, 35]
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		  InitialOutput		  "0"
+		}
+		Line {
+		  SrcBlock		  "Pumping"
+		  SrcPort		  1
+		  Points		  [10, 0]
+		  Branch {
+		    DstBlock		    "mdot to\nCylinder\n (g/s)"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 90; -680, 0; 0, -100]
+		    DstBlock		    "Sum"
+		    DstPort		    2
+		  }
+		}
+		Line {
+		  SrcBlock		  "Sum"
+		  SrcPort		  1
+		  DstBlock		  "RT/Vm"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "p0 = 0.589 bar"
+		  SrcPort		  1
+		  Points		  [5, 0]
+		  Branch {
+		    Points		    [0, -65]
+		    DstBlock		    "Manifold Pressure,\nPm (bar)"
+		    DstPort		    1
+		  }
+		  Branch {
+		    DstBlock		    "Mux"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Mux"
+		  SrcPort		  1
+		  DstBlock		  "Pumping"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "N (rad/sec)"
+		  SrcPort		  1
+		  DstBlock		  "Mux"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "RT/Vm"
+		  SrcPort		  1
+		  DstBlock		  "p0 = 0.589 bar"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "mdot Input \n(g/s)"
+		  SrcPort		  1
+		  DstBlock		  "Sum"
+		  DstPort		  1
+		}
+		Annotation {
+		  Name			  "Intake Manifold Vacuum"
+		  Position		  [427, 243]
+		  FontName		  "Arial"
+		  FontSize		  16
+		  FontWeight		  "bold"
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Saturate
+	      Name		      "Limit to Positive"
+	      Position		      [115, 48, 135, 72]
+	      UpperLimit	      "inf"
+	      LowerLimit	      "0"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Throttle"
+	      Ports		      [3, 1]
+	      Position		      [180, 48, 485, 132]
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"Throttle"
+		Location		[32, 254, 616, 683]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "Throttle Angle,\ntheta (deg)"
+		  Position		  [65, 65, 85, 85]
+		  NamePlacement		  "alternate"
+		  Port			  "1"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "Manifold Pressure,\nPm (bar)"
+		  Position		  [65, 110, 85, 130]
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "Atmospheric Pressure,\nPa (bar) "
+		  Position		  [65, 180, 85, 200]
+		  Port			  "3"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  MinMax
+		  Name			  "MinMax"
+		  Ports			  [2, 1]
+		  Position		  [240, 100, 265, 215]
+		  ShowName		  off
+		  Function		  "min"
+		  Inputs		  "2"
+		  Port {
+		    PortNumber		    1
+		    Name		    "pratio"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product"
+		  Ports			  [3, 1]
+		  Position		  [470, 22, 490, 338]
+		  ShowName		  off
+		  Inputs		  "3"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product1"
+		  Ports			  [2, 1]
+		  Position		  [180, 112, 210, 143]
+		  ShowName		  off
+		  Inputs		  "*/"
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product2"
+		  Ports			  [2, 1]
+		  Position		  [180, 167, 210, 198]
+		  ShowName		  off
+		  Inputs		  "/*"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Sonic Flow "
+		  Position		  [345, 190, 365, 210]
+		  Value			  "1.0"
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum"
+		  Ports			  [2, 1]
+		  Position		  [180, 267, 210, 298]
+		  ShowName		  off
+		  Inputs		  "+-"
+		}
+		Block {
+		  BlockType		  Signum
+		  Name			  "direction"
+		  Position		  [300, 269, 335, 301]
+		}
+		Block {
+		  BlockType		  Fcn
+		  Name			  "f(theta)"
+		  Position		  [110, 64, 440, 86]
+		  NamePlacement		  "alternate"
+		  Expr			  "2.821 - 0.05231*u[1] + 0.10299*u[1]"
+"*u[1] - 0.00063*u[1]*u[1]*u[1]"
+		}
+		Block {
+		  BlockType		  Fcn
+		  Name			  "g(pratio)"
+		  Position		  [315, 148, 390, 172]
+		  NamePlacement		  "alternate"
+		  Expr			  "2*sqrt(u - u*u)"
+		}
+		Block {
+		  BlockType		  Switch
+		  Name			  "threshold\n= 0.5"
+		  Position		  [420, 148, 445, 212]
+		  Threshold		  "0.5"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Throttle \nFlow, mdot\n (g/s)"
+		  Position		  [535, 170, 555, 190]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		  InitialOutput		  "0"
+		}
+		Line {
+		  SrcBlock		  "f(theta)"
+		  SrcPort		  1
+		  DstBlock		  "Product"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Product"
+		  SrcPort		  1
+		  DstBlock		  "Throttle \nFlow, mdot\n (g/s)"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Throttle Angle,\ntheta (deg)"
+		  SrcPort		  1
+		  DstBlock		  "f(theta)"
+		  DstPort		  1
+		}
+		Line {
+		  Name			  "pratio"
+		  Labels		  [1, 0]
+		  SrcBlock		  "MinMax"
+		  SrcPort		  1
+		  Points		  [20, 0]
+		  Branch {
+		    DstBlock		    "g(pratio)"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 20]
+		    DstBlock		    "threshold\n= 0.5"
+		    DstPort		    2
+		  }
+		}
+		Line {
+		  SrcBlock		  "Sum"
+		  SrcPort		  1
+		  DstBlock		  "direction"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "direction"
+		  SrcPort		  1
+		  DstBlock		  "Product"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "threshold\n= 0.5"
+		  SrcPort		  1
+		  DstBlock		  "Product"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Sonic Flow "
+		  SrcPort		  1
+		  DstBlock		  "threshold\n= 0.5"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "g(pratio)"
+		  SrcPort		  1
+		  DstBlock		  "threshold\n= 0.5"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Atmospheric Pressure,\nPa (bar) "
+		  SrcPort		  1
+		  Points		  [55, 0]
+		  Branch {
+		    Points		    [0, -55]
+		    DstBlock		    "Product1"
+		    DstPort		    2
+		  }
+		  Branch {
+		    Points		    [15, 0]
+		    Branch {
+		    DstBlock		    "Product2"
+		    DstPort		    2
+		    }
+		    Branch {
+		    Points		    [0, 85]
+		    DstBlock		    "Sum"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Line {
+		  SrcBlock		  "Product1"
+		  SrcPort		  1
+		  DstBlock		  "MinMax"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Product2"
+		  SrcPort		  1
+		  DstBlock		  "MinMax"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Manifold Pressure,\nPm (bar)"
+		  SrcPort		  1
+		  Points		  [40, 0]
+		  Branch {
+		    DstBlock		    "Product1"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 55]
+		    Branch {
+		    DstBlock		    "Product2"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [0, 115]
+		    DstBlock		    "Sum"
+		    DstPort		    2
+		    }
+		  }
+		}
+		Annotation {
+		  Name			  "Throttle Flow vs. Valve Angle and P"
+"ressure"
+		  Position		  [291, 372]
+		  FontName		  "Arial"
+		  FontSize		  16
+		  FontWeight		  "bold"
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Mass Airflow Rate"
+	      Position		      [510, 185, 530, 205]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	      InitialOutput	      "0"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "MAP (bar)"
+	      Position		      [515, 220, 535, 240]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	      InitialOutput	      "0"
+	    }
+	    Line {
+	      SrcBlock		      "Intake Manifold"
+	      SrcPort		      2
+	      Points		      [20, 0]
+	      Branch {
+		DstBlock		"MAP (bar)"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 40; -410, 0; 0, -180]
+		DstBlock		"Throttle"
+		DstPort			2
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Atmospheric\nPressure, Pa\n(bar)"
+	      SrcPort		      1
+	      DstBlock		      "Throttle"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Intake Manifold"
+	      SrcPort		      1
+	      DstBlock		      "Mass Airflow Rate"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Engine Speed, N"
+	      SrcPort		      1
+	      DstBlock		      "Intake Manifold"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Throttle"
+	      SrcPort		      1
+	      Points		      [35, 0; 0, 70; -330, 0; 0, 35]
+	      DstBlock		      "Intake Manifold"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Throttle Ang."
+	      SrcPort		      1
+	      DstBlock		      "Limit to Positive"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Limit to Positive"
+	      SrcPort		      1
+	      DstBlock		      "Throttle"
+	      DstPort		      1
+	    }
+	    Annotation {
+	      Name		      "Air-Fuel Intake Dynamics"
+	      Position		      [282, 313]
+	      FontName		      "Arial"
+	      FontSize		      16
+	      FontWeight	      "bold"
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "o2_out"
+	  Position		  [505, 33, 535, 47]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	  InitialOutput		  "0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "MAP"
+	  Position		  [505, 98, 535, 112]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	  InitialOutput		  "0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "air/fuel ratio"
+	  Position		  [505, 63, 535, 77]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	  InitialOutput		  "0"
+	}
+	Line {
+	  SrcBlock		  "Mixing & Combustion"
+	  SrcPort		  1
+	  DstBlock		  "o2_out"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Throttle & Manifold"
+	  SrcPort		  2
+	  DstBlock		  "MAP"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Mixing & Combustion"
+	  SrcPort		  2
+	  DstBlock		  "air/fuel ratio"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "throttle angle"
+	  SrcPort		  1
+	  Points		  [0, -35]
+	  DstBlock		  "Throttle & Manifold"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "engine speed"
+	  SrcPort		  1
+	  DstBlock		  "Throttle & Manifold"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "fuel"
+	  SrcPort		  1
+	  DstBlock		  "Mixing & Combustion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Throttle & Manifold"
+	  SrcPort		  1
+	  DstBlock		  "Mixing & Combustion"
+	  DstPort		  2
+	}
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "speed sensor"
+      Ports		      [2, 1]
+      Position		      [235, 134, 275, 176]
+      SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
+      SourceType	      "Manual Switch"
+      ShowPortLabels	      on
+      sw		      "1"
+      action		      "0"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "throttle\ncommand"
+      Ports		      [0, 1]
+      Position		      [160, 70, 190, 100]
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      MaskType		      "Repeating table"
+      MaskDescription	      "Repeating table."
+      MaskHelp		      "Repeats cycle given in table. Time values shoul"
+"d be monotonically increasing."
+      MaskPromptString	      "Time values:|Output values:"
+      MaskStyleString	      "edit,edit"
+      MaskTunableValueString  "off,off"
+      MaskCallbackString      "|"
+      MaskEnableString	      "on,on"
+      MaskVisibilityString    "on,on"
+      MaskToolTipString	      "on,on"
+      MaskVarAliasString      ","
+      MaskVariables	      "rep_seq_t=@1;rep_seq_y=@2;"
+      MaskInitialization      "period = max(rep_seq_t);\n"
+      MaskDisplay	      "plot([rep_seq_t,rep_seq_t+period,rep_seq_t+2*pe"
+"riod,rep_seq_t(1)+3*period],[rep_seq_y,rep_seq_y,rep_seq_y,rep_seq_y(1)])"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "[0 2 4]|[10 20 10]"
+      MaskTabNameString	      ","
+      System {
+	Name			"throttle\ncommand"
+	Location		[382, 184, 692, 340]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Clock
+	  Name			  "Clock"
+	  Position		  [45, 60, 65, 80]
+	  Decimation		  "10"
+	}
+	Block {
+	  BlockType		  Fcn
+	  Name			  "Fcn1"
+	  Position		  [110, 60, 150, 80]
+	  Expr			  "rem(u[1],period)"
+	}
+	Block {
+	  BlockType		  Lookup
+	  Name			  "Look-Up Table"
+	  Position		  [210, 58, 250, 82]
+	  DialogController	  "Simulink.DDGSource"
+	  InputValues		  "rep_seq_t"
+	  OutputValues		  "rep_seq_y"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "out_1"
+	  Position		  [285, 60, 305, 80]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	  InitialOutput		  "0"
+	}
+	Line {
+	  SrcBlock		  "Look-Up Table"
+	  SrcPort		  1
+	  DstBlock		  "out_1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Clock"
+	  SrcPort		  1
+	  DstBlock		  "Fcn1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Fcn1"
+	  SrcPort		  1
+	  DstBlock		  "Look-Up Table"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "throttle sensor"
+      Ports		      [2, 1]
+      Position		      [235, 75, 275, 115]
+      NamePlacement	      "alternate"
+      SourceBlock	      "simulink/Signal\nRouting/Manual Switch"
+      SourceType	      "Manual Switch"
+      ShowPortLabels	      on
+      sw		      "1"
+      action		      "0"
+    }
+    Line {
+      SrcBlock		      "engine \ngas\ndynamics"
+      SrcPort		      3
+      Points		      [10, 0]
+      DstBlock		      "air/fuel\nmixture ratio"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "engine\nspeed"
+      SrcPort		      1
+      Points		      [10, 0; 0, -35]
+      Branch {
+	DstBlock		"speed sensor"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, -100; 315, 0]
+	DstBlock		"engine \ngas\ndynamics"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "EGO sensor"
+      SrcPort		      1
+      DstBlock		      "Rate Transition2"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "speed sensor"
+      SrcPort		      1
+      DstBlock		      "Rate Transition1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "throttle sensor"
+      SrcPort		      1
+      DstBlock		      "Rate Transition"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "engine \ngas\ndynamics"
+      SrcPort		      1
+      Points		      [50, 0; 0, 275; -535, 0; 0, -155]
+      DstBlock		      "EGO sensor"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Constant5"
+      SrcPort		      1
+      Points		      [0, -5]
+      DstBlock		      "MAP sensor"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Constant3"
+      SrcPort		      1
+      DstBlock		      "EGO sensor"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "throttle\ncommand"
+      SrcPort		      1
+      Points		      [15, 0]
+      Branch {
+	DstBlock		"throttle sensor"
+	DstPort			1
+      }
+      Branch {
+	Labels			[3, 0]
+	Points			[0, -30; 240, 0; 0, 80]
+	DstBlock		"engine \ngas\ndynamics"
+	DstPort			2
+      }
+    }
+    Line {
+      SrcBlock		      "Constant2"
+      SrcPort		      1
+      Points		      [0, -5]
+      DstBlock		      "speed sensor"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Constant4"
+      SrcPort		      1
+      Points		      [0, -5]
+      DstBlock		      "throttle sensor"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "engine \ngas\ndynamics"
+      SrcPort		      2
+      Points		      [30, 0; 0, 210; -505, 0; 0, -80]
+      DstBlock		      "MAP sensor"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "High Speed\n(rad./Sec.)"
+      SrcPort		      1
+      DstBlock		      "engine\nspeed"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Nominal\nSpeed"
+      SrcPort		      1
+      DstBlock		      "engine\nspeed"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Fuel Rate Controller"
+      SrcPort		      1
+      Points		      [10, 0]
+      Branch {
+	Points			[0, 95]
+	DstBlock		"Metered Fuel"
+	DstPort			1
+      }
+      Branch {
+	DstBlock		"engine \ngas\ndynamics"
+	DstPort			3
+      }
+    }
+    Line {
+      SrcBlock		      "MAP sensor"
+      SrcPort		      1
+      DstBlock		      "Rate Transition3"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Rate Transition"
+      SrcPort		      1
+      Points		      [5, 0]
+      DstBlock		      "Fuel Rate Controller"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Rate Transition1"
+      SrcPort		      1
+      Points		      [5, 0]
+      DstBlock		      "Fuel Rate Controller"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Rate Transition2"
+      SrcPort		      1
+      Points		      [5, 0]
+      DstBlock		      "Fuel Rate Controller"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "Rate Transition3"
+      SrcPort		      1
+      Points		      [5, 0]
+      DstBlock		      "Fuel Rate Controller"
+      DstPort		      4
+    }
+    Annotation {
+      Name		      "Fault-Tolerant Fuel Control System"
+      Position		      [370, 20]
+      FontName		      "Arial"
+      FontSize		      14
+      FontWeight	      "bold"
+    }
+    Annotation {
+      Name		      "This model demonstrates how to prepare a closed"
+"-loop simulation model for \n1) normal simulation, and 2) processor-in-the-lo"
+"op (PIL) co-simulation.  \n\nPIL allows you to validate the production code g"
+"enerated by Real-Time Workshop \nEmbedded Coder from within the framework of "
+"a closed-loop plant model simulation \n(in non real-time).  The plant portion"
+" of the model is executed on the host processor \nand the control portion of "
+"the model is run on a target processor.  \n\nDouble click on \"Project Librar"
+"y\" to open the Fault-Tolerant Fuel Control System \nProject Library. This co"
+"ntains the Fuel Rate Controller block used in this model, and \nalso a link t"
+"o a model that deploys this control algorithm in real-time on an MPC555, \nus"
+"ing target specific device driver blocks.\n"
+      Position		      [93, 396]
+      HorizontalAlignment     "left"
+      VerticalAlignment	      "top"
+      DropShadow	      on
+      FontName		      "Arial"
+      FontSize		      14
+    }
+  }
+}
+MatData {
+  NumRecords		  1
+  DataRecord {
+    Tag			    DataTag0
+    Data		    "  %)30     .     !D   8    (    $0         !     "
+"     $    &    :&%N9&QE   !    %P   %)45T-O;F9I9W5R871I;VXN5&%R9V5T  X   \"P&"
+"   !@    @    !          4    (    +P    $    !          X   \"8\"P  !@    @ "
+"   )          4    (    : L   $    !          (   !H\"P   0   #D   #X P  J 0 "
+" + $  #X!P  8 L  &@+             %)45T-O;F9I9W5R871I;VX 5&%R9V5T &%C=&EV94QI<"
+"W0 3&ES=$AE860 9&]W;@!.;V1E &1A=&$ 35!#-34U9&M#;VYF:6< 4UE35$5-7T-,3T-+4P!C;V"
+"YF:6=U<F%T:6]N7W1Y<&4 4WES=&5M($-O;F9I9W5R871I;VX :&ED9&5N7V-O;F9I9W5R871I;VX"
+" 35!#-7AX7U9A<FEA;G0 -34U $]S8VEL;&%T;W)?1G)E<75E;F-Y #(P %53255?4$Q04D-27T)?"
+"348 55-)55]03%!20U)?0E]$259& %53255?4T-#4E]\"7T1&3D@ 55-)55]30T-27T)?1$9.3 !5"
+"4TE57U-#0U)?0E]%0D1& $5X=%]-;V1E7U-E<FEA; !%>'1?36]D95]397)I86Q?4W1A=&4 4WES="
+"&5M7T9R97%U96YC>0!3>7-T96U?0VQO8VL 0TQ+3U54 ')E<V]U<F-E<P!3>7-T96U297-O=7)C97"
+", <FEG:'0 44%$0S8T %%!1$,V-\"!#;VYF:6=U<F%T:6]N %%!1$-?00!1041#-C1?4%)/4%, 37"
+"5L=&EP;&5X7TUO9&4 ,\" ]($EN=&5R;F%L;'D@;75L=&EP;&5X960@.B Q-B!P;W-S:6)L92!C:&"
+"%N;F5L<P!1041#7T( 34E/4S$ 34E/4S$@0V]N9FEG=7)A=&EO;@!0<F5S8V%L97( 36]D=6QU<U]"
+"#;W5N=&5R7S8 34E/4U]#3U5.5$52 $UO9'5L=7-?3&]A9%]396YS:71I=FET>0!$:7-A8FQE9 !#"
+";&]C:U]0<F5S8V%L97( 36]D=6QU<U],871C:%]296=I<W1E<@!-;V1U;'5S7T-O=6YT97)?,C( 5"
+"&5R;6EN871O<@!C;&%S<VME>0!-4$,U-35D:T-O;F9I9RY-24]3,0!S;W5R8V5,:6)R87)Y &UP8S"
+"4U-61R:79E<G,O36]D=6QA<B!);G!U=\"\\O3W5T<'5T\"E-Y<W1E;2 H34E/4S$I $U00S4U-61K"
+"0V]N9FEG+E%!1$,V- !M<&,U-35D<FEV97)S+U%U975E9 I!;F%L;V<M5&\\M1&EG:71A; I#;VYV"
+"97)T97(@36]D=6QE+38T $U00S4U-61K0V]N9FEG+E-94U1%35]#3$]#2U, ;7!C-34U9')I=F5R<"
+"P!B;&]C:P!M<&,U-35D9%]F=65L<WES+V9U96P@<F%T90IC;VYT<F]L;&5R+TU00S4U-0I297-O=7"
+")C90I#;VYF:6=U<F%T:6]N                                 0    (               $"
+"    $               !    !@              \"     D               @    <       "
+"        (    '@              \"    \"$               @    E               (  "
+"  *0               0   \"\\                                                  "
+"        0                    $          @    $               (          P    "
+"(               ,         !     $               0         !0    $    $       "
+"   4          P    (    #          8         !@    $               <         "
+"!P                    @         !P                    D          P    (    & "
+"         H         \"     $    %          L         \"0    L               P "
+"        \"0    L    ,          T         \"@                               @ "
+"   $               X         \"@                               @    $    \"  "
+"        \\         \"@                               @    $    '         !   "
+"       \"@                               @    $    3         !$         \"@  "
+"                             @    $    5         !(         \"@              "
+"                 @    $    7         !,         \"@                          "
+"     @    $    9         !0         \"@                               @    $ "
+"   ;         !4         \"@                               @    $    =        "
+" !8         \"@                               @    $    ?         !<         "
+"\"@                                         \"     P    $    B    .          "
+"Y          $    %     0   \"$    %    !P    $    +    &P    $    ,    '0    $"
+"    @    ,          V    ,@         W    #@    H         \"P    P    !       "
+"   T         #@    \\         $    !$    !     0   !(    !     @   !,    !   "
+"  P   !0    !    !    !4    !    !0   !8    !    !@   !<    !    !P   !@    !"
+"    \"    !D    !    \"0   !H    !    \"@                    0    '     0   !"
+"(    =     0   !\\    P         #0    R         #4         !     H         'P"
+"    P    !    #0   \"     !    #P   \"0    !    $0         \"    #     $    ."
+"    (@         C          (    ,     0   !     B         \",         !     < "
+"   !    '0   !T    !    '@   #          ,0   #(         ,P         %    \"@  "
+"       F    #     $    3    )P    $    4    *     $    8    +@    $    <    !"
+"     P    !    %0   \"H         *P   \"P    !    %@   \"T    !    %P         "
+"$    #     $    9    *@         K    +     $    :    +0    $    ;          $ "
+"   %     0   \",    !    !0    $    D     0    4    !    )0    $    %     0  "
+" \"8    !    !0    $    G     0    4    !    *     $    %     0   \"D    !   "
+" !0    $    J     0    4    !    *P    $    %     0   \"P               X   !"
+"X    !@    @    !          4    (     0    $    !          X   !(    !@    @ "
+"   -          4    (    !0    $    !          8    4        W0(    !     0   "
+" $         #@   #     &    \"     D\"        !0    @    !     0    $         "
+" @ !       .    .     8    (    !@         %    \"     $    !     0         )"
+"    \"               #@   #@    &    \"     8         !0    @    !     0    $"
+"         \"0    @               X    X    !@    @    &          4    (     0 "
+"   $    !          D    (               .    .     8    (    !@         %    "
+"\"     $    !     0         )    \"               #@   #@    &    \"     8   "
+"      !0    @    !     0    $         \"0    @               X    P    !@    "
+"@    ) @        4    (     0    $    !          (  0      #@   #     &    \" "
+"    D\"        !0    @    !     0    $          @ !       .    .     8    (  "
+"  !@         %    \"     $    !     0         )    \"         #0$H-!#@   #@  "
+"  &    \"     8         !0    @    !     0    $         \"0    @         T!)S"
+"00X    X    !@    @    &          4    (     0    $    !          D    (     "
+"    - 2<T$.    2     8    (    #0         %    \"     4    !     0         & "
+"   %        -T\"     0    $    $          X   !(    !@    @    -          4  "
+"  (    !0    $    !          8    4        W0(    !     0    4         #@   #"
+"     &    \"     D\"        !0    @    !     0    $          @ !       .    ,"
+"     8    (    \"0(        %    \"     $    !     0         \"  $       X   !"
+"(    !@    @    -          4    (    !0    $    !          8    4        W0( "
+"   !     0    @         #@   #     &    \"     D\"        !0    @    !     0 "
+"   $          @ !       .    2     8    (    #0         %    \"     4    !   "
+"  0         &    %        -T\"     0    $    )          X   !(    !@    @    "
+"-          4    (    !0    $    !          8    4        W0(    !     0    < "
+"        #@   #     &    \"     D\"        !0    @    !     0    $          @ "
+"!       .    .     8    (    !@         %    \"     $    !     0         )   "
+" \"               #@   #     &    \"     D\"        !0    @    !     0    $  "
+"        @ !       .    .     8    (    !@         %    \"     $    !     0   "
+"      )    \"               #@   #@    &    \"     8         !0    @    !    "
+" 0    $         \"0    @               X   !(    !@    @    -          4    ("
+"    !0    $    !          8    4        W0(    !     0    P         #@   #   "
+"  &    \"     D\"        !0    @    !     0    $          @ !       .    .   "
+"  8    (    !@         %    \"     $    !     0         )    \"              "
+" #@   #@    &    \"     8         !0    @    !     0    $         \"0    @   "
+"            X   !(    !@    @    -          4    (    !0    $    !          8"
+"    4        W0(    !     0    T         #@   $@    &    \"     T         !0 "
+"   @    %     0    $         !@   !0       #= @    $    !    \"P         .   "
+" 2     8    (    #0         %    \"     4    !     0         &    %        -T"
+"\"     0    $    .          X   !(    !@    @    -          4    (    !0    $"
+"    !          8    4        W0(    !     0    H         #@   $@    &    \"  "
+"   T         !0    @    %     0    $         !@   !0       #= @    $    !    "
+"!@         .    2     8    (    #0         %    \"     4    !     0         &"
+"    %        -T\"     0    $    #          X   !(    !@    @    -          4 "
+"   (    !0    $    !          8    4        W0(    !     0    (         #@   "
+"$@    &    \"     T         !0    @    %     0    $         !@   !0       #= "
+"@    $    !    $          .    2     8    (    #0         %    \"     4    ! "
+"    0         &    %        -T\"     0    $    2          X   !(    !@    @  "
+"  -          4    (    !0    $    !          8    4        W0(    !     0   !"
+"0         #@   $@    &    \"     T         !0    @    %     0    $         !@"
+"   !0       #= @    $    !    %@         .    2     8    (    #0         %   "
+" \"     4    !     0         &    %        -T\"     0    $    8          X   "
+"!(    !@    @    -          4    (    !0    $    !          8    4        W0("
+"    !     0   !H         #@   $@    &    \"     T         !0    @    %     0 "
+"   $         !@   !0       #= @    $    !    '          .    2     8    (    "
+"#0         %    \"     4    !     0         &    %        -T\"     0    $    "
+">          X   !(    !@    @    -          4    (    !0    $    !          8 "
+"   4        W0(    !     0   \"          #@   $@    &    \"     T         !0 "
+"   @    %     0    $         !@   !0       #= @    $    !    (@         .    "
+"B     8    (    \"0         %    \"     $   !8     0         \"    6      !24"
+"T     #@   $@    &    \"     (         !0    @    !     0    $         !0 $  "
+"<    !    !P   &AA;F1L90  #@         "
+  }
+}
+
+# Finite State Machines
+#
+#    Stateflow Version 6.0 (R14) dated Apr 24 2004, 00:26:48
+#
+#
+
+Stateflow {
+
+	machine {
+		id                   		1
+		name                 		"mpc555_fuelsys"
+		creator              		"The MathWorks Inc."
+		version              		"1.0"
+		isLibrary            		0
+		firstTarget          		2
+		document             		"www.stateflow.com"
+		sfVersion            		60014000.000006
+		sfDemoChecksum       		[536844380 2231760472 436081497 3285718681]
+	}
+
+	target {
+		id               		2
+		name             		"sfun"
+		description      		"Default S-Function target."
+		codeFlags        		" debug=1 telemetry=0 preservenames=0 preservenameswithparent"
+						"=0 exportcharts=0 project=0 multiinstanced=0 statebitsets=0 "
+						"databitsets=0 comments=1 echo=1 initializer=1 ioformat=1"
+		machine          		1
+		linkNode         		[1 0 3]
+		checksumOld      		[2501901041 1050918098 926884844 3756894111]
+	}
+
+	target {
+		id               		3
+		name             		"rtw"
+		description      		"Default RTW target."
+		codeFlags        		" debug=0 telemetry=0 preservenames=0 preservenameswithparent"
+						"=0 exportcharts=0 project=0 multiinstanced=0 statebitsets=0 "
+						"databitsets=0 comments=1 echo=1 initializer=1 ioformat=1"
+		machine          		1
+		linkNode         		[1 2 0]
+	}
+}

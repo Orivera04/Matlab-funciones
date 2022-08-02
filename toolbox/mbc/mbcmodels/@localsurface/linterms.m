@@ -1,0 +1,9 @@
+function in= linterms(L)
+%LINTERMS
+
+%  Copyright 2000-2004 The MathWorks, Inc. and Ford Global Technologies, Inc.
+
+
+%   $Revision: 1.2.2.2 $  $Date: 2004/02/09 07:42:19 $
+
+in= getstatus(L.userdefined)~=2;

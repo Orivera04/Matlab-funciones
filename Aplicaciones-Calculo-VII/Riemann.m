@@ -1,0 +1,21 @@
+%Programa para calcular sumas de Riemann
+%FUNCION DE TRABAJO
+
+F = inline('x^2 - 2*x + 5');
+
+%Puntos de la particion y longitudes de subintervalos
+P = input('De los puntos de la particion  ');
+deltax = diff(P);
+
+%Inicializacion de la suma de Riemann
+SumaR = 0.;
+
+%Calculo de la suma de Riemann
+for i = 1:length(P)-1
+    xbarra = P(i) + rand(1)*deltax(i);
+    SumaR = SumaR + F(xbarra)*deltax(i);
+end;
+SumaR
+
+
+

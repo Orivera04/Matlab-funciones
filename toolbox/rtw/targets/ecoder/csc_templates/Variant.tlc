@@ -1,0 +1,322 @@
+%% $RCSfile: Variant.tlc,v $
+%% $Revision: 1.1.4.4 $
+%% $Date: 2004/04/15 00:26:14 $
+%%
+%% Copyright 1994-2003 The MathWorks, Inc.
+
+%% File Abstract ================================================================
+%%
+%% This is a generic template to be used as a starting point when implementing a
+%% a variant parameter custom storage class with Real-Time Workshop Embedded 
+%% Coder.  
+
+%% Disclaimer ===================================================================
+%%
+%% Custom storage classes are an advanced feature of Real-Time Workshop Embedded
+%% Coder, and provide tremendous customization capability of data symbols in the
+%% generated code.  This file is an example of a way to implement parameter 
+%% variants.  It may need to be modified to work for your application.
+
+%% Make sure no white space in this file shows up in code.
+%selectfile NULL_FILE
+
+%% Target language is C
+%implements * "C"
+
+
+%% Function: DataAccess ================================================
+%% Abstract:
+%%   DataAccess provides an API for requesting code fragments or other
+%%   information corresponding to data of this custom storage class.
+%%
+%function DataAccess(record, request, idx, reim) void
+  %if PrefixModelToStructs
+    %assign prefix = "%<CompiledModel.Name>_"
+  %else
+    %assign prefix = ""
+  %endif
+  %assign structname = "%<prefix>%<record.Object.Package>_%<record.Object.Class>"
+
+  %switch request
+    
+    %case "contents"
+      %% Access the data through the pointer to an element of an array of
+      %% structures
+      %assign id = LibGetRecordIdentifier(record)
+      %return "%<structname>->%<id>%<idx>"
+      %break
+      
+    %case "address"
+      %% Access the data through the pointer to an element of an array of
+      %% structures
+      %assign id = LibGetRecordIdentifier(record)
+      %return "&%<structname>->%<id>%<idx>"
+      %break
+      
+    %case "initialize"
+      %% Initialize external I/O to ground
+      %assign gndValue = LibGetGroundValue(record, tRealPart)
+      %assign id = LibGetRecordIdentifier(record)
+      %return "%<structname>->%<id>%<idx> = %<gndValue>;"
+      %break
+
+    %case "declComment"
+      %% The data is not individually declared; the structure as a 
+      %% whole is declared in the storage class setup.
+      %return ["", "", ""]
+      %break
+      
+    %case "declare"
+      %% The data is not individually declared; the structure as a 
+      %% whole is declared in the storage class setup.
+      %return
+      %break
+
+    %case "defnComment"
+      %% The data is not individually defined; the structure as a 
+      %% whole is defined in the storage class setup.
+      %return ["", "", ""]
+      %break
+      
+    %case "define"
+      %% The data is not individually defined; the structure as a 
+      %% whole is defined in the storage class setup.
+      %return
+      %break
+      
+    %case "layout"
+      %% Uses The Mathworks' data layout.
+      %return LibDefaultCustomStorageLayout(record)
+      %break
+      
+    %case "qualifier"
+      %% Uses a "const" type qualifier.
+      %return ""
+      %break
+	
+    %default
+      %% Unknown access type.
+      %return LibDefaultCustomStorageUnknownDataAccessType ...
+	(record, request, idx, reim)
+      %break
+
+  %endswitch
+%endfunction
+
+
+
+%% Function: ClassAccess =============================================
+%% Abstract:
+%%  SClassAccess provides an API for requesting information or action
+%%   corresponding to the custom storage class
+%%
+%function ClassAccess(record, request) void
+
+  %switch request
+    %case "setup"
+
+      %assign initFieldSep = ", "
+      %assign numData = LibCustomStorageClassRecordNumData(record)
+
+      %% Loop over all data of this custom storage class
+      %foreach idx = numData
+
+	%assign item = LibGetDataRecord(record, idx)
+	%assign props = item.Object.ObjectProperties
+	%assign variantProps = props.Variants.Object.ObjectProperties
+
+	%% When encountering the first data instance of this storage
+	%% class, cache away some attributes
+	%if idx == 0
+
+	  %% Make sure the record is non-complex parameter
+	  %<LibCustomStorageVerifyRecordIsNonComplex(item)>
+	  %<LibCustomStorageVerifyRecordIsModelParameter(item)>
+	
+	  %assign objectPackage = item.Object.Package
+	  %assign objectClass = item.Object.Class
+	  %% Assign the structure name based on the model name, package,
+	  %% and class.  Edit this code to define a unique string if you
+	  %% prefer.
+	  %if PrefixModelToStructs
+	    %assign prefix = "%<CompiledModel.Name>_"
+	  %else
+	    %assign prefix = ""
+	  %endif
+	  %assign structname = ...
+	    "%<prefix>%<item.Object.Package>_%<item.Object.Class>"
+	  %assign typedef = "typedef struct %<structname>_tag {\n"
+
+	  %% Obtain the pointer offset for the variant chosen
+	  %assign variantNames = FIELDNAMES(variantProps)
+	  %assign numVariants = SIZE(variantNames,1)
+	  %assign command = ...
+	    "cscvariantget('%<CompiledModel.Name>','%<objectPackage>.%<objectClass>')"
+	  %assign variant = FEVAL("eval",command)
+	  %if ISEMPTY(variant)
+	    %assign offset = 0
+	    %warning assuming objects of class "%<objectPackage>.%<objectClass>" have their values set to their "%<variantNames[0]>" variant
+	  %else
+	    %foreach jdx = numVariants
+	      %if variant == variantNames[jdx]
+		%assign offset = jdx
+	      %endif
+	    %endforeach
+	  %endif
+	  
+	  %foreach jdx = numVariants
+	    %addtorecord record variant_init%<jdx> ""
+	  %endforeach
+
+	%endif
+	%if idx == numData - 1
+	  %assign initFieldSep = ""
+	%endif
+	
+        %% Build up typedef and initializer for array of parameter variants
+	%assign id = LibGetRecordIdentifier(item)
+	%assign dtypeName = LibGetRecordCompositeDataTypeName(item)
+	%assign width = LibGetDataWidth(item)
+	%assign dims = ""
+	%if width > 1
+	  %assign dims = "[%<width>]"
+	%endif
+	%assign typedef = "%<typedef>%<dtypeName> %<id>%<dims>;\n"
+
+	%% Loop over each variant for this instance of data
+	%foreach jdx = numVariants
+	  %assign variantName = variantNames[jdx]
+	  %assign variantValue = GETFIELD(variantProps, variantName)
+	  %% Make sure the size of each variant matches the size of the
+	  %% value
+	  %assign sizeVariantValue = SIZE(variantValue)
+	  %if sizeVariantValue[0]*sizeVariantValue[1] != width
+	    %<LibReportFatalError(...
+	      "variant %<variantName> of parameter %<id> is not the right size")>
+	  %endif
+
+	  %% Generate this parameter's variant's contribution to the structure
+	  %% initializer
+	  %if width > 1
+	    %openfile data_init
+	    %assign dummy = ...
+	      GENERATE_FORMATTED_VALUE(variantValue, "%<id>, variant %<variantName>")
+	    %closefile data_init
+	    %assign data_init = "%<data_init>%<initFieldSep>\n"
+	  %else
+	    %assign data_init = ...
+	      "%<variantValue>%<initFieldSep> /* %<id>, variant %<variantName> */\n"
+	  %endif
+	  %assign record.variant_init%<jdx> = record.variant_init%<jdx> + data_init
+
+	%endforeach
+
+      %endforeach
+    
+      %assign structtype = "%<structname>_struct"
+      %assign structarray = "%<structname>_array"
+      %assign typedef = "%<typedef>} %<structtype>;\n\n"
+      %assign structinit = "{"
+      %foreach jdx = numVariants
+	%assign structinit = structinit + "{" + record.variant_init%<jdx> + "}"
+	%if jdx < (numVariants - 1)
+	  %assign structinit = "%<structinit>,\n"
+	%endif
+      %endforeach
+      %assign structinit = "%<structinit>}"
+
+      %assign mdlHdrFile   = GetBaseFile("SystemHeader")
+      %assign baseFileName = GetBaseFileName()
+      
+      %assign dataFileName = "%<record.Name>_data"
+      %assign dataFile = SLibAddModelFile("SystemBody","Simulink", dataFileName)
+
+
+      %openfile inclBuf
+      #include "%<baseFileName>.h"
+      %closefile inclBuf
+      %<SLibSetModelFileAttribute(dataFile, "Includes", inclBuf)>
+
+      %with CompiledModel
+      %openfile bannerBuf
+      /*
+      * %<dataFileName>.c
+      *
+      %<SLibCommonHeaderInfo()>\
+      */
+      %closefile bannerBuf
+      %endwith
+      %<SLibSetModelFileAttribute(dataFile, "Banner", bannerBuf)>
+      
+      %% Generate typedef for array holding sets of parameter variants
+      %<SLibSetModelFileAttribute(mdlHdrFile, "Typedefs", typedef)>
+
+      %% Declare array holding sets of parameter variants 
+      %<SLibSetModelFileAttribute(mdlHdrFile, "Declarations", ...
+	"/* Array containing sets of variant parameter values */\n" + ...
+	"extern const %<structtype> %<structarray>[%<numVariants>];\n\n")>
+
+      %% Define array holding sets of parameter variants
+      %<SLibSetModelFileAttribute(dataFile, "Definitions", ...
+	"/* Array containing sets of variant parameter values */\n" + ...
+	"const %<structtype> %<structarray>[%<numVariants>] = \n%<structinit>;\n\n")>
+
+      %% Declare pointer to element of array holding sets of parameter variants
+      %<SLibSetModelFileAttribute(mdlHdrFile, "Declarations", ...
+	"/* Pointer to set of variant parameter values selected */\n" + ...
+	"extern const %<structtype> *%<structname>;\n\n")>
+
+      %% Define pointer to element of array holding sets of parameter variants
+      %<SLibSetModelFileAttribute(dataFile, "Definitions", ...
+	"/* Pointer to set of variant parameter values selected */\n" + ...
+	"const %<structtype> *%<structname>;\n\n")>
+
+      %% Declare offset into array holding sets of parameter variants
+      %<SLibSetModelFileAttribute(mdlHdrFile, "Declarations", ...
+	"/* Offset into array containing sets of variants */\n" + ...
+	"extern unsigned char %<structname>_offset;\n\n")>
+
+      %% Define offset into array holding sets of parameter variants
+      %<SLibSetModelFileAttribute(dataFile, "Definitions", ...
+	"/* Offset into array containing sets of variants */\n" + ...
+	"unsigned char %<structname>_offset = %<offset>;\n\n")>
+
+      %% Initialize pointer to element of array holding sets of parameter 
+      %% variants
+      %<LibMdlStartCustomCode(...
+	"/* Initialize pointer to set of variant parameter values selected */\n","trailer")>
+      %<LibMdlStartCustomCode(...
+	"%<structname> = %<structarray> + %<structname>_offset;\n\n","trailer")>
+      %return
+      %break
+      
+    %case "comment"
+      %return ""
+      %break
+
+    %case "typeComment"
+      %return ""
+      %break
+
+    %case "declComment"
+      %return ""
+      %break
+
+    %case "defnComment"
+      %return ""
+      %break
+
+    %default
+      %% Unknown access type.
+      %return LibDefaultCustomStorageUnknownClassAccessType ...
+	(record, request)
+      %break
+      
+  %endswitch
+      
+
+
+%endfunction
+
+  
+%% [EOF] Struct.tlc

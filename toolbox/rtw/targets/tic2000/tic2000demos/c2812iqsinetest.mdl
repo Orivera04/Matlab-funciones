@@ -1,0 +1,1655 @@
+# $Revision: 1.1.6.2 $
+Model {
+  Name			  "c2812iqsinetest"
+  Version		  6.0
+  GraphicalInterface {
+    NumRootInports	    0
+    NumRootOutports	    0
+    ParameterArgumentNames  ""
+    ComputedModelVersion    "1.169"
+    NumTestPointedSignals   0
+  }
+  SaveDefaultBlockParams  on
+  SampleTimeColors	  off
+  LibraryLinkDisplay	  "none"
+  WideLines		  off
+  ShowLineDimensions	  off
+  ShowPortDataTypes	  on
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  ShowStorageClass	  off
+  ShowTestPointIcons	  on
+  ShowViewerIcons	  on
+  SortedOrder		  off
+  ExecutionContextIcon	  off
+  ShowLinearizationAnnotations on
+  RecordCoverage	  off
+  CovPath		  "/"
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeVarName	  "covCumulativeData"
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  DataTypeOverride	  "UseLocalSettings"
+  MinMaxOverflowLogging	  "UseLocalSettings"
+  MinMaxOverflowArchiveMode "Overwrite"
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks on
+  BrowserLookUnderMasks	  on
+  StopFcn		  "runc2812iqsine('Simulation')"
+  Created		  "Wed Oct 29 10:51:51 2003"
+  Creator		  "maydinli"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "mkachmar"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Mon Apr 05 16:47:36 2004"
+  ModelVersionFormat	  "1.%<AutoIncrement:169>"
+  ConfigurationManager	  "None"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  AccelSystemTargetFile	  "accel.tlc"
+  AccelTemplateMakefile	  "accel_default_tmf"
+  AccelMakeCommand	  "make_rtw"
+  TryForcingSFcnDF	  off
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  BufferReuse		  on
+  ProdHWDeviceType	  "TI C2000"
+  ShowModelReferenceBlockVersion off
+  ShowModelReferenceBlockIO off
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.0.3"
+      Array {
+	Type			"Handle"
+	Dimension		8
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.0.3"
+	  StartTime		  "0.0"
+	  StopTime		  "2"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  RelTol		  "1e-3"
+	  SolverMode		  "Auto"
+	  Solver		  "FixedStepDiscrete"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.0.3"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SaveTime		  on
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "sigsOut"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    4
+	    Cell		    "ZeroExternalMemoryAtStartup"
+	    Cell		    "ZeroInternalMemoryAtStartup"
+	    Cell		    "InitFltsAndDblsToZero"
+	    Cell		    "OptimizeModelRefInitCode"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.0.3"
+	  BlockReduction	  on
+	  BooleanDataType	  on
+	  ConditionallyExecuteInputs on
+	  ConditionalExecOptimization "on_for_testing"
+	  InlineParams		  off
+	  InlineInvariantSignals  off
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnforceIntegerDowncast  off
+	  ExpressionFolding	  off
+	  FoldNonRolledExpr	  off
+	  LocalBlockOutputs	  off
+	  ParameterPooling	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.0.3"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg on
+	  CheckExecutionContextRuntimeOutputMsg	on
+	  SignalResolutionControl "TryResolveAllWithWarning"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  SolverPrmCheckMsg	  "none"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterPrecisionLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  ModelReferenceSimTargetVerbose off
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	  ModelReferenceSymbolNameMessage "warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.0.3"
+	  ProdBitPerChar	  16
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  16
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Zero"
+	  ProdEndianess		  "LittleEndian"
+	  ProdWordSize		  16
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "TI C2000"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  off
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.0.3"
+	  UpdateModelReferenceTargets "IfOutOfDate"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    2
+	    Cell		    "IncludeHyperlinkInReport"
+	    Cell		    "GenCodeOnly"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.0.3"
+	  SystemTargetFile	  "ti_c2000_grt.tlc"
+	  GenCodeOnly		  on
+	  MakeCommand		  "make_rtw"
+	  TemplateMakefile	  "ti_c2000_grt.tmf"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ProcessScript		  "ti_c2000_grt_make_rtw_hook"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Array {
+		Type			"Cell"
+		Dimension		8
+		Cell			"IgnoreCustomStorageClasses"
+		Cell			"InsertBlockDesc"
+		Cell			"SFDataObjDesc"
+		Cell			"SimulinkDataObjDesc"
+		Cell			"DefineNamingRule"
+		Cell			"SignalNamingRule"
+		Cell			"ParamNamingRule"
+		Cell			"InlinedPrmAccess"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.0.3"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      CustomSymbolStr	      "$R$N$M"
+	      MangleLength	      1
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    Simulink.STFCustomTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Array {
+		Type			"Cell"
+		Dimension		15
+		Cell			"IncludeMdlTerminateFcn"
+		Cell			"CombineOutputUpdateFcns"
+		Cell			"SuppressErrorStatus"
+		Cell			"ERTCustomFileBanners"
+		Cell			"GenerateSampleERTMain"
+		Cell			"MultiInstanceERTCode"
+		Cell			"PurelyIntegerCode"
+		Cell			"SupportNonFinite"
+		Cell			"SupportComplex"
+		Cell			"SupportAbsoluteTime"
+		Cell			"SupportContinuousTime"
+		Cell			"SupportNonInlinedSFcns"
+		Cell			"LifeSpan"
+		Cell			"NoFixptDivByZeroProtection"
+		Cell			"CustomSymbolStr"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.0.3"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant off
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns off
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      off
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      SystemTargetFile	      "ti_c2000_grt.tlc"
+	      DialogCategory	      0
+	      ActivateCallback	      "ti_c2000_callback('ActivateCallback',hS"
+"rc,hDlg);"
+	      ForcedBaseTarget	      off
+	      Array {
+		Type			"Handle"
+		Dimension		1
+		Simulink.GRTTargetCC {
+		  $BackupClass		  "Simulink.TargetCC"
+		  $ObjectID		  11
+		  Array {
+		    Type		    "Cell"
+		    Dimension		    1
+		    Cell		    "GenerateSampleERTMain"
+		    PropName		    "DisabledProps"
+		  }
+		  Version		  "1.0.3"
+		  TargetFcnLib		  "ansi_tfl_tmw.mat"
+		  GenFloatMathFcnCalls	  "ANSI_C"
+		  UtilityFuncGeneration	  "Auto"
+		  GenerateFullHeader	  on
+		  GenerateSampleERTMain	  off
+		  IsPILTarget		  off
+		  ModelReferenceCompliant off
+		  IncludeMdlTerminateFcn  on
+		  CombineOutputUpdateFcns off
+		  SuppressErrorStatus	  off
+		  IncludeFileDelimiter	  "Auto"
+		  ERTCustomFileBanners	  off
+		  SupportAbsoluteTime	  on
+		  LogVarNameModifier	  "rt_"
+		  MatFileLogging	  off
+		  MultiInstanceERTCode	  off
+		  SupportNonFinite	  on
+		  SupportComplex	  on
+		  PurelyIntegerCode	  off
+		  SupportContinuousTime	  on
+		  SupportNonInlinedSFcns  on
+		  ExtMode		  off
+		  ExtModeStaticAlloc	  off
+		  ExtModeTesting	  off
+		  ExtModeStaticAllocSize  1000000
+		  ExtModeTransport	  0
+		  ExtModeMexFile	  "ext_comm"
+		  RTWCAPISignals	  off
+		  RTWCAPIParams		  off
+		  RTWCAPIStates		  off
+		  GenerateASAP2		  off
+		}
+		PropName		"Components"
+	      }
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	Simulink.SFSimCC {
+	  $ObjectID		  12
+	  Version		  "1.0.3"
+	  SFSimApplyToAllLibs	  on
+	  SFSimEnableDebug	  on
+	  SFSimOverflowDetection  on
+	  SFSimEcho		  on
+	  SFSimBuildMode	  "Incremental"
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      SimulationMode	      "normal"
+      CurrentDlgPage	      "Real-Time Workshop"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "sfix(16)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "2^0"
+      SampleTime	      "inf"
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      PortCounts	      "[]"
+      SFunctionModules	      "''"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      ToWorkspace
+      VariableName	      "simulink_output"
+      MaxDataPoints	      "1000"
+      Decimation	      "1"
+      SampleTime	      "0"
+      FixptAsFi		      off
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "c2812iqsinetest"
+    Location		    [56, 101, 721, 525]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      "\n"
+      Ports		      []
+      Position		      [152, 340, 239, 384]
+      BackgroundColor	      "lightBlue"
+      DropShadow	      on
+      OpenFcn		      "runc2812iqsine('Build_Run')"
+      FontName		      "Arial"
+      FontSize		      11
+      FontWeight	      "bold"
+      ShowPortLabels	      off
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskType		      "Run demo"
+      MaskDisplay	      "disp(sprintf('Build & Run'))"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"\n"
+	Location		[463, 396, 961, 696]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      " 3"
+      Ports		      []
+      Position		      [259, 340, 343, 384]
+      BackgroundColor	      "lightBlue"
+      DropShadow	      on
+      ShowName		      off
+      OpenFcn		      "runc2812iqsine('Reload_Run')"
+      FontName		      "Arial"
+      FontSize		      11
+      FontWeight	      "bold"
+      ShowPortLabels	      off
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskType		      "Run demo"
+      MaskDisplay	      "disp(sprintf('Reload & Run'))"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			" 3"
+	Location		[252, 643, 750, 943]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      " Info"
+      Ports		      []
+      Position		      [50, 340, 128, 384]
+      BackgroundColor	      "lightBlue"
+      DropShadow	      on
+      ShowName		      off
+      FontName		      "Arial"
+      FontSize		      14
+      FontWeight	      "bold"
+      ShowPortLabels	      off
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskDisplay	      "disp('Info')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			" Info"
+	Location		[432, 376, 945, 661]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Annotation {
+	  Name			  "This example demonstrates how to use the IQ"
+" math library blocks that come with\nthe embedded Target for TIC2000 product."
+" These blocks support simulation and\ncode generation. This simple demo compu"
+"tes the fixed point sine result of \nfloating-point input values using differ"
+"ent IQN representations, and plots it.\n\nThe \"Float to IQN\" blocks convert"
+" the floating-point input values to fixed-point using\nthe equivalent Q-value"
+" parameter in the block. The sine computation is also \ndone using IQ math bl"
+"ocks in fixed-point, and then the values are converted to\nfloating-point aga"
+"in using the \"IQN to Float block\".\n"
+	  Position		  [26, 123]
+	  HorizontalAlignment	  "left"
+	  FontName		  "Arial"
+	  FontSize		  12
+	}
+	Annotation {
+	  Name			  "Demo Description:"
+	  Position		  [24, 23]
+	  HorizontalAlignment	  "left"
+	  FontName		  "Arial"
+	  FontSize		  12
+	  FontWeight		  "bold"
+	}
+	Annotation {
+	  Name			  "Run the Demo:"
+	  Position		  [71, 210]
+	  FontName		  "Arial"
+	  FontSize		  12
+	  FontWeight		  "bold"
+	}
+	Annotation {
+	  Name			  "To run the demo, you can simply simulate , "
+"or double click on the \"Build & Run\"\nbutton to generate code and run on th"
+"e target. \"Reload & Run\" will load the existing\nCOFF file and run it again"
+"."
+	  Position		  [27, 247]
+	  HorizontalAlignment	  "left"
+	  FontName		  "Arial"
+	  FontSize		  12
+	}
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "C28x To Memory"
+      Ports		      [1]
+      Position		      [545, 85, 645, 135]
+      BackgroundColor	      "orange"
+      SourceBlock	      "memblks/To Memory"
+      SourceType	      "To Memory"
+      memAddressMask	      "8000"
+      dType		      "single"
+      useInitValue	      on
+      initValue		      "0"
+      useTermValue	      off
+      termValue		      "0"
+      isRealtimeEnabled	      on
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "C28x To Memory1"
+      Ports		      [1]
+      Position		      [545, 160, 645, 210]
+      BackgroundColor	      "orange"
+      SourceBlock	      "memblks/To Memory"
+      SourceType	      "To Memory"
+      memAddressMask	      "8320"
+      dType		      "single"
+      useInitValue	      on
+      initValue		      "0"
+      useTermValue	      off
+      termValue		      "0"
+      isRealtimeEnabled	      on
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "C28x To Memory2"
+      Ports		      [1]
+      Position		      [545, 235, 645, 285]
+      BackgroundColor	      "orange"
+      SourceBlock	      "memblks/To Memory"
+      SourceType	      "To Memory"
+      memAddressMask	      "8640"
+      dType		      "single"
+      useInitValue	      on
+      initValue		      "0"
+      useTermValue	      off
+      termValue		      "0"
+      isRealtimeEnabled	      on
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant"
+      Position		      [20, 95, 50, 125]
+      Value		      "[1:200]' * 0.01"
+      VectorParams1D	      off
+      OutDataTypeMode	      "single"
+      SampleTime	      "0.1"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant1"
+      Position		      [20, 170, 50, 200]
+      Value		      "[1:200]' * 0.01"
+      VectorParams1D	      off
+      OutDataTypeMode	      "single"
+      SampleTime	      "0.1"
+    }
+    Block {
+      BlockType		      Constant
+      Name		      "Constant2"
+      Position		      [20, 245, 50, 275]
+      Value		      "[1:200]' * 0.01"
+      VectorParams1D	      off
+      OutDataTypeMode	      "single"
+      SampleTime	      "0.1"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "F2812 eZdsp"
+      Tag		      "C2000 TARGET PREFERENCES BLOCK"
+      Ports		      []
+      Position		      [400, 330, 465, 385]
+      UserDataPersistent      on
+      UserData		      "DataTag0"
+      FontName		      "Arial"
+      SourceBlock	      "c2000tgtpreflib/F2812 eZdsp"
+      SourceType	      "c2000 Target Preferences"
+      ShowPortLabels	      on
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Float to IQN"
+      Ports		      [1, 1]
+      Position		      [95, 83, 190, 137]
+      SourceBlock	      "tiiqmathlib/Float to IQN"
+      SourceType	      "Float to IQN"
+      Q_value		      "4"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Float to IQN1"
+      Ports		      [1, 1]
+      Position		      [95, 158, 190, 212]
+      SourceBlock	      "tiiqmathlib/Float to IQN"
+      SourceType	      "Float to IQN"
+      Q_value		      "5"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Float to IQN2"
+      Ports		      [1, 1]
+      Position		      [95, 233, 190, 287]
+      SourceBlock	      "tiiqmathlib/Float to IQN"
+      SourceType	      "Float to IQN"
+      Q_value		      "15"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "IQMath Sine Computation1"
+      Ports		      [1, 1]
+      Position		      [260, 85, 325, 135]
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+      System {
+	Name			"IQMath Sine Computation1"
+	Location		[124, 241, 897, 425]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [75, 33, 105, 47]
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "IQN x int1"
+	  Ports			  [2, 1]
+	  Position		  [560, 26, 655, 79]
+	  SourceBlock		  "tiiqmathlib/IQN x int32"
+	  SourceType		  "IQN x int32"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    2
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "IQN x int32"
+	  Ports			  [2, 1]
+	  Position		  [205, 26, 300, 79]
+	  SourceBlock		  "tiiqmathlib/IQN x int32"
+	  SourceType		  "IQN x int32"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    2
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Sine Amplitude"
+	  Position		  [445, 114, 535, 146]
+	  VectorParams1D	  off
+	  OutDataTypeMode	  "int32"
+	  SampleTime		  "0.1"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Sine Frequency"
+	  Position		  [85, 114, 175, 146]
+	  Value			  "2*3.14*1"
+	  VectorParams1D	  off
+	  OutDataTypeMode	  "int32"
+	  SampleTime		  "0.1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Trig Fcn IQN"
+	  Ports			  [1, 1]
+	  Position		  [370, 28, 465, 82]
+	  SourceBlock		  "tiiqmathlib/Trig Fcn IQN"
+	  SourceType		  "Trig Fcn IQN"
+	  functionOption	  "_IQsin"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  Position		  [725, 48, 755, 62]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Line {
+	  SrcBlock		  "Sine Frequency"
+	  SrcPort		  1
+	  Points		  [0, -65]
+	  DstBlock		  "IQN x int32"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Sine Amplitude"
+	  SrcPort		  1
+	  Points		  [0, -65]
+	  DstBlock		  "IQN x int1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "IQN x int1"
+	  SrcPort		  1
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "IQN x int32"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "IQN x int32"
+	  SrcPort		  1
+	  DstBlock		  "Trig Fcn IQN"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Trig Fcn IQN"
+	  SrcPort		  1
+	  Points		  [75, 0]
+	  DstBlock		  "IQN x int1"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "IQMath Sine Computation2"
+      Ports		      [1, 1]
+      Position		      [260, 160, 325, 210]
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+      System {
+	Name			"IQMath Sine Computation2"
+	Location		[124, 241, 897, 425]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [75, 33, 105, 47]
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "IQN x int1"
+	  Ports			  [2, 1]
+	  Position		  [560, 26, 655, 79]
+	  SourceBlock		  "tiiqmathlib/IQN x int32"
+	  SourceType		  "IQN x int32"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    2
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "IQN x int32"
+	  Ports			  [2, 1]
+	  Position		  [205, 26, 300, 79]
+	  SourceBlock		  "tiiqmathlib/IQN x int32"
+	  SourceType		  "IQN x int32"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    2
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Sine Amplitude"
+	  Position		  [445, 114, 535, 146]
+	  VectorParams1D	  off
+	  OutDataTypeMode	  "int32"
+	  SampleTime		  "0.1"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Sine Frequency"
+	  Position		  [85, 114, 175, 146]
+	  Value			  "2*3.14*1"
+	  VectorParams1D	  off
+	  OutDataTypeMode	  "int32"
+	  SampleTime		  "0.1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Trig Fcn IQN"
+	  Ports			  [1, 1]
+	  Position		  [370, 28, 465, 82]
+	  SourceBlock		  "tiiqmathlib/Trig Fcn IQN"
+	  SourceType		  "Trig Fcn IQN"
+	  functionOption	  "_IQsin"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  Position		  [725, 48, 755, 62]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Line {
+	  SrcBlock		  "Trig Fcn IQN"
+	  SrcPort		  1
+	  Points		  [75, 0]
+	  DstBlock		  "IQN x int1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "IQN x int32"
+	  SrcPort		  1
+	  DstBlock		  "Trig Fcn IQN"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "IQN x int32"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "IQN x int1"
+	  SrcPort		  1
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sine Amplitude"
+	  SrcPort		  1
+	  Points		  [0, -65]
+	  DstBlock		  "IQN x int1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Sine Frequency"
+	  SrcPort		  1
+	  Points		  [0, -65]
+	  DstBlock		  "IQN x int32"
+	  DstPort		  2
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "IQMath Sine Computation3"
+      Ports		      [1, 1]
+      Position		      [260, 236, 325, 284]
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+      System {
+	Name			"IQMath Sine Computation3"
+	Location		[124, 241, 897, 425]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [75, 33, 105, 47]
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "IQN x int1"
+	  Ports			  [2, 1]
+	  Position		  [560, 26, 655, 79]
+	  SourceBlock		  "tiiqmathlib/IQN x int32"
+	  SourceType		  "IQN x int32"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    2
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "IQN x int32"
+	  Ports			  [2, 1]
+	  Position		  [205, 26, 300, 79]
+	  SourceBlock		  "tiiqmathlib/IQN x int32"
+	  SourceType		  "IQN x int32"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    2
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Sine Amplitude"
+	  Position		  [445, 114, 535, 146]
+	  VectorParams1D	  off
+	  OutDataTypeMode	  "int32"
+	  SampleTime		  "0.1"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Sine Frequency"
+	  Position		  [85, 114, 175, 146]
+	  Value			  "2*3.14*1"
+	  VectorParams1D	  off
+	  OutDataTypeMode	  "int32"
+	  SampleTime		  "0.1"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Trig Fcn IQN"
+	  Ports			  [1, 1]
+	  Position		  [370, 28, 465, 82]
+	  SourceBlock		  "tiiqmathlib/Trig Fcn IQN"
+	  SourceType		  "Trig Fcn IQN"
+	  functionOption	  "_IQsin"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  Position		  [725, 48, 755, 62]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Line {
+	  SrcBlock		  "Sine Frequency"
+	  SrcPort		  1
+	  Points		  [0, -65]
+	  DstBlock		  "IQN x int32"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Sine Amplitude"
+	  SrcPort		  1
+	  Points		  [0, -65]
+	  DstBlock		  "IQN x int1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "IQN x int1"
+	  SrcPort		  1
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "IQN x int32"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "IQN x int32"
+	  SrcPort		  1
+	  DstBlock		  "Trig Fcn IQN"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Trig Fcn IQN"
+	  SrcPort		  1
+	  Points		  [75, 0]
+	  DstBlock		  "IQN x int1"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "IQN to Float1"
+      Ports		      [1, 1]
+      Position		      [390, 158, 485, 212]
+      SourceBlock	      "tiiqmathlib/IQN to Float"
+      SourceType	      "IQN to Float"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "IQN to Float2"
+      Ports		      [1, 1]
+      Position		      [390, 233, 485, 287]
+      SourceBlock	      "tiiqmathlib/IQN to Float"
+      SourceType	      "IQN to Float"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "IQN to Float3"
+      Ports		      [1, 1]
+      Position		      [390, 83, 485, 137]
+      SourceBlock	      "tiiqmathlib/IQN to Float"
+      SourceType	      "IQN to Float"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Save Data To\nWorkspace"
+      Ports		      [3]
+      Position		      [560, 314, 630, 356]
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+      Port {
+	PortType		0
+	PortNumber		2
+	ShowSigGenPortName	on
+      }
+      Port {
+	PortType		0
+	PortNumber		3
+	ShowSigGenPortName	on
+      }
+      System {
+	Name			"Save Data To\nWorkspace"
+	Location		[583, 440, 758, 632]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [25, 33, 55, 47]
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "In2"
+	  Position		  [25, 88, 55, 102]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "In3"
+	  Position		  [25, 143, 55, 157]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  ToWorkspace
+	  Name			  "To Workspace1"
+	  Position		  [90, 25, 150, 55]
+	  VariableName		  "yout1"
+	  MaxDataPoints		  "200"
+	  SampleTime		  "-1"
+	  SaveFormat		  "Structure"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  ToWorkspace
+	  Name			  "To Workspace2"
+	  Position		  [90, 80, 150, 110]
+	  VariableName		  "yout2"
+	  MaxDataPoints		  "inf"
+	  SampleTime		  "-1"
+	  SaveFormat		  "Structure"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  ToWorkspace
+	  Name			  "To Workspace3"
+	  Position		  [90, 135, 150, 165]
+	  VariableName		  "yout3"
+	  MaxDataPoints		  "inf"
+	  SampleTime		  "-1"
+	  SaveFormat		  "Structure"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "To Workspace1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "In2"
+	  SrcPort		  1
+	  DstBlock		  "To Workspace2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "In3"
+	  SrcPort		  1
+	  DstBlock		  "To Workspace3"
+	  DstPort		  1
+	}
+      }
+    }
+    Line {
+      SrcBlock		      "Constant"
+      SrcPort		      1
+      DstBlock		      "Float to IQN"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Float to IQN"
+      SrcPort		      1
+      DstBlock		      "IQMath Sine Computation1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "IQMath Sine Computation1"
+      SrcPort		      1
+      DstBlock		      "IQN to Float3"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "IQN to Float3"
+      SrcPort		      1
+      Points		      [0, 0; 35, 0]
+      Branch {
+	DstBlock		"C28x To Memory"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, 210]
+	DstBlock		"Save Data To\nWorkspace"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "Constant1"
+      SrcPort		      1
+      DstBlock		      "Float to IQN1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Float to IQN1"
+      SrcPort		      1
+      DstBlock		      "IQMath Sine Computation2"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "IQMath Sine Computation2"
+      SrcPort		      1
+      DstBlock		      "IQN to Float1"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Constant2"
+      SrcPort		      1
+      DstBlock		      "Float to IQN2"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Float to IQN2"
+      SrcPort		      1
+      DstBlock		      "IQMath Sine Computation3"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "IQMath Sine Computation3"
+      SrcPort		      1
+      DstBlock		      "IQN to Float2"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "IQN to Float2"
+      SrcPort		      1
+      Points		      [0, 0; 15, 0]
+      Branch {
+	DstBlock		"C28x To Memory2"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, 90]
+	DstBlock		"Save Data To\nWorkspace"
+	DstPort			3
+      }
+    }
+    Line {
+      SrcBlock		      "IQN to Float1"
+      SrcPort		      1
+      Points		      [0, 0; 25, 0]
+      Branch {
+	DstBlock		"C28x To Memory1"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, 150]
+	DstBlock		"Save Data To\nWorkspace"
+	DstPort			2
+      }
+    }
+    Annotation {
+      Name		      "Sine Wave Computation with Different IQ Represe"
+"ntation "
+      Position		      [334, 39]
+      FontName		      "Arial Narrow"
+      FontSize		      22
+      FontWeight	      "bold"
+    }
+  }
+}
+MatData {
+  NumRecords		  1
+  DataRecord {
+    Tag			    DataTag0
+    Data		    "  %)30     .    2 H   8    (     @         %    "
+"\"     $    !     0         %  0 $     $    0    =&EC,C P,%1G=%!R969S  X   #X"
+"\"0  !@    @    1          $          0    8   !H86YD;&4   $    <    1%-05&=T"
+"4&MG+F5:9'-P1C(X,3)49W10<F5F<P     .    H D   8    (     0         %    \"   "
+"  X    !     0         .    8 4   8    (    \"0         %    \"    # %   !   "
+"  0         \"    , 4   $    E      (  , \"  #( @  Z ,  \"@%   P!0           "
+" !$4U!49W10:V< 95ID<W!&,C@Q,E1G=%!R969S $)U:6QD3W!T:6]N<P!#;VUP:6QE<D]P=&EO;G"
+", 0V]M<&EL97)697)B;W-I='D 5F5R8F]S90!3>6UB;VQI8T1E8G5G9VEN9P!997, 2V5E<$%3349"
+"I;&5S $QI;FME<D]P=&EO;G, 3&EN:V5R0TU$1FEL90!&=6QL7VUE;6]R>5]M87  4G5N5&EM94]P"
+"=&EO;G, 3W9E<G)U;D%C=&EO;@!#;VYT:6YU90!$4U!\";V%R9 !E6F1S<$8R.#$R1%-00F]A<F0 "
+"1%-00F]A<F1,86)E; !&,C@Q,B!04\"!%;75L871O<@!$4U!#:&EP $,R.#$R1%-00VAI< !$4U!#"
+":&EP3&%B96P 5$D@5$U3,S(P0S(X,3( 94-!3@!30D< 3VYL>5]F86QL:6YG7V5D9V5S %-!30!38"
+"6UP;&5?;VYE7W1I;64 4V5L9E1E<W1-;V1E $-#4TQI;FL 0S(X,#!#0U-,:6YK $-O9&5'96YE<F"
+"%T:6]N $,R.# P0V]D94=E;F5R871I;VX 4V-H961U;&5R $,R.# P4V-H961U;&5R %1I;65R $-"
+"055]T:6UE<C                            $    \"               !     P         "
+"      0    0               $    *               !    #0               0   !$ "
+"              $    5               !    &                0   !\\             "
+"  $    A               !    (P                                               "
+"          !                     0         \"                     @         # "
+"                    P         $                    !          %              "
+"      !0         &                    !@         '                    !P     "
+"    (                    \"          )                    \"0         *      "
+"              \"@         +                    \"P                    0    # "
+"    0    0    0     0    @    >     0    D    @     0    L          P    0   "
+" !     0    H    !     @    T    !     P    ,    %          8    '          @"
+"    )     0         !    \"P         ,     0    X         #P    (    2       "
+"  !,    4     0    <          @   !8         %P   !@    !    !@         #    "
+"&0         :    &P         <    '0    $    %               !    (@    $    * "
+"    0   \"0         )0              #@   '@    &    \"     $         !0    @ "
+"   !     0    $         #@   $@    &    \"     T         !0    @    %     0  "
+"  $         !@   !0       #= @    $    !     0         .    ,     8    (    !"
+"          %    \"     $    #     0         0  , ;V9F  X   !(    !@    @    - "
+"         4    (    !0    $    !          8    4        W0(    !     0    ,   "
+"      #@   $@    &    \"     T         !0    @    %     0    $         !@   !"
+"0       #= @    $    !    !          .    2     8    (    #0         %    \" "
+"    4    !     0         &    %        -T\"     0    $    %          X   !(  "
+"  !@    @    -          4    (    !0    $    !          8    4        W0(    "
+"!     0    (         #@   #     &    \"     0         !0    @    !     P    $"
+"         $  # &]F9@ .    2     8    (    #0         %    \"     4    !     0 "
+"        &    %        -T\"     0    $    (          X   !(    !@    @    -   "
+"       4    (    !0    $    !          8    4        W0(    !     0    <     "
+"    #@   $@    &    \"     T         !0    @    %     0    $         !@   !0 "
+"      #= @    $    !    !@         .    2     8    (    #0         %    \"   "
+"  4    !     0         &    %        -T\"     0    $    )          X   !(    "
+"!@    @    -          4    (    !0    $    !          8    4        W0(    ! "
+"    0    L         #@   $@    &    \"     T         !0    @    %     0    $  "
+"       !@   !0       #= @    $    !    \"@         .    B     8    (    \"0  "
+"       %    \"     $   !8     0         \"    6      !24T     #@   $@    &   "
+" \"     (         !0    @    !     0    $         !0 $  <    !    !P   &AA;F1"
+"L90  #@         "
+  }
+}

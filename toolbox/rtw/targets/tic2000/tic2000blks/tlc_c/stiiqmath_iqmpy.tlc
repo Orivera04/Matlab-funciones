@@ -1,0 +1,51 @@
+%% $RCSfile: stiiqmath_iqmpy.tlc,v $
+%% $Revision: 1.1.6.2 $ $Date: 2004/04/08 20:59:56 $
+%% Copyright 2003-2004 The MathWorks, Inc.
+%%
+%% Abstract: TI C28x IQmath library "IQmpy" (optimized IQ multiplication function)
+
+%implements stiiqmath_iqmpy "C"
+
+%include "fix_published.tlc"
+
+
+%% Function: BlockTypeSetup ==============================================
+%function BlockTypeSetup(block, system) void
+    %<LibAddToCommonIncludes("<IQmathLib.h>")>
+%endfunction %% BlockTypeSetup
+
+
+%% Function: Outputs ==========================================================
+%%
+%function Outputs(block, system) Output
+	%assign INPORT_A = 0
+	%assign INPORT_B = 1
+	%assign OUTPORT_Y  = 0
+	%assign dataTypeIdY = LibBlockOutputSignalDataTypeId(OUTPORT_Y)
+	%assign fractionLengthY = FixPt_DataTypeFractionLength( block, dataTypeIdY )
+	%assign option = LibBlockParameterValue(P1, 0)
+
+	/* C28x IQmath Library (%<ParamSettings.FunctionName>) - '%<Name>' */
+	{	
+        %assign rollVars = ["U", "Y"]
+        %roll idx = RollRegions, lcv = RollThreshold, block,"Roller", rollVars
+			%switch %<option>
+			%case 1      %% multiply, no rounding, no saturation
+				%<LibBlockOutputSignal (0, "", lcv, idx)> = _IQ%<fractionLengthY>mpy (%<LibBlockInputSignal (0, "", lcv, idx)>, \
+				                                                                      %<LibBlockInputSignal (1, "", lcv, idx)>);
+			%break
+			%case 2     %% multiply, with rounding
+				%<LibBlockOutputSignal (0, "", lcv, idx)> = _IQ%<fractionLengthY>rmpy (%<LibBlockInputSignal (0, "", lcv, idx)>, \
+				                                                                       %<LibBlockInputSignal (1, "", lcv, idx)>);
+			%break
+			%case 3     %% multiply, with rounding and saturation
+				%<LibBlockOutputSignal (0, "", lcv, idx)> = _IQ%<fractionLengthY>rsmpy (%<LibBlockInputSignal (0, "", lcv, idx)>, \
+				                                                                        %<LibBlockInputSignal (1, "", lcv, idx)>);
+			%break
+			%endswitch	
+		%endroll	
+	}
+
+%endfunction
+
+%% [EOF] IQmpy_tiiqmath.tlc

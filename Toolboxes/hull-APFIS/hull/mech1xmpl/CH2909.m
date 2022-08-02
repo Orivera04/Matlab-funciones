@@ -1,0 +1,23 @@
+Base=0.07; %meters
+Height=0.1; %meters
+BaseHeight=0.02; %meters
+WebT=0.01; %meters
+Moment=50; %Newton meters
+Angle=DR(30);
+XAxisMoment=cos(Angle)*Moment;
+YAxisMoment=sin(Angle)*Moment;
+Ix=tbeam(Base,Height,BaseHeight,WebT,'n','Ix');
+Iy=tbeam(Base,Height,BaseHeight,WebT,'n','Iy');
+CentX=tbeam(Base,Height,BaseHeight,WebT,'n','centX');
+CentY=tbeam(Base,Height,BaseHeight,WebT,'n','centY');
+x=linspace(0,Base);
+y=linspace(0,Height);
+[X,Y]=meshgrid(x,y);
+Xoffset=X-CentX;
+Yoffset=CentY-Y;
+SigmaFromX=XAxisMoment*Yoffset/Ix;
+SigmaFromY=YAxisMoment*Xoffset/Iy;
+NormalStress=SigmaFromX+SigmaFromY;
+invalid=find((X<(Base-WebT)/2 | X>(Base+WebT)/2) & (Y<Height-BaseHeight));
+NormalStress(invalid)=nan;
+mesh(X,Y,NormalStress)

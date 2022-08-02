@@ -1,0 +1,1 @@
+text(0.3,0.7,'\ite^{i\omega\tau} = cos(\omega\tau) + i sin(\omega\tau)')

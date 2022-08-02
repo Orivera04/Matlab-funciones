@@ -1,0 +1,16 @@
+dinf(2:n,1) = dinf(2:n,2);   % update the boundary values
+dinf(2:n,n+1) = dinf(2:n,n);
+dinf(1,2:n) = dinf(2,2:n);
+dinf(n+1,2:n) = dinf(n,2:n);
+dsus(2:n,1) = dsus(2:n,2);
+dsus(2:n,n+1) = dsus(2:n,n);
+dsus(1,2:n) = dsus(2,2:n);
+dsus(n+1,2:n) = dsus(n,2:n);
+dsus(1,1) = dsus(2,2);
+dsus(n+1,n+1) = dsus(n,n);
+dsus(1,n+1) = dsus(2,n);
+dsus(n+1,1) = dsus(n,2);
+dinf(1,1) = dinf(2,2);
+dinf(n+1,n+1) = dinf(n,n);
+dinf(1,n+1) = dinf(2,n);
+dinf(n+1,1) = dinf(n,2);

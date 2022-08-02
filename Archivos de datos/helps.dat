@@ -1,0 +1,224 @@
+
+
+ ADJOINT  Compute the classical adjoint of a square matrix A.
+          If A is not square an empty matrix is returned.
+          *** This routine should only be used by students to
+          check adjoint computations and should not be used as
+          part of a routine to compute inverses. See invert or inv.
+ 
+          Use in the form   ==>  adjoint(A)  <==
+ 
+
+ BKSUB   Perform back substitution on upper triangular
+         system Ax = b.  If A is not square, upper
+         triangular and nonsingular an error message is
+         displayed. In case of an error the solution returned is
+         all zeros.
+    Use in the form ==> bksub(A,b)  <==
+ 
+ 
+ COFACTOR Computes the (i,j)-cofactor of matrix A.
+          If A is not sqaure an error message is displayed.
+          *** This routine should only be used by students to
+          check cofactor computations.
+ 
+              Use in the form  ==>  cofactor(i,j,A)  <==
+ 
+     
+ 
+
+
+ CROSSDEMO  Display a pair of three dimensional vectors and their
+            cross product.
+ 
+          The input vectors X and Y are displayed in a 3-dimensional
+          perspective along with their cross product. For
+          visualization purposes a set of coordinate 3-D axes are
+          shown.
+ 
+          Use in the form:   ==>  crossdemo(X,Y)  <==
+ 
+ CROSSPRD  Compute the cross product of vectors x and y in 3-space.
+        The output is a vector orthogonal to both of the original
+        vectors x and y. The output is returned as a row matrix
+        with 3 components [v1 v2 v3] which is interpreted as
+ 
+                        v1*i + v2*j + v3*k
+ 
+        where i, j, and k are the unit vectors in the x, y, and z
+        directions respectively.
+ 
+        Use in the form   ==>   v = crossprd(x,y)   <==
+
+
+ DOTPROD   The dot product of two n-vectors x and y is computed.
+           The vectors can be either rows, columns, or matrices
+           of the same size. For complex vectors the dot product
+           of x and y is compted as the conjugate transpose of 
+           the first times the second.
+ 
+       Use in the form  ==>  dotprod(x,y)  <==
+ 
+ 
+
+
+ FORSUB    Perform forward substitution on a lower triangular
+           system Ax = b.  If A is not square, lower
+           triangular and nonsingular an error message is
+           displayed. In case of an error the solution returned is
+           all zeros.
+ 
+    Use in the form  ==> forsub(A,b)  <==
+    
+ 
+
+
+ GSCHMIDT  The Gram-Schmidt process on the columns in matrix 
+           x. The orthonormal basis appears in the columns of y
+           unless there is a second argument in which case y 
+           contains only an orthogonal basis. The second argument
+           can have any value.
+ 
+           Use in the form  ==> y = gschmidt(x)    <==  
+                        or  ==> y = gschmidt(x,v)  <==
+ 
+
+
+ HOMSOLN  Find the general solution of a homogeneous system of
+          equations.The routine returns a set of basis vectors for
+          the null space of Ax = 0. Use in the form
+ 
+                       ==>  ns = homsoln(A)  <==
+ 
+          If there is a second argument the general solution is
+          displayed. Use in the form
+ 
+                       ==>  homsoln(A,1)  <==
+ 
+          This option assumes that the general solution has at
+          most 10 arbitrary constants.
+ 
+  
+ INVERT   Compute the inverse of a matrix A by using the reduced
+          row echelon form applied to [A I]. If A is singular a
+          warning is given.
+ 
+          Use in the form   ==>  B = invert(A)  <==
+ 
+ 
+ LINPROG   Directly solves the standard linear programming problem using
+           slack variables as formulated in Introductory Linear Algebra
+           with Applications by B. Kolman. This routine is only designed
+           for small problems.
+ 
+           To form the initial tableau A the coefficients of the
+           constraints are entered into the rows where the equations
+           are of the form:
+                  a1x1 + a2X2 + a3X3 + ... + anXn = Cm
+           and the bottom row consists of the objective function
+           written in the form:
+                  z1X1 + z2X2 + z3X3 + ... + znXn = 0
+           Then, as long as there is at least one negative entry
+           in the last row, linprog will find the optimal
+           solution. If no argument containing the initial tableau is
+           present, the routine prompts for the tableau.
+  
+   Use in the form  ==> linprog(A)  or linprog  <==
+
+
+ LPSTEP    A step-by-step solver for small standard linear programming
+           problems. At each stage you are asked to determine the pivot.
+           Incorrect responses initiate a set of questions to aid in
+           pivot selection. The screens reflect the problem form
+           developed in Introductory Linear Algebra with Applications by
+           B. Kolman.
+ 
+           This routine solves the standard linear programming problem
+           using the Simplex Method with slack variables.  To form the
+           initial tableau A the coefficients of the constraints are
+           entered into the rows where the equations are of the form
+                  a1x1 + a2X2 + a3X3 + ... + anXn = Cm
+           and the bottom row consists of the objective function written
+           in the form
+                  z1X1 + z2X2 + z3X3 + ... + znXn = 0.
+           Then, as long as there is at least one negative entry in the
+           last row, LPSTEP will find an optimal solution. If the
+           tableau A is not supplied as an argument, the user will be
+           prompted to enter it. <<requires utility mat2strh.m>>
+ 
+           Use in the form   ==>  lpstep(A) or lpstep  <==
+
+
+ LSQLINE   This routine will construct the equation of the least
+           square line to a data set of ordered pairs and then graph the
+           line and the data set. A short menu of options is available,
+           including evaluating the equation of the line at points.
+ 
+           Use in the form:  ==> c=lsqline(x,y)  or  lsqline(x,y)  <==
+ 
+           Here x is vector containing the x-coordinates and y is a
+           vector containing the corresponding y-coordinates. On output,
+           c contains the coefficiencts of the least squares line:
+ 
+                          y = c(1)*x + c(2)
+ 
+ 
+ LUPR    Perform LU-factorization on matrix A by explicitly choosing
+         row operations to use. No row interchanges are permitted,
+         hence it is possible that the factorization can not be found.
+         It is recommended that the multilpiers be constructed in terms
+         of the elements of matrix U, like -U(3,2)/U(2,2), since the
+         displays of matrices L and U do not show all the decimal
+         places available. A row operation can be "undone", but this
+         feature can not be used in succession.
+ 
+         This routine uses the utilities mat2strh and blkmat.
+ 
+         Use in the form ==> [L,U] = lupr(A)  <==
+ 
+ 
+ PLANELT   Demonstration of plane linear transformations:
+ 
+                 Rotations              Reflections  
+           Expansions/Compressions      Shears
+ 
+           Or you may specify your own transformation.
+ 
+           Graphical results of successive plane linear
+           transformations can be seen using a multiple window
+           display. Standard fiqures can be chosen or you may
+           choose to use your own figure.
+ 
+           Use in the form  ==>  planelt  <==
+ 
+  
+ REDUCE  Perform row reduction on matrix A by explicitly choosing
+         row operations to use. A row operation can be "undone", but
+         this feature cannot be used in succession.
+ 
+         Use in the form ==>  reduce(A)  <==
+ 
+
+ VEC2DEMO  A graphical demonstration of vector operations for
+           two dimensional vectors.
+ 
+           Select vectors x = [x1 x2] and y = [y1 y2].
+           They will be displayed graphically along with their sum,
+           difference, and a scalar multiple.
+ 
+           Use in the form:  ==>  vec2demo(x,y)  <==
+                        or   ==>  vec2demo       <==
+           In the latter case you wil be prompted for input.
+ 
+
+ VEC3DEMO   Display a pair of three dimensional vectors, their
+            sum, diffence and scalar multiples.
+ 
+          The input vectors X and Y are displayed in a 3-dimensional
+          perspective along with their sum, differnce and selected
+          scalar multiples. For visulaization purposes a set of
+          coordinate 3-D axes are shown.
+ 
+          Use in the form:  ==>  vec3demo(X,Y)  <==                 
+ 
+

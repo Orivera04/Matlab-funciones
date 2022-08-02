@@ -1,0 +1,5 @@
+d1 = base2dec('110', 2) 
+d2 = bin2dec('110')
+o  = base2dec('177', 8)
+h  = base2dec('ff', 16)
+ts = base2dec('z00', 36)

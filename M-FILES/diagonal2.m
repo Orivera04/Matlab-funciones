@@ -1,0 +1,12 @@
+function diagonal2(x,y)
+%Dibuja diagonales de poligono un poligoni convexo
+%poliplot(x,y);
+global area 
+[x,y]=dibujapuntos
+axis equal;
+area=areapol(x,y);
+hold on;
+n=length(x);
+for i=2:n-3
+    plot([x(1),x(i+1)],[y(1),y(i+1)],'r')
+end

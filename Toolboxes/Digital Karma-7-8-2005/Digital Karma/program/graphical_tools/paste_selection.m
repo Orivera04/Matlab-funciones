@@ -1,0 +1,9 @@
+[acopiedrows, acopiedcol, acopiediteration]=size(acopiedselection{end});
+if currentlyselecting==1;
+    run save_undo;
+    a(selectedoriginrow2:selectedoriginrow2+acopiedrows-1,...
+        selectedorigincol2:selectedorigincol2+acopiedcol-1,...
+        selectedenditeration2-acopiediteration+1:selectedenditeration2)...
+        =acopiedselection{end};
+else; errordlg('Select Upper Left Corner for Paste','Error');
+end;

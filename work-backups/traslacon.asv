@@ -1,0 +1,30 @@
+function ecua=traslacon(A,B,C,D,F)
+syms X Y x y;
+if A~=0 && B~=0
+    h=-C/(2*A);
+    k=-D/(2*B);
+    f=A*h^2+B*k^2-F;
+    ecu1=A*(x-h)^2/f+B*(y-k)^2/f;
+    ecu2=strcat(char(ecu1),'=1')
+    pretty(sym(ecu2))
+    ecua=A*X^2+B*Y^2-f;
+end
+if A==0
+    h=(F-(D/2)^2)/C;
+    k=-D/(2*B);
+    ecua=C*X+B*Y^2;
+    ecu1=C*(x-h)+B*(y-k)^2;
+    ecu2=strcat(char(ecu1),'=0');
+    pretty(sym(ecu2))
+
+end
+if B==0
+    h=-C/(2*A); 
+    k=(F-(C/2)^2)/D ;
+    ecua=A*X^2+D*Y;
+    ecu1=A*()^2+D*Y
+    ecu2=strcat(char(ecu1),'=0');
+    pretty(sym(ecu))
+   
+end
+  

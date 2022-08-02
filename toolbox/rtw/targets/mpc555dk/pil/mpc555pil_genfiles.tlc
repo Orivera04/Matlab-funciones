@@ -1,0 +1,177 @@
+%% File: mpc555pil_genfiles.tlc
+%%
+%% Abstract:
+%%   This tlc file will generate each files needed to build the 
+%%   mpc555pil target.
+%%
+%% $Revision: 1.12.2.6 $
+%% $Date: 2004/04/29 03:40:16 $
+%%
+%% Copyright 2001-2004 The MathWorks, Inc.
+%selectfile NULL_FILE
+
+%with CompiledModel.PathInfo
+%with CompiledModel.Settings
+
+%assign ModelName = CompiledModel.Name
+%assign model_defines_file = "%<ModelName>_defines.h"
+%assign model_ctrl_file = "%<ModelName>_ctrl.c"
+%assign model_sim_file = "%<ModelName>_sim.c"
+%assign model_pil_file = "%<ModelName>_pil.c"
+%assign model_comm_file = "%<ModelName>_comm.c"
+%assign model_c_commapi_file = "%<ModelName>_comm_c_api.c"
+%assign model_makevars_file = "%<ModelName>_makevars.mk"
+
+%% Implicitly create SourceFiles and HeaderFiles lists in the rtwattic.
+%<cache_source_file_names()>
+
+%% Get SourceFiles list from the rtwattic.
+%assign ModelSourceFiles   = FEVAL("rtwprivate","rtwattic","AtticData","SourceFiles")
+
+%assign CommAPIFiles  = ["%<ModelName>_comm.c", "%<ModelName>_comm_c_api.c"]
+%assign bspFiles    = ["mw_bsp.a", "uart_diab.a"]
+%assign CommFiles    = ["CommAPI.h", "commapi.a"]
+
+%if RTWVerbose
+%selectfile STDOUT
+### Creating %<model_defines_file>
+%selectfile NULL_FILE
+%endif
+%openfile stinfo_file = "%<model_defines_file>"
+%include "defines_h_template.tlc"
+%closefile stinfo_file
+
+%if RTWVerbose
+%selectfile STDOUT
+### Creating %<model_ctrl_file>
+%selectfile NULL_FILE
+%endif
+%openfile bld_file = "%<model_ctrl_file>"
+%include "pil_ctrl_template.tlc"
+%closefile bld_file
+
+%if RTWVerbose
+%selectfile STDOUT
+### Creating %<model_sim_file>
+%selectfile NULL_FILE
+%endif
+%openfile bld_file = "%<model_sim_file>"
+%include "pil_sim_template.tlc"
+%closefile bld_file
+
+%if RTWVerbose
+%selectfile STDOUT
+### Creating %<model_pil_file>
+%selectfile NULL_FILE
+%endif
+%openfile bld_file = "%<model_pil_file>"
+%include "pil_pil_template.tlc"
+%closefile bld_file
+
+%if RTWVerbose
+%selectfile STDOUT
+### Creating %<model_comm_file>
+%selectfile NULL_FILE
+%endif
+%openfile bld_file = "%<model_comm_file>"
+%include "pil_comm_template.tlc"
+%closefile bld_file
+
+%if RTWVerbose
+%selectfile STDOUT
+### Creating %<model_c_commapi_file>
+%selectfile NULL_FILE
+%endif
+%openfile bld_file = "%<model_c_commapi_file>"
+%include "pil_comm_api_template.tlc"
+%closefile bld_file
+
+%selectfile STDOUT
+### Creating %<model_makevars_file>
+%selectfile NULL_FILE
+
+%with CompiledModel
+%openfile bld_file = "%<model_makevars_file>"
+			# Automatically Generated File
+			# Do not edit
+
+    %assign overrideMexOpts = 0 
+    %if FEVAL("exist", "mexsetup", "file")
+       %% Running from BAT where the mex opts file has been overridden
+       %assign mexcompiler = FEVAL("mexsetup", "", "getbatmex")
+       %assign optsfile = FEVAL("strrep", FEVAL("mexsetup", "", "getmexopts"), "\\", "/")
+       
+       %if !LibIsEmpty(mexcompiler) && !LibIsEmpty(optsfile)
+          MEX_COMPILER  = %<mexcompiler>
+          MEX_OPTS_FILE = -f %<optsfile> 
+          %assign overrideMexOpts = 1
+       %endif
+    %endif
+
+    %if !overrideMexOpts
+       %% Running from users work directory
+       %assign ertTmf = FEVAL("rtwprivate","get_tmf_for_target","ert")
+       %assign mexCompiler=FEVAL("strrep", ertTmf, "ert_","")
+       %assign mexCompiler=FEVAL("strrep", mexCompiler, ".tmf","")
+       MEX_COMPILER  = %<mexCompiler>
+       MEX_OPTS_FILE =
+    %endif
+
+
+			# Compiler Location
+	%switch FEVAL("lower",Settings.ToolChain)
+		%case "diab"
+			DIABROOT=%<Settings.ToolChainOptions.CompilerPath>
+			MPC555_TOOL_CHAIN=DIAB
+		%break
+	%case "codewarrior"
+			CWROOT=%<Settings.ToolChainOptions.CompilerPath>
+			MPC555_TOOL_CHAIN=CODE_WARRIOR
+		%break
+		%default
+			%error %<Settings.ToolChain> is not supported
+	%endswitch
+
+   %% Get the Compiler Optimization Switches 
+   %assign optSwitches = FEVAL("uget_param",CompiledModel.Name,"MPC555_OPTIMIZATION_FLAGS") 
+   %% Strip the quotes off the switch 
+   %assign optSwitches = FEVAL("regexprep",optSwitches,"^'(.*)'$","$1") 
+
+   %% If Compiler Optimisation switches are set to debug
+   %% set DEBUG_OPTS variable for Compiler, Assembler & Linker
+   %% otherwise set the OPT_OPTS variable for Compiler optimisations
+   %assign switchtype = FEVAL("uget_param",CompiledModel.Name,"MPC555_OPTIMIZATION_SWITCH")
+   %% lower case
+   %assign switchtypelower = FEVAL("lower", switchtype)
+OVERRIDE_DEFAULT_OPT_OPTS = 1
+OVERRIDE_DEFAULT_DEBUG_OPTS = 1
+   %if LibIsEqual(switchtypelower, "debug")
+      %% debug build
+OPT_OPTS:=
+DEBUG_OPTS:=%<optSwitches> 
+   %else
+      %% not a debug build
+OPT_OPTS:=%<optSwitches>
+DEBUG_OPTS:=
+   %endif
+   
+    PIL_TLC_DIR="%<PIL_TLC_DIR>"
+    TARGET_TLC_DIR="%<PIL_TLC_DIR>"
+    TARGET_ROOT_DIR="%<TARGET_ROOT_DIR>"
+    BSP_DIR="%<BSP_DIR>"
+%closefile bld_file
+%endwith
+
+%%
+%% Create singlestep script
+%%
+%assign model_script_file = "%<ModelName>_ram.scr"
+
+%if RTWVerbose
+%selectfile STDOUT
+### Creating %<model_script_file>
+%selectfile NULL_FILE
+%endif
+
+%endwith
+%endwith

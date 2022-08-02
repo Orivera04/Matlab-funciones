@@ -1,0 +1,67 @@
+From: <Guardado por Microsoft Internet Explorer 5>
+Subject: 
+Date: Wed, 13 Aug 2008 12:54:24 -0600
+MIME-Version: 1.0
+Content-Type: text/html;
+	charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.mathworks.com/matlabcentral/files/5213/makeBeep.m
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.3198
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD>
+<META http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dwindows-1252">
+<META content=3D"MSHTML 6.00.2900.3314" name=3DGENERATOR></HEAD>
+<BODY><PRE>function makeBeep(w,t)
+
+%it was called function beep2(w,t) before Peggy Chen modified it
+%
+%plays a short tone as an audible cue
+%
+%USAGE:
+%    beep2
+%    beep2(w)    specify frequency (200-1,000 Hz)
+%    beep2(w,t)     "       "       and duration in seconds
+%
+% On 06/03/04, Peggy Chen download this code from
+% =
+http://www.mathworks.com/matlabcentral/fileexchange/loadFile.do?objectId=3D=
+207&amp;objectType=3Dfile=20
+% The programer: Dave Johnson of Raytheon Missile Systems Co
+% Code modified by Peggy Chen with psychtoolbox
+
+fs=3D65000;  %sample freq in Hz (1000-65535 Hz)  =20
+           % it was 8192 when using SOUND command at the end of this =
+code
+
+if (nargin =3D=3D 0)
+   w=3D1000;            %default
+   t =3D [0:1/fs:.2];   %default
+elseif (nargin =3D=3D 1)
+   t =3D [0:1/fs:.2];   %default
+elseif (nargin =3D=3D 2)
+   t =3D [0:1/fs:t]; =20
+end
+
+
+%one possible wave form
+wave=3Dsin(2*pi*w*t);   =20
+
+% play sound
+% SOUND(wave,fs);
+% however, SOUND command cannot play more than 200 beeps successively
+% and an error message will show as below
+% %??? Unable to write into sound device
+% Error in =3D=3D&gt; =
+C:\MATLAB6p5\toolbox\matlab\audio\private\playsnd.dll
+% Error in =3D=3D&gt; C:\MATLAB6p5\toolbox\matlab\audio\sound.m=20
+% On line 36  =3D=3D&gt; playsnd(y,fs,bits);
+%=20
+% let's try psychtoolbox in order to play more than 200 beeps
+% I need 1-10 beeps in a trial, and there are 225 trials in my =
+experiment
+SND('Play',wave,fs);=20
+SND('Wait');
+SND('Quiet');
+SND('Close');</PRE></BODY></HTML>

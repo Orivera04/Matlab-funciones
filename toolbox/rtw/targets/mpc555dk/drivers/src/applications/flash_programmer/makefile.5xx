@@ -1,0 +1,68 @@
+# File: makefile
+#
+# Abstract:
+#   Makefile for bootcode
+#
+# $Revision: 1.1.6.3 $
+# $Date: 2004/04/19 01:25:13 $
+#
+# Copyright 2002-2003 The MathWorks, Inc.
+
+.PHONY : all default
+
+default : all
+
+############################################################
+#              PLUGINS SECTION
+
+#
+# Include the default mpc555 rules file
+#
+COMPONENT=internal_ram
+include $(COMPONENT_MANAGER)
+
+#
+# Include flash_driver rules file
+#
+COMPONENT=flash_driver
+include $(COMPONENT_MANAGER)
+
+
+#              END PLUGINS SECTION
+############################################################
+
+
+
+INCLUDES += -I../bootcode
+
+OBJECTS += \
+	simple_can_driver.o \
+	ccp_target.o \
+	serial_boot.o \
+	flash_programmer.o
+
+
+# ------------------------- Rules --------------------------------
+
+ifeq ($(MPC5XX_VARIANT),555)
+	# For MPC555 variant only there will be a 20MHz and a 4MHz build
+	OSC_SUFFIX = _osc$(patsubst %000000,%,$(OSCILLATOR_FREQ))
+endif
+FLASH_PROGRAMMER_TARGET = $(OBJDIR)/flash_programmer$(OSC_SUFFIX)_ram.s19
+
+all : setup $(FLASH_PROGRAMMER_TARGET)
+
+# ---- Target flash_programmer.s19 ---------
+
+# Add debugging to the flash programmer main
+flash_programmer.o : CFLAGS += -g
+
+# Flash Programmer Applications
+$(FLASH_PROGRAMMER_TARGET) : $(OBJECT_TARGETS) makefile $(LIBS) $(LINKER_COMMAND_FILE)
+	$(build-srec-file)
+
+$(OBJECT_TARGETS) : makefile.5xx
+
+# Require some sources from the bootcode directory
+vpath %.c ../bootcode
+

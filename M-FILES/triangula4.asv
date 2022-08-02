@@ -1,0 +1,25 @@
+function triangula4(h,v,w)
+%Función para triangular polígonos.
+v1=[v(h),v(h+1),v(h+2),v(h+3)];w1=[w(h),w(h+1),w(h+2),w(h+3)]
+n=4;
+hold on;
+posi=0;
+    P=[v1(1),w1(1)];
+    Q=[v1(3),w1(3)];
+    R=[v1(2),w1(2)];
+    isinter=interior4(P,Q,R,h,v1,w1);
+    pint=isinter;
+    pos=posicion2(P,Q,R);
+    if pos==1
+       if pint==0
+          plot([P(1),Q(1)],[P(2),Q(2)],'k')
+          posi(k)=k+1;
+       end
+    end 
+end
+
+clc;
+picos=posi(posi~=0)
+v(picos)=[];w(picos)=[];
+n_inicial=n
+n_final=n-numel(picos)

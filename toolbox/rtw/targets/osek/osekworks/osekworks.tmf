@@ -1,0 +1,647 @@
+# Copyright 2002-2003 The MathWorks, Inc.
+#
+# File    : osekworks.tmf  $Revision: 1.16.6.4 $
+#
+# Abstract:
+#	"Embedded Target for OSEK" template makefile(TMF) for generating a
+#       downloadable image file OSEKWorks.
+#
+# 	Note that this template is automatically customized by the Real-Time
+#	Workshop build procedure to create "<model>.mk"
+#
+#       The following defines can be used to modify the behavior of the
+#	build:
+#	  OPT_OPTS       - Optimization options.
+#	  USER_SRCS      - Additional user sources, such as files needed by
+#			   S-functions.
+#	  USER_INCLUDES  - Additional include paths
+#			   (i.e. USER_INCLUDES="-Iwhere-ever -Iwhere-ever2")
+#
+#       This template makefile is designed to be used with a system target
+#       file that contains 'rtwgensettings.BuildDirSuffix'
+
+
+#------------------------ Macros read by make_rtw ------------------------------
+#
+# The following macros are read by the Real-Time Workshop build procedure:
+#
+#  MAKECMD         - This is the command used to invoke the make utility
+#  HOST            - What platform this template makefile is targeted for
+#                    (i.e. PC or UNIX)
+#  BUILD           - Invoke make from the Real-Time Workshop build procedure
+#                    (yes/no)?
+#  SYS_TARGET_FILE - Name of system target file.
+#  BUILD_SUCCESS   - string that identifies succussful build on PC hosts
+
+MAKECMD         = make
+HOST            = PC
+BUILD           = yes
+SYS_TARGET_FILE = osekworks.tlc
+BUILD_SUCCESS   = Created executables
+
+#---------------------- Tokens expanded by make_rtw ----------------------------
+#
+# The following tokens, when wrapped with "|>" and "|<" are expanded by the
+# Real-Time Workshop build procedure.
+#
+#  MODEL_NAME          - Name of the Simulink block diagram
+#  MODEL_MODULES       - Any additional generated source modules
+#  MAKEFILE_NAME       - Name of makefile created from template makefile <model>.mk
+#  MATLAB_ROOT         - Path to were MATLAB is installed.
+#  S_FUNCTIONS         - List of additional S-function modules.
+#  S_FUNCTIONS_LIB     - List of S-functions libraries to link. 
+#  NUMST               - Number of sample times
+#  COMPUTER            - Computer type. See the MATLAB computer command.
+#  BUILDARGS           - Options passed in at the command line.
+#  MULTITASKING        - yes (1) or no (0): Is solver mode multitasking
+#  INTEGER_CODE        - yes (1) or no (0): Is generated code purely integer
+#  MAT_FILE            - yes (1) or no (0): Should mat file logging be done,
+#                        if 0, the generated code runs indefinitely
+#  EXT_MODE            - yes (1) or no (0): Build for external mode
+#  TMW_EXTMODE_TESTING - yes (1) or no (0): Build ext_test.c for external mode
+#                        testing.
+#  MULTI_INSTANCE_CODE - Is the generated code multi instantiable (1/0)?
+#  ADD_MDL_NAME_TO_GLOBALS - Do we add the model name to global 
+#                        identifiers (1/0)?
+
+MODEL                   = |>MODEL_NAME<|
+MODULES                 = |>MODEL_MODULES<|
+MAKEFILE                = |>MAKEFILE_NAME<|
+MATLAB_ROOT             = |>MATLAB_ROOT<|
+S_FUNCTIONS             = |>S_FUNCTIONS<|
+S_FUNCTIONS_LIB         = |>S_FUNCTIONS_LIB<|
+NUMST                   = |>NUMST<|
+COMPUTER                = |>COMPUTER<|
+BUILDARGS               = |>BUILDARGS<|
+MULTITASKING            = |>MULTITASKING<|
+INTEGER_CODE            = |>INTEGER_CODE<|
+MAT_FILE                = |>MAT_FILE<|
+ONESTEPFCN              = |>COMBINE_OUTPUT_UPDATE_FCNS<|
+TERMFCN                 = |>INCLUDE_MDL_TERMINATE_FCN<|
+B_ERTSFCN               = |>GENERATE_ERT_S_FUNCTION<|
+MEXEXT                  = |>MEXEXT<|
+EXT_MODE                = |>EXT_MODE<|
+TMW_EXTMODE_TESTING     = |>TMW_EXTMODE_TESTING<|
+MULTI_INSTANCE_CODE     = |>MULTI_INSTANCE_CODE<|
+ADD_MDL_NAME_TO_GLOBALS = |>ADD_MDL_NAME_TO_GLOBALS<|
+BUILDACTION		= |>BUILDACTION<|
+GENERATE_ASAP2          = |>GENERATE_ASAP2<|
+GENERATE_REPORT         = |>GENERATE_REPORT<|
+OSEK_BOARD              = $(subst ",,|>OSEK_BOARD<|)
+# Place quote, " , here for context sensitive editors. 
+
+# Include generated make variables file.
+include |>MODEL_NAME<|_makevars.mk
+
+#------------------------------ Include Path -----------------------------------
+
+MATLAB_INCLUDES = \
+	-I$(MATLAB_ROOT)/extern/include \
+	-I$(MATLAB_ROOT)/simulink/include \
+	-I$(MATLAB_ROOT)/rtw/c/src
+
+# Additional includes 
+ADD_INCLUDES = \
+|>START_EXPAND_INCLUDES<|	-I|>EXPAND_DIR_NAME<| \
+|>END_EXPAND_INCLUDES<|
+
+INCLUDES = -I. -I.. $(MATLAB_INCLUDES) $(ADD_INCLUDES) $(USER_INCLUDES)
+
+#----------------------------- APP C Flags -------------------------------------
+
+CPP_REQ_DEFINES = -Xlicense-wait -DMODEL=$(MODEL) -DNUMST=$(NUMST) \
+		  -DMT=$(MULTITASKING) \
+		  -DINTEGER_CODE=$(INTEGER_CODE) \
+		  -DONESTEPFCN=$(ONESTEPFCN) -DTERMFCN=$(TERMFCN) \
+		  -DMULTI_INSTANCE_CODE=$(MULTI_INSTANCE_CODE)\
+		  -DADD_MDL_NAME_TO_GLOBALS=$(ADD_MDL_NAME_TO_GLOBALS)
+
+APP_CFLAGS = $(OPT_OPTS) $(CPP_REQ_DEFINES) $(INCLUDES)
+APP_SRCS = $(MODEL).c $(MODULES) $(EXT_SRC) $(S_FUNCTIONS) $(USER_SRCS)
+
+#-------------------------- Additional Libraries -------------------------------
+
+# Create library suffix based on INTEGER_CODE and OSEK implementation
+ifeq ($(INTEGER_CODE),0)
+LIBSUFFIX:=osekworks.a
+else
+LIBSUFFIX:=int_osekworks.a
+endif
+
+# PRECOMP_LIBRARIES are those libraries that are defined by rtwmakecfg
+# files with a precompiled flag set to true.  
+#
+# Setup environment for PRECOMP_LIBRARIES. PRECOMP_LIBRARIES are
+# libraries that may already exist. If they do not exist, they will be
+# created.
+#
+|>START_PRECOMP_LIBRARIES<|
+# Determine what |>EXPAND_LIBRARY_NAME<| library to use...
+#
+#   - When the STATIC_|>EXPAND_LIBRARY_NAME<| macro is specified, use
+#   that library.
+#   - Otherwise, when the STATIC_LIBDIR macro is specified, (create if
+#   necessary and) use an implementation specific library from that
+#   directory. 
+#   - Otherwise, create and use a library from the model's build
+#   directory. 
+#
+MODEL_LIB_|>EXPAND_LIBRARY_NAME<|:=$(BLD)\|>EXPAND_LIBRARY_NAME<|.a
+ifdef STATIC_|>EXPAND_LIBRARY_NAME<|
+ LIB_|>EXPAND_LIBRARY_NAME<|:=$(STATIC_|>EXPAND_LIBRARY_NAME<|)
+else
+ ifneq "$(strip $(STATIC_LIBDIR))" ""
+  LIB_|>EXPAND_LIBRARY_NAME<|:=$(STATIC_LIBDIR)/|>EXPAND_LIBRARY_NAME<|_$(LIBSUFFIX)
+ else
+  LIB_|>EXPAND_LIBRARY_NAME<|:=$(MODEL_LIB_|>EXPAND_LIBRARY_NAME<|)
+ endif
+endif
+LIBS += $(LIB_|>EXPAND_LIBRARY_NAME<|) 
+|>END_PRECOMP_LIBRARIES<|
+
+# EXPAND_LIBRARIES are those libraries that are defined by rtwmakecfg
+# files with a precompiled flag set to false.  
+#
+# Setup environment for EXPAND_LIBRARIES. EXPAND_LIBRARIES are
+# always compiled for a model
+#
+|>START_EXPAND_LIBRARIES<|
+LIBS += |>EXPAND_LIBRARY_NAME<|.a |>END_EXPAND_LIBRARIES<|
+
+LIBS += $(S_FUNCTIONS_LIB) $(EXT_LIB)
+
+#---------------------------- Additional Source Files --------------------------
+ifeq ($(INTEGER_CODE),1)
+ADD_SRCS = 
+LFLAGS =
+else
+ADD_SRCS = rt_nonfinite.c
+LFLAGS = -lm
+endif
+
+######################################################################
+#
+# Makefile to generate downloadable image files, $(MODEL)$(TARGET_SUFFIX).elf, .srec, .bin
+#
+#   To build, cd to model build directory, model_osekworks, and enter "model.bat all"
+#   To remove all generated files, enter "model.bat clean"
+#
+# The most commonly used command line macro is "BOARD", which specifies
+# the directory name of the required board support package.  For example,
+#
+#   "model.bat all BOARD=boardxyz"
+#
+# The following definitions should be set to provide
+# the correct build environment:
+# 
+######################################################################
+
+#
+# Definitions required for Tornado build shell commands on Windows:
+#
+DIRCHAR = $(subst x,\,x)
+BLANK   = echo[
+RM      = del
+RMDIR   = rmdir /s /q
+MKDIR   = $(WIND_BASE)$(DIRCHAR)host$(DIRCHAR)$(WIND_HOST_TYPE)$(DIRCHAR)bin$(DIRCHAR)wrsmkdir.bat
+CP      = copy
+MV      = move
+CAT     = type
+NUL     = nul
+
+#
+# Definitions used by Tornado to define the target build environment:
+# (WIND_BASE and WIND_HOST_TYPE are defined by Tornado or the OSEKWorks shell)
+#
+SHOW_CONFIG = YES
+CPU         = ppc
+TOOL        = diab
+BOARD       = $(OSEK_BOARD)
+ifeq ($(BOARD),)
+   BOARD    = motevb555
+endif
+BUILD_DIR   = $(BOARD)_obj
+ifeq ($(TOOLPATH),)
+   TOOLPATH = $(WIND_BASE)$(DIRCHAR)host
+endif
+
+#
+# Definitions used to define the OSEKWorks kernel build environment:
+#
+# OSEKWORKS = OSEKWorks root path
+# OSEK_INC  = full path to kernel include directory.
+# OSEK_SYS  = full path to kernel library root directory for specified cpu.
+# OSEK_BSP  = full path to bsp root directory for specified cpu and board.
+# 
+OSEK_INC  = $(OSEKWORKS)$(DIRCHAR)include
+OSEK_SYS  = $(OSEKWORKS)$(DIRCHAR)sys$(DIRCHAR)$(CPU)
+OSEK_BSP  = $(OSEKWORKS)$(DIRCHAR)bsp$(DIRCHAR)$(CPU)$(DIRCHAR)$(BOARD)
+
+#
+# Definitions for default source and build root directories:
+#
+# All user source files should reside in a tree under $(SRC).
+# Build derived objects are stored in a corresponding tree under $(BLD).
+# $(SRC) and $(BLD) can be independent directories, but in 
+# almost all cases you should leave them rooted at '.'
+#
+SRC = .
+BLD = .$(DIRCHAR)$(BUILD_DIR)
+
+#
+# Definitons for application files:
+#
+# C_FILES       = all application specific C source files.
+# S_FILES       = all application specific assembly source files.
+# APP_INCS      = all application specific include files.
+# MAIN_OIL_FILE = top level OIL source code file for the application.
+# INC_OIL_FILES = any OIL files which are included in the top level OIL file.
+#
+C_FILES = $(APP_SRCS)
+
+S_FILES = 
+
+APP_INCS =
+
+MAIN_OIL_FILE = $(SRC)/$(MODEL).oil
+
+INC_OIL_FILES = 
+
+#
+# Include two symbol definitions from the BSP directory:
+# DTARGET - The target CPU
+# DFP     - The type of floating point support
+#
+include $(OSEK_BSP)/bsp.mk
+
+#
+# Include OIL generated symbol definitions:
+# RTA_CFLAGS - Compile flags enabling RTA
+#
+-include $(BLD)/oil.mk
+
+#
+# Define OSEKWorks header file to be included.
+#
+SYS_INCS = $(OSEK_INC)/osekworks.h
+
+#
+# Define OIL file symbols.
+#
+O_FILE        = $(BLD)/oil.c
+OIL_INCS      = $(BLD)/oil.h
+OIL_OUT_FILES = $(BLD)/oil.c $(BLD)/oil.h $(BLD)/oil.lk
+OIL_FILE      = $(subst /,$(DIRCHAR),$(MAIN_OIL_FILE))
+
+#
+# Define the OSEKWorks configurator executable.
+#
+CONFIGURATOR = $(TOOLPATH)$(DIRCHAR)$(WIND_HOST_TYPE)$(DIRCHAR)bin$(DIRCHAR)oilreader
+
+#
+# Define Diab compiler, assembler, and linker executables.
+# (DIABLIB is defined by Tornado or the OSEKWorks shell)
+#
+DIABBIN = $(DIABLIB)$(DIRCHAR)win32$(DIRCHAR)bin
+CC      = $(DIABBIN)$(DIRCHAR)dcc
+AS      = $(DIABBIN)$(DIRCHAR)das
+AR      = $(DIABBIN)$(DIRCHAR)dar
+LD      = $(DIABBIN)$(DIRCHAR)dld
+DUMP    = $(DIABBIN)$(DIRCHAR)ddump
+
+#
+# Define Diab compiler, assembler, and linker flags.
+# Please refer to Diab tools documentation for a description.
+#
+CFLAGS = -c -g\
+         -XO\
+         -Xstruct-best-align=0\
+         -Xansi\
+         -Xlint\
+         -Xkill-reorder=1\
+         -Xkill-reorder=8\
+         -Wa,-L\
+         -Xpass-source\
+         -Xdebug-struct-all\
+         -Xsmall-data=65536\
+         -Xsmall-const=65536\
+         -Xfar-code-relative\
+         -Xstring-align=1\
+         -t$(DTARGET)E$(DFP):simple\
+         $(RTA_CFLAGS)\
+         $(OIL_CFLAGS)\
+         -I$(SRC)\
+         -I$(BLD)\
+         -I$(OSEK_INC)\
+         -I$(OSEK_BSP)$(DIRCHAR)src$(DIRCHAR)include
+
+OILC_CFLAGS = -I$(OSEK_SYS)$(DIRCHAR)..$(DIRCHAR)src_oil \
+              -I$(OSEK_BSP)$(DIRCHAR)src_oil_bsp \
+              $(CFLAGS)
+
+AFLAGS = -L -t$(DTARGET)E$(DFP):simple
+
+LFLAGS += -t$(DTARGET)E$(DFP):simple -Xsupress-dot -limpl -m6 -lc
+
+#
+# Construct the object file lists.
+#
+S_OBJECTS = $(S_FILES:$(SRC)/%.s=$(BLD)/%.o)
+O_OBJECTS = $(O_FILE:$(BLD)/%.c=$(BLD)/%.o)
+C_OBJECTS = $(C_FILES:%.c=$(BLD)/%.o)
+OBJ_FILES = $(C_OBJECTS) $(O_OBJECTS) $(S_OBJECTS) 
+ADD_OBJS  = $(ADD_SRCS:%.c=$(BLD)/%.o)
+
+#
+# Construct the list of derived object directories
+# which corresponds to the source directory tree.
+# These directories will be automatically created.
+#
+D1DIRS  = $(dir $(OBJ_FILES))
+D2DIRS  = $(sort $(D1DIRS))
+D3DIRS  = $(patsubst %,?%?,$(D2DIRS))
+D4DIRS  = $(filter-out ?./?,$(D3DIRS))
+D5DIRS  = $(subst /?,,$(D4DIRS))
+OBJDIRS = $(subst  ?,,$(D5DIRS))
+ifeq ($(strip $(OBJDIRS)),)
+OBJDIRS = .
+endif
+
+#
+# Additional hook for including any user defined makefile variables
+#
+-include ..\user_makefile_variables.mk
+
+#
+# Build rules.
+#
+all default: BUILD_ALL
+
+rebuild: cleanQuiet BUILD_ALL
+
+relink: cleanExe BUILD_ALL
+
+oil: cleanOil BUILD_ALL
+
+clean:
+	@$(BLANK)
+	@echo ### Removing build directory
+	@$(BLANK)
+	@if exist $(BLD)$(DIRCHAR)$(NUL)    echo $(RMDIR) $(BLD)
+	@if exist $(BLD)$(DIRCHAR)$(NUL)         $(RMDIR) $(BLD)
+
+cleanQuiet:
+	@if exist $(BLD)$(DIRCHAR)$(NUL)    $(RMDIR) $(BLD)
+
+cleanExe:
+	@if exist $(BLD)$(DIRCHAR)$(MODEL)$(TARGET_SUFFIX).elf   $(RM) $(BLD)$(DIRCHAR)$(MODEL)$(TARGET_SUFFIX).elf
+	@if exist $(BLD)$(DIRCHAR)$(MODEL)$(TARGET_SUFFIX).srec  $(RM) $(BLD)$(DIRCHAR)$(MODEL)$(TARGET_SUFFIX).srec
+	@if exist $(BLD)$(DIRCHAR)$(MODEL)$(TARGET_SUFFIX).bin  $(RM) $(BLD)$(DIRCHAR)$(MODEL)$(TARGET_SUFFIX).bin
+
+cleanOil:
+	@if exist $(BLD)$(DIRCHAR)oil.c     $(RM) $(BLD)$(DIRCHAR)oil.c
+
+#
+# Remake the executable image, which depends on this file, the 3 files 
+# generated by the OIL reader and all application specific object files.
+# Once all OIL files and object files are up to date, the make process
+# generates the linker command file, $(MODEL).dld.  It is the concatenation of:
+#   a) "bsp.lk" in the BSP directory.
+#   b) The list of application object files defined by OBJ_FILES.
+#   c) The oilreader generated file "oil.lk" which defines which kernel
+#      libraries are to be used.
+# Finally, ddump is invoked to convert the "elf" file generated by
+# the linker into an S-Record file.
+#
+BUILD_ALL: show_config dirs $(OIL_OUT_FILES)
+	@$(MAKE) -f $(SRC)$(DIRCHAR)$(MAKEFILE) --no-print-directory BUILD_EXE
+
+BUILD_EXE: ../$(MODEL)$(TARGET_SUFFIX).elf ../$(MODEL)$(TARGET_SUFFIX).srec ../$(MODEL)$(TARGET_SUFFIX).bin ../$(MODEL)$(TARGET_SUFFIX).map
+
+../$(MODEL)$(TARGET_SUFFIX).elf  : $(BLD)/$(MODEL)$(TARGET_SUFFIX).elf
+	$(CP) $(subst /,\,$<) $(subst /,\,$@) >NUL
+
+../$(MODEL)$(TARGET_SUFFIX).srec : $(BLD)/$(MODEL)$(TARGET_SUFFIX).srec
+	$(CP) $(subst /,\,$<) $(subst /,\,$@) >NUL
+
+../$(MODEL)$(TARGET_SUFFIX).bin : $(BLD)/$(MODEL)$(TARGET_SUFFIX).bin
+	$(CP) $(subst /,\,$<) $(subst /,\,$@) >NUL
+
+../$(MODEL)$(TARGET_SUFFIX).map : $(BLD)/$(MODEL)$(TARGET_SUFFIX).map
+	$(CP) $(subst /,\,$<) $(subst /,\,$@) >NUL
+	@echo ### Created executables: $(MODEL)$(TARGET_SUFFIX).elf, .srec, .bin
+	@$(BLANK)
+
+$(OBJ_FILES): $(APP_INCS) $(SYS_INCS) $(OIL_INCS) $(SRC)/$(MAKEFILE) rtw_proj.tmw
+
+$(ADD_OBJS): $(SRC)/$(MAKEFILE) rtw_proj.tmw
+
+$(BLD)/$(MODEL)$(TARGET_SUFFIX).dld: $(OSEK_BSP)$(DIRCHAR)bsp$(TARGET_SUFFIX).lk $(OBJ_FILES) $(ADD_OBJS) $(OSEK_BSP)$(DIRCHAR)obj$(DIRCHAR)begin.o $(OSEK_BSP)$(DIRCHAR)libbsp.a $(LIBS) $(SRC)/$(MAKEFILE)
+	@$(BLANK)
+	@echo ### Creating dld
+	$(CAT) $(OSEK_BSP)$(DIRCHAR)bsp$(TARGET_SUFFIX).lk >$(BLD)$(DIRCHAR)$(MODEL)$(TARGET_SUFFIX).dld
+	echo $(OBJ_FILES) $(ADD_OBJS) >>$(BLD)$(DIRCHAR)$(MODEL)$(TARGET_SUFFIX).dld
+	$(CAT) $(BLD)$(DIRCHAR)oil.lk >>$(BLD)$(DIRCHAR)$(MODEL)$(TARGET_SUFFIX).dld
+	echo $(OSEK_BSP)$(DIRCHAR)obj$(DIRCHAR)begin.o >>$(BLD)$(DIRCHAR)$(MODEL)$(TARGET_SUFFIX).dld
+	echo $(OSEK_BSP)$(DIRCHAR)libbsp.a >>$(BLD)$(DIRCHAR)$(MODEL)$(TARGET_SUFFIX).dld
+	echo $(LIBS) >>$(BLD)$(DIRCHAR)$(MODEL)$(TARGET_SUFFIX).dld
+
+$(BLD)/$(MODEL)$(TARGET_SUFFIX).elf: $(BLD)/$(MODEL)$(TARGET_SUFFIX).dld
+	@$(BLANK)
+	@echo ### Linking, Creating $(MODEL)$(TARGET_SUFFIX).elf
+	$(LD) $(LFLAGS) >$(BLD)$(DIRCHAR)$(MODEL)$(TARGET_SUFFIX).map -Wm $(BLD)$(DIRCHAR)$(MODEL)$(TARGET_SUFFIX).dld -o $(BLD)$(DIRCHAR)$(MODEL)$(TARGET_SUFFIX).elf
+
+$(BLD)/$(MODEL)$(TARGET_SUFFIX).srec: $(BLD)/$(MODEL)$(TARGET_SUFFIX).elf
+	@$(BLANK)
+	@echo ### Creating $(MODEL)$(TARGET_SUFFIX).srec
+	$(DUMP) -Rv $(BLD)$(DIRCHAR)$(MODEL)$(TARGET_SUFFIX).elf -o $(BLD)$(DIRCHAR)$(MODEL)$(TARGET_SUFFIX).srec
+	@$(BLANK)
+
+$(BLD)/$(MODEL)$(TARGET_SUFFIX).bin: $(BLD)/$(MODEL)$(TARGET_SUFFIX).elf
+	@$(BLANK)
+	@echo ### Creating $(MODEL)$(TARGET_SUFFIX).bin
+	$(DUMP) -Rvu $(BLD)$(DIRCHAR)$(MODEL)$(TARGET_SUFFIX).elf -o $(BLD)$(DIRCHAR)$(MODEL)$(TARGET_SUFFIX).bin
+	@$(BLANK)
+
+#
+# Create derived object output directories if they don't already exist.
+#
+dirs:
+	@echo ### Creating builddir
+	$(MKDIR) -verbose $(OBJDIRS)
+
+#
+# Remake OIL reader output files as needed.
+#
+$(O_FILE): $(OIL_FILE) $(INC_OIL_FILES) $(SRC)/$(MAKEFILE)
+	@$(BLANK)
+	@echo ### Processing oil files
+	$(CONFIGURATOR) -x -t $(CPU) -b $(BOARD) -o $(BLD) $(OIL_FILE)
+
+$(O_OBJECTS): $(BLD)/%.o: $(BLD)/%.c
+	@$(BLANK)
+	@echo ### "$(BLD)\$*.c"
+	$(CC) $(OILC_CFLAGS) -w -o $(BLD)$(DIRCHAR)$*.o $(BLD)$(DIRCHAR)$*.c > $(BLD)$(DIRCHAR)$*.lst
+
+#
+# Remake application specific assembly language source files as needed.
+#
+$(S_OBJECTS): $(BLD)/%.o: $(SRC)/%.s $(MAKEFILE)
+	@$(BLANK)
+	@echo ### $(SRC)/$*.s
+	$(CC) -E $(SRC)$(DIRCHAR)$*.s > $(BLD)$(DIRCHAR)$*.ppc
+	$(AS) $(AFLAGS) -o $(BLD)$(DIRCHAR)$*.o $(BLD)$(DIRCHAR)$*.ppc > $(BLD)$(DIRCHAR)$*.lst
+	@$(RM) $(BLD)$(DIRCHAR)$*.ppc
+
+#
+# Remake application specific C source files as needed.
+#
+$(BLD)/%.o: $(SRC)/%.c
+	@$(BLANK)
+	@echo ### "$(SRC)\$*.c"
+	$(CC) $(CFLAGS) $(APP_CFLAGS) -o $(BLD)$(DIRCHAR)$*.o $(SRC)$(DIRCHAR)$*.c > $(BLD)$(DIRCHAR)$*.lst
+
+$(BLD)/%.o: ../%.c
+	@$(BLANK)
+	@echo ### "..\$*.c"
+	$(CC) $(CFLAGS) $(APP_CFLAGS) -o $(BLD)$(DIRCHAR)$*.o ..$(DIRCHAR)$*.c > $(BLD)$(DIRCHAR)$*.lst
+
+$(BLD)/%.o: $(MATLAB_ROOT)/rtw/c/src/%.c
+	@$(BLANK)
+	@echo ### "$(MATLAB_ROOT)\rtw\c\src\$*.c"
+	$(CC) $(CFLAGS) $(APP_CFLAGS) -o $(BLD)$(DIRCHAR)$*.o $(MATLAB_ROOT)$(DIRCHAR)rtw$(DIRCHAR)c$(DIRCHAR)src$(DIRCHAR)$*.c >$(BLD)$(DIRCHAR)$*.lst
+
+|>START_EXPAND_RULES<|
+$(BLD)/%.o: |>EXPAND_DIR_NAME<|/%.c $(SRC)/$(MAKEFILE) rtw_proj.tmw
+	@$(BLANK)
+	@echo ### "|>EXPAND_DIR_NAME<|\$*.c"
+	$(CC) $(CFLAGS) $(APP_CFLAGS) -o $(BLD)$(DIRCHAR)$*.o |>EXPAND_DIR_NAME<|$(DIRCHAR)$*.c > $(BLD)$(DIRCHAR)$*.lst
+|>END_EXPAND_RULES<|
+
+#----------------------------- Application Libraries -----------------------------------
+# start EXPANDING "LIBRARIES"
+|>START_EXPAND_LIBRARIES<|
+# EXPANDED MODULES for |>EXPAND_LIBRARY_NAME<|
+MODULES_|>EXPAND_LIBRARY_NAME<| = \
+|>START_EXPAND_MODULES<|    $(BLD)/|>EXPAND_MODULE_NAME<|.o \
+|>END_EXPAND_MODULES<|
+
+# EXPANDED rule for |>EXPAND_LIBRARY_NAME<|
+|>EXPAND_LIBRARY_NAME<|.a : $(MAKEFILE) rtw_proj.tmw $(MODULES_|>EXPAND_LIBRARY_NAME<|)
+	@$(BLANK)
+	@echo ### Creating $@ 
+	$(AR) -r $@ $(MODULES_|>EXPAND_LIBRARY_NAME<|)
+|>END_EXPAND_LIBRARIES<|
+# Completed EXPANSION of macros and rules for "LIBRARIES"
+
+# Start EXPANDING "PRECOMP_LIBRARIES"
+|>START_PRECOMP_LIBRARIES<|
+# EXPANDED MODULES for |>EXPAND_LIBRARY_NAME<|
+MODULES_|>EXPAND_LIBRARY_NAME<| = \
+|>START_EXPAND_MODULES<|    $(BLD)/|>EXPAND_MODULE_NAME<|.o \
+|>END_EXPAND_MODULES<|
+
+#
+# Create rules for model's "precompiled" |>EXPAND_LIBRARY_NAME<| object library,
+# building it if it doesn't already exist.
+#
+#
+
+# LIB_|>EXPAND_LIBRARY_NAME<| target for easily building library from
+# command line.
+#
+.PHONY : LIB_|>EXPAND_LIBRARY_NAME<| 
+LIB_|>EXPAND_LIBRARY_NAME<| : $(LIB_|>EXPAND_LIBRARY_NAME<|)
+
+# When REBUILD_STATIC_LIBS is set to 1, by checking the the rtwoptions
+# category 'OSEKWorks code generation options' dialog checkbox 'Force
+# rebuild of the static libraries used by the model', setup for clean up 
+# all and rebuild of this static library
+#
+ifeq "$(REBUILD_STATIC_LIBS)" "1"
+ REMOVE_LIBS += REMOVE_|>EXPAND_LIBRARY_NAME<|
+
+ # This rule, making this PRECOMP_LIBRARY depend on
+ # REMOVE_ALL_PRECOMP_LIBRARIES, causes all PRECOMP_LIBRARIES to be
+ # removed before this PRECOM_LIBRARY is built.
+ $(LIB_|>EXPAND_LIBRARY_NAME<|) : REMOVE_ALL_PRECOMP_LIBRARIES
+
+ # These rules apply the typical dependencies for building a library
+ # for when REBUILD_STATIC_LIBS is set.
+ $(LIB_|>EXPAND_LIBRARY_NAME<|) : $(MAKEFILE) rtw_proj.tmw 
+ $(LIB_|>EXPAND_LIBRARY_NAME<|) : $(MODULES_|>EXPAND_LIBRARY_NAME<|)
+
+ # Force objects related to library to rebuilt whenever the
+ # REMOVE_|>EXPAND_LIBRARY_NAME<| target is executed.
+ $(MODULES_|>EXPAND_LIBRARY_NAME<|) : REMOVE_|>EXPAND_LIBRARY_NAME<|
+endif
+
+# Phony target rule that actually removes the |>EXPAND_LIBRARY_NAME<| library
+.PHONY : REMOVE_|>EXPAND_LIBRARY_NAME<|
+REMOVE_|>EXPAND_LIBRARY_NAME<| :
+	@echo Removing $(subst /,\,$(LIB_|>EXPAND_LIBRARY_NAME<|))
+	-$(RM) $(subst /,\,$(LIB_|>EXPAND_LIBRARY_NAME<|))
+
+ifeq "$(MODEL_LIB_|>EXPAND_LIBRARY_NAME<|)" "$(LIB_|>EXPAND_LIBRARY_NAME<|)" 
+ # When the library is in the model directory, have it depend on the
+ # module objects from the model directory, and have the module
+ # objects depend on the typical dependency rules 
+ #
+ $(LIB_|>EXPAND_LIBRARY_NAME<|)     : $(MODULES_|>EXPAND_LIBRARY_NAME<|)
+ $(MODULES_|>EXPAND_LIBRARY_NAME<|) : $(MAKEFILE) 
+ $(MODULES_|>EXPAND_LIBRARY_NAME<|) : rtw_proj.tmw 
+else
+ # If the static library doesn't exist, have it depend on the 
+ # module objects from the model directory, and have the module
+ # objects depend on the typical dependency rules 
+ #
+ ifeq "$(strip $(wildcard $(subst \,/,$(LIB_|>EXPAND_LIBRARY_NAME<|))))" ""
+  $(LIB_|>EXPAND_LIBRARY_NAME<|)     : $(MODULES_|>EXPAND_LIBRARY_NAME<|)
+  $(MODULES_|>EXPAND_LIBRARY_NAME<|) : $(MAKEFILE) 
+  $(MODULES_|>EXPAND_LIBRARY_NAME<|) : rtw_proj.tmw 
+ endif
+endif
+
+# Provide target to create, or update, the library from objects in
+# the current model's build directory .
+$(LIB_|>EXPAND_LIBRARY_NAME<|) : 
+	@$(BLANK)
+	@echo ### Creating Precomp $@ 
+	$(AR) -r $@ $(MODULES_|>EXPAND_LIBRARY_NAME<|)
+|>END_PRECOMP_LIBRARIES<|
+# Completed EXPANSION of macros and rules for "PRECOMP_LIBRARIES"
+
+REMOVE_ALL_PRECOMP_LIBRARIES : $(REMOVE_LIBS)
+
+#
+# Additional hook for including any user defined makefile rules
+#
+-include ..\user_makefile_rules.mk
+
+#
+# Echo the standard configuration variables.
+#
+show_config :
+ifeq ($(SHOW_CONFIG),YES)
+	@echo +---------------------------------------------------------------------------------------+
+	@echo + C_FILES.......... $(subst \,/,$(C_FILES))
+	@echo + C_OBJECTS........ $(subst \,/,$(C_OBJECTS))
+	@echo + O_OBJECTS........ $(subst \,/,$(O_OBJECTS))
+	@echo + ADD_OBJS......... $(subst \,/,$(ADD_OBJS))
+	@echo + OBJ_FILES........ $(subst \,/,$(OBJ_FILES))
+	@echo + WIND_KERNEL...... $(WIND_KERNEL)
+	@echo + WIND_BASE........ $(subst \,/,$(WIND_BASE))
+	@echo + WIND_HOST_TYPE... $(WIND_HOST_TYPE)
+	@echo + DIABLIB.......... $(subst \,/,$(DIABLIB))
+	@echo + OSEKWORKS........ $(subst \,/,$(OSEKWORKS))
+	@echo + CPU.............. $(CPU)
+	@echo + BOARD............ $(BOARD)
+	@echo + TOOL............. $(TOOL)
+	@echo + SRC_DIR.......... $(subst \,/,$(SRC))
+	@echo + BLD_DIR.......... $(subst \,/,$(BLD))
+	@echo + OIL_FILE......... $(subst \,/,$(OIL_FILE))
+	@echo + LM_LICENSE_FILE...$(subst \,/,$(LM_LICENSE_FILE)) from MAKE macro
+	@echo +---------------------------------------------------------------------------------------+
+endif
+
+# EOF: osekworks.tmf

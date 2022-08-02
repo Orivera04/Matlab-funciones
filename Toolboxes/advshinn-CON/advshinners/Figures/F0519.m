@@ -1,0 +1,13 @@
+hd = [0 .25 .5 1 2 3];
+md = linspace(1,6); dm = (0*md+1)./md;
+nd = relays(dm,hd(1));
+plot([1 6],[-40 5],'.'); grid; hold on; axis([1 6 -40 5]);
+title('Phase characteristics for the describing function of Hysteresis');
+xlabel('M / D'); ylabel('Phase Shift of N (Degrees)');
+for ii = 1:length(hd);
+  md = linspace(1+hd(ii),6); dm = (0*md+1)./md;
+  nd = relays(dm,hd(ii)); ndp = angle(nd)*180/pi;
+  plot(md,ndp,'b-',[md(1) md(1)],[-40 ndp(1)],'g--');
+  text(md(8),ndp(8),['h/d = ' num2str(hd(ii))]);
+end;
+hold off;

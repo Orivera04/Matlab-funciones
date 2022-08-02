@@ -1,0 +1,1 @@
+Just unzip all the archives to your matlab directory and execute "gaussleg" (see coments inside for help)

@@ -1,0 +1,30 @@
+%PROBLEMA 1, Censo
+totalfam=0;
+totalpers=0;
+totalnin=0;
+totaladu=0;
+porcnin=0;
+porcadu=0;
+while 1
+    nombre=input('¿Cual es el nombre del Jefe de Familia?: >> ','s');
+    ninios=input('¿Cuantos niños hay en su familia?');
+    adultos=input('¿Cuantos adultos hay en su familia?');
+    fprintf('Jefe de la familia:                %s\n',nombre);
+    fprintf('Total de personas en la familia:   %d\n',adultos+ninios);
+    totalfam=totalfam+1;
+    totaladu=totaladu+adultos;
+    totalnin=totalnin+ninios;
+    seguir=input('¿Mas familias? S/N: >> ','s');
+    if (seguir=='n')|(seguir=='N')
+        break;
+    end
+end
+totalpers=totaladu+totalnin;
+porcadu=(totaladu*100)/totalpers;
+porcnin=(totalnin*100)/totalpers;
+fprintf('\Total de Familias censadas:        %d\n',totalfam);
+fprintf('Total de Personas:                 %d\n',totalpers);
+fprintf('Total de Niños:                    %d\n',totalnin);
+fprintf('Total de Adultos:                  %d\n',totaladu);
+fprintf('Porcentaje de Niños:               %d\n',porcnin);
+fprintf('Porcentaje de Adultos:             %d\n',porcadu);

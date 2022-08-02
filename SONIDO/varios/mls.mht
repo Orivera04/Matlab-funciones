@@ -1,0 +1,229 @@
+From: <Guardado por Microsoft Internet Explorer 5>
+Subject: 
+Date: Wed, 13 Aug 2008 12:47:40 -0600
+MIME-Version: 1.0
+Content-Type: text/html;
+	charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.mathworks.com/matlabcentral/files/1246/mls.m
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.3198
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD>
+<META http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dwindows-1252">
+<META content=3D"MSHTML 6.00.2900.3314" name=3DGENERATOR></HEAD>
+<BODY><PRE>function  y =3D mls(n,flag)
+
+%y =3D mls(n,{flag});
+%
+%Generates a Maximum Length Sequence of n bits by utilizing a=20
+%linear feedback shift register with an XOR gate on the tap bits=20
+%
+%Function can accept bit lengths of between 2 and 24
+%
+%y is a vector of 1's &amp; -1's that is (2^n)-1 in length.
+%
+%optional flag is:
+%
+%  1 for an initial sequence of all ones (repeatable)
+%  0 for an initial sequence that is random (default)
+%
+%note: Because of the recursive nature of this process, it is not=20
+%possible to completely vectorize this code (at least I don't know=20
+%how to do it). As a result, longer bit lengths will take quite a=20
+%long time to process, perhaps hours. If you figure out a way to=20
+%vectorize the for loop, please let me know.
+%
+%reference:
+%	Davies, W.D.T. (June, July, August, 1966). Generation and=20
+%properties of maximum-length sequences. Control, 302-4, 364-5,431-3.
+%
+%Spring 2001, Christopher Brown, cbrown@phi.luc.edu
+
+switch n								%assign taps which will yeild a maximum
+case 2								%length sequence for a given bit length
+   taps=3D2;							%I forget the reference I used, but theres
+   tap1=3D1;							%a list of appropriate tap values in
+   tap2=3D2;							%Vanderkooy, JAES, 42(4), 1994.
+case 3
+   taps=3D2;
+   tap1=3D1;
+   tap2=3D3;
+case 4
+   taps=3D2;
+   tap1=3D1;
+   tap2=3D4;
+case 5
+   taps=3D2;
+   tap1=3D2;
+   tap2=3D5;
+case 6
+   taps=3D2;
+   tap1=3D1;
+   tap2=3D6;
+case 7
+   taps=3D2;
+   tap1=3D1;
+   tap2=3D7;
+case 8
+   taps=3D4;
+   tap1=3D2;
+   tap2=3D3;
+   tap3=3D4;
+   tap4=3D8;
+case 9
+   taps=3D2;
+   tap1=3D4;
+   tap2=3D9;
+case 10
+   taps=3D2;
+   tap1=3D3;
+   tap2=3D10;
+case 11
+   taps=3D2;
+   tap1=3D2;
+   tap2=3D11;
+case 12
+   taps=3D4;
+   tap1=3D1;
+   tap2=3D4;
+   tap3=3D6;
+   tap4=3D12;
+case 13
+   taps=3D4;
+   tap1=3D1;
+   tap2=3D3;
+   tap3=3D4;
+   tap4=3D13;
+case 14
+   taps=3D4;
+   tap1=3D1;
+   tap2=3D3;
+   tap3=3D5;
+   tap4=3D14;
+case 15
+   taps=3D2;
+   tap1=3D1;
+   tap2=3D15;
+case 16
+   taps=3D4;
+   tap1=3D2;
+   tap2=3D3;
+   tap3=3D5;
+   tap4=3D16;
+case 17
+   taps=3D2;
+   tap1=3D3;
+   tap2=3D17;
+case 18
+   taps=3D2;
+   tap1=3D7;
+   tap2=3D18;
+case 19
+   taps=3D4;
+   tap1=3D1;
+   tap2=3D2;
+   tap3=3D5;
+   tap4=3D19;
+case 20
+   taps=3D2;
+   tap1=3D3;
+   tap2=3D20;
+case 21
+   taps=3D2;
+   tap1=3D2;
+   tap2=3D21;
+case 22
+   taps=3D2;
+   tap1=3D1;
+   tap2=3D22;
+case 23
+   taps=3D2;
+   tap1=3D5;
+   tap2=3D23;
+case 24
+   taps=3D4;
+   tap1=3D1;
+   tap2=3D3;
+   tap3=3D4;
+   tap4=3D24;
+%case 25
+%   taps=3D2;
+%   tap1=3D3;
+%   tap2=3D25;
+%case 26
+%   taps=3D4;
+%   tap1=3D1;
+%   tap2=3D7;
+%   tap3=3D8;
+%   tap4=3D26;
+%case 27
+%   taps=3D4;
+%   tap1=3D1;
+%   tap2=3D7;
+%   tap3=3D8;
+%   tap4=3D27;
+%case 28
+%   taps=3D2;
+%   tap1=3D3;
+%   tap2=3D28;
+%case 29
+%   taps=3D2;
+%   tap1=3D2;
+%   tap2=3D29;
+%case 30
+%   taps=3D4;
+%   tap1=3D1;
+%   tap2=3D15;
+%   tap3=3D16;
+%   tap4=3D30;
+%case 31
+%   taps=3D2;
+%   tap1=3D3;
+%   tap2=3D31;
+%case 32
+%   taps=3D4;
+%   tap1=3D1;
+%   tap2=3D27;
+%   tap3=3D28;
+%   tap4=3D32;
+otherwise
+   disp(' ');
+   disp('input bits must be between 2 and 24');
+   return
+end
+
+if (nargin =3D=3D 1)=20
+	flag =3D 0;
+end
+
+if flag =3D=3D 1
+	abuff =3D ones(1,n);
+else
+	rand('state',sum(100*clock))
+=09
+	while 1
+		abuff =3D round(rand(1,n));
+		%make sure not all bits are zero
+		if find(abuff=3D=3D1)
+			break
+		end
+	end
+end
+
+for i =3D (2^n)-1:-1:1
+     =20
+   xorbit =3D xor(abuff(tap1),abuff(tap2));		%feedback bit
+  =20
+   if taps=3D=3D4
+      xorbit2 =3D xor(abuff(tap3),abuff(tap4));%4 taps =3D 3 xor gates =
+&amp; 2 levels of logic
+      xorbit =3D xor(xorbit,xorbit2);				%second logic level
+   end
+  =20
+	abuff =3D [xorbit abuff(1:n-1)];
+	y(i) =3D (-2 .* xorbit) + 1;  	%yields one's and negative one's (0 =
+-&gt; 1; 1 -&gt; -1)
+end
+</PRE></BODY></HTML>

@@ -1,0 +1,31 @@
+function h = copy(this)
+% COPY Deep copy the object
+
+% Author(s): Bora Eryilmaz
+% Revised:
+% Copyright 1986-2003 The MathWorks, Inc.
+% $Revision: 1.1.6.2 $ $Date: 2004/04/11 00:42:32 $
+
+h = ParameterEstimator.FrequencyExperiment;
+
+% Deep copy handles
+if ~isempty(this.InputData)
+  h.InputData = copy(this.InputData);
+end
+
+if ~isempty(this.OutputData)
+  h.OutputData = copy(this.OutputData);
+end
+
+if ~isempty(this.StateData)
+  h.StateData = copy(this.StateData);
+end
+
+if ~isempty(this.OperatingPoint)
+  h.OperatingPoint = copy(this.OperatingPoint);
+end
+
+% Copy parent properties
+h.Model       = this.Model;
+h.InitFcn     = this.InitFcn;
+h.Description = this.Description;

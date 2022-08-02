@@ -1,0 +1,42 @@
+%% $RCSfile: stiiqmath_iqmpyiqx.tlc,v $
+%% $Revision: 1.1.6.2 $ $Date: 2004/04/08 21:00:00 $
+%% Copyright 2003-2004 The MathWorks, Inc.
+%%
+%% Abstract: TI C28x IQmath library "IQmpyIQX" (optimized IQ multiplication function)
+
+%implements stiiqmath_iqmpyiqx "C"
+
+%include "fix_published.tlc"
+
+
+%% Function: BlockTypeSetup ==============================================
+%function BlockTypeSetup(block, system) void
+    %<LibAddToCommonIncludes("<IQmathLib.h>")>
+%endfunction %% BlockTypeSetup
+
+
+%% Function: Outputs ==========================================================
+%%
+%function Outputs(block, system) Output
+	%assign INPORT_A = 0
+	%assign INPORT_B = 1
+	%assign OUTPORT_Y  = 0
+	%assign dataTypeIdA = LibBlockInputSignalDataTypeId(INPORT_A)
+	%assign fractionLengthA = FixPt_DataTypeFractionLength( block, dataTypeIdA )  	
+	%assign dataTypeIdB = LibBlockInputSignalDataTypeId(INPORT_B)
+	%assign fractionLengthB = FixPt_DataTypeFractionLength( block, dataTypeIdB )  
+	%assign dataTypeIdY = LibBlockOutputSignalDataTypeId(OUTPORT_Y)
+	%assign fractionLengthY = FixPt_DataTypeFractionLength( block, dataTypeIdY )
+	
+	/* C28x IQmath Library (%<ParamSettings.FunctionName>) - '%<Name>' */
+	{	
+	    %assign rollVars = ["U", "Y"]
+        %roll idx = RollRegions, lcv = RollThreshold, block,"Roller", rollVars
+			%<LibBlockOutputSignal (0, "", lcv, idx)> = _IQ%<fractionLengthY>mpyIQX (%<LibBlockInputSignal (0, "", lcv, idx)>, %<fractionLengthA>, \
+                                                                                     %<LibBlockInputSignal (1, "", lcv, idx)>, %<fractionLengthB>);
+		%endroll	
+	}
+  
+%endfunction
+
+%% [EOF] IQmpyiqx_tiiqmath.tlc

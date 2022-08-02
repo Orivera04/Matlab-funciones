@@ -1,0 +1,10 @@
+af=-33;%Newtons
+LengthRegionOne=0.7;%meters
+LengthTotal=1.1;%meters
+Area=(10e-3)^2;%meters^2
+E=210e9;%Pascals
+Deformation=(af*LengthRegionOne)/(Area*E)%meters
+ForceTwo=-Deformation*E*Area/LengthTotal
+ForceOne=-(af+ForceTwo)
+StressOne=ForceOne/Area
+StressTwo=ForceTwo/Area

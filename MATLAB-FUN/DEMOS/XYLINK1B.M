@@ -1,0 +1,11 @@
+function  [xt,yt] = xylink1b(t);
+%XYLINK1B Coordinates of an off-center circle.
+%       XYLINK1B returns the coordinates of an off-center
+%       circle used to generated a torus for TORI4.
+ 
+%       C. Henry Edwards, University of Georgia. 6-20-93.
+%
+%	Copyright (c) 1984-94 by The MathWorks, Inc.
+
+xt = -1 + 0.5*cos(t);   yt = 1 + 0.5*sin(t);
+

@@ -1,0 +1,16 @@
+vmph=10:10:100;
+vkmh=vmph*1.609;
+TBL1=[vmph;vkmh];
+flb=200:200:2000;
+fn=flb*4.448;
+TBL2=[flb;fn];
+fid1=fopen('vmphtovkmh.txt','w');
+fid2=fopen('flbtofn.txt','w');
+fprintf(fid1,'Tabla de conversión de velocidades\n\n');
+fprintf(fid1,'mi/h km/h \n');
+fprintf(fid1,'%8.2f %8.2f \n',TBL1);
+fprintf(fid2,'Tabla de conversión de fuerzas\n\n');
+fprintf(fid2,'lbf Newtons \n');
+fprintf(fid2,'%8.2f %8.2f \n',TBL2);
+fclose(fid1);
+fclose(fid2);

@@ -1,0 +1,55 @@
+%% File: toolbox/rtw/targets/mpc555dk/rt/blockset/tlc_c/RCS/sfun_double2bit.tlc
+%%
+%% Abstract:
+%%   
+%%
+%% $Revision: 1.8.4.1 $
+%% $Date: 2004/04/19 01:30:15 $
+%%
+%% Copyright 2001-2002 The MathWorks, Inc.
+
+%implements sfun_double2bit "C"
+
+
+%% Function: BlockTypeSetup
+%% Abstract:
+%%
+%function BlockTypeSetup(block,system) void
+   %<LibAddToModelSources("bitpack")>
+   %openfile buffer
+      #include "bitpack.h"
+      #include "simstruc_types.h"
+   %closefile buffer
+   %<LibCacheIncludes(buffer)>
+%endfunction %% BlockTypeSetup
+
+
+%% Function: BlockOutputs =============================================
+%% Abstract:
+%%
+%function Outputs(block,system) Output
+   /* ------  sfun_double2bit outputs ---------------------------*/
+{
+   %assign nOutPorts = SFcnParamSettings.NUMBER_OF_ARGS
+   %assign inputWidth = SFcnParamSettings.INPUT_WIDTH
+
+   %assign uSig = LibBlockInputSignalAddr(0, "", "", 0)
+   %assign index = 0
+   %foreach port = nOutPorts
+
+      %assign dTypeID = LibBlockOutputSignalDataTypeId(port)
+      %assign yAddr   = LibBlockOutputSignalAddr(port,"","",0)
+      %assign bits    = LibBlockParameterAddr(BITS,"","",index + 1)
+      %assign nBits  = CAST("Number",LibBlockParameterValue(BITS,index))
+      %assign dtypeName = LibBlockOutputSignalDataTypeName(port,"")
+
+      bitunpack((uint8_T *)%<uSig>,  (void * ) %<yAddr>,
+            %<inputWidth>,sizeof(%<dtypeName>), 
+            (real_T *) %<bits>, %<nBits>);
+
+      %assign index = index + CAST("Number",LibBlockParameterValue(BITS,index)) + 1
+   
+   %endforeach
+}
+%endfunction
+%% [EOF] mpc555_can_rx.tlc

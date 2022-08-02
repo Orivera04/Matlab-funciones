@@ -1,0 +1,20 @@
+%Familia de rectas que pasan por un puntos.
+%P=[x0,yo]; m=[m_1,m_2,...,m_n]. Ej. P=[2,2], m=[1 2 3 4 5].
+n=input('No. de rectas: ');
+P=input('Pto. de intersección de las rectas: ');
+a=P(1);b=P(2);
+m=input('pendientes de las rectas: ');
+syms x;
+hold on;
+for i=1:n
+    disp(['Ecuación #',num2str(i),':']);
+    y=P(2)+m(i)*(x-P(1))
+    h= ezplot(y);
+    k=1/n;
+    set(h,'color',i*[k 0 0]);
+end
+plot(P(1),P(2),'.b');
+d=n;
+text(P(1)-0.1,P(2)-d/2,'\uparrow');
+text(P(1),P(2)-d,['P(',num2str(a),',',num2str(b),')']);
+    title('Familia de rectas que se cortan en un pto.')

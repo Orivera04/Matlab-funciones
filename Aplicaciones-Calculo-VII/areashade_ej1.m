@@ -1,0 +1,9 @@
+ x = [0:.05:2]; y = x.^2+1;
+ %figure, plot(x,y,'o-');
+ hold on;
+ areashade(x,y,0,'m');
+ y= x;
+ plot(x,y);
+ areashade(x,y,0,'k','h');
+ %plot(xlim,-2*[1 1],'k')
+ %plot(xlim,-0-5*[1 1],'k')

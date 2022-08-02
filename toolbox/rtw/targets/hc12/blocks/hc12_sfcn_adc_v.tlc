@@ -1,0 +1,144 @@
+%% File : hc12_sfcn_adc_v.tlc
+%%
+%% $Revision: 1.7.6.4 $  $Date: 2004/04/19 01:23:23 $
+%% Copyright 2002-2004 The MathWorks, Inc.
+%%
+%% Description: 
+%%   Real-Time Workshop Embedded Coder device driver 
+%%   for HC12 ADC.
+%%
+%implements  hc12_sfcn_adc_v "C"
+%%   SFcnParamSettings.
+%%   ATDBank         -- scalar
+%%   Channels        -- vector
+%%   Use10BitRes     -- scalar 
+%%   LeftJustify     -- scalar 
+
+
+%% Function: Start ==========================================================
+%%
+%% Purpose:
+%%      Analog to Digital Converter initialization code.
+%%
+%function Start(block, system) Output
+  /* S-Function "hc12_sfcn_adc_v" initialization Block: %<Name> */
+  %% Select ATD Bank 0 or Bank 1
+  %assign atdBank = CAST( "Number",SFcnParamSettings.ATDBank)
+  
+  /* ATDxCTL2 register bits: 
+   * [ ADPU AFFC AWAI ETRIGLE ETRGP ETRGE ASCIE ASCIF ] 
+   *     1 Normal
+   *          0  Any access to result reg will clears all flags  
+   *               0 Power down during wait mode 
+   *                     0  High level
+   *                            0 Rising edge
+   *                                   0 Disable external trigger
+   *                                        0 Disable sequence complete interrupts
+   *                                               0 (This bit read only) 
+   *  Example: ATD0CTL2 = 0x80;
+   */
+   
+   ATD%<atdBank>CTL2 = 0x80;  
+ 
+  /* ATD0CTL3 register bits: 
+   * [ b7  S8C  S4C  S2C  S1C  FIFO  FRZ1  FRZ0 ] 
+   *    0 (this bit read only)
+   *        0  see Table 3-3 ATD_10B16C Block User Guide  
+   *             0   see Table 3-3
+   *                  0  see Table 3-3
+   *                       0  see Table 3-3
+   *                             0 non-Fifo mode 
+   *                                  0  Finish conversion, then freeze
+   *                                         0 (combined with above line)
+   *  Example: ATD0CTL3 = 0x00;
+   */
+
+   ATD%<atdBank>CTL3 = 0x00;
+     
+  /* ATD0CTL4 register bits: 
+   * [ SRES8  SMP1  SMP0  PRS4  PRS3  PRS2  PRS1  PRS0 ] 
+   *    1 ATD resolution select set to 8-bits
+   *           0  Sample time select for conversions  
+   *                  0 (combined with above)  
+   *                        0  Default divide by 12
+   *                              0 (combined with above) 
+   *                                    1  (combined with above) 
+   *                                          0  (combined with above) 
+   *                                               1 (combined with above) 
+   *  Example: ATD0CTL4 = 0x85;
+   */     
+
+   ATD%<atdBank>CTL4 = 0x85;
+    
+  /* ATD0CTL5 register bits: 
+   * [ DJM  DSGN  SCAN  MULT  CD  CC  CB  CA ] 
+   *    1 Right justified data in result registers
+   *          0 Signed data representation in result registers  
+   *                1 Use continuous conversion   
+   *                      0 Sample multiple channels at a time
+   *                           x  For channel selection
+   *                               x  same as above 
+   *                                   x  same as above 
+   *                                      x  same as above  
+   *
+   * Example: ATD0CTL5 = 0xA0     initiates a right justified
+   *                              conversion for channel 0
+   *
+   * Writing to ATDxCTL5 initiates a conversion on the channel
+   * specified by the lower nibble (e.g. bits CD,CC,CB,CA)
+   * Therefore, write to ATDxCTL5 in the model step function.
+   *
+   */     
+  
+%endfunction
+
+
+%% Function: Outputs ==========================================================
+%%
+%% Purpose:
+%%      Code generation rules for mdlOutputs function.
+%%
+%function Outputs(block, system) Output
+  /* S-Function "hc12_sfcn_adc_v" Block: %<Name> */
+  %%
+  %% Determine ATD bank: bank 0 or bank 1
+  %assign atdBank = CAST( "Number",SFcnParamSettings.ATDBank)
+  %%
+  %assign nPars = SIZE(SFcnParamSettings.Channels,1)
+  %assign nextChannel = 0 
+  /* Start conversions on selected ADC channels */       
+  %foreach idx=nPars                                   
+      %assign channelIdx = CAST("Number",SFcnParamSettings.Channels[idx])
+      ATD%<atdBank>CTL5 = 0x8%<channelIdx>;            
+      %if CompiledModel.Settings.ToolVersion >= 3.0
+	while (ATD%<atdBank>STAT1_CCF%<channelIdx> & 0) {
+      %else
+	while (CCF%<channelIdx>_%<atdBank> & 0) {
+      %endif
+         /* Wait for Conversion Complete Flag (CCFx)
+          * for a conversion on this channel. 
+          */     
+      } 
+
+      %assign y = LibBlockOutputSignal(0, "", "", %<nextChannel>)  
+      %assign Use10BitResolution = CAST("Number",SFcnParamSettings.Use10BitRes)
+      %assign LeftJustify        = CAST("Number",SFcnParamSettings.LeftJustify)
+      %if (%<Use10BitResolution>)
+          /* 10-bit resolution */
+          %if (%<LeftJustify>)   
+              /* Left-justified ADC result */   
+              %<y> = (uint16_T) ATD%<atdBank>DR%<channelIdx> << 6;
+          %else   
+              /* Right-justified ADC result */    
+              %<y> = (uint16_T) ATD%<atdBank>DR%<channelIdx>;  
+          %endif   
+      %else
+          /* 8-bit resolution */
+          %<y> = (uint8_T) ATD%<atdBank>DR%<channelIdx>;
+      %endif   
+      %assign nextChannel = nextChannel+1
+  %endforeach                                          
+  
+%endfunction
+
+%% [EOF] hc12_sfcn_adc_v.tlc

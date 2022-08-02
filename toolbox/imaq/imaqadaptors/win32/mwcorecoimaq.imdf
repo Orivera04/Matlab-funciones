@@ -1,0 +1,894 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 
+
+DT 11-18-2003 
+Copyright 2001-2004 The MathWorks, Inc. 
+
+$Revision: 1.1.6.4 $
+$Date: 2004/04/15 00:00:18 $
+
+-->
+<!-- 
+
+This XML file is used to store static information for a particular
+vendor's image acquisition devices.  The first element of the file
+must be <ImaqAcquisitionVendorInfo> followed by one or more <Device>
+elements.  
+
+Each <Device> element requires a 'name' attribute, which is the
+name of the device, as known by the corresponding adaptor.  This
+name usually is the name of the device from the SDK.  Within the
+<Device> section, there should be one or more <VideoFormat> elements
+as well as zero or more <Property> elements.
+
+Each <VideoFormat> element requires a 'name' attribute, which is the
+video format supported by the device.  This video format usually is
+the name of the video format as used by the adaptor.  The <VideoFormat> 
+element also shall contain one or more <Source> elements that
+corresponds to the available sources for the video format.  The 
+<VideoFormat> element can also contain <Property> elements that
+are unique to the video format.
+
+Each <Source> element shall have a 'name' and 'id' attributes.  The
+name is the name of the source, as used by the adaptor.  The id
+attribute is a number representation used by adaptors to identify
+this source to the SDK.  The name attribute is used in MATLAB as
+the name of the sources, as the id is only used by the adaptor
+and needs only to be unique between sources.
+
+The <Property> element can be in either the <Device> or <VideoFormat>
+elements depending on if the property is video-format independent
+or not.  Each Property element requires the following attributes:
+  name                - The property name as it should be listed
+  type                - The property data type: "cell", "double", or
+                        "string"
+  constraint          - Constraints on property values: "bounded", 
+                        "enum", or "none"
+  readOnly            - "always" if the property is always read-only,
+                        "never" if it's never read-only, and 
+                        "whileRunning" if it's read-only while Running
+                        is on.
+  deviceSpecific      - "true" if the property is vendor specific,
+                        "false" if the property is not vendor specific.
+ 
+A type value of "cell" requires a constraint value of "none".
+A type value of "double" requires a constraint value of "bounded or "none".
+A type value of "string" requires a constraint value of "enum" or "none".
+                           
+Each Property element can contain the following additional elements:
+  EnumConstraintValue - Required for an "enum" constraint only. 
+                        EnumConstraintValue provides an enum value
+                        for the property. There is no limit on the
+                        number of EnumConstraintValue elements a 
+                        Property element can contain.
+
+An optional element, <Include> can be used to simplify the XML
+file.  By including this element under the <VideoFormat> element,
+the information contained in the element specified by the required
+'tag' attribute found under the <Device> element is consumed.  
+This allows common elements between video formats, i.e., <Property>
+and/or <Source> elements, to be specified only once in the XML
+file.  
+
+-->
+<ImageAcquisitionInfo>
+   <Help>
+      <AdaptorHelp property="BlackReference">The black reference voltage for the A/D converter.
+
+When digitizing from analog video signals, the black and white reference levels
+determine the minimum and maximum levels, respectively, of an input voltage range.  Any
+voltage below the black reference is interpreted as the minimum image value and any
+voltage above the white reference is interpreted as the maximum image value.
+<SeeAlso>WhiteReference.</SeeAlso>
+      </AdaptorHelp>
+      <AdaptorHelp property="WhiteReference">The white reference voltage for the A/D converter.
+
+When digitizing from analog video signals, the black and white reference levels
+determine the minimum and maximum levels, respectively, of an input voltage range.  Any
+voltage below the black reference is interpreted as the minimum image value and any
+voltage above the white reference is interpreted as the maximum image value.
+<SeeAlso>BlackReference.</SeeAlso>
+      </AdaptorHelp>
+      <AdaptorHelp property="Brightness">The brightness level of the video decoder.  
+      
+The Brightness property allows the adjustment of the intensity as it is
+digitized.  Changing this value shifts the image in intensity.  Consult your
+hardware manual for more information on the Brightness property.<SeeAlso>Contrast.</SeeAlso>
+      </AdaptorHelp>
+      <AdaptorHelp property="Contrast">The contrast level of the video decoder.  
+      
+The Contrast property allows the adjustment of the image contrast as it is
+digitized.  Consult your hardware manual for more information on the Contrast
+property.<SeeAlso>Brightness.</SeeAlso>
+      </AdaptorHelp>
+ <AdaptorHelp property="StartingField">Specifies which field is acquired first.
+
+Most standard video signal formats are transmitted as an interlaced signal.
+Every frame is split into two 'fields' - one field containing the even lines
+and one containing odd lines.  When acquiring interlaced video, the device
+will acquire two adjacent incoming fields and put the even field in the even
+lines, and the odd field in the odd lines of the acquired image.
+
+Setting this property to 'evenField' causes the even field to be 
+considered the first field of the frame.  Setting it to 'oddField'
+makes the odd field the first field of the frame.  Setting it to 'any'
+causes the first field encountered to be the first field of the frame.
+      </AdaptorHelp>
+      <AdaptorHelp property="LowPassFilter">Specifies the low pass filter to apply to the video input.  
+      
+When set to something other than 'none', an analog low-pass filter is applied to
+the video input before it is sent to the A/D converter. Using a low-pass filter
+can improve the acquisition of monochrome images from a color video source.
+Consult your hardware manual for more information on which the filters available
+for your device.
+      </AdaptorHelp>
+      <AdaptorHelp property="UARTPort">Specifies the active UART port.  
+      
+Each connector on the board has a UART port, but only one can be active at a
+time.  This property specifies which connector's UART port is active.  Setting
+the value to 'auto' specifies that the UART port of the connector that is being
+used for acquisition is active.
+      </AdaptorHelp>
+      <AdaptorHelp property="StrobeEnable">Enables the strobe output and its timer.  
+
+Upon enabling the strobe output, it will start detection of triggers and
+generate output as appropriate.  Consult your hardware manual for a detailed
+description of the strobe output.
+<DeviceHelp device="PC2Vision">See also StrobeMode, StrobeDuration, StrobeDelay, StrobePolarity, StrobeAlignOnHs.</DeviceHelp>
+<DeviceHelp device="PCVisionPlus">See also StrobeMode, StrobeDelay, StrobePolarity.</DeviceHelp>
+<DeviceHelp device="PCRGB">For the PC-RGB, StrobeEnable only enables the timing circuitry.  The strobe
+output must still be enabled with the StrobeOutputEnable property.
+
+See also StrobeMode, StrobePolarity, StrobeDelay, StrobeOutputEnable.</DeviceHelp>
+      </AdaptorHelp>
+      <AdaptorHelp property="StrobeMode">Specifies the trigger source for the strobe timer.  
+      
+In fast strobe mode the trigger is the external trigger signal.  In slow strobe
+mode, the trigger for the strobe timer is the vertical sync signal.  Once a
+trigger has been received, the strobe output will remain inactive for a period
+defined by StrobeDelay.  The level of the output is defined by the
+StrobePolarity property.  The strobe timer will not respond to a trigger event
+unless it has been enabled by the StrobeEnable property.  Consult your hardware
+manual for a detailed description of using the strobe outputs.
+<DeviceHelp device="PC2Vision">The strobe signal remains active for a period defined by StrobeDuration.
+
+See also StrobeMode, StrobeDuration, StrobeDelay, StrobePolarity, StrobeAlignOnHs.</DeviceHelp>
+<DeviceHelp device="PCVisionPlus">The strobe signal remains active for the duration of one horizontal line.
+
+See also StrobeMode, StrobeDelay, StrobePolarity.</DeviceHelp>
+<DeviceHelp device="PCRGB">See also StrobeEnable, StrobePolarity, StrobeDelay, StrobeOutputEnable.</DeviceHelp>
+      </AdaptorHelp>
+      <AdaptorHelp property="StrobeDuration">Specifies the time, in microseconds, for the active portion of the strobe
+output.  
+
+This time is generally referred to as &quot;exposure time&quot; if the output is
+used to control the exposure of a camera.  Upon triggering of the strobe timer
+as dictated by the StrobeMode property, the output will remain inactive for the
+time specified by the StrobeDelay property and then become active for
+StrobeDuration microseconds before returning to the inactive state.  The level
+of the active output is determined by the StrobePolarity property.  The strobe
+timer will not respond to a trigger event unless it has been enabled by the
+StrobeEnable property.  Consult your hardware manual for a detailed description
+of using the strobe outputs.
+<DeviceHelp device="PC2Vision">See also StrobeMode, StrobeDuration, StrobeDelay, StrobePolarity, StrobeAlignOnHs.</DeviceHelp>
+      </AdaptorHelp>
+      <AdaptorHelp property="StrobeDelay">Specifies the period before the strobe output goes active.
+
+This property specifies the amount of time that the strobe output remains in the
+inactive state after a trigger has been detected before going into the active
+state.  The level of the active output is determined by the StrobePolarity
+property.  The strobe timer will not respond to a trigger event unless it has
+been enabled by the StrobeEnable property.  Consult your hardware manual for a
+detailed description of using the strobe outputs.
+<DeviceHelp device="PC2Vision">StrobeDelay is in microseconds.
+
+See also StrobeMode, StrobeDuration, StrobeDelay, StrobePolarity, StrobeAlignOnHs.</DeviceHelp>
+<DeviceHelp device="PCVisionPlus">StrobeDelay specifies the number of lines after the trigger pulse.
+
+See also StrobeMode, StrobeDelay, StrobePolarity.</DeviceHelp>
+<DeviceHelp device="PCRGB">StrobeDelay specifies the number of lines after the trigger pulse.
+
+See also StrobeEnable, StrobeMode, StrobePolarity, StrobeOutputEnable.</DeviceHelp>
+      </AdaptorHelp>
+      <AdaptorHelp property="StrobePolarity">Specifies the output polarity of the active state of the strobe output.
+
+If set to 'activeHigh', the output will be TTL high during the active time
+and TTL low when inactive.  If set to 'activeLow', the output will be TTL
+low during the active time and TTL high when inactive.  Upon triggering the
+strobe timer, as defined by the StrobeMode property, the output will remain
+inactive for a period defined by StrobeDelay before becoming active. 
+Consult your hardware manual for a detailed description of using the strobe
+outputs.
+<DeviceHelp device="PC2Vision">See also StrobeMode, StrobeDuration, StrobeDelay, StrobePolarity, StrobeAlignOnHs.</DeviceHelp>
+<DeviceHelp device="PCVisionPlus">See also StrobeMode, StrobeDelay, StrobePolarity.</DeviceHelp>
+<DeviceHelp device="PCRGB">See also StrobeEnable, StrobeMode, StrobeDelay, StrobeOutputEnable.</DeviceHelp>
+      </AdaptorHelp>
+      <AdaptorHelp property="StrobeOutputEnable">Enables the pulse generation on the strobe output line.  
+      
+No pulse is generated unless the internal timing circuitry is turned on with the
+StrobeEnable property.
+<DeviceHelp device="PCRGB">See also StrobeEnable, StrobeMode, StrobeDelay, StrobePolarity.</DeviceHelp>
+      </AdaptorHelp>
+      <AdaptorHelp property="StrobeAlignOnHs">Specified if the strobe output signal should be aligned to the horizontal
+sync signal.  
+
+This property is valid for any of the strobe timer triggering modes set by the
+StrobeMode property.<SeeAlso>StrobeEnable, StrobeMode, StrobeDuration, StrobeDelay, StrobePolarity.</SeeAlso>
+      </AdaptorHelp>
+      <AdaptorHelp property="SyncSource">Specifies the source of the sync signals.  
+      
+Every video signal is comprised of two signal types: image and sync.  The image
+portion of the signal contains the imagery information while the sync portion of
+the signal contains markers for the beginning of frames and lines in the video
+signal.
+
+While there are two types of signals, they can be combined into a single
+physical input.  This type of signal is called a 'composite' signal.
+
+Standard video inputs like RS170, CCIR, NTSC, or PAL are typically available
+as a composite signal, so only one cable contains both types of signal
+information.  For an RGB input the sync can be mixed with the red, green, or
+blue signal, or it can be separate.  
+
+For video signals with a separate sync signal, the vertical and horizontal
+sync signals can be combined into a single &quot;composite sync&quot; signal
+or the vertical and horizontal sync signals can be separated into two
+&quot;separate sync&quot; signals.
+
+If the camera timing does not follow broadcast standard timings such as
+RS170 or CCIR, it is known as a "variable scan" camera.  Variable scan
+cameras are responsible for providing the sync signals as line enable (LEN),
+frame/field enable (FEN), as well as a pixel clock (CLK) signal.
+<DeviceHelp device="PCRGB">See also SyncInput.</DeviceHelp>
+      </AdaptorHelp>
+      <AdaptorHelp property="SyncInput">When the SyncSource is set to 'strippedSync', this property specifies the
+physical input of the sync signal.  
+
+In 'strippedSync mode, the framegrabber "strips" the sync signal out of one of
+the video input signals.  This property specifies which video signal contains
+the sync signal.  For normal component RGB video sources, this is the green
+signal, but this is not required.<SeeAlso>SyncSource.</SeeAlso>
+      </AdaptorHelp>
+      <AdaptorHelp property="TriggerDebounce">Specifies how long, in microseconds, a trigger signal must be active for it
+to be considered a valid trigger.  
+
+This property can be used to ensure that no transient signals or glitches are
+detected as valid triggers.<SeeAlso>TRIGGERINFO, TRIGGERCONFIG.</SeeAlso>
+      </AdaptorHelp>
+      <AdaptorHelp property="SkipFieldAfterTrigger">Skip the first field after a trigger signal.  
+      
+Normally acquisition will start on the first field after a trigger event.
+Enabling this property will cause the frame grabber to ignore the first field
+after the trigger and acquire starting on the next field.  This is useful with
+cameras that require a one field delay after a frame reset cycle.<SeeAlso>StartingField, TRIGGERINFO, TRIGGERCONFIG.</SeeAlso>
+      </AdaptorHelp>
+      <AdaptorHelp property="LatchTriggers">Enables latching of triggers.
+      
+Normally if a trigger signal is received before the completion of the previous
+hardware trigger, it is ignored.  Enabling this property causes the frame
+grabber to queue up trigger events and execute them immediately upon
+completion of the previous trigger event.
+      </AdaptorHelp>
+      <AdaptorHelp property="Cam3Enable">Determines what is output on the CAM_CNTRL lines of the output connector.  
+      
+When Cam3Enable is 'on', the CCLK, EXSYNC, and PRI outputs are output on the
+CAM_CNTRL0, CAM_CNTRL1, and CAM_CNTRL2 outputs, respectively.  When Cam3Enable
+is 'off', the CMODECTL outputs are controlled by the value of the CamModeControl
+property.<SeeAlso>CClkFreq, ExSyncEnable, PRIEnable, CamModeControl.</SeeAlso>
+      </AdaptorHelp>
+      <AdaptorHelp property="CamModeControl">When Cam3Enable is 'off', this property controls the state of the CAM_CNTRL
+lines on the 100-pin video connector.  
+
+This is a four bit number with each bit corresponding to one of the CAM_CNTRL
+lines.  For example, assigning a value of 5, binary 0101, would set the
+CAM_CNTRL2 and CAM_CNTRL0 lines high and the CAM_CNTRL3 and CAM_CNTRL1 lines
+low.<SeeAlso>Cam3Enable.</SeeAlso>
+      </AdaptorHelp>
+      <AdaptorHelp property="CClkFreq">Sets the frequency, in MHz, of the CCLCK signal.  
+      
+The CCLCK signal is output on the CAM_CNTRL0 line of the 100-pin video connector
+when Cam3Enable is set to 'on'.  The CCLCK signal can be disabled by setting the
+CClkStaticOutput to 'on'.<SeeAlso>Cam3Enable, CClkStaticOutput, CClkStaticState.</SeeAlso>
+      </AdaptorHelp>
+      <AdaptorHelp property="CClkStaticOutput">Determines if the CClK output is static.
+      
+When this property is set to 'on', the value of the CCLCK signal is defined by
+the CClkStaticState property.  When the property is set to 'off', the value of
+the CCLCK signal will be a timing signal with a frequency set by the CClkFreq
+property.  The CCLCK signal is output on the CAM_CNTRL0 line of the 100-pin
+video connector when the Cam3Enable property is set to 'on'.<SeeAlso>Cam3Enable, CClkFreq, CClkStaticState.</SeeAlso>
+      </AdaptorHelp>
+      <AdaptorHelp property="CClkStaticState">Determines the state of the CCLCK signal.
+      
+When the CClkStaticOutput property is set to 'on', this property controls the
+state of the CCLCK signal, otherwise it has no effect.  If the property is set
+to 'high', then the CCLCK signal is high, if set to 'low', the CCLCK signal is
+low.  The CCLCK signal is output on the 100-pin video connector when the
+Cam3Enable property is set to 'on'.<SeeAlso>Cam3Enable, CClkStaticOutput.</SeeAlso>
+      </AdaptorHelp>
+      <AdaptorHelp property="ExSyncEnable">Enables or disables the EXSYNC signal.  
+      
+The EXSYNC signal is defined by the properties ExSyncPolarity, ExSyncMode,
+ExSyncPulseWidth, ExSyncPeriod, ExSyncStartLocation, and ExSyncMidpointDelay.
+When this property is set to 'on', and the Cam3Enable property is also set to
+'on', the EXSYNC signal is output on the CAM_CNTRL1 line of the 100-pin video
+connector.<SeeAlso>Cam3Enable, ExSyncPolarity, ExSyncMode, ExSyncPulseWidth, ExSyncPeriod, ExSyncStartLocation, ExSyncMidpointDelay.</SeeAlso>
+      </AdaptorHelp>
+      <AdaptorHelp property="ExSyncPolarity">Defines the polarity of the EXSYNC signal if it is enabled by the ExSyncEnable
+command.  
+
+If set to 'activeLow', the EXSYNC signal will go low when triggered and remain
+high at when inactive.  If set to 'activeHigh', the EXSYNC signal will go high
+when triggered and remain low when inactive.<SeeAlso>Cam3Enable, ExSyncEnable, ExSyncMode, ExSyncPulseWidth, ExSyncPeriod, ExSyncStartLocation, ExSyncMidpointDelay.</SeeAlso>
+      </AdaptorHelp>
+      <AdaptorHelp property="ExSyncMode">Determines how the EXSYNC counter is triggered.  
+      
+Along with the ExSyncPeriod, ExSyncStartLocation and ExSyncMidpointDelay
+properties, this property determines when the EXSYNC signal is active and when
+it is inactive.  Allowable values are:
+
+   'freeRunning'     - The EXSYNC signal retriggers itself continuously.
+   'externalTrigger' - The EXSYNC signal is triggered by an external
+                       hardware trigger signal.
+   'internalTrigger' - The EXSYNC signal is triggered by an internal
+                       hardware trigger signal.
+   'softwareTrigger' - The EXSYNC signal is triggered when the MATLAB START
+                       command is issued.
+   'verticalBlank'   - The EXSYNC signal is triggered when the vertical blanking
+                       signal of the video signal starts.
+
+The trigger signal is started when the configured event is detected.  When the
+signal actually becomes active is dependent upon the other properties mentioned
+above.<SeeAlso>Cam3Enable, ExSyncEnable, ExSyncPolarity, ExSyncPulseWidth, ExSyncPeriod, ExSyncStartLocation, ExSyncMidpointDelay.</SeeAlso>
+      </AdaptorHelp>
+      <AdaptorHelp property="ExSyncPulseWidth">Determines how long, in microseconds, the EXSYNC signal is active.  
+      
+This property is only honored when the ExSyncStartLocation property is set to
+'cycleEnd', otherwise the length of the signal is determined by the
+ExSyncMidpointDelay property.  The value for this property can not exceed the
+value of the ExSyncPeriod property divided by 65536 (2^16).<SeeAlso>Cam3Enable, ExSyncEnable, ExSyncPolarity, ExSyncMode, ExSyncPeriod, ExSyncStartLocation, ExSyncMidpointDelay.</SeeAlso>
+      </AdaptorHelp>
+      <AdaptorHelp property="ExSyncPeriod">The period of the EXSYNC signal, in microseconds.  
+      
+If the ExSyncMode property is set to anything other than 'freeRunning',
+ExSyncPeriod must be set to a value less than the period of the trigger signal.
+ExSyncPeriod must always be less than 65536 (2^16) times the value of
+ExSyncPulseWidth.<SeeAlso>Cam3Enable, ExSyncEnable, ExSyncPolarity, ExSyncMode, ExSyncPulseWidth, ExSyncStartLocation, ExSyncMidpointDelay.</SeeAlso>
+      </AdaptorHelp>
+      <AdaptorHelp property="ExSyncStartLocation">Defines where the EXSYNC pulse starts.  
+      
+For the allowed values described below, the start event is defined by the
+ExSyncMode property.  The allowed values are:
+
+   'cycleBegin' - The EXSYNC signal becomes active immediately upon receiving a
+                  trigger as defined by ExSyncMode and remains active for a time
+                  defined by ExSyncMidPointDelay and then remains inactive for the
+                  rest of the duration of ExSyncPeriod.
+   'cycleEnd'   - The EXSYNC signal becomes active after a time defined by
+                  (ExSyncPeriod - ExSyncPulseWidth) and remains active for a time
+                  defined by ExSyncPulseWidth.
+   'midpoint'   - The EXSYNC signal becomes active after a time defined by
+                  ExSyncMidpoint delay and remains active for the time defined by
+                  (ExSyncPeriod - ExSyncMidpointDelay) before becoming inactive
+                  again.
+
+Consult your hardware manual for more information on this property.<SeeAlso>Cam3Enable, ExSyncEnable, ExSyncPolarity, ExSyncMode, ExSyncPulseWidth, ExSyncPeriod, ExSyncMidpointDelay.</SeeAlso>
+      </AdaptorHelp>
+      <AdaptorHelp property="ExSyncMidpointDelay">Defines the midpoint of the EXSYNC signal in microseconds.  
+      
+The start of the EXSYNC signal is defined by the ExSyncMode property.  The
+ExSyncMidpointDelay determines the duration of the EXSYNC signal for
+ExSyncStartLocation modes of 'cycleBegin' and 'midpoint'.<SeeAlso>Cam3Enable, ExSyncEnable, ExSyncPolarity, ExSyncMode, ExSyncPulseWidth, ExSyncPeriod, ExSyncStartLocation.</SeeAlso>
+      </AdaptorHelp>
+      <AdaptorHelp property="PRIEnable">Enable the PRI (programmable integration) output.  
+      
+When this property is set to 'on' and the Cam3Enable property is also set to
+'on', the PRI signal is output on the CAM_CNTRL2 line of the 100-pin video
+connector.  The PRI signal is configured using the PRIEnable, PRIPolarity,
+PRIStartLocation, PRIMidpointDelay, and PRIEndLocation properties.<SeeAlso>Cam3Enable, PRIPolarity, PRIStartLocation, PRIMidpointDelay, PRIEndLocation.</SeeAlso>
+      </AdaptorHelp>
+      <AdaptorHelp property="PRIPolarity">Determines the polarity of the PRI (programmable integration) signal when active.
+      
+If set to 'activeLow' the PRI signal will be low when active.  If set to
+'activeHigh', the PRI signal will be high when active.<SeeAlso>Cam3Enable, PRIEnable, PRIStartLocation, PRIMidpointDelay, PRIEndLocation.</SeeAlso>
+      </AdaptorHelp>
+      <AdaptorHelp property="PRIStartLocation">Determines when the PRI (programmable integration) enable becomes active.  
+      
+The allowable values are:
+
+   'cycleBegin' - PRI signal becomes active when the EXSYNC period begins.  The
+                  start of the EXSYNC signal is defined by the ExSyncMode
+                  property.
+   'cycleEnd'   - PRI signal becomes active once the EXSYNC cycle ends.
+   'midpoint'   - PRI signal becomes active at the time specified by the
+                  PRIMidpointDelay property.
+
+Once active, the PRI signal will remain active until the event defined by
+PRIEndLocation occurs.  Consult your hardware manual for more information on
+PRIStartLocation.  <SeeAlso>Cam3Enable, PRIEnable, PRIPolarity, PRIMidpointDelay, PRIEndLocation, ExSyncMode.</SeeAlso> 
+      </AdaptorHelp>
+      <AdaptorHelp property="PRIMidpointDelay">Specify the time, in microseconds, of the PRI (programmable integration) midpoint transition.  
+      
+Depending upon the PRIStartLocation and PRIEndLocation settings, the
+PRIMidpointDelay can determine when the PRI signal becomes active or inactive.
+The clock for this property starts when the EXSYNC timer starts, which is
+configured with the ExSyncMode property.<SeeAlso>Cam3Enable, PRIEnable, PRIPolarity, PRIStartLocation, PRIEndLocation, ExSyncMode.</SeeAlso>
+      </AdaptorHelp>
+      <AdaptorHelp property="PRIEndLocation">Specifies when the PRI (programmable integration) signal becomes inactive.  
+      
+The allowable values are:
+
+   'lenBegin'    - PRI becomes inactive at the start of the LEN signal.
+   'lenEnd'      - PRI becomes inactive at the end of the LEN signal.
+   'priStart'    - PRI becomes inactive at a time that depends on the value of
+                   PRIStartLocation.  If PRIStartLocation is set to 'cycleBegin',
+                   then the PRI signal becomes inactive once PRIMidpointDelay
+                   microseconds elapses.  For a PRIStartLocation of 'midpoint',
+		   the PRI signal becomes inactive at a time equal to
+		   (ExSyncPeriod - ExSyncPulseWidth).  Finally, if
+		   PRIStartLocation is set to 'cycleEnd', the PRI signal
+		   becomes inactive at the end of the EXSYNC signal cycle.
+
+For more information on this property, please consult the documentation that
+came with your hardware.<SeeAlso>Cam3Enable, PRIEnable, PRIPolarity, PRIStartLocation, PRIMidpointDelay, ExSyncPeriod, ExSyncPulseWidth.</SeeAlso>
+      </AdaptorHelp>
+      <AdaptorHelp property="TriggerGlitchDetector">Allows detection of very narrow trigger pulses.
+      
+When this property is disabled, trigger pulses must be at least 70 ns in
+duration to be detected.  To guarantee detection, pulses should be at least 150
+ns in duration.  <SeeAlso>TRIGGERINFO, TRIGGERCONFIG.</SeeAlso>
+      </AdaptorHelp>
+      <AdaptorHelp property="ColorSpatialCorrectionLines">Indicates the number of lines between when a spot is incident upon
+the leading color line sensor and incident upon the following line sensor
+for color spatial correction.<SeeAlso>SpatialCorrectionLeadColor.</SeeAlso>
+      </AdaptorHelp>
+      <AdaptorHelp property="SpatialCorrectionLeadColor">Defines the leading color for color spatial correction.<SeeAlso>ColorSpatialCorrectionLines.</SeeAlso>
+      </AdaptorHelp>
+      <AdaptorHelp property="MiscOut0">Controls the miscellaneous output line 0.  
+      
+This property controls the MiscOut0 line of the card.  If set to 'on', then the
+MiscOut0 output will be active, if set to 'off', it will be inactive.  The
+MiscOut0 output is sometimes called MISC_IO_OUT0 or Output 0.  The output line
+is not modified unless the device is running or previewing.
+<DeviceHelp device="PCVisionPlus">See also MiscOut1, MiscOut2.</DeviceHelp>
+<DeviceHelp device="PCVision">See also MiscOut1.</DeviceHelp>
+      </AdaptorHelp>
+      <AdaptorHelp property="MiscOut1">Controls the miscellaneous output line 1.
+      
+This property controls the MiscOut1 line of the card.  If set to 'on', then the
+MiscOut1 output will be active, if set to 'off', it will be inactive.  The
+MiscOut1 output is sometimes called MISC_IO_OUT1 or Output 1.  The output line
+is not modified unless the device is running or previewing.
+<DeviceHelp device="PCVisionPlus">See also MiscOut0, MiscOut2.</DeviceHelp>
+<DeviceHelp device="PCVision">See also MiscOut0.</DeviceHelp>
+      </AdaptorHelp>
+      <AdaptorHelp property="MiscOut2">Controls the miscellaneous output line 2.
+      
+This property controls the MiscOut2 line of the card.  If set to 'on', then the
+MiscOut2 output will be active, if set to 'off', it will be inactive.  The
+MiscOut2 output is sometimes called MISC_IO_OUT2 or Output 2.  The output line
+is not modified unless the device is running or previewing.
+<DeviceHelp device="PCVisionPlus">See also MiscOut0, MiscOut1.</DeviceHelp>
+      </AdaptorHelp>
+   </Help>
+   <Device name="PC2Vision" optional="on">
+      <Property optional="on" constraint="bounded" deviceSpecific="true" name="Brightness" readOnly="whileRunning"
+	 min="0" max="100" type="int" />
+      <Property optional="on" constraint="bounded" deviceSpecific="true" name="Contrast" readOnly="whileRunning"
+	 min="0" max="100" type="int" />
+      <Property optional="on" constraint="bounded" deviceSpecific="true" name="StrobeDelay" readOnly="whileRunning"
+   	 min="0" max="65535000" type="int" />
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="StrobeMode" readOnly="whileRunning"
+	 type="string">
+	 <EnumConstraintValue id="0" name="fastStrobe" />
+	 <EnumConstraintValue id="1" name="slowStrobe" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="StrobePolarity" readOnly="whileRunning"
+	 type="string">
+	 <EnumConstraintValue id="1" name="activeHigh" />
+	 <EnumConstraintValue id="0" name="activeLow" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="StartingField" readOnly="whileRunning"
+	 type="string">
+	 <EnumConstraintValue id="2" name="nextField" />
+	 <EnumConstraintValue id="0" name="evenField" />
+	 <EnumConstraintValue id="1" name="oddField" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="StrobeEnable" readOnly="whileRunning"
+	 type="string">
+	 <EnumConstraintValue id="0" name="off" />
+	 <EnumConstraintValue id="1" name="on" />
+      </Property>
+      <Property optional="on" constraint="bounded" deviceSpecific="true" name="StrobeDuration" readOnly="whileRunning"
+	 min="10" max="6.5535e+007" type="double" />
+      <Property optional="on" constraint="bounded" deviceSpecific="true" name="TriggerDebounce"
+	 readOnly="whileRunning" min="0" max="255" type="int" />
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="LowPassFilter" readOnly="whileRunning"
+	 type="string">
+   	 <EnumConstraintValue id="0" name="lpf6.5MHz" />
+	 <EnumConstraintValue id="1" name="lpf12MHz" />
+	 <EnumConstraintValue id="2" name="lpfBypass" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="SyncSource" readOnly="whileRunning"
+	 type="string">
+	 <EnumConstraintValue id="1" name="compositeVideo" />
+	 <EnumConstraintValue id="2" name="compositeSync" />
+	 <EnumConstraintValue id="3" name="separateSync" />
+	 <EnumConstraintValue id="4" name="internalSync" />
+	 <EnumConstraintValue id="5" name="red" />
+	 <EnumConstraintValue id="6" name="green" />
+	 <EnumConstraintValue id="7" name="blue" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="UARTPort" readOnly="never"
+	 type="string">
+	 <EnumConstraintValue id="0" name="auto" />
+	 <EnumConstraintValue id="1" name="connector1" />
+	 <EnumConstraintValue id="2" name="connector2" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="StrobeAlignOnHS" readOnly="whileRunning"
+	 type="string">
+	 <EnumConstraintValue id="0" name="off" />
+	 <EnumConstraintValue id="1" name="on" />
+      </Property>
+      <TriggerInfo>
+	    <TriggerSource id="1" name="ext0">
+   	       <TriggerCondition id="0" name="fallingEdge"/>
+	       <TriggerCondition id="1" name="risingEdge"/>
+	    </TriggerSource>
+	    <TriggerSource id="2" name="ext1">
+	       <TriggerCondition id="0" name="fallingEdge"/>
+	       <TriggerCondition id="1" name="risingEdge"/>
+	    </TriggerSource>
+	    <TriggerSource id="5" name="extAuto">
+	       <TriggerCondition id="0" name="fallingEdge"/>
+	       <TriggerCondition id="1" name="risingEdge"/>
+	    </TriggerSource>
+      </TriggerInfo>
+   </Device>
+   <Device name="PCVisionplus" optional="on">
+      <Property optional="on" constraint="bounded" deviceSpecific="true" name="BlackReference" readOnly="whileRunning"
+	 min="0" max="3.3" type="double"/>
+      <Property optional="on" constraint="bounded" deviceSpecific="true" name="WhiteReference" readOnly="whileRunning"
+	 min="0" max="3.3" type="double"/>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="StrobeMode" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="fastStrobe" />
+         <EnumConstraintValue id="1" name="slowStrobe" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="StrobePolarity" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="1" name="activeHigh" />
+         <EnumConstraintValue id="0" name="activeLow" />
+      </Property>
+      <Property optional="on" constraint="bounded" deviceSpecific="true" name="StrobeDelay" readOnly="whileRunning" 
+         min="1" max="64" type="int"/>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="StartingField" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="2" name="nextField" />
+         <EnumConstraintValue id="0" name="evenField" />
+         <EnumConstraintValue id="1" name="oddField" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="SyncSource" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="separateSync" />
+         <EnumConstraintValue id="1" name="compositeSync" />
+         <EnumConstraintValue id="2" name="internalSync" />
+         <EnumConstraintValue id="4" name="variableScan" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="StrobeEnable" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="off" />
+         <EnumConstraintValue id="1" name="on" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="SkipFieldAfterTrigger" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="off" />
+         <EnumConstraintValue id="1" name="on" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="LatchTriggers" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="off" />
+         <EnumConstraintValue id="1" name="on" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="LowPassFilter" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="lpf6.5MHz" />
+         <EnumConstraintValue id="1" name="lpf12.5MHz" />
+      </Property>
+      <TriggerInfo>
+         <TriggerSource id="1" name="ttl0">
+	    <TriggerCondition id="1" name="activeHigh"/>
+	    <TriggerCondition id="0" name="activeLow" />
+	 </TriggerSource>
+         <TriggerSource id="2" name="ttl1">
+	    <TriggerCondition id="1" name="activeHigh"/>
+	    <TriggerCondition id="0" name="activeLow" />
+	 </TriggerSource>
+         <TriggerSource id="3" name="ttl2">
+	    <TriggerCondition id="1" name="activeHigh"/>
+	    <TriggerCondition id="0" name="activeLow" />
+	 </TriggerSource>
+         <TriggerSource id="4" name="optoCoupled0">
+	    <TriggerCondition id="1" name="activeHigh"/>
+	    <TriggerCondition id="0" name="activeLow" />
+	 </TriggerSource>
+         <TriggerSource id="5" name="optoCoupled1">
+	    <TriggerCondition id="1" name="activeHigh"/>
+	    <TriggerCondition id="0" name="activeLow" />
+	 </TriggerSource>
+         <TriggerSource id="6" name="rs4220">
+	    <TriggerCondition id="1" name="activeHigh"/>
+	    <TriggerCondition id="0" name="activeLow" />
+	 </TriggerSource>
+         <TriggerSource id="7" name="rs4221">
+	    <TriggerCondition id="1" name="activeHigh"/>
+	    <TriggerCondition id="0" name="activeLow" />
+	 </TriggerSource>
+      </TriggerInfo>
+   </Device>
+   <Device name="PCDig" optional="on">
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="Cam3Enable" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="off" />
+         <EnumConstraintValue id="1" name="on" />
+      </Property>
+      <Property optional="on" constraint="bounded" deviceSpecific="true" name="CamModeControl" readOnly="never" 
+         min="0" max="15" type="int"/>
+      <Property optional="on" constraint="bounded" deviceSpecific="true" name="CClkFreq" readOnly="whileRunning" 
+         min="0.32" max="100" type="double"/>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="CClkStaticOutput" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="off" />
+         <EnumConstraintValue id="1" name="on" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="CClkStaticState" readOnly="never" 
+         type="string">
+         <EnumConstraintValue id="0" name="low" />
+         <EnumConstraintValue id="1" name="high" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="ExSyncEnable" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="off" />
+         <EnumConstraintValue id="1" name="on" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="ExSyncPolarity" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="activeLow" />
+         <EnumConstraintValue id="1" name="activeHigh" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="ExSyncMode" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="freeRunning" />
+         <EnumConstraintValue id="1" name="externalTrigger" />
+         <EnumConstraintValue id="2" name="internalTrigger" />
+	 <EnumConstraintValue id="3" name="softwareTrigger" />
+	 <EnumConstraintValue id="4" name="softwareTrigger" />
+         <EnumConstraintValue id="5" name="verticalBlank" />
+      </Property>
+      <Property optional="on" constraint="bounded" deviceSpecific="true" name="ExSyncPulseWidth" readOnly="whileRunning" 
+         min="0.14" max="572" type="double"/>
+      <Property optional="on" constraint="bounded" deviceSpecific="true" name="ExSyncPeriod" readOnly="whileRunning" 
+         min="0.21" max="1.87466e+007" type="double"/>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="ExSyncStartLocation" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="cycleEnd" />
+         <EnumConstraintValue id="1" name="cycleBegin" />
+         <EnumConstraintValue id="2" name="midpoint" />
+      </Property>
+      <Property optional="on" constraint="bounded" deviceSpecific="true" name="ExSyncMidpointDelay" readOnly="whileRunning" 
+         min="0.14" max="1.87466e+007" type="double"/>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="PRIEnable" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="off" />
+         <EnumConstraintValue id="1" name="on" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="PRIPolarity" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="activeLow" />
+         <EnumConstraintValue id="1" name="activeHigh" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="PRIStartLocation" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="cycleBegin" />
+         <EnumConstraintValue id="1" name="midpoint" />
+         <EnumConstraintValue id="2" name="cycleEnd" />
+      </Property>
+      <Property optional="on" constraint="bounded" deviceSpecific="true" name="PRIMidpointDelay" readOnly="whileRunning" 
+         min="0.14" max="1.87466e+007" type="double"/>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="PRIEndLocation" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="lenBegin" />
+         <EnumConstraintValue id="1" name="lenEnd" />
+         <EnumConstraintValue id="2" name="priStart" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="StartingField" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="2" name="nextField" />
+         <EnumConstraintValue id="0" name="evenField" />
+         <EnumConstraintValue id="1" name="oddField" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="TriggerGlitchDetector" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="off" />
+         <EnumConstraintValue id="1" name="on" />
+      </Property>
+      <Property optional="on" constraint="bounded" deviceSpecific="true" name="ColorSpatialCorrectionLines" readOnly="whileRunning" 
+         min="0" max="2047" type="int"/>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="SpatialCorrectionLeadColor" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="1" name="red" />
+         <EnumConstraintValue id="2" name="green" />
+         <EnumConstraintValue id="3" name="blue" />
+      </Property>
+      <TriggerInfo>
+	 <TriggerSource id="0" name="extDifferential">
+	    <TriggerCondition id="0" name="fallingEdge" />
+	    <TriggerCondition id="1" name="risingEdge" />
+	 </TriggerSource>
+	 <TriggerSource id="1" name="extTTL">
+	    <TriggerCondition id="0" name="fallingEdge" />
+	    <TriggerCondition id="1" name="risingEdge" />
+	 </TriggerSource>
+	 <TriggerSource id="2" name="extOptoCoupled">
+	    <TriggerCondition id="0" name="fallingEdge" />
+	    <TriggerCondition id="1" name="risingEdge" />
+	 </TriggerSource>
+	 <TriggerSource id="10" name="intDifferential">
+	    <TriggerCondition id="0" name="fallingEdge" />
+	    <TriggerCondition id="1" name="risingEdge" />
+	 </TriggerSource>
+	 <TriggerSource id="11" name="intTTL">
+	    <TriggerCondition id="0" name="fallingEdge" />
+	    <TriggerCondition id="1" name="risingEdge" />
+	 </TriggerSource>
+	 <TriggerSource id="12" name="intOptoCoupled">
+	    <TriggerCondition id="0" name="fallingEdge" />
+	    <TriggerCondition id="1" name="risingEdge" />
+	 </TriggerSource>
+      </TriggerInfo>
+   </Device>
+   <Device name="PCRGB" optional="on">
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="StrobeMode" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="fastStrobe" />
+         <EnumConstraintValue id="1" name="slowStrobe" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="StrobePolarity" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="1" name="activeHigh" />
+         <EnumConstraintValue id="0" name="activeLow" />
+      </Property>
+      <Property optional="on" constraint="bounded" deviceSpecific="true" name="StrobeDelay" readOnly="whileRunning" 
+         min="1" max="64" type="int"/>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="StrobeEnable" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="off" />
+         <EnumConstraintValue id="1" name="on" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="StrobeOutputEnable" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="off" />
+         <EnumConstraintValue id="1" name="on" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="StartingField" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="2" name="nextField" />
+         <EnumConstraintValue id="0" name="evenField" />
+         <EnumConstraintValue id="1" name="oddField" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="SyncSource" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="separateSync" />
+         <EnumConstraintValue id="1" name="strippedSync" />
+         <EnumConstraintValue id="2" name="xtalSeperateSyncOutput" />
+         <EnumConstraintValue id="4" name="variableScan" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="SyncInput" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="greenVideoChannel" />
+         <EnumConstraintValue id="1" name="compositeSync0" />
+         <EnumConstraintValue id="2" name="compositeSync1" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="LatchTriggers" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="off" />
+         <EnumConstraintValue id="1" name="on" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="SkipFieldAfterTrigger" readOnly="whileRunning"
+	 type="string">
+	 <EnumConstraintValue id="0" name="off" />
+	 <EnumConstraintValue id="1" name="on" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="LowPassFilter" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="lpf6MHz" />
+         <EnumConstraintValue id="1" name="lpf10MHz" />
+      </Property>
+      <TriggerInfo>
+         <TriggerSource id="1" name="extTrig0">
+	    <TriggerCondition id="0" name="fallingEdge" />
+	    <TriggerCondition id="1" name="risingEdge" />
+	 </TriggerSource>
+         <TriggerSource id="2" name="extTrig1">
+	    <TriggerCondition id="0" name="fallingEdge" />
+	    <TriggerCondition id="1" name="risingEdge" />
+	 </TriggerSource>
+         <TriggerSource id="3" name="extTrig2">
+	    <TriggerCondition id="0" name="fallingEdge" />
+	    <TriggerCondition id="1" name="risingEdge" />
+	 </TriggerSource>
+         <TriggerSource id="4" name="optoTrig0">
+	    <TriggerCondition id="0" name="fallingEdge" />
+	    <TriggerCondition id="1" name="risingEdge" />
+	 </TriggerSource>
+         <TriggerSource id="5" name="optoTrig1">
+	    <TriggerCondition id="0" name="fallingEdge" />
+	    <TriggerCondition id="1" name="risingEdge" />
+	 </TriggerSource>
+	 <TriggerSource id="6" name="differentialTrig">
+	    <TriggerCondition id="0" name="fallingEdge" />
+	    <TriggerCondition id="1" name="risingEdge" />
+	 </TriggerSource>
+      </TriggerInfo>
+   </Device>
+   <Device name="PCVision" optional="on">
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="SyncSource" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="1" name="strippedSync" />
+         <EnumConstraintValue id="2" name="separateSync" />
+         <EnumConstraintValue id="3" name="compositeSync" />
+         <EnumConstraintValue id="4" name="variableScan" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="FieldStart" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="evenField" />
+         <EnumConstraintValue id="1" name="oddField" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="StartingField" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="evenField" />
+         <EnumConstraintValue id="1" name="oddField" />
+         <EnumConstraintValue id="2" name="nextField" />
+      </Property>
+      <Property optional="on" constraint="bounded" deviceSpecific="true" name="AnalogGain" readOnly="whileRunning" 
+         min="1" max="1.5" type="double"/>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="LowPassFilter" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="off" />
+         <EnumConstraintValue id="1" name="on" />
+      </Property>
+      <Property optional="on" constraint="bounded" deviceSpecific="true" name="BlackReference" readOnly="whileRunning" 
+         min="0" max="1.2" type="double"/>
+      <Property optional="on" constraint="bounded" deviceSpecific="true" name="WhiteReference" readOnly="whileRunning" 
+         min="0" max="2" type="double"/>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="SkipFieldAfterTrigger" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="off" />
+         <EnumConstraintValue id="1" name="on" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="StrobeMode" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="fastStrobe" />
+         <EnumConstraintValue id="1" name="slowStrobe" />
+      </Property>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="StrobePolarity" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="1" name="activeHigh" />
+         <EnumConstraintValue id="0" name="activeLow" />
+      </Property>
+      <Property optional="on" constraint="bounded" deviceSpecific="true" name="StrobeDelay" readOnly="whileRunning" 
+         min="1" max="64" type="int"/>
+      <Property optional="on" constraint="enum" deviceSpecific="true" name="StrobeEnable" readOnly="whileRunning" 
+         type="string">
+         <EnumConstraintValue id="0" name="off" />
+         <EnumConstraintValue id="1" name="on" />
+      </Property>
+
+      <TriggerInfo>
+	 <TriggerSource id="1" name="extTrig">
+	    <TriggerCondition id="0" name="risingEdge"/>
+	    <TriggerCondition id="1" name="fallingEdge"/>
+	 </TriggerSource>
+      </TriggerInfo>
+   </Device>
+</ImageAcquisitionInfo>

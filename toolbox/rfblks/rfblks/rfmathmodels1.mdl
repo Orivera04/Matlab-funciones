@@ -1,0 +1,4933 @@
+Library {
+  Name			  "rfmathmodels1"
+  Version		  6.0
+  RequirementInfo	  "9"
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "d"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  BlockNameDataTip	  off
+  BlockParametersDataTip  on
+  BlockDescriptionStringDataTip	off
+  ToolBar		  off
+  StatusBar		  off
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Tue Oct 20 09:15:41 1998"
+  Creator		  "tdelve"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "rzeng"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Thu Mar 25 11:29:34 2004"
+  ModelVersionFormat	  "1.%<AutoIncrement:47>"
+  ConfigurationManager	  "none"
+  SimParamPage		  "Solver"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock off
+  ProdHWDeviceType	  "Specified"
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.0.3"
+      Array {
+	Type			"Handle"
+	Dimension		8
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.0.3"
+	  StartTime		  "0.0"
+	  StopTime		  "10.0"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  RelTol		  "1e-3"
+	  SolverMode		  "SingleTasking"
+	  Solver		  "ode45"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.0.3"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SaveTime		  on
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsOut"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Version		  "1.0.3"
+	  BlockReduction	  on
+	  BooleanDataType	  off
+	  ConditionallyExecuteInputs on
+	  ConditionalExecOptimization "on_for_testing"
+	  InlineParams		  off
+	  InlineInvariantSignals  on
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  on
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  ParameterPooling	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.0.3"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg on
+	  CheckExecutionContextRuntimeOutputMsg	on
+	  SignalResolutionControl "TryResolveAllWithWarning"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  SolverPrmCheckMsg	  "none"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterPrecisionLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.0.3"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "Specified"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  off
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.0.3"
+	  UpdateModelReferenceTargets "IfOutOfDate"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Version		  "1.0.3"
+	  SystemTargetFile	  "grt.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  TemplateMakefile	  "grt_default_tmf"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Version		      "1.0.3"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      CustomSymbolStr	      "$R$N$M"
+	      MangleLength	      1
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    Simulink.GRTTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Version		      "1.0.3"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns off
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      ExtMode		      off
+	      ExtModeStaticAlloc      off
+	      ExtModeTesting	      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTransport	      0
+	      ExtModeMexFile	      "ext_comm"
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	      GenerateASAP2	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	Simulink.SFSimCC {
+	  $ObjectID		  11
+	  Version		  "1.0.3"
+	  SFSimApplyToAllLibs	  on
+	  SFSimEnableDebug	  on
+	  SFSimOverflowDetection  on
+	  SFSimEcho		  on
+	  SFSimBuildMode	  "Incremental"
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      SimulationMode	      "normal"
+      CurrentDlgPage	      "Solver"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      ActionPort
+      InitializeStates	      "held"
+      ActionType	      "unset"
+    }
+    Block {
+      BlockType		      SwitchCase
+      CaseConditions	      "{1}"
+      CaseShowDefault	      on
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      ComplexToMagnitudeAngle
+      Output		      "Magnitude and angle"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      ComplexToRealImag
+      Output		      "Real and imag"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "sfix(16)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "2^0"
+      SampleTime	      "inf"
+    }
+    Block {
+      BlockType		      From
+      IconDisplay	      "Tag"
+    }
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ParameterDataTypeMode   "Same as input"
+      ParameterDataType	      "sfix(16)"
+      ParameterScalingMode    "Best Precision: Matrix-wise"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Goto
+      IconDisplay	      "Tag"
+    }
+    Block {
+      BlockType		      Ground
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      MagnitudeAngleToComplex
+      Input		      "Magnitude and angle"
+      ConstantPart	      "0"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Math
+      Operator		      "exp"
+      OutputSignalType	      "auto"
+      SampleTime	      "-1"
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Merge
+      Inputs		      "2"
+      InitialOutput	      "[]"
+      AllowUnequalInputPortWidths off
+      InputPortOffsets	      "[]"
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      Probe
+      ProbeWidth	      on
+      ProbeSampleTime	      on
+      ProbeComplexSignal      on
+      ProbeSignalDimensions   off
+      ProbeFramedSignal	      off
+      ProbeWidthDataType      "double"
+      ProbeSampleTimeDataType "double"
+      ProbeComplexityDataType "double"
+      ProbeDimensionsDataType "double"
+      ProbeFrameDataType      "double"
+    }
+    Block {
+      BlockType		      Product
+      Inputs		      "2"
+      Multiplication	      "Element-wise(.*)"
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Reference
+    }
+    Block {
+      BlockType		      Saturate
+      UpperLimit	      "0.5"
+      LowerLimit	      "-0.5"
+      LinearizeAsGain	      on
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Selector
+      InputType		      "Vector"
+      IndexMode		      "One-based"
+      ElementSrc	      "Internal"
+      Elements		      "1"
+      RowSrc		      "Internal"
+      Rows		      "1"
+      ColumnSrc		      "Internal"
+      Columns		      "1"
+      InputPortWidth	      "-1"
+      IndexIsStartValue	      off
+      OutputPortSize	      "1"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Sum
+      IconShape		      "rectangular"
+      Inputs		      "++"
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Terminator
+    }
+    Block {
+      BlockType		      Trigonometry
+      Operator		      "sin"
+      OutputSignalType	      "auto"
+      SampleTime	      "-1"
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "rfmathmodels1"
+    Location		    [32, 87, 572, 372]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      "Amplifier"
+      Ports		      [1, 1]
+      Position		      [35, 76, 135, 124]
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskType		      "Amplifier"
+      MaskDescription	      "Complex baseband model of amplifier with noise."
+"  \n\nIn addition to Linear amplifier, this block has five different methods "
+"to model the nonlinear amplifier.\n\nTwo of the nonlinear methods (Cubic Poly"
+"nomial and Hyperbolic Tangent) fit curves to measured data provided by the ga"
+"in and third order intercept point (IIP3) parameters.  \n\nThe other three no"
+"nlinear methods use models originated by Saleh, Ghorbani, and Rapp.  The Sale"
+"h and Ghorbani models are based on normalized nonlinear transfer functions.  "
+"Use the Input scaling and Output scaling parameters to adjust signal levels u"
+"p or down from their normalized values.\n\nThe amount of noise added to the o"
+"utput signal may be specified either in terms of noise temperature, noise fig"
+"ure, or noise factor."
+      MaskHelp		      "helpview(rfbhelp)"
+      MaskPromptString	      "Method:|Linear gain (dB):|Input scaling (dB):|I"
+"IP3 (dBm):|AM/PM conversion (degrees per dB):|AM/AM parameters [alpha beta]:|"
+"AM/PM parameters [alpha beta]:|AM/AM parameters [x1 x2 x3 x4]:|AM/PM paramete"
+"rs [y1 y2 y3 y4]:|Smoothness factor:|Output scaling (dB):|Output saturation l"
+"evel:|Specification method:|Noise temperature (K):|Noise figure (dB):|Noise f"
+"actor:|Initial seed:"
+      MaskStyleString	      "popup(Linear|Cubic polynomial|Hyperbolic tangen"
+"t|Saleh model|Ghorbani model|Rapp model),edit,edit,edit,edit,edit,edit,edit,e"
+"dit,edit,edit,edit,popup(Noise temperature|Noise figure|Noise factor),edit,ed"
+"it,edit,edit"
+      MaskTunableValueString  "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+",off"
+      MaskCallbackString      "rfblksmathamp1(gcb, 'rfModel');||||||||||||rfbl"
+"ksmathamp1(gcb, 'rfMethod');||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+",on"
+      MaskVisibilityString    "on,on,off,off,off,off,off,off,off,off,off,off,o"
+"n,off,off,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on,on,on,on"
+",on"
+      MaskVarAliasString      ",,,,,,,,,,,,,,,,"
+      MaskVariables	      "model_select=&1;linGaindB=@2;GindB=@3;iip3=@4;a"
+"m2pm=@5;amam=@6;ampm=@7;x=@8;y=@9;p=@10;GoutdB=@11;vsat=@12;method_select=&13"
+";ntemp=@14;nfigure=@15;nfactor=@16;seed=@17;"
+      MaskInitialization      "[c1, method, inputGain, outputGain, kT] = rfblk"
+"smathamp1(gcb, 'rfInit');"
+      MaskDisplay	      "disp('Amplifier');"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "Linear|0|0|30|0|[2.1587 1.1517]|[4.0033 9.1040]"
+"|[8.1081 1.5413 6.5202 -0.0718]|[4.6645 2.0965 10.88 -0.003]|0.5|0|1|Noise fa"
+"ctor|290|3.01|2|67987"
+      MaskTabNameString	      ",,,,,,,,,,,,,,,,"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+      System {
+	Name			"Amplifier"
+	Location		[56, 72, 993, 684]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In"
+	  Position		  [15, 48, 45, 62]
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Check\nInput Signal"
+	  Ports			  [1, 1]
+	  Position		  [360, 40, 425, 70]
+	  ShowName		  off
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  MaskDisplay		  "disp('Check\\nInput Signal');"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  System {
+	    Name		    "Check\nInput Signal"
+	    Location		    [252, 277, 576, 416]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In1"
+	      Position		      [25, 43, 55, 57]
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Check Signal\nAttributes"
+	      Ports		      [1, 1]
+	      Position		      [80, 28, 150, 72]
+	      SourceBlock	      "dspsigattribs/Check Signal\nAttributes"
+	      SourceType	      "Check Signal Attributes"
+	      SigAttribCheckMethod    "Does not match attributes exactly"
+	      Complexity	      "Complex"
+	      Frame		      "Ignore"
+	      DimsCheckMethod	      "Is..."
+	      Dimensions	      "Column vector (2-D) or scalar"
+	      DatatypeCheckMethod     "Ignore"
+	      DatatypeGeneral	      "Boolean"
+	      DtypeFloatSpecific      "Any floating-point"
+	      DtypeFixedSpecific      "Any fixed-point"
+	      DtypeIntSpecific	      "Any integer"
+	      SampleMode	      "Ignore"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Check Signal\nAttributes1"
+	      Ports		      [1, 1]
+	      Position		      [170, 28, 240, 72]
+	      SourceBlock	      "dspsigattribs/Check Signal\nAttributes"
+	      SourceType	      "Check Signal Attributes"
+	      SigAttribCheckMethod    "Matches attributes exactly"
+	      Complexity	      "Ignore"
+	      Frame		      "Sample-based"
+	      DimsCheckMethod	      "Is..."
+	      Dimensions	      "Vector (1-D or 2-D)"
+	      DatatypeCheckMethod     "Ignore"
+	      DatatypeGeneral	      "Boolean"
+	      DtypeFloatSpecific      "Any floating-point"
+	      DtypeFixedSpecific      "Any fixed-point"
+	      DtypeIntSpecific	      "Any integer"
+	      SampleMode	      "Ignore"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [265, 43, 295, 57]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "In1"
+	      SrcPort		      1
+	      DstBlock		      "Check Signal\nAttributes"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Check Signal\nAttributes1"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Check Signal\nAttributes"
+	      SrcPort		      1
+	      DstBlock		      "Check Signal\nAttributes1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Complex Gaussian\nNoise Source"
+	  Ports			  [2, 1]
+	  Position		  [685, 319, 785, 366]
+	  SourceBlock		  "rfprivate1/Complex Gaussian\nNoise Source"
+	  SourceType		  "SubSystem"
+	  ShowPortLabels	  "on"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    2
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From"
+	  Position		  [120, 149, 215, 171]
+	  ShowName		  off
+	  DialogController	  "Simulink.DDGSource"
+	  CloseFcn		  "tagdialog Close"
+	  GotoTag		  "cubic"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From1"
+	  Position		  [120, 234, 215, 256]
+	  ShowName		  off
+	  DialogController	  "Simulink.DDGSource"
+	  CloseFcn		  "tagdialog Close"
+	  GotoTag		  "tanh"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From10"
+	  Position		  [125, 64, 220, 86]
+	  ShowName		  off
+	  DialogController	  "Simulink.DDGSource"
+	  CloseFcn		  "tagdialog Close"
+	  GotoTag		  "linear"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From11"
+	  Position		  [125, 104, 170, 126]
+	  ShowName		  off
+	  DialogController	  "Simulink.DDGSource"
+	  CloseFcn		  "tagdialog Close"
+	  GotoTag		  "input"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From2"
+	  Position		  [120, 324, 215, 346]
+	  ShowName		  off
+	  DialogController	  "Simulink.DDGSource"
+	  CloseFcn		  "tagdialog Close"
+	  GotoTag		  "Saleh"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From3"
+	  Position		  [120, 414, 215, 436]
+	  ShowName		  off
+	  DialogController	  "Simulink.DDGSource"
+	  CloseFcn		  "tagdialog Close"
+	  GotoTag		  "Ghorbani"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From4"
+	  Position		  [120, 509, 215, 531]
+	  ShowName		  off
+	  DialogController	  "Simulink.DDGSource"
+	  CloseFcn		  "tagdialog Close"
+	  GotoTag		  "Rapp"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From5"
+	  Position		  [120, 189, 165, 211]
+	  ShowName		  off
+	  DialogController	  "Simulink.DDGSource"
+	  CloseFcn		  "tagdialog Close"
+	  GotoTag		  "input"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From6"
+	  Position		  [120, 279, 165, 301]
+	  ShowName		  off
+	  DialogController	  "Simulink.DDGSource"
+	  CloseFcn		  "tagdialog Close"
+	  GotoTag		  "input"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From7"
+	  Position		  [120, 364, 165, 386]
+	  ShowName		  off
+	  DialogController	  "Simulink.DDGSource"
+	  CloseFcn		  "tagdialog Close"
+	  GotoTag		  "input"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From8"
+	  Position		  [120, 459, 165, 481]
+	  ShowName		  off
+	  DialogController	  "Simulink.DDGSource"
+	  CloseFcn		  "tagdialog Close"
+	  GotoTag		  "input"
+	}
+	Block {
+	  BlockType		  From
+	  Name			  "From9"
+	  Position		  [120, 554, 165, 576]
+	  ShowName		  off
+	  DialogController	  "Simulink.DDGSource"
+	  CloseFcn		  "tagdialog Close"
+	  GotoTag		  "input"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain"
+	  Position		  [565, 85, 635, 125]
+	  Gain			  "method"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain1"
+	  Position		  [615, 487, 655, 523]
+	  Gain			  "kT"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Ghorbani Model"
+	  Ports			  [1, 1, 0, 0, 0, 0, 0, 1]
+	  Position		  [205, 449, 280, 491]
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    2
+	    ShowSigGenPortName	    on
+	  }
+	  System {
+	    Name		    "Ghorbani Model"
+	    Location		    [95, 401, 664, 650]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In"
+	      Position		      [15, 88, 45, 102]
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      ActionPort
+	      Name		      "Action Port"
+	      Position		      [275, 25, 334, 53]
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "AM_AM"
+	      Ports		      [1, 1]
+	      Position		      [290, 72, 340, 98]
+	      ShowName		      off
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      MaskDisplay	      "disp('AM/AM')"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      System {
+		Name			"AM_AM"
+		Location		[327, 365, 756, 606]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In"
+		  Position		  [25, 28, 55, 42]
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant"
+		  Position		  [230, 185, 260, 215]
+		  Orientation		  "up"
+		  ShowName		  off
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant1"
+		  Position		  [50, 79, 80, 111]
+		  ShowName		  off
+		  Value			  "x(2)"
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain"
+		  Position		  [190, 18, 245, 52]
+		  ShowName		  off
+		  Gain			  "x(4)"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain1"
+		  Position		  [170, 72, 220, 108]
+		  ShowName		  off
+		  Gain			  "x(1)"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain2"
+		  Position		  [170, 132, 220, 168]
+		  ShowName		  off
+		  Gain			  "x(3)"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Math
+		  Name			  "Math\nFunction"
+		  Ports			  [2, 1]
+		  Position		  [110, 72, 140, 103]
+		  ShowName		  off
+		  Operator		  "pow"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		  Port {
+		    PortType		    0
+		    PortNumber		    2
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product"
+		  Ports			  [2, 1]
+		  Position		  [275, 81, 320, 114]
+		  ShowName		  off
+		  Inputs		  "*/"
+		  RndMeth		  "Floor"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		  Port {
+		    PortType		    0
+		    PortNumber		    2
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum1"
+		  Ports			  [2, 1]
+		  Position		  [235, 140, 255, 160]
+		  ShowName		  off
+		  IconShape		  "round"
+		  Inputs		  "|++"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		  Port {
+		    PortType		    0
+		    PortNumber		    2
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum2"
+		  Ports			  [2, 1]
+		  Position		  [325, 25, 345, 45]
+		  ShowName		  off
+		  IconShape		  "round"
+		  Inputs		  "|++"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		  Port {
+		    PortType		    0
+		    PortNumber		    2
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out"
+		  Position		  [375, 28, 405, 42]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Line {
+		  SrcBlock		  "Sum2"
+		  SrcPort		  1
+		  DstBlock		  "Out"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "In"
+		  SrcPort		  1
+		  Points		  [0, 0; 30, 0]
+		  Branch {
+		    Points		    [0, 45]
+		    DstBlock		    "Math\nFunction"
+		    DstPort		    1
+		  }
+		  Branch {
+		    DstBlock		    "Gain"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Sum1"
+		  SrcPort		  1
+		  DstBlock		  "Product"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Gain2"
+		  SrcPort		  1
+		  DstBlock		  "Sum1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Constant"
+		  SrcPort		  1
+		  DstBlock		  "Sum1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Product"
+		  SrcPort		  1
+		  Points		  [10, 0]
+		  DstBlock		  "Sum2"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Gain1"
+		  SrcPort		  1
+		  DstBlock		  "Product"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Constant1"
+		  SrcPort		  1
+		  DstBlock		  "Math\nFunction"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Math\nFunction"
+		  SrcPort		  1
+		  Points		  [-5, 0; 10, 0]
+		  Branch {
+		    Points		    [0, 60]
+		    DstBlock		    "Gain2"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [15, 0]
+		    DstBlock		    "Gain1"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Gain"
+		  SrcPort		  1
+		  DstBlock		  "Sum2"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "AM_PM"
+	      Ports		      [1, 1]
+	      Position		      [236, 115, 284, 140]
+	      Orientation	      "down"
+	      NamePlacement	      "alternate"
+	      ShowName		      off
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      MaskDisplay	      "disp('AM/PM')"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      System {
+		Name			"AM_PM"
+		Location		[278, 362, 754, 584]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In"
+		  Position		  [20, 28, 50, 42]
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant"
+		  Position		  [70, 84, 100, 116]
+		  ShowName		  off
+		  Value			  "y(2)"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant1"
+		  Position		  [270, 175, 300, 205]
+		  Orientation		  "up"
+		  ShowName		  off
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain"
+		  Position		  [230, 18, 285, 52]
+		  ShowName		  off
+		  Gain			  "y(4)"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain1"
+		  Position		  [195, 77, 245, 113]
+		  ShowName		  off
+		  Gain			  "y(1)"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain2"
+		  Position		  [195, 122, 245, 158]
+		  ShowName		  off
+		  Gain			  "y(3)"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Math
+		  Name			  "Math\nFunction"
+		  Ports			  [2, 1]
+		  Position		  [125, 77, 155, 108]
+		  ShowName		  off
+		  Operator		  "pow"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		  Port {
+		    PortType		    0
+		    PortNumber		    2
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product"
+		  Ports			  [2, 1]
+		  Position		  [330, 86, 375, 119]
+		  ShowName		  off
+		  Inputs		  "*/"
+		  RndMeth		  "Floor"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		  Port {
+		    PortType		    0
+		    PortNumber		    2
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum1"
+		  Ports			  [2, 1]
+		  Position		  [275, 130, 295, 150]
+		  ShowName		  off
+		  IconShape		  "round"
+		  Inputs		  "|++"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		  Port {
+		    PortType		    0
+		    PortNumber		    2
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum2"
+		  Ports			  [2, 1]
+		  Position		  [375, 25, 395, 45]
+		  ShowName		  off
+		  IconShape		  "round"
+		  Inputs		  "|++"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		  Port {
+		    PortType		    0
+		    PortNumber		    2
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [430, 28, 460, 42]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Line {
+		  SrcBlock		  "Sum2"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "In"
+		  SrcPort		  1
+		  Points		  [0, 0; 55, 0]
+		  Branch {
+		    DstBlock		    "Gain"
+		    DstPort		    1
+		  }
+		  Branch {
+		    DstBlock		    "Math\nFunction"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Sum1"
+		  SrcPort		  1
+		  Points		  [0, -30]
+		  DstBlock		  "Product"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Gain2"
+		  SrcPort		  1
+		  DstBlock		  "Sum1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Constant1"
+		  SrcPort		  1
+		  DstBlock		  "Sum1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Product"
+		  SrcPort		  1
+		  Points		  [5, 0]
+		  DstBlock		  "Sum2"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Gain1"
+		  SrcPort		  1
+		  DstBlock		  "Product"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Constant"
+		  SrcPort		  1
+		  DstBlock		  "Math\nFunction"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Math\nFunction"
+		  SrcPort		  1
+		  Points		  [0, 0; 10, 0]
+		  Branch {
+		    Points		    [15, 0]
+		    DstBlock		    "Gain1"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 45]
+		    DstBlock		    "Gain2"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Gain"
+		  SrcPort		  1
+		  DstBlock		  "Sum2"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      ComplexToMagnitudeAngle
+	      Name		      "Complex to\nMagnitude-Angle"
+	      Ports		      [1, 2]
+	      Position		      [155, 78, 185, 107]
+	      ShowName		      off
+	      Output		      "Magnitude and angle"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Input Gain"
+	      Position		      [70, 78, 125, 112]
+	      ShowName		      off
+	      Gain		      "inputGain"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      MagnitudeAngleToComplex
+	      Name		      "Magnitude-Angle\nto Complex"
+	      Ports		      [2, 1]
+	      Position		      [375, 152, 405, 183]
+	      ShowName		      off
+	      Input		      "Magnitude and angle"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortType		0
+		PortNumber		2
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Output Gain"
+	      Position		      [425, 153, 480, 187]
+	      ShowName		      off
+	      Gain		      "outputGain"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum"
+	      Ports		      [2, 1]
+	      Position		      [250, 165, 270, 185]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "++|"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortType		0
+		PortNumber		2
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out"
+	      Position		      [505, 163, 535, 177]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Sum"
+	      SrcPort		      1
+	      DstBlock		      "Magnitude-Angle\nto Complex"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "AM_PM"
+	      SrcPort		      1
+	      DstBlock		      "Sum"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Output Gain"
+	      SrcPort		      1
+	      DstBlock		      "Out"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "In"
+	      SrcPort		      1
+	      DstBlock		      "Input Gain"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Complex to\nMagnitude-Angle"
+	      SrcPort		      2
+	      Points		      [0, 75]
+	      DstBlock		      "Sum"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Input Gain"
+	      SrcPort		      1
+	      DstBlock		      "Complex to\nMagnitude-Angle"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Magnitude-Angle\nto Complex"
+	      SrcPort		      1
+	      DstBlock		      "Output Gain"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "AM_AM"
+	      SrcPort		      1
+	      Points		      [5, 0; 0, 75]
+	      DstBlock		      "Magnitude-Angle\nto Complex"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Complex to\nMagnitude-Angle"
+	      SrcPort		      1
+	      Points		      [0, 0; 70, 0]
+	      Branch {
+		DstBlock		"AM_AM"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"AM_PM"
+		DstPort			1
+	      }
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto"
+	  Position		  [830, 54, 900, 76]
+	  ShowName		  off
+	  DialogController	  "Simulink.DDGSource"
+	  GotoTag		  "cubic"
+	  TagVisibility		  "local"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto1"
+	  Position		  [830, 80, 900, 100]
+	  ShowName		  off
+	  DialogController	  "Simulink.DDGSource"
+	  GotoTag		  "tanh"
+	  TagVisibility		  "local"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto2"
+	  Position		  [465, 45, 515, 65]
+	  ShowName		  off
+	  DialogController	  "Simulink.DDGSource"
+	  GotoTag		  "input"
+	  TagVisibility		  "local"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto3"
+	  Position		  [830, 105, 900, 125]
+	  ShowName		  off
+	  DialogController	  "Simulink.DDGSource"
+	  GotoTag		  "Saleh"
+	  TagVisibility		  "local"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto4"
+	  Position		  [830, 130, 900, 150]
+	  ShowName		  off
+	  DialogController	  "Simulink.DDGSource"
+	  GotoTag		  "Ghorbani"
+	  TagVisibility		  "local"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto5"
+	  Position		  [830, 155, 900, 175]
+	  ShowName		  off
+	  DialogController	  "Simulink.DDGSource"
+	  GotoTag		  "Rapp"
+	  TagVisibility		  "local"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Goto
+	  Name			  "Goto6"
+	  Position		  [830, 29, 900, 51]
+	  ShowName		  off
+	  DialogController	  "Simulink.DDGSource"
+	  GotoTag		  "linear"
+	  TagVisibility		  "local"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Merge
+	  Name			  "Merge"
+	  Ports			  [6, 1]
+	  Position		  [425, 292, 470, 368]
+	  ShowName		  off
+	  Inputs		  "6"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    2
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    3
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    4
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    5
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    6
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Probe
+	  Name			  "Probe"
+	  Ports			  [1, 1]
+	  Position		  [470, 92, 515, 118]
+	  ProbeWidth		  off
+	  ProbeSampleTime	  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Probe
+	  Name			  "Probe1"
+	  Ports			  [1, 2]
+	  Position		  [420, 485, 500, 520]
+	  ProbeComplexSignal	  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product"
+	  Ports			  [2, 1]
+	  Position		  [565, 488, 600, 517]
+	  Inputs		  "*/"
+	  RndMeth		  "Floor"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    2
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Rapp Model"
+	  Ports			  [1, 1, 0, 0, 0, 0, 0, 1]
+	  Position		  [200, 545, 280, 585]
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    2
+	    ShowSigGenPortName	    on
+	  }
+	  System {
+	    Name		    "Rapp Model"
+	    Location		    [85, 347, 646, 628]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In"
+	      Position		      [20, 98, 50, 112]
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      ActionPort
+	      Name		      "Action Port"
+	      Position		      [245, 25, 304, 53]
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "AM_AM"
+	      Ports		      [1, 1]
+	      Position		      [285, 82, 335, 108]
+	      ShowName		      off
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      MaskDisplay	      "disp('AM/AM')"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      System {
+		Name			"AM_AM"
+		Location		[233, 446, 864, 623]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In"
+		  Position		  [55, 28, 85, 42]
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  ComplexToMagnitudeAngle
+		  Name			  "Complex to\nMagnitude-Angle"
+		  Ports			  [1, 1]
+		  Position		  [125, 60, 155, 90]
+		  NamePlacement		  "alternate"
+		  ShowName		  off
+		  Output		  "Magnitude"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant"
+		  Position		  [170, 105, 200, 135]
+		  Orientation		  "up"
+		  ShowName		  off
+		  Value			  "vsat"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant1"
+		  Position		  [260, 115, 290, 145]
+		  Orientation		  "up"
+		  ShowName		  off
+		  Value			  "2*p"
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant2"
+		  Position		  [350, 125, 380, 155]
+		  Orientation		  "up"
+		  ShowName		  off
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant3"
+		  Position		  [408, 125, 442, 155]
+		  Orientation		  "up"
+		  ShowName		  off
+		  Value			  "1/(2*p)"
+		}
+		Block {
+		  BlockType		  Math
+		  Name			  "Math\nFunction"
+		  Ports			  [2, 1]
+		  Position		  [290, 77, 320, 108]
+		  ShowName		  off
+		  Operator		  "pow"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		  Port {
+		    PortType		    0
+		    PortNumber		    2
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Math
+		  Name			  "Math\nFunction1"
+		  Ports			  [2, 1]
+		  Position		  [440, 87, 470, 118]
+		  ShowName		  off
+		  Operator		  "pow"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		  Port {
+		    PortType		    0
+		    PortNumber		    2
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product"
+		  Ports			  [2, 1]
+		  Position		  [200, 66, 245, 99]
+		  ShowName		  off
+		  Inputs		  "*/"
+		  RndMeth		  "Floor"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		  Port {
+		    PortType		    0
+		    PortNumber		    2
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product1"
+		  Ports			  [2, 1]
+		  Position		  [495, 26, 540, 59]
+		  ShowName		  off
+		  Inputs		  "*/"
+		  RndMeth		  "Floor"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		  Port {
+		    PortType		    0
+		    PortNumber		    2
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum2"
+		  Ports			  [2, 1]
+		  Position		  [355, 85, 375, 105]
+		  ShowName		  off
+		  IconShape		  "round"
+		  Inputs		  "|++"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		  Port {
+		    PortType		    0
+		    PortNumber		    2
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out"
+		  Position		  [570, 38, 600, 52]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Line {
+		  SrcBlock		  "Product1"
+		  SrcPort		  1
+		  DstBlock		  "Out"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "In"
+		  SrcPort		  1
+		  Points		  [15, 0]
+		  Branch {
+		    DstBlock		    "Product1"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 40]
+		    DstBlock		    "Complex to\nMagnitude-Angle"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Constant"
+		  SrcPort		  1
+		  DstBlock		  "Product"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Constant2"
+		  SrcPort		  1
+		  DstBlock		  "Sum2"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Product"
+		  SrcPort		  1
+		  DstBlock		  "Math\nFunction"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Math\nFunction"
+		  SrcPort		  1
+		  DstBlock		  "Sum2"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Constant1"
+		  SrcPort		  1
+		  DstBlock		  "Math\nFunction"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Complex to\nMagnitude-Angle"
+		  SrcPort		  1
+		  DstBlock		  "Product"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Sum2"
+		  SrcPort		  1
+		  DstBlock		  "Math\nFunction1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Constant3"
+		  SrcPort		  1
+		  DstBlock		  "Math\nFunction1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Math\nFunction1"
+		  SrcPort		  1
+		  Points		  [5, 0]
+		  DstBlock		  "Product1"
+		  DstPort		  2
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "AM_PM"
+	      Ports		      [1, 1]
+	      Position		      [236, 130, 284, 155]
+	      Orientation	      "down"
+	      NamePlacement	      "alternate"
+	      ShowName		      off
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      MaskDisplay	      "disp('AM/PM')"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      System {
+		Name			"AM_PM"
+		Location		[493, 366, 765, 460]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In"
+		  Position		  [20, 28, 50, 42]
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Ground
+		  Name			  "Ground"
+		  Position		  [160, 25, 180, 45]
+		}
+		Block {
+		  BlockType		  Terminator
+		  Name			  "Terminator"
+		  Position		  [90, 25, 110, 45]
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [215, 28, 245, 42]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Line {
+		  SrcBlock		  "In"
+		  SrcPort		  1
+		  DstBlock		  "Terminator"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Ground"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      ComplexToMagnitudeAngle
+	      Name		      "Complex to\nMagnitude-Angle"
+	      Ports		      [1, 2]
+	      Position		      [160, 88, 190, 117]
+	      ShowName		      off
+	      Output		      "Magnitude and angle"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Input Gain"
+	      Position		      [75, 88, 130, 122]
+	      ShowName		      off
+	      Gain		      "inputGain"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      MagnitudeAngleToComplex
+	      Name		      "Magnitude-Angle\nto Complex"
+	      Ports		      [2, 1]
+	      Position		      [380, 162, 410, 193]
+	      ShowName		      off
+	      Input		      "Magnitude and angle"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortType		0
+		PortNumber		2
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Output Gain"
+	      Position		      [430, 163, 485, 197]
+	      ShowName		      off
+	      Gain		      "outputGain"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum"
+	      Ports		      [2, 1]
+	      Position		      [250, 175, 270, 195]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "++|"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortType		0
+		PortNumber		2
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out"
+	      Position		      [510, 173, 540, 187]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Output Gain"
+	      SrcPort		      1
+	      DstBlock		      "Out"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "In"
+	      SrcPort		      1
+	      DstBlock		      "Input Gain"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Input Gain"
+	      SrcPort		      1
+	      DstBlock		      "Complex to\nMagnitude-Angle"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Magnitude-Angle\nto Complex"
+	      SrcPort		      1
+	      DstBlock		      "Output Gain"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "AM_AM"
+	      SrcPort		      1
+	      Points		      [25, 0]
+	      DstBlock		      "Magnitude-Angle\nto Complex"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Complex to\nMagnitude-Angle"
+	      SrcPort		      1
+	      Points		      [65, 0]
+	      Branch {
+		DstBlock		"AM_AM"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"AM_PM"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "AM_PM"
+	      SrcPort		      1
+	      DstBlock		      "Sum"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Complex to\nMagnitude-Angle"
+	      SrcPort		      2
+	      Points		      [0, 75]
+	      DstBlock		      "Sum"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Sum"
+	      SrcPort		      1
+	      DstBlock		      "Magnitude-Angle\nto Complex"
+	      DstPort		      2
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Saleh Model"
+	  Ports			  [1, 1, 0, 0, 0, 0, 0, 1]
+	  Position		  [200, 355, 280, 395]
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    2
+	    ShowSigGenPortName	    on
+	  }
+	  System {
+	    Name		    "Saleh Model"
+	    Location		    [115, 71, 715, 331]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In"
+	      Position		      [55, 113, 85, 127]
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      ActionPort
+	      Name		      "Action Port"
+	      Position		      [320, 30, 379, 58]
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "AM_AM"
+	      Ports		      [1, 1]
+	      Position		      [330, 97, 380, 123]
+	      ShowName		      off
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      MaskDisplay	      "disp('AM/AM')"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      System {
+		Name			"AM_AM"
+		Location		[296, 232, 731, 436]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [25, 38, 55, 52]
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant1"
+		  Position		  [210, 150, 240, 180]
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain2"
+		  Position		  [170, 97, 220, 133]
+		  Gain			  "amam(2)"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain3"
+		  Position		  [170, 28, 225, 62]
+		  Gain			  "amam(1)"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Math
+		  Name			  "Math\nFunction"
+		  Ports			  [1, 1]
+		  Position		  [95, 100, 125, 130]
+		  Operator		  "square"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product2"
+		  Ports			  [2, 1]
+		  Position		  [310, 36, 355, 69]
+		  Inputs		  "*/"
+		  RndMeth		  "Floor"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		  Port {
+		    PortType		    0
+		    PortNumber		    2
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum1"
+		  Ports			  [2, 1]
+		  Position		  [255, 105, 275, 125]
+		  ShowName		  off
+		  IconShape		  "round"
+		  Inputs		  "|++"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		  Port {
+		    PortType		    0
+		    PortNumber		    2
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [380, 48, 410, 62]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Line {
+		  SrcBlock		  "Product2"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  Points		  [0, 0; 15, 0]
+		  Branch {
+		    DstBlock		    "Gain3"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 70]
+		    DstBlock		    "Math\nFunction"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Gain3"
+		  SrcPort		  1
+		  DstBlock		  "Product2"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Sum1"
+		  SrcPort		  1
+		  Points		  [15, 0]
+		  DstBlock		  "Product2"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Constant1"
+		  SrcPort		  1
+		  Points		  [20, 0]
+		  DstBlock		  "Sum1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Gain2"
+		  SrcPort		  1
+		  DstBlock		  "Sum1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Math\nFunction"
+		  SrcPort		  1
+		  DstBlock		  "Gain2"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "AM_PM"
+	      Ports		      [1, 1]
+	      Position		      [276, 145, 324, 170]
+	      Orientation	      "down"
+	      NamePlacement	      "alternate"
+	      ShowName		      off
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      MaskDisplay	      "disp('AM/PM')"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      System {
+		Name			"AM_PM"
+		Location		[306, 407, 801, 611]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In"
+		  Position		  [25, 38, 55, 52]
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant"
+		  Position		  [240, 150, 270, 180]
+		  Orientation		  "up"
+		  ShowName		  off
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain"
+		  Position		  [160, 97, 210, 133]
+		  ShowName		  off
+		  Gain			  "ampm(2)"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain1"
+		  Position		  [160, 28, 210, 62]
+		  ShowName		  off
+		  Gain			  "ampm(1)"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Math
+		  Name			  "Math\nFunction"
+		  Ports			  [1, 1]
+		  Position		  [90, 30, 120, 60]
+		  ShowName		  off
+		  Operator		  "square"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Product
+		  Name			  "Product"
+		  Ports			  [2, 1]
+		  Position		  [300, 36, 345, 69]
+		  ShowName		  off
+		  Inputs		  "*/"
+		  RndMeth		  "Floor"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		  Port {
+		    PortType		    0
+		    PortNumber		    2
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum"
+		  Ports			  [2, 1]
+		  Position		  [245, 105, 265, 125]
+		  ShowName		  off
+		  IconShape		  "round"
+		  Inputs		  "|++"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		  Port {
+		    PortType		    0
+		    PortNumber		    2
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out"
+		  Position		  [370, 48, 400, 62]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Line {
+		  SrcBlock		  "In"
+		  SrcPort		  1
+		  DstBlock		  "Math\nFunction"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Math\nFunction"
+		  SrcPort		  1
+		  Points		  [0, 0; 10, 0]
+		  Branch {
+		    Points		    [0, 70]
+		    DstBlock		    "Gain"
+		    DstPort		    1
+		  }
+		  Branch {
+		    DstBlock		    "Gain1"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Product"
+		  SrcPort		  1
+		  DstBlock		  "Out"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Gain"
+		  SrcPort		  1
+		  DstBlock		  "Sum"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Constant"
+		  SrcPort		  1
+		  DstBlock		  "Sum"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Sum"
+		  SrcPort		  1
+		  Points		  [15, 0]
+		  DstBlock		  "Product"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Gain1"
+		  SrcPort		  1
+		  DstBlock		  "Product"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      ComplexToMagnitudeAngle
+	      Name		      "Complex to\nMagnitude-Angle"
+	      Ports		      [1, 2]
+	      Position		      [195, 103, 225, 132]
+	      ShowName		      off
+	      Output		      "Magnitude and angle"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Input Gain"
+	      Position		      [110, 103, 165, 137]
+	      ShowName		      off
+	      Gain		      "inputGain"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      MagnitudeAngleToComplex
+	      Name		      "Magnitude-Angle\nto Complex"
+	      Ports		      [2, 1]
+	      Position		      [415, 177, 445, 208]
+	      ShowName		      off
+	      Input		      "Magnitude and angle"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortType		0
+		PortNumber		2
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Output Gain"
+	      Position		      [465, 178, 520, 212]
+	      ShowName		      off
+	      Gain		      "outputGain"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum"
+	      Ports		      [2, 1]
+	      Position		      [290, 190, 310, 210]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "++|"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortType		0
+		PortNumber		2
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out"
+	      Position		      [545, 188, 575, 202]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Sum"
+	      SrcPort		      1
+	      DstBlock		      "Magnitude-Angle\nto Complex"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "AM_PM"
+	      SrcPort		      1
+	      DstBlock		      "Sum"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Output Gain"
+	      SrcPort		      1
+	      DstBlock		      "Out"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "In"
+	      SrcPort		      1
+	      DstBlock		      "Input Gain"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Complex to\nMagnitude-Angle"
+	      SrcPort		      2
+	      Points		      [0, 75]
+	      DstBlock		      "Sum"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Input Gain"
+	      SrcPort		      1
+	      DstBlock		      "Complex to\nMagnitude-Angle"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Magnitude-Angle\nto Complex"
+	      SrcPort		      1
+	      DstBlock		      "Output Gain"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "AM_AM"
+	      SrcPort		      1
+	      Points		      [5, 0; 0, 75]
+	      DstBlock		      "Magnitude-Angle\nto Complex"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Complex to\nMagnitude-Angle"
+	      SrcPort		      1
+	      Points		      [0, 0; 70, 0]
+	      Branch {
+		DstBlock		"AM_AM"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"AM_PM"
+		DstPort			1
+	      }
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Selector
+	  Name			  "Selector"
+	  Ports			  [1, 1]
+	  Position		  [520, 503, 545, 517]
+	  InputPortWidth	  "2"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum"
+	  Ports			  [2, 1]
+	  Position		  [805, 335, 825, 355]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "++|"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    2
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  SwitchCase
+	  Name			  "Switch Case"
+	  Ports			  [1, 6]
+	  Position		  [675, 25, 785, 180]
+	  CaseConditions	  "{0 1 2 3 4 5}"
+	  CaseShowDefault	  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "cubic fit"
+	  Ports			  [1, 1, 0, 0, 0, 0, 0, 1]
+	  Position		  [200, 180, 280, 220]
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    2
+	    ShowSigGenPortName	    on
+	  }
+	  System {
+	    Name		    "cubic fit"
+	    Location		    [159, 143, 813, 392]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In"
+	      Position		      [95, 108, 125, 122]
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      ActionPort
+	      Name		      "Action Port"
+	      Position		      [310, 25, 369, 53]
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "AM_AM"
+	      Ports		      [1, 1]
+	      Position		      [370, 92, 420, 118]
+	      ShowName		      off
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      MaskDisplay	      "disp('AM/AM')"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      System {
+		Name			"AM_AM"
+		Location		[260, 121, 860, 385]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [25, 53, 55, 67]
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant"
+		  Position		  [155, 66, 175, 84]
+		  ShowName		  off
+		  Value			  "3"
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Gain"
+		  Position		  [255, 46, 315, 94]
+		  Gain			  "1/3"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Math
+		  Name			  "Math\nFunction"
+		  Ports			  [2, 1]
+		  Position		  [200, 52, 230, 83]
+		  Operator		  "pow"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		  Port {
+		    PortType		    0
+		    PortNumber		    2
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Saturate
+		  Name			  "Saturation I"
+		  Position		  [100, 45, 130, 75]
+		  UpperLimit		  "1"
+		  LowerLimit		  "-1"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum"
+		  Ports			  [2, 1]
+		  Position		  [345, 60, 365, 80]
+		  ShowName		  off
+		  IconShape		  "round"
+		  Inputs		  "+-|"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		  Port {
+		    PortType		    0
+		    PortNumber		    2
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [435, 63, 465, 77]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Line {
+		  SrcBlock		  "Sum"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Saturation I"
+		  SrcPort		  1
+		  Points		  [25, 0; 10, 0]
+		  Branch {
+		    DstBlock		    "Math\nFunction"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, -25; 185, 0]
+		    DstBlock		    "Sum"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Math\nFunction"
+		  SrcPort		  1
+		  DstBlock		  "Gain"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Constant"
+		  SrcPort		  1
+		  DstBlock		  "Math\nFunction"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Gain"
+		  SrcPort		  1
+		  DstBlock		  "Sum"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "Saturation I"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "AM_PM"
+	      Ports		      [1, 1]
+	      Position		      [316, 140, 364, 165]
+	      Orientation	      "down"
+	      NamePlacement	      "alternate"
+	      ShowName		      off
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      MaskDisplay	      "disp('AM/PM')"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      System {
+		Name			"AM_PM"
+		Location		[308, 409, 663, 515]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In"
+		  Position		  [25, 38, 55, 52]
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Input Gain"
+		  Position		  [185, 28, 240, 62]
+		  ShowName		  off
+		  Gain			  "am2pm*pi/180"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "dB Conversion"
+		  Ports			  [1, 1]
+		  Position		  [75, 23, 155, 67]
+		  SourceBlock		  "dspmathops/dB Conversion"
+		  SourceType		  "dB Conversion"
+		  dBtype		  "dB"
+		  intype		  "Amplitude"
+		  R			  "1"
+		  fuzz			  "on"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out"
+		  Position		  [260, 38, 290, 52]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Line {
+		  SrcBlock		  "In"
+		  SrcPort		  1
+		  DstBlock		  "dB Conversion"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Input Gain"
+		  SrcPort		  1
+		  DstBlock		  "Out"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "dB Conversion"
+		  SrcPort		  1
+		  DstBlock		  "Input Gain"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      ComplexToMagnitudeAngle
+	      Name		      "Complex to\nMagnitude-Angle1"
+	      Ports		      [1, 2]
+	      Position		      [235, 98, 265, 127]
+	      ShowName		      off
+	      Output		      "Magnitude and angle"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Input Gain"
+	      Position		      [150, 98, 205, 132]
+	      ShowName		      off
+	      Gain		      "inputGain"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      MagnitudeAngleToComplex
+	      Name		      "Magnitude-Angle\nto Complex1"
+	      Ports		      [2, 1]
+	      Position		      [455, 172, 485, 203]
+	      ShowName		      off
+	      Input		      "Magnitude and angle"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortType		0
+		PortNumber		2
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Output Gain"
+	      Position		      [505, 173, 560, 207]
+	      ShowName		      off
+	      Gain		      "outputGain"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum1"
+	      Ports		      [2, 1]
+	      Position		      [330, 185, 350, 205]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "++|"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortType		0
+		PortNumber		2
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out"
+	      Position		      [590, 183, 620, 197]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Complex to\nMagnitude-Angle1"
+	      SrcPort		      1
+	      Points		      [0, 0; 70, 0]
+	      Branch {
+		DstBlock		"AM_AM"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"AM_PM"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "AM_AM"
+	      SrcPort		      1
+	      Points		      [5, 0; 0, 75]
+	      DstBlock		      "Magnitude-Angle\nto Complex1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Magnitude-Angle\nto Complex1"
+	      SrcPort		      1
+	      DstBlock		      "Output Gain"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Input Gain"
+	      SrcPort		      1
+	      DstBlock		      "Complex to\nMagnitude-Angle1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Complex to\nMagnitude-Angle1"
+	      SrcPort		      2
+	      Points		      [0, 75]
+	      DstBlock		      "Sum1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "In"
+	      SrcPort		      1
+	      DstBlock		      "Input Gain"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Output Gain"
+	      SrcPort		      1
+	      DstBlock		      "Out"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "AM_PM"
+	      SrcPort		      1
+	      DstBlock		      "Sum1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Sum1"
+	      SrcPort		      1
+	      DstBlock		      "Magnitude-Angle\nto Complex1"
+	      DstPort		      2
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "linear"
+	  Ports			  [1, 1, 0, 0, 0, 0, 0, 1]
+	  Position		  [205, 95, 285, 135]
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    2
+	    ShowSigGenPortName	    on
+	  }
+	  System {
+	    Name		    "linear"
+	    Location		    [60, 323, 469, 510]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In"
+	      Position		      [95, 108, 125, 122]
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      ActionPort
+	      Name		      "Action Port"
+	      Position		      [170, 15, 229, 43]
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Gain"
+	      Position		      [190, 91, 250, 139]
+	      Gain		      "c1"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out"
+	      Position		      [305, 108, 335, 122]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "In"
+	      SrcPort		      1
+	      DstBlock		      "Gain"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Gain"
+	      SrcPort		      1
+	      DstBlock		      "Out"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "tanh fit"
+	  Ports			  [1, 1, 0, 0, 0, 0, 0, 1]
+	  Position		  [200, 270, 280, 310]
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    2
+	    ShowSigGenPortName	    on
+	  }
+	  System {
+	    Name		    "tanh fit"
+	    Location		    [141, 80, 733, 351]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In"
+	      Position		      [25, 123, 55, 137]
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      ActionPort
+	      Name		      "Action Port"
+	      Position		      [270, 30, 329, 58]
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "AM_AM"
+	      Ports		      [1, 1]
+	      Position		      [300, 107, 350, 133]
+	      ShowName		      off
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      MaskDisplay	      "disp('AM/AM')"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      System {
+		Name			"AM_AM"
+		Location		[303, 430, 553, 559]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [25, 53, 55, 67]
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Trigonometry
+		  Name			  "Trigonometric\nFunction"
+		  Ports			  [1, 1]
+		  Position		  [100, 45, 130, 75]
+		  ShowName		  off
+		  Operator		  "tanh"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [175, 53, 205, 67]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Line {
+		  SrcBlock		  "Trigonometric\nFunction"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "Trigonometric\nFunction"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "AM_PM"
+	      Ports		      [1, 1]
+	      Position		      [246, 155, 294, 180]
+	      Orientation	      "down"
+	      NamePlacement	      "alternate"
+	      ShowName		      off
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      MaskDisplay	      "disp('AM/PM')"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      System {
+		Name			"AM_PM"
+		Location		[308, 409, 653, 515]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In"
+		  Position		  [25, 38, 55, 52]
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Gain
+		  Name			  "Input Gain"
+		  Position		  [200, 28, 255, 62]
+		  ShowName		  off
+		  Gain			  "am2pm*pi/180"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "dB Conversion"
+		  Ports			  [1, 1]
+		  Position		  [80, 23, 160, 67]
+		  SourceBlock		  "dspmathops/dB Conversion"
+		  SourceType		  "dB Conversion"
+		  dBtype		  "dB"
+		  intype		  "Amplitude"
+		  R			  "1"
+		  fuzz			  "on"
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out"
+		  Position		  [295, 38, 325, 52]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		  Port {
+		    PortType		    0
+		    PortNumber		    1
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Line {
+		  SrcBlock		  "In"
+		  SrcPort		  1
+		  DstBlock		  "dB Conversion"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "dB Conversion"
+		  SrcPort		  1
+		  DstBlock		  "Input Gain"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Input Gain"
+		  SrcPort		  1
+		  DstBlock		  "Out"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      ComplexToMagnitudeAngle
+	      Name		      "Complex to\nMagnitude-Angle1"
+	      Ports		      [1, 2]
+	      Position		      [165, 113, 195, 142]
+	      ShowName		      off
+	      Output		      "Magnitude and angle"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Input Gain1"
+	      Position		      [80, 113, 135, 147]
+	      ShowName		      off
+	      Gain		      "inputGain"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      MagnitudeAngleToComplex
+	      Name		      "Magnitude-Angle\nto Complex1"
+	      Ports		      [2, 1]
+	      Position		      [385, 187, 415, 218]
+	      ShowName		      off
+	      Input		      "Magnitude and angle"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortType		0
+		PortNumber		2
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Gain
+	      Name		      "Output Gain1"
+	      Position		      [440, 188, 495, 222]
+	      ShowName		      off
+	      Gain		      "outputGain"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum1"
+	      Ports		      [2, 1]
+	      Position		      [260, 200, 280, 220]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "++|"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortType		0
+		PortNumber		2
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out"
+	      Position		      [515, 198, 545, 212]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Complex to\nMagnitude-Angle1"
+	      SrcPort		      1
+	      Points		      [0, 0; 70, 0]
+	      Branch {
+		DstBlock		"AM_AM"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"AM_PM"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "AM_AM"
+	      SrcPort		      1
+	      Points		      [5, 0; 0, 75]
+	      DstBlock		      "Magnitude-Angle\nto Complex1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Magnitude-Angle\nto Complex1"
+	      SrcPort		      1
+	      DstBlock		      "Output Gain1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Input Gain1"
+	      SrcPort		      1
+	      DstBlock		      "Complex to\nMagnitude-Angle1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Complex to\nMagnitude-Angle1"
+	      SrcPort		      2
+	      Points		      [0, 75]
+	      DstBlock		      "Sum1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "In"
+	      SrcPort		      1
+	      DstBlock		      "Input Gain1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Output Gain1"
+	      SrcPort		      1
+	      DstBlock		      "Out"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "AM_PM"
+	      SrcPort		      1
+	      DstBlock		      "Sum1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Sum1"
+	      SrcPort		      1
+	      DstBlock		      "Magnitude-Angle\nto Complex1"
+	      DstPort		      2
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out"
+	  Position		  [855, 338, 885, 352]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Line {
+	  SrcBlock		  "Merge"
+	  SrcPort		  1
+	  Points		  [190, 0]
+	  Branch {
+	    DstBlock		    "Complex Gaussian\nNoise Source"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -40; 150, 0]
+	    DstBlock		    "Sum"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Selector"
+	  SrcPort		  1
+	  DstBlock		  "Product"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Probe1"
+	  SrcPort		  2
+	  DstBlock		  "Selector"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain1"
+	  SrcPort		  1
+	  Points		  [5, 0; 0, -150]
+	  DstBlock		  "Complex Gaussian\nNoise Source"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Product"
+	  SrcPort		  1
+	  DstBlock		  "Gain1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Probe1"
+	  SrcPort		  1
+	  DstBlock		  "Product"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sum"
+	  SrcPort		  1
+	  DstBlock		  "Out"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain"
+	  SrcPort		  1
+	  DstBlock		  "Switch Case"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  DstBlock		  "cubic fit"
+	  DstPort		  ifaction
+	}
+	Line {
+	  SrcBlock		  "From1"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  DstBlock		  "tanh fit"
+	  DstPort		  ifaction
+	}
+	Line {
+	  SrcBlock		  "In"
+	  SrcPort		  1
+	  Points		  [10, 0]
+	  Branch {
+	    Points		    [0, 550; 345, 0]
+	    DstBlock		    "Probe1"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Check\nInput Signal"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  Labels		  [2, 0]
+	  SrcBlock		  "Check\nInput Signal"
+	  SrcPort		  1
+	  Points		  [0, 0; 15, 0]
+	  Branch {
+	    DstBlock		    "Goto2"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 50]
+	    DstBlock		    "Probe"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "From4"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  DstBlock		  "Rapp Model"
+	  DstPort		  ifaction
+	}
+	Line {
+	  SrcBlock		  "From3"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  DstBlock		  "Ghorbani Model"
+	  DstPort		  ifaction
+	}
+	Line {
+	  SrcBlock		  "From2"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  DstBlock		  "Saleh Model"
+	  DstPort		  ifaction
+	}
+	Line {
+	  SrcBlock		  "From5"
+	  SrcPort		  1
+	  DstBlock		  "cubic fit"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From9"
+	  SrcPort		  1
+	  DstBlock		  "Rapp Model"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From8"
+	  SrcPort		  1
+	  DstBlock		  "Ghorbani Model"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From7"
+	  SrcPort		  1
+	  DstBlock		  "Saleh Model"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "From6"
+	  SrcPort		  1
+	  DstBlock		  "tanh fit"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Probe"
+	  SrcPort		  1
+	  DstBlock		  "Gain"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rapp Model"
+	  SrcPort		  1
+	  Points		  [110, 0; 0, -210]
+	  DstBlock		  "Merge"
+	  DstPort		  6
+	}
+	Line {
+	  SrcBlock		  "From10"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  DstBlock		  "linear"
+	  DstPort		  ifaction
+	}
+	Line {
+	  SrcBlock		  "From11"
+	  SrcPort		  1
+	  DstBlock		  "linear"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Ghorbani Model"
+	  SrcPort		  1
+	  Points		  [65, 0; 0, -125]
+	  DstBlock		  "Merge"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "Saleh Model"
+	  SrcPort		  1
+	  Points		  [30, 0; 0, -40]
+	  DstBlock		  "Merge"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "tanh fit"
+	  SrcPort		  1
+	  Points		  [30, 0; 0, 35]
+	  DstBlock		  "Merge"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "cubic fit"
+	  SrcPort		  1
+	  Points		  [65, 0; 0, 115]
+	  DstBlock		  "Merge"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "linear"
+	  SrcPort		  1
+	  Points		  [105, 0; 0, 190]
+	  DstBlock		  "Merge"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Switch Case"
+	  SrcPort		  6
+	  DstBlock		  "Goto5"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Switch Case"
+	  SrcPort		  2
+	  DstBlock		  "Goto"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Switch Case"
+	  SrcPort		  3
+	  DstBlock		  "Goto1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Switch Case"
+	  SrcPort		  4
+	  DstBlock		  "Goto3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Switch Case"
+	  SrcPort		  5
+	  DstBlock		  "Goto4"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Switch Case"
+	  SrcPort		  1
+	  DstBlock		  "Goto6"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Complex Gaussian\nNoise Source"
+	  SrcPort		  1
+	  DstBlock		  "Sum"
+	  DstPort		  2
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Bandpass RF Filter"
+      Ports		      [1, 1]
+      Position		      [320, 77, 385, 133]
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskType		      "Bandpass RF Filter"
+      MaskDescription	      "Design one of several standard bandpass filters"
+", implemented in baseband equivalent complex form."
+      MaskHelp		      "helpview(rfbhelp)"
+      MaskPromptString	      "Design method:|Filter type:|Filter order:|Lower"
+" passband edge frequency (Hz):|Upper passband edge frequency (Hz):|Passband r"
+"ipple in dB:|Stopband attenuation in dB:|Max length of impulse response:|Cent"
+"er frequency (Hz):|Sample time (s):"
+      MaskStyleString	      "popup(Butterworth|Chebyshev I|Chebyshev II|Elli"
+"ptic|Bessel),popup(Bandpass),edit,edit,edit,edit,edit,edit,edit,edit"
+      MaskTunableValueString  "on,on,off,on,on,on,on,off,on,off"
+      MaskCallbackString      "rfblksfilters1(gcb);|rfblksfilters1(gcb);||||||"
+"||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,off,on,on,on,off,off,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,"
+      MaskVariables	      "method=&1;filttype=&2;N=@3;flo=@4;fhi=@5;Rp=@6;"
+"Rs=@7;MaxLength=@8;Fc=@9;Ts=@10;"
+      MaskInitialization      "load rfblksfiltericons;\nh = [yline+2 yline ywa"
+"v];\nw = [xline xline xwav];\nmodel = rfblksfilters1(gcb, 'rfInit');"
+      MaskDisplay	      "plot(w,h)\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "Butterworth|Bandpass|3|1.9998e9|2.0002e9|1|10|3"
+"2|2e9|1e-6"
+      MaskTabNameString	      ",,,,,,,,,"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+      System {
+	Name			"Bandpass RF Filter"
+	Location		[358, 375, 720, 558]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In"
+	  Position		  [65, 73, 95, 87]
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "RF Filter"
+	  Ports			  [1, 1]
+	  Position		  [140, 55, 240, 105]
+	  SourceBlock		  "rfprivate1/RF Filter"
+	  SourceType		  "RF Filter"
+	  ShowPortLabels	  "on"
+	  model			  "model"
+	  Ts			  "Ts"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out"
+	  Position		  [285, 73, 315, 87]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Line {
+	  SrcBlock		  "In"
+	  SrcPort		  1
+	  DstBlock		  "RF Filter"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "RF Filter"
+	  SrcPort		  1
+	  DstBlock		  "Out"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Bandstop RF Filter"
+      Ports		      [1, 1]
+      Position		      [425, 77, 490, 133]
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskType		      "Bandstop RF Filter"
+      MaskDescription	      "Design one of several standard bandstop filters"
+", implemented in baseband equivalent complex form."
+      MaskHelp		      "helpview(rfbhelp)"
+      MaskPromptString	      "Design method:|Filter type:|Filter order:|Lower"
+" passband edge frequency (Hz):|Upper passband edge frequency (Hz):|Passband r"
+"ipple in dB:|Stopband attenuation in dB:|Max length of impulse response:|Cent"
+"er frequency (Hz):|Sample time (s):"
+      MaskStyleString	      "popup(Butterworth|Chebyshev I|Chebyshev II|Elli"
+"ptic|Bessel),popup(Bandstop),edit,edit,edit,edit,edit,edit,edit,edit"
+      MaskTunableValueString  "on,on,off,on,on,on,on,off,on,off"
+      MaskCallbackString      "rfblksfilters1(gcb);|rfblksfilters1(gcb);||||||"
+"||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,off,on,on,on,off,off,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,"
+      MaskVariables	      "method=&1;filttype=&2;N=@3;flo=@4;fhi=@5;Rp=@6;"
+"Rs=@7;MaxLength=@8;Fc=@9;Ts=@10;"
+      MaskInitialization      "load rfblksfiltericons;\nh = [yline+1 ywav];\nw"
+" = [xline xwav];\nmodel = rfblksfilters1(gcb, 'rfInit');"
+      MaskDisplay	      "plot(w,h)\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "Butterworth|Bandstop|3|1.9998e9|2.0002e9|1|10|3"
+"2|2e9|1e-6"
+      MaskTabNameString	      ",,,,,,,,,"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+      System {
+	Name			"Bandstop RF Filter"
+	Location		[320, 311, 684, 497]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In"
+	  Position		  [55, 83, 85, 97]
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "RF Filter"
+	  Ports			  [1, 1]
+	  Position		  [130, 65, 230, 115]
+	  SourceBlock		  "rfprivate1/RF Filter"
+	  SourceType		  "RF Filter"
+	  ShowPortLabels	  "on"
+	  model			  "model"
+	  Ts			  "Ts"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out"
+	  Position		  [275, 83, 305, 97]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Line {
+	  SrcBlock		  "In"
+	  SrcPort		  1
+	  DstBlock		  "RF Filter"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "RF Filter"
+	  SrcPort		  1
+	  DstBlock		  "Out"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Highpass RF Filter"
+      Ports		      [1, 1]
+      Position		      [425, 167, 490, 223]
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskType		      "Highpass RF Filter"
+      MaskDescription	      "Design one of several standard highpass filters"
+", implemented in baseband equivalent complex form."
+      MaskHelp		      "helpview(rfbhelp)"
+      MaskPromptString	      "Design method:|Filter type:|Filter order:|Passb"
+"and edge frequency (Hz):|(unused)|Passband ripple in dB:|Stopband attenuation"
+" in dB:|Max length of impulse response:|Center frequency:|Sample time (s):"
+      MaskStyleString	      "popup(Butterworth|Chebyshev I|Chebyshev II|Elli"
+"ptic|Bessel),popup(Highpass),edit,edit,edit,edit,edit,edit,edit,edit"
+      MaskTunableValueString  "on,on,off,on,on,on,on,off,on,off"
+      MaskCallbackString      "rfblksfilters1(gcb);|rfblksfilters1(gcb);||||||"
+"||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,off,on,on,off,off,off,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,"
+      MaskVariables	      "method=&1;filttype=&2;N=@3;flo=@4;fhi=@5;Rp=@6;"
+"Rs=@7;MaxLength=@8;Fc=@9;Ts=@10;"
+      MaskInitialization      "load rfblksfiltericons;\nh = [yline yline+1 ywa"
+"v];\nw = [xline xline xwav];\nmodel = rfblksfilters1(gcb, 'rfInit');"
+      MaskDisplay	      "plot(w,h)\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "Butterworth|Highpass|3|1.9998e9|2.0002e9|1|10|3"
+"2|2e9|1e-6"
+      MaskTabNameString	      ",,,,,,,,,"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+      System {
+	Name			"Highpass RF Filter"
+	Location		[316, 308, 679, 493]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In"
+	  Position		  [70, 73, 100, 87]
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "RF Filter"
+	  Ports			  [1, 1]
+	  Position		  [145, 55, 245, 105]
+	  SourceBlock		  "rfprivate1/RF Filter"
+	  SourceType		  "RF Filter"
+	  ShowPortLabels	  "on"
+	  model			  "model"
+	  Ts			  "Ts"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out"
+	  Position		  [290, 73, 320, 87]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Line {
+	  SrcBlock		  "In"
+	  SrcPort		  1
+	  DstBlock		  "RF Filter"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "RF Filter"
+	  SrcPort		  1
+	  DstBlock		  "Out"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Lowpass RF Filter"
+      Ports		      [1, 1]
+      Position		      [320, 167, 385, 223]
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskType		      "Lowpass RF Filter"
+      MaskDescription	      "Design one of several standard lowpass filters,"
+" implemented in baseband equivalent complex form."
+      MaskHelp		      "helpview(rfbhelp)"
+      MaskPromptString	      "Design method:|Filter type:|Filter order:|Passb"
+"and edge frequency (Hz):|(unused)|Passband ripple in dB:|Stopband attenuation"
+" in dB:|Max length of impulse response:|Center frequency (Hz):|Sample time (s"
+"):"
+      MaskStyleString	      "popup(Butterworth|Chebyshev I|Chebyshev II|Elli"
+"ptic|Bessel),popup(Lowpass),edit,edit,edit,edit,edit,edit,edit,edit"
+      MaskTunableValueString  "on,on,off,on,on,on,on,off,on,off"
+      MaskCallbackString      "rfblksfilters1(gcb);|rfblksfilters1(gcb);||||||"
+"||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,off,on,on,off,off,off,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,"
+      MaskVariables	      "method=&1;filttype=&2;N=@3;flo=@4;fhi=@5;Rp=@6;"
+"Rs=@7;MaxLength=@8;Fc=@9;Ts=@10;"
+      MaskInitialization      "load rfblksfiltericons;\nh = [yline+2 yline+1 y"
+"wav];\nw = [xline xline xwav];\nmodel = rfblksfilters1(gcb, 'rfInit');"
+      MaskDisplay	      "plot(w,h)\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "Butterworth|Lowpass|3|1.9998e9|2.0002e9|1|10|32"
+"|2e9|1e-6"
+      MaskTabNameString	      ",,,,,,,,,"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+      System {
+	Name			"Lowpass RF Filter"
+	Location		[358, 373, 722, 556]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In"
+	  Position		  [60, 83, 90, 97]
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "RF Filter"
+	  Ports			  [1, 1]
+	  Position		  [135, 65, 235, 115]
+	  SourceBlock		  "rfprivate1/RF Filter"
+	  SourceType		  "RF Filter"
+	  ShowPortLabels	  "on"
+	  model			  "model"
+	  Ts			  "Ts"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out"
+	  Position		  [280, 83, 310, 97]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Line {
+	  SrcBlock		  "In"
+	  SrcPort		  1
+	  DstBlock		  "RF Filter"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "RF Filter"
+	  SrcPort		  1
+	  DstBlock		  "Out"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Mixer"
+      Ports		      [1, 1]
+      Position		      [175, 75, 275, 125]
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskType		      "Mixer"
+      MaskDescription	      "Complex baseband model of mixer with phase nois"
+"e.  \n\nThe phase noise of this block characterized by a 1/f slope.  The leve"
+"l of the spectrum is specified by the noise power contained in a one hertz ba"
+"ndwidth offset from the carrier by a certain frequency.  "
+      MaskHelp		      "helpview(rfbhelp)"
+      MaskPromptString	      "Conversion loss (dB):|Phase noise level (dBc/Hz"
+"):|Frequency offset (Hz):|Initial seed:"
+      MaskStyleString	      "edit,edit,edit,edit"
+      MaskTunableValueString  "on,on,on,off"
+      MaskCallbackString      "|||"
+      MaskEnableString	      "on,on,on,on"
+      MaskVisibilityString    "on,on,on,on"
+      MaskToolTipString	      "on,on,on,on"
+      MaskVarAliasString      ",,,"
+      MaskVariables	      "loss=@1;PhNs=@2;Fo=@3;seed=@4;"
+      MaskInitialization      "c1 = 10^(-loss/20);\n\nif PhNs>0,\n	erro"
+"r('Phase noise level should be negative.');\nend\nnum = sqrt(2*pi*Fo*10^((PhN"
+"s)/10));\nif num>.1,\n	warning('Current parameters in phase noise bloc"
+"k may produce inaccurate results.');\nend\nnum_taps = 64;\nden = zeros(1,num_"
+"taps);\nden(1) = 1;\nfor idx = 2:num_taps\n   den(idx) = (idx - 2.5) * den(id"
+"x-1) / (idx-1);\nend\n"
+      MaskDisplay	      "disp('Mixer');"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "0|-120|100|2137"
+      MaskTabNameString	      ",,,"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+      System {
+	Name			"Mixer"
+	Location		[7, 103, 752, 376]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In"
+	  Position		  [15, 48, 45, 62]
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Check\nInput Signal"
+	  Ports			  [1, 1]
+	  Position		  [80, 40, 145, 70]
+	  ShowName		  off
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  MaskDisplay		  "disp('Check\\nInput Signal');"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  System {
+	    Name		    "Check\nInput Signal"
+	    Location		    [252, 277, 576, 416]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In1"
+	      Position		      [25, 43, 55, 57]
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Check Signal\nAttributes"
+	      Ports		      [1, 1]
+	      Position		      [80, 28, 150, 72]
+	      SourceBlock	      "dspsigattribs/Check Signal\nAttributes"
+	      SourceType	      "Check Signal Attributes"
+	      SigAttribCheckMethod    "Does not match attributes exactly"
+	      Complexity	      "Complex"
+	      Frame		      "Ignore"
+	      DimsCheckMethod	      "Is..."
+	      Dimensions	      "Column vector (2-D) or scalar"
+	      DatatypeCheckMethod     "Ignore"
+	      DatatypeGeneral	      "Boolean"
+	      DtypeFloatSpecific      "Any floating-point"
+	      DtypeFixedSpecific      "Any fixed-point"
+	      DtypeIntSpecific	      "Any integer"
+	      SampleMode	      "Ignore"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Check Signal\nAttributes1"
+	      Ports		      [1, 1]
+	      Position		      [170, 28, 240, 72]
+	      SourceBlock	      "dspsigattribs/Check Signal\nAttributes"
+	      SourceType	      "Check Signal Attributes"
+	      SigAttribCheckMethod    "Matches attributes exactly"
+	      Complexity	      "Ignore"
+	      Frame		      "Sample-based"
+	      DimsCheckMethod	      "Is..."
+	      Dimensions	      "Vector (1-D or 2-D)"
+	      DatatypeCheckMethod     "Ignore"
+	      DatatypeGeneral	      "Boolean"
+	      DtypeFloatSpecific      "Any floating-point"
+	      DtypeFixedSpecific      "Any fixed-point"
+	      DtypeIntSpecific	      "Any integer"
+	      SampleMode	      "Ignore"
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [265, 43, 295, 57]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Check Signal\nAttributes"
+	      SrcPort		      1
+	      DstBlock		      "Check Signal\nAttributes1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Check Signal\nAttributes1"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "In1"
+	      SrcPort		      1
+	      DstBlock		      "Check Signal\nAttributes"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Complex Gaussian\nNoise Source"
+	  Ports			  [2, 1]
+	  Position		  [185, 124, 285, 171]
+	  SourceBlock		  "rfprivate1/Complex Gaussian\nNoise Source"
+	  SourceType		  "SubSystem"
+	  ShowPortLabels	  "on"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    2
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  ComplexToRealImag
+	  Name			  "Complex to\nReal-Imag"
+	  Ports			  [1, 1]
+	  Position		  [310, 135, 340, 165]
+	  Output		  "Real"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant"
+	  Position		  [135, 195, 165, 225]
+	  Orientation		  "up"
+	  NamePlacement		  "alternate"
+	  Value			  "2"
+	  SampleTime		  "Inf"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Digital Filter"
+	  Ports			  [1, 1]
+	  Position		  [365, 128, 435, 172]
+	  SourceBlock		  "dsparch3/Direct-Form II\nTranspose Filter"
+	  SourceType		  "Direct-Form II Transpose Filter"
+	  num			  "num"
+	  den			  "den"
+	  ic			  "0"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain"
+	  Position		  [310, 31, 370, 79]
+	  Gain			  "c1"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  MagnitudeAngleToComplex
+	  Name			  "Magnitude-Angle\nto Complex"
+	  Ports			  [1, 1]
+	  Position		  [470, 133, 500, 167]
+	  Input			  "Angle"
+	  ConstantPart		  "1"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product"
+	  Ports			  [2, 1]
+	  Position		  [530, 46, 575, 79]
+	  RndMeth		  "Floor"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    2
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out"
+	  Position		  [615, 58, 645, 72]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Line {
+	  SrcBlock		  "Digital Filter"
+	  SrcPort		  1
+	  DstBlock		  "Magnitude-Angle\nto Complex"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Magnitude-Angle\nto Complex"
+	  SrcPort		  1
+	  Points		  [10, 0]
+	  DstBlock		  "Product"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Complex to\nReal-Imag"
+	  SrcPort		  1
+	  DstBlock		  "Digital Filter"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Product"
+	  SrcPort		  1
+	  DstBlock		  "Out"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "In"
+	  SrcPort		  1
+	  DstBlock		  "Check\nInput Signal"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Check\nInput Signal"
+	  SrcPort		  1
+	  Points		  [5, 0]
+	  Branch {
+	    DstBlock		    "Gain"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 80]
+	    DstBlock		    "Complex Gaussian\nNoise Source"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Gain"
+	  SrcPort		  1
+	  DstBlock		  "Product"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Complex Gaussian\nNoise Source"
+	  SrcPort		  1
+	  DstBlock		  "Complex to\nReal-Imag"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Constant"
+	  SrcPort		  1
+	  Points		  [0, -30]
+	  DstBlock		  "Complex Gaussian\nNoise Source"
+	  DstPort		  2
+	}
+      }
+    }
+    Annotation {
+      Name		      "Mathematical"
+      Position		      [209, 31]
+      FontName		      "Arial"
+      FontSize		      14
+      FontWeight	      "bold"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+clear;
+r=[1,2,3,4,5,6];
+n=numel(r);
+
+%Formar matriz de combinaciones
+for i=1:n-1
+    for j=2:n
+        if i<j
+            a(i,j)=r(i)*r(j);
+        end
+    end
+end
+a
+m=1;
+
+for i=1:n-1
+    for j=1:n
+        for k=1:n
+            if m>n*(n-1)*(n-2)/2;
+              break
+            end
+            if j<k 
+            b(m,k)=a(i,j)*r(k); 
+            m=m+1;
+            end
+        end
+    end
+     %m=m+1;
+end
+b=b(n:end,n-4:end)
+comb=b(b~=0)   
+b

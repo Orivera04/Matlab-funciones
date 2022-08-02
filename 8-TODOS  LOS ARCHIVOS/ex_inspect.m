@@ -1,0 +1,2 @@
+figure
+inspect(1)

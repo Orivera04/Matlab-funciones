@@ -1,0 +1,22 @@
+% $Revision: 1.2 $
+Notes for operating the phyCORE-MPC555 evaluation board 
+=======================================================
+
+The ProOSEK target is setup to run from external RAM mapped at addres
+0x0. This permits emulation of a flash based environment were you have
+to place all code and constant data within the address range 0x000000
+- 0x06ffff. Execution after reset will start at address 0x100.
+
+The factory settings should be suitable for running code downloaded
+via BDM. 
+
+Before loading the code into RAM you must disable the FLEN bit. 
+(By disabling the bit in the IMMR using your BDM software). Then,
+disable CS0 and activate CS1 (e.g. write 0x00000000 to 0x2fc100 and
+0x00000001 to 0x2fc108). This is done for you by the automated
+download and run feature of the ProOSEK target that relies on
+the SingleStep debugger. 
+
+Now, the external RAM should be accessible from address 0 and the
+application can be downloaded and run using BDM.
+

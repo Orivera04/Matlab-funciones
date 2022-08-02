@@ -1,0 +1,89 @@
+%% $RCSfile: hc12targetmaster.tlc,v $
+%% $Revision: 1.1.6.3 $
+%%
+%% Copyright 1994-2004 The MathWorks, Inc.
+%%
+%% Description: 
+%%   Real-Time Workshop function that sets
+%%   the HC12 real-time clock value "RTR". 
+%%
+%implements  hc12targetmaster "C"
+
+
+%% Function: BlockTypeSetup ===================================================
+%%
+%% Purpose:
+%%
+%function BlockTypeSetup(block, system) Output
+  %%
+  %% HC12 and CodeWarrior specific includes
+  %openfile includes
+    /* Hi-Ware compiler, 6812, cpp_req_defines.h */
+    #include <hidef.h> 
+    #include "cpp_req_defines.h"
+    %if Settings.ToolVersion >= 3.0
+      #include <mc9s12dp256.h>
+    %else
+      #include <6812dp256.h>
+      
+      /* The following is a correction for ATD status
+       * register definition in 
+       * CodeWarrior HC12 version 2.0 
+       * 
+       * file:  6812dp256.h
+       */
+      #ifdef __6812DP256_H__ 
+        #ifdef ATD0STAT0      %% True for CW version 2.0 but
+                              %%   not in CW version 1.2
+
+          /* Undefine symbols */
+          #undef CCF0_0
+          #undef CCF1_0
+          #undef CCF2_0
+          #undef CCF3_0
+          #undef CCF4_0
+          #undef CCF5_0
+          #undef CCF6_0
+          #undef CCF7_0
+          
+          #undef CCF0_1 
+          #undef CCF1_1 
+          #undef CCF2_1 
+          #undef CCF3_1 
+          #undef CCF4_1 
+          #undef CCF5_1 
+          #undef CCF6_1 
+          #undef CCF7_1 
+          
+          /* DEFINE REGISTER BITS BANK 0 */                  
+          #define CCF0_0  ATD0STAT11.ATDSTAT1_BITS._CCF0
+          #define CCF1_0  ATD0STAT11.ATDSTAT1_BITS._CCF1 
+          #define CCF2_0  ATD0STAT11.ATDSTAT1_BITS._CCF2 
+          #define CCF3_0  ATD0STAT11.ATDSTAT1_BITS._CCF3 
+          #define CCF4_0  ATD0STAT11.ATDSTAT1_BITS._CCF4 
+          #define CCF5_0  ATD0STAT11.ATDSTAT1_BITS._CCF5 
+          #define CCF6_0  ATD0STAT11.ATDSTAT1_BITS._CCF6 
+          #define CCF7_0  ATD0STAT11.ATDSTAT1_BITS._CCF7 
+
+          /* DEFINE REGISTER BITS BANK 1 */               
+          #define CCF0_1  ATD1STAT11.ATDSTAT1_BITS._CCF0
+          #define CCF1_1  ATD1STAT11.ATDSTAT1_BITS._CCF1 
+          #define CCF2_1  ATD1STAT11.ATDSTAT1_BITS._CCF2 
+          #define CCF3_1  ATD1STAT11.ATDSTAT1_BITS._CCF3 
+          #define CCF4_1  ATD1STAT11.ATDSTAT1_BITS._CCF4 
+          #define CCF5_1  ATD1STAT11.ATDSTAT1_BITS._CCF5 
+          #define CCF6_1  ATD1STAT11.ATDSTAT1_BITS._CCF6 
+          #define CCF7_1  ATD1STAT11.ATDSTAT1_BITS._CCF7 
+        #endif  %% ATD0STAT0
+      #endif    %% __6812DP256_H__
+    %endif
+  %closefile includes
+  %<LibCacheIncludes(includes)>
+  %%
+  %openfile defines
+     #define RTR_VALUE (%<block.RTWdata.RTR>)
+  %closefile defines
+  %<LibCacheDefine(defines)>
+%endfunction
+
+%% [EOF] hc12targetmaster.tlc

@@ -1,0 +1,93 @@
+%  invfun4.m
+% Matlab file for Part 4 of the Inverse Functions module
+
+disp('********************************************')
+disp('Part 4: Inverting the Tangent Function ') 
+disp('********************************************')
+disp('  ')    
+
+    format short
+
+    disp('Step 1: ')
+    disp('Answer the questions as MATLAB comments')
+    disp('in your diary file.')
+    disp(' ')
+    disp('To continue afterwards, type the word return')
+    disp('and hit enter!')
+    disp(' ')
+
+    keyboard;
+    disp(' ')
+    
+    disp('--------------------------------------------')
+
+    disp('Step 2: ')
+    disp('Edit the fun.m file with a text editor so that')
+    disp('the new function used for fun(t) is ')
+    disp('    1./(1+t.^2). ')
+    disp('(Careful.  You do need a period ''''.'''' after ')
+    disp(' the 1 and likewise after the t.) ')
+    disp(' ')
+    disp('To list the m-file, enter: ''''type fun'''' ')
+    disp('at a MATLAB prompt. ')
+    disp(' ')
+    disp('--------------------------------------------')
+    disp('The function G(x) = intf(x) defined in m-file')
+    disp('intf.m need not be changed.  The latest')
+    disp('version of fun(t) will be integrated.')
+    disp(' ')
+    disp('To continue afterwards, type the word return')
+    disp('and hit enter!')
+    disp(' ')
+
+    keyboard;
+    disp(' ')
+    
+    disp('----------------------------------------------')
+    disp('Step 2 (cont.):')
+    disp('To graph the functions G(x) and tan(x) together, ')
+    disp('enter: ')
+    disp(' ')
+    disp(' clf  % clears plot')
+    disp(' x=-3:0.1:3; ')  
+    disp(' y1=intf(x); ')
+    disp(' y2=tan(x); ')
+    disp(' plot(x,y1, x,y2) ')
+    disp(' axis([-3 3 -6 6]) ')
+    disp(' legend(''G(x)'',''tan(x)'') ')
+    disp(' grid')
+    disp(' ')
+    disp('----------------------------------------------')
+    disp('What are your conclusions?  Write them as')
+    disp('MATLAB comments in your diary file.')
+    disp(' ')
+    disp('To continue afterwards, type the word return')
+    disp('and hit enter!')
+    disp(' ')
+
+    keyboard;
+    disp(' ')
+    
+    disp('----------------------------------------------')
+    disp('Step 3: ')
+    disp('To graph the function G(tan(x)), use the usual')
+    disp('method.  Enter the commands: ')
+    disp(' ')
+    disp(' x=-3:0.1:3; ')
+    disp(' y=intf(tan(x)); ')
+    disp(' plot(x,y) ')
+    disp(' title(''G(tan(x))'') ')
+    disp(' grid')
+    disp(' ')
+    disp('----------------------------------------------')
+    disp('Also graph the function tan(G(x)).')
+    disp(' ')
+    disp('Answer the the questions about domains.  Give ')
+    disp('complete explanations.  Write as MATLAB comments ')
+    disp('in your diary file. ')
+    disp(' ')
+
+    disp('----------------------------------------------')
+    disp('When you are finished with part 4, to go on to')
+    disp('part 5 of this module, type: invfun5.')
+    disp(' ')

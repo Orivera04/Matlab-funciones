@@ -1,0 +1,139 @@
+From: <Guardado por Microsoft Internet Explorer 5>
+Subject: 
+Date: Wed, 13 Aug 2008 12:55:05 -0600
+MIME-Version: 1.0
+Content-Type: text/html;
+	charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.mathworks.com/matlabcentral/files/1855/play.m
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.3198
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD>
+<META http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dwindows-1252">
+<META content=3D"MSHTML 6.00.2900.3314" name=3DGENERATOR></HEAD>
+<BODY><PRE>function play(infile,instrument,outfile)
+
+%This is a small program that generates wavfiles when provided with the =
+notes=20
+%that are to be played and the duration of each note.
+%
+%This information is in tab delimited file of two columns.
+%The first column of the input file should be the difference in the note =
+from the previous note.=20
+%Notes can be in difference on half or one (Other gaps can be used but =
+it might not sound good).
+%The first entry of the column will be the difference of the first note =
+with the 'Middle C'
+%The second column has the duration in seconds of each note
+%
+%Example of the major scale from Middle C with equal time duration of 1s =
+will be
+%
+%   0    1
+%   1    1
+%   1    1
+%   0.5  1
+%   1    1
+%   1    1
+%   1    1
+%   0.5  1
+%
+%The above will write a wave file which will play C for 1s, D for 1s, E =
+for 1s, F for 1s,=20
+%G for 1s ... till C for 1s
+%
+%Syntax:
+%  play(infile,instrument,outfile);
+%
+%  infile has to be the txt file of the format mentioned above
+%  instrument can be 'sine','flute','oboe','violin' (though it sounds =
+nothing like those instruments)
+%  outfile is the file into which the wavfile has to be written.
+%
+%We can write any sequence of numbers to get any song generated.=20
+%Nothing useful - but fun
+%Working on making the instruments sound more like they should
+%
+%
+%See also WAVAPPEND for writing large wavfiles.
+%
+
+%Suresh Joel, June 11,2002
+
+switch(nargin)
+case 0
+   [filename pathname]=3Duigetfile('*.txt','Open sequence file');
+   infile=3Dstrcat(pathname,filename);
+   instrument =3D 'sine';
+case 1
+   instrument =3D 'sine';
+case 2
+case 3  =20
+   %do nothing
+end
+
+[n p]=3Dtextread(infile,'%f %f');
+
+Fs=3D11025;
+w=3D261.63;
+x=3D[];
+for i=3D1:length(n)
+   t=3D0:1/Fs:(0.5*p(i));
+   if(fix(n(i)))
+      for j=3D1:abs(fix(n(i)))
+         if n(i)&gt;=3D0
+            w=3Dw*1.122458;
+         else
+            w=3Dw/1.122458;
+         end
+      end
+   end
+   if(rem(n(i),1))
+      if(n(i)&gt;0)
+         w=3Dw*1.059465;
+      else
+         w=3Dw/1.059465;
+      end
+   end
+   switch(instrument)
+   case 'sine'
+      x1=3Dsin((2*pi*w).*t);
+   case 'flute'
+      x1=3Dsin((2*pi*w).*t)+ 0.75*sin((2*pi*w*2).*t) + =
+0.18*sin((2*pi*w*3).*t) + 0.18*sin((2*pi*w*4).*t) + =
+0.06*sin((2*pi*w*5).*t);
+   case 'oboe'
+      x1=3Dsin((2*pi*w).*t)+ 1.375*sin((2*pi*w*2).*t) + =
+0.75*sin((2*pi*w*3).*t) + sin((2*pi*w*4).*t) + 0.45*sin((2*pi*w*5).*t) + =
+0.375*sin((2*pi*w*6).*t);
+   case 'violin'
+      x1=3Dsin((2*pi*w).*t)+ 0.5*sin((2*pi*w*2).*t) + =
+0.43*sin((2*pi*w*3).*t) + 0.48*sin((2*pi*w*4).*t) + =
+0.55*sin((2*pi*w*5).*t) + 0.76*sin((2*pi*w*6).*t);
+   end
+  =20
+   %Jump correction
+   true=3D1;
+   l=3D0;
+   k=3Dlength(x1);
+   while(true),
+      if(x1(k)&gt;0 &amp; x1(k-1)&gt;0) | (x1(k)&lt;0 &amp; =
+x1(k-1)&lt;0),
+         l=3Dl+1;
+      else
+         true=3D0;
+      end
+      k=3Dk-1;
+   end
+  =20
+   x=3D[x x1(1:(length(x1)-l))];
+end
+
+if(nargin&lt;3)
+   sound(x,Fs);
+else
+   wavwrite(x,Fs,outfile);
+end;
+</PRE></BODY></HTML>

@@ -1,0 +1,118 @@
+%% File: mpc555exp_genfiles.tlc
+%%
+%% Abstract:
+%%   This tlc file will generate each files needed to build the 
+%%   mpc555exp target.
+%%
+%% $Revision: 1.11.4.3 $
+%% $Date: 2004/04/29 03:40:15 $
+%%
+%% Copyright 2001-2003 The MathWorks, Inc.
+%selectfile NULL_FILE
+
+%with CompiledModel.PathInfo
+%with CompiledModel.Settings
+
+%assign ModelName = CompiledModel.Name
+%assign link_cmd_file = "%<ModelName>.lcf"
+
+%% Implicitly create SourceFiles and HeaderFiles lists in the rtwattic.
+%<cache_source_file_names()>
+
+%% Get SourceFiles list from the rtwattic.
+%assign ModelSourceFiles   = FEVAL("rtwprivate","rtwattic","AtticData","SourceFiles")
+
+%assign CommAPIFiles  = ["%<ModelName>_comm.c", "%<ModelName>_comm_c_api.c"]
+%assign bspFiles    = ["mw_bsp.a", "uart_diab.a"]
+%assign CommFiles    = ["CommAPI.h", "commapi.a"]
+
+%% create the module file list, then generate moduel.o object list list
+%assign module_obj_name = ""
+%with CompiledModel
+  %with ModelFiles
+    %if ISFIELD(CompiledModel,"ModelFiles")
+      %foreach fileIdx = LibGetNumModelFiles()
+	%assign fileName  = LibGetModelFileAttribute(fileIdx,"Name")
+	%assign fileSrc   = LibGetModelFileAttribute(fileIdx,"Creator")
+	%assign fileType  = LibGetModelFileAttribute(fileIdx,"Type")
+	%assign opFile    = ModelFile[fileIdx]
+	%if fileType == "SystemBody" && fileSrc == "Simulink"
+	  %assign module_obj_name = "%<module_obj_name>" + " %<opFile.Name>.o"
+	%endif
+      %endforeach
+    %else
+      %foreach fileIdx = NumSources
+	%assign mdlSrc = Sources[fileIdx]
+	%assign module_obj_name = "%<module_obj_name>" + " %<mdlSrc>.o"
+      %endforeach
+    %endif
+  %endwith
+%endwith
+%if RTWVerbose
+    %selectfile STDOUT
+        ### Creating %<link_cmd_file>
+    %closefile  STDOUT
+%endif
+%openfile bld_file = "%<link_cmd_file>"
+  /* We use FORCEACTIVE so that the linker will not deadstrip the algorithm
+     files. Otherwise it would be deadstripped since it is 
+     not ever called by anything */
+  MEMORY {
+  	ram : org = 0xfff02000
+  	rom : org = 0xfff00000 
+  }
+  /* FORCEFILES { %<module_obj_name> } */
+  FORCEACTIVE { %<ModelName>_initialize %<ModelName>_step %<ModelName>_terminate }
+  SECTIONS {
+  	GROUP : {
+  		.init  : {}
+  		.text (TEXT) ALIGN(0x1000) : {}
+  		.rodata (CONST) : {
+  			*(.rdata)
+  			*(.rodata)
+  		}
+  		.ctors : {}
+  		.dtors : {}
+  		extab : {}
+  		extabindex : {}
+  		.data : {}
+  		.sdata : {}
+  		.sbss : {}
+  		.sdata2 : {}
+  		.sbss2 : {}
+  		.bss : {}
+  		.PPC.EMB.sdata0 : {} 
+  		.PPC.EMB.sbss0 : {}		
+  	} > ram
+  }
+%closefile bld_file
+
+%assign model_makevars_file = "%<ModelName>_makevars.mk"
+
+%if RTWVerbose
+    %selectfile STDOUT
+    ### Creating %<model_makevars_file>
+    %closefile  STDOUT
+%endif
+%openfile bld_file = "%<model_makevars_file>"
+    %with CompiledModel.Settings
+        TGTCOMPILER=%<ToolChain>
+        %switch FEVAL("lower",ToolChain)
+            %case "diab"
+                DIABROOT=%<ToolChainOptions.CompilerPath>
+                DIABBIN=%<ToolChainOptions.CompilerPath>\WIN32\bin
+                MPC555_TOOL_CHAIN=DIAB
+            %break
+        %case "codewarrior"
+                BUILD_FOR=HOST
+                CWROOT=%<ToolChainOptions.CompilerPath>
+                MPC555_TOOL_CHAIN=CODE_WARRIOR
+            %break
+        %default
+                %error %<ToolChain> is not supported
+        %endswitch
+    %endwith
+%closefile bld_file
+
+%endwith
+%endwith

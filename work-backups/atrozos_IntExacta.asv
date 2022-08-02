@@ -1,0 +1,9 @@
+function inte = atrozos_IntExacta(x,PC,funs)
+clc;
+n=numel(PC)
+suma=0;
+for i=2:n-1
+    suma=suma+int(funs{i},PC(i-1),PC(i))
+    pause(3)
+end
+inte=int(funs{1},x(1),PC(1))+int(funs{n},PC(n),x(end))+suma;

@@ -1,0 +1,38 @@
+ 
+      PARAMETER ( NSTATE = 2, NIN = 1, NOUT = 1 )
+      PARAMETER ( DT = 0.25, TMAX = 10.0 )
+C
+      DIMENSION P(NSTATE,NSTATE),B(NSTATE,NIN)
+      DIMENSION RL(NOUT,NSTATE),C(NOUT,NIN) 
+      DIMENSION X(NSTATE),Y(NOUT),TEMP(NSTATE)
+      DATA P /0.0,-2.0,1.0,-1.0/, B /0.0,2.0/, RL /1.0,0.0/, C /0.0/
+      DATA X /NSTATE*0.0/, T /0.0/
+C
+C *** UPDATE THE OUTPUT (Y)
+100   DO 110 I = 1,NOUT
+        Y(I) = 0
+        DO 120 J = 1,NSTATE
+120       Y(I) = Y(I)+RL(I,J)*X(J)
+C *** APPLY A UNIT STEP A UNIT STEP TO ALL INPUTS ( U = 1 )
+        DO 130 J = 1,NIN
+130       Y(I) = Y(I)+C(I,J)*1
+110     CONTINUE
+      WRITE(6,*)T,X,Y
+      T = T+DT
+C *** IS THE INTERVAL COMPLETED ( T > TMAX )
+      IF(T.GT.TMAX)GO TO 999
+C *** UPDATE THE STATE VARIABLES ( X )
+      DO 200 I = 1,NSTATE
+        TEMP(I) = X(I)
+        DO 210 J = 1,NSTATE
+210       TEMP(I) = TEMP(I)+DT*P(I,J)*X(J)
+C *** APPLY A UNIT STEP INPUT TO ALL THE INPUTS ( U = 1 )
+        DO 220 J=1,NIN
+220       TEMP(I) = TEMP(I)+DT*B(I,J)*1
+200    CONTINUE
+      DO 250 I = 1,NSTATE
+250     X(I) = TEMP(I)
+      GO TO 100
+C
+999   STOP
+      END

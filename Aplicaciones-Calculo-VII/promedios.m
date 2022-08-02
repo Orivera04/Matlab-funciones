@@ -1,0 +1,15 @@
+for i=1:3
+    ID(i)= input('De el ID del estudiante ');
+    S1 = input('De la 1a. nota ');
+    S2 = input('De la 2a. nota ');
+    S3 = input('De la 3a. nota ');
+    x = [ID(i), S1, S2, S3];
+    Prom(i) = (S1+S2+S3)/3;
+end;
+fprintf('Resultados de los tres examenes\n');
+fprintf('ID  promedio\n')
+for i = 1:3
+fprintf('%2.0f  ',ID(i));
+    fprintf('%5.2f \n',Prom(i))
+end;
+fprintf('\n')

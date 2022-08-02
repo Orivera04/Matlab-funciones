@@ -1,0 +1,506 @@
+%% $RCSfile: hc12mainlib.tlc,v $
+%% $Revision: 1.1.6.4 $
+%%
+%% Copyright 1994-2004 The MathWorks, Inc.
+%%
+%% Abstract:
+%%   Library file to create a sample main for ERT code format
+%%   for a given model.
+%%
+%selectfile NULL_FILE
+%selectfile NULL_FILE
+
+%% Don't need the generic step fcn with switchyard to be generated.
+%assign ::RateBasedStepFcn =1
+
+%%===========================================================================
+%function HC12FcnMdlName() void
+  %return Name
+%endfunction
+
+%%===========================================================================
+%function HC12FcnGetPublicModelHeaderFile() void
+  %return "%<Name>.h"  
+%endfunction
+
+%%===========================================================================
+%function HC12FcnGetPeriodFromTID(tid) void
+  %return SampleTime[tid].PeriodAndOffset[tid]
+%endfunction
+
+%%
+%% Functions for creating the appropriate scheduler
+%%
+
+%%===========================================================================
+%function HC12FcnGenerateModelTerminate() Output
+  %if IncludeMdlTerminateFcn
+    
+    /* Disable rt_OneStep() here */
+
+    /* Terminate model */
+    %<HC12FcnMdlName()>_terminate(%<SLibModelFcnArgs("Terminate",TLC_TRUE,"")>);
+  %endif
+%endfunction
+
+%%===========================================================================
+%function HC12FcnSimpleNonOSMain() Output
+  /* Attaching rt_OneStep to a real-time clock is target specific.  
+   * This illustates how you do this for the HC12 relative to 
+   * initializing the model.
+   */
+   
+  #pragma CODE_SEG DEFAULT
+  void main(void)
+  {
+    int idx = 0;
+    %assign rootSystem = System[NumSystems-1]
+    %assign reqInsts = LibGetSystemField(rootSystem, "ReqRootPrmHdrDataInsts")
+
+    /* Initialize model */
+    %<HC12FcnMdlName()>_initialize(%<SLibModelFcnArgs("Initialize",TLC_TRUE,"")>);
+
+    %assign forceOneStep = EXISTS("ForceSimulatedRTOneStep")
+    %assign rootSystem = System[NumSystems-1]
+    %assign reqInsts = LibGetSystemField(rootSystem,"ReqRootPrmHdrDataInsts")
+    %if !reqInsts.SimStructInst && !EmptyRealTimeObject
+      %assign simstructArg = tSimStruct
+    %else
+      %assign simstructArg = ""
+    %endif
+
+    %assign period = HC12FcnGetPeriodFromTID(0)
+    /* Attach rt_OneStep to a timer or interrupt service routine with
+    * period %<period> seconds (the model's base sample time) here.  
+    * The call syntax for rt_OneStep is 
+    *
+    * rt_OneStep(%<simstructArg>);
+    */
+    
+    /* Setup CRG timer period */
+    RTICTL = RTR_VALUE; 
+    
+    /* RTIF is bit 7 in the CRGFLG register  
+    * Writing 1 clears the Real Time Interrupt flag 
+    */
+    %if Settings.ToolVersion >= 3.0
+      CRGFLG_RTIF = 1;
+    %else
+      RTIF = 1;
+    %endif
+    
+    /* RTIE is bit 7 in the CRGINT register  */
+    %if Settings.ToolVersion >= 3.0
+      CRGINT_RTIE = 1; /* Enable Real Time Interrupts */ 
+    %else
+      RTIE = 1; /* Enable Real Time Interrupts */ 
+    %endif
+    
+    EnableInterrupts;
+
+    while (%<RTMGetErrStat()> == NULL) {
+      /* Perform other application tasks here */
+    }
+    %<HC12FcnGenerateModelTerminate()>\
+  }
+%endfunction
+
+%%===========================================================================
+%function HC12FcnSingleRateWithoutOS(cFile) void
+  %openfile tmpFcnBuf
+
+  static boolean_T OverrunFlag = 0;
+  %closefile tmpFcnBuf
+  %<SLibSetModelFileAttribute(cFile, "Definitions", tmpFcnBuf)>  
+
+  %openfile tmpFcnBuf
+
+  %<HC12FcnRTOneStepDescription()>\
+  %assign rootSystem = System[NumSystems-1]
+  %assign reqInsts = LibGetSystemField(rootSystem,"ReqRootPrmHdrDataInsts")
+  %if !reqInsts.SimStructInst && !EmptyRealTimeObject
+    %assign simstructArg = "%<tSimStructType> *%<tSimStruct>"
+  %else
+    %assign simstructArg = "void"
+  %endif
+  %% The following pragma places rt_OneStep() in non-banked 
+  %% memory so it is always available (e.g. non-paged)
+  #pragma CODE_SEG __NEAR_SEG NON_BANKED
+  __interrupt void rt_OneStep(%<simstructArg>)
+  {
+    /*    ### SINGLE RATE -- NO OS ###    */ 
+    DisableInterrupts;
+    
+    /* Check for overun */
+    if (OverrunFlag++) {
+	%<RTMSetErrStat("\"Overrun\"")>;
+	return;
+    }
+      
+    /* Clear RTIF bit to re-enable timer  */
+    /* RTIF is bit 7 in the CRGFLG register */
+    /* Writing 1 clears the Real Time Interrupt flag */
+    %if Settings.ToolVersion >= 3.0
+      CRGFLG_RTIF = 1; 
+    %else
+      RTIF = 1;
+    %endif
+    
+    /* RTIE is bit 7 in the CRGINT register */
+    /* Enable Real Time Interrupts */ 
+    %if Settings.ToolVersion >= 3.0
+      CRGINT_RTIE = 1;
+    %else
+      RTIE = 1;
+    %endif
+  
+    %<FcnCallMdlStep("")>\
+    
+    /* Get model outputs here */
+    
+    OverrunFlag--;
+
+    %if ExtMode == 1
+      rtExtModeCheckEndTrigger();
+    %endif
+  }
+  
+  %<HC12FcnSimpleNonOSMain()>\
+  %closefile tmpFcnBuf
+  %return tmpFcnBuf
+%endfunction %% SingleRateWithoutOS
+
+%%===========================================================================
+%function HC12FcnOverrunFlagsInitStr() void
+  %assign initStr = ""
+  %assign comma   = ""
+  %foreach idx = NumSynchronousSampleTimes
+    %assign initStr = initStr + "%<comma>0"
+    %assign comma = ","
+  %endforeach
+  %return "{%<initStr>}"
+%endfunction %% HC12FcnOverrunFlagsInitStr
+
+%%===========================================================================
+%function HC12FcnMultiRateSingletaskingWithoutOS(cFile) void
+  %openfile tmpFcnBuf
+  static boolean_T OverrunFlag = 0;
+  %closefile tmpFcnBuf
+  %<SLibSetModelFileAttribute(cFile, "Definitions", tmpFcnBuf)>  
+  
+  %openfile tmpFcnBuf
+  
+  %<HC12FcnRTOneStepDescription()>\
+  %assign rootSystem = System[NumSystems-1]
+  %assign reqInsts = LibGetSystemField(rootSystem,"ReqRootPrmHdrDataInsts")
+  %if !reqInsts.SimStructInst && !EmptyRealTimeObject
+    %assign simstructArg = "%<tSimStructType> *%<tSimStruct>"
+  %else
+    %assign simstructArg = "void"
+  %endif
+  %%
+  %% The following pragma places rt_OneStep() in non-banked 
+  %% memory so it is always available (e.g. non-paged) 
+  #pragma CODE_SEG __NEAR_SEG NON_BANKED
+  __interrupt void rt_OneStep(%<simstructArg>) 
+  {
+    /*    ### MULTI RATE SINGLE TASKING -- NO OS ###    */
+    
+    /* Disable interrupts here */
+    DisableInterrupts;
+
+    /* Check for overrun */
+    if (OverrunFlag++) {
+      %<RTMSetErrStat("\"Overrun\"")>;
+      return;
+    }
+    
+    /* Save FPU context here (if necessary) */
+    /* Re-enable timer or interrupt here */
+    /* Set model inputs here */
+    
+    /* Clear RTIF bit to re-enable timer 
+     * RTIF is bit 7 in the CRGFLG register 
+     */
+     /* Writing 1 clears the Real Time Interrupt flag */
+     %if Settings.ToolVersion >= 3.0
+       CRGFLG_RTIF = 1;
+     %else
+       RTIF = 1;
+     %endif
+    
+    /* RTIE is bit 7 in the CRGINT register */
+    /* Enable Real Time Interrupts */ 
+    %if Settings.ToolVersion >= 3.0
+      CRGINT_RTIE = 1;
+    %else
+      RTIE = 1;
+    %endif
+       
+    %<FcnCallMdlStep(0)>\
+    
+    /* Get model outputs here */
+    
+    OverrunFlag--;
+
+    %if ExtMode == 1
+      rtExtModeCheckEndTrigger();
+    %endif
+  }
+
+  %<HC12FcnSimpleNonOSMain()>\
+  %closefile tmpFcnBuf
+  %return tmpFcnBuf
+%endfunction %% HC12FcnMultiRateSingletaskingWithoutOS
+
+%%===========================================================================
+%function HC12FcnCallEventFlagsFunction() Output
+  %assign fcnName = "%<Name>_SetEventsForThisBaseStep"
+  /*
+  * The rates that need to execute this base step must be buffered locally
+  * to allow for overlapping preemption.  The generated code includes
+  * 
+  * Function: %<fcnName>()
+  *
+  * which sets the rates that need to run this time step (values are
+  * 1/0 for true/false, respectively)
+  */
+  %if MultiInstanceERTCode
+    #pragma CODE_SEG DEFAULT
+    %<fcnName>(eventFlags, %<tSimStruct>);
+  %else
+    #pragma CODE_SEG DEFAULT
+    %<fcnName>(eventFlags);
+  %endif
+%endfunction %% HC12FcnCallEventFlagsFunction
+
+%%===========================================================================
+%function CreateHC12Main(fName) void
+
+  %assign cFile = SLibAddModelFile("SystemBody","Simulink",fName)
+  
+  %openfile tmpFcnBuf
+  %<SLibDeclareModelFcnArgs(TLC_TRUE)>\
+  %closefile tmpFcnBuf
+  %<SLibSetModelFileAttribute(cFile, "Definitions", tmpFcnBuf)>
+  
+  %openfile tmpFcnBuf
+    /* 
+     * Auto generated main for for model: %<HC12FcnMdlName()>
+     *
+     * Real-Time Workshop file version      : %<Version>
+     * Real-Time Workshop file generated on : %<GeneratedOn>
+     * C source code generated on           : %<TLC_TIME>
+     *
+     * Description:
+     * HC12 Target top-level %<fName>.c
+     *
+     */
+     
+  %closefile tmpFcnBuf
+  %<SLibSetModelFileAttribute(cFile, "Banner", tmpFcnBuf)>
+  
+  %<SLibSetModelFileAttribute(cFile, "Functions", HC12FcnGenerateMainFunctions(0,cFile))>
+
+  %openfile tmpIncludeBuf
+  /* Model's headers */
+  #include "%<HC12FcnGetPublicModelHeaderFile()>"
+  #include "%<Name>_private.h"
+
+  %closefile tmpIncludeBuf
+  %<SLibSetModelFileAttribute(cFile, "Includes", tmpIncludeBuf)>
+   
+  %% Display single/multi rate info
+  %if NumSynchronousSampleTimes == 1 
+      %<LibWriteToStandardOutput("### HC12 SingleRate Without OS")>
+  %elseif SLibSingleTasking()
+      %<LibWriteToStandardOutput("### HC12 MultiRate Singletasking Without OS")>
+  %else
+      %<LibWriteToStandardOutput("### HC12 MultiRate Multitasking Without OS")>
+  %endif
+  
+  %% Need additional file if CW version earlier than 3.0 since mc9s12dp256.c
+  %% didn't exist but the project stationary will expect to.
+  %if CompiledModel.Settings.ToolVersion < 3.0
+    %assign cFile = SLibAddModelFile("SystemBody","Simulink","mc9s12dp256")
+    %openfile tmpBuf
+    #include "%<CompiledModel.Settings.ToolRoot>lib\hc12c\src\6812dp256.c"
+    %closefile tmpBuf
+    %<SLibSetModelFileAttribute(cFile, "Includes", tmpBuf)>
+  %endif
+%endfunction %% CreateHC12Main
+
+%%===========================================================================
+%function HC12FcnRTOneStepDescription() Output
+  /* In the HC12 target, rt_OneStep is associated with a real-time clock
+   * 
+   * Overrun behavior should be tailored to your application needs.  This 
+   * example simply sets an error status in the real-time model and 
+   * returns from rt_OneStep.
+   */
+%endfunction %% HC12FcnRTOneStepDescription
+
+%%===========================================================================
+%function HC12FcnMultiRateMultitaskingWithoutOS(cFile) void
+  %openfile tmpFcnBuf
+
+  static boolean_T OverrunFlags[%<NumSynchronousSampleTimes>] = %<HC12FcnOverrunFlagsInitStr()>;
+  %closefile tmpFcnBuf
+  
+  %<SLibSetModelFileAttribute(cFile, "Definitions", tmpFcnBuf)>  
+
+  %openfile tmpFcnBuf
+  
+  %<HC12FcnRTOneStepDescription()>\
+  %assign rootSystem = System[NumSystems-1]
+  %assign reqInsts = LibGetSystemField(rootSystem,"ReqRootPrmHdrDataInsts")
+  %if !reqInsts.SimStructInst && !EmptyRealTimeObject
+    %assign simstructArg = "%<tSimStructType> *%<tSimStruct>"
+  %else
+    %assign simstructArg = "void"
+  %endif
+
+  %% The following pragma places rt_OneStep() in non-banked 
+  %% memory so it is always available (e.g. non-paged)
+  #pragma CODE_SEG __NEAR_SEG NON_BANKED
+  __interrupt void rt_OneStep(%<simstructArg>)
+  {
+    /*    ### MULTI RATE MULTI TASKING -- NO OS ###    */
+    
+    boolean_T eventFlags[%<NumSynchronousSampleTimes>]; /* Model has %<NumSynchronousSampleTimes> rates */
+    %if NumSynchronousSampleTimes > 2
+      int_T i;
+    %endif
+
+    /* Disable interrupts here */
+    DisableInterrupts;
+ 
+    /* Check base rate for overrun */
+    if (OverrunFlags[0]++) {
+      %<RTMSetErrStat("\"Overrun\"")>;
+      return;
+    }
+ 
+    /* RTIF is bit 7 in the CRGFLG register 
+     * Writing 1 clears the Real Time Interrupt flag 
+     */
+    %if Settings.ToolVersion >= 3.0
+      CRGFLG_RTIF = 1; 
+    %else
+      RTIF = 1; 
+    %endif
+    
+    /* RTIE is bit 7 in the CRGINT register 
+     * Enable Real Time Interrupts 
+     */
+    %if Settings.ToolVersion >= 3.0
+      CRGINT_RTIE = 1; 
+    %else
+      RTIE = 1;  
+    %endif
+      
+    %<HC12FcnCallEventFlagsFunction()>\
+    
+    /* Set model inputs associated with base rate here */
+    %<FcnCallMdlStep(0)>\
+    
+    /* Get model outputs associated with base rate here */
+    OverrunFlags[0]--;
+    
+    /* Check subrates for overrun */
+    %if NumSynchronousSampleTimes > 2
+      for (i = 1; i < %<NumSynchronousSampleTimes>; i++) {
+	if (eventFlags[i]) {
+	  if (OverrunFlags[i]++) {
+	    %<RTMSetErrStat("\"Overrun\"")>;
+	    return;
+	  }
+	  
+	  /* Set model inputs associated with subrates here */
+	  %<FcnCallMdlStep("i")>\
+	  
+	  /* Get model outputs associated with subrates here */
+	  OverrunFlags[i]--;
+	}
+      }
+    %else
+    if (eventFlags[1]) {
+	  if (OverrunFlags[1]++) {
+	    %<RTMSetErrStat("\"Overrun\"")>;
+	  return;
+	}
+	
+	/* Set model inputs associated with subrates here */
+	%<FcnCallMdlStep(1)>\
+	
+	/* Get model outputs associated with subrates here */
+        OverrunFlags[1]--;
+    }
+    %endif
+  }
+
+  %<HC12FcnSimpleNonOSMain()>\
+  %closefile tmpFcnBuf
+  %return tmpFcnBuf
+%endfunction %% HC12FcnMultiRateMultitaskingWithoutOS
+
+
+%%===========================================================================
+%function HC12FcnGenerateMainFunctions(retDesc,cFile) void
+  %assign singleTasking = SLibSingleTasking()
+  %assign delim = "*   "
+  %if NumSynchronousSampleTimes == 1
+    
+    %% Single rate
+    
+    %if TargetOS != "BareBoardExample"
+      %return retDesc ? ...
+	"%<delim>Real-Time Workshop Embedded Coder example single rate main\n" ...
+	"%<delim>to be deployed on a multitasking operating system.\n" : ...
+	HC12FcnSchedulerWithOS(cFile)
+    %else
+      %return retDesc ? ...
+	"%<delim>Real-Time Workshop Embedded Coder example single rate main assuming\n" ...
+	"%<delim>no operating system.\n" : ...
+	HC12FcnSingleRateWithoutOS(cFile)
+    %endif
+  
+  %elseif !singleTasking
+  
+    %% Multirate/Multitasking
+    
+    %if TargetOS != "BareBoardExample"
+      %return retDesc ? ...
+	  "%<delim>Real-Time Workshop Embedded Coder example multiple rate main tailored\n" ...
+	  "%<delim>to the VxWorks operating system.  This example code contains a\n" ...
+	  "%<delim>deterministic implementation of a rate monotonic scheduler deployed\n" ...
+	  "%<delim>on a multitasking operating system.\n" : ...
+	  HC12FcnSchedulerWithOS(cFile)
+    %else
+      %return retDesc ? ...
+	  "%<delim>Real-Time Workshop Embedded Coder example multiple rate main assuming\n" ...
+	  "%<delim>no operating system.  This example code contains a determanistic\n" ...
+	  "%<delim>implementation of a rate monotonic scheduler.\n" : ...
+	  HC12FcnMultiRateMultitaskingWithoutOS(cFile)
+    %endif
+  
+  %else
+  
+    %% Multirate/Singletasking
+    
+    %if TargetOS != "BareBoardExample"
+      %return retDesc ? ...
+	  "%<delim>Real-Time Workshop Embedded Coder example multiple rate main tailored\n" ...
+	  "%<delim>to the VxWorks operating system.  This example code contains an\n" ...
+	  "%<delim>inplementation of a singletasking process implemented on a multitasking\n" ...
+	  "%<delim>operating system.\n" : ...
+	  HC12FcnSchedulerWithOS(cFile)
+    %else
+      %return retDesc ? ...
+	  "%<delim>Real-Time Workshop Embedded Coder example multi-rate singletasking\n" ...
+	  "%<delim>main assuming no operating system.\n" : ...
+	  HC12FcnMultiRateSingletaskingWithoutOS(cFile)
+      %endif
+  
+  %endif
+%endfunction %% HC12FcnGenerateMainFunctions

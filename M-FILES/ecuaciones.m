@@ -1,0 +1,20 @@
+%Ecuaciones
+disp('Ecuacion #1: (x-h)^2+(y-k)^2=r^2');
+h=1; k=1;r=5;
+syms x y
+mizq=(x-h)^2+(y-k)^2;
+rcuad=r^2;
+mder=num2str(r^2); 
+strcat(char(mizq),'= ',mder)
+pretty(mizq),fprintf('\b = %s\n',mder)
+disp('')
+
+disp('Ecuación #2:x=(-b+sqrt(b^2-4ac))/2a');
+syms a b c x
+mizq='x';
+mder=char((-b+sqrt(b^2-4*a*c))/(2*a));
+strcat(mizq,'=',mder)
+fprintf('x=  ')
+pretty((-b+sqrt(b^2-4*a*c))/(2*a),20)
+
+

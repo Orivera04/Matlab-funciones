@@ -1,0 +1,143 @@
+%  matops4.m
+% Matlab file for Part 4 of the Matrix Operations module
+
+disp('***********************************************')
+disp('Part 4:  Determinants')
+disp('***********************************************')
+disp('  ')    
+
+    format short
+    A=[1,0,-1,3; 2,1,4,-2; 0,-5,0,1; -1,2,-1,3];
+    B=[2,1,0,7; -2,5,1,2; 4,1,3,-6; 4,-4,-1,5];
+    I = eye(4,4);
+    Z = zeros(4,4);
+    D2 = diag( [4,-1,5,2] );
+    D1 = diag( [1,2,-1,3] );
+    
+    disp('The matrices A, B, D1, D2, I (identity), and')
+    disp('Z (zero) from earlier parts are still available.')
+    disp(' ')
+    disp('The determinant of a matrix M in MATLAB is')
+    disp('just ''''det(M)''''. ')
+    disp(' ')
+    disp(' ')  
+    disp('----------------------------------------------')
+    disp('Steps 1 and 2:')
+    disp('Do all the operations in steps 1 and 2 and ')
+    disp('describe your conclusions by using MATLAB ')
+    disp('comments in your diary file.')
+    disp(' ')
+    disp('To continue afterwards, type the word return')
+    disp('and hit enter!')
+    disp(' ')
+
+    keyboard;
+    disp(' ')
+
+    disp('----------------------------------------------')
+    disp('Step 3: ')
+    disp('The following command generates two 4 by 4 matrices')
+    disp('with random integer entries between -10 and 10 ')
+    disp(' ')
+    disp('Enter:')
+    disp(' ')
+    disp('  R=floor( 10*(2*rand(4)-1) ) ')
+    disp('  S=floor( 10*(2*rand(4)-1) ) ')
+    disp(' ')
+    disp('By re-executing this command, you can generate ')
+    disp('as many random matrices as you wish. ')
+    disp(' ')
+    disp('----------------------------------------------')
+    disp('Compare det(R*S) to det(R)*det(S) and det(S*R).')
+    disp('Use MATLAB comments in your diary file to give.')
+    disp('your conclusions. ')
+    disp(' ')
+    disp('To continue afterwards, type the word return')
+    disp('and hit enter!')
+    disp(' ')
+
+    keyboard;   
+    disp(' ')
+
+    disp('----------------------------------------------')
+    disp('Step 4: ')
+    disp('Do all the operations in step 4 and ')
+    disp('describe your conclusions by using MATLAB ')
+    disp('comments in your diary file.')
+    disp(' ')
+    disp('Do all the operations in steps 5 and 6 and ')
+    disp('describe your conclusions by using MATLAB ')
+    disp('comments in your diary file.')
+    disp(' ')
+    disp('To continue afterwards, type the word return')
+    disp('and hit enter!')
+    disp(' ')
+
+    keyboard;   
+    disp(' ')
+
+    disp('----------------------------------------------')
+    disp('Step 5: ')
+    disp('The following command generates a 4 by 4 matrix')
+    disp('with random integer entries between -10 and 10. ')
+    disp(' ')
+    disp('Enter:')
+    disp(' ')
+    disp('  P = floor( 10*(2*rand(4)-1) ) ')
+    disp(' ')
+    disp('By re-executing this command, you can generate ')
+    disp('as many random matrices as you wish. ')
+    disp(' ')
+    disp('----------------------------------------------')
+    disp('Compare det(inv(P)*A*P) to det(A) for various')
+    disp('random matrices P.')
+    disp('Use MATLAB comments in your diary file to give.')
+    disp('your conclusions. ')
+    disp(' ')
+    disp('To continue afterwards, type the word return')
+    disp('and hit enter!')
+    disp(' ')
+
+    keyboard;
+    disp(' ')
+
+    disp('----------------------------------------------')
+    disp('Step 6:')
+    disp('Do all the operations in step 6 and ')
+    disp('describe your conclusions by using MATLAB ')
+    disp('comments in your diary file.')
+    disp(' ')
+    disp('To continue afterwards, type the word return')
+    disp('and hit enter!')
+    disp(' ')
+
+    keyboard;
+    disp(' ')
+ 
+    disp('----------------------------------------------')
+    disp('Step 7:')
+    disp('Now we will use the symbolic capabilities of  ')
+    disp('MATLAB.  The following commands generate a ')
+    disp('symbolic matrix T and compute its determinant. ')
+    disp(' ')
+    disp('Enter: ')
+    disp(' ')
+    disp('  syms t11 t12 ')
+    disp('  syms t21 t22 ')
+    disp('  T=[t11 t12; t21 t22] ')
+    disp('  det(T)')
+    disp(' ')
+    disp('----------------------------------------------')
+    disp('Now, you define a 3 by 3 symbolic matrix and  ')
+    disp('find its determinant.  Do the same for a 4 by 4. ')
+    disp('  (Note: You can use more than one ''''syms'''' ')
+    disp('   statement.) ')
+    disp(' ')
+    disp('Describe your conclusions by using MATLAB ')
+    disp('comments in your diary file.')
+    disp(' ')
+    disp(' ')
+    disp('----------------------------------------------')
+    disp('To go on to part 5 of this module, ')
+    disp('type: matops5')
+    disp(' ')

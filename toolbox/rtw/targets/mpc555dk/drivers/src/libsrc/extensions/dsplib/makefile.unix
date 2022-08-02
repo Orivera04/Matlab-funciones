@@ -1,0 +1,34 @@
+# File    : makefile.unix
+# Abstract:
+#       once - Generate dspsrcdirs.mk file containing list of DSP src dirs
+#       			required for DSP lib
+#       all  - Do nothing.
+# 
+#  Copyright (c) 2004 The MathWorks, Inc.
+#  $Revision: 1.1.6.1 $
+
+MAKEFILE   = makefile.unix
+override MATLABROOT := $(subst \,/,$(MATLABROOT))
+
+PERL			  = perl
+PERLWIN32 	  = $(MATLABROOT)/sys/perl/win32/bin/perl.exe
+
+DSPBLKSDIR = $(MATLABROOT)/toolbox/rtw/dspblks/c
+
+TARGET = dspsrcdirs.mk
+
+all : 
+
+once : $(TARGET)
+
+
+
+# make sure rule always runs
+.PHONY :	$(TARGET)
+$(TARGET):
+	$(PERL) dspsrcdirs.pl $(TARGET) $(DSPBLKSDIR)
+	
+cleanonce :
+	rm -f $(TARGETS)
+
+clean:

@@ -1,0 +1,33 @@
+%% File: toolbox/rtw/targets/mpc555dk/rt/blockset/tlc_include/RCS/irq_registration.tlc
+%%
+%% Abstract:
+%%   Registers and reserves interrupt levels for the MPC555
+%%
+%% $Revision: 1.9.4.1 $
+%% $Date: 2004/04/19 01:30:36 $
+%%
+%% Copyright 2001-2002 The MathWorks, Inc.
+
+%function IRQRegister(block,level)
+   %if EXISTS(CompiledModel.MPC555_IRQ_Registration)
+      %assign nRecords = SIZE(CompiledModel.MPC555_IRQ_Registration,1)
+      %foreach idx=nRecords
+         %assign rec = CompiledModel.MPC555_IRQ_Registration[idx]
+         %if ISEQUAL(rec.Level,level)
+            %assign errstr = "Interrupt request level of %<block> cannot be set to %<level> as %<rec.Block> already has this level " 
+            %matlab hilite_system(block)
+            %matlab open_system(block)
+            %matlab hilite_system(rec.Block)
+            %exit "Interrupt request level of %<block> cannot be set to %<level> as %<rec.Block> already has this level "
+         %endif
+      %endforeach
+   %endif
+   %addtorecord CompiledModel MPC555_IRQ_Registration { \
+      Level "%<level>" \
+      Block "%<block>"   \
+   }
+   %return TLC_TRUE
+%endfunction
+
+
+

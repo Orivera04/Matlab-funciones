@@ -1,0 +1,34 @@
+function y = bksub(A,b)                     %last updated 1/17/96
+%BKSUB   Realiza sustitución hacia atrás en un sistema triangular
+%        superior Ax = b.  Si A no es cuadrada, triangular superior
+%        y no-singular se despliega un mensaje de error
+%        displayed. In case of an error the solution returned is
+%        all zeros.
+%    A =
+
+%    1    -3     2 
+%    0     5    -1
+%    0     0     1
+%   b=
+
+%    1
+%    3
+%    2
+%
+%    y = bksub(A,b)
+%     By: David R. Hill, MATH DEPT, Temple University,
+%         Philadelphia, Pa. 19122   Email: hill@math.temple.edu
+if (size(A)==size(A') & all(all(A==triu(A))) & abs(prod(diag(A))) > eps)
+    n=length(b);
+    x=zeros(n,1);
+    for j=n:-1:1
+       x(j)=(b(j)-A(j,:)*x)/A(j,j);
+    end
+    y=x;
+else
+    disp('Error in function backsub.')
+    disp('Coefficient matrix not square,')
+    disp('not upper triangular, or is singular.')
+    return
+end
+  

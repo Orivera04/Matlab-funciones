@@ -1,0 +1,24 @@
+From: <Guardado por Microsoft Internet Explorer 5>
+Subject: 
+Date: Wed, 13 Aug 2008 12:51:52 -0600
+MIME-Version: 1.0
+Content-Type: text/html;
+	charset="Windows-1252"
+Content-Transfer-Encoding: 7bit
+Content-Location: http://www.mathworks.com/matlabcentral/files/4824/tts.m
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.3198
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 6.00.2900.3314" name=GENERATOR></HEAD>
+<BODY><PRE>function tts(textIn)
+% tts  Text To Speech function, version 1.0
+% 
+%   tts(textString) reads the textString string.
+%   The tts function calls the Microsoft(r) Win32 Speech API (SAPI).
+
+ha = actxserver('SAPI.SpVoice');
+invoke(ha,'speak',textIn);
+delete(ha);
+clear ha;</PRE></BODY></HTML>

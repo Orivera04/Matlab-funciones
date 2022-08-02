@@ -1,0 +1,317 @@
+            | WAVPLAY -- Play sounds from MATLAB 5 under Win32
+            |
+            | Version 1.0
+            | August 1, 1997
+            |___________________________________________________
+
+
+Usage Summary
+=============
+
+This usage summary can be displayed by typing 'wavplay' or 'help wavplay'
+at the command prompt.
+
+    WAVPLAY(data)             -- Play 'data' at 44.1 kHz
+    WAVPLAY(data,Fs)          -- Play 'data' at 'Fs' Hz
+    WAVPLAY(data,Fs,attr)     -- Play 'data' at 'Fs' Hz with the attributes
+                                 given in the scalar structure 'attr'
+    WAVPLAY('file.wav')       -- Play 'file.wav'
+    WAVPLAY('file.wav',attr)  -- Play 'file.wav' with the attributes
+                                 given in the scalar structure 'attr'
+    WAVPLAY('WIN:Sound')      -- Play the Windows sound name 'Sound'
+    WAVPLAY('WIN:Sound',attr) -- Play the Windows sound name 'Sound'
+                                 with the attributes in 'attr'
+    WAVPLAY(0)                -- Stop all sounds
+    WAVPLAY('stop')           -- Stop all sounds (equivalent to WAVPLAY(0))
+    retval = WAVPLAY(.....)   -- Return value is 1 for success, 0 for failure
+
+    'attr' is a structure with fields (* marks default):
+          async    = {0|1}       *0=synchronous, 1=asynchronous
+          channels = {0|1|2|3}   *0=normal, 1=force mono,
+                                  2=force stereo left, 3=force stereo right
+          scaling  = {'auto'|'none'|NNNN}   *'auto'=scale to maximum amplitude
+                                             'none'=use data as-is
+                                              NNNN =scale to amplitude NNNN
+          flow     = {'auto'|'try'}  *'auto'=stop any currently playing sound
+                                      'try' =fail if sound is currently playing
+          count    = {N|'loop'}      N=play sound N times (N=1 is the default)
+                                'loop'=play sound continuously (or set N=0)
+
+
+Introduction
+============
+
+WAVPLAY plays 16-bit audio waveforms on a Win32 PC platform under
+MATLAB 5. It can play:
+
+    * sounds stored as vectors in MATLAB memory,
+    * sounds stored in WAV files on disk,
+    * sounds associated with system events, such as 'SystemExclamation'
+      or 'Drop'
+
+In the first case, the MATLAB vector is automatically scaled and converted
+to 16-bit integers. This default behavior can be changed with optional
+settings. These settings also allow:
+
+    * synchronous or asynchronous playback
+    * user-defined scaling (including no scaling)[1]
+    * repeated playback (including looping)
+    * mono/stereo channel assignment control[1]
+
+[1] These options do not apply to the playback of WAV files or system event
+    sounds.
+
+Note that MATLAB's SOUND command will also play vectors from MATLAB memory.
+WAVPLAY differs from SOUND in that:
+
+    * it allows synchronous playback (this was actually the main reason
+      behind writing WAVPLAY)
+
+    * it allows playing WAV files directly from disk
+
+    * it provides various options for controlling scaling, looping, etc.
+
+
+Description
+===========
+
+WAVPLAY takes up to three arguments, only the first is required:
+
+    1) The data vector or file to play
+
+       The first parameter may either be a data vector or a string array
+       containing a file name or a system event sound name.
+
+       Vectors in Memory
+       -----------------
+
+       In the former case, the vector can be in several formats. A
+       real-valued vector represents waveform data that is to be played
+       monophonically. A complex-valued vector is to be played in
+       stereo, with the real part in the left channel and the imaginary
+       part in the right channel.
+
+       If the data vector is of dimension Nx2, it is also interpreted
+       as a stereo waveform and treated like a complex valued vector.
+       That is, the first column is the left channel and the second
+       column is the right channel. In this case, both columns must be
+       real-valued.
+
+       Input matrices of other dimensions are not allowed. In summary,
+       the allowed input data can be:
+
+            * Nx1 or 1xN real-valued data (monophonic)
+            * Nx1 or 1xN complex-valued data
+                            (stereo: real-->left, imag-->right)
+            * Nx2 real-valued data (stereo) (NOTE: 2xN not supported)
+
+       The data vector may be any valid scalar numeric type:
+            - double
+            - single
+            - Int8/16/32
+            - UInt8/16/32
+
+       (All types other than 'double' have not been tested because they are
+        not yet implemented in the current version of MATLAB. The
+        supporting code is based upon the published documentation and may
+        just work once MATLAB supports the additional types. Then again, it
+        may not.)
+
+       In all cases, the data is converted to signed 16-bit integers prior
+       to playback. This entails scaling the waveform so that its maximum
+       amplitude is 32767 (unless the 'scaling' attribute is set, see
+       below) and truncation to integers.
+
+       For the unsigned-integer types, the data is converted to signed
+       16-bit integers by first subtracting the middle-range value of the
+       given type. For example, 8-bit unsigned data will be offset by -128,
+       16-bit unsigned data by -32768, and 32-bit unsigned data by
+       -2147483648.
+
+       As a special case, if the data vector consists of the single scalar
+       0 (e.g., 'wavplay(0)') then WAVPLAY simply stops all currently
+       playing sounds. This is useful for terminating asynchronous sounds
+       or looped playback. An alternative way to do this is
+       wavplay('stop').
+
+       File Names
+       ----------
+
+       If the first parameter is a string array then it is interpreted as a
+       file name (except for system sounds, see below). In this case,
+       WAVPLAY does not require the second parameter (sampling rate) and it
+       must be omitted.
+
+       WAVPLAY will attempt to open the given file name and play it as
+       a WAV file. If the file is not a proper WAV file, no sound is
+       played and WAVPLAY returns 0.
+
+       WAVPLAY will search the following directories for the given file
+       name (in order):
+
+            - the current directory
+            - the Windows directory
+            - the Windows system directory
+            - directories listed in the PATH environment variable
+            - the list of directories mapped in a network
+
+       System Sounds
+       -------------
+
+       As a special case, if this first parameter is a string array of
+       the form 'WIN:Sound' where 'Sound' is a valid Windows system
+       sound, then the associated Windows waveform is played (as set by
+       the Control Panel sound applet). For example,
+
+                         WAVPLAY('WIN:SystemExit')
+
+       will play the waveform that you hear when you shut down Windows.
+       If the 'Sound' name is not recognized, the default system event
+       sound is played. If no default is installed, no sound is
+       produced and the return code is set to 0.
+
+       Possible Windows sound names include:
+
+                     Close         RingIn
+                     Drop          RingOut
+                     Maximize      SystemAsterisk
+                     MenuCommand   SystemDefault
+                     MenuPopup     SystemExclamation
+                     Minimize      SystemExit
+                     Open          SystemHand
+                     RestoreDown   SystemQuestion
+                     RestoreUp     SystemStart
+
+       You may not have all of these names in your registry. Conversely,
+       more names may have been defined by other applications.
+
+    2) The sampling rate
+
+       This must be a scalar indicating the assumed sampling rate in Hz.
+       The underlying hardware must be able to play waveform audio at this
+       sampling rate. No checks are made to ensure that this is the case.
+
+       If this parameter is omitted it defaults to 44.1 kHz.
+
+       This parameter must be omitted when a filename is the first
+       parameter (the playback sampling rate is encoded in the WAV file
+       itself).
+
+    3) Advanced parameters
+
+       The optional third argument (or second argument when playing a file
+       or system sound) must be a scalar structure. Various fields of the
+       structure are used to modify the behavior of WAVPLAY. All fields are
+       optional; if a field is omitted then the default behavior applies.
+
+         async=0 - play sound synchronously (default)
+         async=1 - play sound asynchronously (i.e., do not wait for
+                   sound to finish playing before returning to caller)
+
+         channels=0 - play sound in usual manner (default)
+         channels=1 - force monophonic sound
+                      If the sound is stereo, only the left channel
+                      is played monophonically (i.e., in both ears)
+         channels=2 - force stereo sound -- left channel
+                      If the sound is monophonic, it is played only
+                      in the left channel and the right channel is
+                      kept silent.
+         channels=3 - force stereo sound -- right channel
+                      If the sound is monophonic, it is played only
+                      in the right channel and the left channel is
+                      kept silent.
+
+         NOTE: The 'channels' property is ignored when playing files or
+               system sounds.
+
+         scaling=auto - scale sound to maximum amplitude (default)
+         scaling=none - do not scale sound
+                        WARNING: Clipping and undesirable distortion
+                        may occur if values outside of the range
+                        [-32768,32767] occur in the data.
+         scaling=NNNN - scale sound to amplitude NNNN where NNNN
+                        represents a scalar in the range [1,32767].
+                        Setting NNNN to 0 is equivalent to
+                        scaling='none'. Setting NNNN to 32767 is
+                        equivalent to scaling='auto'.
+
+         NOTE: The 'scaling' property is ignored when playing files or
+               system sounds.
+
+         flow=auto  - play sound immediately, stopping any existing
+                      sound that may be playing (default)
+         flow=try   - play sound if no other sound is playing, otherwise
+                      do nothing and return to caller (with a return
+                      value of 0)
+
+         count=1    - play sound once (default)
+         count=N    - play sound N times (N=0 is equivalent to
+                      count='loop')
+         count=loop - play sound repeatedly
+                      To stop this, a subsequent call to WAVPLAY must
+                      be performed. This option implies async=1 (i.e.,
+                      asynchronous playing).
+
+
+Examples
+========
+
+Here is a short script that plays a 1 second sine wave at 440 Hz.
+
+    Fs=44100;
+    x=sin(2*pi*440/Fs*(0:44099));
+    wavplay(x);
+
+The same sound as above is played but now asynchronously:
+
+    wavplay(x, Fs, struct('async',1));
+
+The file "chimes.wav" is played 3 times ('r' is 0 if the file cannot be
+found):
+
+    r=wavplay('chimes.wav', struct('count',3))
+
+The Windows system sound 'SystemExclamation' is played indefinitely:
+
+    wavplay('WIN:SystemExclamation', struct('count', 'loop'));
+
+Playback of the above sound is (thankfully) terminated:
+
+    wavplay(0);
+
+
+Administrivia
+=============
+
+   WAVPLAY was written by:
+
+       Andrew Sterian <asterian@umich.edu>
+         Auditory Signal Processing and Engineering (ASPEN) Lab
+         Department of Electrical Engineering and Computer Science
+         University of Michigan, USA
+
+   Copyright  (c)  1997 Andrew Sterian
+   COPYRIGHT  (c)  1997
+   THE REGENTS OF THE UNIVERSITY OF MICHIGAN
+   ALL RIGHTS RESERVED
+
+   PERMISSION IS GRANTED TO USE, COPY AND REDISTRIBUTE THIS SOFTWARE FOR
+   NONCOMMERCIAL EDUCATION AND RESEARCH PURPOSES, SO LONG AS NO FEE IS
+   CHARGED, AND SO LONG AS THE COPYRIGHT NOTICE ABOVE, THIS GRANT OF
+   PERMISSION, AND THE DISCLAIMER BELOW APPEAR IN ALL COPIES MADE; AND SO
+   LONG AS THE NAME OF THE UNIVERSITY OF MICHIGAN IS NOT USED IN ANY
+   ADVERTISING OR PUBLICITY PERTAINING TO THE USE OR DISTRIBUTION OF THIS
+   SOFTWARE WITHOUT SPECIFIC, WRITTEN PRIOR AUTHORIZATION.  PERMISSION TO
+   MODIFY OR OTHERWISE CREATE DERIVATIVE WORKS OF THIS SOFTWARE IS NOT
+   GRANTED.
+
+   THIS SOFTWARE IS PROVIDED AS IS, WITHOUT REPRESENTATION AS TO ITS
+   FITNESS FOR ANY PURPOSE, AND WITHOUT WARRANTY OF ANY KIND, EITHER
+   EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION THE IMPLIED WARRANTIES
+   OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE REGENTS OF
+   THE UNIVERSITY OF MICHIGAN SHALL NOT BE LIABLE FOR ANY DAMAGES,
+   INCLUDING SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, WITH
+   RESPECT TO ANY CLAIM ARISING OUT OF OR IN CONNECTION WITH THE USE OF THE
+   SOFTWARE, EVEN IF IT HAS BEEN OR IS HEREAFTER ADVISED OF THE POSSIBILITY
+   OF SUCH DAMAGES.
+

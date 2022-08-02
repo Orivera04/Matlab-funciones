@@ -1,0 +1,75 @@
+function crossdemo(x,y)                 %last updated 2/25/96
+%CROSSDEMO  Display a pair of three dimensional vectors and their
+%           cross product.
+%
+%         The input vectors u and v are displayed in a 3-dimensional
+%         perspective along with their cross product. For
+%         visualization purposes a set of coordinate 3-D axes are
+%         shown.
+%
+%         Use in the form:   ==>  crossdemo(u,v)  <==
+%         Ejemplo:
+%         >>x=[3 -5 7];
+%         >>y=[5 3 -2];
+%         >>crossdem(x,y)
+%     By: David R. Hill, MATH DEPT, Temple University,
+%         Philadelphia, Pa. 19122   Email: hill@math.temple.edu
+
+alpha=(210/180)*pi;
+beta=0;
+gamma=pi/2;
+T=zeros(4,4);
+T(1:3,1:2)=[cos(alpha) sin(alpha);cos(beta) sin(beta);cos(gamma) sin(gamma)];
+T(4,4)=1;
+xaxis=[1 0 0];xaxp=[xaxis 1]*T; %unit vectors in axis directions
+yaxis=[0 1 0];yaxp=[yaxis 1]*T;
+zaxis=[0 0 1];zaxp=[zaxis 1]*T;
+xax2=xaxp(1:2);yax2=yaxp(1:2);zax2=zaxp(1:2);
+xprime=[x 1]*T;  %x and y are to be ROWS HERE
+yprime=[y 1]*T;
+x2=xprime(1:2);y2=yprime(1:2);
+z=cross(x,y);
+zprime=[z 1]*T;
+z2=zprime(1:2);z2=3*(z2/norm(z2));%makes normal have length 3
+org=[0 0];
+V=[x2;y2;z2;org];
+t1=min(V(:,1));t2=max(V(:,1));t3=min(V(:,2));t4=max(V(:,2));
+ax=[t1 t2 t3 t4];b=sign(ax);
+if b(1)==0
+      b(1)=-1;
+end
+if b(3)==0
+      b(3)=-1;
+end
+if b(2)==0
+      b(2)=1;
+end
+if b(4)==0
+      b(4)=1;
+end
+ax=ax+b;% making a slightly bigger graphics box
+figure
+axis(ax),axis('off')
+axis('square')
+hold on
+title('Graphical Display of Cross Product:  u cross v')
+plot(0,0,'*w')
+plot([0 xax2(1)],[0 xax2(2)],'-w')
+plot([0 yax2(1)],[0 yax2(2)],'-w')
+plot([0 zax2(1)],[0 zax2(2)],'-w')
+pause(3)
+plot([0 x2(1)], [0 x2(2)],'-y')
+text(x2(1)/2,x2(2)/2,'u')
+pause(3)
+plot([0 y2(1)], [0 y2(2)],'-b')
+text(y2(1)/2,y2(2)/2,'v')
+pause(3)
+plot([0 z2(1)], [0 z2(2)],':r')
+text(z2(1)/2,z2(2)/2,'cross product','color','red')
+pause(3)
+text(ax(1),ax(3),'Press ENTER to Continue','color','black')
+hold off
+axis;
+disp('CROSSDEMO is over!')
+
+

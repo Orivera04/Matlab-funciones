@@ -1,0 +1,73 @@
+%Rotaciones de cuádricas
+%Ecuación General: Ax^2+Bxy+Cx^2+Dx+Ey+F=0
+%Eliminación de términos en x,y. x1=x+h, y=y1+k.
+%Ecuación agrupada:Ax1^2+Bx1y1+Cy1^2+px1+qy1+r=0.
+%Haciendo p=0 y q=0 se obtiene:Ax1^2+Bx1y1+Cy1^2+r=0
+%P=2*A*h+B*k+D;
+%q=2*C*k+B*h+E;
+%x1=x2*cos(t)-y2*sin(t);
+%y2=x2*sin(t)+y2*cos(t);
+%T1=cos(t)^2;T2=sin(t)^2;T3=cos(t)*sin(t);
+%ecuarot2=(A*T1+C*T2+B*T3)*x2^2+(A*T2+C*T1-B*T3)*y2^2+r;
+clear;
+clc;
+syms x y X Y t x1 y1 x2 y2
+%Introducción de coeficientes.
+Coef=input('Dar los coeficientes [A,B,C,D,E,F]= ');
+A=Coef(1);B=Coef(2);C=Coef(3);D=Coef(4);E=Coef(5);F=Coef(6);
+if B==0 
+    if C==0 && A~=0
+        h=-D/(2*A);k=(F-(D/2)^2)/E;
+        r= 
+    elseif C~=0 && A==0
+        h=(F-(E/2)^2)/D;k=-E/(2*C);
+        r=A*h^2+C*k^2+D*h+F 
+    elseif C~=0 && A~=0
+        h=-D/(2*A);k=-E/(2*C);
+        r=A*h^2+C*k^2+D*h+E*k+F; 
+    end
+else
+h=(B*E-2*C*D)/(-B^2+4*C*A);
+k=(D*B-2*A*E)/(-B^2+4*C*A);
+r=A*h^2+C*k^2+D*h+E*k+F ;
+end
+ %A*h^2+B*h*k+C*k^2+D*h/2+E*k/2-F;
+x=X+h; y=Y+k;
+ecua=A*x^2+B*x*y+C*y^2+D*x+E*y+r;
+ecua=simplify(ecua);
+disp(['Coordenadas de traslación: h=',num2str(h),',',' k=',num2str(k)]);
+disp('Ecuación de cónica trasladada:');
+ecua1=char(ecua);
+ecuatras=strcat(ecua1,'=0');
+pretty(sym(ecuatras));
+if B==0 
+    disp('No hay rotación');
+    return
+elseif B~=0 && A-C==0
+    theta=45;
+    cost=sym(sqrt(2))/2; sent=sym(sqrt(2))/2;cost2=1/2;sent2=1/2;
+    disp(['Angulo de rotación theta=',num2str(theta),'º']);
+elseif B~=0 && A-C~=0
+    tan2t=((B/(A-C)));
+    cos2t=sym(sqrt(1/(1+tan2t^2)));
+    cost=sqrt(((1+cos2t)/2));cost2=((1+cos2t)/2);
+    sent=sqrt(1-cost^2);sent2=(1-cost^2);
+    theta=atan(tan2t)/2;
+    ang_grados=180*theta/pi;
+    disp(['Angulo de rotación theta=',num2str(ang_grados),'º']);
+end
+x=X*cost-Y*sent;
+y=X*sent+Y*cost;
+T1=cost2;T2=sent2;T3=cost*sent;
+ecua2=(A*T1+C*T2+B*T3)*X^2+(A*T2+C*T1-B*T3)*Y^2+r+F;
+%Ecuacion de la cónica trasladada y rotada.
+disp('Ecuación de cónica trasladada y rotada:');
+ecua3=char(ecua2);
+ecuarot=strcat(ecua3,'=0');
+pretty(sym(ecuarot));
+
+
+
+
+
+

@@ -1,0 +1,146 @@
+%% $RCSfile: Mutex.tlc,v $
+%% $Revision: 1.1 $
+%%
+%% Copyright 1990-2002 The MathWorks, Inc.
+%% 
+%selectfile NULL_FILE
+%implements * "C"
+
+%% GetSet is a custom storage class that is used to define signals
+%% (including states) whose values are read and written to using 
+%% "get" and "set" functions
+
+%% Function: DataAccess ======================================================
+%% Abstract:
+%%   DataAccess provides an API for requesting code fragments or other
+%%   information corresponding to data of this custom storage class.
+%%
+%function DataAccess(record, request, idx, reim, extra) void
+
+  %assign id = LibGetRecordIdentifier(record)
+  %switch request
+ 
+    %case "initialize"
+      %% Use the default initialization to ground.
+      %return ""
+      %break
+      
+    %case "contents"
+      %return "get_%<id>()"
+      %break
+
+    %case "address"
+      %% Use the default address of a global variable.
+      %return "address not supported for accessors"
+      %break
+
+    %case "declare"
+      %% Since the data is supposed to be internal to the code
+      %% generated, generate no declaration for external use.
+      %return ""
+      %break
+
+    %case "define"
+      %% Use the default definition of a global variable.
+      %assign dtypeName = LibGetRecordCompositeDataTypeName(record)
+      %openfile defBuf
+      /* Declare mutex and allocate memory for %<id> */
+      MUTEX_ID mutex_%<id>;
+      %<dtypeName> %<id>;
+      
+      /* Function to guarantee exclusive access when reading %<id> */
+      %<dtypeName> get_%<id>()
+      {
+	%<dtypeName> local_%<id>;
+	mutex_lock(mutex_%<id>);
+        local_%<id> = %<id>;
+	mutex_unlock(mutex_%<id>);
+	return local_%<id>;
+      }
+      
+      /* Function to guarantee exclusive access when writing to %<id> */
+      void set_%<id>(%<dtypeName> value)
+      {
+	mutex_lock(mutex_%<id>);
+        %<id> = value;
+	mutex_unlock(mutex_%<id>);
+      }
+      
+      %closefile defBuf
+      %return defBuf
+      %break
+      
+    %case "layout"
+      %% Uses The Mathworks' data layout.
+      %return ["other"]
+      %break
+
+    %case "set"
+      %return "set_%<id>(%<extra>);\n"
+      %break
+
+    %default
+      %% Unknown access type.
+      %return LibDefaultCustomStorageUnknownDataAccessType ...
+	(record, request, idx, reim)
+      %break
+
+  %endswitch
+
+%endfunction
+
+
+
+%% Function: ClassAccess ============================================
+%% Abstract:
+%%   ClassAccess provides an API for requesting information or action
+%%   corresponding to the custom storage class
+%%
+%function ClassAccess(record, request) void
+
+  %switch request
+    %case "setup"
+      %assign numData = LibCustomStorageClassRecordNumData(record)
+      %foreach idx = numData
+
+
+	%% Get the idx'th data record with BitField storage
+	%assign item = LibGetDataRecord(record, idx)
+	
+	%% Make sure the record is non-complex.
+	%<LibCustomStorageVerifyRecordIsNonComplex(item)>
+
+	%% Initialize the mutex
+	%assign id = LibGetRecordIdentifier(item)
+	%<LibMdlStartCustomCode(...
+	  "/* Initialize Mutex for %<id> */\n" + ...
+	  "mutex_%<id> = mutex_create();\n","trailer")>
+	
+	%% Cache the header file supporting the Mutex 
+	%<LibCacheIncludes("#include \"mutex.h\"\n")>
+	
+      %endforeach
+      %return
+      %break
+
+    %case "comment"
+      %return LibDefaultCustomStorageComment(record)
+      %break
+
+    %default
+      %% Unknown access type.
+      %return LibDefaultCustomStorageUnknownClassAccessType ...
+	(record, request)
+      %break
+      
+  %endswitch
+      
+%endfunction
+
+
+%% Function: Version ============================================
+%% Abstract:
+%%
+%function Version(record) void
+  %return 2
+%endfunction

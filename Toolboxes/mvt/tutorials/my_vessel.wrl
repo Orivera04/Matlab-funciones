@@ -1,0 +1,30 @@
+#VRML V2.0 utf8
+
+#Created with V-Realm Builder v2.0
+#Integrated Data Systems Inc.
+#www.ids-net.com
+
+
+DEF view Transform {
+	translation	0 0 0
+	rotation	1 0 0  1.5708
+	children DEF my_viewpoint Viewpoint {
+		orientation	-0.742323 -0.668887 -0.0393161  1.0229
+		position	-1.8186 1.79232 1.79455
+		description	"my_viewpoint"
+	}
+}
+DEF vessel Transform {
+	children DEF vessel_switch Switch {
+		whichChoice	0
+		choice [ 
+		    DEF vessel Inline {
+			    url	"my_inlined_vessel.inline"
+		    }
+
+		    DEF axis Inline {
+			    url	"my_inlined_axis.inline"
+		    }
+		]
+	}
+}

@@ -1,0 +1,31 @@
+function izq = isalaizq(P,A,B)
+%isalaizq verifica si un punto P esta a la izquierda de una recta AB.
+dx=B(1)-A(1);dy=B(2)-A(2);
+exp=(P(1)-A(1))*B(2)-(P(2)-A(2))*B(1);
+if dx>0 
+    if exp<0
+       izq=1
+    else
+       izq=0
+    end
+elseif dx<0 
+    if exp<0
+       izq=0
+    else
+       izq=1
+    end
+elseif dx==0
+    if dy>0 
+        if exp<0
+          izq=1
+        else
+          izq=0
+        end
+     elseif dy<0 
+        if exp<0
+          izq=1
+        else
+          izq=0
+        end
+    end
+end

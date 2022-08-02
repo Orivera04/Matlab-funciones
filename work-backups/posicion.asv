@@ -1,0 +1,49 @@
+function pos=posicion(P,Q,R)
+%Posicion de un punto P a la izquierda o a la derecha de otro punto Q
+%P=input('deme el punto P ');
+%Q=input('deme el punto Q ');
+%R=input('deme el punto R ');
+x1=P(1);
+y1=P(2);
+x2=Q(1);
+y2=Q(2);
+x3=R(1);
+y3=R(2);
+if x1==x2
+    if y1==y2
+        disp('P=Q, introduzca puntos distintos')
+    else
+        if x3<x1
+            %disp('R esta a la izquierda de PQ')
+            pos=1
+        elseif x3>x1
+            %disp('R esta a la derecha de PQ')
+            pos=2
+        else
+            %disp('R esta sobre PQ')
+            pos=3
+        end
+    end
+else 
+    if y1==y2
+        if y3>y1
+            %disp('R esta a la izquierda de PQ')
+        elseif y3<y1
+            disp('R esta a la derecha de PQ')
+        else
+            disp('R esta sobre PQ')
+        end
+    else
+        if y3>((y2-y1)*x3+x2*y1-x1*y2)/(x2-x1)
+            disp('R esta a la izquierda de PQ')
+        elseif y3<((y2-y1)*x3+x2*y1-x1*y2)/(x2-x1)
+            disp('R esta a la derecha de PQ')
+        else
+            disp('R esta sobre PQ')
+        end
+    end
+end
+            
+        
+        
+        

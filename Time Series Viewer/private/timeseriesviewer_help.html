@@ -1,0 +1,212 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>Time Series Viewer</title>
+      <meta name="generator" content="MATLAB 6.5.1.199709 (R13) Service Pack 1">
+      <meta name="date" content="2003-12-18">
+      <meta name="m-file" content="timeseriesviewer_help">
+      <meta name="title" content="Time Series Viewer">
+      <meta name="description" content="The time series viewer is a tool for interactive exploration of time series data.  It was designed with flight test data in mind, but could be used for other applications.This viewer allows you interactively visualize time series data in your MATLAB workspace.  It provides limited analysis capabilities, too. For the purposes of this application, &#34;time series data&#34; refers to parameters that vary only as a function of time.  Specifically, this application is restricted to working with vectors (i.e. 1xN or Nx1).I am very interested in what users think about this application.  Please email me (shirsch@mathworks.com) with any comments, descriptions of how you are using it, or suggestions.  While this demo will likely never be part of MATLAB, your comments may help to influence our future development efforts!This is developed as a demonstration, and contains no warranty!"><style>
+body {
+  background-color: white;
+}
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+pre.codeinput {
+  margin-left: 30px;
+}
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.showbuttons {
+  margin-left: 30px;
+  border: solid black 2px;
+  padding: 4px;
+  background: #EBEFF3;
+}
+
+pre.codeoutput {
+  color: gray;
+  font-style: italic;
+}
+pre.error {
+  color: red;
+}
+    </style></head>
+   <body>
+      <h1>Time Series Viewer</h1>
+      <p>The time series viewer is a tool for interactive exploration of time series data.  It was designed with flight test data in
+         mind, but could be used for other applications.
+      </p>
+      <p>This viewer allows you interactively visualize time series data in your MATLAB workspace.  It provides limited analysis capabilities,
+         too. For the purposes of this application, "time series data" refers to parameters that vary only as a function of time. 
+         Specifically, this application is restricted to working with vectors (i.e. 1xN or Nx1).
+      </p>
+      <p>I am very interested in what users think about this application.  Please email me (<a href="mailto:shirsch@mathworks.com">shirsch@mathworks.com</a>) with any comments, descriptions of how you are using it, or suggestions.  While this demo will likely never be part of MATLAB,
+         your comments may help to influence our future development efforts!
+      </p>
+      <p>This is developed as a demonstration, and contains no warranty!</p>
+      <h2>Contents</h2>
+      <ul>
+         <li><a href="#1">Using the time series viewer</a></li>
+         <li><a href="#2">Launch the TimeSeriesViewer</a></li>
+         <li><a href="#4">Define your Time Vector(s)</a></li>
+         <li><a href="#5">Plot some parameters</a></li>
+         <li><a href="#6">Doing more</a></li>
+      </ul>
+      <h2>Using the time series viewer<a name="1"></a></h2>
+      <h2>Launch the TimeSeriesViewer<a name="2"></a></h2>
+      <p>Ensure that the directory containing TimeSeriesViewer is on your MATLAB path.</p><pre class="codeinput">TimeSeriesViewer
+</pre><pre class="codeoutput">You have no valid time series in your workspace.  Running in demo mode
+</pre><img vspace="5" hspace="5" src="timeseriesviewer_help_01.png"><p>All time series in your workspace will be automatically loaded into the TimeSeriesViewer and displayed in the Parameters list
+         along the left side of the application.  The length of each series is displayed in parentheses next to the name. If you do
+         not have any valid time series, some sample data will be loaded instead.
+      </p>
+      <p>Variables must meet the following requirements to be valid time series:</p>
+      <ul>
+         <li>Real</li>
+         <li>Row or column vectors (Nx1 or 1xN).  Scalars, MxN matrices, and   multi-dimensional matrices are not supported.</li>
+      </ul>
+      <p>The TimeSeriesViewer defines two types of time series:</p>
+      <ul>
+         <li>Time Vectors (independent variables)</li>
+         <li>Parameters (dependent variables)</li>
+      </ul>
+      <p>Time vectors and parameters both meet the criteria defined in the previous section.  The user defines the Time Vectors from
+         a list of all time series.  Parameters are plotted against their corresponding Time Vectors.
+      </p>
+      <h2>Define your Time Vector(s)<a name="4"></a></h2>
+      <p>The first step is to define the Time Vector(s) (independent variables).  Drag all Time Vectors from the Paramaters list on
+         the left side of the application to the box labeled "Add Time Vectors" at the bottom of the application. This moves the selected
+         vectors from the Parameters list to the Time Selector menu below the axes. (NOTE: You must RIGHT-CLICK to drag!).  You can
+         repeat this step at any time.
+      </p>
+      <p>Select the Time Vector from the popup menu that you would like to plot against first.</p>
+      <h2>Plot some parameters<a name="5"></a></h2>
+      <p>You can now right-click and drag parameters from the Parameter list to the axes to your heart's content.  You can only plot
+         Parameters that are the same length as the selected Time Vector.  Attempts to plot a Parameter that is not compatible with
+         the selected Time Vector turn the icon briefly into a NO symbol.  For convenience, both the Parameters List and the Time Series
+         Selector display the lengths of their contents.
+      </p>
+      <h2>Doing more<a name="6"></a></h2>
+      <ul>
+         <li>Use the axes selector at the bottom left to change the number of axes.</li>
+         <li>Click "Update Parameters" to refresh the parameter list to reflect the current state of the workspace.</li>
+         <li>Right-click on an axes to clear the axes</li>
+         <li>Right-click on a line to perform a little analysis, or to delete.</li>
+         <li>Drag one axes onto another to swap their contents.</li>
+         <li>Use the buttons at the top of the application to zoom, identify data values, or add text labels.</li>
+         <li>Use the Help menu to view this document</li>
+      </ul>
+      <p class="footer"><br></p>
+      <!--
+##### SOURCE BEGIN #####
+%% Time Series Viewer
+% The time series viewer is a tool for interactive exploration of time series
+% data.  It was designed with flight test data in mind, but could be used
+% for other applications.  
+% 
+% This viewer allows you interactively visualize time series data in your
+% MATLAB workspace.  It provides limited analysis capabilities, too. For the 
+% purposes of this application, "time series data" refers to parameters
+% that vary only as a function of time.  Specifically, this application is
+% restricted to working with vectors (i.e. 1xN or Nx1).
+%
+%
+% I am very interested in what users think about this application.  Please
+% email me (shirsch@mathworks.com) with any comments, descriptions of how you are using it, or
+% suggestions.  While this demo will likely never be part of MATLAB, your
+% comments may help to influence our future development efforts!
+%
+% This is developed as a demonstration, and contains no warranty!
+
+%% Using the time series viewer
+
+%% Launch the TimeSeriesViewer
+% Ensure that the directory containing TimeSeriesViewer is on your MATLAB path.
+TimeSeriesViewer
+
+%%
+% All time series in your workspace will be automatically loaded into the
+% TimeSeriesViewer and displayed in the Parameters list along the left side
+% of the application.  The length of each series is displayed in
+% parentheses next to the name.
+% If you do not have any valid time series, some sample
+% data will be loaded instead.  
+%
+% Variables must meet the following requirements to be valid time series:
+% 
+% * Real
+% * Row or column vectors (Nx1 or 1xN).  Scalars, MxN matrices, and
+%   multi-dimensional matrices are not supported.
+%
+% The TimeSeriesViewer defines two types of time series:
+%
+% * Time Vectors (independent variables)
+% * Parameters (dependent variables)
+%
+% Time vectors and parameters both meet the criteria defined in the
+% previous section.  The user defines the Time Vectors from a list of all
+% time series.  Parameters are plotted against their corresponding Time
+% Vectors.
+
+%% Define your Time Vector(s)
+% The first step is to define the Time Vector(s) (independent variables).  Drag all
+% Time Vectors from the Paramaters list on the left side of the application
+% to the box labeled "Add Time Vectors" at the bottom of the application.
+% This moves the selected vectors from the Parameters list to the Time
+% Selector menu below the axes.
+% (NOTE: You must RIGHT-CLICK to drag!).  You can repeat this step at any
+% time.
+%
+% Select the Time Vector from the popup menu that you would like to plot
+% against first.
+
+%% Plot some parameters
+% You can now right-click and drag parameters from the Parameter list to
+% the axes to your heart's content.  You can only plot Parameters that are
+% the same length as the selected Time Vector.  Attempts to plot a
+% Parameter that is not compatible with the selected Time Vector turn the
+% icon briefly into a NO symbol.  For convenience, both the Parameters List
+% and the Time Series Selector display the lengths of their contents.
+
+%% Doing more
+%
+% * Use the axes selector at the bottom left to change the number of axes.
+% * Click "Update Parameters" to refresh the parameter list to reflect the
+% current state of the workspace.
+% * Right-click on an axes to clear the axes
+% * Right-click on a line to perform a little analysis, or to delete.
+% * Drag one axes onto another to swap their contents. 
+% * Use the buttons at the top of the application to zoom, identify data
+% values, or add text labels.
+% * Use the Help menu to view this document
+
+
+##### SOURCE END #####
+-->
+   </body>
+</html>

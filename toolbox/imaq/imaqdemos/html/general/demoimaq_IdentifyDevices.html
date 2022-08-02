@@ -1,0 +1,121 @@
+<!--
+Copyright 2001-2004 The MathWorks, Inc.
+$Revision: 1.1.6.2 $ $Date: 2004/03/24 20:39:50 $
+-->
+
+<!--
+This HTML is auto-generated from an m-file.
+Your changes will be overwritten.
+--><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:x-large">Identifying Available Devices</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium;">Overview</p><ul xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd"><li><a href="#Identifying Installed Adaptors">Identifying Installed Adaptors</a></li><li><a href="#Obtaining Device Information">Obtaining Device Information</a></li></ul><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Identifying Installed Adaptors<a name="Identifying Installed Adaptors"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">The IMAQHWINFO function provides a structure with an InstalledAdaptors
+field that lists all adaptors on the current system that the toolbox
+can access.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">imaqInfo = imaqhwinfo</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+imaqInfo = 
+
+    InstalledAdaptors: {'dt'  'matrox'  'winvideo'}
+        MATLABVersion: '6.5.1 (R13+)'
+          ToolboxName: 'Image Acquisition Toolbox'
+       ToolboxVersion: '1.0 (R13+)'
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">imaqInfo.InstalledAdaptors</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+ans = 
+
+    'dt'    'matrox'    'winvideo'
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Obtaining Device Information<a name="Obtaining Device Information"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Calling IMAQHWINFO with an adaptor name returns a structure that provides
+information on all accessible image acquisition devices.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">matroxInfo = imaqhwinfo(<span style="color:#B20000">'matrox'</span>)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+matroxInfo = 
+
+       AdaptorDllName: [1x66 char]
+    AdaptorDllVersion: '6.5.1 (R13+)'
+          AdaptorName: 'matrox'
+            DeviceIDs: {[1]  [2]}
+           DeviceInfo: [1x2 struct]
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">matroxInfo.DeviceInfo</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+ans = 
+
+1x2 struct array with fields:
+    DefaultFormat
+    DeviceFileSupported
+    DeviceName
+    DeviceID
+    ObjectConstructor
+    SupportedFormats
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Information on a specific device can be obtained by simply indexing into the device
+information structure array.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">device1 = matroxInfo.DeviceInfo(1)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+device1 = 
+
+          DefaultFormat: 'M_RS170'
+    DeviceFileSupported: 1
+             DeviceName: 'Genesis'
+               DeviceID: 1
+      ObjectConstructor: 'videoinput('matrox', 1)'
+       SupportedFormats: {'M_RS170'  'M_CCIR'  'M_NTSC_RGB'  'M_PAL_RGB'}
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">The DeviceName field contains the image acquisition device name.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">device1.DeviceName</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+ans =
+
+Genesis
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">The DeviceID field contains the image acquisition device identifier.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">device1.DeviceID</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+ans =
+
+     1
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">The DefaultFormat field contains the image acquisition device's default video
+format.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">device1.DefaultFormat</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+ans =
+
+M_RS170
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">The SupportedFormats field contains a cell array of all valid video formats
+supported by the image acquisition device.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">device1.SupportedFormats</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+ans = 
+
+    'M_RS170'    'M_CCIR'    'M_NTSC_RGB'    'M_PAL_RGB'
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">See also IMAQHWINFO, IMAQRESET, IMAQHELP.
+</p><originalCode xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" code="%% Identifying Available Devices
+&#xA;
+&#xA;%% Identifying Installed Adaptors
+&#xA;% The IMAQHWINFO function provides a structure with an InstalledAdaptors
+&#xA;% field that lists all adaptors on the current system that the toolbox 
+&#xA;% can access.
+&#xA;imaqInfo = imaqhwinfo
+&#xA;%%
+&#xA;imaqInfo.InstalledAdaptors
+&#xA;
+&#xA;%% Obtaining Device Information
+&#xA;% Calling IMAQHWINFO with an adaptor name returns a structure that provides
+&#xA;% information on all accessible image acquisition devices.
+&#xA;matroxInfo = imaqhwinfo('matrox')
+&#xA;%%
+&#xA;matroxInfo.DeviceInfo
+&#xA;%%
+&#xA;% Information on a specific device can be obtained by simply indexing into the device
+&#xA;% information structure array.
+&#xA;device1 = matroxInfo.DeviceInfo(1)
+&#xA;%%
+&#xA;% The DeviceName field contains the image acquisition device name.
+&#xA;device1.DeviceName
+&#xA;%%
+&#xA;% The DeviceID field contains the image acquisition device identifier.
+&#xA;device1.DeviceID
+&#xA;%%
+&#xA;% The DefaultFormat field contains the image acquisition device's default video
+&#xA;% format.
+&#xA;device1.DefaultFormat
+&#xA;%%
+&#xA;% The SupportedFormats field contains a cell array of all valid video formats
+&#xA;% supported by the image acquisition device.
+&#xA;device1.SupportedFormats
+&#xA;%%
+&#xA;% See also IMAQHWINFO, IMAQRESET, IMAQHELP."></originalCode>

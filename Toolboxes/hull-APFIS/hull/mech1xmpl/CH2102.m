@@ -1,0 +1,16 @@
+Force=[50 50 200 0 0]*1e3;%Newtons
+Length=[200 250 400 200 100]*1e-3;%meters
+Radii=[6 2.5 2.5 2.5 2.5]*1e-3;%meters
+Youngs=[210 210 210 210 180]*1e9;%Pascals
+Gap=5e-3;%meters
+AppliedLoads=[-150 200]*1e3;%Newtons
+Area=(Radii.^2)*pi;%meters^2
+Deflection=(Force.*Length)./(Area.*Youngs)
+TotalDeflection=sum(Deflection)
+ForcedDeflection=TotalDeflection-Gap
+Stiffness=Length./(Area.*Youngs);
+Percentage=Stiffness./sum(Stiffness);
+RegionalDeflection=ForcedDeflection.*Percentage;
+ReactionRight=-RegionalDeflection.*Youngs.*Area./Length;
+GapReaction=ReactionRight(1)
+WallReaction=-sum(AppliedLoads)-GapReaction

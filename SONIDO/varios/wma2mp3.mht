@@ -1,0 +1,95 @@
+From: <Guardado por Microsoft Internet Explorer 5>
+Subject: 
+Date: Wed, 13 Aug 2008 12:48:20 -0600
+MIME-Version: 1.0
+Content-Type: text/html;
+	charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.mathworks.com/matlabcentral/files/18381/wma2mp3.m
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.3198
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD>
+<META http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dwindows-1252">
+<META content=3D"MSHTML 6.00.2900.3314" name=3DGENERATOR></HEAD>
+<BODY><PRE>% simple script to use ffmpeg to convert wma files to mp3
+%=20
+% wanted to be able to play my music on iPod, so I wrote this to convert =
+my files
+%
+% based on WinFF program, which is a frontend for FFMPEG
+% WinFF: http://biggmatt.com/winff/
+% FFMPEG: http://ffmpeg.mplayerhq.hu/
+%
+% Written for an installation of WinFF. I haven't tried just installing =
+ffmpeg.
+%	WinFF installs ffmpeg into it's directory.
+%
+% Use:
+% put this script in main music directory (i.e. ...\My Music\)
+% then run and it will look through all subdirs and convert any wma =
+files to mp3
+% deletes wma file after conversion
+%=20
+% defaults:
+%	convert to: mp3
+%	bitrate =3D 160k'=09
+%	numchannels =3D 2
+%	sample rate =3D 44100
+%
+%
+% I know this is probably lame and written horribly, but it works and =
+didn't take me any time.
+% Kind of embarrassed to post it, but maybe it'll be useful to =
+someone...
+
+
+
+% WinFF directory to find FFMPEG.exe
+path_ffmpeg =3D '"C:\Program Files\WinFF\ffmpeg.exe"';
+
+
+% scan through all subdirectories and find all wma files
+% add files to structure
+a.file_mp3 =3D {''};
+a.file_wma =3D {''};
+a.dir =3D {''};
+while 1;
+	dirlist =3D dir;
+	numlist =3D numel(dirlist);
+	path_curr =3D cd;
+	for m =3D 3:numlist	% skip . &amp; ..
+		if dirlist(m).isdir =3D=3D 0	% file
+			if strcmpi(dirlist(m).name(end-2:end),'wma')
+				path_wma =3D ['"',path_curr,'\',dirlist(m).name,'"'];
+				a.file_wma =3D [a.file_wma,path_wma];
+				% change path/name from .wma to .mp3
+				path_mp3 =3D path_wma;
+				path_mp3(end-3:end-1) =3D 'mp3';
+				a.file_mp3 =3D [a.file_mp3,path_mp3];
+			end
+		else						% directory
+			path_dir =3D [path_curr,'\',dirlist(m).name];
+			a.dir =3D [a.dir,path_dir];
+		end
+	end
+	if numel(a.dir) &gt; 1
+		cd(a.dir{end});
+		a.dir(end) =3D [];
+	else
+		break
+	end
+end
+=09
+
+
+% convert all wma files found above	to mp3, then delete wma
+options =3D ' -acodec mp3 -ab 160k -ac 2 -ar 44100 ';
+for m =3D 2:numel(a.file_wma)	% 1st one is blank
+	dos([path_ffmpeg,' -i ',a.file_wma{m},options,a.file_mp3{m}]);
+	delete(a.file_wma{m}(2:end-1));	% have to remove quotes - not sure =
+why...
+end
+
+</PRE></BODY></HTML>

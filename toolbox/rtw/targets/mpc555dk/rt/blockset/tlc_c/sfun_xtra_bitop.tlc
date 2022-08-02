@@ -1,0 +1,194 @@
+%% File: sfun_xtra_bitop.tlc
+%%
+%% $Revision: 1.11.4.2 $
+%% $Date: 2004/04/19 01:30:34 $
+%%
+%% Copyright 2001-2003 The MathWorks, Inc.
+%%
+%% Abstract:
+%%   Fixed-point (bitwise) logic operator.
+
+%implements sfun_xtra_bitop "C"
+
+%% Function: BlockInstanceSetup ===============================================
+%% Abstract:
+%%   Pre-code generation work
+%%
+%function BlockInstanceSetup(block, system) void
+    %<LibBlockSetIsExpressionCompliant(block)>
+%endfunction
+
+%% Function: Outputs ==========================================================
+%% Abstract:
+%%
+%function Outputs(block, system) Output
+
+    %if SFcnParamSettings.UseBitMask || SFcnParamSettings.Operator == "NOT"
+    
+        %%  We have one input that could be wide.
+
+        %assign rollVars = ["U","Y0", "P"]
+        %roll  idx = RollRegions, lcv = RollThreshold, block, "Roller", rollVars
+           %assign expr = BlockOutputSignal(block,system, 0,"",lcv,idx,"Signal")
+           %<LibBlockOutputSignal(0,"",lcv,idx)> = %<expr>;
+        %endroll
+
+    %else
+        
+        %% We have multiple wide/scalar inputs to be operated on together
+
+        %if SFcnParamSettings.OutputPortWidth == SFcnParamSettings.InputPortWidth
+            %assign rollVars = ["U","Y0"]
+            %roll idx = RollRegions, lcv = RollThreshold, block, "Roller", rollVars
+                %assign expr = BlockOutputSignal(block,system,0,"",lcv,idx,"Signal")
+                %<LibBlockOutputSignal(0,"",lcv,idx)> = %<expr>;
+            %endroll
+        %else
+            %assign expr = BlockOutputSignal(block,system,0,"","",0,"Signal")
+            %<LibBlockOutputSignal(0,"","",0)> = %<expr>;
+        %endif
+
+    %endif
+
+%endfunction
+
+   %%------------------------------------------------------
+   %% Parameters
+   %%    param1   -  string representation of argument
+   %%    param1   -  string representation of argument
+   %%    operator -  string
+   %%    zeroTest -  number 
+   %%                0 - Do not test for zero 
+   %%                1 - Test for zero
+   %%                2 - test for not zero 
+   %%-------------------------------------------------------
+%function BuildBinaryExpression( param1, param2, operator,zeroTest)
+   %switch(operator)
+       %case "AND"
+         %assign expr = "(%<param1> & %<param2>)"
+         %break
+       %case "OR"
+         %assign expr = "(%<param1> | %<param2>)"
+         %break
+       %case "NAND"
+         %assign expr = "(~(%<param1> & %<param2>))"
+         %break
+       %case "NOR"
+         %assign expr = "(~(%<param1> | %<param2>))"
+         %break
+       %case "XOR"
+         %assign expr = "( %<param1> ^ %<param2> )"
+         %break
+       %case "SHIFT_LEFT"
+         %assign expr = "( %<param1> << %<param2> )"
+         %break
+       %case "SHIFT_RIGHT"
+         %assign expr = "( %<param1> >> %<param2> )"
+         %break
+       %case "NOT"
+         %assign expr = "(~%<param1>)"
+         %break
+       %case "BIT_SET"
+         %assign expr = "( %<param1> | ( 0x1 << %<param2> ) )"
+         %break
+       %case "BIT_CLEAR"
+         %assign expr = "( %<param1> & ~( 0x1 << %<param2> ) )"
+         %break
+       %case "~A & B"
+         %assign expr = "( ~%<param1> & %<param2> )"
+         %break
+      %case "A & ~B"
+         %assign expr = "( %<param1> & ~%<param2> )"
+         %break
+      %case "~A | B"
+         %assign expr = "( ~%<param1> | %<param2> )"
+         %break
+      %case "A | ~B"
+         %assign expr = "( %<param1> | ~%<param2> )"
+         %break
+      %default
+         %error RTW Error: Illegal operator value: "%<operator>"
+   %endswitch
+
+
+   %switch zeroTest
+   %case 1 %% No Zero test
+      %break
+   %case 2 %% Test for zero
+      %assign expr = "( %<expr> == 0 )"
+      %break
+   %case 3 %% Test for not zero
+      %assign expr = "( %<expr> != 0 )"
+      %break
+   %default
+      %error "Value out of range for zeroTest == %<zeroTest>";
+   %endswitch
+
+   %return expr
+
+  %%
+%endfunction
+
+%function BlockOutputSignal(block,system,portIdx,ucv,lcv,idx,retType) void
+
+    %assign ZeroTest = SFcnParamSettings.ZeroTest
+
+    %assign operator = SFcnParamSettings.Operator
+
+    %switch retType
+    %case "Signal" %% Get an expression reference to the signal value
+        %switch portIdx
+            %case 0 %% Output Port 0
+                %if SFcnParamSettings.UseBitMask || SFcnParamSettings.Operator == "NOT"
+
+                    %assign param1 = LibBlockInputSignal(0,ucv,lcv,idx)
+                    %assign param2 = LibBlockParameter(BitMasks,ucv,lcv,idx)
+                    %assign expr = BuildBinaryExpression(param1,param2,operator,ZeroTest)
+
+                %else
+
+                    %if SFcnParamSettings.NumberInputPorts == 1
+                        
+                        %% We have N==1 inputs with width>=2 which will be operated together
+
+                        %assign param1 = LibBlockInputSignal(0,"","",0)
+                        %foreach idx = SFcnParamSettings.InputPortWidth - 1
+                           %assign param2 = LibBlockInputSignal(0,"","",idx+1)
+                           %assign param1 = BuildBinaryExpression(param1,param2,operator,ZeroTest)
+                        %endforeach
+                        %assign expr = param1
+
+                     %else
+                        
+                        %% We have N>=2 inputs with width>=1 which will be operated together
+
+                        %assign param1 = LibBlockInputSignal(0,ucv,lcv,idx)
+                        %foreach inPort = SFcnParamSettings.NumberInputPorts - 1
+                           %assign param2 = LibBlockInputSignal(inPort+1,ucv,lcv,idx)
+                           %assign operator = SFcnParamSettings.Operator
+                           %assign param1 = BuildBinaryExpression(param1,param2,operator,ZeroTest)
+                        %endforeach
+                        %assign expr = param1
+
+
+                     %endif
+
+                %endif
+
+                %return expr
+                %break
+
+            %default %% Unsupported Port
+                %assign errTxt = "Unsupported output port idx: %<portIdx>"
+                %<LibBlockReportError(block,errTxt)>
+                %break
+        %endswitch
+        %break
+    %case "Address" %% Get an expression reference to the signal address
+        %break
+    %default
+        %assign errTxt = "Unsupported return type: %<retType>"
+        %<LibBlockReportError(block,errTxt)>
+    %endswitch
+%endfunction
+%% [EOF]

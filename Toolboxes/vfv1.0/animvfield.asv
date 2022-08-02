@@ -1,0 +1,77 @@
+% ANIMVFIELD uses Animated LIC method to generate an animation
+% showing the direction of a steady-flow (time-invariant) vector field by
+% apparant motion.
+% 
+% LICMOVIE = ANIMVFIELD(VX, VY, ZOOMFACTOR, FRAMES, RECT) makes a Matlab movie and returns it in LICMOVIE. 
+% VX and VY should contain X and Y components of the vector field. They
+% should be M x N floating point arrays with equal sizes.
+% 
+% ZOOMFACTOR should be a floating point number for magnification of an area
+% indicated in RECT parameter. If this parameter is not specified, default
+% value of 1.0 will be used.
+% 
+% FRAMES should contain an integer for the number of animation frames. If this parameter is not specified, default
+% value of 10 will be used.
+% 
+% RECT is a 4-element vector with the form [XMIN YMIN WIDTH HEIGHT]; these
+% values are specified in spatial coordinates of vector field (VX and VY arrays). Input field will first
+% cropped to this region then zoomed using ZOOMFACTOR. If this parameter is
+% not specified, the entire area of the field will be zoomed.
+
+function [LICmovie] = animvfield(vx,vy,zoomFactor, frames, ColorMap, rect)
+[width,height] = size(vx);
+
+if nargin<6
+    rect = [1 1 height width]; % Default Rect
+end;
+
+if nargin<4
+    frames  = 10; % Default Number of Frames
+end;
+
+if nargin<3
+    zoomFactor  = 1; % Default Number for zoom
+end;
+
+vx = imcrop(vx,rect); % cropp input vector field to RECT
+vy = imcrop(vy,rect);
+
+if zoomFactor > 1 % Decide the best resizing method for zoom in or zoom out.
+    vxZoomed = imresize(vx,zoomFactor,'nearest');
+    vyZoomed = imresize(vy,zoomFactor,'nearest');
+else
+    vxZoomed = imresize(vx,zoomFactor,'bicubic');
+    vyZoomed = imresize(vy,zoomFactor,'bicubic');
+end;
+
+[width,height] = size(vxZoomed);
+
+LIClength = round(max([width,height]) / 10); % Choose LIC filter kernel length to be one tenth of the largest input field dimesntion
+kernel = ones(2 * LIClength);
+
+noiseImage = zeros(width, height);
+LICImage = zeros(width, height);
+intensity = ones(width, height); % array containing vector intensity
+
+% Making white noise
+rand('state',0) % reset random generator to original state so it will be the same for each frame of the animation
+for i = 1:width 
+    for j = 1:height
+        noiseImage(i,j)= rand; % generate White Noise input texture
+    end;
+end;
+
+close;
+figure;
+
+% Making LIC Image
+for m = 1:frames
+    for i = 1: 2 * LIClength
+       % kernel(i) = 0.5 * (1 + cos(pi * (i - LIClength) / LIClength)) * abs(sin( (3*pi*i / LIClength ) +  pi * m / frames)); % Sine Phase Shift Kernel
+        kernel(i) = 0.5 * (1 + cos(pi * (i - LIClength) / LIClength)) *  0.5 * (1 + cos( (3*pi*(i - LIClength) / LIClength ) +  2*pi * m / frames));   % Windowed Hanning Ripple Function
+    end;
+    [LICImage, intensity,normvx,normvy] = LICFunction(vxZoomed,vyZoomed,noiseImage,kernel);
+    LICImage = imadjust(LICImage); % Adjust the value range
+    RGBimage = intensity2color(LICImage, intensity);
+    LICmovie(m) = im2frame(RGBimage);
+end;

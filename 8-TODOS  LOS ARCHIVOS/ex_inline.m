@@ -1,0 +1,5 @@
+f1 = inline('a*sin(x*x)')
+f2 = inline('a*sin(x*x)', 'x', 'a')
+f3 = inline('a*sin(x*x)', 'x', 'a','b')
+f3(1,pi/2,3)
+f3(1,pi/2)

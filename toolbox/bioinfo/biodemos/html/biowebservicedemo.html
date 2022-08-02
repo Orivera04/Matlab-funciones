@@ -1,0 +1,366 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>BIOWEBSERVICEDEMO: Example of using a SOAP based web service</title>
+      <meta name="generator" content="MATLAB 7.0">
+      <meta name="date" content="2004-03-25">
+      <meta name="m-file" content="biowebservicedemo"><style>
+body {
+  background-color: white;
+  margin:10px;
+}
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+pre.codeinput {
+  margin-left: 30px;
+}
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.showbuttons {
+  margin-left: 30px;
+  border: solid black 2px;
+  padding: 4px;
+  background: #EBEFF3;
+}
+
+pre.codeoutput {
+  color: gray;
+  font-style: italic;
+}
+pre.error {
+  color: red;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows.  On Gecko-based browsers, the shrink-to-fit doesn't work. */ 
+p,h1,h2,div {
+  /* for MATLAB's browser */
+  width: 600px;
+  /* for Mozilla, but the "width" tag overrides it anyway */
+  max-width: 600px;
+  /* for IE */
+  width:expression(document.body.clientWidth > 620 ? "600px": "auto" );
+}
+
+    </style></head>
+   <body>
+      <h1>BIOWEBSERVICEDEMO: Example of using a SOAP based web service</h1>
+      <introduction>
+         <p>This demonstration illustrates how to use a Simple Object Access Protocol (SOAP) based web service from within MATLAB. In
+            the example you will connect to the OpenBQS Bibliographic Query Service server at the European Bioinformatics Institute (<a href="http://industry.ebi.ac.uk/openBQS">http://industry.ebi.ac.uk/openBQS</a>) and use it to retrieve information from MEDLINE.
+         </p>
+         <p>For more information on the use of web services see the "Using Web Services in MATLAB" section of the MATLAB External Interface
+            manual.
+         </p>
+      </introduction>
+      <h2>Contents</h2>
+      <div>
+         <ul>
+            <li><a href="#1">Setting up a web service</a></li>
+            <li><a href="#4">Using the web service</a></li>
+            <li><a href="#8">Writing an XML file</a></li>
+            <li><a href="#9">Viewing an XML file</a></li>
+            <li><a href="#10">Using a stylesheet and XSLT to transform the XML document</a></li>
+            <li><a href="#11">Converting an XML file to a structure</a></li>
+         </ul>
+      </div>
+      <h2>Setting up a web service<a name="1"></a></h2>
+      <p>In MATLAB, you use the createClassFromWSDL function to call Web service methods. The function creates a MATLAB class based
+         on the Web Services Description Language (WSDL) definition for the web service. To use the function you provide a URL for
+         the WSDL definition of the service.
+      </p><pre class="codeinput"><span class="comment">% OpenBQS WSDL definition URL</span>
+wsdlURL = <span class="string">'http://industry.ebi.ac.uk/openBQS/copies/BQSWebService.wsdl'</span>;
+
+</pre><p>Create the classes. This will create a directory called @bqswebservice in
+         the current directory.</p>
+<pre class="codeinput">
+className = createClassFromWSDL(wsdlURL)
+</pre><pre class="codeoutput">
+className =
+
+bqswebservice
+
+</pre><p>The @bqswebservice directory contains automatically generated files that implement the openBQS web service methods.</p><pre class="codeinput">dir <span class="string">@bqswebservice</span>
+</pre><pre class="codeoutput">
+.                        getallbibrefs.m          getentrydescription.m    
+..                       getallentries.m          getmore.m                
+bqswebservice.m          getallids.m              getnext.m                
+contains.m               getallvalues.m           hasnext.m                
+destroy.m                getallvocabularynames.m  query.m                  
+display.m                getbibrefcount.m         resetretrieval.m         
+exists.m                 getbyid.m                
+find.m                   getbyids.m               
+
+</pre><p>In addition to looking at the contents of the methods directory, you can also use the <b>methods</b> command to see what methods are available. You will notice that there are more methods available than files in the @bqswebservice
+         directory. These are inherited methods that are available for all objects in MATLAB.
+      </p><pre class="codeinput">methods(bqswebservice)
+</pre><pre class="codeoutput">
+
+Methods for class bqswebservice:
+
+
+bqswebservice          getallbibrefs          getbyid                query                  
+contains               getallentries          getbyids               resetretrieval         
+destroy                getallids              getentrydescription    
+display                getallvalues           getmore                
+exists                 getallvocabularynames  getnext                
+find                   getbibrefcount         hasnext                
+
+</pre><h2>Using the web service<a name="4"></a></h2>
+      <p>In order to use the web service, you must first create an instance of the bqswebservice.</p><pre class="codeinput">bqsws = bqswebservice;
+
+</pre><p>You can confirm that this is an instance of the bqswebservice using the
+ <b>class</b> command.</p><pre class="codeinput">class(bqsws)
+</pre><pre class="codeoutput">
+ans =
+
+bqswebservice
+
+</pre><p>The <b>getbibrefcount</b> method returns the total number of references in the repository.
+      </p><pre class="codeinput">getbibrefcount(bqsws)
+</pre><pre class="codeoutput">
+ans =
+
+    12874602
+
+</pre><p>The <b>getallvocabularynames</b> methods returns the names of all available controlled vocabularies.
+      </p><pre class="codeinput">getallvocabularynames(bqsws)
+</pre><pre class="codeoutput">
+ans = 
+
+    'MEDLINE2004/JournalArticle/properties'
+    'MEDLINE2004/*/citation_subset'
+    'MEDLINENEW/resource_types'
+    'MEDLINE2004/resource_types'
+    'MEDLINE2004/Person/properties'
+    'MEDLINENEW/JournalArticle/properties'
+    'repository_subsets'
+    'MEDLINE2004/*/publication_type'
+
+</pre><p>You can access citation information for a specific MEDLINE entry using the <b>getbyid</b> method. This returns the information as Base64 encrypted XML.
+      </p><pre class="codeinput">infoBase64 = getbyid(bqsws,10194334,<span class="string">'xml'</span>);</pre>
+
+<p>You can decode the Base64 encryption using this Java method.</p>
+
+<pre class="codeinput">
+info = char(org.apache.xerces.impl.dv.util.Base64.decode(infoBase64));
+
+Title = char(regexp(info,<span class="string">'(?&lt;=&lt;ArticleTitle&gt;)[^&lt;]+'</span>,<span class="string">'match'</span>))
+Authors = char(regexp(info,<span class="string">'(?&lt;=&lt;LastName&gt;)[^&lt;]+'</span>,<span class="string">'match'</span>))
+</pre><pre class="codeoutput">
+Title =
+
+Time-resolved fluorescence anisotropy study of the refolding reaction of the alpha-subunit of tryptophan synthase reveals nonmonotonic behavior of the rotational correlation time.
+
+
+Authors =
+
+Bilsel   
+Yang     
+Zitzewitz
+Beechem  
+Matthews 
+
+</pre><h2>Writing an XML file<a name="8"></a></h2>
+      <p>You can save the XML text to a file using the <b>fprintf</b> function.
+      </p><pre class="codeinput">filename = <span class="string">'webservicedata.xml'</span>;
+fid = fopen(filename,<span class="string">'w'</span>);
+fprintf(fid,<span class="string">'%c'</span>,info);
+fclose(fid);
+</pre><h2>Viewing an XML file<a name="9"></a></h2>
+      <p>You can view the contents of the file using a web browser.</p><pre class="codeinput">web(filename,<span class="string">'-browser'</span>)
+</pre><h2>Using a stylesheet and XSLT to transform the XML document<a name="10"></a></h2>
+      <p>The XML file is in a very generic format that is very convenient for storing and transferring data but is not particularly
+         easy to read. An XSLT stylesheet describes transformations that can be used to convert the data in an XML file into a different
+         type of document. There is a sample stylesheet for Medline data called medline.xsl in the biodemos directory. The <b>xslt</b> function using this to convert the XML file into a much more easily readable document.
+         For more details on XSL see <a href="http://www.w3.org/Style/XSL">http://www.w3.org/Style/XSL</a> .
+      </p><pre class="codeinput">xslt(filename,<span class="string">'medline.xsl'</span>,<span class="string">'-web'</span>);
+</pre><img vspace="5" hspace="5" src="biowebservicedemo_01.png"><h2>Converting an XML file to a structure<a name="11"></a></h2>
+      <p>The function <b>xml2struct</b> converts an XML file into a MATLAB structure. The structure contains four fields, Name, Attributes, Data and Children. If
+         a field has children then the Children field will be a structure with the same fields containing the nested information. This
+         nesting can be many layers deep.
+      </p><pre class="codeinput">S = xml2struct(filename)
+firstLevel = S.Children(4)
+secondLevel = S.Children(4).Children(2)
+thirdLevel = S.Children(4).Children(2).Children
+</pre><pre class="codeoutput">
+S = 
+
+          Name: 'MedlineCitation'
+    Attributes: [1x2 struct]
+          Data: ''
+      Children: [1x19 struct]
+
+
+firstLevel = 
+
+          Name: 'DateCreated'
+    Attributes: []
+          Data: ''
+      Children: [1x7 struct]
+
+
+secondLevel = 
+
+          Name: 'Year'
+    Attributes: []
+          Data: ''
+      Children: [1x1 struct]
+
+
+thirdLevel = 
+
+          Name: '#text'
+    Attributes: []
+          Data: '1999'
+      Children: []
+
+</pre><p class="footer">Copyright 2003-2004 The MathWorks, Inc.<br>
+         Published with MATLAB&reg; 7.0<br></p>
+      <!--
+##### SOURCE BEGIN #####
+%% BIOWEBSERVICEDEMO: Example of using a SOAP based web service
+% This demonstration illustrates how to use a Simple Object Access Protocol
+% (SOAP) based web service from within MATLAB. In the example you will
+% connect to the OpenBQS Bibliographic Query Service server at the European
+% Bioinformatics Institute (http://industry.ebi.ac.uk/openBQS) and use it
+% to retrieve information from MEDLINE. 
+%
+% For more information on the use of web services see the "Using Web
+% Services in MATLAB" section of the MATLAB External Interface manual. 
+%
+%   Copyright 2003-2004 The MathWorks, Inc. 
+%   $Revision: 1.1.4.1 $  $Date: 2004/03/22 23:53:19 $ 
+
+
+
+%% Setting up a web service
+% In MATLAB, you use the createClassFromWSDL function to call Web service
+% methods. The function creates a MATLAB class based on the Web Services
+% Description Language (WSDL) definition for the web service. To use the
+% function you provide a URL for the WSDL definition of the service.
+
+% OpenBQS WSDL definition URL
+wsdlURL = 'http://industry.ebi.ac.uk/openBQS/copies/BQSWebService.wsdl';
+
+%%
+% Create the classes. This will create a directory called @bqswebservice in
+% the current directory.
+className = createClassFromWSDL(wsdlURL)
+
+%% 
+% The @bqswebservice directory contains automatically generated files that
+% implement the openBQS web service methods.
+dir @bqswebservice
+
+%% 
+% In addition to looking at the contents of the methods directory, you can
+% also use the *methods* command to see what methods are available. You
+% will notice that there are more methods available than files in the
+% @bqswebservice directory. These are inherited methods that are available
+% for all objects in MATLAB.
+
+methods(bqswebservice)
+
+%% Using the web service
+% In order to use the web service, you must first create an instance of the
+% bqswebservice.
+
+bqsws = bqswebservice;
+
+% You can confirm that this is an instance of the bqswebservice using the
+% *class* command.
+class(bqsws)
+
+%%
+% The *getbibrefcount* method returns the total number of references in the
+% repository.
+
+getbibrefcount(bqsws)
+
+%%
+% The *getallvocabularynames* methods returns the names of all available
+% controlled vocabularies.
+
+getallvocabularynames(bqsws)
+
+%%
+% You can access citation information for a specific MEDLINE entry using
+% the *getbyid* method. This returns the information as Base64 encrypted
+% XML.
+
+infoBase64 = getbyid(bqsws,10194334,'xml');
+
+% You can decode the Base64 encryption using this Java method.
+
+info = char(org.apache.xerces.impl.dv.util.Base64.decode(infoBase64));
+
+Title = char(regexp(info,'(?<=<ArticleTitle>)[^<]+','match'))
+Authors = char(regexp(info,'(?<=<LastName>)[^<]+','match'))
+
+%% Writing an XML file
+% You can save the XML text to a file using the *fprintf* function.
+
+filename = 'webservicedata.xml';
+fid = fopen(filename,'w');
+fprintf(fid,'%c',info);
+fclose(fid);
+
+%% Viewing an XML file
+% You can view the contents of the file using a web browser.
+
+web(filename,'-browser')
+
+%% Using a stylesheet and XSLT to transform the XML document
+% The XML file is in a very generic format that is very convenient for
+% storing and transferring data but is not particularly easy to read.
+% An XSLT stylesheet describes transformations that can be used to convert
+% the data in an XML file into a different type of document. There is a
+% sample stylesheet for Medline data called medline.xsl in the biodemos
+% directory. The *xslt* function using this to convert the XML file into a
+% much more easily readable document.  For more details on XSL see 
+% http://www.w3.org/Style/XSL.
+
+xslt(filename,'medline.xsl','-web');
+
+%% Converting an XML file to a structure
+% The function *xml2struct* converts an XML file into a MATLAB structure.
+% The structure contains four fields, Name, Attributes, Data and Children.
+% If a field has children then the Children field will be a structure with
+% the same fields containing the nested information. This nesting can be
+% many layers deep.
+
+S = xml2struct(filename)
+firstLevel = S.Children(4)
+secondLevel = S.Children(4).Children(2)
+thirdLevel = S.Children(4).Children(2).Children
+
+
+##### SOURCE END #####
+-->
+   </body>
+</html>

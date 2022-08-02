@@ -1,0 +1,136 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Data editing</title>
+<style>
+<!--
+h3           { color: #006699 }
+span.mcode   { font-family: Fixedsys; color: #993300; text-align:left }
+-->
+</style>
+</head>
+
+<body>
+
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1" height="86">
+  <tr>
+    <td width="70%" height="86">
+    <h2>Data editing</h2>
+    </td>
+    <td width="3%" height="86">&nbsp;<p>&nbsp;</p>
+    <p>&nbsp;</td>
+    <td width="27%" height="86">
+    <img border="0" src="../images/plt.png" width="214" height="98" align="right"></td>
+  </tr>
+</table>
+  <p style="margin-top: 30; margin-bottom: -10">
+Plt has the capability to modify the plotted data, either one
+point at a time or over a specified range. Data entry is accomplished
+by entering the coordinates via the keyboard or by using the mouse
+when hyper accuracy is not required.<br>
+<br>
+First position the cursor on the trace and data point you wish
+to modify. Then right click on the y-cursor edit box one or more
+times. As you do that, the shape of the cursor will rotate among
+these choices:</p>
+
+<p style="margin-top: 30; margin-bottom: -10">
+&nbsp;</p>
+
+<table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse" bordercolor="#C0C0C0" width="100%" id="AutoNumber2">
+  <tr>
+    <td width="10%" align="center"><b><i><font face="Times New Roman">Cursor 
+    shape</font></i></b></td>
+    <td width="90%"><b><i>Use</i></b></td>
+  </tr>
+  <tr>
+    <td width="10%" align="center"><font face="Times New Roman" size="4">&#916;</font></td>
+    <td width="90%">Move the selected point up or down (i.e. the x coordinate is 
+    not allowed to change)</td>
+  </tr>
+  <tr>
+    <td width="10%" align="center"><font face="Times New Roman">&#9658;</font></td>
+    <td width="90%">Move the selected point left or right (i.e. the y coordinate 
+    is not allowed to change)</td>
+  </tr>
+  <tr>
+    <td width="10%" align="center">
+    <p style="margin-top: 0; margin-bottom: 0"><b>
+    <font face="Times New Roman" size="5">&#9674;</font></b></td>
+    <td width="90%">
+    <p style="margin-top: 0; margin-bottom: 0">Move the selected point 
+    anywhere</td>
+  </tr>
+</table>
+<p style="margin-top: 30; margin-bottom: -10">
+After you have selected the cursor shape appropriate to your desired action, 
+simply drag the cursor to its new location. Unless you selected the diamond 
+shaped cursor, the motion of the cursor will be limited as specified above. When 
+you let go of the mouse button after dragging the cursor to a new location, the 
+cursored data point will be modified and the plot will immediately show the 
+altered data. You can also change the data associated with the cursored point by 
+typing in the new x or y value (or both) into the x and y-cursor edit boxes. When 
+changing the data by typing in the new coordinates, it doesn't matter which of 
+the cursor shapes you use. After selecting any of&nbsp; the three cursor shapes 
+in the above table you may enter the x or y value or both using the cursor edit boxes. 
+You may also combine the data entry methods. For example, select the
+<font face="Times New Roman" size="4">&#916;</font><font face="Times New Roman"> cursor shape and drag the cursor to the desired y 
+position. Then enter the x-coordinate of the desired x position into the x-cursor 
+edit box.</font></p>
+
+<p style="margin-top: 30; margin-bottom: -10">
+<font face="Times New Roman">The methods described so far only change the 
+position of a single (x,y) data point. Sometimes however you may want to modify 
+a range of points. A slight modification of the above method is used to do this. 
+Instead of dragging the  </font><font face="Times New Roman" size="4">&#916;</font><font face="Times New Roman">,&#9658;, or &#9674; cursor with the left mouse button, drag it 
+with the right button. When you let go, instead of just changing the current 
+point as before, plt modifies all the points from the previously edited position 
+to the current cursor point (in a linear fashion). This may sound a little 
+confusing, but just try it and you will probably find it quite intuitive. Note 
+that it doesn't make sense to do the right-drag on the very first time you are 
+editing a particular trace since the operation needs a properly defined starting 
+point. In fact if you try that anyway, no data will be modified.</font></p>
+
+<p style="margin-top: 30; margin-bottom: -10">
+Note that we still need a way to specify that we want to modify a range of 
+points when entering data thru the x or y-cursor edit boxes. Sorry, this is a bit 
+obscure, but the way you do this is to type an &quot;i&quot; after the number. For 
+example, typing <span class="mcode">6.7</span> into the y-cursor edit box would 
+change the y coordinate of&nbsp; the data at the cursored location to 6.7,&nbsp; 
+however typing <span class="mcode">6.7i</span> would change the y coordinate of 
+all the data between the current cursor and the previously edited cursor 
+location. Think of the <span class="mcode">i</span> as a tag equivalent to using 
+the right mouse button instead of the left. (Why is the letter
+<span class="mcode">i</span> used? Don't ask. It has to do with a Matlab 
+programming trick.)</p>
+
+<p style="margin-top: 30; margin-bottom: -10">
+If you want to save the altered data (to a file for example) you have to get the 
+data from the 'xdata' and 'ydata' properties of the line handle. (Remember the 
+line handles are returned by the plt call.) When the user modifies any data 
+using these data editing functions, plt executes the user specified move cursor 
+callback. (See the description of the <span class="mcode">'set','moveCB'</span> 
+function <a href="../Command%20line%20arguments/Cursor%20commands.htm">here</a>.) 
+The callback routine can use the <span class="mcode">'NewData'</span> 
+application property of the current figure window to determine data has been 
+modified (as opposed to an ordinary cursor movement). For example:</p>
+
+<p style="margin-top: 30; margin-bottom: -10">
+<span class="mcode">if getappdata(gcf,'NewData') data_has_been_modified_action();</span></p>
+
+<p style="margin-top: 30; margin-bottom: -10">Also you can get the index into 
+the xdata and ydata line properties of the last modified data using:</p>
+<p style="margin-top: 30; margin-bottom: -10"><span class="mcode">index = 
+getappdata(cur,'i');</span></p>
+<p style="margin-top: 30; margin-bottom: -10">where <span class="mcode">cur</span> 
+is the handle of the active cursor.</p>
+
+<p style="margin-top: 30; margin-bottom: -10">&nbsp;</p>
+
+</body>
+
+</html>

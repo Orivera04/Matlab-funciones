@@ -1,0 +1,41 @@
+function z = atrozos(x,PC,funs)
+clc;
+n=length(PC);
+% Deben haber n+1 funs para n PC's(Ptos. de Cambio).
+if length(funs)~=(n+1)
+  error 'funs y PC's deben ser del mismo tamaño
+end
+% Asegurarse de que las funs son evaluables con feval.
+for i=1:(n+1)
+  if ischar(funs{i}) % f es string. Pasarla a función.
+    f=inline(funs{i});
+    funs{i} = f;
+  elseif isnumeric(funs{i}) | isnan(funs{i}) | isinf(funs{i})
+    % f es un escalar; puede ser NaN o inf. Pasarla a función.
+    funs{i}=@(x) funs{i};
+  else
+    disp('');
+  end
+end
+% initializar como NaNs
+z=nan(size(x));
+% Antes del primer ptofin.
+k=(x<PC(1));
+z(k)=feval(funs{1},x(k));
+%Después del primer ptofin
+for i=1:n-1
+k=(x>=PC(i))&(x<PC(i+1));
+z(k)=feval(funs{i+1},x(k));
+end
+% último tramo
+k=(x>=PC(end));
+z(k)=feval(funs{end},x(k));
+plot(x,z);
+for i=1:n
+    y1=feval(funs{i},PC(i));
+    y2=feval(funs{i+1},PC(i));
+    x1=PC(i);
+    x2=PC(i);
+    plot([x1,x2],[y1,y2],'r:');
+end
+

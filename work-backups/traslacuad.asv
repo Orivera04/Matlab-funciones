@@ -1,0 +1,39 @@
+function ecua=traslacuad(A,B,C,G,H,M,N)
+syms  X Y Z x y z;
+%3 COEFICIENTES CUADRATICOS DIFERENTES DE 0.
+if A~=0 && B~=0 && C~=0
+    h=-G/(2*A); k=-H/(2*B);m=-M/(2*C);f=N-(A*h^2+B*k^2+C*m^2);
+    ecua=A*X^2+B*Y^2+C*Z^2+f;
+end
+%2 COEFICIENTES CUADRATICOS DIFERENTES DE 0.
+if  A~=0 && B~=0 && C==0
+    h=-G/(2*A); k=-H/(2*B); m=(N-(G/2)^2-(H/2)^2)/M;
+    ecua=A*X^2+B*Y^2+M*Z;
+elseif A==0 && B~=0 && C~=0 
+    h=(N-(H/2)^2-(M/2)^2)/G;k=-H/(2*B);m=-M/(2*C);
+    ecua=G*X+B*Y^2+C*Z^2;    
+elseif A~=0 && B==0 && C~=0    
+    h=-G/(2*A); k=(N-(G/2)^2-(M/2)^2)/H ; m=-M/(2*C);  
+    ecua=A*X^2+H*Y+C*Z^2;
+%1 COEFICIENTE CUADRATICO DIFERENTE DE 0    
+elseif A~=0 && B==0 && C==0 && G~=0
+     h=-G/(2*A);k=(-(G/2)^2-(M/2)^2)/H;m=(-(G/2)^2-(H/2)^2)/M;
+     f=N-A*h^2;
+     ecua1=A*X^2+H*Y+M*Z+f,ecua=traslacuad(A,0,0,0,H,M,f);
+elseif A==0 && B~=0 && C==0 && H~=0
+     h=(-(H/2)^2-(M/2)^2)/G;k=-H/(2*B);m=(-(G/2)^2-(H/2)^2)/M;
+     f=N-B*k^2;
+     ecua1=G*X+B*Y^2+M*Z+f,ecua=traslacuad(0,B,0,G,0,M,f);
+elseif A==0 && B==0 && C~=0 && M~=0
+     f=N-C*m^2;
+     ecua1=G*X+H*Y+C*Z^2+f,ecua=traslacuad(0,0,C,G,H,0,f);
+%1 COEFICIENTE CUADRATICO ~=0. 2 COEF. LINEALES ~=0.       
+elseif A~=0 && B==0 && C==0 && G==0 && H~=0 && M~=0
+     ecua=A*X^2+sqrt(H^2+M^2)*Y+N;
+elseif A==0 && B~=0 && C==0 && G~=0 && H==0 && M~=0
+     ecua=B*Y^2+sqrt(G^2+M^2)*X+N;
+elseif A==0 && B==0 && C~=0 && G~=0 && H~=0 && M==0
+     ecua=B*Y^2+sqrt(G^2+H^2)*X+N;
+end
+
+  

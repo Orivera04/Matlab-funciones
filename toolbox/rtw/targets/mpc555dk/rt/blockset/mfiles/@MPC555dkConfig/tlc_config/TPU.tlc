@@ -1,0 +1,187 @@
+%% File: TPU.tlc
+%%
+%% Abstract:
+%%   
+%%
+%% $Revision: 1.3.4.4 $
+%% $Date: 2004/04/19 01:29:24 $
+%%
+%% Copyright 2002-2003 The MathWorks, Inc.
+
+%implements * "C"
+
+%include "ObjectRef.tlc"
+
+%function DriverConfiguration(record) void
+   %% Header files
+   %openfile buffer
+      #include "mpc5xx.h"
+      #include "tpu3_mw_defines.h"
+      #include "tpu_interrupt_handler.h"
+   %closefile buffer
+   %<LibCacheIncludes(buffer)>
+
+   %% Possibly setup the TPU A interrupt object
+   %<TPUModuleRegister(record, "TPU_A")>
+   %% Possibly setup the TPU B interrupt object
+   %<TPUModuleRegister(record, "TPU_B")>
+
+   %assign variant = SLibSubsRef(record,"MPC5xx_Variant")
+   %assign tpucavail = FEVAL("mpc555_module_available", variant, "tpu_c")
+   %if tpucavail
+      %% 3rd TPU module available
+      %<TPUModuleRegister(record, "TPU_C")>
+   %endif
+%endfunction
+
+%function Start(record) Output
+   %% Initialise TPU_A 
+   %<TPUModuleInit(record, "TPU_A")>
+   %% Initialise TPU_B
+   %<TPUModuleInit(record, "TPU_B")>
+
+   %% handle third TPU Module if appropriate
+   %assign variant = SLibSubsRef(record,"MPC5xx_Variant")
+   %assign tpucavail = FEVAL("mpc555_module_available", variant, "tpu_c")
+   %if tpucavail
+      %% 3rd TPU module available
+      %<TPUModuleInit(record, "TPU_C")>
+   %endif
+%endfunction
+
+%function TPUModuleRegister(record, module) void
+%% Setup the global configuration structures for TPU
+%%
+%% -- Arguments ---
+%%
+%%  module  -   'TPU_A' | 'TPU_B' | 'TPU_C'
+   %assign intLevel = SLibSubsRef(record,"%<module>.IRQ_Level")
+   %assign intEnabled = !LibIsEqual(intLevel, "Interrupts Disabled")
+   
+   %% only generate the global objects if required
+   %if intEnabled
+      %openfile buffer
+      /* A pointer to a TPU module that
+         will be used to handle TPU interrupts */
+      extern TPU_ISR_MODULE GlobalTPUInterruptModule%<module>;
+      %closefile buffer
+      %<LibCacheExtern(buffer)>
+
+      %openfile buffer
+        
+        /* A pointer to a TPU module that
+           will be used to handle TPU interrupts */
+        TPU_ISR_MODULE GlobalTPUInterruptModule%<module>;
+
+      %closefile buffer       
+      %<LibRegFileCustomCode(buffer,"trailer")>
+   %endif
+%endfunction
+
+%function TPUSetTPUMCR2(module, div2)
+   %openfile buffer
+   %% tlc variable to store bits to SET
+   %assign TPUMCR2 = 0U
+   %if div2 == 1
+      /* TCR1 increments at rate IMB / 2 */
+   %else 
+      /* Prescalers determine TCR1 clock */
+   %endif
+   %assign TPUMCR2 = TPUMCR2 | (div2 << 8)
+   %% set the bits by or'ing with the register
+   %<module>.TPUMCR2.R |= %<TPUMCR2>;
+   %closefile buffer
+   %if TPUMCR2 != 0
+      %return buffer
+   %else
+      %return "/* Using default TPUMCR2 settings */"
+   %endif
+%endfunction
+
+%function TPUSetTPUMCR3(module, type, enhancedPresc)
+   %openfile buffer
+   %% tlc variable to store bits to SET
+   %assign TPUMCR3 = 0U
+   %assign TPUMCR3 = TPUMCR3 | (type << 6)
+   %if type == 1
+      %% Enhanced prescaler
+      /* Enhanced prescaler divide by %<(enhancedPresc + 1) * 2> */
+      %assign TPUMCR3 = TPUMCR3 | enhancedPresc
+   %else
+      /* Standard prescaler */
+   %endif
+   %% set the bits by or'ing with the register
+   %<module>.TPUMCR3.R |= %<TPUMCR3>;
+   %closefile buffer
+   %if TPUMCR3 != 0
+      %return buffer
+   %else 
+      %return "/* Using default TPUMCR3 settings */"
+   %endif
+%endfunction
+
+%function TPUSetTPUMCR(module, type, standardPresc, TCR1P_DIV) 
+   %openfile buffer
+   %% tlc variable to store bits to SET
+   %assign TPUMCR = 0U
+   %if type == 0
+      %% Standard prescaler
+      %if standardPresc == 0
+         /* Standard prescaler divide by 32 */
+      %else
+         /* Standard prescaler divide by 4 */
+      %endif
+      %assign TPUMCR = TPUMCR | (standardPresc << 6) 
+   %endif
+   %% now apply TCR1P Divide
+   /* TCR1P prescaler divide by %<1 << TCR1P_DIV> */
+   %assign TPUMCR = TPUMCR | (TCR1P_DIV << 13) 
+   %% set the bits by or'ing with the register
+   %<module>.TPUMCR.R |= %<TPUMCR>;
+   %closefile buffer
+   %if TPUMCR != 0
+      %return buffer
+   %else
+      %return "/* Using default TPUMCR settings */"
+   %endif
+%endfunction
+
+%function TPUModuleInit(record, module) Output
+         /* -- [START] Driver Configuration : %<module> TCR1 */
+         %% divide by 2 only?
+         %assign DIV2 = SLibEnumSubsRef(record, "TPUMCR2_DIV2_ENUM","%<module>.TCR1.TPUMCR2_DIV2")
+         %if DIV2 == 0 
+            %% applying prescalers
+            %assign EPSCKE = SLibEnumSubsRef(record, "Enhanced_Prescaler_Enable_ENUM", "%<module>.TCR1.Enhanced_Prescaler_Enable")
+            %assign PSCK = SLibEnumSubsRef(record, "Standard_Prescaler_Divide_ENUM", "%<module>.TCR1.Standard_Prescaler_Divide")
+            %assign EPSCK = SLibEnumSubsRef(record, "Enhanced_Prescaler_Divide_ENUM", "%<module>.TCR1.Enhanced_Prescaler_Divide")
+            %assign TCR1P_DIV = SLibEnumSubsRef(record, "TCR1P_Divide_ENUM", "%<module>.TCR1.TCR1P_Divide")
+            %<TPUSetTPUMCR(module, EPSCKE, PSCK, TCR1P_DIV)>
+            %<TPUSetTPUMCR2(module, DIV2)>
+            %<TPUSetTPUMCR3(module, EPSCKE, EPSCK)> 
+         %else
+            %% simply dividing the clock down by 2
+            /* Using default TPUMCR settings */
+            %<TPUSetTPUMCR2(module, DIV2)>
+            /* Using default TPUMCR3 settings */
+         %endif
+           
+         /* -- [END] Driver Configuration : %<module> TCR1 */
+
+         %assign intLevel = SLibSubsRef(record,"%<module>.IRQ_Level")
+         %assign intEnabled = !LibIsEqual(intLevel, "Interrupts Disabled")
+         %% only generate the global objects if required
+         %if intEnabled
+            /* -- [START] Driver Configuration : %<module> Interrupts */
+            initTPUModule(&GlobalTPUInterruptModule%<module>,&%<module>);
+            /* Initialise the interrupt level of %<module> */
+            if ( !setTPUModuleIrqLevel(&GlobalTPUInterruptModule%<module>,%<intLevel>) ){
+               /* %<intLevel> has already been registered
+                  and we should stop because this is a coding
+                  error. */
+               exit(1);
+            } 
+            /* -- [END] Driver Configuration : %<module> Interrupts */
+
+         %endif
+%endfunction

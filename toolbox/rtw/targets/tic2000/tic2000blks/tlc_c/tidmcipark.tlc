@@ -1,0 +1,42 @@
+%% $RCSfile: tidmcipark.tlc,v $
+%% $Revision: 1.1.6.1 $ $Date: 2004/04/01 16:14:37 $
+%% Copyright 2004 The MathWorks, Inc.
+%%
+%% Abstract: TI C28x DMC library Inverse Park Transformation
+
+%implements tidmcipark "C"
+
+%include "fix_published.tlc"
+
+
+%% Function: BlockTypeSetup ==============================================
+%function BlockTypeSetup(block, system) void
+    %<LibAddToCommonIncludes("<IQmathLib.h>")>
+%endfunction %% BlockTypeSetup
+
+
+%% Function: Outputs ==========================================================
+%%
+%function Outputs(block, system) Output
+	%assign OUTPORT_X  = 0
+	%assign dataTyp = LibBlockOutputSignalDataTypeId(OUTPORT_X)
+	%assign fracLen = FixPt_DataTypeFractionLength(block,dataTyp)
+	%assign MPY = "_IQ%<fracLen>mpy"
+	%assign SIN = "_IQ%<fracLen>sinPU"
+	%assign COS = "_IQ%<fracLen>cosPU"
+	
+	/* C28x DMC Library (%<ParamSettings.FunctionName>) - '%<Name>' */
+	{
+	    %assign rollVars = ["U", "Y"]
+        %roll idx = RollRegions, lcv = RollThreshold, block,"Roller", rollVars
+
+			%<LibBlockOutputSignal (0,"",lcv,idx)> = %<MPY>(%<LibBlockInputSignal(0,"",lcv,idx)>, %<COS>(%<LibBlockInputSignal(2,"",lcv,idx)>) ) - \
+			                                         %<MPY>(%<LibBlockInputSignal(1,"",lcv,idx)>, %<SIN>(%<LibBlockInputSignal(2,"",lcv,idx)>) );
+			%<LibBlockOutputSignal (1,"",lcv,idx)> = %<MPY>(%<LibBlockInputSignal(1,"",lcv,idx)>, %<COS>(%<LibBlockInputSignal(2,"",lcv,idx)>) ) + \
+			                                         %<MPY>(%<LibBlockInputSignal(0,"",lcv,idx)>, %<SIN>(%<LibBlockInputSignal(2,"",lcv,idx)>) );
+		%endroll
+	}
+
+%endfunction
+
+%% [EOF] tidmcipark.tlc

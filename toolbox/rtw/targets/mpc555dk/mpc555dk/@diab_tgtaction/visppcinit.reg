@@ -1,0 +1,324 @@
+REM
+REM Adapted from .../TornadoOW_ppc_3.0/target/osekworks/bsp/ppc/estsbc555/estsbc555.reg
+REM
+REM *******************************************
+REM CF CONFIGURATION
+REM *******************************************
+
+CF TAR                  555
+CF SB                   IHBC
+CF RST                  YES
+CF TGTCONS              BDM
+CF WSPACE               003f9800 800
+CF FRZ                  1
+CF CLK                  12
+CF RTP                  NO
+CF SBE                  NORMAL
+CF TRPMC                YES
+CF TRPEXP               YES
+CF ICTRLVAL             7
+
+REM *******************************************
+REM SC CONFIGURATION
+REM *******************************************
+SC GRP ERASE
+
+SCGA SIU              IMMR             0000027E  FFFF0000 SIU              /no_addr /cpur /va_dr /sa:0
+SCGA SIU              SIUMCR           002FC000  00000000 SIU              /ua:0
+SCGA SIU              SYPCR            002FC004  FFFFFF03 SIU              /ua:0
+SCGA SIU              SWSR             002FC00E  0000     SIU              /ua:0
+SCGA SIU              SIPEND           002FC010  00000000 SIU              /ua:0
+SCGA SIU              SIMASK           002FC014  00000000 SIU              /ua:0
+SCGA SIU              SIEL             002FC018  00000000 SIU              /ua:0
+SCGA SIU              SIVEC            002FC01C  3C000000 SIU              /ua:0
+SCGA SIU              TESR             002FC020  00000000 SIU              /ua:0
+SCGA SIU              SGPIODT1         002FC024  00000000 SIU              /ua:0
+SCGA SIU              SGPIODT2         002FC028  00000000 SIU              /ua:0
+SCGA SIU              SGPIOCR          002FC02C  00000000 SIU              /ua:0
+SCGA SIU              EMCR             002FC030  00000A6C SIU              /ua:0
+SCGA SIU              PDMCR            002FC03C  00000000 SIU              /ua:0
+
+SCGA MEM              BR0              002FC100  00000000 MEM              /ua:0
+SCGA MEM              OR0              002FC104  00000000 MEM              /ua:0
+SCGA MEM              BR1              002FC108  00000001 MEM              /ua:0
+SCGA MEM              OR1              002FC10C  FFC00000 MEM              /ua:0
+SCGA MEM              BR2              002FC110  00000000 MEM              /ua:0
+SCGA MEM              OR2              002FC114  00000000 MEM              /ua:0
+SCGA MEM              BR3              002FC118  00000000 MEM              /ua:0
+SCGA MEM              OR3              002FC11C  00000000 MEM              /ua:0
+
+SCGA MEM              DMBR             002FC140  00000000 MEM              /ua:0
+SCGA MEM              DMOR             002FC144  00000000 MEM              /ua:0
+SCGA MEM              MSTAT            002FC178  0000     MEM              /ua:0
+
+SCGA CLOCKS           TBSCRK           002FC300  55CCAA33 CLOCKS           /wo /ua:0
+SCGA CLOCKS           TBSCR            002FC200  0000     CLOCKS           /ua:0
+SCGA CLOCKS           TBREF0K          002FC304  55CCAA33 CLOCKS           /wo /ua:0
+SCGA CLOCKS           TBREF0           002FC204  00000000 CLOCKS           /ua:0
+SCGA CLOCKS           TBREF1K          002FC308  55CCAA33 CLOCKS           /wo /ua:0
+SCGA CLOCKS           TBREF1           002FC208  00000000 CLOCKS           /ua:0
+SCGA CLOCKS           RTCSCK           002FC320  55CCAA33 CLOCKS           /wo /ua:0
+SCGA CLOCKS           RTCSC            002FC220  0000     CLOCKS           /ua:0
+SCGA CLOCKS           RTCK             002FC324  55CCAA33 CLOCKS           /wo /ua:0
+SCGA CLOCKS           RTC              002FC224  00000000 CLOCKS           /ua:0
+SCGA CLOCKS           RTSECK           002FC328  55CCAA33 CLOCKS           /wo /ua:0
+SCGA CLOCKS           RTSEC            002FC228  00000000 CLOCKS           /ua:0
+SCGA CLOCKS           RTCALK           002FC32C  55CCAA33 CLOCKS           /wo /ua:0
+SCGA CLOCKS           RTCAL            002FC22C  00000000 CLOCKS           /ua:0
+SCGA CLOCKS           PISCRIK          002FC340  55CCAA33 CLOCKS           /wo /ua:0
+SCGA CLOCKS           PISCR            002FC240  0000     CLOCKS           /ua:0
+SCGA CLOCKS           PITCK            002FC344  55CCAA33 CLOCKS           /wo /ua:0
+SCGA CLOCKS           PITC             002FC244  00000000 CLOCKS           /ua:0
+SCGA CLOCKS           TBK              002FC30C  55CCAA33 CLOCKS           /wo /ua:0
+SCGA CLOCKS           PITR             002FC248  00000000 CLOCKS           /ua:0
+SCGA CLOCKS           SCCRK            002FC380  55CCAA33 CLOCKS           /wo /ua:0
+SCGA CLOCKS           SCCR             002FC280  81210100 CLOCKS           /ua:0
+SCGA CLOCKS           PLPRCRK          002FC384  55CCAA33 CLOCKS           /wo /ua:0
+SCGA CLOCKS           PLPRCR           002FC284  00014000 CLOCKS           /ua:0
+SCGA CLOCKS           RSRK             002FC388  55CCAA33 CLOCKS           /wo /ua:0
+SCGA CLOCKS           RSR              002FC288  0000     CLOCKS           /ua:0
+SCGA CLOCKS           COLIR            002FC28C  0000     CLOCKS           /ua:0
+SCGA CLOCKS           VSRMCR           002FC290  7800     CLOCKS           /ua:0
+
+SCGA EEPROM           CMFMCR_A         002FC800  80FF00FF EEPROM           /ua:0
+SCGA EEPROM           CMFCTL_A         002FC808  00000000 EEPROM           /ua:0
+SCGA EEPROM           CMFMCR_B         002FC840  80FF00FF EEPROM           /ua:0
+SCGA EEPROM           CMFCTL_B         002FC848  00000000 EEPROM           /ua:0
+
+SCGA SRAM             SRAMMCRA         00380000  00000000 SRAM             /ua:0
+SCGA SRAM             SRAMMCRB         00380008  00000000 SRAM             /ua:0
+
+SCGA TPU_RAM          DPTMCR           00300040  0100     TPU_RAM          /ua:0
+SCGA TPU_RAM          RAMBAR           00300004  0001     TPU_RAM          /ua:0
+SCGA TPU_RAM          MISRH            00300006  0000     TPU_RAM          /r /ua:0
+SCGA TPU_RAM          MISRL            00300008  0000     TPU_RAM          /r /ua:0
+SCGA TPU_RAM          MISCNT           0030000A  17FC     TPU_RAM          /r /ua:0
+
+SCGA TPU_A            TPUMCRA          00304000  00A0     TPU_A            /ua:0
+SCGA TPU_A            TICR_3A          00304008  0000     TPU_A            /ua:0
+SCGA TPU_A            CIER_3A          0030400A  0000     TPU_A            /ua:0
+SCGA TPU_A            CFSR0_3A         0030400C  0000     TPU_A            /ua:0
+SCGA TPU_A            CFSR1_3A         0030400E  0000     TPU_A            /ua:0
+SCGA TPU_A            CFSR2_3A         00304010  0000     TPU_A            /ua:0
+SCGA TPU_A            CFSR3_A          00304012  0000     TPU_A            /ua:0
+SCGA TPU_A            HSQR0_A          00304014  0000     TPU_A            /ua:0
+SCGA TPU_A            HSQR1_A          00304016  0000     TPU_A            /ua:0
+SCGA TPU_A            HSRR0_A          00304018  0000     TPU_A            /ua:0
+SCGA TPU_A            HSRR1_A          0030401A  0000     TPU_A            /ua:0
+SCGA TPU_A            CPR0_A           0030401C  0000     TPU_A            /ua:0
+SCGA TPU_A            CPR1_A           0030401E  0000     TPU_A            /ua:0
+SCGA TPU_A            CISR_A           00304020  0000     TPU_A            /ua:0
+SCGA TPU_A            TPUMCR2A         00304028  0000     TPU_A            /ua:0
+SCGA TPU_A            TPUMCR3A         0030402A  0000     TPU_A            /ua:0
+
+SCGA TPU_B            TPUMCRB          00304400  00A0     TPU_B            /ua:0
+SCGA TPU_B            TICR_3B          00304408  0000     TPU_B            /ua:0
+SCGA TPU_B            CIER_3B          0030440A  0000     TPU_B            /ua:0
+SCGA TPU_B            CFSR0_3B         0030440C  0000     TPU_B            /ua:0
+SCGA TPU_B            CFSR1_3B         0030440E  0000     TPU_B            /ua:0
+SCGA TPU_B            CFSR2_3B         00304410  0000     TPU_B            /ua:0
+SCGA TPU_B            CFSR3_B          00304412  0000     TPU_B            /ua:0
+SCGA TPU_B            HSQR0_B          00304414  0000     TPU_B            /ua:0
+SCGA TPU_B            HSQR1_B          00304416  0000     TPU_B            /ua:0
+SCGA TPU_B            HSRR0_B          00304418  0000     TPU_B            /ua:0
+SCGA TPU_B            HSRR1_B          0030441A  0000     TPU_B            /ua:0
+SCGA TPU_B            CPR0_B           0030441C  0000     TPU_B            /ua:0
+SCGA TPU_B            CPR1_B           0030441E  0000     TPU_B            /ua:0
+SCGA TPU_B            CISR_B           00304420  0000     TPU_B            /ua:0
+SCGA TPU_B            TPUMCR2B         00304428  0000     TPU_B            /ua:0
+SCGA TPU_B            TPUMCR3B         0030442A  0000     TPU_B            /ua:0
+
+SCGA QADC64           QADCMCRA         00304800  0080     QADC64           /ua:0
+SCGA QADC64           QADCINTA         00304804  0000     QADC64           /ua:0
+SCGA QADC64           PORTQA           00304806  0000     QADC64           /ua:0
+SCGA QADC64           DDRQA            00304808  0000     QADC64           /ua:0
+SCGA QADC64           QACR0_A          0030480A  00B7     QADC64           /ua:0
+SCGA QADC64           QACR1_A          0030480C  0000     QADC64           /ua:0
+SCGA QADC64           QACR2_A          0030480E  007F     QADC64           /ua:0
+SCGA QADC64           QASR0_A          00304810  0000     QADC64           /ua:0
+SCGA QADC64           QASR1_A          00304812  3F3F     QADC64           /ua:0
+SCGA QADC64           QADCMCRB         00304C00  0080     QADC64           /ua:0
+SCGA QADC64           QADCINTB         00304C04  0000     QADC64           /ua:0
+SCGA QADC64           PORTQB           00304C06  0000     QADC64           /ua:0
+SCGA QADC64           DDRQB            00304C08  0000     QADC64           /ua:0
+SCGA QADC64           QACR0_B          00304C0A  00B7     QADC64           /ua:0
+SCGA QADC64           QACR1_B          00304C0C  0000     QADC64           /ua:0
+SCGA QADC64           QACR2_B          00304C0E  007F     QADC64           /ua:0
+SCGA QADC64           QASR0_B          00304C10  0000     QADC64           /ua:0
+SCGA QADC64           QASR1_B          00304C12  3F3F     QADC64           /ua:0
+
+SCGA QSMCM            QSMCR            00305000  0080     QSMCM            /ua:0
+SCGA QSMCM            QDSCI_IL         00305004  0000     QSMCM            /ua:0
+SCGA QSMCM            QSPI_IL          00305006  0000     QSMCM            /ua:0
+SCGA QSMCM            SCC1R0           00305008  0004     QSMCM            /ua:0
+SCGA QSMCM            SCC1R1           0030500A  0000     QSMCM            /ua:0
+SCGA QSMCM            SC1SR            0030500C  0180     QSMCM            /r /ua:0
+SCGA QSMCM            SC1DR            0030500E  0022     QSMCM            /ua:0
+SCGA QSMCM            PORTQS           00305014  0F7F     QSMCM            /ua:0
+SCGA QSMCM            DDRQST           00305016  0000     QSMCM            /ua:0
+SCGA QSMCM            SPCR0            00305018  0104     QSMCM            /ua:0
+SCGA QSMCM            SPCR1            0030501A  0404     QSMCM            /ua:0
+SCGA QSMCM            SPCR2            0030501C  0000     QSMCM            /ua:0
+SCGA QSMCM            SPCR3            0030501E  00       QSMCM            /ua:0
+SCGA QSMCM            SPSR             0030501F  00       QSMCM            /ua:0
+SCGA QSMCM            SCC2R0           00305020  0004     QSMCM            /ua:0
+SCGA QSMCM            SCC2R1           00305022  0000     QSMCM            /ua:0
+SCGA QSMCM            SC2SR            00305024  0180     QSMCM            /r /ua:0
+SCGA QSMCM            SC2DR            00305026  0165     QSMCM            /ua:0
+SCGA QSMCM            QSCI1CR          00305028  0000     QSMCM            /ua:0
+SCGA QSMCM            QSCI1SR          0030502A  0F00     QSMCM            /ua:0
+
+SCGA MIOS1            MPPERR0          00306000  0000     MIOS1            /ua:0
+SCGA MIOS1            MPPULR0          00306002  0000     MIOS1            /ua:0
+SCGA MIOS1            MPCNTR0          00306004  0000     MIOS1            /ua:0
+SCGA MIOS1            MPSCR0           00306006  8000     MIOS1            /ua:0
+SCGA MIOS1            MPPERR1          00306008  0000     MIOS1            /ua:0
+SCGA MIOS1            MPPULR1          0030600A  0000     MIOS1            /ua:0
+SCGA MIOS1            MPCNTR1          0030600C  0000     MIOS1            /ua:0
+SCGA MIOS1            MPSCR1           0030600E  80D3     MIOS1            /ua:0
+SCGA MIOS1            MPPERR2          00306010  0000     MIOS1            /ua:0
+SCGA MIOS1            MPPULR2          00306012  0000     MIOS1            /ua:0
+SCGA MIOS1            MPCNTR2          00306014  0000     MIOS1            /ua:0
+SCGA MIOS1            MPSCR2           00306016  8000     MIOS1            /ua:0
+SCGA MIOS1            MPPERR3          00306018  0000     MIOS1            /ua:0
+SCGA MIOS1            MPPULR3          0030601A  14C7     MIOS1            /ua:0
+SCGA MIOS1            MPCNTR3          0030601C  0000     MIOS1            /ua:0
+SCGA MIOS1            MPSCR3           0030601E  8000     MIOS1            /ua:0
+SCGA MIOS1            MPPERR16         00306080  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MPPULR16         00306082  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MPCNTR16         00306084  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MPSCR16          00306086  80D3     MIOS1            /ua:0
+SCGA MIOS1            MPPERR17         00306088  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MPPULR17         0030608A  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MPCNTR17         0030608C  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MPSCR17          0030608E  80D3     MIOS1            /ua:0
+SCGA MIOS1            MPPERR18         00306090  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MPPULR18         00306092  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MPCNTR18         00306094  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MPSCR18          00306096  80D3     MIOS1            /ua:0
+SCGA MIOS1            MPPERR19         00306098  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MPPULR19         0030609A  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MPCNTR19         0030609C  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MPSCR19          0030609E  80D3     MIOS1            /ua:0
+SCGA MIOS1            MCCNT6           00306030  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MCML6            00306032  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MCSCRD6          00306034  C0D3     MIOS1            /ua:0
+SCGA MIOS1            MCSCR6           00306036  C0D3     MIOS1            /ua:0
+SCGA MIOS1            MCCNT22          003060B0  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MCML22           003060B2  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MCSCRD22         003060B4  C0D3     MIOS1            /ua:0
+SCGA MIOS1            MCSCR22          003060B6  C0D3     MIOS1            /ua:0
+SCGA MIOS1            MDAR11           00306058  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MDBR11           0030605A  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MDSCRD11         0030605C  8000     MIOS1            /ua:0
+SCGA MIOS1            MDSCR11          0030605E  8000     MIOS1            /ua:0
+SCGA MIOS1            MDAR12           00306060  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MDBR12           00306062  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MDSCRD12         00306064  8000     MIOS1            /ua:0
+SCGA MIOS1            MDSCR12          00306066  8000     MIOS1            /ua:0
+SCGA MIOS1            MDAR13           00306068  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MDBR13           0030606A  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MDSCRD13         0030606C  8000     MIOS1            /ua:0
+SCGA MIOS1            MDSCR13          0030606E  8000     MIOS1            /ua:0
+SCGA MIOS1            MDAR14           00306070  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MDBR14           00306072  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MDSCRD14         00306074  8000     MIOS1            /ua:0
+SCGA MIOS1            MDSCR14          00306076  8000     MIOS1            /ua:0
+SCGA MIOS1            MDAR15           00306078  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MDBR15           0030607A  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MDSCRD15         0030607C  8000     MIOS1            /ua:0
+SCGA MIOS1            MDSCR15          0030607E  8000     MIOS1            /ua:0
+SCGA MIOS1            MDAR27           003060D8  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MDBR27           003060DA  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MDSCRD27         003060DC  8000     MIOS1            /ua:0
+SCGA MIOS1            MDSCR27          003060DE  8000     MIOS1            /ua:0
+SCGA MIOS1            MDAR28           003060E0  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MDBR28           003060E2  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MDSCRD28         003060E4  8000     MIOS1            /ua:0
+SCGA MIOS1            MDSCR28          003060E6  8000     MIOS1            /ua:0
+SCGA MIOS1            MDAR29           003060E8  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MDBR29           003060EA  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MDSCRD29         003060EC  8000     MIOS1            /ua:0
+SCGA MIOS1            MDSCR29          003060EE  8000     MIOS1            /ua:0
+SCGA MIOS1            MDAR30           003060F0  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MDBR30           003060F2  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MDSCRD30         003060F4  8000     MIOS1            /ua:0
+SCGA MIOS1            MDSCR30          003060F6  8000     MIOS1            /ua:0
+SCGA MIOS1            MDAR31           003060F8  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MDBR31           003060FA  FFD3     MIOS1            /ua:0
+SCGA MIOS1            MDSCRD31         003060FC  8000     MIOS1            /ua:0
+SCGA MIOS1            MDSCR31          003060FE  8000     MIOS1            /ua:0
+SCGA MIOS1            MPMDR            00306100  FFFF     MIOS1            /ua:0
+SCGA MIOS1            MPMDDR           00306102  0000     MIOS1            /ua:0
+SCGA MIOS1            MIOS1TPC         00306800  0003     MIOS1            /ua:0
+SCGA MIOS1            MIOS1VNR         00306804  0101     MIOS1            /r /ua:0
+SCGA MIOS1            MIOS1MCR         00306806  0000     MIOS1            /ua:0
+SCGA MIOS1            MCPSCR           00306816  0000     MIOS1            /ua:0
+SCGA MIOS1            MIOS1LV0         00306C30  0000     MIOS1            /ua:0
+SCGA MIOS1            MIOS1LV1         00306C70  0000     MIOS1            /ua:0
+SCGA MIOS1            MIOS1SR0         00306C00  0000     MIOS1            /ua:0
+SCGA MIOS1            MIOS1ER0         00306C04  0000     MIOS1            /ua:0
+SCGA MIOS1            MIOS1RP0         00306C06  0000     MIOS1            /r /ua:0
+SCGA MIOS1            MIOS1SR1         00306C40  0000     MIOS1            /ua:0
+SCGA MIOS1            MIOS1ER1         00306C44  0000     MIOS1            /ua:0
+SCGA MIOS1            MIOS1RP1         00306C46  0000     MIOS1            /r /ua:0
+
+SCGA TOUCAN_A         TCNMCR_A         00307080  5980     TOUCAN_A         /ua:0
+SCGA TOUCAN_A         CANICR_A         00307084  000F     TOUCAN_A         /ua:0
+SCGA TOUCAN_A         CTRL0/1A         00307086  0000     TOUCAN_A         /ua:0
+SCGA TOUCAN_A         PD/CTR2A         00307088  0000     TOUCAN_A         /ua:0
+SCGA TOUCAN_A         TIMER_A          0030708A  0000     TOUCAN_A         /ua:0
+SCGA TOUCAN_A         RXGMHI_A         00307090  FFEF     TOUCAN_A         /ua:0
+SCGA TOUCAN_A         RXGMLO_A         00307092  FFFE     TOUCAN_A         /ua:0
+SCGA TOUCAN_A         RX14MHIA         00307094  FFEF     TOUCAN_A         /ua:0
+SCGA TOUCAN_A         RX14MLOA         00307096  FFFE     TOUCAN_A         /ua:0
+SCGA TOUCAN_A         RX15MHIA         00307098  FFEF     TOUCAN_A         /ua:0
+SCGA TOUCAN_A         RX15MLOA         0030709A  FFFE     TOUCAN_A         /ua:0
+SCGA TOUCAN_A         ESTAT_A          003070A0  0000     TOUCAN_A         /ua:0
+SCGA TOUCAN_A         IMASK_A          003070A2  0000     TOUCAN_A         /ua:0
+SCGA TOUCAN_A         IFLAG_A          003070A4  0000     TOUCAN_A         /ua:0
+SCGA TOUCAN_A         RXTXER_A         003070A6  0000     TOUCAN_A         /ua:0
+
+SCGA TOUCAN_B         TCNMCR_B         00307480  5980     TOUCAN_B         /ua:0
+SCGA TOUCAN_B         CANICR_B         00307484  000F     TOUCAN_B         /ua:0
+SCGA TOUCAN_B         CTRL0/1B         00307486  0000     TOUCAN_B         /ua:0
+SCGA TOUCAN_B         PD/CTR2B         00307488  0000     TOUCAN_B         /ua:0
+SCGA TOUCAN_B         TIMER_B          0030748A  0000     TOUCAN_B         /ua:0
+SCGA TOUCAN_B         RXGMHI_B         00307490  FFEF     TOUCAN_B         /ua:0
+SCGA TOUCAN_B         RXGMLO_B         00307492  FFFE     TOUCAN_B         /ua:0
+SCGA TOUCAN_B         RX14MHIB         00307494  FFEF     TOUCAN_B         /ua:0
+SCGA TOUCAN_B         RX14MLOB         00307496  FFFE     TOUCAN_B         /ua:0
+SCGA TOUCAN_B         RX15MHIB         00307498  FFEF     TOUCAN_B         /ua:0
+SCGA TOUCAN_B         RX15MLOB         0030749A  FFFE     TOUCAN_B         /ua:0
+SCGA TOUCAN_B         ESTAT_B          003074A0  0000     TOUCAN_B         /ua:0
+SCGA TOUCAN_B         IMASK_B          003074A2  0000     TOUCAN_B         /ua:0
+SCGA TOUCAN_B         IFLAG_B          003074A4  0000     TOUCAN_B         /ua:0
+SCGA TOUCAN_B         RXTXER_B         003074A6  0000     TOUCAN_B         /ua:0
+
+SCGA UIMB             UMCR             00307F80  00000000 UIMB             /ua:0
+SCGA UIMB             UIPEND           00307FA0  00000000 UIMB             /ua:0
+
+REM *******************************************
+REM CF GROUP CONFIGURATION
+REM *******************************************
+CF GRP                  SIU ENABLED
+CF GRP                  MEM ENABLED
+
+CF GRP                  CLOCKS DISABLED
+CF GRP                  EEPROM DISABLED
+CF GRP                  SRAM DISABLED
+
+CF GRP                  TPU_RAM DISABLED
+CF GRP                  TPU_A DISABLED
+CF GRP                  TPU_B DISABLED
+CF GRP                  QADC64 DISABLED
+CF GRP                  QSMCM DISABLED
+CF GRP                  MIOS1 DISABLED
+CF GRP                  TOUCAN_A DISABLED
+CF GRP                  TOUCAN_B DISABLED
+CF GRP                  UIMB DISABLED
+
+REM *******************************************
+REM TF CONFIGURATION
+REM *******************************************
+tf conf 203 003F9800 0 0;

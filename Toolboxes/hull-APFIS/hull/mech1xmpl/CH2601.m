@@ -1,0 +1,13 @@
+trial=1
+YValue=[3,1,0];
+Shear=-10;
+CSWidth=0.03; %meters
+CSHeight=0.05; %meters
+I=rectangl(CSWidth,CSHeight,'Ix');
+Thickness=CSWidth;
+QArea=rectangl(CSWidth,YValue(trial),'area');
+WholeCentroid=rectangl(CSWidth, CSHeight, 'centY');
+PartCentroid=rectangl(CSWidth, YValue(trial), 'centY');
+QYbar=abs(WholeCentroid-PartCentroid);
+Q=QArea.*QYbar;
+ShearAtPoint=Shear*Q/(I*Thickness);

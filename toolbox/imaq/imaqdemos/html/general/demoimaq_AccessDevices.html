@@ -1,0 +1,160 @@
+<!--
+Copyright 2001-2004 The MathWorks, Inc.
+$Revision: 1.1.6.2 $ $Date: 2004/03/24 20:39:49 $
+-->
+
+<!--
+This HTML is auto-generated from an m-file.
+Your changes will be overwritten.
+--><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:x-large">Accessing Devices and Video Sources</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium;">Overview</p><ul xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd"><li><a href="#Accessing an Image Acquisition Device">Accessing an Image Acquisition Device</a></li><li><a href="#Identifying a Device's Video Source Object">Identifying a Device's Video Source Object</a></li><li><a href="#Selecting a Video Source Object for Acquisition">Selecting a Video Source Object for Acquisition</a></li><li><a href="#Accessing a Video Source Object's Properties">Accessing a Video Source Object's Properties</a></li></ul><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Accessing an Image Acquisition Device<a name="Accessing an Image Acquisition Device"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">A video input object represents the connection between MATLAB and an image
+acquisition device. To create a video input object, use the VIDEOINPUT
+function and indicate what device the object is to be associated with.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Access an image acquisition device.</span>
+vidobj = videoinput(<span style="color:#B20000">'dt'</span>, 1, <span style="color:#B20000">'RS170'</span>)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+Summary of Video Input Object Using 'Dt313xK'.
+
+   Acquisition Source(s):  VID0, VID1, and VID2 are available.
+
+  Acquisition Parameters:  'VID0' is the current selected source.
+                           10 frames per trigger using the selected source.
+                           'RS170' video data to be logged upon START.
+                           Grabbing first of every 1 frame(s).
+                           Log data to 'memory' on trigger.
+
+      Trigger Parameters:  1 'immediate' trigger(s) on START.
+
+                  Status:  Waiting for START.
+                           0 frames acquired since starting.
+                           0 frames available for GETDATA.
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Identifying a Device's Video Source Object<a name="Identifying a Device's Video Source Object"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">A video source object represents a collection of one or more physical data
+sources that are treated as a single entity. For example, one video source
+object could represent the three physical connections of an RGB source
+(red, green, and blue).
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">The Source property of a video input object provides an array of the
+device's available video source objects.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Access the device's video sources that can be used for acquisition.</span>
+sources = vidobj.Source</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+   Display Summary for Video Source Object Array:
+
+      Index:   SourceName:   Selected:
+      1        'VID0'        'on'     
+      2        'VID1'        'off'    
+      3        'VID2'        'off'    
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">whos sources</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">  Name          Size                   Bytes  Class
+
+  sources       1x3                      872  videosource object
+
+Grand total is 47 elements using 872 bytes
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Selecting a Video Source Object for Acquisition<a name="Selecting a Video Source Object for Acquisition"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">A video source object can be selected for acquisition by specifying its
+name.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">set(vidobj, <span style="color:#B20000">'SelectedSourceName'</span>, <span style="color:#B20000">'VID2'</span>)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Notice that the corresponding video source has been selected.</span>
+sources</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+   Display Summary for Video Source Object Array:
+
+      Index:   SourceName:   Selected:
+      1        'VID0'        'off'    
+      2        'VID1'        'off'    
+      3        'VID2'        'on'     
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">To obtain the video source object that is currently selected, use the
+GETSELECTEDSOURCE function.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">selectedsrc = getselectedsource(vidobj)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+   Display Summary for Video Source Object:
+
+      Index:   SourceName:   Selected:
+      1        'VID2'        'on'     
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Accessing a Video Source Object's Properties<a name="Accessing a Video Source Object's Properties"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Each video source object provides a list of general and device specific
+properties.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% List the video source object's properties and their current values.</span>
+get(selectedsrc)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">  General Settings:
+    Parent = [1x1 videoinput]
+    Selected = on
+    SourceName = VID2
+    Tag = 
+    Type = videosource
+    UserData = []
+
+  Device Specific Properties:
+    FirstActiveLine = 21
+    FirstActivePixel = 140
+    FrameType = interlacedEvenFieldFirst
+    StrobeOutput = off
+    StrobeOutputDuration = 3.3ms
+    StrobeOutputPolarity = activeHigh
+    StrobeOutputType = afterFrame
+    SyncInput = composite
+    TriggerTimeout = 0
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Note: Each video source object maintains its own property configuration.
+Modifying the selected video source is equivalent to selecting a new
+video source configuration.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Once the video input object is no longer needed, delete</span>
+<span style="color:green">% it and clear it from the workspace.</span>
+delete(vidobj)
+clear vidobj</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">See also IMAQHWINFO, VIDEOINPUT, IMAQDEVICE/GETSELECTEDSOURCE, IMAQHELP,
+IMAQDEVICE/GET, IMAQDEVICE/PROPINFO.
+</p><originalCode xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" code="%% Accessing Devices and Video Sources
+&#xA;
+&#xA;%% Accessing an Image Acquisition Device
+&#xA;% A video input object represents the connection between MATLAB and an image 
+&#xA;% acquisition device. To create a video input object, use the VIDEOINPUT
+&#xA;% function and indicate what device the object is to be associated with.
+&#xA;
+&#xA;% Access an image acquisition device.
+&#xA;vidobj = videoinput('dt', 1, 'RS170')
+&#xA;
+&#xA;%% Identifying a Device's Video Source Object
+&#xA;% A video source object represents a collection of one or more physical data 
+&#xA;% sources that are treated as a single entity. For example, one video source
+&#xA;% object could represent the three physical connections of an RGB source 
+&#xA;% (red, green, and blue). 
+&#xA;
+&#xA;%%
+&#xA;% The Source property of a video input object provides an array of the 
+&#xA;% device's available video source objects.
+&#xA;
+&#xA;% Access the device's video sources that can be used for acquisition.
+&#xA;sources = vidobj.Source
+&#xA;%%
+&#xA;whos sources
+&#xA;
+&#xA;%% Selecting a Video Source Object for Acquisition
+&#xA;% A video source object can be selected for acquisition by specifying its
+&#xA;% name.
+&#xA;set(vidobj, 'SelectedSourceName', 'VID2')
+&#xA;%%
+&#xA;
+&#xA;% Notice that the corresponding video source has been selected.
+&#xA;sources
+&#xA;%%
+&#xA;% To obtain the video source object that is currently selected, use the
+&#xA;% GETSELECTEDSOURCE function.
+&#xA;selectedsrc = getselectedsource(vidobj)
+&#xA;
+&#xA;
+&#xA;%% Accessing a Video Source Object's Properties
+&#xA;% Each video source object provides a list of general and device specific
+&#xA;% properties.
+&#xA;
+&#xA;% List the video source object's properties and their current values.
+&#xA;get(selectedsrc)
+&#xA;
+&#xA;%%
+&#xA;% Note: Each video source object maintains its own property configuration.
+&#xA;% Modifying the selected video source is equivalent to selecting a new
+&#xA;% video source configuration.
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Once the video input object is no longer needed, delete
+&#xA;% it and clear it from the workspace.
+&#xA;delete(vidobj)
+&#xA;clear vidobj
+&#xA;
+&#xA;%%
+&#xA;% See also IMAQHWINFO, VIDEOINPUT, IMAQDEVICE/GETSELECTEDSOURCE, IMAQHELP,
+&#xA;% IMAQDEVICE/GET, IMAQDEVICE/PROPINFO."></originalCode>

@@ -1,0 +1,630 @@
+<?xml version="1.0"?>
+<!--RDD 7-13-2002 
+Copyright 2001-2003 The Mathworks, Inc. 
+-->
+<ImageAcquisitionInfo>
+	<Help><AdaptorHelp property="BlackReference">The black reference, in volts, for the A/D convertor.
+
+When digitizing from analog video signals, the black and white reference
+levels determine the minimum and maximum levels, respectively, of an input
+voltage range.  Any voltage below the black reference is interpreted as the
+minimum image value and any voltage above the white reference is 
+interpreted as the maximum image value.
+
+See the documentation that was included with your device for
+information on your device's capabilities.<SeeAlso>WhiteLevel.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="WhiteReference">The white reference, in volts, for the A/D convertor.
+
+When digitizing from analog video signals, the black and white reference
+levels determine the minimum and maximum levels, respectively, of an input
+voltage range.  Any voltage below the black reference is interpreted as the
+minimum image value and any voltage above the white reference is 
+interpreted as the maximum image value.
+
+See the documentation that was included with your device for
+information on your device's capabilities.<SeeAlso>BlackLevel.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="InputFilter">Specifies the lowpass filter to apply to the video input
+
+When set to something other than 'none', an analog low-pass filter
+is applied to the video input before it is sent to the A/D convertor.
+Using a low-pass filter can improve the acquisition of monochrome
+images from a color video source as it will filter out the chrominance
+information from the video signal.
+
+The value 'DC-coupled' should be selected for DC-coupled video
+signals.
+
+See the documentation that was included with your device for
+information on your device's capabilities.</AdaptorHelp>
+		<AdaptorHelp property="FrameType">Specifies the number of fields per frame and which is acquired first.
+
+This enumerated property allows the user to specify how the device
+acquires video fields.  The options fall into two categories, interlaced
+and non-interlaced.  
+
+Most standard video signal formats are transmitted as an interlaced 
+signal.  Every frame is split into two 'fields' - one field containing the 
+even lines and one containing odd lines.  The reason for this is 
+somewhat historical.  When acquiring interlaced video, the device
+will acquire two adjacent incoming fields and put the even field in the
+even lines, and the odd field in the odd lines of the acquired image.
+
+Depending on the capabilities of your device, two or more of the 
+following values will be valid:
+     noninterlaced - acquire non-interlaced video input.
+     interlacedEvenFieldFirst - acquire both fields of an interlaced signal
+          with the even field considered the first field of a frame.
+     interlacedOddFieldFirst - acquire both fields of an interlaced signal
+          with the odd field considered the first field of a frame.
+     interlacedNextFieldFirst - acquire both fields of an interlaced signal
+          with the next field available is considered the first field of a frame.
+     evenField - acquire only the even field of an interlaced video signal
+     oddField - acquire only the odd field of an interlaced video signal
+     nextField - acquire every field of an interlaced video signal as a
+          separate image.
+
+See the documentation that was included with your device for
+information on your device's capabilities.</AdaptorHelp>
+		<AdaptorHelp property="SyncInput">Specifies the source of the sync signals.
+
+Every source is comprised of two signal types: video and sync.  The video
+portion of the signal contains the imagery information while the sync
+portion of signal contains markers of the beginning of frames and lines in
+in the video signal.  
+
+While there are two types of signals, they can be combined into a single
+physical input.  This type of signal is called a 'composite' signal.  Standard
+video inputs like RS170, CCIR, NTSC, or PAL are typically available as
+a composite signal, so only one cable contains both types of signal
+information.</AdaptorHelp>
+		<AdaptorHelp property="SyncThreshold">Specifies the threshold for the syncInput source in volts.
+
+Any sync signal must be above this threshold parameter to be valid.
+Reducing this value can allow the use of weak sync signals but also
+increase the chances of noise being interpreted as a sync signal.</AdaptorHelp>
+		<AdaptorHelp property="SyncLineInputPolarity">Specifies the polarity of the line sync input.
+
+SYNCLINEINPUTPOLARITY specifies the polarity of the line sync
+input.  The options are risingEdge and fallingEdge.
+
+The line sync input, which is typically supplied by a camera source,
+marks the beginning of each line of the video input.  This sync input
+is also known as the horizontal sync input.</AdaptorHelp>
+		<AdaptorHelp property="SyncFieldInputPolarity">Specifies the polarity of the field sync input.
+
+SYNCLINEINPUTPOLARITY specifies the polarity of the field sync
+input.  The options are risingEdge and fallingEdge.
+
+The field sync input, which is typically supplied by a camera source,
+marks the beginning of each field of the video input.  This sync input
+is also known as the vertical sync input.</AdaptorHelp>
+		<AdaptorHelp property="SyncType">Specifies if the video input has a composite or separate sync signal.
+
+If set to 'composite', the horizontal and vertical sync signals are combined
+into one signal.  If set to 'separate', the horizontal and vertical sync 
+signals are separate signals.</AdaptorHelp>
+		<AdaptorHelp property="ActiveLineCount">The number of active lines in a field.
+
+ACTIVELINECOUNT is the number of lines of a field that is to be
+part of the active video area.  If the video FRAMETYPE is
+interlaced, which means two fields comprise a single video frame,
+the resulting active video area height is twice the 
+ACTIVELINECOUNT.  The sum of FIRSTACTIVELINE and
+ACTIVELINECOUNT must be less than TOTALLINESPERFIELD.
+
+The active video area is defined as that part of the incoming signal
+that contains valid video data, i.e., the portion of signal containing
+valid image data.  It is specified by the four parameters, 
+FIRSTACTIVEPIXEL, FIRSTACTIVELINE, ACTIVEPIXELCOUNT, 
+and ACTIVELINECOUNT.<SeeAlso>FirstActiveLine, TotalLinesPerField, ActivePixelCount, FirstActivePixel,
+TotalPixelsPerLine.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="ActivePixelCount">The number of active pixels in a line.
+
+ACTIVEPIXELCOUNT is the number of pixels per line that is to be
+part of the active video area.  The sum of ACTIVEPIXELCOUNT
+and FIRSTACTIVEPIXEL must be less than TOTALPIXELSPERLINE.
+
+The active video area is defined as that part of the incoming signal
+that contains valid video data, i.e., the portion of signal containing
+valid image data.  It is specified by the four parameters, 
+FIRSTACTIVEPIXEL, FIRSTACTIVELINE, ACTIVEPIXELCOUNT, 
+and ACTIVELINECOUNT.<SeeAlso>FirstActivePixel, TotalPixelsPerLine, ActiveLineCount, FirstActiveLine,
+TotalLinesPerField.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="ClampStart">The start of the clamp period in pixel clocks.
+
+The device uses a clamp period in the back porch to determine the 
+reference voltage of the video signal.  The measured voltage in this
+clamp period is then subtracted from the video signal before it is
+digitized, effectively setting the base black level of the video.  This
+procedure is sometimes referred to as 'DC Restore'.
+
+CLAMPSTART must be less than the first active pixel.<SeeAlso>BackPorchStart, FirstActivePixel, ClampEnd.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="ClampEnd">The end of the clamp period in pixel clocks
+
+The device uses a clamp period in the back porch to determine the 
+reference voltage of the video signal.  The measured voltage in this
+clamp period is then subtracted from the video signal before it is
+digitized, effectively setting the base black level of the video.  This
+procedure is sometimes referred to as 'DC Restore'.
+
+CLAMPEND must be less than the first active pixel.<SeeAlso>BackPorchStart, ClampStart, FirstActivePixel.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="BackPorchStart">Start of the back porch of the video signal.
+
+The BACKPORCHSTART is the start of the horizontal back porch,
+in pixel clocks, from the horizontal sync.  The back porch is the region
+between the horizontal sync and the first active pixel.<SeeAlso>BackPorchStart, ClampStart, TotalPixelsPerLine.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="FirstActiveLine">The first active line in a field.
+
+FIRSTACTIVELINE is the location of the first line of a field that is part
+of the active video area in counts of horizontal sync signals.  The sum
+of FIRSTACTIVELINE and ACTIVELINECOUNT must be less than
+TOTALLINESPERFIELD.
+
+The active video area is defined as that part of the incoming signal
+that contains valid video data, i.e., the portion of signal containing
+valid image data.  It is specified by the four parameters, 
+FIRSTACTIVEPIXEL, FIRSTACTIVELINE, ACTIVEPIXELCOUNT, 
+and ACTIVELINECOUNT.<SeeAlso>ActiveLineCount, TotalLinesPerField, ActivePixelCount, FirstActivePixel,
+TotalPixelsPerLine.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="FirstActivePixel">The first active pixel location after the horizontal sync.
+
+FIRSTACTIVEPIXEL is the location, in pixel clocks, of the first pixel
+in a line that is to be part of the active video area.  The sum of 
+ACTIVEPIXELCOUNT and FIRSTACTIVEPIXEL must be less than TOTALPIXELSPERLINE.
+
+The active video area is defined as that part of the incoming signal
+that contains valid video data, i.e., the portion of signal containing
+valid image data.  It is specified by the four parameters, 
+FIRSTACTIVEPIXEL, FIRSTACTIVELINE, ACTIVEPIXELCOUNT, 
+and ACTIVELINECOUNT.<SeeAlso>FirstActivePixel, TotalPixelsPerLine, ActiveLineCount, FirstActiveLine, TotalLinesPerField.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="TotalLinesPerField">The total number of lines per field.
+
+TOTALLINESPERFIELD indicates the amount of lines, i.e. number of 
+horizontal sync pulses, that makes up a field.  This does not indicate
+the total number of line per field actually to be acquired from the video
+signal.  This is an aspect of the video signal format and hence is dictated
+by the video source being used.<SeeAlso>ActiveLineCount, TotalPixelsPerLine.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="TotalPixelsPerLine">The total number of pixels per line.
+
+TOTALPIXELPERLINE indicates the amount of pixelss, i.e. number of 
+pixel clocks, that makes up a line.  This does not indicate the total 
+number of pixels per line actually to be acquired from the video signal.
+This is an aspect of the video signal format and hence is dictated
+by the video source being used.<SeeAlso>ActiveLineCount, TotalPixelsPerLine.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="SyncSentinel">Enables the sync sentinel.
+
+SYNCSENTINEL enables the use of the sync sentinel feature, which 
+enables the device to better handle poor sync signals by replacing,
+when need be, missing sync pulses.  This allows the device to acquire
+from sources with irregular sync signals, such as often is the case with
+analog video cassette technologies.<SeeAlso>SentinelHSyncInputPos, SentinelHSyncSearchPos, SentinelVSyncInputPos,
+SentinelVSyncSearchPos.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="SentinelHSyncSearchPos">Specifies, as a percentage of the total pixels per line, the area to search for
+a horizontal sync pulse.
+
+When sync sentinel is on, the device will search for a horizontal sync
+pulse between location cooresponding to the 
+SENTINELHSYNCSEARCHPOS and SENTINELHSYNCINSERTPOS.  
+If a sync pulse is not found, one is inserted at the 
+SENTINELHSYNCINSERTPOS position.
+
+This property is typically less than 100 percent.<SeeAlso>SyncSentinel, SentinelHSyncInputPos.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="SentinelHSyncInsertPos">Specifies the position, as a percentage of the total pixels per line, to 
+search for a horizontal sync pulse.
+
+When sync sentinel is on, the device will search for a horizontal sync
+pulse between location cooresponding to the 
+SENTINELHSYNCSEARCHPOS and SENTINELHSYNCINSERTPOS.  
+If a sync pulse is not found, one is inserted at the 
+SENTINELHSYNCINSERTPOS position.
+
+This property is typically greater than 100 percent.<SeeAlso>SyncSentinel, SentinelHSyncSearchPos.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="SentinelVSyncInsertPos">Specifies the position, as a percentage of the total lines per field, to 
+search for a vertical sync pulse.
+
+When sync sentinel is on, the device will search for a vertical sync
+pulse between location cooresponding to the 
+SENTINELVSYNCSEARCHPOS and SENTINELVSYNCINSERTPOS.  
+If a sync pulse is not found, one is inserted at the 
+SENTINELVSYNCINSERTPOS position.
+
+This property is typically greater than 100 percent.<SeeAlso>SyncSentinel, SentinelVSyncSearchPos.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="SentinelVSyncSearchPos">Specifies, as a percentage of the total lines per field, the area to search for
+a vertical sync pulse.
+
+When sync sentinel is on, the device will search for a vertical sync
+pulse between location cooresponding to the 
+SENTINELVSYNCSEARCHPOS and SENTINELVSYNCINSERTPOS.  
+If a sync pulse is not found, one is inserted at the 
+SENTINELVSYNCINSERTPOS position.
+
+This property is typically less than 100 percent.<SeeAlso>SyncSentinel, SentinelHSyncInsertPos.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="PixelClockSource">Specifies the source of the pixel clock.
+
+Acquisition of video data is paced via a pixel clock.  Every cycle of a
+pixel clock cooresponds to the time spacing between pixels in the
+video signal.  The source of this clock can either come from an external
+source such as a camera or be generated internally in the acquisition 
+device.<SeeAlso>PixelClockPolarity, PixelClockFrequency.</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="PixelClockPolarity">Specifies the external pixel clock input's polarity.
+
+The external pixel clock input may signify a pixel position as either the
+rising or falling edge or the clock.  This property allows the specification
+of which edge to use in the digitization of the video pixels.
+
+This property is ignored if the PIXELCLOCKSOURCE is not set to external.<SeeAlso>PixelClockSource.</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="PixelClockFrequency">Specifies the frequency of the generated internal pixel clock.
+
+The frequency of the generated pixel clock should match the pixel clock
+frequency of the video source, e.g., camera.  
+
+This property is ignored if the PIXELCLOCKSOURCE is not set to internal.<SeeAlso>PixelClockSource.</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="Hue">The hue level of the video decoder.
+
+The Hue property allows the adjustment of the color as it is digitized.
+Changing this value shifts the image in hue.
+
+For more information, see the documentation that came with the device.<SeeAlso>USaturation, VSaturation.</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="VSaturation">The V-plane saturation level of the video decoder.
+
+The VSaturation property allows the adjustment of the saturation of the
+V-plane in the YUV colorspace as it is digitized.  Changing this value 
+shifts the image in saturation.
+
+For more information, see the documentation that came with the device.<SeeAlso>Hue, USaturation.</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="Brightness">The brightness level of the video decoder.
+
+The Brightness property allows the adjustment of the intensity as it is
+digitized.  Changing this value shifts the image in intensity.
+
+For more information, see the documentation that came with the device.<SeeAlso>Contrast</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="Contrast">The contrast level of the video decoder.
+
+The Contrast property allows the adjustment of the image contrast as it is
+digitized.
+
+For more information, see the documentation that came with the device.<SeeAlso>Brightness, Hue, Saturation.</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="InputGain">Input video gain.
+
+The input gain is an analog amplification of the selected video signal
+before it reachs the analog-to-digital converter.  Changing this value will
+effect the video input range digitized.
+
+The value of InputGain also determines which parameters will be used to
+control the digitizer's black and white reference points.  If InputGain is
+set to 1.0, the BlackReference and WhiteReference parameters will
+control the digitizer's reference points, otherwise the InputOffset and
+InputReference parameters will control the reference points.
+
+The digitization voltage range is determined by three properties: InputGain,
+InputOffset, and InputReference.  The InputOffset is applied before the 
+InputGain is applied.  If Vmin is the minimum input voltage to digitize and 
+Vmax is the maximum input voltage to digitize, the values of this three
+parameters should be set to the following:
+     InputOffset = -Vmin
+     InputGain = 
+          4.0 if Vmax-Vmin &lt; 0.32 Volts, otherwise
+          2.0 if Vmax-Vmin &lt; 0.64 Volts, otherwise
+          1.0 if Vmax-Vmin &lt; 1.28 Volts, otherwise
+          0.5 if Vmax-Vmin &gt; 1.28 Volts
+     InputReference = InputGain * (Vmax-Vmin)
+
+For more information, see the documentation that came with the device.<SeeAlso>BlackReference, WhiteReference, InputOffset, InputReference.</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="USaturation">The U-plane saturation level of the video decoder.
+
+The USaturation property allows the adjustment of the saturation of the
+U-plane in the YUV colorspace as it is digitized.  Changing this value 
+shifts the image in saturation.
+
+For more information, see the documentation that came with the device.<SeeAlso>Hue, VSaturation.</SeeAlso></AdaptorHelp>
+		<AdaptorHelp property="RedReference">The reference voltage for the A/D convertor for the red channel.
+
+This reference voltage indicates the A/D reference voltage of the red
+channel.  Given that RedOffset is first applied to the signal, It is the sum
+of RedReference and RedOffset that corresponds to the maximum 
+voltage of the input video signal.  Any information above this maximum 
+input voltage is digitized as the maximum A/D count.
+
+See the documentation that was included with your device for
+information on your device's capabilities.<SeeAlso>RedOffset</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="RedOffset">The offset voltage applied to the red channel before digitization.
+
+The RedOffset property specifies the DC voltage applied to the video input
+signal to 'zero' it, i.e., it is the negative of the minimum voltage of the input
+signal.  All information below this minimum voltage will be digitized as
+zero.
+
+The digitization voltage range for the red channel is determined by two 
+properties: RedOffset and RedReference.  The RedOffset determines 
+the minimum voltage of the range while RedReference determines the 
+maximum voltage of the range.
+
+See the documentation that was included with your device for
+information on your device's capabilities.<SeeAlso>RedReference</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="GreenOffset">The offset voltage applied to the green channel before digitization.
+
+The GreenOffset property specifies the DC voltage applied to the video input
+signal to 'zero' it, i.e., it is the negative of the minimum voltage of the input
+signal.  All information below this minimum voltage will be digitized as
+zero.
+
+The digitization voltage range for the green channel is determined by two 
+properties: GreenOffset and GreenReference.  The GreenOffset determines 
+the minimum voltage of the range while GreenReference determines the 
+maximum voltage of the range.
+
+See the documentation that was included with your device for
+information on your device's capabilities.<SeeAlso>GreenReference</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="BlueOffset">The offset voltage applied to the blue channel before digitization.
+
+The BlueOffset property specifies the DC voltage applied to the video input
+signal to 'zero' it, i.e., it is the negative of the minimum voltage of the input
+signal.  All information below this minimum voltage will be digitized as
+zero.
+
+The digitization voltage range for the blue channel is determined by two 
+properties: BlueOffset and BlueReference.  The BlueOffset determines 
+the minimum voltage of the range while BlueReference determines the 
+maximum voltage of the range.
+
+See the documentation that was included with your device for
+information on your device's capabilities.<SeeAlso>BlueReference</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="GreenReference">The reference voltage for the A/D convertor for the green channel.
+
+This reference voltage indicates the A/D reference voltage of the green
+channel.  Given that GreenOffset is first applied to the signal, It is the sum
+of GreenReference and GreenOffset that corresponds to the maximum 
+voltage of the input video signal.  Any information above this maximum 
+input voltage is digitized as the maximum A/D count.
+
+See the documentation that was included with your device for
+information on your device's capabilities.<SeeAlso>GreenOffset</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="BlueReference">The reference voltage for the A/D convertor for the blue channel.
+
+This reference voltage indicates the A/D reference voltage of the blue
+channel.  Given that BlueOffset is first applied to the signal, It is the sum
+of BlueReference and BlueOffset that corresponds to the maximum 
+voltage of the input video signal.  Any information above this maximum 
+input voltage is digitized as the maximum A/D count.
+
+See the documentation that was included with your device for
+information on your device's capabilities.<SeeAlso>BlueOffset</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="InputReference">The reference voltage for the A/D convertor.
+
+This reference voltage indicates the A/D reference voltage of the digitizer.
+Given that InputGain InputOffset are first applied to the signal, It is the sum of 
+InputReference and InputOffset mulitplied by InputGain that cooresponds to
+the maximum voltage of the input video signal.  Any information above this
+maximum input voltage is digitized as the maximum A/D count.
+
+InputRerence and InputOffset are only used if InputGain is not set to 1.0.
+
+The digitization voltage range is determined by three properties: InputGain,
+InputOffset, and InputReference.  The InputOffset is applied before the 
+InputGain is applied.  If Vmin is the minimum input voltage to digitize and 
+Vmax is the maximum input voltage to digitize, the values of this three
+parameters should be set to the following:
+     InputOffset = -Vmin
+     InputGain = 
+          4.0 if Vmax-Vmin &lt; 0.32 Volts, otherwise
+          2.0 if Vmax-Vmin &lt; 0.64 Volts, otherwise
+          1.0 if Vmax-Vmin &lt; 1.28 Volts, otherwise
+          0.5 if Vmax-Vmin &gt; 1.28 Volts
+     InputReference = InputGain * (Vmax-Vmin)
+
+See the documentation that was included with your device for more information.<SeeAlso>InputGain, InputReference.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="InputOffset">The offset voltage applied to the video input before digitization.
+
+The InputOffset property specifies the DC voltage applied to the video input
+signal to 'zero' it, i.e., it is the negative of the minimum voltage of the input
+signal.  All information below this minimum voltage will be digitized as
+zero.
+
+InputRerence and InputOffset are only used if InputGain is not set to 1.0.
+
+The digitization voltage range is determined by three properties: InputGain,
+InputOffset, and InputReference.  The InputOffset is applied before the 
+InputGain is applied.  If Vmin is the minimum input voltage to digitize and 
+Vmax is the maximum input voltage to digitize, the values of this three
+parameters should be set to the following:
+     InputOffset = -Vmin
+     InputGain = 
+          4.0 if Vmax-Vmin &lt; 0.32 Volts, otherwise
+          2.0 if Vmax-Vmin &lt; 0.64 Volts, otherwise
+          1.0 if Vmax-Vmin &lt; 1.28 Volts, otherwise
+          0.5 if Vmax-Vmin &gt; 1.28 Volts
+     InputReference = InputGain * (Vmax-Vmin)
+
+See the documentation that was included with your device for more information.<SeeAlso>InputGain, InputOffset.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="StrobeOutput">Enables the strobe output of the device.
+
+When StrobeOutput is set to 'on', the device will generate a strobe output
+when the device is acquiring data.  
+
+The characteristics of the strobe output are controlled by the 
+StrobeOutputType, StrobeOutputDuration, and StrobOutputPolarity 
+parameters.
+
+See the documentation that was included with your device for more information.<SeeAlso>StrobeOutputType, StrobeOutputDuration, StrobeOutputPolarity.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="TriggerTimeout">The timeout value for hardware triggers.
+
+TriggerTimeout specifies the maximum time, in seconds, to wait for a trigger.
+If this value is set to zero, no timeout is used and the hardware will wait 
+indefinitely for a hardware trigger.  For non-zero values, if the device's
+hardware trigger conditions have not been satisfied before the TriggerTimeout
+seconds from either a START or the last frame of the last trigger, the
+acquisition will start without a hardware trigger.
+
+For some DT devices, setting this to zero can cause serious problems as
+the device driver may refuse to stop the acquisition process until either 
+a hardware trigger is received or a timeout occurs.<SeeAlso>TRIGGERINFO, TRIGGERCONFIG.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="StrobeOutputType">Specifies the type of strobe output.
+
+The timing of the strobe output is determined by StrobeOutputType.  The
+following are the possible values of StrobeOutputType with their cooresponding
+output timings:
+     afterFrame - a strobe output is generated after the completion of every
+          frame.
+     afterField - a strobe output is generated after the completion of every
+          field of an interlaced video input.
+
+When StrobeOutput is 'off', no strobe output occurs.
+
+See the documentation that was included with your device for more
+information.<SeeAlso>StrobeOutput, StrobeOutputDuration, StrobeOutputPolarity.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="StrobeOutputDuration">Specifies the duration of a strobe output.
+
+The StrobeOutputDuration specifies, in milliseconds, the length of the
+strobe output pulse.
+
+When StrobeOutput is 'off', no strobe output occurs.
+
+See the documentation that was included with your device for more
+information.<SeeAlso>StrobeOutput, StrobeOutputType, StrobeOutputPolarity.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="StrobeOutputPolarity">Specifies the polarity of a strobe output.
+
+The StrobeOutputPolarity specifies the state of the strobe output when active.
+If set to 'activeLow', the strobe output signal is normally high and low if active.
+The value of 'activeHigh'  creates a normally low and active high signal.
+
+When StrobeOutput is 'off', no strobe output occurs.
+
+See the documentation that was included with your device for more
+information.<SeeAlso>StrobeOutput, StrobeOutputType, StrobeOutputDuration.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="SyncMaster">Enables the sync generation and output of the device.
+
+When SyncMaster is set to 'on', the device will generate horizontal and
+vertical sync outputs.  
+
+The characteristics of the horizontal sync output is controlled by the
+SyncMasterHSyncFrequency and SyncMasterHSyncWidth parameters.
+The characteristics of the vertical sync output is controlled by the
+SyncMasterVSyncFrequency and SyncMasterVSyncWidth parameters.
+
+The SyncSentinel parameters will be ignored by the device if SyncMaster is 
+'on'.
+
+See the documentation that was included with your device for more information.<SeeAlso>SyncMasterHSyncFrequency, SyncMasterHSyncWidth, SyncMasterVSyncFrequency, SyncMasterVSyncWidth. </SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="SyncMaster">Enables the sync generation and output of the device.
+
+When SyncMaster is set to 'on', the device will generate horizontal and
+vertical sync outputs.  
+
+The characteristics of the horizontal sync output is controlled by the
+SyncMasterHSyncFrequency and SyncMasterHSyncWidth parameters.
+
+The characteristics of the vertical sync output is controlled by the
+SyncMasterVSyncFrequency and SyncMasterVSyncWidth parameters.
+
+See the documentation that was included with your device for more information.<SeeAlso>StrobeOutputType, StrobeOutputDuration, StrobeOutputPolarity.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="SyncMasterHSyncFrequency">Specifies the horizontal sync frequency for the sync master output.
+
+When SyncMaster is set to 'on', the device will generate a horizontal sync 
+output at the frequency SyncMasterHSyncFrequency  in Hz.
+
+See the documentation that was included with your device for more information.<SeeAlso>SyncMaster, SyncMasterHSyncWidth.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="SyncMasterVSyncFrequency">Specifies the vertical sync frequency for the sync master output.
+
+When SyncMaster is set to 'on', the device will generate a vertical sync 
+output at the frequency SyncMasterVSyncFrequency  in Hz.
+
+See the documentation that was included with your device for more information.<SeeAlso>SyncMaster, SyncMasterHSyncWidth.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="SyncMasterHSyncWidth">Specifies the horizontal sync pulse width for the sync master output.
+
+When SyncMaster is set to 'on', the device will generate a horizontal sync
+output with the pulse width of SyncMasterHSyncWidth in seconds.
+
+See the documentation that was included with your device for more
+information.<SeeAlso>SyncMaster, SyncMasterHSyncFrequency.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="SyncMasterVSyncWidth">Specifies the vertical sync pulse width for the sync master output.
+
+When SyncMaster is set to 'on', the device will generate a vertical sync
+output with the pulse width of SyncMasterVSyncWidth in seconds.
+
+See the documentation that was included with your device for more
+information.<SeeAlso>SyncMaster, SyncMasterVSyncFrequency.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="SyncMasterPhase">Specifies the phase between the horizontal and vertical sync signals.
+
+When SyncMaster is set to 'on', the device will generate both a horizontal
+and vertical sync outputs.  The phase between the vertical and horizontal
+outputs is determined by the SyncMasterPhase parameter, as specified
+as a percentage.
+
+See the documentation that was included with your device for more
+information.<SeeAlso>SyncMaster, SyncMasterVSyncFrequency.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="Exposure">Enables the exposure output pulse of the device.
+
+When Exposure is set to 'on', the device will generate an exposure output
+pulse before the acquisition of each frame.
+
+The characteristics of the exposure output pulse is controlled by the
+ExposureDuration and ExposurePolarity parameters.
+
+See the documentation that was included with your device for more information.<SeeAlso>ExposureDuration, ExposurePolarity.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="ExposureDuration">Specifies the exposure pulse output's duration.
+
+When Exposure is set to 'on', the device will generate an exposure output
+pulse of the duration specified by ExposureDuration before each frame
+acquired.
+
+See the documentation that was included with your device for more information.<SeeAlso>Exposure, ExposurePolarity.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="ExposurePolarity">Specifies the exposure pulse output's polarity.
+
+When Exposure is set to 'on', the device will generate an exposure output
+pulse of the polarity specified by ExposurePolarity before each frame
+acquired.
+
+An 'activeHigh' means that the exposure output pulse is normally low and
+goes high for ExposureDuration seconds.  An 'activeLow' means that the
+exposure output is normally high and is low when active.
+
+See the documentation that was included with your device for more
+information.<SeeAlso>Exposure, ExposureDuration.</SeeAlso>
+		</AdaptorHelp>
+		<AdaptorHelp property="SendReset">Specifies if a reset signal is generated at a START or PREVIEW.
+
+When set to 'atStart', a reset output signal is sent at the start of an
+acquisition or preview.
+
+See the documentation that was included with your device for more
+information.<SeeAlso>START, PREVIEW.</SeeAlso>
+		</AdaptorHelp>
+	</Help></ImageAcquisitionInfo>

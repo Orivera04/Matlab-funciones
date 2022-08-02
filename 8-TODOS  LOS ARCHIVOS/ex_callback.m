@@ -1,0 +1,6 @@
+[im, map]=imread('../../illustre/a19g.tif');
+h=imagesc(im); colormap(gray);axis off
+uicontrol('style','pushbutton', 'units', 'normalized',...
+  'position', [0.6, 0.72, 0.3, 0.2], 'string', 'Quitte',...
+  'fonts',18, 'callback', 'delete(gcf); disp(''bye folks bouton'')');
+set(gcf, 'WindowButtonDownFcn', 'delete(gcf); disp(''bye folks fenêtre'')');

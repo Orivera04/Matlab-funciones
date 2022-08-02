@@ -1,0 +1,5 @@
+a = rand(3)
+[u w v]=svd(a)
+[s m] = eig(a*a')
+[s1 m1] = eig(a'*a)
+g = sort(diag(w.*w))

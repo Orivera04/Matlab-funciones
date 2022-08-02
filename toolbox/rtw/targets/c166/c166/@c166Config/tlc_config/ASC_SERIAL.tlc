@@ -1,0 +1,322 @@
+%% File: ASC_SERIAL.tlc 
+%% 
+%% Abstract: 
+%% 
+%% 
+%% $Revision: 1.9.4.3 $ 
+%% $Date: 2004/04/19 01:18:21 $ 
+%% 
+%% Copyright 2002-2003 The MathWorks, Inc.
+
+
+%implements * "C"
+
+%include "ObjectRef.tlc"
+
+%function DriverConfiguration(R) void
+
+  %openfile buffer
+  #include "asc_serial_pec.h"
+  %closefile buffer
+  %<LibCacheIncludes(buffer)>
+
+  %assign asc_serial_pec_c = "asc_serial_pec.c"
+  %if RTWVerbose
+    %selectfile STDOUT
+    ### Creating %<asc_serial_pec_c>
+    %closefile STDOUT
+  %endif
+  %openfile bld_file = "%<asc_serial_pec_c>"
+  /* Real-Time Workshop code generation for Simulink model "%<CompiledModel.Name>.mdl".
+  *
+  * Model Version : %<ModelVersion>
+  * Real-Time Workshop file version : %<Version>
+  * Real-Time Workshop file generated on : %<GeneratedOn>
+  * TLC version : %<TLC_VERSION>
+  * File generated on : %<TLC_TIME>
+  *
+  * This file defines settings for the Asynchronous/Synchronous Serial
+  * Interface ASC0.
+  */
+ 
+  /*==========*
+  * Includes *
+  *==========*/
+  
+  #include "%<CompiledModel.Settings.TaskingRegisterDefs>" /* For selected C166 architecture */
+  #include "tmwtypes.h"
+  #include "asc_serial_pec.h"
+ 
+  /*
+  * Allocate memory for transmit/receive buffers. Note that the buffers
+  * must be "PEC-addressable", i.e. they must be located in the first
+  * 64k segment of memory.
+  */
+  %assign txBufSize = SLibSubsRef(R,"Transmit_buffer_size")
+  %assign rxBufSize = SLibSubsRef(R,"Receive_buffer_size")
+  #define ASC_SERIAL_PEC_TX_BUF_SIZE (%<SPRINTF("0x%x", txBufSize)>U)
+  #define ASC_SERIAL_PEC_RX_BUF_SIZE (%<SPRINTF("0x%x", rxBufSize)>U)
+  
+  _iram static uint8_T tx_buffer[ASC_SERIAL_PEC_TX_BUF_SIZE];
+  _iram static uint8_T rx_buffer[ASC_SERIAL_PEC_RX_BUF_SIZE];
+  _iram static uint8_T transmit_idle;
+  
+  _sfrbit P3_10 	_atbit(P3,10);          /* port pin for TXD0 */
+  _sfrbit DP3_10 	_atbit(DP3,10);         /* direction bit for TXD0  */
+  
+  /* Initialisation function */
+  void asc_serial_pec_init(void) {
+    
+  /* Configure TXD0 pin to for use in 'alternate output function' mode */
+  P3_10 = 1;
+  DP3_10 = 1;
+  %if (EXISTS(C166Reg.altsel0p3))
+    AS0P3_10 = 1;
+  %endif
+  
+  /* The RXD0 pin will be used in 'alternate input function' mode. As
+  * the default after reset is DP3_11 = 0, no explicit configuration
+  * action is required */
+    
+  /*
+  * Settings for register %<C166Reg.asc0_con>
+  * %<C166Reg.asc0_con>_M = %<SLibSubsRef(R,"Mode_control")>
+  * %<C166Reg.asc0_con>_STP = %<SLibSubsRef(R,"Stop_bits")>
+  * %<C166Reg.asc0_con>_REN = %<SLibSubsRef(R,"Receiver_enable")>
+  * %<C166Reg.asc0_con>_PE  = %<SLibSubsRef(R,"Parity_check_enable")>
+  * %<C166Reg.asc0_con>_FE  = %<SLibSubsRef(R,"Framing_check_enable")>
+  * %<C166Reg.asc0_con>_OE  = %<SLibSubsRef(R,"Overrun_check_enable")>
+  * %<C166Reg.asc0_con>_ODD = %<SLibSubsRef(R,"Parity_selection")>
+  * %<C166Reg.asc0_con>_BRS = %<SLibSubsRef(R,"S0CON_S0BRS_Baud_Selection")>
+  * %<C166Reg.asc0_con>_LB = %<SLibSubsRef(R,"Loopback_mode_enable")>
+  * %<C166Reg.asc0_con>_R = %<SLibSubsRef(R,"S0CON_S0R_Baud_Generator_Run")>
+  */
+  %<C166Reg.asc0_con> = %<SLibSubsRef(R,"S0CON")>U;
+  
+  /*
+  * Serial interface baud generation reload counter
+  * Requested bit rate = %<SLibSubsRef(R,"Bit_rate_ideal")> baud
+  * Achieved bit rate = %<SLibSubsRef(R,"Bit_rate_achieved")> baud
+  *
+  * Note: these values were derived from the specified system frequency.
+  */
+  %<C166Reg.asc0_bg> = %<SLibSubsRef(R,"S0BG_Baud_Generation")>U;
+   
+  /*
+  * Serial interface transmit interrupt register
+  %assign txPri2 = IDNUM(SLibSubsRef(R,"Transmit_interrupt_level"))
+  %assign txGrp2 = IDNUM(SLibSubsRef(R,"Transmit_interrupt_level_group"))
+  %assign txPri = txPri2[1]
+  %assign txGrp = txGrp2[1]
+  * Transmit interrupt priority = %<txPri>
+  * Transmit interrupt group level = %<txGrp>
+  */
+  %assign txTIE = 1
+  %assign s0tic = (txTIE << 6) + (txPri << 2) + (txGrp)
+  %<C166Reg.asc0_tic> = %<SPRINTF("0x%x",s0tic)>U;
+  
+  /*
+  * Serial interface receive interrupt register
+  %assign rxPri2 = IDNUM(SLibSubsRef(R,"Receive_interrupt_level"))
+  %assign rxGrp2 = IDNUM(SLibSubsRef(R,"Receive_interrupt_level_group"))
+  %assign rxPri = rxPri2[1]
+  %assign rxGrp = rxGrp2[1]
+  * Receive interrupt priority = %<rxPri>
+  * Receive interrupt group level = %<rxGrp>
+  */
+  %assign rxTIE = 1
+  %assign s0ric = (rxTIE << 6) + (rxPri << 2) + (rxGrp)
+  %<C166Reg.asc0_ric> = %<SPRINTF("0x%x",s0ric)>U;
+  
+  /* Initialize PEC Control Register for transmit
+  * count = buffer size
+  * BWT = 0b1 (byte transfer)
+  * INC = 0b10 (increment SRCPx)
+  */
+  %assign peccTxChannel = %<4*(txPri-14)+txGrp>
+  %assign peccTx = "PECC%<peccTxChannel>"
+  %assign peccTxVal = "0x500"
+  %<peccTx> = %<peccTxVal>U;
+  
+  /* Initialize PEC pointers for transmit */
+  %assign srcpTx = "SRCP%<peccTxChannel>"
+  %<srcpTx> = (unsigned int) tx_buffer;   
+  DSTP%<peccTxChannel> = (unsigned int)&%<C166Reg.asc0_tbuf>;
+  
+  /* Initialize PEC Control Register for receive
+  * count = buffer size
+  * BWT = 0b1 (byte transfer)
+  * INC = 0b01 (increment DSTPx)
+  */
+  %assign peccRxChannel = %<4*(rxPri-14)+rxGrp>
+  %assign peccRx = "PECC%<peccRxChannel>"
+  %assign peccRxVal = "(0x300U + 0x%<SPRINTF("%x", rxBufSize)>U)"
+  %<peccRx> = %<peccRxVal>;
+  
+  /* Initialize PEC pointers for transmit */
+  %assign dstpRx = "DSTP%<peccRxChannel>"
+  SRCP%<peccRxChannel> = (unsigned int)&%<C166Reg.asc0_rbuf>;
+  %<dstpRx> = (unsigned int) rx_buffer;
+  
+  /* Initialise flag */
+  transmit_idle = 1;
+  
+}
+
+ 
+/* Interrupt service for serial transmit */
+_interrupt (0x2a) void s0ti(void) {
+    transmit_idle = 1;
+}
+
+/* Interrupt service for serial receive */
+_interrupt (0x2b) void s0ri(void) {
+}
+
+/* Send bytes through the serial port. 
+* 
+* Arguments:
+*
+* string  - pointer to string of bytes to transmit
+* size    - max number of bytes available to transmit
+* 
+* Returns - the number of bytes actually consumed; this may be less than
+*           the number available to transmit. 
+*/
+int16_T general_send_string(uint8_T *string, int16_T size) {
+
+  int16_T consumed = 0;
+  
+  /* Disable ASC0 transmit interrupts */
+  %<C166Reg.asc0_tic_ie>=0U;
+  
+  /* If transmit process is idle send first byte immediately */
+  if (transmit_idle != 0U) {
+    if ( size > 0 ) {
+      size--;
+      %<C166Reg.asc0_tbuf> = (unsigned int) (*(string++));
+      transmit_idle = 0U;
+      consumed = 1;
+    }
+  }
+  
+  /* Add remaining bytes to the queue */
+  if (size > 0) {
+    
+    /* Number of bytes still queued for transmit */
+    int16_T count = (%<peccTx> & 0xFFU);
+
+    /* Calculate number of empty spaces in buffer */
+    int16_T empty = ASC_SERIAL_PEC_TX_BUF_SIZE - count;
+
+    /* How many bytes will be added to the transmit queue */
+    int16_T add_queue = (empty < size) ? empty : size;
+    int16_T new_count = (add_queue + count);
+    
+    /* Update number of bytes consumed */
+    consumed += add_queue;
+    
+    /* Move current buffer contents to head of buffer and add new bytes */
+    {
+      uint8_T * p_dst = tx_buffer;
+      uint8_T * p_src = (uint8_T *)%<srcpTx>;
+      int16_T idx = 0;
+
+      for (idx=0; idx<count; idx++) {
+	*(p_dst++) = (*(p_src++));
+      }
+      p_src = string;
+      p_dst = tx_buffer + count;
+      for (idx=0; idx<add_queue;idx++) {
+	(*(p_dst++)) = (*(p_src++));
+      }
+    }
+    
+    /* Re-initialize PECC count and pointer */    
+    %<peccTx> &= 0xFF00U;
+    %<peccTx> |= (new_count);
+    %<srcpTx> = (unsigned int) tx_buffer;
+  }
+  
+  /* Enable ASC0 transmit interrupts */
+  %<C166Reg.asc0_tic_ie> = 1U;
+  
+  return consumed;
+}
+
+
+
+/* Get bytes from the serial port ASC0
+* Arguments:
+*
+* string  - pointer to buffer for received bytes
+* size    - requested  number of bytes to transfer into buffer
+* 
+* Returns - the number of bytes actually transferred; this may be less than
+*           the number requested.
+*/
+
+int16_T general_get_string(uint8_T *string, int16_T size) {
+  int16_T bytes_available;
+  int16_T idx;
+  uint8_T * pRxBuf1;
+  uint8_T * pRxBuf2;
+  int16_T bytes_transferred;
+  int16_T bytes_remaining;
+  
+  /* Disable ASC0 recieve interrupts */
+  %<C166Reg.asc0_ric_ie>=0;
+  
+  /* How many bytes in the buffer */
+  bytes_available = ASC_SERIAL_PEC_RX_BUF_SIZE - (%<peccRx> & 0xFF); 
+
+  /* Transfer the received data and re-pack the buffer */
+  pRxBuf1 = rx_buffer;
+  bytes_transferred = (size < bytes_available ) ? size : bytes_available;
+  pRxBuf2 = rx_buffer + bytes_transferred;
+  for (idx=0; idx<bytes_transferred; idx++) {
+    *string++=*pRxBuf1;
+    *pRxBuf1++=*pRxBuf2++;
+  }
+  if (bytes_available>bytes_transferred) {
+    bytes_remaining = bytes_available - bytes_transferred;
+    for (idx=0; idx<(bytes_remaining); idx++) {
+      *pRxBuf1++= *pRxBuf2++;
+    }
+  } else {
+    bytes_remaining = 0;
+  }
+    
+  /* Re-initialize PECC count and pointer */    
+  %<peccRx> &= 0xFF00;
+  %<peccRx> |= ASC_SERIAL_PEC_RX_BUF_SIZE - bytes_remaining;
+  %<dstpRx> = (unsigned int) (rx_buffer + bytes_remaining);  
+  
+  /* Enable ASC0 recieve interrupts */
+  %<C166Reg.asc0_ric_ie>=1;
+  
+  return bytes_transferred;
+}
+ 
+
+%closefile bld_file
+
+%include "utillib.tlc"
+%<SLibIndentFile(asc_serial_pec_c,"")>  
+  
+%endfunction
+
+%function Start(R) Output
+  
+  /*---------------------------------------------------------------------
+  -- DriverConfiguration : Asynchronous/Synchronous Serial Interface --
+  -------------------------------------------------------------------*/
+  
+  asc_serial_pec_init();
+  
+  /*---------------------------------------------------------------------
+  -- END DriverConfiguration : Asynchronous/Synchronous Serial Interface
+  -------------------------------------------------------------------*/
+
+%endfunction
+

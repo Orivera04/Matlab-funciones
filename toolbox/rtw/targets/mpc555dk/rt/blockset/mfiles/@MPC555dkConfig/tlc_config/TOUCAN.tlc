@@ -1,0 +1,206 @@
+%% File: TOUCAN.tlc
+%%
+%% Abstract:
+%%   
+%%
+%% $Revision: 1.10.4.6 $
+%% $Date: 2004/04/19 01:29:23 $
+%%
+%% Copyright 2001-2003 The MathWorks, Inc.
+
+%implements * "C"
+
+%addincludepath "../../../../../../common/can/datatypes"
+%include "can_comm_setup.tlc"
+
+%function DriverConfiguration(record) void
+
+  %<SetupCanDataTypes(record)>
+  
+  %assign sharedTxBufferA = SLibSubsRef(record,"CAN_A.RequireSharedTxBuffer")
+  %assign sharedTxBufferB = SLibSubsRef(record,"CAN_B.RequireSharedTxBuffer")
+  %assign variant = SLibSubsRef(record,"MPC5xx_Variant")
+  
+  %assign cancavail = FEVAL("mpc555_module_available", variant, "toucan_c")
+  %if cancavail
+     %% 3rd CAN channel available 
+     %assign sharedTxBufferC = SLibSubsRef(record,"CAN_C.RequireSharedTxBuffer")
+  %else
+     %assign sharedTxBufferC = 0
+  %endif
+  
+  %assign sharedTxBuffer = sharedTxBufferA | sharedTxBufferB | sharedTxBufferC
+  
+  %% Header File Setups
+  %openfile buffer
+  #include "can_driver.h"
+  #include "mpc5xx.h"
+  #include "isr.h"
+  %if sharedTxBuffer == 1
+    #include "can_tx_queue.h"
+  %endif
+  #include "can_callback.h"
+  %closefile buffer
+  %<LibCacheIncludes(buffer)> 
+  
+  %<CANModuleRegister("CAN_A")>
+  %<CANModuleRegister("CAN_B")>
+ 
+  %if cancavail
+     %<CANModuleRegister("CAN_C")>
+  %endif
+
+%endfunction
+
+
+%function CANModuleRegister( module ) void
+%% Setup the global configuration structures for CAN
+%%
+%% -- Arguments ---
+%%
+%%  record  -   The configuration record
+%%  module  -   'CAN_A' | 'CAN_B'
+
+    %openfile buffer
+        // A pointer to a CAN module that
+        // all transmit and receive blocks
+        // will reference.
+        extern CAN_MODULE GlobalModule%<module>;
+    %closefile buffer
+    %<LibCacheExtern(buffer)>
+
+    %openfile buffer
+        // A pointer to a CAN module that
+        // all transmit and receive blocks
+        // will reference.
+        CAN_MODULE GlobalModule%<module>;
+    %closefile buffer       
+    %<LibRegFileCustomCode(buffer,"trailer")>
+
+%endfunction
+
+%function CANModuleInitialize( moduleRecord, module  ) Output
+%% Generate the initialization code for the CAN module
+%%
+%% -- Arguments ---
+%%
+%%  moduleRecord  -   The TOUCAN module record for CAN A, B or C
+%%  module  - 'CAN_A' | 'CAN_B' | 'CAN_C'
+
+    %% Extract all the values we need from the record
+
+    %assign DESIRED_NUM_QUANTA = SLibSubsRef(moduleRecord, "Timing.Number_Of_Quanta")
+    %assign DESIRED_SAMPLE_POINT = SLibSubsRef(moduleRecord, "Timing.Sample_Point")
+    %assign DESIRED_BIT_RATE = SLibSubsRef(moduleRecord, "Timing.CAN_Bit_Rate")
+    
+    %assign PRESDIV = SLibSubsRef(moduleRecord,"Timing.Register_Configuration")[0]
+    %assign PROPSEG = SLibSubsRef(moduleRecord,"Timing.Register_Configuration")[1]
+    %assign PSEG1 = SLibSubsRef(moduleRecord,"Timing.Register_Configuration")[2]
+    %assign PSEG2 = SLibSubsRef(moduleRecord,"Timing.Register_Configuration")[3]
+    %assign RJW = SLibSubsRef(moduleRecord,"Timing.Resychronization_Jump_Width")
+
+    %assign MASKTYPE = SLibSubsRef(moduleRecord,"Masks.Mask_Type")
+    %assign GLOBMASK = "0x" + SLibSubsRef(moduleRecord,"Masks.Global_RX_Mask")
+    %assign MASKRX14 = "0x" + SLibSubsRef(moduleRecord,"Masks.Mask_RX_14")
+    %assign MASKRX15 = "0x" + SLibSubsRef(moduleRecord,"Masks.Mask_RX_15")
+
+    %assign sharedTxBuffer = SLibSubsRef(moduleRecord,"RequireSharedTxBuffer")
+    
+    %if sharedTxBuffer == 1
+      %assign NUM_BUFFERS_STR = SLibSubsRef(moduleRecord,"Transmit_Shared_Buffers")
+      
+      %switch NUM_BUFFERS_STR
+	%case "Single TouCAN buffer"
+	  %assign NUM_BUFFERS = 1
+	  %break
+	%case "Three TouCAN buffers"
+	  %assign NUM_BUFFERS = 3
+	  %break
+	%default
+	  %exit "Unrecognized value for NUM_BUFFERS_STR"
+      %endswitch
+      
+      %assign TXQLEN   = SLibSubsRef(moduleRecord,"Transmit_Queue_Length")
+      
+    %endif
+
+    %assign IRQLEVEL = SLibSubsRef(moduleRecord,"IRQ_Level")
+        {
+          /* ----------------------------------
+             Configure the TouCAN Module %<module>
+             *---------------------------------*/
+            PCAN_MODULE module;
+            module = constructCanModule(&GlobalModule%<module>,&%<module>);
+            setCanModuleDefaults(module);
+            setCanBitTiming(module, 
+                %<PROPSEG>/*propseg*/,\
+                %<PSEG1>/*pseg1*/,\
+                %<PSEG2>/*pseg2*/,\
+                %<PRESDIV>/*presdiv*/,\
+                %<RJW>/*rjw*/,\
+                %<DESIRED_NUM_QUANTA> /* num quanta */,\
+                %<DESIRED_SAMPLE_POINT> /* sample point */,\
+                %<DESIRED_BIT_RATE> /* bit rate */
+                );
+
+            %switch MASKTYPE
+                %case "Standard Message"
+                    %% Standard Identifier mask
+                    %assign maskType = "CAN_MESSAGE_STANDARD"
+                %break
+                %case "Extended Message"
+                    %% Extended Identifier mask 
+                    %assign maskType = "CAN_MESSAGE_EXTENDED"
+                %break
+                %default
+                    %error "%<MASKTYPE> is not an option"
+            %endswitch
+
+            setCanModuleMasks ( module, %<maskType>,                                // Global Mask Type
+                                %<GLOBMASK>,    // Global Mask Value
+                                %<maskType>,                                // Rx14 Mask type
+                                %<MASKRX14>,     // Rx14 Mask value
+                                %<maskType>,                                // Rx15 Mask type
+                                %<MASKRX15>);         // Rx15 Mask value
+
+    
+    %if sharedTxBuffer == 1
+      {
+	static CAN_FRAME canTxQueue%<module>[%<TXQLEN>];
+	static uint8_T canTxQueueLinks%<module>[%<TXQLEN>];
+	canModuleInitTxBuffer(module, %<NUM_BUFFERS>, canTxQueue%<module>, 
+	canTxQueueLinks%<module>, %<TXQLEN>);
+      }
+    %endif
+    
+        /* Initialize the interrupt level of %<module> */
+	%if !chk_env("osek")
+	  setCanModuleIrqLevel(module,%<IRQLEVEL>);
+	%else
+	  setOSEKCanModuleIrqLevel(module,%<IRQLEVEL>);
+	%endif
+
+        /* -- Start the CAN module %<module> --- */
+        START_CAN_MODULE(&GlobalModule%<module>);
+    }
+
+    %if chk_env("osek")
+      %% For OSEK, ISRs are declared via OIL file and must conform to a prototype.
+      %% Call OSEK specific TLC function to provide this interface.
+      %<OSLibGenerateMPC555TouCanISR(IRQLEVEL)>
+    %endif
+
+%endfunction
+
+%function Start(record) Output
+    %<CANModuleInitialize(SLibSubsRef(record,"CAN_A"), "CAN_A")>
+    %<CANModuleInitialize(SLibSubsRef(record,"CAN_B"), "CAN_B")>
+
+    %assign variant = SLibSubsRef(record,"MPC5xx_Variant")
+
+    %assign cancavail = FEVAL("mpc555_module_available", variant, "toucan_c")
+    %if cancavail
+       %<CANModuleInitialize(SLibSubsRef(record,"CAN_C"), "CAN_C")>
+    %endif
+%endfunction
+

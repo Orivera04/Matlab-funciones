@@ -1,0 +1,53 @@
+#
+# $RCSfile: exp_html.rul,v $
+# $Revision: 1.6.4.2 $
+# $Date: 2004/04/19 01:24:00 $
+#
+# Copyright 2001-2003 The MathWorks, Inc.
+#
+# Abstract: This file defines output format for Algorithm Export target;
+#
+# Compiler: 
+#
+#
+# Limition: Can't have leading space before each macro definition line;
+#	    For comma seperated values, don't put space between comma;
+
+#
+# system variables definition
+
+Title = 1		# whether or not show Title
+
+Copyright = 1		# whether or not show copyright
+
+Options = 1		# whether or not show compiler options
+
+Summary = 1		# whether or not Show gen code summary
+
+Details = 1		# whether or not Show gen code details
+
+EntireSummary = 0	# whether or not Show entire code summary
+
+EntireDetails = 0	# whether or not Show entire code details
+
+Heap = 0		# whether or not show heap allocation
+
+Stack = 0		# whether or not show stack allocation
+
+MemoryMAP = 0		# whether or not show entire memory map
+
+Rulefile = 0		# whether or not show Rule File used to create IR file
+
+MAPfile = 0		# whether or not include priginal MAP file 
+
+RemoveIR = 0		# whether or not delete IR file 
+
+ListSectionName = 1     # whether or not list used section names in report
+
+MM_LABEL = RAM Target :: Off-chip RAM, On-chip RAM
+MM_OFF-CHIP_RAM = CODE,CONST,DATA,BSS
+MM_ON-CHIP_RAM = GROUP1
+
+# define group belongs RAM or ROM
+ROM_DEFINITION = CODE,CONST,GROUP1
+RAM_DEFINITION = DATA,BSS

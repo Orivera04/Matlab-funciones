@@ -1,0 +1,3873 @@
+# $Revision: 1.13.4.7 $
+Library {
+  Name			  "mpc555extras"
+  Version		  6.0
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  off
+  StatusBar		  off
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  on
+  Created		  "Fri Nov 02 09:05:47 2001"
+  Creator		  "The MathWorks Inc."
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "batserve"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Wed Apr 21 04:03:36 2004"
+  ModelVersionFormat	  "1.%<AutoIncrement:133>"
+  ConfigurationManager	  "None"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock off
+  ProdHWDeviceType	  "32-bit Generic"
+  ShowModelReferenceBlockVersion off
+  ShowModelReferenceBlockIO off
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.0.4"
+      Array {
+	Type			"Handle"
+	Dimension		7
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.0.4"
+	  StartTime		  "0.0"
+	  StopTime		  "10.0"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  RelTol		  "1e-3"
+	  SolverMode		  "SingleTasking"
+	  Solver		  "ode45"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.0.4"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SaveTime		  on
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsOut"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    4
+	    Cell		    "ZeroExternalMemoryAtStartup"
+	    Cell		    "ZeroInternalMemoryAtStartup"
+	    Cell		    "InitFltsAndDblsToZero"
+	    Cell		    "OptimizeModelRefInitCode"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.0.4"
+	  BlockReduction	  on
+	  BooleanDataType	  off
+	  ConditionallyExecuteInputs on
+	  ConditionalExecOptimization "on_for_testing"
+	  InlineParams		  off
+	  InlineInvariantSignals  on
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  on
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  ParameterPooling	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.0.4"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg on
+	  CheckExecutionContextRuntimeOutputMsg	on
+	  SignalResolutionControl "TryResolveAllWithWarning"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  SolverPrmCheckMsg	  "none"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  TasksWithSamePriorityMsg "warning"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterPrecisionLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  ModelReferenceSimTargetVerbose off
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	  ModelReferenceSymbolNameMessage "warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.0.4"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "32-bit Generic"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  on
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.0.4"
+	  UpdateModelReferenceTargets "IfOutOfDate"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    1
+	    Cell		    "IncludeHyperlinkInReport"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.0.4"
+	  SystemTargetFile	  "grt.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  TemplateMakefile	  "grt_default_tmf"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Array {
+		Type			"Cell"
+		Dimension		8
+		Cell			"IgnoreCustomStorageClasses"
+		Cell			"InsertBlockDesc"
+		Cell			"SFDataObjDesc"
+		Cell			"SimulinkDataObjDesc"
+		Cell			"DefineNamingRule"
+		Cell			"SignalNamingRule"
+		Cell			"ParamNamingRule"
+		Cell			"InlinedPrmAccess"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.0.4"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      CustomSymbolStr	      "$R$N$M"
+	      MangleLength	      1
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    Simulink.GRTTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Array {
+		Type			"Cell"
+		Dimension		15
+		Cell			"IncludeMdlTerminateFcn"
+		Cell			"CombineOutputUpdateFcns"
+		Cell			"SuppressErrorStatus"
+		Cell			"ERTCustomFileBanners"
+		Cell			"GenerateSampleERTMain"
+		Cell			"MultiInstanceERTCode"
+		Cell			"PurelyIntegerCode"
+		Cell			"SupportNonFinite"
+		Cell			"SupportComplex"
+		Cell			"SupportAbsoluteTime"
+		Cell			"SupportContinuousTime"
+		Cell			"SupportNonInlinedSFcns"
+		Cell			"LifeSpan"
+		Cell			"NoFixptDivByZeroProtection"
+		Cell			"CustomSymbolStr"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.0.4"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns off
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      ExtMode		      off
+	      ExtModeStaticAlloc      off
+	      ExtModeTesting	      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTransport	      0
+	      ExtModeMexFile	      "ext_comm"
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	      GenerateASAP2	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      SimulationMode	      "normal"
+      CurrentDlgPage	      "Solver"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      ActionPort
+      InitializeStates	      "held"
+      ActionType	      "unset"
+    }
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "sfix(16)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "2^0"
+      SampleTime	      "inf"
+    }
+    Block {
+      BlockType		      DataStoreMemory
+      StateMustResolveToSignalObject off
+      ShowAdditionalParam     off
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+    }
+    Block {
+      BlockType		      DataStoreRead
+    }
+    Block {
+      BlockType		      DataStoreWrite
+    }
+    Block {
+      BlockType		      DataTypeConversion
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      ConvertRealWorld	      "Real World Value (RWV)"
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      If
+      NumInputs		      "1"
+      IfExpression	      "u1 > 0"
+      ShowElse		      on
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Inport
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Logic
+      Operator		      "AND"
+      Inputs		      "2"
+      AllPortsSameDT	      on
+      OutDataTypeMode	      "Logical (see Configuration Parameters: Optimiza"
+"tion)"
+      LogicDataType	      "uint(8)"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Memory
+      X0		      "0"
+      InheritSampleTime	      off
+      LinearizeMemory	      off
+      StateMustResolveToSignalObject off
+      RTWStateStorageClass    "Auto"
+    }
+    Block {
+      BlockType		      Merge
+      Inputs		      "2"
+      InitialOutput	      "[]"
+      AllowUnequalInputPortWidths off
+      InputPortOffsets	      "[]"
+    }
+    Block {
+      BlockType		      Mux
+      Inputs		      "4"
+      DisplayOption	      "none"
+      BusObject		      "BusObject"
+      NonVirtualBus	      off
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      Probe
+      ProbeWidth	      on
+      ProbeSampleTime	      on
+      ProbeComplexSignal      on
+      ProbeSignalDimensions   off
+      ProbeFramedSignal	      off
+      ProbeWidthDataType      "double"
+      ProbeSampleTimeDataType "double"
+      ProbeComplexityDataType "double"
+      ProbeDimensionsDataType "double"
+      ProbeFrameDataType      "double"
+    }
+    Block {
+      BlockType		      Reference
+    }
+    Block {
+      BlockType		      RelationalOperator
+      Operator		      ">="
+      InputSameDT	      on
+      LogicOutDataTypeMode    "Logical (see Configuration Parameters: Optimiza"
+"tion)"
+      LogicDataType	      "uint(8)"
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Selector
+      InputType		      "Vector"
+      IndexMode		      "One-based"
+      ElementSrc	      "Internal"
+      Elements		      "1"
+      RowSrc		      "Internal"
+      Rows		      "1"
+      ColumnSrc		      "Internal"
+      Columns		      "1"
+      InputPortWidth	      "-1"
+      IndexIsStartValue	      off
+      OutputPortSize	      "1"
+    }
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      PortCounts	      "[]"
+      SFunctionModules	      "''"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Sum
+      IconShape		      "rectangular"
+      Inputs		      "++"
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Switch
+      Criteria		      "u2 >= Threshold"
+      Threshold		      "0"
+      InputSameDT	      on
+      OutDataTypeMode	      "Inherit via internal rule"
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Terminator
+    }
+    Block {
+      BlockType		      TriggerPort
+      TriggerType	      "rising"
+      StatesWhenEnabling      "inherit"
+      ShowOutputPort	      off
+      OutputDataType	      "auto"
+      SampleTimeType	      "triggered"
+      SampleTime	      "1"
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      UnitDelay
+      X0		      "0"
+      SampleTime	      "1"
+      StateMustResolveToSignalObject off
+      RTWStateStorageClass    "Auto"
+    }
+    Block {
+      BlockType		      WhileIterator
+      MaxIters		      "5"
+      WhileBlockType	      "while"
+      ResetStates	      "held"
+      ShowIterationPort	      off
+      OutputDataType	      "int32"
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "mpc555extras"
+    Location		    [33, 93, 827, 781]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    212
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      "Assign"
+      Ports		      [2, 1]
+      Position		      [505, 394, 600, 441]
+      FontName		      "Arial"
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskType		      "Assignment Block"
+      MaskDescription	      "Replace the specified elements in the input vec"
+"tor with elements from the second vector. You must specify the width of the i"
+"nput signal exactly."
+      MaskPromptString	      "Input Width|Elements"
+      MaskStyleString	      "edit,edit"
+      MaskTunableValueString  "off,off"
+      MaskCallbackString      "|"
+      MaskEnableString	      "on,on"
+      MaskVisibilityString    "on,on"
+      MaskToolTipString	      "on,on"
+      MaskVarAliasString      ","
+      MaskVariables	      "width=@1;elements=@2;"
+      MaskInitialization      "elements_split = setdiff([1:width],elements);\n"
+"[s,idx] = sort( [ elements_split elements]);\nelements_merge = idx;"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "5|[2 3]"
+      MaskTabNameString	      ","
+      System {
+	Name			"Assign"
+	Location		[727, 305, 1762, 1001]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "U1->Y"
+	  Position		  [35, 43, 65, 57]
+	  Port			  "1"
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "U2->Y(E)"
+	  Position		  [35, 108, 65, 122]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux1"
+	  Ports			  [2, 1]
+	  Position		  [250, 41, 255, 79]
+	  ShowName		  off
+	  Inputs		  "2"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Selector
+	  Name			  "Selector4"
+	  Ports			  [1, 1]
+	  Position		  [125, 31, 165, 69]
+	  Elements		  "elements_split"
+	  InputPortWidth	  "width"
+	}
+	Block {
+	  BlockType		  Selector
+	  Name			  "Selector5"
+	  Ports			  [1, 1]
+	  Position		  [320, 41, 360, 79]
+	  Elements		  "elements_merge"
+	  InputPortWidth	  "width"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Y"
+	  Position		  [490, 53, 520, 67]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "Selector4"
+	  SrcPort		  1
+	  DstBlock		  "Mux1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Mux1"
+	  SrcPort		  1
+	  DstBlock		  "Selector5"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "U1->Y"
+	  SrcPort		  1
+	  DstBlock		  "Selector4"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Selector5"
+	  SrcPort		  1
+	  DstBlock		  "Y"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "U2->Y(E)"
+	  SrcPort		  1
+	  Points		  [165, 0]
+	  DstBlock		  "Mux1"
+	  DstPort		  2
+	}
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Asynchronous Rate Transition"
+      Ports		      [1, 1]
+      Position		      [355, 328, 465, 372]
+      FontName		      "Arial"
+      SourceBlock	      "mpc555interrupts/Asynchronous Rate Transition"
+      SourceType	      "Asynchronous Rate Transition"
+      ShowPortLabels	      on
+      sample_time	      "-1"
+    }
+    Block {
+      BlockType		      "S-Function"
+      Name		      "Bitwise\nOperator"
+      Ports		      [1, 1]
+      Position		      [355, 395, 450, 445]
+      FontName		      "Arial"
+      FunctionName	      "sfun_xtra_bitop"
+      Parameters	      "UseBitMask,NumInputPorts,BitMask,logicop,zeroTe"
+"st"
+      MaskType		      "Fixed-Point Bitwise Operator"
+      MaskDescription	      "Perform the specified bitwise operation on the "
+"inputs. The output data type should represent zero exactly."
+      MaskHelp		      "web(fpbhelp('bitwiseoperator'));"
+      MaskPromptString	      "Operator:|Zero Test|Use bit mask ...|Number of "
+"input ports:|Bit Mask|Show Mask As Binary"
+      MaskStyleString	      "popup(AND|OR|NAND|NOR|XOR|NOT|SHIFT LEFT|SHIFT "
+"RIGHT|BIT SET|BIT CLEAR|NOT a AND b|a AND NOT b|NOT a OR b|a OR NOT b ),popup"
+"(No Test|Test  If Zero|Test If Not Zero),checkbox,edit,edit,checkbox"
+      MaskTunableValueString  "off,off,off,off,off,off"
+      MaskCallbackString      "sfun_bitop_msk('callback')||sfun_bitop_msk('cal"
+"lback')|||"
+      MaskEnableString	      "on,on,on,off,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,"
+      MaskVariables	      "logicop=@1;zeroTest=@2;UseBitMask=@3;NumInputPo"
+"rts=@4;BitMask=@5;maskInBinary=@6;"
+      MaskInitialization      "[BitMask, str ] = sfun_bitop_msk('init',UseBitM"
+"ask,NumInputPorts,BitMask,logicop,zeroTest);\n"
+      MaskDisplay	      "fprintf(['Bitwise\\n',str])\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "AND|No Test|on|1|bin2dec('11011001')|off"
+      MaskTabNameString	      ",,,,,"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "CAN Calibration Protocol (MPC555)"
+      Ports		      [1, 1]
+      Position		      [530, 555, 665, 635]
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskInitialization      "block = 'mpc555drivers/CAN 2.0B Controller Modu"
+"le/CAN Calibration Protocol';                                                "
+"                 \n                                                          "
+"                \nload_system(strtok(block, '/'));                           "
+"                \n                                                           "
+"               \nregexprep(block, '\\s',' ');                                "
+"                \nmsg = sprintf('Please replace the CCP block with the update"
+"d version: \"%s\" ', block);                             \nerror(msg);"
+      MaskDisplay	      "disp(sprintf('Please update\\nthe model\\nfor a"
+" link\\nto a\\nreplacement block'));"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"CAN Calibration Protocol (MPC555)"
+	Location		[433, 403, 931, 703]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [110, 103, 140, 117]
+	  Port			  "1"
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  Position		  [360, 103, 390, 117]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      "S-Function"
+      Name		      "Custom Code"
+      Ports		      []
+      Position		      [30, 95, 286, 252]
+      AttributesFormatString  "\\n\\n"
+      List {
+	ListType		RTWdata
+	TLCFile			"extended_custcode"
+	Location		"Subsystem Enable Function"
+	Top			"/* Top Code */\n"
+	Middle			"/*Middle Code */\n"
+	Bottom			"/*Bottom Code*/\n"
+	ReferenceMask		""
+      }
+      FunctionName	      "sfun_extended_custcode"
+      MaskType		      "Subsystem Custom Coder"
+      MaskPromptString	      "Unique Code Code Generation|Key|Location|Top|Mi"
+"ddle|Bottom"
+      MaskStyleString	      "popup(Generate for every instance|Generate once"
+" per functional mask|Model Singleton),edit,popup(Header File|Parameter File|S"
+"ource File|Registration File|Subsystem Start Function|Subsystem Initialize Fu"
+"nction|Subsystem Terminate Function|Subsystem Enable Function|Subsystem Disab"
+"le Function|Subsystem Outputs Function|Subsystem Update Function|Subsystem De"
+"rivatives Function|Registration Function|Model Start Function|Model Initializ"
+"e Function|Model Terminate Function|Model Outputs Function|Model Update Funct"
+"ion|Model Derivatives Function),edit,edit,edit"
+      MaskTunableValueString  "off,off,off,off,off,off"
+      MaskCallbackString      "|||||"
+      MaskEnableString	      "on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,"
+      MaskVariables	      "unique=@1;key=@2;location=&3;top=@4;middle=@5;b"
+"ottom=@6;"
+      MaskInitialization      "[ dispstr,rtwdata ] = mask_custom_code(unique,k"
+"ey,location,top,middle,bottom);\nset_param(gcb,'rtwdata',rtwdata);\n"
+      MaskDisplay	      "text(0.1,0.5,dispstr,'horizontalAlignment','lef"
+"t')\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "Generate for every instance|''|Subsystem Enable"
+" Function|'/* Top Code */'|'/*Middle Code */'|'/*Bottom Code*/'"
+      MaskTabNameString	      ",,,,,"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Disable MPC555 Interrupts"
+      Tag		      "Disable MPC555 Interrupts"
+      Ports		      []
+      Position		      [506, 97, 644, 158]
+      FontName		      "Arial"
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskType		      "Disable MPC555 Interrupts"
+      MaskDescription	      "Disable MPC555 Interrupts during the model outp"
+"uts function.\n\nBe carefull using this block as it may block a faster rate t"
+"ask from executing in time. Use it only in atomic subsystems that may be acce"
+"ssing hardware resources that need protection against interrupt access."
+      MaskInitialization      "[top,bottom,dispstr] = mpc555_disable_interrupt"
+"s('getcode',gcb);\n\n"
+      MaskDisplay	      "disp(dispstr)"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"Disable MPC555 Interrupts"
+	Location		[1160, 127, 1409, 332]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Reference
+	  Name			  "Disable MPC555 Interrupts"
+	  Tag			  "Disable MPC555 Interrupts"
+	  Ports			  []
+	  Position		  [25, 26, 224, 179]
+	  List {
+	    ListType		    RTWdata
+	    TLCFile		    "extended_custcode"
+	    Location		    "Subsystem Outputs Function"
+	    ReferenceMask	    ""
+	  }
+	  FontName		  "Times New Roman"
+	  FontSize		  12
+	  FontWeight		  "bold"
+	  SourceBlock		  "mpc555extras/Custom Code"
+	  SourceType		  "Subsystem Custom Coder"
+	  unique		  "Generate for every instance"
+	  key			  "''"
+	  location		  "Subsystem Outputs Function"
+	  top			  "top"
+	  middle		  "''"
+	  bottom		  "bottom"
+	}
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Extended Custom Code"
+      Ports		      []
+      Position		      [25, 275, 281, 432]
+      UserDataPersistent      on
+      UserData		      "DataTag0"
+      List {
+	ListType		RTWdata
+	TLCFile			"extended_custcode"
+	Location		"Subsystem Enable Function"
+	Top			"/* Top Code */\n"
+	Middle			"/*Middle Code */\n"
+	Bottom			"/*Bottom Code*/\n"
+	ReferenceMask		""
+      }
+      SourceBlock	      "driver_interface_library/Custom Code"
+      SourceType	      "Subsystem Custom Coder"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Force Watchdog Timeout"
+      Ports		      []
+      Position		      [530, 479, 687, 529]
+      FontName		      "Arial"
+      TreatAsAtomicUnit	      on
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskType		      "Processor Reset"
+      MaskDescription	      "As soon as this block executes interrupts are d"
+"isabled and the processor enters an infinite loop. The watchdog timer will th"
+"en time out and reset the processor.\n\nThis block mus be placed in an action"
+" subsystem such as an if, then, else subsystem or a function call subsystem."
+      MaskHelp		      "As soon as this block executes interrupts are d"
+"isabled and the processor enters an infinite loop. The watchdog timer will th"
+"en time out and reset the processor.<p>\n\nThis block mus be placed in an act"
+"ion subsystem such as an if, then, else subsystem or a function call subsyste"
+"m."
+      MaskInitialization      "read_tunable_parameters;"
+      MaskDisplay	      "disp('Processor Reset\\nForce Watchdog Timeout'"
+");"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"Force Watchdog Timeout"
+	Location		[775, 230, 1758, 1148]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant"
+	  Position		  [160, 530, 190, 560]
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Force Watchdog Timeout"
+	  Ports			  []
+	  Position		  [175, 271, 526, 462]
+	  NamePlacement		  "alternate"
+	  List {
+	    ListType		    RTWdata
+	    TLCFile		    "extended_custcode"
+	    Location		    "Subsystem Outputs Function"
+	    Bottom		    "EID(); for(;;);\n"
+	    ReferenceMask	    ""
+	  }
+	  FontName		  "Times New Roman"
+	  FontSize		  12
+	  FontWeight		  "bold"
+	  SourceBlock		  "mpc555extras/Custom Code"
+	  SourceType		  "Subsystem Custom Coder"
+	  unique		  "Generate for every instance"
+	  key			  "''"
+	  location		  "Subsystem Outputs Function"
+	  top			  "''"
+	  middle		  "''"
+	  bottom		  "'EID(); for(;;);'"
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  "Terminator"
+	  Position		  [260, 535, 280, 555]
+	}
+	Line {
+	  SrcBlock		  "Constant"
+	  SrcPort		  1
+	  DstBlock		  "Terminator"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Function Definition"
+      Ports		      [0, 1]
+      Position		      [150, 461, 260, 499]
+      FontName		      "Arial"
+      SourceBlock	      "driver_interface_library/Function Definition"
+      SourceType	      "Function Definition"
+      function_name	      "'void func(void)'"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Function-Call\nMulticaster"
+      Ports		      [1, 1]
+      Position		      [710, 263, 745, 287]
+      FontName		      "Arial"
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskType		      "Function Call Multicaster"
+      MaskDescription	      "The input to this block should be a function ca"
+"ll. The output of the block can be demuxed so that multiple function call sub"
+"systems can be triggered off the same function call."
+      MaskDisplay	      "plot([0 2],[0.5 0.5]);\nplot([0.5 1],[0.6 0.6])"
+";\nplot([0.5 1],[0.4 0.4]);\nplot([0.8 1],[0.7 0.7]);\nplot([0.8 1],[0.3 0.3]"
+");\n\nplot([1 1],[0.3 0.7])\nplot([0.95 0.95],[0.2 0.8])\nplot([0.9 0.9],[0.2"
+" 0.8])"
+      MaskIconFrame	      off
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      System {
+	Name			"Function-Call\nMulticaster"
+	Location		[526, 581, 1519, 963]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "fcn_in"
+	  Position		  [65, 58, 95, 72]
+	  Port			  "1"
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Subsystem"
+	  Ports			  [0, 1, 0, 1]
+	  Position		  [180, 85, 220, 145]
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "Subsystem"
+	    Location		    [787, 356, 1066, 469]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      TriggerPort
+	      Name		      "Trigger"
+	      Ports		      []
+	      Position		      [45, 85, 65, 105]
+	      TriggerType	      "function-call"
+	      StatesWhenEnabling      "reset"
+	      ZeroCross		      off
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Function-Call\nGenerator"
+	      Ports		      [0, 1]
+	      Position		      [25, 25, 70, 45]
+	      SourceBlock	      "simulink/Ports &\nSubsystems/Function-C"
+"all\nGenerator"
+	      SourceType	      "Function-Call Generator"
+	      sample_time	      "-1"
+	      numberOfIterations      "1"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [160, 28, 190, 42]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "Function-Call\nGenerator"
+	      SrcPort		      1
+	      Points		      [0, 0]
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "fcn1"
+	  Position		  [275, 108, 305, 122]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "Subsystem"
+	  SrcPort		  1
+	  DstBlock		  "fcn1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "fcn_in"
+	  SrcPort		  1
+	  Points		  [100, 0]
+	  DstBlock		  "Subsystem"
+	  DstPort		  trigger
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Function-Call Catcher"
+      Ports		      [1, 1, 0, 1]
+      Position		      [355, 257, 465, 303]
+      FontName		      "Arial"
+      TreatAsAtomicUnit	      on
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskType		      "Function Call Catcher"
+      MaskDescription	      "Feed in multiple function call trigger via a mu"
+"x into the top. The block wait till every function trigger has fired at least"
+" once before firing it's output trigger then reseting it's counters"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"Function-Call Catcher"
+	Location		[204, 302, 1217, 946]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Manual Reset"
+	  Position		  [865, 18, 895, 32]
+	  Orientation		  "left"
+	  Port			  "1"
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  TriggerPort
+	  Name			  "function"
+	  Ports			  [0, 1]
+	  Position		  [20, 170, 40, 190]
+	  TriggerType		  "function-call"
+	  StatesWhenEnabling	  "reset"
+	  ShowOutputPort	  on
+	  OutputDataType	  "int8"
+	  ZeroCross		  off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Bitwise\nOperator"
+	  Ports			  [2, 1]
+	  Position		  [350, 143, 460, 192]
+	  SourceBlock		  "mpc555extras/Bitwise\nOperator"
+	  SourceType		  "Fixed-Point Bitwise Operator"
+	  logicop		  "BIT SET"
+	  zeroTest		  "No Test"
+	  UseBitMask		  "off"
+	  NumInputPorts		  "2"
+	  BitMask		  "bin2dec('11011001')"
+	  maskInBinary		  "off"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Bitwise\nOperator1"
+	  Ports			  [1, 1]
+	  Position		  [570, 292, 680, 338]
+	  SourceBlock		  "mpc555extras/Bitwise\nOperator"
+	  SourceType		  "Fixed-Point Bitwise Operator"
+	  logicop		  "NOT"
+	  zeroTest		  "No Test"
+	  UseBitMask		  "on"
+	  NumInputPorts		  "1"
+	  BitMask		  "bin2dec('11011001')"
+	  maskInBinary		  "off"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Bitwise\nOperator2"
+	  Ports			  [2, 1]
+	  Position		  [750, 229, 860, 276]
+	  SourceBlock		  "mpc555extras/Bitwise\nOperator"
+	  SourceType		  "Fixed-Point Bitwise Operator"
+	  logicop		  "OR"
+	  zeroTest		  "No Test"
+	  UseBitMask		  "off"
+	  NumInputPorts		  "2"
+	  BitMask		  "bin2dec('11011001')"
+	  maskInBinary		  "off"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Bitwise\nOperator3"
+	  Ports			  [1, 1]
+	  Position		  [830, 140, 940, 190]
+	  Orientation		  "up"
+	  NamePlacement		  "alternate"
+	  SourceBlock		  "mpc555extras/Bitwise\nOperator"
+	  SourceType		  "Fixed-Point Bitwise Operator"
+	  logicop		  "NOT"
+	  zeroTest		  "Test  If Zero"
+	  UseBitMask		  "on"
+	  NumInputPorts		  "1"
+	  BitMask		  "bin2dec('11011001')"
+	  maskInBinary		  "off"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Bitwise\nOperator4"
+	  Ports			  [2, 1]
+	  Position		  [390, 289, 500, 336]
+	  SourceBlock		  "mpc555extras/Bitwise\nOperator"
+	  SourceType		  "Fixed-Point Bitwise Operator"
+	  logicop		  "SHIFT LEFT"
+	  zeroTest		  "No Test"
+	  UseBitMask		  "off"
+	  NumInputPorts		  "2"
+	  BitMask		  "bin2dec('11011001')"
+	  maskInBinary		  "off"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant"
+	  Position		  [320, 285, 350, 315]
+	  Value			  "uint32(1)"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant1"
+	  Position		  [190, 250, 220, 280]
+	  Value			  "uint32(1)"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant2"
+	  Position		  [455, 395, 485, 425]
+	  Value			  "uint32(1)"
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion"
+	  Position		  [295, 346, 350, 374]
+	  OutDataTypeMode	  "uint32"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Find first non zero."
+	  Ports			  [1, 1]
+	  Position		  [115, 149, 215, 211]
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "Find first non zero."
+	    Location		    [267, 486, 1533, 1178]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "vector"
+	      Position		      [25, 68, 55, 82]
+	      Port		      "1"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant2"
+	      Position		      [635, 250, 665, 280]
+	      Value		      "int32(0)"
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion"
+	      Position		      [285, 151, 340, 179]
+	      OutDataTypeMode	      "int32"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "Data Type Conversion2"
+	      Position		      [1110, 206, 1160, 234]
+	      OutDataTypeMode	      "uint32"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      If
+	      Name		      "If"
+	      Ports		      [1, 2]
+	      Position		      [655, 145, 735, 185]
+	      IfExpression	      "u1 == 0"
+	      ZeroCross		      off
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "If Action\nSubsystem"
+	      Ports		      [1, 1, 0, 0, 0, 0, 0, 1]
+	      Position		      [850, 160, 930, 200]
+	      TreatAsAtomicUnit	      on
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"If Action\nSubsystem"
+		Location		[372, 592, 1313, 1197]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [75, 78, 105, 92]
+		  Port			  "1"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  ActionPort
+		  Name			  "Action Port"
+		  Position		  [170, 15, 229, 43]
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [325, 78, 355, 92]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "If Action\nSubsystem1"
+	      Ports		      [1, 1, 0, 0, 0, 0, 0, 1]
+	      Position		      [850, 245, 930, 285]
+	      TreatAsAtomicUnit	      on
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"If Action\nSubsystem1"
+		Location		[342, 471, 840, 771]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [75, 78, 105, 92]
+		  Port			  "1"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  ActionPort
+		  Name			  "Action Port"
+		  Position		  [170, 15, 229, 43]
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [325, 78, 355, 92]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Merge
+	      Name		      "Merge"
+	      Ports		      [2, 1]
+	      Position		      [1025, 200, 1065, 240]
+	    }
+	    Block {
+	      BlockType		      Probe
+	      Name		      "Probe"
+	      Ports		      [1, 1]
+	      Position		      [110, 141, 220, 189]
+	      ProbeSampleTime	      off
+	      ProbeComplexSignal      off
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "While Iterator\nSubsystem"
+	      Ports		      [2, 2]
+	      Position		      [415, 28, 605, 212]
+	      TreatAsAtomicUnit	      on
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"While Iterator\nSubsystem"
+		Location		[372, 592, 1313, 1197]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "triggers"
+		  Position		  [235, 98, 265, 112]
+		  Port			  "1"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "max_loop"
+		  Position		  [40, 273, 70, 287]
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		  DataType		  "int32"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant1"
+		  Position		  [420, 201, 470, 229]
+		  ShowName		  off
+		  Value			  "int8(0)"
+		}
+		Block {
+		  BlockType		  Logic
+		  Name			  "Logical\nOperator"
+		  Ports			  [2, 1]
+		  Position		  [450, 267, 480, 298]
+		  ShowName		  off
+		}
+		Block {
+		  BlockType		  RelationalOperator
+		  Name			  "Relational\nOperator"
+		  Position		  [335, 257, 365, 288]
+		  ShowName		  off
+		  Operator		  "<"
+		}
+		Block {
+		  BlockType		  RelationalOperator
+		  Name			  "Relational\nOperator1"
+		  Position		  [565, 152, 595, 183]
+		  ShowName		  off
+		  Operator		  "=="
+		}
+		Block {
+		  BlockType		  Selector
+		  Name			  "Selector"
+		  Ports			  [2, 1]
+		  Position		  [430, 141, 470, 179]
+		  ShowName		  off
+		  ElementSrc		  "External"
+		  Elements		  "[1 3]"
+		}
+		Block {
+		  BlockType		  WhileIterator
+		  Name			  "While Iterator"
+		  Ports			  [1, 1]
+		  Position		  [170, 148, 245, 192]
+		  ShowName		  off
+		  MaxIters		  "-1"
+		  WhileBlockType	  "do-while"
+		  ResetStates		  "reset"
+		  ShowIterationPort	  on
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "idx"
+		  Position		  [365, 213, 395, 227]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "match"
+		  Position		  [845, 193, 875, 207]
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "triggers"
+		  SrcPort		  1
+		  Points		  [35, 0; 0, 45]
+		  DstBlock		  "Selector"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "While Iterator"
+		  SrcPort		  1
+		  Points		  [40, 0]
+		  Branch {
+		    Points		    [0, 95]
+		    DstBlock		    "Relational\nOperator"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [45, 0]
+		    Branch {
+		    DstBlock		    "Selector"
+		    DstPort		    2
+		    }
+		    Branch {
+		    Points		    [0, 50]
+		    DstBlock		    "idx"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Line {
+		  SrcBlock		  "max_loop"
+		  SrcPort		  1
+		  DstBlock		  "Relational\nOperator"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Relational\nOperator"
+		  SrcPort		  1
+		  DstBlock		  "Logical\nOperator"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Selector"
+		  SrcPort		  1
+		  DstBlock		  "Relational\nOperator1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Constant1"
+		  SrcPort		  1
+		  Points		  [10, 0; 0, -40]
+		  DstBlock		  "Relational\nOperator1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Relational\nOperator1"
+		  SrcPort		  1
+		  Points		  [35, 0; 0, 30]
+		  Branch {
+		    DstBlock		    "match"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 110; -200, 0]
+		    DstBlock		    "Logical\nOperator"
+		    DstPort		    2
+		  }
+		}
+		Line {
+		  SrcBlock		  "Logical\nOperator"
+		  SrcPort		  1
+		  Points		  [270, 0; 0, -220; -635, 0; 0, 105]
+		  DstBlock		  "While Iterator"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "idx"
+	      Position		      [1200, 213, 1230, 227]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion"
+	      SrcPort		      1
+	      DstBlock		      "While Iterator\nSubsystem"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Merge"
+	      SrcPort		      1
+	      DstBlock		      "Data Type Conversion2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "If Action\nSubsystem1"
+	      SrcPort		      1
+	      Points		      [15, 0; 0, -35]
+	      DstBlock		      "Merge"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "If Action\nSubsystem"
+	      SrcPort		      1
+	      Points		      [15, 0; 0, 30]
+	      DstBlock		      "Merge"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "If"
+	      SrcPort		      2
+	      Points		      [75, 0; 0, 55]
+	      DstBlock		      "If Action\nSubsystem1"
+	      DstPort		      ifaction
+	    }
+	    Line {
+	      SrcBlock		      "If"
+	      SrcPort		      1
+	      Points		      [0, -10]
+	      DstBlock		      "If Action\nSubsystem"
+	      DstPort		      ifaction
+	    }
+	    Line {
+	      SrcBlock		      "Constant2"
+	      SrcPort		      1
+	      DstBlock		      "If Action\nSubsystem1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "While Iterator\nSubsystem"
+	      SrcPort		      2
+	      DstBlock		      "If"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "While Iterator\nSubsystem"
+	      SrcPort		      1
+	      Points		      [225, 0]
+	      DstBlock		      "If Action\nSubsystem"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Probe"
+	      SrcPort		      1
+	      DstBlock		      "Data Type Conversion"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "vector"
+	      SrcPort		      1
+	      Points		      [0, 0; 15, 0]
+	      Branch {
+		DstBlock		"While Iterator\nSubsystem"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 90]
+		DstBlock		"Probe"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Data Type Conversion2"
+	      SrcPort		      1
+	      DstBlock		      "idx"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Probe
+	  Name			  "Probe"
+	  Ports			  [1, 1]
+	  Position		  [90, 336, 200, 384]
+	  ProbeSampleTime	  off
+	  ProbeComplexSignal	  off
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Resetable Unit Delay"
+	  Ports			  [2, 2]
+	  Position		  [320, 43, 420, 92]
+	  Orientation		  "left"
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  MaskType		  "Resetable Unit Delay"
+	  MaskPromptString	  "Initial State|Sample Time"
+	  MaskStyleString	  "edit,edit"
+	  MaskTunableValueString  "off,off"
+	  MaskCallbackString	  "|"
+	  MaskEnableString	  "on,on"
+	  MaskVisibilityString	  "on,on"
+	  MaskToolTipString	  "on,on"
+	  MaskVarAliasString	  ","
+	  MaskVariables		  "reset=@1;t=@2;"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "uint32(0)|-1"
+	  MaskTabNameString	  ","
+	  System {
+	    Name		    "Resetable Unit Delay"
+	    Location		    [-35, 302, 1216, 946]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "reset"
+	      Position		      [940, 113, 970, 127]
+	      Orientation	      "left"
+	      Port		      "1"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "in"
+	      Position		      [620, 223, 650, 237]
+	      Orientation	      "left"
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant"
+	      Position		      [705, 175, 735, 205]
+	      Orientation	      "left"
+	      Value		      "reset"
+	    }
+	    Block {
+	      BlockType		      If
+	      Name		      "If"
+	      Ports		      [1, 2]
+	      Position		      [680, 100, 760, 140]
+	      Orientation	      "left"
+	      IfExpression	      "u1 == 1"
+	      ZeroCross		      off
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "If Action\nSubsystem1"
+	      Ports		      [1, 2, 0, 0, 0, 0, 0, 1]
+	      Position		      [435, 125, 515, 165]
+	      Orientation	      "left"
+	      ShowName		      off
+	      TreatAsAtomicUnit	      on
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"If Action\nSubsystem1"
+		Location		[413, 499, 1421, 1120]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [75, 78, 105, 92]
+		  Port			  "1"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  ActionPort
+		  Name			  "Action Port"
+		  Position		  [170, 15, 229, 43]
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Function-Call\nGenerator"
+		  Ports			  [0, 1]
+		  Position		  [210, 175, 255, 195]
+		  SourceBlock		  "simulink/Ports &\nSubsystems/Functi"
+"on-Call\nGenerator"
+		  SourceType		  "Function-Call Generator"
+		  sample_time		  "-1"
+		  numberOfIterations	  "1"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [325, 78, 355, 92]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "reset fcn"
+		  Position		  [320, 178, 350, 192]
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Function-Call\nGenerator"
+		  SrcPort		  1
+		  DstBlock		  "reset fcn"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "If Action\nSubsystem2"
+	      Ports		      [1, 1, 0, 0, 0, 0, 0, 1]
+	      Position		      [450, 210, 530, 250]
+	      Orientation	      "left"
+	      ShowName		      off
+	      TreatAsAtomicUnit	      on
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"If Action\nSubsystem2"
+		Location		[372, 592, 1313, 1197]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [75, 78, 105, 92]
+		  Port			  "1"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  ActionPort
+		  Name			  "Action Port"
+		  Position		  [170, 15, 229, 43]
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [325, 78, 355, 92]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Merge
+	      Name		      "Merge"
+	      Ports		      [2, 1]
+	      Position		      [310, 155, 350, 195]
+	      Orientation	      "left"
+	    }
+	    Block {
+	      BlockType		      UnitDelay
+	      Name		      "Unit Delay2"
+	      Position		      [175, 155, 210, 195]
+	      Orientation	      "left"
+	      X0		      "reset"
+	      SampleTime	      "t"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "out"
+	      Position		      [40, 168, 70, 182]
+	      Orientation	      "left"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "resert fcn"
+	      Position		      [40, 233, 70, 247]
+	      Orientation	      "left"
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "in"
+	      SrcPort		      1
+	      DstBlock		      "If Action\nSubsystem2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Merge"
+	      SrcPort		      1
+	      DstBlock		      "Unit Delay2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "reset"
+	      SrcPort		      1
+	      DstBlock		      "If"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "If Action\nSubsystem1"
+	      SrcPort		      1
+	      Points		      [-30, 0; 0, 30]
+	      DstBlock		      "Merge"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "If Action\nSubsystem2"
+	      SrcPort		      1
+	      Points		      [-40, 0; 0, -45]
+	      DstBlock		      "Merge"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Constant"
+	      SrcPort		      1
+	      Points		      [-65, 0; 0, -45]
+	      DstBlock		      "If Action\nSubsystem1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "If"
+	      SrcPort		      2
+	      Points		      [-50, 0; 0, 65]
+	      DstBlock		      "If Action\nSubsystem2"
+	      DstPort		      ifaction
+	    }
+	    Line {
+	      SrcBlock		      "If"
+	      SrcPort		      1
+	      DstBlock		      "If Action\nSubsystem1"
+	      DstPort		      ifaction
+	    }
+	    Line {
+	      SrcBlock		      "Unit Delay2"
+	      SrcPort		      1
+	      DstBlock		      "out"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "If Action\nSubsystem1"
+	      SrcPort		      2
+	      Points		      [0, 50; -60, 0; 0, 35]
+	      DstBlock		      "resert fcn"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum"
+	  Ports			  [2, 1]
+	  Position		  [250, 170, 270, 190]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "|+-"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum1"
+	  Ports			  [2, 1]
+	  Position		  [515, 305, 535, 325]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "|+-"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum2"
+	  Ports			  [2, 1]
+	  Position		  [765, 15, 785, 35]
+	  Orientation		  "left"
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "|++"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out2"
+	  Position		  [295, 113, 325, 127]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "Sum2"
+	  SrcPort		  1
+	  Points		  [-160, 0; 0, 30]
+	  DstBlock		  "Resetable Unit Delay"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Bitwise\nOperator3"
+	  SrcPort		  1
+	  Points		  [0, -40; -110, 0]
+	  DstBlock		  "Sum2"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Manual Reset"
+	  SrcPort		  1
+	  DstBlock		  "Sum2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Constant2"
+	  SrcPort		  1
+	  Points		  [35, 0]
+	  DstBlock		  "Sum1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Sum1"
+	  SrcPort		  1
+	  DstBlock		  "Bitwise\nOperator1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Bitwise\nOperator4"
+	  SrcPort		  1
+	  DstBlock		  "Sum1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Constant"
+	  SrcPort		  1
+	  DstBlock		  "Bitwise\nOperator4"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Bitwise\nOperator2"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  DstBlock		  "Bitwise\nOperator3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Bitwise\nOperator1"
+	  SrcPort		  1
+	  Points		  [20, 0; 0, -50]
+	  DstBlock		  "Bitwise\nOperator2"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Resetable Unit Delay"
+	  SrcPort		  1
+	  Points		  [-60, 0; 0, 100]
+	  DstBlock		  "Bitwise\nOperator"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Bitwise\nOperator"
+	  SrcPort		  1
+	  Points		  [75, 0]
+	  Branch {
+	    Points		    [0, 70]
+	    DstBlock		    "Bitwise\nOperator2"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -90]
+	    DstBlock		    "Resetable Unit Delay"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  SrcBlock		  "function"
+	  SrcPort		  1
+	  Points		  [15, 0]
+	  Branch {
+	    Points		    [0, 180]
+	    DstBlock		    "Probe"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Find first non zero."
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Find first non zero."
+	  SrcPort		  1
+	  DstBlock		  "Sum"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sum"
+	  SrcPort		  1
+	  DstBlock		  "Bitwise\nOperator"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Constant1"
+	  SrcPort		  1
+	  Points		  [35, 0]
+	  DstBlock		  "Sum"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Resetable Unit Delay"
+	  SrcPort		  2
+	  Points		  [-45, 0; 0, 40]
+	  DstBlock		  "Out2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  DstBlock		  "Bitwise\nOperator4"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Probe"
+	  SrcPort		  1
+	  DstBlock		  "Data Type Conversion"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "ISR to Function-Call"
+      Ports		      [1, 1]
+      Position		      [515, 187, 605, 213]
+      AttributesFormatString  "sample time = %<t>"
+      FontName		      "Arial"
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskDescription	      "Converts an interrupt service routine call to a"
+" \"if action\" call at a specified sample rate."
+      MaskPromptString	      "Sample Period"
+      MaskStyleString	      "edit"
+      MaskTunableValueString  "off"
+      MaskEnableString	      "on"
+      MaskVisibilityString    "on"
+      MaskToolTipString	      "on"
+      MaskVariables	      "t=@1;"
+      MaskDisplay	      "plot([0.2 0.4 0.5 0.6 0.7 0.75 ],[0.5 0.5 0.7 0"
+".3 0.5 0.5])\nplot([0.2 0.4 0.5 0.6 0.7 0.75 ],1-[0.5 0.5 0.7 0.3 0.5 0.5])\n"
+"plot([0.2 0.4 0.5 0.6 0.7 0.75 ],1- [0.5 0.5 0.7 0.3 0.5 0.5]+0.1)\nport_labe"
+"l('input',1,'isr')\nport_label('output',1,'if { }')"
+      MaskIconFrame	      off
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "1"
+      System {
+	Name			"ISR to Function-Call"
+	Location		[332, 617, 1471, 1221]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "isr"
+	  Position		  [65, 25, 95, 35]
+	  Orientation		  "down"
+	  Port			  "1"
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Asynchronous Rate Transition"
+	  Ports			  [1, 1]
+	  Position		  [190, 74, 270, 116]
+	  BackgroundColor	  "yellow"
+	  SourceBlock		  "mpc555extras/Asynchronous Rate Transition"
+	  SourceType		  "Asynchronous Rate Transition"
+	  sample_time		  "-1"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Function-Call\nSubsystem1"
+	  Ports			  [0, 1, 0, 1]
+	  Position		  [25, 62, 135, 128]
+	  ShowName		  off
+	  FontName		  "Arial"
+	  FontSize		  14
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "Function-Call\nSubsystem1"
+	    Location		    [357, 199, 1496, 803]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      TriggerPort
+	      Name		      "can callback"
+	      Ports		      []
+	      Position		      [210, 15, 230, 35]
+	      TriggerType	      "function-call"
+	      StatesWhenEnabling      "reset"
+	      ZeroCross		      off
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant1"
+	      Position		      [175, 100, 205, 130]
+	    }
+	    Block {
+	      BlockType		      Memory
+	      Name		      "Memory"
+	      Position		      [325, 100, 355, 130]
+	      NamePlacement	      "alternate"
+	      X0		      "1"
+	      InheritSampleTime	      on
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum"
+	      Ports		      [2, 1]
+	      Position		      [265, 105, 285, 125]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "|++"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [515, 108, 545, 122]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	      InitialOutput	      "0"
+	    }
+	    Line {
+	      SrcBlock		      "Constant1"
+	      SrcPort		      1
+	      DstBlock		      "Sum"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Sum"
+	      SrcPort		      1
+	      Points		      [10, 0]
+	      Branch {
+		DstBlock		"Memory"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, -40; 135, 0; 0, 40]
+		DstBlock		"Out1"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Memory"
+	      SrcPort		      1
+	      Points		      [20, 0; 0, 50; -80, 0]
+	      DstBlock		      "Sum"
+	      DstPort		      2
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  If
+	  Name			  "If"
+	  Ports			  [2, 1]
+	  Position		  [480, 85, 560, 125]
+	  NumInputs		  "2"
+	  IfExpression		  "u1 ~= u2"
+	  ShowElse		  off
+	  ZeroCross		  off
+	}
+	Block {
+	  BlockType		  UnitDelay
+	  Name			  "Unit Delay"
+	  Position		  [380, 75, 415, 115]
+	  SampleTime		  "t"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  Position		  [640, 98, 670, 112]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "Function-Call\nSubsystem1"
+	  SrcPort		  1
+	  DstBlock		  "Asynchronous Rate Transition"
+	  DstPort		  1
+	}
+	Line {
+	  Labels		  [1, 0]
+	  SrcBlock		  "Asynchronous Rate Transition"
+	  SrcPort		  1
+	  Points		  [50, 0]
+	  Branch {
+	    Points		    [0, 35; 140, 0]
+	    DstBlock		    "If"
+	    DstPort		    2
+	  }
+	  Branch {
+	    DstBlock		    "Unit Delay"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "isr"
+	  SrcPort		  1
+	  DstBlock		  "Function-Call\nSubsystem1"
+	  DstPort		  trigger
+	}
+	Line {
+	  SrcBlock		  "If"
+	  SrcPort		  1
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Unit Delay"
+	  SrcPort		  1
+	  DstBlock		  "If"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "ISR to Function-Call\nWith Counter"
+      Ports		      [1, 2]
+      Position		      [655, 180, 760, 215]
+      AttributesFormatString  "sample time = %<t>"
+      FontName		      "Arial"
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskDescription	      "Converts an interrupt service routine call to a"
+" \"if action\" call at a specified sample rate. It also has an output that pr"
+"ovides the number of times the interrupt has executed since it was last polle"
+"d."
+      MaskPromptString	      "Sample Period"
+      MaskStyleString	      "edit"
+      MaskTunableValueString  "off"
+      MaskEnableString	      "on"
+      MaskVisibilityString    "on"
+      MaskToolTipString	      "on"
+      MaskVariables	      "t=@1;"
+      MaskDisplay	      "plot([0.2 0.4 0.5 0.6 0.7 0.75 ],[0.5 0.5 0.7 0"
+".3 0.5 0.5])\nplot([0.2 0.4 0.5 0.6 0.7 0.75 ],1-[0.5 0.5 0.7 0.3 0.5 0.5])\n"
+"plot([0.2 0.4 0.5 0.6 0.7 0.75 ],1- [0.5 0.5 0.7 0.3 0.5 0.5]+0.1)\nport_labe"
+"l('input',1,'isr')\nport_label('output',1,'if { }')\nport_label('output',2,'c"
+"ount')"
+      MaskIconFrame	      off
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "1"
+      System {
+	Name			"ISR to Function-Call\nWith Counter"
+	Location		[2, 76, 1590, 1173]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "isr"
+	  Position		  [355, 75, 385, 85]
+	  Orientation		  "down"
+	  Port			  "1"
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Asynchronous Rate Transition"
+	  Ports			  [1, 1]
+	  Position		  [495, 154, 565, 196]
+	  BackgroundColor	  "yellow"
+	  SourceBlock		  "mpc555extras/Asynchronous Rate Transition"
+	  SourceType		  "Asynchronous Rate Transition"
+	  sample_time		  "t"
+	}
+	Block {
+	  BlockType		  DataStoreMemory
+	  Name			  "Data Store\nMemory"
+	  Position		  [325, 275, 357, 305]
+	  DialogController	  "Simulink.DDGSource"
+	  DataStoreName		  "A"
+	  InitialValue		  "1"
+	  RTWStateStorageClass	  "Auto"
+	  VectorParams1D	  on
+	  ShowAdditionalParam	  off
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Double Buffer"
+	  Ports			  [0, 1]
+	  Position		  [515, 57, 610, 83]
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "Double Buffer"
+	    Location		    [698, 873, 1196, 1173]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Custom Code"
+	      Ports		      []
+	      Position		      [135, 146, 355, 285]
+	      ShowName		      off
+	      List {
+		ListType		RTWdata
+		TLCFile			"extended_custcode"
+		Location		"Subsystem Outputs Function"
+		Top			"EID();\n"
+		Bottom			"EIE();\n"
+		ReferenceMask		""
+	      }
+	      FontName		      "Times New Roman"
+	      FontSize		      12
+	      FontWeight	      "bold"
+	      SourceBlock	      "mpc555extras/Custom Code"
+	      SourceType	      "Subsystem Custom Coder"
+	      unique		      "Generate for every instance"
+	      key		      "''"
+	      location		      "Subsystem Outputs Function"
+	      top		      "'EID();'"
+	      middle		      "''"
+	      bottom		      "'EIE();'"
+	    }
+	    Block {
+	      BlockType		      DataStoreRead
+	      Name		      "Data Store\nRead"
+	      Position		      [70, 95, 100, 125]
+	      DialogController	      "Simulink.DDGSource"
+	      DataStoreName	      "A"
+	      SampleTime	      "t"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [360, 103, 390, 117]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "Data Store\nRead"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Function-Call\nSubsystem1"
+	  Ports			  [0, 1, 0, 1]
+	  Position		  [315, 141, 425, 209]
+	  ShowName		  off
+	  FontName		  "Arial"
+	  FontSize		  14
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "Function-Call\nSubsystem1"
+	    Location		    [703, 466, 1842, 1070]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      TriggerPort
+	      Name		      "can callback"
+	      Ports		      []
+	      Position		      [210, 15, 230, 35]
+	      TriggerType	      "function-call"
+	      StatesWhenEnabling      "reset"
+	      ZeroCross		      off
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant1"
+	      Position		      [175, 100, 205, 130]
+	      ShowName		      off
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant3"
+	      Position		      [110, 435, 140, 465]
+	      NamePlacement	      "alternate"
+	      ShowName		      off
+	      Value		      "0"
+	    }
+	    Block {
+	      BlockType		      DataStoreRead
+	      Name		      "Data Store\nRead"
+	      Position		      [110, 255, 140, 285]
+	      DialogController	      "Simulink.DDGSource"
+	      DataStoreName	      "A"
+	      SampleTime	      "-1"
+	    }
+	    Block {
+	      BlockType		      If
+	      Name		      "If"
+	      Ports		      [1, 2]
+	      Position		      [240, 250, 320, 290]
+	      IfExpression	      "u1 == 1"
+	      ZeroCross		      off
+	    }
+	    Block {
+	      BlockType		      Memory
+	      Name		      "Memory"
+	      Position		      [325, 100, 355, 130]
+	      NamePlacement	      "alternate"
+	      ShowName		      off
+	      X0		      "1"
+	      InheritSampleTime	      on
+	    }
+	    Block {
+	      BlockType		      Merge
+	      Name		      "Merge"
+	      Ports		      [2, 1]
+	      Position		      [625, 375, 665, 415]
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Reset Count"
+	      Ports		      [1, 1, 0, 0, 0, 0, 0, 1]
+	      Position		      [205, 430, 285, 470]
+	      TreatAsAtomicUnit	      on
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"Reset Count"
+		Location		[342, 471, 840, 771]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [75, 78, 105, 92]
+		  Port			  "1"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  ActionPort
+		  Name			  "Action Port"
+		  Position		  [170, 15, 229, 43]
+		}
+		Block {
+		  BlockType		  DataStoreWrite
+		  Name			  "Data Store\nWrite"
+		  Position		  [320, 170, 350, 200]
+		  DialogController	  "Simulink.DDGSource"
+		  DataStoreName		  "A"
+		  SampleTime		  "-1"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "RTW memory get"
+		  Ports			  [0, 1]
+		  Position		  [130, 168, 230, 202]
+		  SourceBlock		  "driver_interface_library/Input Driv"
+"er"
+		  SourceType		  "RTW Memory Get"
+		  t			  "-1"
+		  expr			  "0"
+		  portWidth		  "6"
+		  pOpt			  "[2 3 6 8 3 9]"
+		  expression_type	  "Not expression"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [325, 78, 355, 92]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "RTW memory get"
+		  SrcPort		  1
+		  DstBlock		  "Data Store\nWrite"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Sum
+	      Name		      "Sum"
+	      Ports		      [2, 1]
+	      Position		      [265, 105, 285, 125]
+	      ShowName		      off
+	      IconShape		      "round"
+	      Inputs		      "|++"
+	      SaturateOnIntegerOverflow	off
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Sum Count"
+	      Ports		      [1, 1, 0, 0, 0, 0, 0, 1]
+	      Position		      [465, 365, 545, 405]
+	      TreatAsAtomicUnit	      on
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"Sum Count"
+		Location		[695, 258, 1193, 558]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [75, 78, 105, 92]
+		  Port			  "1"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  ActionPort
+		  Name			  "Action Port"
+		  Position		  [170, 15, 229, 43]
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [325, 78, 355, 92]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [515, 68, 545, 82]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	      InitialOutput	      "0"
+	    }
+	    Line {
+	      SrcBlock		      "If"
+	      SrcPort		      1
+	      Points		      [25, 0; 0, 155]
+	      DstBlock		      "Reset Count"
+	      DstPort		      ifaction
+	    }
+	    Line {
+	      SrcBlock		      "If"
+	      SrcPort		      2
+	      Points		      [180, 0]
+	      DstBlock		      "Sum Count"
+	      DstPort		      ifaction
+	    }
+	    Line {
+	      SrcBlock		      "Data Store\nRead"
+	      SrcPort		      1
+	      DstBlock		      "If"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Merge"
+	      SrcPort		      1
+	      Points		      [45, 0; 0, -220; -440, 0]
+	      DstBlock		      "Sum"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Sum Count"
+	      SrcPort		      1
+	      DstBlock		      "Merge"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Reset Count"
+	      SrcPort		      1
+	      Points		      [320, 0]
+	      DstBlock		      "Merge"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Memory"
+	      SrcPort		      1
+	      Points		      [70, 0; 0, 270]
+	      DstBlock		      "Sum Count"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Constant3"
+	      SrcPort		      1
+	      DstBlock		      "Reset Count"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Sum"
+	      SrcPort		      1
+	      Points		      [10, 0]
+	      Branch {
+		Points			[0, -40]
+		DstBlock		"Out1"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"Memory"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Constant1"
+	      SrcPort		      1
+	      DstBlock		      "Sum"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  If
+	  Name			  "If"
+	  Ports			  [1, 1]
+	  Position		  [645, 49, 720, 91]
+	  IfExpression		  "u1==0"
+	  ShowElse		  off
+	  ZeroCross		  off
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Write Flag"
+	  Ports			  []
+	  Position		  [455, 275, 566, 332]
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "Write Flag"
+	    Location		    [736, 462, 1299, 654]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Custom Code"
+	      Ports		      []
+	      Position		      [185, 26, 405, 165]
+	      ShowName		      off
+	      List {
+		ListType		RTWdata
+		TLCFile			"extended_custcode"
+		Location		"Subsystem Outputs Function"
+		Top			"EID();\n"
+		Bottom			"EIE();\n"
+		ReferenceMask		""
+	      }
+	      FontName		      "Times New Roman"
+	      FontSize		      12
+	      FontWeight	      "bold"
+	      SourceBlock	      "mpc555extras/Custom Code"
+	      SourceType	      "Subsystem Custom Coder"
+	      unique		      "Generate for every instance"
+	      key		      "''"
+	      location		      "Subsystem Outputs Function"
+	      top		      "'EID();'"
+	      middle		      "''"
+	      bottom		      "'EIE();'"
+	    }
+	    Block {
+	      BlockType		      DataStoreWrite
+	      Name		      "Data Store\nWrite"
+	      Position		      [140, 30, 170, 60]
+	      DialogController	      "Simulink.DDGSource"
+	      DataStoreName	      "A"
+	      SampleTime	      "-1"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "RTW memory get"
+	      Ports		      [0, 1]
+	      Position		      [15, 33, 100, 57]
+	      SourceBlock	      "driver_interface_library/Input Driver"
+	      SourceType	      "RTW Memory Get"
+	      t			      "t"
+	      expr		      "1"
+	      portWidth		      "6"
+	      pOpt		      "[2 3 6 8 3 9]"
+	      expression_type	      "Not expression"
+	    }
+	    Line {
+	      SrcBlock		      "RTW memory get"
+	      SrcPort		      1
+	      DstBlock		      "Data Store\nWrite"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  Position		  [805, 63, 835, 77]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Count"
+	  Position		  [665, 168, 695, 182]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "Double Buffer"
+	  SrcPort		  1
+	  DstBlock		  "If"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Asynchronous Rate Transition"
+	  SrcPort		  1
+	  DstBlock		  "Count"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "If"
+	  SrcPort		  1
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "isr"
+	  SrcPort		  1
+	  DstBlock		  "Function-Call\nSubsystem1"
+	  DstPort		  trigger
+	}
+	Line {
+	  SrcBlock		  "Function-Call\nSubsystem1"
+	  SrcPort		  1
+	  DstBlock		  "Asynchronous Rate Transition"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Interrupt Service Routine"
+      Ports		      [0, 1]
+      Position		      [355, 181, 465, 229]
+      FontName		      "Arial"
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskDescription	      "Choose the interrupt source for your ISR genera"
+"tor. For faster interrupts you can choose not to support floating point. Howe"
+"ver if you choose not to support floating point in the system and you place b"
+"locks in the system that do you floating point operation then the program wil"
+"l throw a floating point exception at run-time."
+      MaskPromptString	      "ISR Source|Uses Floating Point?"
+      MaskStyleString	      "popup(EXT_IRQ0|INT_LEVEL0|EXT_IRQ1|INT_LEVEL1|E"
+"XT_IRQ2|INT_LEVEL2|EXT_IRQ3|INT_LEVEL3|EXT_IRQ4|INT_LEVEL4|EXT_IRQ5|INT_LEVEL"
+"5|EXT_IRQ6|INT_LEVEL6|EXT_IRQ7|INT_LEVEL7|INT_LEVEL8|INT_LEVEL9|INT_LEVEL10|I"
+"NT_LEVEL11|INT_LEVEL12|INT_LEVEL13|INT_LEVEL14|INT_LEVEL15|INT_LEVEL16|INT_LE"
+"VEL17|INT_LEVEL18|INT_LEVEL19|INT_LEVEL20|INT_LEVEL21|INT_LEVEL22|INT_LEVEL23"
+"|INT_LEVEL24|INT_LEVEL25|INT_LEVEL26|INT_LEVEL27|INT_LEVEL28|INT_LEVEL29|INT_"
+"LEVEL30|INT_LEVEL31),popup(Yes|No)"
+      MaskTunableValueString  "off,off"
+      MaskCallbackString      "|"
+      MaskEnableString	      "on,on"
+      MaskVisibilityString    "on,on"
+      MaskToolTipString	      "on,on"
+      MaskVarAliasString      ","
+      MaskVariables	      "callback=@1;float_flag=@2;"
+      MaskInitialization      "[f_proto,dispstr,reg_callback ]  = mask_isr_cal"
+"lback(gcbh,callback,float_flag);\n\n"
+      MaskDisplay	      "disp(dispstr)"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "EXT_IRQ0|Yes"
+      MaskTabNameString	      ","
+      System {
+	Name			"Interrupt Service Routine"
+	Location		[167, 81, 963, 383]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Reference
+	  Name			  "Custom Code"
+	  Ports			  []
+	  Position		  [30, 91, 751, 253]
+	  ShowName		  off
+	  List {
+	    ListType		    RTWdata
+	    TLCFile		    "extended_custcode"
+	    Location		    "Model Start Function"
+	    Top			    "registerIRQ_Handler( EXT_IRQ0, isr_callba"
+"ck_EXT_IRQ0,  NULL , FLOAT_USED_IN_ISR );\n"
+	    ReferenceMask	    ""
+	  }
+	  FontName		  "Times New Roman"
+	  FontSize		  12
+	  FontWeight		  "bold"
+	  SourceBlock		  "mpc555extras/Custom Code"
+	  SourceType		  "Subsystem Custom Coder"
+	  unique		  "Generate for every instance"
+	  key			  "''"
+	  location		  "Model Start Function"
+	  top			  "reg_callback"
+	  middle		  "''"
+	  bottom		  "''"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Function Definition"
+	  Ports			  [0, 1]
+	  Position		  [180, 36, 540, 64]
+	  FontName		  "Arial"
+	  SourceBlock		  "driver_interface_library/Function Definitio"
+"n"
+	  SourceType		  "Function Definition"
+	  function_name		  "f_proto"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Header File"
+	  Tag			  "line1\nline2"
+	  Ports			  []
+	  Position		  [30, 26, 114, 71]
+	  BackgroundColor	  "cyan"
+	  ShowName		  off
+	  List {
+	    ListType		    RTWdata
+	    TLCFile		    "custcode"
+	    Location		    "Header File"
+	    Top			    "#include \"can_callback.h\"\n"
+	  }
+	  CopyFcn		  "cccopyfcn(gcb)"
+	  OpenFcn		  "ccopenfcn('Header File')"
+	  FontName		  "Times New Roman"
+	  FontSize		  12
+	  FontWeight		  "bold"
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  MaskType		  "Header File"
+	  MaskDescription	  "Add code to model .h file"
+	  MaskHelp		  "This header file block contains text fields"
+" to insert custom user code at the top and bottom of model.h file."
+	  MaskDisplay		  "disp('Header\\nFile');\n"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  System {
+	    Name		    "Header File"
+	    Location		    [355, 132, 483, 256]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "ISR"
+	  Position		  [640, 43, 670, 57]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "Function Definition"
+	  SrcPort		  1
+	  DstBlock		  "ISR"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Manual Trigger"
+      Ports		      [0, 1]
+      Position		      [505, 258, 540, 292]
+      OpenFcn		      "oldValue = str2num(get_param(gcb, 'value')); if"
+" (oldValue==1), set_param(gcb, 'value', '-1'); else, set_param(gcb, 'value', "
+"'1'); end"
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskType		      "Manual Trigger"
+      MaskPromptString	      "Output value:"
+      MaskStyleString	      "edit"
+      MaskTunableValueString  "off"
+      MaskEnableString	      "on"
+      MaskVisibilityString    "on"
+      MaskToolTipString	      "on"
+      MaskVariables	      "value=@1;"
+      MaskInitialization      "if (value==1)\n  dispStr = 'HIGH';\nelse % (val"
+"ue == -1)\n  dispStr = 'LOW';\nend"
+      MaskDisplay	      "disp(dispStr)"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "-1"
+      System {
+	Name			"Manual Trigger"
+	Location		[720, 226, 934, 398]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Constant
+	  Name			  "Output value"
+	  Position		  [50, 66, 95, 94]
+	  FontName		  "Arial"
+	  Value			  "value"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out"
+	  Position		  [125, 73, 155, 87]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "Output value"
+	  SrcPort		  1
+	  DstBlock		  "Out"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Mode Mask"
+      Ports		      [2, 1]
+      Position		      [505, 329, 600, 376]
+      FontName		      "Arial"
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskType		      "Mode based mask"
+      MaskDescription	      "Enables selective switching of input elements b"
+"ased on a single scalar mode value."
+      MaskHelp		      "<ul>\n<li>Specify the input width exactly.\n<li"
+">The mode elements are the elements of the input\nvector that can be switched"
+". Specify their indicies\n<li> The mode inputs are the mode values for each i"
+"nput\nthat when the mode input equals the value the input element\nwill be sw"
+"itched\n<li> The mode outputs are the alternative values for each element tha"
+"t is switched in if it's mode value is equal.\n</ul>"
+      MaskPromptString	      "Input Width|Mode Elements|Mode Inputs|Mode Outp"
+"uts"
+      MaskStyleString	      "edit,edit,edit,edit"
+      MaskTunableValueString  "off,off,off,off"
+      MaskCallbackString      "|||"
+      MaskEnableString	      "on,on,on,on"
+      MaskVisibilityString    "on,on,on,on"
+      MaskToolTipString	      "on,on,on,on"
+      MaskVarAliasString      ",,,"
+      MaskVariables	      "width=@1;elements=@2;mode_inputs=@3;mode_output"
+"s=@4;"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "5|[2 3]|[1 2]|[0 0]"
+      MaskTabNameString	      ",,,"
+      System {
+	Name			"Mode Mask"
+	Location		[672, 436, 1556, 1132]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "U"
+	  Position		  [25, 33, 55, 47]
+	  Port			  "1"
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Mode"
+	  Position		  [25, 133, 55, 147]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Assign1"
+	  Ports			  [2, 1]
+	  Position		  [435, 31, 540, 89]
+	  SourceBlock		  "mpc555extras/Assign"
+	  SourceType		  "Assignment Block"
+	  width			  "width"
+	  elements		  "elements"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant1"
+	  Position		  [105, 319, 185, 341]
+	  Value			  "mode_outputs"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant2"
+	  Position		  [100, 234, 180, 256]
+	  Value			  "mode_inputs"
+	}
+	Block {
+	  BlockType		  RelationalOperator
+	  Name			  "Relational\nOperator"
+	  Position		  [220, 132, 250, 163]
+	  Operator		  "=="
+	}
+	Block {
+	  BlockType		  Selector
+	  Name			  "Selector1"
+	  Ports			  [1, 1]
+	  Position		  [125, 71, 165, 109]
+	  Elements		  "elements"
+	  InputPortWidth	  "width"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Signal Specification"
+	  Ports			  [1, 1]
+	  Position		  [90, 128, 165, 152]
+	  SourceBlock		  "simulink/Signal\nAttributes/Signal Specific"
+"ation"
+	  SourceType		  "Signal Specification"
+	  D			  "1"
+	  Ts			  "-1"
+	  DataType		  "auto"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  SignalType		  "auto"
+	  SamplingMode		  "auto"
+	}
+	Block {
+	  BlockType		  Switch
+	  Name			  "Switch"
+	  Position		  [300, 117, 335, 183]
+	  Threshold		  "ones(1,length(mode_inputs))"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Y"
+	  Position		  [620, 53, 650, 67]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "Constant2"
+	  SrcPort		  1
+	  Points		  [10, 0; 0, -90]
+	  DstBlock		  "Relational\nOperator"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Relational\nOperator"
+	  SrcPort		  1
+	  DstBlock		  "Switch"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "U"
+	  SrcPort		  1
+	  Points		  [0, 0; 15, 0]
+	  Branch {
+	    Points		    [345, 0]
+	    DstBlock		    "Assign1"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 50]
+	    DstBlock		    "Selector1"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Constant1"
+	  SrcPort		  1
+	  Points		  [95, 0]
+	  DstBlock		  "Switch"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Selector1"
+	  SrcPort		  1
+	  Points		  [115, 0]
+	  DstBlock		  "Switch"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Switch"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, -75]
+	  DstBlock		  "Assign1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Assign1"
+	  SrcPort		  1
+	  DstBlock		  "Y"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Mode"
+	  SrcPort		  1
+	  DstBlock		  "Signal Specification"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Signal Specification"
+	  SrcPort		  1
+	  DstBlock		  "Relational\nOperator"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      "S-Function"
+      Name		      "RTW MdlStart"
+      Ports		      [0, 1]
+      Position		      [355, 545, 480, 575]
+      FunctionName	      "sfun_mdlstart_fcn"
+      MaskType		      "RTW MdlStart Function"
+      MaskDescription	      "Forces downstream triggered blocks to run at md"
+"lStart.\n\nBe carefull with this block. You should not put in the triggered s"
+"ubsystem any blocks \nwhich have state. This block is primarily to be used to"
+" perform device driver initialization.\n\nThe blocks in the downstream trigge"
+"red subsystem will not run during simulation\nor Simulink Accelerator."
+      MaskDisplay	      "disp('RTW MdlStart Function')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "RTW memory get"
+      Ports		      [0, 1]
+      Position		      [15, 530, 125, 580]
+      List {
+	ListType		RTWdata
+	expr			"MIOS1[%<i>][%<p>]"
+	src			""
+	header			""
+      }
+      Diagnostics	      "AllowInheritedTsInSrc"
+      FontName		      "Arial"
+      SourceBlock	      "driver_interface_library/Input Driver"
+      SourceType	      "RTW Memory Get"
+      t			      "1"
+      expr		      "'MIOS1[%<i>][%<p>]'"
+      portWidth		      "6"
+      pOpt		      "[2 3 6 8 3 9]"
+      expression_type	      "Not expression"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "RTW memory set"
+      Ports		      [1]
+      Position		      [150, 530, 260, 580]
+      List {
+	ListType		RTWdata
+	expr			"*Y_ADDR"
+	operationType		"LHS"
+	InputIsContiguous	"0"
+	src			""
+	header			""
+      }
+      FontName		      "Arial"
+      SourceBlock	      "driver_interface_library/Output Driver"
+      SourceType	      ""
+      operation_type	      "LHS Assignment"
+      input_is_contiguous     off
+      t			      "-1"
+      expr		      "'*Y_ADDR'"
+      port_width	      "1"
+      pOpt		      "[]"
+    }
+    Block {
+      BlockType		      "S-Function"
+      Name		      "Register IRQ Level"
+      Ports		      []
+      Position		      [15, 461, 125, 499]
+      FontName		      "Arial"
+      FunctionName	      "sfun_register_irq_level"
+      Parameters	      "irqLevel"
+      MaskPromptString	      "IRQ Level"
+      MaskStyleString	      "edit"
+      MaskTunableValueString  "off"
+      MaskEnableString	      "on"
+      MaskVisibilityString    "on"
+      MaskToolTipString	      "on"
+      MaskVariables	      "irqLevel=@1;"
+      MaskDisplay	      "disp('Register IRQ level')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "INT_LEVEL6"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Simulation Signal"
+      Ports		      [1, 1]
+      Position		      [355, 479, 515, 511]
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskType		      "Simulation-only signal"
+      MaskDescription	      "Only produce an identifier for this signal when"
+" generating code for use in simulation (e.g., Accelerator, Processor-in-the-l"
+"oop and S-Function targets). "
+      MaskPromptString	      "Base name for signal identifier:"
+      MaskStyleString	      "edit"
+      MaskTunableValueString  "off"
+      MaskEnableString	      "on"
+      MaskVisibilityString    "on"
+      MaskToolTipString	      "on"
+      MaskVariables	      "baseName=&1;"
+      MaskInitialization      "InportBlock = [gcb, '/In1'];\nhPorts = get_para"
+"m(InportBlock, 'PortHandles');\nhPort = hPorts.Outport;\nsignalName = getuniq"
+"uesignalname(hPort, baseName);\neval([signalName, '=SimOnly.Signal;']);\nset_"
+"param(hPort, 'Name', signalName);\n"
+      MaskDisplay	      "disp(['SimOnlySignal: ', signalName])"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "SimSignal"
+      System {
+	Name			"Simulation Signal"
+	Location		[687, 322, 1187, 623]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [25, 33, 55, 47]
+	  Port			  "1"
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	  Port {
+	    PortNumber		    1
+	    Name		    "SimSignal1"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  Position		  [135, 33, 165, 47]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  Name			  "SimSignal1"
+	  Labels		  [0, 0]
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Subsystem Outputs Function"
+      Ports		      []
+      Position		      [355, 97, 489, 157]
+      List {
+	ListType		RTWdata
+	TLCFile			"custcode"
+	Location		"Subsystem Outputs Function"
+	Top			"EID();\n"
+	Bottom			"EIE();\n"
+      }
+      OpenFcn		      "ccopenfcn('Subsystem Outputs Function')"
+      FontName		      "Arial"
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskType		      "Subsystem Outputs Function"
+      MaskDescription	      "Place this block in an atomic subsystem to ensu"
+"re that the subsystem is protected from interrupts during the model outputs f"
+"unction. This block should not be used recursively."
+      MaskDisplay	      "disp('Disable Interrupts \\nIn Outputs Function"
+" Of\\nAtomic Subsytem');"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"Subsystem Outputs Function"
+	Location		[662, 399, 817, 537]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Trigger to\nFunction-Call"
+      Ports		      [1, 1]
+      Position		      [570, 263, 645, 287]
+      FontName		      "Arial"
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskType		      "Trigger to function call conversion"
+      MaskDescription	      "Converts a Simulink trigger signal to a functio"
+"n call trigger signal."
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"Trigger to\nFunction-Call"
+	Location		[577, 148, 1130, 511]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "trigger"
+	  Position		  [40, 15, 70, 25]
+	  Orientation		  "down"
+	  Port			  "1"
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "trigger2fcn"
+	  Ports			  [0, 1, 0, 1]
+	  Position		  [25, 63, 90, 87]
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "trigger2fcn"
+	    Location		    [577, 148, 1130, 511]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      TriggerPort
+	      Name		      "Trigger"
+	      Ports		      []
+	      Position		      [225, 20, 245, 40]
+	      TriggerType	      "either"
+	      StatesWhenEnabling      "reset"
+	      ZeroCross		      off
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Function-Call\nGenerator"
+	      Ports		      [0, 1]
+	      Position		      [220, 85, 265, 105]
+	      SourceBlock	      "simulink/Ports &\nSubsystems/Function-C"
+"all\nGenerator"
+	      SourceType	      "Function-Call Generator"
+	      sample_time	      "-1"
+	      numberOfIterations      "1"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "fcn()"
+	      Position		      [310, 88, 340, 102]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "Function-Call\nGenerator"
+	      SrcPort		      1
+	      DstBlock		      "fcn()"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "fcn()"
+	  Position		  [145, 68, 175, 82]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "trigger2fcn"
+	  SrcPort		  1
+	  DstBlock		  "fcn()"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "trigger"
+	  SrcPort		  1
+	  DstBlock		  "trigger2fcn"
+	  DstPort		  trigger
+	}
+      }
+    }
+    Line {
+      SrcBlock		      "Manual Trigger"
+      SrcPort		      1
+      DstBlock		      "Trigger to\nFunction-Call"
+      DstPort		      1
+    }
+    Annotation {
+      Name		      "WARNING:\nThe blocks in this library are for in"
+"ternal MathWorks development only.\nThey are not officially supported and the"
+"ir implementation is subject to change without notice."
+      Position		      [23, 52]
+      HorizontalAlignment     "left"
+      FontName		      "Arial"
+      FontSize		      14
+      FontWeight	      "bold"
+    }
+    Annotation {
+      Name		      "Embedded Target for Motorola MPC555\nLibrary of"
+" internal development blocks\nCopyright (c) 1990-2003 The MathWorks, Inc."
+      Position		      [378, 647]
+      FontName		      "Arial"
+    }
+  }
+}
+MatData {
+  NumRecords		  1
+  DataRecord {
+    Tag			    DataTag0
+    Data		    "  %)30     .    6 (   8    (     @         %    "
+"\"     $    !     0         %  0 \"0    $    _    =6YI<75E    :V5Y        ;&]"
+"C871I;VX =F%R<P      =&]P        ;6ED9&QE    8F]T=&]M      X    X    !@    @ "
+"   &          4    (     0    $    !          D    (            \\#\\.    ,  "
+"   8    (    !          %    \"     $    \"     0         0  ( )R<   X   !0  "
+"  !@    @    $          4    (     0   !D    !         !     9    4W5B<WES=&5"
+"M($5N86)L92!&=6YC=&EO;@         .    ,     8    (    !          %    \"      "
+"          0         0          X   !     !@    @    $          4    (     0  "
+"  X    !         !     .    +RH@5&]P($-O9&4@*B\\   X   !     !@    @    $    "
+"      4    (     0   !     !         !     0    +RI-:61D;&4@0V]D92 J+PX   !  "
+"   !@    @    $          4    (     0    \\    !         !     /    +RI\";W1T"
+";VT@0V]D92HO  "
+  }
+}
+
+# Finite State Machines
+#
+#    Stateflow Version 6.0 (R14) dated Apr 19 2004, 12:10:15
+#
+#
+
+Stateflow {
+
+	machine {
+		id                   		1
+		name                 		"mpc555extras"
+		created              		"09-May-2002 14:15:55"
+		isLibrary            		1
+		firstTarget          		2
+		defaultActionLanguage		CLASSIC_BITOPS
+		sfVersion            		60014000.000006
+		sfDemoChecksum       		[1596918450 1702128706 1520541038 2619075765]
+	}
+
+	target {
+		id               		2
+		name             		"sfun"
+		description      		"Default Simulink S-Function Target."
+		codeFlags        		" comments=1 preservenames=0 preservenameswithparent=0 export"
+						"charts=0 statebitsets=0 databitsets=0 ioformat=0 initializer"
+						"=0 multiinstanced=0 ppcomments=0"
+		machine          		1
+		linkNode         		[1 0 0]
+		applyToAllLibs   		0
+	}
+}

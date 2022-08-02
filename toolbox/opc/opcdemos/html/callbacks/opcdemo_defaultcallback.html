@@ -1,0 +1,151 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>OPCDEMO_DEFAULTCALLBACK</title>
+      <meta name="generator" content="MATLAB 7.0.0.1547 (R14) Prerelease">
+      <meta name="date" content="2004-03-18">
+      <meta name="m-file" content="opcdemo_defaultcallback">
+      <meta name="title" content="OPCDEMO_DEFAULTCALLBACK">
+      <meta name="description" content="This example demonstrates the use of callbacks during a logging task."><style>
+body {
+  background-color: white;
+}
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+pre.codeinput {
+  margin-left: 30px;
+}
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.showbuttons {
+  margin-left: 30px;
+  border: solid black 2px;
+  padding: 4px;
+  background: #EBEFF3;
+}
+
+pre.codeoutput {
+  color: gray;
+  font-style: italic;
+}
+pre.error {
+  color: red;
+}
+    </style></head>
+   <body>
+      <h1>OPCDEMO_DEFAULTCALLBACK</h1>
+      <p>This example demonstrates the use of callbacks during a logging task.</p>
+      <h2>Contents</h2>
+      <ul>
+         <li><a href="#1">Step 1: Configure OPC Toolbox Objects</a></li>
+         <li><a href="#2">Step 2: Configure the Logging Task Properies</a></li>
+         <li><a href="#3">Step 3: Configure the Callbacks</a></li>
+         <li><a href="#4">Step 4: Start the Logging Task</a></li>
+         <li><a href="#6">Step 5: Clean Up</a></li>
+      </ul>
+      <h2>Step 1: Configure OPC Toolbox Objects<a name="1"></a></h2>
+      <p>Start by creating objects for the Matrikon Simulation Server.</p><pre class="codeinput">da = opcda(<span class="string">'localhost'</span>, <span class="string">'Matrikon.OPC.Simulation.1'</span>);
+connect(da);
+grp = addgroup(da, <span class="string">'CallbackTest'</span>);
+itm = additem(grp, {<span class="string">'Random.Real8'</span>, <span class="string">'Saw-toothed Waves.UInt2'</span>});
+</pre><h2>Step 2: Configure the Logging Task Properies<a name="2"></a></h2><pre class="codeinput">grp.RecordsToAcquire = 20;
+grp.UpdateRate = 0.5;
+</pre><h2>Step 3: Configure the Callbacks<a name="3"></a></h2>
+      <p>This example uses the default callback, <a href="matlab:open('opccallback')">opccallback</a> to display how the start, records acquired and stop events are processed by MATLAB during a logging task.
+      </p><pre class="codeinput">grp.StartFcn = @opccallback;
+grp.StopFcn = @opccallback;
+grp.RecordsAcquiredFcn = @opccallback;
+grp.RecordsAcquiredFcnCount = 5;
+</pre><h2>Step 4: Start the Logging Task<a name="4"></a></h2>
+      <p>When you start the logging task, the Start event will be generated. During the task, the RecordsAcquired event will be generated
+         each time 5 records have been logged. Finally, the Stop event will be generated when the logging task completes.
+      </p><pre class="codeinput">start(grp)
+</pre><pre class="codeoutput">OPC Start event occurred at local time 09:49:17
+	Group 'CallbackTest': 0 records acquired.
+</pre><p>The WAIT function does not block the MATLAB command-line, so the events can be processed.</p><pre class="codeinput">wait(grp)
+</pre><pre class="codeoutput">OPC RecordsAcquired event occurred at local time 09:49:20
+	Group 'CallbackTest': 5 records acquired.
+OPC RecordsAcquired event occurred at local time 09:49:23
+	Group 'CallbackTest': 10 records acquired.
+OPC RecordsAcquired event occurred at local time 09:49:25
+	Group 'CallbackTest': 15 records acquired.
+OPC RecordsAcquired event occurred at local time 09:49:28
+	Group 'CallbackTest': 20 records acquired.
+OPC Stop event occurred at local time 09:49:28
+	Group 'CallbackTest': 20 records acquired.
+</pre><h2>Step 5: Clean Up<a name="6"></a></h2>
+      <p>Always remove OPC Toolbox objects from memory, and the variables that reference them, when you no longer need them.</p><pre class="codeinput">disconnect(da)
+delete(da)
+clear <span class="string">da</span> <span class="string">grp</span> <span class="string">itm</span>
+</pre><p class="footer"><br></p>
+      <!--
+##### SOURCE BEGIN #####
+%% OPCDEMO_DEFAULTCALLBACK
+% This example demonstrates the use of callbacks during a logging task.
+
+%% Step 1: Configure OPC Toolbox Objects
+% Start by creating objects for the Matrikon Simulation Server.
+da = opcda('localhost', 'Matrikon.OPC.Simulation.1');
+connect(da);
+grp = addgroup(da, 'CallbackTest');
+itm = additem(grp, {'Random.Real8', 'Saw-toothed Waves.UInt2'});
+
+%% Step 2: Configure the Logging Task Properies
+grp.RecordsToAcquire = 20;
+grp.UpdateRate = 0.5;
+
+%% Step 3: Configure the Callbacks
+% This example uses the default callback, 
+% <matlab:open('opccallback') opccallback> 
+% to display how the start, records acquired and stop events are processed
+% by MATLAB during a logging task.
+grp.StartFcn = @opccallback;
+grp.StopFcn = @opccallback;
+grp.RecordsAcquiredFcn = @opccallback;
+grp.RecordsAcquiredFcnCount = 5;
+
+%% Step 4: Start the Logging Task
+% When you start the logging task, the Start event will be generated.
+% During the task, the RecordsAcquired event will be generated each time 5
+% records have been logged. Finally, the Stop event will be generated when
+% the logging task completes.
+start(grp)
+%%
+% The WAIT function does not block the MATLAB command-line, so the events
+% can be processed.
+wait(grp)
+
+%% Step 5: Clean Up
+% Always remove OPC Toolbox objects from memory, and the variables that
+% reference them, when you no longer need them.
+disconnect(da)
+delete(da)
+clear da grp itm
+##### SOURCE END #####
+-->
+   </body>
+</html>

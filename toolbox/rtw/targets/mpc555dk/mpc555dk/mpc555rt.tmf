@@ -1,0 +1,251 @@
+# Copyright 2004 The MathWorks, Inc.
+#
+# File    : mpc555rt.tmf   $Revision: 1.23.4.10 $
+# $Date: 2004/04/29 03:40:11 $
+# Abstract:
+#	Real-Time Workshop template makefile for building
+#	stand-alone embedded real-time version of Simulink model using
+#	generated C code and Diab Data Power PC Compiler 4.3g
+#
+
+MAKECMD         = |>MATLAB_ROOT<|/toolbox/rtw/targets/mpc555dk/bin/win32/make.exe
+HOST            = PC
+BUILD           = yes
+SYS_TARGET_FILE = mpc555rt.tlc
+BUILD_SUCCESS   = Completed MPC555 make phase
+MAKEFILE_FILESEP= /			
+
+
+MODEL                   = |>MODEL_NAME<|
+MODULES                 = |>MODEL_MODULES<|
+MAKEFILE                = |>MAKEFILE_NAME<|
+MATLAB_ROOT             = |>MATLAB_ROOT<|
+S_FUNCTIONS             = |>S_FUNCTIONS<|
+S_FUNCTIONS_LIB         = |>S_FUNCTIONS_LIB<|
+NUMST                   = |>NUMST<|
+NCSTATES                = |>NCSTATES<|
+COMPUTER                = |>COMPUTER<|
+BUILDARGS               = |>BUILDARGS<|
+MULTITASKING            = |>MULTITASKING<|
+INTEGER_CODE            = |>INTEGER_CODE<|
+MAT_FILE                = |>MAT_FILE<|
+ONESTEPFCN              = |>COMBINE_OUTPUT_UPDATE_FCNS<|
+TERMFCN                 = |>INCLUDE_MDL_TERMINATE_FCN<|
+B_ERTSFCN               = |>GENERATE_ERT_S_FUNCTION<|
+MEXEXT                  = |>MEXEXT<|
+EXT_MODE                = |>EXT_MODE<|
+EXTMODE_TRANSPORT   = |>EXTMODE_TRANSPORT<|
+EXTMODE_STATIC      = |>EXTMODE_STATIC_ALLOC<|
+EXTMODE_STATIC_SIZE = |>EXTMODE_STATIC_ALLOC_SIZE<|
+MULTI_INSTANCE_CODE     = |>MULTI_INSTANCE_CODE<|
+ADD_MDL_NAME_TO_GLOBALS = |>ADD_MDL_NAME_TO_GLOBALS<|
+STATIC_RTWLIB           = |>STATIC_RTWLIB<|
+
+#-----------------------------------------------------
+# Include the make variables defined from TLC file
+#-----------------------------------------------------
+include $(MODEL)_makevars.mk
+
+include |>MATLAB_ROOT<|/toolbox/rtw/targets/mpc555dk/rt_makevars.mk
+
+#-------------------------------- C Flags --------------------------------------
+PROFILE_SRCS = profile.c
+ifeq ($(EXECUTION_PROFILING_ENABLED),1)
+   PROFILING_OPTS = -DPROFILING_ENABLED  -DPROFILING_NUM_SAMPLES=$(EXECUTION_PROFILING_NUM_SAMPLES)
+endif
+#----------------------------- External mode -----------------------------------
+# Uncomment -DVERBOSE to have information printed to stdout (or specify
+# OPTS=-DVERBOSE).
+ifeq ($(EXT_MODE),1)
+   $(error Simulink external mode is not supported by Embedded Target for Motorola MPC555)
+endif
+
+# Determine if we are generating an s-function
+SFCN = 0
+ifeq ($(GEN_MDLREF_SFCN),1)
+  SFCN = 1
+endif
+ifeq ($(B_ERTSFCN),1)
+  SFCN = 1
+endif
+#------------------------------ Include Path -----------------------------------
+
+MATLAB_INCLUDES = \
+	-I$(MATLAB_ROOT)/rtw/c/ert \
+	-I$(MATLAB_ROOT)/extern/include \
+	-I$(MATLAB_ROOT)/simulink/include \
+	-I$(MATLAB_ROOT)/rtw/c/src \
+	-I$(MATLAB_ROOT)/toolbox/rtw/targets/common/profile/execution
+
+# Additional includes 
+ADD_INCLUDES = \
+|>START_EXPAND_INCLUDES<|	-I|>EXPAND_DIR_NAME<| \
+|>END_EXPAND_INCLUDES<|
+
+INCLUDES += -I. -I.. $(MATLAB_INCLUDES) $(ADD_INCLUDES) $(USER_INCLUDES) \
+	$(INSTRUMENT_INCLUDES)
+
+
+#-------------------------------- C Flags --------------------------------------
+
+#####################################################################
+# Select between RAM and FLASH targets
+#####################################################################
+
+# Optimization Options
+MPC555_OPTIMIZATION_FLAGS := $(OPT_OPTS)
+MPC555_DEBUG_FLAGS := $(DEBUG_OPTS)
+
+ifeq (|>TARGET_MEMORY_MODEL<|,RAM)
+    COMPONENT=external_ram
+    PRODUCT_SUFFIX=_ram.s19
+else
+    COMPONENT=internal_flash
+    PRODUCT_SUFFIX=_flash.s19
+endif
+
+.PHONY : default
+default : all 
+
+include $(MPC555DK_ROOT)/drivers/make_plugins/component_manager.mk
+
+# General User Options
+OPTS =
+
+# Compiler options, etc: 
+CC_OPTS = $(OPTS) $(ANSI_OPTS) $(PROFILING_OPTS)
+
+CPP_REQ_DEFINES = -DMODEL=$(MODEL) -DNUMST=$(NUMST) \
+		  -DUNIX -DMT=$(MULTITASKING) -DNCSTATES=$(NCSTATES) \
+		  -DMAT_FILE=$(MAT_FILE) -DINTEGER_CODE=$(INTEGER_CODE) \
+		  -DONESTEPFCN=$(ONESTEPFCN) -DTERMFCN=$(TERMFCN) \
+		  -DMULTI_INSTANCE_CODE=$(MULTI_INSTANCE_CODE)\
+		  -DADD_MDL_NAME_TO_GLOBALS=$(ADD_MDL_NAME_TO_GLOBALS)
+
+# The MPC555 does not require STDIO
+# CPP_REQ_DEFINES += -DHAVESTDIO 
+
+CFLAGS += $(CC_OPTS) $(CPP_REQ_DEFINES) 
+
+LDFLAGS +=
+
+#-------------------------- Additional Libraries ------------------------------
+
+# Expand any possibly precompiled libraries - eg. RTW, DSP, Add2
+#
+# We handle the RTW and DSP libraries specially depending on the
+# static rtwlib option in the rtwoptions gui. All other libraries
+# are assumed to be precompiled with no source available. 
+|>START_PRECOMP_LIBRARIES<|
+ifneq ($(findstring rtwlib,|>EXPAND_LIBRARY_NAME<|)$(findstring dsp_dyn_rt,|>EXPAND_LIBRARY_NAME<|),)
+   # Either rtwlib or dsp_dyn_rt library. We can apply the special STATIC option
+   ifeq ($(STATIC_RTWLIB),0)
+	  # Build a dynamic library
+      LIBS += |>EXPAND_LIBRARY_NAME<|.a
+   else
+	  # Use the static library
+      LIBS += |>EXPAND_LIBRARY_LOCATION<|/|>EXPAND_LIBRARY_NAME<|_5xx_$(MPC555_TOOL_CHAIN).a
+   endif
+else
+  # Force static libraries
+  LIBS += |>EXPAND_LIBRARY_LOCATION<|/|>EXPAND_LIBRARY_NAME<|_5xx_$(MPC555_TOOL_CHAIN).a
+endif
+|>END_PRECOMP_LIBRARIES<| 
+
+
+# These libraries will be built in the build directory. There
+# are no precompiled sources. These library types can be 
+# triggered by setting the 
+# 	Precompile flag = 0
+# in the rtwmakecfg.m files 
+|>START_EXPAND_LIBRARIES<|
+LIBS += |>EXPAND_LIBRARY_NAME<|.a
+|>END_EXPAND_LIBRARIES<|
+LIBS += $(S_FUNCTIONS_LIB) $(INSTRUMENT_LIBS)
+
+#----------------------------- Source Files ------------------------------------
+ifeq ($(INTEGER_CODE),1)
+ADD_SRCS =
+else
+ADD_SRCS = rt_nonfinite.c
+endif
+
+SRCS  = $(MODULES) $(ADD_SRCS) $(S_FUNCTIONS) $(PROFILE_SRCS)
+PRODUCT            = $(RELATIVE_PATH_TO_ANCHOR)/$(MODEL)$(PRODUCT_SUFFIX)
+define BIN_SETTING
+    $(build-srec-file)
+endef
+BUILD_PRODUCT_TYPE = "executable"
+SRCS               += $(MODEL).c mpc555dk_main.c
+SRC_DEP            =
+
+USER_OBJECTS       = $(addsuffix .o, $(basename $(USER_SRCS)))
+LOCAL_USER_OBJECTS = $(notdir $(USER_OBJECTS))
+
+OBJECTS      += $(addsuffix .o, $(basename $(SRCS))) $(LOCAL_USER_OBJECTS)
+
+#--------------------------------- Rules ---------------------------------------
+
+.PHONY : all
+all : setup $(PRODUCT)
+
+$(PRODUCT) : $(OBJECT_TARGETS) $(LIBS) $(SRC_DEP)
+	$(BIN_SETTING) 
+	@echo \#\#\# $(BUILD_SUCCESS)
+
+vpath %.c  .. \
+           $(MATLAB_ROOT)/rtw/c/ert \
+           $(MATLAB_ROOT)/rtw/c/src \
+           $(MATLAB_ROOT)/simulink/src \
+           $(MPC555DK_ROOT)/mpc555dk \
+           $(MPC555DK_ROOT)/../common/profile/execution \
+|>START_EXPAND_RULES<|	|>EXPAND_DIR_NAME<| \
+|>END_EXPAND_RULES<|
+
+#------------------------------- Libraries -------------------------------------
+
+|>START_EXPAND_LIBRARIES<|MODULES_|>EXPAND_LIBRARY_NAME<| = \
+|>START_EXPAND_MODULES<|    $(OBJDIR)/|>EXPAND_MODULE_NAME<|.o \
+|>END_EXPAND_MODULES<|
+
+$(MODULES_|>EXPAND_LIBRARY_NAME<|) : $(MAKEFILE) rtw_proj.tmw
+
+|>EXPAND_LIBRARY_NAME<|.a : $(MODULES_|>EXPAND_LIBRARY_NAME<|)
+	@echo "### Creating $@ "
+	$(LIBCMD) $@  $(MODULES_|>EXPAND_LIBRARY_NAME<|)
+	@echo "### Created $@"
+
+|>END_EXPAND_LIBRARIES<|
+
+#------------------------------- PRECOMP Libraries -------------------------------------
+
+|>START_PRECOMP_LIBRARIES<|MODULES_|>EXPAND_LIBRARY_NAME<| = \
+|>START_EXPAND_MODULES<|    $(OBJDIR)/|>EXPAND_MODULE_NAME<|.o \
+|>END_EXPAND_MODULES<|
+
+$(MODULES_|>EXPAND_LIBRARY_NAME<|) : $(MAKEFILE) rtw_proj.tmw
+
+|>EXPAND_LIBRARY_NAME<|.a : $(filter-out $(OBJDIR)/rt_logging.o, $(MODULES_|>EXPAND_LIBRARY_NAME<|) )
+	@echo "### Creating $@ "
+	$(LIBCMD) $@  $(filter-out $(OBJDIR)/rt_logging.o, $(MODULES_|>EXPAND_LIBRARY_NAME<|) )
+	@echo "### Created $@"
+
+|>END_PRECOMP_LIBRARIES<|
+
+#----------------------------- Dependencies ------------------------------------
+
+$(OBJECT_TARGETS) : $(MAKEFILE) rtw_proj.tmw
+
+#--------- Miscellaneous rules to purge, clean and lint (sol2 only) ------------
+
+purge : clean
+	@echo "### Deleting the generated source code for $(MODEL)"
+	@$(RM) -f $(MODEL).c $(MODEL).h $(MODEL)_types.h $(MODEL)_data.c \
+		$(MODEL)_private.h $(MODEL).rtw $(MODULES) rtw_proj.tmw $(MAKEFILE)
+
+clean :
+	@echo "### Deleting the $(PRODUCT)"
+	@$(RM) $(PRODUCT)
+
+
+

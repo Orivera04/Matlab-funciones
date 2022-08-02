@@ -1,0 +1,29 @@
+% Script file movie two.
+
+% Graphs of x=cos(t),y=sin(t), over the interval [0, 2pi],
+% 
+
+m = moviein(5);
+t = 0:pi/10:2*pi;
+x=cos(t);
+y=sin(t);
+for i=1:10
+   h1_line = plot(x,y,'*r');
+   %delete(h1_line);
+   pause(2);
+   axis([-2 2 -2 2]);
+   %set(h1_line,'LineWidth',1.5,'Color','m')
+   grid
+   title('circles')
+   h = get(gca,'Title');
+   set(h,'FontSize',12)
+   xlabel('x')
+   k = num2str(i);
+   if i > 1
+      s = strcat(k,'x,y');
+   else
+      s = 'y';
+   end
+   m(:,i) = getframe;
+end
+movie(m)

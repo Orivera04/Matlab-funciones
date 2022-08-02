@@ -1,0 +1,163 @@
+Model {
+  Name			  "regsfs"
+  Version		  2.20
+  SimParamPage		  "WorkspaceI/O"
+  SampleTimeColors	  off
+  InvariantConstants	  off
+  WideVectorLines	  off
+  ShowLineWidths	  off
+  StartTime		  "0.0"
+  StopTime		  "ftime"
+  Solver		  ode45
+  RelTol		  "1e-3"
+  AbsTol		  "1e-6"
+  Refine		  "1"
+  MaxStep		  "auto"
+  InitialStep		  "auto"
+  FixedStep		  "auto"
+  MaxOrder		  5
+  OutputOption		  RefineOutputTimes
+  OutputTimes		  "[]"
+  LoadExternalInput	  off
+  ExternalInput		  "[t, u]"
+  SaveTime		  on
+  TimeSaveName		  "t"
+  SaveState		  off
+  StateSaveName		  "xout"
+  SaveOutput		  off
+  OutputSaveName	  "yout"
+  LoadInitialState	  off
+  InitialState		  "xInitial"
+  SaveFinalState	  off
+  FinalStateName	  "xFinal"
+  LimitMaxRows		  off
+  MaxRows		  "1000"
+  Decimation		  "1"
+  AlgebraicLoopMsg	  warning
+  MinStepSizeMsg	  warning
+  UnconnectedInputMsg	  warning
+  UnconnectedOutputMsg	  warning
+  UnconnectedLineMsg	  warning
+  ConsistencyChecking	  off
+  ZeroCross		  on
+  SimulationMode	  normal
+  RTWSystemTargetFile	  "grt.tlc"
+  RTWInlineParameters	  off
+  RTWPlaceOutputsASAP	  off
+  RTWRetainRTWFile	  off
+  RTWTemplateMakefile	  "grt_default_tmf"
+  RTWMakeCommand	  "make_rtw"
+  RTWGenerateCodeOnly	  off
+  ExtModeMexFile	  "ext_comm"
+  ExtModeBatchMode	  off
+  BlockDefaults {
+    Orientation		    right
+    ForegroundColor	    black
+    BackgroundColor	    white
+    DropShadow		    off
+    NamePlacement	    normal
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    normal
+    FontAngle		    normal
+    ShowName		    on
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    center
+    VerticalAlignment	    middle
+    ForegroundColor	    black
+    BackgroundColor	    white
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    normal
+    FontAngle		    normal
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    normal
+    FontAngle		    normal
+  }
+  System {
+    Name		    "regsfs"
+    Location		    [416, 90, 916, 350]
+    Open		    on
+    ToolBar		    on
+    StatusBar		    on
+    ScreenColor		    white
+    PaperOrientation	    landscape
+    PaperPositionMode	    auto
+    PaperType		    usletter
+    PaperUnits		    inches
+    Block {
+      BlockType		      DiscreteStateSpace
+      Name		      "-L"
+      Position		      [175, 140, 295, 180]
+      Orientation	      left
+      NamePlacement	      alternate
+      A			      "0"
+      B			      "zeros(1,length(A))"
+      C			      "0"
+      D			      "-L"
+      X0		      "0"
+      SampleTime	      "T"
+    }
+    Block {
+      BlockType		      ToWorkspace
+      Name		      "Plant Input"
+      Position		      [55, 60, 115, 90]
+      Orientation	      left
+      NamePlacement	      alternate
+      VariableName	      "u"
+      Buffer		      "inf"
+      Decimation	      "1"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      ToWorkspace
+      Name		      "Plant State Variables"
+      Position		      [365, 60, 425, 90]
+      VariableName	      "x"
+      Buffer		      "inf"
+      Decimation	      "1"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      StateSpace
+      Name		      "xdot=Ax+bu"
+      Position		      [205, 57, 265, 93]
+      A			      "A"
+      B			      "b"
+      C			      "eye(length(A))"
+      D			      "zeros(length(A),1)"
+      X0		      "x0"
+    }
+    Line {
+      SrcBlock		      "xdot=Ax+bu"
+      SrcPort		      1
+      Points		      [40, 0]
+      Branch {
+	DstBlock		"Plant State Variables"
+	DstPort			1
+      }
+      Branch {
+	DstBlock		"-L"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "-L"
+      SrcPort		      1
+      Points		      [-35, 0; 0, -85]
+      Branch {
+	DstBlock		"xdot=Ax+bu"
+	DstPort			1
+      }
+      Branch {
+	DstBlock		"Plant Input"
+	DstPort			1
+      }
+    }
+  }
+}

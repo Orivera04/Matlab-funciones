@@ -1,0 +1,338 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+  <head>
+    <title>Geometric Shapes GUI Help</title>
+  </head>
+
+  <body>
+<table width=100% bgcolor=#FFE4B0 cellspacing=0 cellpadding=0>
+<tr><td>
+    <b>Geometric Shapes GUI Help</b>
+</td></tr>
+
+</table>
+<table width=100% cellspacing=5>
+<tr><td>
+   <font color=#990000 size=+3><b>Geometric Shapes GUI</b></font>
+<p>
+</td></tr>
+<p>
+<tr><td>
+<table><tr><td width=50>&nbsp;</td><td>
+This GUI allows user to draw different geometric shapes and calculate/display their properties.<br>
+<p>
+Three basic shapes can be drawn. These are:
+<p>
+<ul>
+<li> Polygon<br> 
+<li> Circle<br>
+<li> Square/Rectangle<br>
+</ul>
+<p>
+These shapes may be drawn within the axis limits using a mouse left-click for
+a new edge and a right-click to close the shape
+in case of polygons. In case of a circle, only two points are needed (with left
+mouse click). These are the points defining the diameter of the circle.
+In case of a square or rectangle, the first and second points indicate the end 
+points of the diagonal. The first shape is considered
+as a basis on which any subsequent shapes the others are drawn as holes. Holes
+must lie entirely within the base shape.
+   
+<p>
+In the current version of this GUI, the following properties are calculated and displayed:
+<p>
+<ul>
+<li> Area (<i>A<sub> </sub></i>)<br>
+<li> Center of Area (Centroid) (<i>x<sub>s</sub></i>,<i>y<sub>s</sub></i>)<br>
+<li> Perimeter (<i>P<sub> </sub></i>)<br>
+<li> Area Moments (<i>I<sub>x</sub></i>,<i>I<sub>y</sub></i>,<i>I<sub>xy</sub></i>)<br>
+<li> Centroidal Moments (<i>I<sub>u</sub></i>,<i>I<sub>v</sub></i>,<i>I<sub>uv</sub></i>)<br>
+<li> Polar Moment (<i>I<sub>p</sub></i>)<br>
+<li> Radius of Gyration (<i>i<sub>x</sub></i>,<i>i<sub>y</sub></i>)<br>
+
+</ul>
+
+
+<p>
+
+<b>Area:</b>
+<table><tr><td width=50></td>
+<td>
+The area of each shape is computed using the following integral.
+</td></tr></table>
+<p>
+
+<table><tr><td width=170></td>
+<td>
+<img halign=center width=79 height=29 src="shapes_propGUI_help_files/image002.gif"></img>
+</td></tr></table>
+<table><tr><td width=50></td>
+<td>
+For shapes consisting of multiple parts area is calculated as:
+</td></tr></table>
+
+<table><tr><td width=170></td>
+<td>
+<img halign=center width=97 height=45 src="shapes_propGUI_help_files/equationA2.gif"></img>
+</td></tr></table>
+<table><tr><td width=50></td>
+<td>
+where,
+</td></tr></table>
+
+<table><tr><td width=100></td>
+<td>
+<i>A<sub>1</sub></i> is the area of the base shape and
+ <i>A<sub>2</sub></i> ... <i>A<sub>n</sub></i>
+ are the areas of the subsequent holes.<br>
+
+</td></tr></table>
+
+
+<p>
+
+<p>
+<b>Center of Area (Centroid):</b>
+<table><tr><td width=50></td>
+<td>
+For shapes composed of multiple parts <i>A<sub>i</sub></i>, one can compute the center of area as follows:
+</td></tr></table>
+
+<p>
+<table><tr><td width=140></td>
+<td>
+<img halign=center width=263 height=51 src="shapes_propGUI_help_files/image013.gif"></img>
+</td></tr></table>
+
+<table><tr><td width=100></td>
+<td>
+<img halign=center width=349 height=88 src="shapes_propGUI_help_files/equation_xs3.gif"></img>
+</td></tr></table>
+
+
+<table><tr><td width=50></td>
+<td>
+where,
+</td></tr></table>
+
+<table><tr><td width=100></td>
+<td>
+<i>x<sub>s</sub></i> is the x-coordinate and <i>y<sub>s</sub></i>
+ is the y-coordinate of the center of area of the shape,<br>
+
+<i>x<sub>1</sub></i> and <i>y<sub>1</sub></i>
+ represent x- and y-coordinates of the center of area of the base shape, and
+ <i>x<sub>2</sub></i>  ... <i>x<sub>n</sub></i> and <i>y<sub>2</sub></i>
+ ... <i>y<sub>n</sub></i> represent the center
+ coordinates of the subsequent holes.<br>
+<i>A<sub>1</sub></i> is the area of the base shape and
+ <i>A<sub>2</sub></i> ... <i>A<sub>n</sub></i>
+ are the areas of the subsequent holes.
+
+</td></tr></table>
+
+
+
+<p>
+<b>Perimeter:</b>
+<table><tr><td width=50></td>
+<td>
+The perimeter of any shape is the sum of the lengths of all its sides. It is calculated using the
+following expression:
+</td></tr></table>
+<p>
+<table><tr><td width=170></td>
+<td>
+<img halign=center width=143 height=29 src="shapes_propGUI_help_files/image010.gif"></img>
+</td></tr></table>
+
+<table><tr><td width=50></td>
+<td>
+where,
+</td></tr></table>
+
+<table><tr><td width=100></td>
+<td>
+the integral represents the counter clock-wise boundary integral. In this
+implementation, the integral is approximated by the sum over the length of
+polygonal edges.
+</td></tr></table>
+
+
+
+<p>
+<b>Area Moments:</b>
+<table><tr><td width=50></td>
+<td>
+Also known as "Second Moment of Area" and "Area Moment of Inertia". The area
+moment of a the cross-sectional area of a beam measures the ability of a beam to resist
+bending. The larger the value of the area moment, the less the beam will
+bend. This is a geometrical property and depends on the reference axis. The
+following are the equations used to calculate this property in general.
+</td></tr></table>
+<p>
+<table><tr><td width=100></td>
+<td>
+<img halign=center width=363 height=29 src="shapes_propGUI_help_files/image016.gif"></img>
+</td></tr></table>
+
+
+<table><tr><td width=50></td>
+<td>
+where,
+</td></tr></table>
+
+<table><tr><td width=100></td>
+<td>
+<i>I<sub>x</sub></i> and <i>I<sub>y</sub></i> are the area moments of inertia
+w.r.t the x- and y-axes.<br>
+<i>I<sub>xy</sub></i> is the cross moment of inertia or moment of inertia
+w.r.t the z-axis.<br>
+</td></tr></table>
+<p>
+
+<table><tr><td width=50></td>
+<td>
+In case of more than one shape, the equivalent moments are calculated as:
+</td></tr></table>
+
+
+<table><tr><td width=120></td>
+<td>
+<img halign=center width=373 height=45 src="shapes_propGUI_help_files/equation_ix2.gif"></img>
+</td></tr></table>
+
+
+<table><tr><td width=50></td>
+<td>
+where,
+</td></tr></table>
+
+<table><tr><td width=100></td>
+<td>
+<i>I<sub>x1</sub></i>, <i>I<sub>y1</sub></i> and <i>I<sub>xy1</sub></i> are
+the area moments of inertia w.r.t x- , y- and z-axes respectively, of the
+first base shape and,<br>
+
+<i>I<sub>x2</sub></i> ...  <i>I<sub>xn</sub></i>, <i>I<sub>y2</sub></i>
+... <i>I<sub>yn</sub></i> and <i>I<sub>xy2</sub></i> ...  <i>I<sub>xyn</sub></i> are
+the area moments of inertia of the
+subsequent holes.<br>
+
+</td></tr></table>
+
+
+
+<p>
+<b>Centroidal Moments:</b>
+<table><tr><td width=50></td>
+<td>
+Similar to the area moment described above. The only difference is the reference
+axis. In this case the reference axis is considered to pass through the
+center of the beam/shape. These are calculated using the following equations:
+<p>
+</td></tr></table>
+
+<table><tr><td width=120></td>
+<td>
+<img halign=center width=371 height=28 src="shapes_propGUI_help_files/image022.gif"></img>
+</td></tr></table>
+
+
+<table><tr><td width=50></td>
+<td>
+where,
+</td></tr></table>
+
+<table><tr><td width=100></td>
+<td>
+<i>I<sub>u</sub></i> and <i>I<sub>v</sub></i> are the centroidal moments of
+inertia w.r.t the x- and y-axes.<br>
+<i>I<sub>uv</sub></i> is the cross moment of inertia or centroidal moment of
+inertia w.r.t the z-axis.<br>
+<i>I<sub>x</sub></i>, <i>I<sub>y</sub></i> and <i>I<sub>xy</sub></i> are the
+area moments as calculated above.<br>
+<i>A</i> is the area of the shape.<br>
+<i>x<sub>s</sub></i> and <i>y<sub>s</sub></i> are the coordinates of the center of area as described above.<br>
+</td></tr></table>
+
+
+
+
+<p>
+<b>Polar Moment:</b>
+<table><tr><td width=50></td>
+<td>
+The polar area moment is calculated using the following equations:
+</td></tr></table>
+
+<p>
+<table><tr><td width=170></td>
+<td>
+<img halign=center width=81 height=25 src="shapes_propGUI_help_files/image024.gif"></img>
+</td></tr></table>
+
+
+<table><tr><td width=50></td>
+<td>
+where,
+</td></tr></table>
+
+<table><tr><td width=100></td>
+<td>
+<i>I<sub>x</sub></i> and <i>I<sub>y</sub></i> are the area moments of inertia as calculated above.<br>
+
+</td></tr></table>
+
+
+
+
+<p>
+<b>Radius of Gyration:</b>
+<table><tr><td width=50></td>
+<td>
+The area radius of Gyration of a shape about x- and y-axis is defined as:
+</td></tr></table>
+<p>
+<table><tr><td width=100></td>
+<td>
+<img halign=center width=215 height=49 src="shapes_propGUI_help_files/image026.gif"></img>
+</td></tr></table>
+
+
+<table><tr><td width=50></td>
+<td>
+where,
+emacs</td></tr></table>
+
+<table><tr><td width=100></td>
+<td>
+<i>I<sub>x</sub></i> and <i>I<sub>y</sub></i> are the area moments of inertia as calculated above.<br>
+<i>A</i> is the area of the shape.<br>
+</td></tr></table>
+
+</td></tr>
+</table> 
+
+<p>
+
+<font color="#990000" size=+2><b>References:</b></font><br>
+<p>
+[1]&nbsp;W. Wetzel (ed), <i>Bautechnische Zahlentafeln</i>, Teubner,
+2002.<br>
+<p>
+[2]&nbsp;K. J. Schneider, <i>Bautabellen fuer Ingenieure</i>, Werner-Verlag,
+2002.<br>
+<p>
+[3]&nbsp;http://www.math.com/ <br>
+<p>
+[4]&nbsp;http://efunda.smartmeasurement.com/math/areas/MomentOfInertia.cfm <br>
+
+<p>
+
+
+
+ 
+</body>
+</html>

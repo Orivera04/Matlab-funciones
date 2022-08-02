@@ -1,0 +1,18 @@
+%% File: toolbox/rtw/targets/c166/c166/c166customfiles.tlc
+%% $Revision: 1.1.6.1 $
+%%
+%% Copyright 1994-2003 The MathWorks, Inc.
+%%
+%% Abstract:
+%%   Create custom files for the C166 target. This file is hooked
+%%   into the code generation process by using commands such as
+%%   cs = getActiveConfigSet(gcs);
+%%   set_param(cs,'ERTCustomFileTemplate','c166customfiles.tlc');
+
+%selectfile NULL_FILE
+
+%include "c166mainlib.tlc"
+%include "c166timers.tlc"
+  
+%% Create the c166_main.c file
+%<SLibCreateC166Main("c166_main")>

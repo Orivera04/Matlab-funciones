@@ -1,0 +1,184 @@
+function ConvertToEditBox(hObject, EventData, ValidEvents)
+% ConvertToEditBox - KeyPress callback that converts a uicontrol to an edit box
+%
+% ConvertToEditBox responds to a keyboard input after a uicontrol has been
+% selected with the mouse. The uicontrol is converted to an edit box to
+% receive keyboard entry and the initiating keyboard character is inserted
+% into the box.
+%
+% Examples:
+% To use CovertToEditBox, place the handle of the function in the
+% uicontrol's KeyPressFcn property.
+% By default, ConvertToEditBox responds only to the number characters
+% '0' through '9' (from keyboard or number pad). For default performance
+% set the KeyPressFcn property of the target uicontrol to @ConvertToEditBox
+%
+% To specify the valid characters, pass them as a vector e.g.
+% list=['0':'9', 'a':'z', ':', '@'];
+% set(uicontrol_Handle,'KeyPressFcn',{@ConvertToEditBox, list});
+%
+% Note that ConvertToEditBox will override the usual 'select item' response
+% of a popupmenu or listbox to a (valid) character input.
+%
+%**************************************************************************
+% WARNING: ConvertToEdit simulates a mouse click and keyboard input.
+% It should make sure that% the pointer is over the target uicontrol but,
+% particularly if this is not on top, the click could be sent elsewhere -
+% and have unpredictable and undesirable consequences. USER BEWARE.
+% Note that this applies also when in debug mode. If you set a breakpoint
+% in this code, watch out for where the mouse click goes.
+% You can delete the MouseClick calls, but will then need to manually click
+% on the uicontrols to enter more than one character in the edit box.
+%**************************************************************************
+%
+% This program is distributed without any warranty,
+% without even the implied warranty of fitness for a particular purpose.
+%__________________________________________________________________________
+%
+% Author: Malcolm Lidierth 06/07
+% Copyright © The Author & King's College London 2007
+%__________________________________________________________________________
+
+% No character key (shift, ctrl etc alone) so return
+if isempty(EventData.Character)
+    return
+end
+
+fhandle=ancestor(hObject,'figure');
+
+if strcmp(get(fhandle,'WindowStyle'),'docked')
+    % TODO: for the present, can not run this with a docked window - 
+    % figure position property specifies position in java window, not the
+    % screen so return.
+    return
+end
+
+%DEFAULTS
+DefaultHeight=1.5; % Edit box will be 1.5 characters high
+% Initialize ValidEvents if not supplied
+if nargin<3
+    ValidEvents='0':'9';
+end
+
+% Valid character?
+if ismember(EventData.Character, ValidEvents);
+
+    % Set up the position from the present uicontrol...
+    set(hObject,'Units','Character');
+    pos=get(hObject,'Position');
+    pos(2)=pos(2)+pos(4)-DefaultHeight;
+    pos(4)=DefaultHeight;
+    %...and get the units to restore later
+    units=get(hObject,'Units');
+
+    % Create the edit box
+    set(hObject,'Style','edit',...
+        'Units','character',...
+        'Position',pos,...
+        'KeyPressFcn','',...
+        'String',[]);
+    % Force focus, otherwise MATLAB changes this to the next uicontrol
+    uicontrol(hObject);
+    % Probably do not need this...
+    set(fhandle,'CurrentObject',hObject);
+    % Simulate a mouse click. This overcomes the MATLAB default behaviour
+    % of selecting/highlighting the string after a call to uicontrol(h)
+    SetCurrentPoint(hObject);
+    % Finally, restore the units and put the string in the box.
+    % The string should be empty but in the unlikely event that some (very)
+    % fast fingers have already added additional text we'll read the
+    % existing string and add the character to its start
+    set(hObject, 'Units',units,...
+        'String',[EventData.Character get(hObject,'String')]);
+end
+return
+end
+
+%--------------------------------------------------------------------------
+function SetCurrentPoint(hObject)
+%--------------------------------------------------------------------------
+% SetCurrentPoint either [1] On the Mac, makes sure the pointer is over a
+% uicontrol or [2] On other platforms, moves the pointer over the
+% uicontrol. It then issues a mouse click. No check is done to see if the
+% uicontrol is 'on top' before the click is issued.
+
+% get handles
+fh=ancestor(hObject, 'figure');
+ph=get(hObject, 'Parent');
+
+% Get pointer location
+PosOnEntry=get(0,'PointerLocation');
+
+% save the present units
+hunits=get(hObject, 'Units');
+punits=get(ph, 'Units');
+funits=get(fh, 'Units');
+
+% set all units to pixels
+set([hObject, fh, ph],'Units','pixels');
+
+% get the positions
+fpos=get(fh, 'Position');
+ppos=get(ph, 'Position');
+hpos=get(hObject, 'Position');
+
+if ismac
+    % Can not set PointerLocation in root on Mac, so make sure pointer is
+    % over the uicontrol is selected
+    left=fpos(1)+ppos(1)+hpos(1);
+    right=fpos(1)+ppos(1)+hpos(1)+hpos(3);
+    bottom=fpos(2)+ppos(2)+hpos(2);
+    top=fpos(2)+ppos(2)+hpos(2)+hpos(4);
+    if PosOnEntry(1)<left || PosOnEntry(1)>right...
+            || PosOnEntry(2)<bottom || PosOnEntry(2)>top
+        % It is not, so do not issue a mouse click
+        set(hObject,'Units', hunits);
+        set(ph, 'Units', punits);
+        set(fh, 'Units', funits);
+        return
+    end
+    MouseClick(hObject);
+    set(hObject,'Units', hunits);
+    set(ph, 'Units', punits);
+    set(fh, 'Units', funits);
+else
+    % Not a Mac
+    % Set cursor to top right hand corner of uicontrol
+    set(0, 'PointerLocation',...
+        [fpos(1)+ppos(1)+hpos(1)+(0.5*hpos(3)) fpos(2)+ppos(2)+hpos(2)+(0.5*hpos(4))]);
+    MouseClick(hObject);
+    % Restore pointer location
+    set(0,'PointerLocation',PosOnEntry);
+    % Restore units
+    set(hObject,'Units', hunits);
+    set(ph, 'Units', punits);
+    set(fh, 'Units', funits);
+end
+return
+end
+
+%--------------------------------------------------------------------------
+function MouseClick(hObject)
+%--------------------------------------------------------------------------
+% Simulate a left button mouse click via java
+Robot=java.awt.Robot;
+Robot.mousePress(java.awt.event.InputEvent.BUTTON1_MASK);
+Robot.mouseRelease(java.awt.event.InputEvent.BUTTON1_MASK);
+
+% If all is well, we will have just selected the uicontrol so hObject will
+% be the same as gco. If not, we have clicked on the wrong object
+if hObject~=gco
+    warning('ConvertToEditBox:MouseClick: hObject does not correspond to gco'); %#ok<WNTAG>
+end
+% Make sure we go to the end of the string
+% Probably not needed as string should be empty anyway.
+Robot.keyPress(java.awt.event.KeyEvent.VK_END);
+Robot.keyRelease(java.awt.event.KeyEvent.VK_END);
+return
+end
+
+
+
+
+
+

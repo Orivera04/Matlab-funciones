@@ -1,0 +1,5 @@
+subplot(2,2,1)
+plot(rand(1, 20)),title('(a)')
+subplot(2,2,2)
+axis([0 4 0 4])
+plot([0 4], [0 0],  [1 1 2 3 3], [0 2 3 2 0]),title('(b)')

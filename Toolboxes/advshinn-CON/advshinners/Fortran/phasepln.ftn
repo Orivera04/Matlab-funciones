@@ -1,0 +1,56 @@
+ 
+      data NSEC/32/, NREV/2/, C1/2.5/, DTH1/0.0/, KASE/2/, PI/3.141593/
+      print55, C1, DTH1
+      do 100 K= 1, NSEC*NREV
+        ANGLE = -K* 2* PI/ NSEC
+        YDEL= sin( ANGLE )
+        XDEL= cos( ANGLE )
+c       see if 1/slope --> infinity ( occurs at 0 or 180 degrees )
+        if ( ABS( XDEL ) .ge. 1E-35 ) then
+          if ( ABS( YDEL/ XDEL ) .le. 1E-5 ) then
+            KASE = 2
+            C= C1
+            DTH= 0
+            goto80
+          endif
+        endif
+c       otherwise, it"s OK to compute 1/slope
+        SLPINV= cotan( ANGLE )
+        DDTH= - 0.5  - SLPINV
+c       see if 1/slope --> infinity on the previous loop iteration
+        if ( KASE .eq. 2 ) then
+          KASE= 1
+          C= C1
+          DTH= C/ SLPINV
+        else
+c         otherwise, calculate isolcine intersection point
+          S= ( DDTH  +  DDTH1 )/2
+c         see if SLOPE --> infinity ( occurs at 90 or 270 degrees )
+          if ( ABS( YDEL ) .ge. 1E-35 ) then
+            if ( ABS( XDEL/ YDEL ) .le. 1E-5 ) then
+              KASE= 3
+              C= 0
+              DTH= -S* C1  +  DTH1
+              goto80
+            endif
+          endif
+c         otherwise, both SLOPE & 1/SLOPE are finite --> solve 2 equations
+          KASE= 4
+          SLOPE= 1/SLPINV
+          C=  ( DTH1  -  S*C1 )/ ( SLOPE - S )
+          DTH= SLOPE* C
+        endif
+   80   continue
+        print60, C, DTH, DDTH, DDTH1, S, KASE
+        C1= C
+        DTH1= DTH
+        DDTH1= DDTH
+  100 continue
+      print65
+   55 format(7x,'C       THETA-DOT     I.S.1       I.S.2     AVG.SOPE',
+     $'  *CASE'/7x,'=       =========     =====       =====     ',
+     $'=========  ====='//2e12.4,' ---> (INITIAL CONDITIONS)')
+   60 format( 5e12.4, i5 )
+   65 format(/' *NOTE: CASE=1 OR 2 --> ISOCLINE SLOPES 1 OR 2 DIVERGE'/
+     $        '        CASE=3 OR 4 --> ISOCLINE SLOPES VALID')
+      end

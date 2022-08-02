@@ -1,0 +1,45 @@
+%% File: minimon_script.tlc
+%%
+%% $Revision: 1.2 $
+%% $Date: 2002/08/23 17:15:58 $
+%%
+%% Copyright 2002 The MathWorks, Inc.
+%%
+%% Abstract:
+%%   This tlc file will generate a file with scripted commands for the 
+%%   Infineon bootloader/monitor tool MiniMon. If MiniMon is launched
+%%   automatically at the end of a build, the commands in the script file 
+%%   are executed. These commands instruct MiniMon to download and run 
+%%   the executable file that was created by the build.
+
+
+
+%function CreateMinimonScript() Output
+%assign modelDirectory   = FEVAL("rtwprivate","rtwattic","getBuildDir")
+%assign pathSep = "%<CompiledModel.PathInfo.PATH_SEP>"
+; Real-Time Workshop code generation for Simulink model "%<Name>.mdl".
+;
+; Model Version                        : %<ModelVersion>
+; Real-Time Workshop file version      : %<Version>
+; Real-Time Workshop file generated on : %<GeneratedOn>
+; TLC version                          : %<TLC_VERSION>
+; File generated on                    : %<TLC_TIME>
+;
+; This is a script file for use with the Infineon bootloader/monitor tool
+; MiniMon. If MiniMon is launched automatically at the end of a build, 
+; the commands in this script file are executed. These commands instruct 
+; MiniMon to download and run the executable file that was created by the build.
+_connect
+_load %<modelDirectory>%<pathSep>%<CompiledModel.Name>.hex
+_download
+_jmp 0
+;
+; short second delay before exit
+;
+_delay 1
+;
+; quit MiniMon so the host serial port is available for other applications
+;
+_quit
+%endfunction
+

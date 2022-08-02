@@ -1,0 +1,5 @@
+function h = destroy(h,destroyData)
+%DESTROY Destroy this object
+
+%   Copyright 2003-2004 The MathWorks, Inc.
+%   $Revision: 1.1.6.3 $  $Date: 2004/04/12 23:35:45 $

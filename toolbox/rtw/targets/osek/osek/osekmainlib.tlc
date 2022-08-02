@@ -1,0 +1,246 @@
+%% $RCSfile: osekmainlib.tlc,v $
+%% $Revision: 1.13.6.3 $
+%%
+%% Copyright 2002-2004 The MathWorks, Inc.
+%%
+%% Abstract:
+%%   Library file to create an OSEK main for ERT code format
+%%   for a given model.
+%%
+%selectfile NULL_FILE
+
+%% Don't need the generic step fcn with switchyard to be generated.
+%assign ::RateBasedStepFcn =1
+
+%function FcnGenerateMultitaskingOSEKCode() Output
+  TASK(init)
+  {
+    /* Initialize model */
+    %<FcnMdlName()>_initialize(%<SLibModelFcnArgs("Initialize",TLC_TRUE,"")>);
+
+    /* Alarms are set in order from highest to lowest priority of the 
+    associated tasks and all run off of the System Counter. The second
+    argument(increment) to SetRelAlarm() is set to the same value and
+    no code is inserted between the calls to the SetRelAlarm API. These
+    steps are taken to minimize offset effects of model task activations. */
+    
+    %assign numTicks = %<OSLibOSEKAlarmTicksForRate(0)>
+    /* Base rate will run every           : %<OSLibOSEKTimesPerSecondForRate(0)> seconds
+    Original rate specified in model   : %<SampleTime[0].PeriodAndOffset[0]> seconds */
+    SetRelAlarm(baseAlarm, 1, %<numTicks>);
+    
+    %foreach i = NumSynchronousSampleTimes-1
+      %assign idx = i + 1
+      %assign numTicks = %<OSLibOSEKAlarmTicksForRate(idx)>
+      %assign offset   = %<OSLibOSEKOffsetForRate(idx)>
+      /* Sub rate will run every            : %<OSLibOSEKTimesPerSecondForRate(idx)> seconds,
+      Original rate specified in model   : %<SampleTime[idx].PeriodAndOffset[0]> seconds */
+      %if offset
+	/* Offset for this rate               : %<SampleTime[idx].PeriodAndOffset[1]> seconds */
+      %endif
+      SetRelAlarm(subAlarm_%<idx>, %<offset+1>, %<numTicks>);
+
+    %endforeach
+    TerminateTask();
+  }
+
+  /* Using RTW multitasking execution of model */
+  TASK(baseRate)
+  {
+    /* Set model inputs associated with base rate here */
+    %% This will have a call to the rate monotonic scheduler for special sample hits
+    %assign rootSystem.CurrentTID = 0
+    %<FcnCallMdlStep(0)>\
+    /* Get model outputs associated with base rate here */
+    
+    TerminateTask();
+  }
+  
+  %foreach i = NumSynchronousSampleTimes-1
+    %assign idx = i + 1
+    TASK(subRate_%<idx>)  
+    {
+      /* Set model inputs associated with sub rate here */
+      %assign rootSystem.CurrentTID = idx
+      %<FcnCallMdlStep(idx)>\
+      /* Get model outputs associated with sub rate here */
+      
+      TerminateTask();
+    }
+
+  %endforeach
+%endfunction
+
+%function FcnGenerateSingletaskingOSEKCode() Output
+  TASK(init)
+  {
+    /* Initialize model */
+    %<FcnMdlName()>_initialize(%<SLibModelFcnArgs("Initialize",TLC_TRUE,"")>);
+
+    %assign numTicks = %<OSLibOSEKAlarmTicksForRate(0)>
+    %assign offset   = %<OSLibOSEKOffsetForRate(0)>
+    /* Base rate will run every           : %<OSLibOSEKTimesPerSecondForRate(0)> seconds
+    Original rate specified in model   : %<SampleTime[0].PeriodAndOffset[0]> seconds */
+    %if offset
+      /* Offset ignored for this rate       : %<SampleTime[0].PeriodAndOffset[1]> seconds */
+    %endif
+    SetRelAlarm(singleAlarm, 1, %<numTicks>);
+    
+    TerminateTask();
+  }
+
+  /* Using RTW singletasking execution of model */
+  TASK(singleRate)
+  {
+    /* Set model inputs associated with base rate here */
+    %if NumSynchronousSampleTimes == 1
+      %<FcnCallMdlStep("")>\
+    %else
+      %<FcnCallMdlStep(0)>\
+    %endif
+    /* Get model outputs associated with base rate here */
+    
+    TerminateTask();
+  }
+%endfunction
+
+%function OSLibOSEKDeclareOSEKMain() void
+  %assign cFile = SLibAddModelFile("SystemBody","OSEK","osek_main")
+  %return cFile
+%endfunction
+  
+%function OSLibOSEKCreateOSEKMain() void
+
+  %assign cFile = OSLibOSEKDeclareOSEKMain()
+  
+  %openfile tmpFcnBuf
+  %<SLibDeclareModelFcnArgs(TLC_TRUE)>\
+  %closefile tmpFcnBuf
+  %<SLibSetModelFileAttribute(cFile, "Definitions", tmpFcnBuf)>
+
+  %openfile tmpFcnBuf
+  /*
+   * Auto generated OSEK main program for model: %<FcnMdlName()>
+   *
+   * Real-Time Workshop file version      : %<Version>
+   * Real-Time Workshop file generated on : %<GeneratedOn>
+   * C source code generated on           : %<TLC_TIME>
+   *
+   * Description:
+   *    OSEK target top-level, %<Name>.c.
+   *
+   */
+  %closefile tmpFcnBuf
+  %<SLibSetModelFileAttribute(cFile, "Banner", tmpFcnBuf)>
+  
+  %openfile tmpFcnBuf
+  /* Model's headers */
+  #include "%<Name>.h"
+
+  %% Add OSEK Implementation specific includes
+  %<OSLibOSEKImpSpecificIncludes()>
+
+  %closefile tmpFcnBuf
+  %<SLibSetModelFileAttribute(cFile, "Includes", tmpFcnBuf)>
+  
+  %<OSEKImpSpecificCalcInterruptRateValue()>
+
+  %openfile tmpFcnBuf
+
+  %<OSLibOSEKImpSpecificTasks()>
+  
+  %if NumSynchronousSampleTimes == 1 || SLibSingleTasking()
+    %<FcnGenerateSingletaskingOSEKCode()>\
+  %else
+    %<FcnGenerateMultitaskingOSEKCode()>\
+  %endif
+
+  %<OSLibOSEKInsertMainFcn()>
+
+%if IncludeErrHook == 1
+ %<OSLibOSEKCreateErrorHook()>
+%endif
+
+  %closefile tmpFcnBuf
+
+  %<SLibSetModelFileAttribute(cFile, "Functions", tmpFcnBuf)>
+%endfunction
+
+%function OSEKCreateOSEKData() void
+  %createrecord localData { \
+      AddOilTask "" \
+      AddOilAlarm "" \
+      AddOilCounter "" \
+      AddOilISR "" \
+      AddMakeVars "" \
+    }
+  %addtorecord CompiledModel OSEKData localData
+%endfunction
+
+%function OSLibOSEKAddTaskToOil(buffer) void
+    %assign CompiledModel.OSEKData.AddOilTask = CompiledModel.OSEKData.AddOilTask + buffer
+%endfunction
+%function OSLibOSEKDumpAddOilTasks() void
+    %return CompiledModel.OSEKData.AddOilTask
+%endfunction
+
+%function OSLibOSEKAddAlarmToOil(buffer) void
+    %assign CompiledModel.OSEKData.AddOilAlarm = CompiledModel.OSEKData.AddOilAlarm + buffer
+%endfunction
+
+%function OSLibOSEKDumpAddOilAlarms() void
+    %return CompiledModel.OSEKData.AddOilAlarm
+%endfunction
+
+%function OSLibOSEKAddCounterToOil(buffer) void
+    %assign CompiledModel.OSEKData.AddOilCounter = CompiledModel.OSEKData.AddOilCounter + buffer
+%endfunction
+%function OSLibOSEKDumpAddOilCounters() void
+    %return CompiledModel.OSEKData.AddOilCounter
+%endfunction
+
+%function OSLibOSEKAddISRToOil(buffer) void
+    %assign CompiledModel.OSEKData.AddOilISR = CompiledModel.OSEKData.AddOilISR + buffer
+%endfunction
+%function OSLibOSEKDumpAddOilISRs() void
+    %return CompiledModel.OSEKData.AddOilISR
+%endfunction
+
+%function OSLibOSEKAddMakeVars(buffer) void
+    %assign CompiledModel.OSEKData.AddMakeVars = CompiledModel.OSEKData.AddMakeVars + buffer
+%endfunction
+%function OSLibOSEKDumpMakeVars() void
+    %return CompiledModel.OSEKData.AddMakeVars
+%endfunction
+
+%function OSLibCreateMakeVarsFileContents() Output
+  %openfile MakeVarsFileContents
+  %% Support for pre-built rtwlib, dsplib, etc libraries
+  %with CompiledModel.Settings
+          IMPPATH=%<ImpPath>
+    %if ( TYPE(StaticLibraryDirectory) != "String" )
+      %assign CompiledModel.Settings.StaticLibraryDirectory = ""
+    %endif
+    %switch StaticLibraryDirectory
+      %case ""
+        STATIC_LIBDIR=
+        REBUILD_STATIC_LIBS=%<StaticLibraryRebuild>
+	%break
+      %default
+        STATIC_LIBDIR=%<StaticLibraryDirectory>
+        REBUILD_STATIC_LIBS=%<StaticLibraryRebuild>
+    %endswitch
+  %endwith
+  %% Support for TARGET_SUFFIX used to rename bsp.lk and output files .elf, .srec., .map, .bin
+  %if EXISTS("targetSuffix") && targetSuffix != "none"
+    TARGET_SUFFIX=_%<targetSuffix>
+  %endif
+  %<OSLibOSEKDumpMakeVars()>
+  %closefile MakeVarsFileContents
+  %return MakeVarsFileContents
+%endfunction
+
+%%
+%% Perform library initialization
+%%
+%<OSEKCreateOSEKData()>

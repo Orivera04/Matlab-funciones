@@ -1,0 +1,1024 @@
+# $Revision: 1.7.2.2 $
+Library {
+  Name			  "aerolibconvert"
+  Version		  5.0
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  off
+  StatusBar		  off
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Thu Dec 06 13:16:20 2001"
+  Creator		  "sgage"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "sgage"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Thu Apr 10 17:12:05 2003"
+  ModelVersionFormat	  "1.%<AutoIncrement:58>"
+  ConfigurationManager	  "none"
+  SimParamPage		  "Solver"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeMexFile	  "ext_comm"
+  ExtModeBatchMode	  off
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock off
+  SimulationMode	  "normal"
+  ConsistencyChecking	  "none"
+  ArrayBoundsChecking	  "none"
+  AlgebraicLoopMsg	  "warning"
+  BlockPriorityViolationMsg "warning"
+  MinStepSizeMsg	  "warning"
+  InheritedTsInSrcMsg	  "warning"
+  DiscreteInheritContinuousMsg "warning"
+  MultiTaskRateTransMsg	  "error"
+  SingleTaskRateTransMsg  "none"
+  CheckForMatrixSingularity "none"
+  IntegerOverflowMsg	  "warning"
+  Int32ToFloatConvMsg	  "warning"
+  ParameterDowncastMsg	  "error"
+  ParameterOverflowMsg	  "error"
+  ParameterPrecisionLossMsg "warning"
+  UnderSpecifiedDataTypeMsg "none"
+  UnnecessaryDatatypeConvMsg "none"
+  VectorMatrixConversionMsg "none"
+  InvalidFcnCallConnMsg	  "error"
+  SignalLabelMismatchMsg  "none"
+  UnconnectedInputMsg	  "warning"
+  UnconnectedOutputMsg	  "warning"
+  UnconnectedLineMsg	  "warning"
+  SfunCompatibilityCheckMsg "none"
+  ProdHWDeviceType	  "Microprocessor"
+  ProdHWWordLengths	  "8,16,32,32"
+  RTWMakeCommand	  "make_rtw"
+  RTWGenerateCodeOnly	  off
+  RTWRetainRTWFile	  off
+  TLCProfiler		  off
+  TLCDebug		  off
+  TLCCoverage		  off
+  TLCAssertion		  off
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      ShowAdditionalParam     off
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "sfix(16)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ShowAdditionalParam     off
+      ParameterDataTypeMode   "Same as input"
+      ParameterDataType	      "sfix(16)"
+      ParameterScalingMode    "Best Precision: Matrix-wise"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      ShowAdditionalParam     off
+      LatchInput	      off
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      RTWSystemCode	      "Auto"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Sum
+      IconShape		      "rectangular"
+      Inputs		      "++"
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "aerolibconvert"
+    Location		    [513, 101, 925, 438]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      "Acceleration Conversion"
+      Ports		      [1, 1]
+      Position		      [270, 40, 360, 70]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Acceleration Conversion"
+      MaskDescription	      "Convert units of input signal to desired output"
+" units."
+      MaskHelp		      "web(asbhelp);"
+      MaskPromptString	      "Initial units:|Final units:"
+      MaskStyleString	      "popup(ft/s^2|m/s^2|km/s^2|in/s^2|km/h-s|mph/s),"
+"popup(ft/s^2|m/s^2|km/s^2|in/s^2|km/h-s|mph/s)"
+      MaskTunableValueString  "off,off"
+      MaskCallbackString      "|"
+      MaskEnableString	      "on,on"
+      MaskVisibilityString    "on,on"
+      MaskToolTipString	      "on,on"
+      MaskVarAliasString      ","
+      MaskVariables	      "IU=@1;OU=@2;"
+      MaskInitialization      "aeroicon('aeroblkconversion');\n[ports,slope,bi"
+"as] = aeroicon('aeroblkconversion','icon');\n[xp,yp]=aeroimage('unitconv');"
+      MaskDisplay	      "port_label(ports(1).type,ports(1).port,ports(1)"
+".txt,'texmode','on');\nport_label(ports(2).type,ports(2).port,ports(2).txt,'t"
+"exmode','on');\npatch(xp,yp)"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "ft/s^2|m/s^2"
+      System {
+	Name			"Acceleration Conversion"
+	Location		[46, 420, 544, 720]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [110, 103, 140, 117]
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Unit Conversion"
+	  Position		  [205, 91, 275, 129]
+	  Gain			  "slope"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  Position		  [360, 103, 390, 117]
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "Unit Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Unit Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Angle Conversion"
+      Ports		      [1, 1]
+      Position		      [40, 110, 130, 140]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Angle Conversion"
+      MaskDescription	      "Convert units of input signal to desired output"
+" units."
+      MaskHelp		      "web(asbhelp);"
+      MaskPromptString	      "Initial units:|Final units:"
+      MaskStyleString	      "popup(deg|rad|rev),popup(deg|rad|rev)"
+      MaskTunableValueString  "off,off"
+      MaskCallbackString      "|"
+      MaskEnableString	      "on,on"
+      MaskVisibilityString    "on,on"
+      MaskToolTipString	      "on,on"
+      MaskVarAliasString      ","
+      MaskVariables	      "IU=@1;OU=@2;"
+      MaskInitialization      "aeroicon('aeroblkconversion');\n[ports,slope,bi"
+"as] = aeroicon('aeroblkconversion','icon');\n[xp,yp]=aeroimage('unitconv');"
+      MaskDisplay	      "port_label(ports(1).type,ports(1).port,ports(1)"
+".txt);\nport_label(ports(2).type,ports(2).port,ports(2).txt);\npatch(xp,yp)"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "deg|rad"
+      System {
+	Name			"Angle Conversion"
+	Location		[473, 431, 971, 731]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [110, 103, 140, 117]
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Unit Conversion"
+	  Position		  [215, 91, 285, 129]
+	  Gain			  "slope"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  Position		  [360, 103, 390, 117]
+	}
+	Line {
+	  SrcBlock		  "Unit Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "Unit Conversion"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Angular Acceleration\nConversion"
+      Ports		      [1, 1]
+      Position		      [270, 110, 360, 140]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Angular Acceleration Conversion"
+      MaskDescription	      "Convert units of input signal to desired output"
+" units."
+      MaskHelp		      "web(asbhelp);"
+      MaskPromptString	      "Initial units:|Final units:"
+      MaskStyleString	      "popup(deg/s^2|rad/s^2|rpm/s),popup(deg/s^2|rad/"
+"s^2|rpm/s)"
+      MaskTunableValueString  "off,off"
+      MaskCallbackString      "|"
+      MaskEnableString	      "on,on"
+      MaskVisibilityString    "on,on"
+      MaskToolTipString	      "on,on"
+      MaskVarAliasString      ","
+      MaskVariables	      "IU=@1;OU=@2;"
+      MaskInitialization      "aeroicon('aeroblkconversion');\n[ports,slope,bi"
+"as] = aeroicon('aeroblkconversion','icon');\n[xp,yp]=aeroimage('unitconv');"
+      MaskDisplay	      "port_label(ports(1).type,ports(1).port,ports(1)"
+".txt,'texmode','on');\nport_label(ports(2).type,ports(2).port,ports(2).txt,'t"
+"exmode','on');\npatch(xp,yp)"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "deg/s^2|rad/s^2"
+      System {
+	Name			"Angular Acceleration\nConversion"
+	Location		[46, 420, 544, 720]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [110, 103, 140, 117]
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Unit Conversion"
+	  Position		  [205, 91, 275, 129]
+	  Gain			  "slope"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  Position		  [360, 103, 390, 117]
+	}
+	Line {
+	  SrcBlock		  "Unit Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "Unit Conversion"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Angular Velocity\nConversion"
+      Ports		      [1, 1]
+      Position		      [155, 110, 245, 140]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Angular Velocity Conversion"
+      MaskDescription	      "Convert units of input signal to desired output"
+" units."
+      MaskHelp		      "web(asbhelp);"
+      MaskPromptString	      "Initial units:|Final units:"
+      MaskStyleString	      "popup(deg/s|rad/s|rpm),popup(deg/s|rad/s|rpm)"
+      MaskTunableValueString  "off,off"
+      MaskCallbackString      "|"
+      MaskEnableString	      "on,on"
+      MaskVisibilityString    "on,on"
+      MaskToolTipString	      "on,on"
+      MaskVarAliasString      ","
+      MaskVariables	      "IU=@1;OU=@2;"
+      MaskInitialization      "aeroicon('aeroblkconversion');\n[ports,slope,bi"
+"as] = aeroicon('aeroblkconversion','icon');\n[xp,yp]=aeroimage('unitconv');"
+      MaskDisplay	      "port_label(ports(1).type,ports(1).port,ports(1)"
+".txt);\nport_label(ports(2).type,ports(2).port,ports(2).txt);\npatch(xp,yp)"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "deg/s|rad/s"
+      System {
+	Name			"Angular Velocity\nConversion"
+	Location		[30, 362, 528, 662]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [110, 103, 140, 117]
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Unit Conversion"
+	  Position		  [205, 91, 275, 129]
+	  Gain			  "slope"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  Position		  [360, 103, 390, 117]
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "Unit Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Unit Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Density Conversion"
+      Ports		      [1, 1]
+      Position		      [270, 180, 360, 210]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Density Conversion"
+      MaskDescription	      "Convert units of input signal to desired output"
+" units."
+      MaskHelp		      "web(asbhelp);"
+      MaskPromptString	      "Initial units:|Final units:"
+      MaskStyleString	      "popup(lbm/ft^3|kg/m^3|slug/ft^3|lbm/in^3),popup"
+"(lbm/ft^3|kg/m^3|slug/ft^3|lbm/in^3)"
+      MaskTunableValueString  "off,off"
+      MaskCallbackString      "|"
+      MaskEnableString	      "on,on"
+      MaskVisibilityString    "on,on"
+      MaskToolTipString	      "on,on"
+      MaskVarAliasString      ","
+      MaskVariables	      "IU=@1;OU=@2;"
+      MaskInitialization      "aeroicon('aeroblkconversion');\n[ports,slope,bi"
+"as] = aeroicon('aeroblkconversion','icon');\n[xp,yp]=aeroimage('unitconv');"
+      MaskDisplay	      "port_label(ports(1).type,ports(1).port,ports(1)"
+".txt,'texmode','on');\nport_label(ports(2).type,ports(2).port,ports(2).txt,'t"
+"exmode','on');\npatch(xp,yp)"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "lbm/ft^3|kg/m^3"
+      System {
+	Name			"Density Conversion"
+	Location		[40, 431, 538, 731]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [110, 103, 140, 117]
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Unit Conversion"
+	  Position		  [210, 91, 280, 129]
+	  Gain			  "slope"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  Position		  [360, 103, 390, 117]
+	}
+	Line {
+	  SrcBlock		  "Unit Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "Unit Conversion"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Force Conversion"
+      Ports		      [1, 1]
+      Position		      [40, 250, 130, 280]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Force Conversion"
+      MaskDescription	      "Convert units of input signal to desired output"
+" units."
+      MaskHelp		      "web(asbhelp);"
+      MaskPromptString	      "Initial units:|Final units:"
+      MaskStyleString	      "popup(lbf|N),popup(lbf|N)"
+      MaskTunableValueString  "off,off"
+      MaskCallbackString      "|"
+      MaskEnableString	      "on,on"
+      MaskVisibilityString    "on,on"
+      MaskToolTipString	      "on,on"
+      MaskVarAliasString      ","
+      MaskVariables	      "IU=@1;OU=@2;"
+      MaskInitialization      "aeroicon('aeroblkconversion');\n[ports,slope,bi"
+"as] = aeroicon('aeroblkconversion','icon');\n[xp,yp]=aeroimage('unitconv');"
+      MaskDisplay	      "port_label(ports(1).type,ports(1).port,ports(1)"
+".txt);\nport_label(ports(2).type,ports(2).port,ports(2).txt);\npatch(xp,yp)"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "lbf|N"
+      System {
+	Name			"Force Conversion"
+	Location		[12, 433, 510, 733]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [110, 103, 140, 117]
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Unit Conversion"
+	  Position		  [210, 91, 280, 129]
+	  Gain			  "slope"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  Position		  [360, 103, 390, 117]
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "Unit Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Unit Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Length Conversion"
+      Ports		      [1, 1]
+      Position		      [40, 40, 130, 70]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Length Conversion"
+      MaskDescription	      "Convert units of input signal to desired output"
+" units."
+      MaskHelp		      "web(asbhelp);"
+      MaskPromptString	      "Initial units:|Final units:"
+      MaskStyleString	      "popup(ft|m|km|in|mi|naut mi),popup(ft|m|km|in|m"
+"i|naut mi)"
+      MaskTunableValueString  "off,off"
+      MaskCallbackString      "|"
+      MaskEnableString	      "on,on"
+      MaskVisibilityString    "on,on"
+      MaskToolTipString	      "on,on"
+      MaskVarAliasString      ","
+      MaskVariables	      "IU=@1;OU=@2;"
+      MaskInitialization      "aeroicon('aeroblkconversion');\n[ports,slope,bi"
+"as] = aeroicon('aeroblkconversion','icon');\n[xp,yp]=aeroimage('unitconv');"
+      MaskDisplay	      "port_label(ports(1).type,ports(1).port,ports(1)"
+".txt);\nport_label(ports(2).type,ports(2).port,ports(2).txt);\npatch(xp,yp)"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "ft|m"
+      System {
+	Name			"Length Conversion"
+	Location		[274, 394, 716, 628]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [60, 103, 90, 117]
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Unit Conversion"
+	  Position		  [165, 91, 235, 129]
+	  Gain			  "slope"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  Position		  [310, 103, 340, 117]
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "Unit Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Unit Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Mass Conversion"
+      Ports		      [1, 1]
+      Position		      [155, 180, 245, 210]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Mass Conversion"
+      MaskDescription	      "Convert units of input signal to desired output"
+" units."
+      MaskHelp		      "web(asbhelp);"
+      MaskPromptString	      "Initial units:|Final units:"
+      MaskStyleString	      "popup(lbm|kg|slug),popup(lbm|kg|slug)"
+      MaskTunableValueString  "off,off"
+      MaskCallbackString      "|"
+      MaskEnableString	      "on,on"
+      MaskVisibilityString    "on,on"
+      MaskToolTipString	      "on,on"
+      MaskVarAliasString      ","
+      MaskVariables	      "IU=@1;OU=@2;"
+      MaskInitialization      "aeroicon('aeroblkconversion');\n[ports,slope,bi"
+"as] = aeroicon('aeroblkconversion','icon');\n[xp,yp]=aeroimage('unitconv');"
+      MaskDisplay	      "port_label(ports(1).type,ports(1).port,ports(1)"
+".txt);\nport_label(ports(2).type,ports(2).port,ports(2).txt);\npatch(xp,yp)"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "lbm|kg"
+      System {
+	Name			"Mass Conversion"
+	Location		[73, 414, 571, 714]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [110, 103, 140, 117]
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Unit Conversion"
+	  Position		  [210, 91, 280, 129]
+	  Gain			  "slope"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  Position		  [360, 103, 390, 117]
+	}
+	Line {
+	  SrcBlock		  "Unit Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "Unit Conversion"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Pressure Conversion"
+      Ports		      [1, 1]
+      Position		      [155, 250, 245, 280]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Pressure Conversion"
+      MaskDescription	      "Convert units of input signal to desired output"
+" units."
+      MaskHelp		      "web(asbhelp);"
+      MaskPromptString	      "Initial units:|Final units:"
+      MaskStyleString	      "popup(psi|Pa|psf|atm),popup(psi|Pa|psf|atm)"
+      MaskTunableValueString  "off,off"
+      MaskCallbackString      "|"
+      MaskEnableString	      "on,on"
+      MaskVisibilityString    "on,on"
+      MaskToolTipString	      "on,on"
+      MaskVarAliasString      ","
+      MaskVariables	      "IU=@1;OU=@2;"
+      MaskInitialization      "aeroicon('aeroblkconversion');\n[ports,slope,bi"
+"as] = aeroicon('aeroblkconversion','icon');\n[xp,yp]=aeroimage('unitconv');"
+      MaskDisplay	      "port_label(ports(1).type,ports(1).port,ports(1)"
+".txt);\nport_label(ports(2).type,ports(2).port,ports(2).txt);\npatch(xp,yp)"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "psi|Pa"
+      System {
+	Name			"Pressure Conversion"
+	Location		[24, 432, 522, 732]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [110, 103, 140, 117]
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Unit Conversion"
+	  Position		  [210, 91, 280, 129]
+	  Gain			  "slope"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  Position		  [360, 103, 390, 117]
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "Unit Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Unit Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Temperature Conversion"
+      Ports		      [1, 1]
+      Position		      [40, 180, 130, 210]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Temperature Conversion"
+      MaskDescription	      "Convert units of input signal to desired output"
+" units."
+      MaskHelp		      "web(asbhelp);"
+      MaskPromptString	      "Initial units:|Final units:"
+      MaskStyleString	      "popup(K|F|C|R),popup(K|F|C|R)"
+      MaskTunableValueString  "off,off"
+      MaskCallbackString      "|"
+      MaskEnableString	      "on,on"
+      MaskVisibilityString    "on,on"
+      MaskToolTipString	      "on,on"
+      MaskVarAliasString      ","
+      MaskVariables	      "IU=@1;OU=@2;"
+      MaskInitialization      "aeroicon('aeroblkconversion');\n[ports,slope,bi"
+"as] = aeroicon('aeroblkconversion','icon');\n[xp,yp]=aeroimage('unitconv');"
+      MaskDisplay	      "port_label(ports(1).type,ports(1).port,ports(1)"
+".txt);\nport_label(ports(2).type,ports(2).port,ports(2).txt);\npatch(xp,yp)"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "R|K"
+      System {
+	Name			"Temperature Conversion"
+	Location		[92, 139, 590, 439]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [110, 103, 140, 117]
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum"
+	  Ports			  [2, 1]
+	  Position		  [305, 100, 325, 120]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "|++"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Unit Conversion Bias"
+	  Position		  [270, 150, 300, 180]
+	  Value			  "bias"
+	  ShowAdditionalParam	  on
+	  OutDataTypeMode	  "Inherit via back propagation"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Unit Conversion Slope"
+	  Position		  [205, 91, 275, 129]
+	  Gain			  "slope"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  Position		  [360, 103, 390, 117]
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "Unit Conversion Slope"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Unit Conversion Slope"
+	  SrcPort		  1
+	  DstBlock		  "Sum"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sum"
+	  SrcPort		  1
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Unit Conversion Bias"
+	  SrcPort		  1
+	  Points		  [10, 0]
+	  DstBlock		  "Sum"
+	  DstPort		  2
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Velocity Conversion"
+      Ports		      [1, 1]
+      Position		      [155, 40, 245, 70]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Velocity Conversion"
+      MaskDescription	      "Convert units of input signal to desired output"
+" units."
+      MaskHelp		      "web(asbhelp);"
+      MaskPromptString	      "Initial units:|Final units:"
+      MaskStyleString	      "popup(ft/s|m/s|km/s|in/s|km/h|mph|kts),popup(ft"
+"/s|m/s|km/s|in/s|km/h|mph|kts)"
+      MaskTunableValueString  "off,off"
+      MaskCallbackString      "|"
+      MaskEnableString	      "on,on"
+      MaskVisibilityString    "on,on"
+      MaskToolTipString	      "on,on"
+      MaskVarAliasString      ","
+      MaskVariables	      "IU=@1;OU=@2;"
+      MaskInitialization      "aeroicon('aeroblkconversion');\n[ports,slope,bi"
+"as] = aeroicon('aeroblkconversion','icon');\n[xp,yp]=aeroimage('unitconv');"
+      MaskDisplay	      "port_label(ports(1).type,ports(1).port,ports(1)"
+".txt);\nport_label(ports(2).type,ports(2).port,ports(2).txt);\npatch(xp,yp)"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "ft/s|m/s"
+      System {
+	Name			"Velocity Conversion"
+	Location		[76, 399, 567, 627]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [110, 103, 140, 117]
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Unit Conversion"
+	  Position		  [205, 91, 275, 129]
+	  Gain			  "slope"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  Position		  [360, 103, 390, 117]
+	}
+	Line {
+	  SrcBlock		  "Unit Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "Unit Conversion"
+	  DstPort		  1
+	}
+      }
+    }
+  }
+}

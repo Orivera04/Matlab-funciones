@@ -1,0 +1,111 @@
+<html>
+<head>
+	<title>Tutorial#2 (Marine Visualization Toolbox)</title>
+	<link rel=stylesheet href="docstyle1.css" type="text/css">
+</head>
+
+<body bgcolor=#ffffff>
+
+<table border=0 width="100%" cellpadding=0 cellspacing=0><tr>
+	<td valign=baseline bgcolor="#ffe4b0"><b>Marine Visualization Toolbox</b></td>
+	<td valign=baseline bgcolor="#ffe4b0" align=right><a href="tut1.html"><img src="b_prev.gif" border=0></a>  <a href="ex.html"><img src="b_next.gif" border=0></a></td>
+</tr></table>
+
+<p><font size=+2 color="#990000"><b>Tutorial#2</b></font><br>
+
+<p>This tutorial is an instruction on how to use custom VRML models with the MVT, it is <EM>not</EM> an
+introduction to 3D modelling.
+<p>The VRML editor used in this tutorial is the editor included in the Virtual Reality Toolbox 3.0:
+V-Realm Builder, Version 2.0 by Integrated Data Systems, Inc. The program is located in the toolbox
+subfolder <I>vr</I>, under <I>vrealm</I>.
+<p>Files included for this tutorial are located in the MVT help folder, under  <I>tutorials</I>, typically:
+<I><B>[your_matlabroot]\help\toolbox\mvt\tutorials</B></I>. Always search this folder when asked to open
+a file during this tutorial.
+<p>&nbsp;
+
+
+<HR ALIGN="center" WIDTH="100%">
+<p><font size=+2 color="#990000"><b>Step 1 - Alternative vessel models</b></font>
+
+<p>All vessels used with the MVT must have two levels of VRML files. The first level may be several
+VRML models, which represent the alternative ways of displaying a vessel (see the <I>Display vessel as...</I>
+field in the director GUI). Level two integrates all these files in one single file, using the VRML command
+<I>Inline</I>.
+<p>This tutorial includes two different VRML mdoels, a vessel and the axis it's body-fixed frame.
+These have the file extension <I>inline</I>, this is to avoid confusion with the VRML files with extension
+<I>wrl</I> when selecting vessel models in the <I>typedef</I> GUI.
+<p><B>Step 1:</B>
+<p>Open the file: <B><EM>my_inlined_vessel.inline</EM></B> in your VRML editor. By rotating the object a
+little bit, it should something like the figure below.
+<p><img src="miv.jpg"><br>The VRML model in <I>my_inlined_vessel.inline</I>.
+<p>This model will be one of the two possible models to display the custom vessel in an animation.
+<p>The other model is the vessel's body-fixed axis, open the file <I><B>my_inlined_axis.inline</B></I> to
+view this model. It should look something like the figure below, the red, green and blue arrows are the
+<I>x</I>, <I>y</I> and <I>z</I>-directions respectively.
+<p><img src="mia.jpg"><br>
+The vessel's body-fixed axis.
+<p>You now have two models that may represent the vessel in an animation, but you may have any number
+of alternative models for one vessel.
+<p>&nbsp;
+
+
+<HR ALIGN="center" WIDTH="100%">
+<p><font size=+2 color="#990000"><b>Step 2 - The vessel VRML file</b></font>
+
+<p>All vessel VRML files have file extensions <I>wrl</I> (e.g. <I>auv.wrl</I>, <I>supply.wrl</I>), and they
+all reference files with extension <I>inline</I> (e.g. <I>auv.inline</I>, <I>axis.inline</I>). You should
+follow this naming convention, to avoid confusion between inlined files and vessel files, when creating
+your own custom vessels.
+<p><B>Step 2:</B>
+<p>Open the file <I>my_vessel.wrl</I> in the VRML editor. This file might not appear to contain anything
+at all, but you should be able to see a wireframe box centered onthe screen, like in the figure below.
+<p><img src="mv.jpg"><br>A bounding box illustrating the position of the inlined VRML file.
+<p>Since the only models in this file are referenced by <I>inline</I>, the editor only displays a bounding
+box to give you a general idea of the model's position. If you're using V-Realm Builder, you should see a
+hierarchy tree to the left, like the one below except for the red underlining.
+<p><img src="tree.jpg"><br>The hierarchy of the VRML file <I>my_vessel.wrl</I>.
+<p>The two model files from previous step are referenced as <I>inlines</I>, these are both children of
+the <I>vessel_switch</I> (underlined red). If you want to add other alternative models, add them under
+the <I>vessel_switch</I> as inlined files.
+<p>The translation and rotation of <I>vessel_trans</I> are manipulated directly by the MVT, these are the
+fields that move your vessel! Entering values in these fields have no effect, since MVT overwrites them when
+creating animations.
+<p>The given names with red underlines must be spelled in this exact manner to be recognized by the MVT.
+All others may be named anything, but note that the names of the <I>inline</I> fields (<I>vessel</I> and
+<I>axis</I>), will appear in the popupmenu <I>Display vessel as...</I> in the <I>director</I> GUI.
+<p>When animating the translation field of <I>view</I> will be set equal to the translation field of
+<I>vessel_trans</I>. Thus the viewpoints that are children of <I>view</I> will follow the vessel as it moves,
+you may define any number of viewpoints.
+<p>&nbsp;
+
+
+<HR ALIGN="center" WIDTH="100%">
+<p><font size=+2 color="#990000"><b>Step 3 - Copy the VRML files to the MVT folder</b></font>
+
+<p>In order to use the above VRML files with the MVT you have to copy the files to the MVT subfolder
+<I>vessel</I>, this is where all vessel models must be located.
+<p><B>Step 3:</B>
+<p>Copy the three files from step 1 and 2 to your MVT subfolder <I>vessel</I>, typically:
+<I><B>[your_matlabroot]\toolbox\mvt\vessel</B></I>.
+<p>The VRML files are now recognized by the <I>typedef</I> GUI and displayed as any other vessels the
+next time you run the toolbox.
+<p>&nbsp;
+
+
+<HR ALIGN="center" WIDTH="100%">
+<p><font size=+2 color="#990000"><b>Step 4 - Custom scene models</b></font>
+
+<p>To use custom scene models with the MVT, simply create your own scene model, and save it to the MVT
+subfolder <I>world</I>, typically: <I><B>[your_matlabroot]\toolbox\mvt\world</B></I>. You may include
+any number of viewpoints in a scene model.
+
+<p>&nbsp;
+
+<p><table bgcolor="#ffe4b0" border=0 width="100%" cellpadding=0 cellspacing=0><tr valign=center>
+    <td align=left width=20><a href="tut1.html"><img src="b_prev.gif" border=0 align=center></a></td>
+    <td align=left> Tutorial#1</td><td align=right>Examples on use</td>
+    <td align=right width=20><a href="ex.html"><img src="b_next.gif" border=0 align=center></a></td></tr>
+   </table>
+
+</body>
+</html>

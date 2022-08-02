@@ -1,0 +1,20 @@
+function b = comb3(r)
+%Programa para construir combinaciones n_arias
+
+%Formar matriz de combinaciones
+a=sort(combina_2(r))
+n=numel(r);
+m=1;
+for i=1:n-1
+    for j=i+1:n-1
+        for k=j+1:n
+            if j<k
+            b(m,k)=a(i)*r(k); 
+            end
+        end
+        m=m+1;
+    end
+end
+
+ b            
+                

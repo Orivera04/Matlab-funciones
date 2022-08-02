@@ -1,0 +1,25 @@
+%% File: mpc555_common_includes.tlc
+%%
+%% Abstract:
+%%
+%% Common file for all MPC555 RT Driver blocks to include
+%%
+%% $Revision: 1.1 $
+%% $Date: 2002/12/10 16:49:04 $
+%%
+%% Copyright 2002 The MathWorks, Inc.
+
+%% Add the path to targetlib.tlc to the include path
+%% so that all driver blocks do not have to set this up before they call
+%% SLibCodeGenForSim
+%assign MATLAB_ROOT = FEVAL("matlabroot")
+%assign PATH_SEP = FEVAL("filesep")
+%assign TARGETS_PATH = "%<MATLAB_ROOT>%<PATH_SEP>toolbox%<PATH_SEP>rtw%<PATH_SEP>targets%<PATH_SEP>common%<PATH_SEP>configuration%<PATH_SEP>environment"
+%addincludepath "%<TARGETS_PATH>"
+%include "targetlib.tlc"
+
+%% Add the Simulink CAN Datatypes directory to the 
+%% tlc include path - these data types are used by 
+%% the TouCAN blocks only : Standard and Extended
+%% CAN message data types.
+%addincludepath "%<MATLAB_ROOT>%<PATH_SEP>toolbox%<PATH_SEP>rtw%<PATH_SEP>targets%<PATH_SEP>common%<PATH_SEP>can%<PATH_SEP>datatypes"

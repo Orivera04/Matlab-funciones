@@ -1,0 +1,192 @@
+%% $RCSfile: osekworks_oil.tlc,v $
+%% $Revision: 1.9.4.1 $
+%%
+%% Copyright 2002-2004 The MathWorks, Inc.
+%%
+%% Abstract:
+%%   Library file to create an OSEKWorks OIL file for a given model.
+%%
+%selectfile NULL_FILE
+
+%function OSLibOSEKCreateOSEKOil(mdlName) void
+{
+  %% Use openfile since SLibAddModelFile() assumes .c or .h
+  %openfile oilfile = "%<mdlName>.oil"
+  //
+  //OIL file: %<mdlName>.oil
+  //
+  
+  OIL_VERSION = "2.2";
+  %% include WIND_BASE/target/osekworks/sys/oilfiles/ppc<bsp>.oil
+  #include <ppc%<bspName>.oil>
+  
+  CPU %<mdlName> {
+
+    /**************************************************************************/
+    /*             Tasks                                                      */
+    /**************************************************************************/
+    
+    %<OSLibOSEKDumpAddOilTasks()>
+
+    TASK init {
+      SCHEDULE = NON;
+      PRIORITY = %<basePriority + 1>;
+      ACTIVATION = 1;
+      AUTOSTART = TRUE;
+      APPMODE = mode0;
+      %% OSEKWorks implementation specific attribute
+      STACKSIZE = 40;
+      %<OSLibOSEKImplDeclareFPU()>
+    };
+    
+    %if NumSynchronousSampleTimes == 1 || SLibSingleTasking()
+      TASK singleRate {
+	SCHEDULE = FULL;
+	PRIORITY = %<basePriority>;
+	ACTIVATION = 1;
+	AUTOSTART = FALSE;
+	APPMODE =  mode0;
+	%% OSEKWorks implementation specific attributes below
+	STACKSIZE = %<stackSize>;
+	%<OSLibOSEKImplDeclareFPU()>
+      };
+    %else
+      TASK baseRate {
+	SCHEDULE = FULL;
+	PRIORITY = %<basePriority>;
+	ACTIVATION = 1;
+	AUTOSTART = FALSE;
+	APPMODE =  mode0;
+	%% OSEKWorks implementation specific attributes below
+	STACKSIZE = %<stackSize>;
+	%<OSLibOSEKImplDeclareFPU()>
+     };
+      
+      %foreach i = NumSynchronousSampleTimes-1
+	%assign idx = i + 1
+	
+	TASK subRate_%<idx>
+	{
+	  SCHEDULE = FULL;
+	  PRIORITY = %<basePriority - idx>;
+	  ACTIVATION = 1;
+	  AUTOSTART = FALSE;
+	  APPMODE = mode0;
+	  %% OSEKWorks implementation specific attributes below
+	  STACKSIZE = %<stackSize>;
+	  %<OSLibOSEKImplDeclareFPU()>
+	};
+      %endforeach
+    %endif    
+    
+    /**************************************************************************/
+    /*             Alarms                                                     */
+    /**************************************************************************/
+    
+    %<OSLibOSEKDumpAddOilAlarms()>
+
+    %if NumSynchronousSampleTimes == 1 || SLibSingleTasking()
+      ALARM singleAlarm {
+	COUNTER = SystemTimer;
+	ACTION = ACTIVATETASK {
+	  TASK = singleRate;
+	};
+      };
+      
+    %else
+      ALARM baseAlarm {
+	COUNTER = SystemTimer;
+	ACTION = ACTIVATETASK {
+	  TASK = baseRate;
+	};
+      };
+      
+      %foreach i = NumSynchronousSampleTimes-1
+	%assign idx = i + 1
+	
+	ALARM subAlarm_%<idx> {
+	  COUNTER = SystemTimer;
+	  ACTION = ACTIVATETASK {
+	    TASK = subRate_%<idx>;
+	  };
+	};
+      %endforeach
+    %endif
+    
+    /**************************************************************************/
+    /*             Counters                                                   */
+    /**************************************************************************/
+
+    %<OSLibOSEKDumpAddOilCounters()>
+    
+    %% OSEKWorks associates the SystemTimer COUNTER with the DECREMENTER hardware.
+    %% The ISR SystemTimerISR is attached to the DECREMENTER vector and will
+    %% increment this COUNTER at interrupt rate/sec of TICKSPERBASE.
+    %% Actually setup with a global var, #define OSTICKDURATION kd_osTickDuration_ns
+    %% in systimer.c which is specified in nanoseconds
+    COUNTER SystemTimer {
+      MAXALLOWEDVALUE = 65535;
+      %% For OSEKWorks, SystemTimer has this as ticks per second
+      TICKSPERBASE = %<ticksPerBase>;
+      MINCYCLE = 1;
+    };
+    
+    
+    /**************************************************************************/
+    /*             Application Modes                                          */
+    /**************************************************************************/
+    
+    APPMODE mode0 {
+      %% OSEKWorks implementation specific attribute
+      VALUE = AUTO;
+    };
+    
+    /**************************************************************************/
+    /*             ISRs                                                       */
+    /**************************************************************************/
+    
+    %<OSLibOSEKDumpAddOilISRs()>
+    
+    ISR SystemTimerISR {
+      CATEGORY = 2;
+      ENABLE_AT_STARTUP = TRUE;
+      VECTOR = DECREMENTER;
+    };
+    
+    %if !OSLibOSEKWorksAddOilExtISRsIsEmpty()
+      ISR Ext500DispatcherISR {
+	CATEGORY = 2;
+	ENABLE_AT_STARTUP = TRUE;
+	VECTOR = EXTERNAL_IO
+	{
+	  %<OSLibOSEKWorksDumpAddOilExtISRs()>
+	};
+      };
+    %endif
+
+    /**************************************************************************/
+    /*             O/S                                                        */
+    /**************************************************************************/
+    
+    OS StdOS {
+      STATUS = EXTENDED;
+      STARTUPHOOK = FALSE;
+%if IncludeErrHook == 1
+      ERRORHOOK = TRUE;
+%else
+      ERRORHOOK = FALSE;
+%endif
+      SHUTDOWNHOOK = FALSE;
+      PRETASKHOOK = FALSE;
+      POSTTASKHOOK = FALSE;
+      SYSTEMSTACKSIZE = %<systemStackSize>;
+    };
+    
+  };
+
+  %closefile oilfile
+
+  %% Use c_indent since oil file syntax similar to C.
+  %<SLibIndentFile("%<mdlName>.oil","")>
+  
+%endfunction

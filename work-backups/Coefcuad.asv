@@ -1,0 +1,24 @@
+function [coef1,coef2]=Coefcuad(A,B,C)
+clc;
+syms x y  X Y 
+if B==0
+    disp('No hay rotación');
+  coef1=A; coef2=C;
+    return
+end
+if A-C==0
+      v=1/2; w=sym(sqrt(2)/2);z=w; 
+else
+   T2t=sym(B/(A-C)); 
+   if B/(A-C)<0
+      C2t=-1/(sqrt(1+T2t^2));
+   else
+     C2t=1/(sqrt(1+T2t^2));   
+   end
+t=(C2t+1)/2;u=1-t;;w=sqrt(t);z=sqrt(u); %v=t^(1/2)*u^(1/2)
+end
+x=X*w-Y*z; y=X*z+Y*w; ecua1=A*x^2+B*x*y+C*y^2; 
+ecuasim=simplify(ecua1); vc=coefpol(char(ecuasim));
+coef1=vc(1);coef2=vc(2);
+
+

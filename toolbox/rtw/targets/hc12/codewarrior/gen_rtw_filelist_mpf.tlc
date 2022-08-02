@@ -1,0 +1,65 @@
+%% File: gen_rtw_filelist_mpf.tlc
+%%
+%% Abstract: Generate the file rtw_filelist.mpf
+%%  that is imported by CodeWarrior to define the
+%%  list of files that are required for RTW/CodeWarrior
+%%  integration.
+
+%% $Revision: 1.1.6.2 $
+%% $Date: 2004/02/11 19:36:44 $
+%%
+%% Copyright 2002-2004 The MathWorks, Inc.
+
+%% Generated files:
+%%   modelname_data.c
+%%   modelname.c
+%%   modelname.h
+%%   modelname_private.h
+%%   modelname_types.h
+%%   cpp_req_defines.h
+%%
+%% The following static files are stored with the
+%% CodeWarrior project stationery. These files are
+%% copied into to destination directory along with
+%% generated files.
+%%   rtw_hc12_intlib_ram.lib
+%%   tmwtypes.h
+
+
+%selectfile NULL_FILE
+%<LibWriteToStandardOutput("### Writing: rtw_filelist.mpf")>
+%%
+%% Generate the .mpf file containing the list of all 
+%% RTW files (static and generated) used to create an executable.
+%%
+%assign mlroot = FEVAL("matlabroot")
+%%
+%openfile RTW_FILELIST_MPF = "rtw_filelist.mpf"
+%%
+%% Generated files:
+  %with CompiledModel
+    %with ModelFiles
+      %if ISFIELD(CompiledModel,"ModelFiles")
+        %foreach fileIdx = LibGetNumModelFiles()
+	  %assign fileName  = LibGetModelFileAttribute(fileIdx,"Name")
+ 	  %assign fileType = LibGetModelFileAttribute(fileIdx,"Type") == "SystemBody" ? "source" : "header"
+%% !!! DO NOT INDENT !!!	  
+%if fileType=="source"  && !LibGetModelFileAttribute(fileIdx,"Filter")
+%<fileName>
+%endif
+        %endforeach
+      %else
+        %error CompiledModel.ModelFiles not found.
+      %endif
+    %endwith
+  %%  
+  %%
+  %% Additional Files: The following filenames are fixed, 
+  %% however some of these files are generated.
+  %%
+  %% Adding static sources, static headers, and rtwlib.lib file. 
+%% !!! DO NOT INDENT !!!
+%%
+%closefile RTW_FILELIST_MPF
+%endwith
+%selectfile NULL_FILE

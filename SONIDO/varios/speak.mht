@@ -1,0 +1,66 @@
+From: <Guardado por Microsoft Internet Explorer 5>
+Subject: 
+Date: Wed, 13 Aug 2008 12:57:49 -0600
+MIME-Version: 1.0
+Content-Type: text/html;
+	charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.mathworks.com/matlabcentral/files/4769/speak.m
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.3198
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD>
+<META http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dwindows-1252">
+<META content=3D"MSHTML 6.00.2900.3314" name=3DGENERATOR></HEAD>
+<BODY><PRE>function speak(varargin)
+
+%SPEAK using Excel to speak entered texts or numbers
+%
+% speak(text)
+%
+% Examples:
+%
+%   speak('Hello');
+%   speak('How are you doing my friend?');
+%   speak('speak('I can count!',1,2,3,4,'I am smart!');
+
+%   Copyright 2004 Fahad Al Mahmood
+%   Version: 1.0 $  $Date: 15-Apr-2004
+%   Version: 1.1 $  $Date: 19-May-2004  % Modified to speed the speech
+%                                         process for multiple input =
+arguments
+
+
+
+% Opening Excel
+try Excel =3D actxserver('Excel.Application');
+catch error('Excel could not be accessed!'); end
+
+text=3D'';
+for n=3D1:nargin
+    if ischar(varargin{n})
+        text =3D [text ' ' varargin{n}];
+    else
+        text =3D [text ' ' num2str(varargin{n})];
+    end
+end
+
+% Convert Number to String
+if isnumeric(text)
+    text =3D num2str(text);
+end
+
+% Speaking
+try invoke(Excel.Speech,'Speak',text);
+catch=20
+    if ~exist('text','var')
+        error('You did not enter anything for me to say!');
+    end
+    invoke(Excel,'Quit');
+    delete(Excel);
+    error('Excel does not have Speech Tool!');=20
+end
+
+invoke(Excel,'Quit');
+delete(Excel);</PRE></BODY></HTML>

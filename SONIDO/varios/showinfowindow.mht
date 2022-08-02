@@ -1,0 +1,168 @@
+From: <Guardado por Microsoft Internet Explorer 5>
+Subject: 
+Date: Thu, 26 Jul 2007 13:15:56 -0600
+MIME-Version: 1.0
+Content-Type: text/html;
+	charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.mathworks.com/matlabcentral/files/15288/showinfowindow.m
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.2869
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD>
+<META http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dwindows-1252">
+<META content=3D"MSHTML 6.00.2900.2912" name=3DGENERATOR></HEAD>
+<BODY><PRE>function f =3D showinfowindow(msg,wtitle)
+
+%
+% SHOWINFOWINDOW creates a small dialog window which displays a =
+user-defined message. It
+% is quite like MATLAB's msgbox but without an OK button. Although =
+msgbox could be used
+% for the simple display of a message that informs the user about a =
+process being
+% performed (and is not expected to last long, else a waitbar/timebar =
+could be used but at
+% a cost of running time), the presence of the OK button that closes the =
+window on press
+% could be annoying. SHOWINFOWINDOW resolves this problem by removing =
+the button.
+% Additionally, if you wish to write a script or create a GUI where you =
+do not wish the
+% user to accidenatlly hit the close button in the upper right corner of =
+the window, you
+% can remove the comment on line 82 of the code concerning the =
+'CloseRequestFcn' property
+% of the dialog. However, if you do that you must assign a handle to =
+showinfowindow so you
+% can change its 'CloseRequestFcn' property to 'closereq' when your =
+process is done or
+% else you might end up with a non-closing window! If that happens, one =
+way to resolve
+% this could be to use the findobj function:
+%
+% non_closing_window_handle =3D findobj('CloseRequestFcn','');
+% set(non_closing_window_handle,'CloseRequestFcn','closereq')
+% close(non_closing_window_handle)
+%
+% Syntax:
+%
+% showinfowindow
+% h =3D showinfowindow
+% showinfowindow(msg)
+% h =3D showinfowindow(msg)
+% showinfowindow(msg,wtitle)
+% h =3D showinfowindow(msg,wtitle)
+%
+% showinfowindow and h =3D showinfowindow without any input arguments =
+create an example.
+%=20
+% showinfowindow(msg) and h =3D showinfowindow(msg) display the =
+user-defined message msg
+% which should be a character string or a cell array of strings.
+%
+% showinfowindow(msg,wtitle) and h =3D showinfowindow(msg,wtitle) =
+display the user-defined=20
+% message msg which should be a character string or a cell array of =
+strings. This time the
+% window has the title wtitle
+%
+% Although this script was created for something trivial, I found it =
+useful especially in
+% my GUIs where I wanted to briefly display some information in a very =
+simple way and
+% especially when I wanted to avoid someone causing such windows to =
+close when running a
+% process within a GUI, probably resulting in errors.
+%
+% Examples
+%
+% h1 =3D showinfowindow('Running - Please wait...');
+%=20
+% h2 =3D showinfowindow({'This is a long message for a long =
+process.',...
+%                      'It is displayed in two lines.'},'Long message');
+%
+%=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+%
+% Author        : Panagiotis Moulos (pmoulos@eie.gr)
+% First created : May 7, 2007
+% Last modified : June 11, 2007
+%
+
+% Check input arguments
+if nargin&lt;1
+    msg=3D'Example of showinfowindow.m';
+    wtitle=3D'Example';
+elseif nargin&lt;2
+    wtitle=3D'Info';
+end
+if ~iscell(msg)
+    msg=3D{msg};
+end
+
+% Set default sizes
+DefFigPos=3Dget(0,'DefaultFigurePosition');
+MsgOff=3D7;
+FigWidth=3D125;
+FigHeight=3D50;
+DefFigPos(3:4)=3D[FigWidth FigHeight];
+MsgTxtWidth=3DFigWidth-2*MsgOff;
+MsgTxtHeight=3DFigHeight-2*MsgOff;
+
+% Initialize dialog window
+f=3Ddialog('Name',wtitle,'Units','points','WindowStyle','normal','Toolbar=
+','none',...
+         =
+'DockControls','off','MenuBar','none','Resize','off','ToolBar','none',...=
+
+         'NumberTitle','off');%,'CloseRequestFcn','');
+
+% Initialize message
+msgPos=3D[MsgOff MsgOff MsgTxtWidth MsgTxtHeight];
+msgH=3Duicontrol(f,'Style','text','Units','points','Position',msgPos,'Str=
+ing',' ',...
+               =
+'Tag','MessageBox','HorizontalAlignment','left','FontSize',8);
+[WrapString,NewMsgTxtPos]=3Dtextwrap(msgH,msg,75);
+set(msgH,'String',WrapString)
+delete(msgH);
+
+% Fix final message positions
+MsgTxtWidth=3Dmax(MsgTxtWidth,NewMsgTxtPos(3));
+MsgTxtHeight=3Dmin(MsgTxtHeight,NewMsgTxtPos(4));
+MsgTxtXOffset=3DMsgOff;
+MsgTxtYOffset=3DMsgOff;
+FigWidth=3DMsgTxtWidth+2*MsgOff;
+FigHeight=3DMsgTxtYOffset+MsgTxtHeight+MsgOff;
+
+DefFigPos(3:4)=3D[FigWidth FigHeight];
+set(f,'Position',DefFigPos);
+
+% Create the message
+AxesHandle=3Daxes('Parent',f,'Position',[0 0 1 1],'Visible','off');
+txtPos=3D[MsgTxtXOffset MsgTxtYOffset 0];
+text('Parent',AxesHandle,'Units','points','HorizontalAlignment','left',..=
+.
+     =
+'VerticalAlignment','bottom','Position',txtPos,'String',WrapString,...
+     'FontSize',8,'Tag','MessageBox');
+=20
+% Move the window to the center of the screen
+set(f,'Units','pixels')
+screensize=3Dget(0,'screensize');                      =20
+winsize=3Dget(f,'Position');
+winwidth=3Dwinsize(3);
+winheight=3Dwinsize(4);
+screenwidth=3Dscreensize(3);                          =20
+screenheight=3Dscreensize(4);                          =20
+winpos=3D[0.5*(screenwidth-winwidth),0.5*(screenheight-winheight),winwidt=
+h,winheight];                         =20
+set(f,'Position',winpos);
+
+% Give priority to displaying this message
+drawnow
+</PRE></BODY></HTML>

@@ -1,0 +1,58 @@
+%% SYSTLC: Embedded Target for Infineon C166(R) Microcontrollers \
+%%    TMF: c166.tmf MAKE: make_rtw EXTMODE: no_ext_comm
+%%
+%% $RCSfile: c166.tlc,v $
+%% $Revision: 1.12.6.6 $
+%%
+%% Copyright 1994-2004 The MathWorks, Inc.
+%% Abstract: Embedded real-time system target file.
+%%
+%selectfile NULL_FILE
+
+%assign CodeFormat = "Embedded-C"
+
+%assign TargetType = "RT"
+%assign Language   = "C"
+
+%assign TargetOS="BareBoardExample"
+%assign AutoBuildProcedure = !GenerateSampleERTMain
+%assign RateBasedStepFcn = 1
+
+%% Prevent TLC failure if simulation stop time = inf
+%assign stopTime = -1
+
+%% import global settings
+%include "c166_settings.tlc"
+
+%include "codegenentry.tlc"
+
+%% generate code profiling report
+%include "profilegen.tlc"
+
+%% generate files needed to build the c166 target
+%include "c166_genfiles.tlc"
+
+%<LibGenCodeProfileReport("","Tasking","","","")>
+
+%% The contents between 'BEGIN_RTW_OPTIONS' and 'END_RTW_OPTIONS' are strictly 
+%% written by the standard format. We need to use this structure in RTW 
+%% options GUI function rtwoptionsdlg.m file.
+%%
+/%
+  BEGIN_RTW_OPTIONS
+
+  rtwoptions = c166_getrtwoptions(rtwoptions);
+
+
+  %----------------------------------------%
+  % Configure RTW code generation settings %
+  %----------------------------------------%
+
+  rtwgensettings.DerivedFrom = 'ert.tlc';
+  rtwgensettings.BuildDirSuffix = '_c166';
+  rtwgensettings.Version = '1'; % Specify callbacks' compliance with DAStudio dialog   
+  rtwgensettings.SelectCallback      = 'c166_callback_handler(''SelectCallback'',hSrc,hDlg);';
+  rtwgensettings.UnselectCallback    = 'c166_callback_handler(''UnselectCallback'',hSrc,hDlg);';
+
+  END_RTW_OPTIONS 
+ %/

@@ -1,0 +1,1340 @@
+Library {
+  Name			  "mpc555tpu"
+  Version		  6.0
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Fri Jul 18 15:22:48 2003"
+  Creator		  "The MathWorks Inc."
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "batserve"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Wed Apr 21 04:03:39 2004"
+  ModelVersionFormat	  "1.%<AutoIncrement:47>"
+  ConfigurationManager	  "None"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock off
+  ProdHWDeviceType	  "32-bit Generic"
+  ShowModelReferenceBlockVersion off
+  ShowModelReferenceBlockIO off
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.0.4"
+      Array {
+	Type			"Handle"
+	Dimension		7
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.0.4"
+	  StartTime		  "0.0"
+	  StopTime		  "10.0"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  RelTol		  "1e-3"
+	  SolverMode		  "SingleTasking"
+	  Solver		  "ode45"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.0.4"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SaveTime		  on
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsout"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    5
+	    Cell		    "ZeroExternalMemoryAtStartup"
+	    Cell		    "ZeroInternalMemoryAtStartup"
+	    Cell		    "InitFltsAndDblsToZero"
+	    Cell		    "OptimizeModelRefInitCode"
+	    Cell		    "NoFixptDivByZeroProtection"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.0.4"
+	  BlockReduction	  on
+	  BooleanDataType	  off
+	  ConditionallyExecuteInputs on
+	  ConditionalExecOptimization "on_for_testing"
+	  InlineParams		  off
+	  InlineInvariantSignals  on
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  on
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  ParameterPooling	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.0.4"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg on
+	  CheckExecutionContextRuntimeOutputMsg	on
+	  SignalResolutionControl "TryResolveAllWithWarning"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  SolverPrmCheckMsg	  "none"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  TasksWithSamePriorityMsg "warning"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterPrecisionLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  ModelReferenceSimTargetVerbose off
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	  ModelReferenceSymbolNameMessage "warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.0.4"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "32-bit Generic"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  on
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.0.4"
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    1
+	    Cell		    "IncludeHyperlinkInReport"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.0.4"
+	  SystemTargetFile	  "grt.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  TemplateMakefile	  "grt_default_tmf"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Array {
+		Type			"Cell"
+		Dimension		9
+		Cell			"IgnoreCustomStorageClasses"
+		Cell			"InsertBlockDesc"
+		Cell			"SFDataObjDesc"
+		Cell			"SimulinkDataObjDesc"
+		Cell			"DefineNamingRule"
+		Cell			"SignalNamingRule"
+		Cell			"ParamNamingRule"
+		Cell			"InlinedPrmAccess"
+		Cell			"CustomSymbolStr"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.0.4"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      CustomSymbolStr	      "$R$N$M"
+	      MangleLength	      1
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    Simulink.GRTTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Array {
+		Type			"Cell"
+		Dimension		12
+		Cell			"IncludeMdlTerminateFcn"
+		Cell			"CombineOutputUpdateFcns"
+		Cell			"SuppressErrorStatus"
+		Cell			"ERTCustomFileBanners"
+		Cell			"GenerateSampleERTMain"
+		Cell			"MultiInstanceERTCode"
+		Cell			"PurelyIntegerCode"
+		Cell			"SupportNonFinite"
+		Cell			"SupportComplex"
+		Cell			"SupportAbsoluteTime"
+		Cell			"SupportContinuousTime"
+		Cell			"SupportNonInlinedSFcns"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.0.4"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns off
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      ExtMode		      off
+	      ExtModeStaticAlloc      off
+	      ExtModeTesting	      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTransport	      0
+	      ExtModeMexFile	      "ext_comm"
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	      GenerateASAP2	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      SimulationMode	      "normal"
+      CurrentDlgPage	      "Solver"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "sfix(16)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "2^0"
+      SampleTime	      "inf"
+    }
+    Block {
+      BlockType		      EnablePort
+      StatesWhenEnabling      "held"
+      ShowOutputPort	      off
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      Inport
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      MultiPortSwitch
+      Inputs		      "4"
+      zeroidx		      off
+      InputSameDT	      on
+      OutDataTypeMode	      "Inherit via internal rule"
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      Reference
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Sum
+      IconShape		      "rectangular"
+      Inputs		      "++"
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      TriggerPort
+      TriggerType	      "rising"
+      StatesWhenEnabling      "inherit"
+      ShowOutputPort	      off
+      OutputDataType	      "auto"
+      SampleTimeType	      "triggered"
+      SampleTime	      "1"
+      ZeroCross		      on
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "mpc555tpu"
+    Location		    [1012, 153, 1573, 508]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "A4"
+    PaperUnits		    "centimeters"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      "TPU3 COMM"
+      Ports		      [4]
+      Position		      [40, 60, 240, 140]
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskType		      "COMM (TPU3) Sensorles Mode"
+      MaskDescription	      "Multiphase Motor Commutation TPU Function\n\nIn"
+"put Ports\n---------------\nmode:\n	0 	-	startup\n"
+"	1	-	run free\n\nstate:\n	If mode is 'startup' th"
+"en force the state to one of the states in the state \n	matrix. Index "
+"is 1 based.\n\nipc:\n	Initial Position Counter. This value should be l"
+"atched by the \n	NITC (TPU3) function. Used to synchronize the positio"
+"n \n	counter with the COMM. When the mode is transitioned from\n"
+"	startup to run this value is assumed to be in the middle of the \n"
+"	current state.\n\noffset:\n	During run time the CPU can increa"
+"se offset to increase \n	torque. During the run mode it is advisable t"
+"o set the \n	offset to be about 1.5 * the state length.\n"
+      MaskPromptString	      "TPU module:|TPU master channel number:|Master c"
+"hannel priority:|Specify Counter Location By:|Counter  Channel:|Counter  Chan"
+"nel Parameter (16bit ):|Counter  Alias:|State Matrix:|Update Period:"
+      MaskStyleString	      "popup(A|B),popup(0|1|2|3|4|5|6|7|8|9|10|11|12|1"
+"3|14|15),popup(Low|Medium|High),popup(Channel and Parameter Index|Parameter A"
+"lias),popup(0|1|2|3|4|5|6|7|8|9|10|12|13|14|15),popup(0|1|2|3|4|5|6|7|8|9|10|"
+"11|12|13|14|15),edit,edit,edit"
+      MaskTunableValueString  "on,off,off,off,off,off,off,off,off"
+      MaskCallbackString      "|||switch get_param(gcb,'parameter_type')\n"
+"	case 'Channel and Parameter Index'\n		simUtil_maskParam"
+"('hide',gcb,'counter_parameter_name');	\n		simUtil_maskP"
+"aram('show',gcb,'counter_channel');\n		simUtil_maskParam('show'"
+",gcb,'counter_parameter');\n	case 'Parameter Alias'\n		s"
+"imUtil_maskParam('show',gcb,'counter_parameter_name');	\n	"
+"	simUtil_maskParam('hide',gcb,'counter_channel');\n		sim"
+"Util_maskParam('hide',gcb,'counter_parameter');\n	otherwise\n	"
+"	error(get_param(gcb,'parameter_type'));	\nend\n||||% State mat"
+"rix example\n% { 33 '100' 33 '010' 33 '001' }|"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,off,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,"
+      MaskVariables	      "module=&1;master_channel=@2;master_channel_prio"
+"rity=@3;parameter_type=@4;counter_channel=@5;counter_parameter=@6;counter_par"
+"ameter_name=&7;state_matrix=@8;update_period=@9;"
+      MaskInitialization      "% check the alias parameter is not empty\nif pa"
+"rameter_type == 2\n	counter_parameter_name = strtrim(counter_parameter"
+"_name);\n	if isempty(counter_parameter_name)\n		error(sp"
+"rintf('\\n\"Counter Parameter Name\" parameter cannot be empty'));\n	e"
+"nd\nend\n\n% Make master_channel 0 based\nmaster_channel = master_channel - 1"
+";\n\n% Calculate the number of states\nslen = length(state_matrix);\nif rem(s"
+"len,2) ~= 0\n	error('The state matrix is badly formatted');\nend\nnum_"
+"states = slen / 2;\n\n% Validate the state matrix\nnum_pins = -1;\nfor i = 1:"
+"num_states\n	state_length = state_matrix{2*i-1};\n	state_patter"
+"n = state_matrix{2*i};\n	if ~regexp(state_pattern, '^(1|0)*$');\n"
+"		error('The state matrix is badly formatted');\n	end\n"
+"	if num_pins < 0\n		num_pins = length(state_pattern);\n"
+"	else\n		if num_pins ~= length(state_pattern);\n	"
+"		error('The state matrix is badly formatted');\n	"
+"	end\n	end\nend\n\n\n	"
+      MaskDisplay	      "disp('COMM\\n(TPU3)');"
+      MaskIconFrame	      on
+      MaskIconOpaque	      off
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "A|0|Low|Channel and Parameter Index|0|0|brad|{ "
+"33 '100' 33 '010' 33 '001'  }|1"
+      MaskTabNameString	      ",,,,,,,,"
+      System {
+	Name			"TPU3 COMM"
+	Location		[392, 113, 1573, 969]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	ZoomFactor		"92"
+	Block {
+	  BlockType		  Inport
+	  Name			  "mode"
+	  Position		  [65, 108, 95, 122]
+	  Port			  "1"
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "state"
+	  Position		  [65, 163, 95, 177]
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "ipc"
+	  Position		  [65, 198, 95, 212]
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "offset"
+	  Position		  [70, 453, 100, 467]
+	  Port			  "4"
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Header"
+	  Ports			  []
+	  Position		  [465, 55, 722, 311]
+	  UserDataPersistent	  on
+	  UserData		  "DataTag0"
+	  List {
+	    ListType		    RTWdata
+	    TLCFile		    "extended_custcode"
+	    Location		    "Header File"
+	    Top			    "#include \"mpc500_util.h\"\n"
+	    ReferenceMask	    ""
+	  }
+	  SourceBlock		  "driver_interface_library/Custom Code"
+	  SourceType		  "Subsystem Custom Coder"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Initialize the COMM"
+	  Ports			  [2, 0, 0, 1]
+	  Position		  [290, 152, 405, 223]
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "Initialize the COMM"
+	    Location		    [735, 479, 1404, 874]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "state"
+	      Position		      [25, 83, 55, 97]
+	      Port		      "1"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "position_count"
+	      Position		      [25, 128, 55, 142]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      TriggerPort
+	      Name		      "Trigger"
+	      Ports		      []
+	      Position		      [30, 15, 50, 35]
+	      StatesWhenEnabling      "held"
+	      ZeroCross		      off
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Start"
+	      Ports		      []
+	      Position		      [39, 225, 560, 352]
+	      UserDataPersistent      on
+	      UserData		      "DataTag1"
+	      List {
+		ListType		RTWdata
+		TLCFile			"extended_custcode"
+		Location		"Subsystem Outputs Function"
+		Bottom			"/* Force an update of the communtatio"
+"n state */\ntpu_hsr(&TPU_A, 0, 0x2);                       \nwhile (tpu_get_h"
+"sr(&TPU_A, 0));                \n"
+		ReferenceMask		""
+	      }
+	      SourceBlock	      "driver_interface_library/Custom Code"
+	      SourceType	      "Subsystem Custom Coder"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "startup synchronization\ncalculations f"
+"or upper\nand lower bounds for the\ninitial state."
+	      Ports		      [2, 2]
+	      Position		      [140, 67, 265, 158]
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"startup synchronization\ncalculations"
+" for upper\nand lower bounds for the\ninitial state."
+		Location		[724, 620, 1148, 827]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "state"
+		  Position		  [35, 28, 65, 42]
+		  Port			  "1"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "position_count"
+		  Position		  [40, 128, 70, 142]
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "( STATE_LENGTH / 2 ) vector"
+		  Position		  [35, 70, 115, 100]
+		  Value			  "[state_matrix{1:2:length(state_matr"
+"ix)}] / 2"
+		}
+		Block {
+		  BlockType		  MultiPortSwitch
+		  Name			  "Index\nVector"
+		  Ports			  [2, 1]
+		  Position		  [175, 26, 215, 64]
+		  Inputs		  "1"
+		  InputSameDT		  off
+		  SaturateOnIntegerOverflow off
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum"
+		  Ports			  [2, 1]
+		  Position		  [295, 35, 315, 55]
+		  ShowName		  off
+		  IconShape		  "round"
+		  Inputs		  "|++"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "Inherit via internal rule"
+		}
+		Block {
+		  BlockType		  Sum
+		  Name			  "Sum1"
+		  Ports			  [2, 1]
+		  Position		  [295, 85, 315, 105]
+		  ShowName		  off
+		  IconShape		  "round"
+		  Inputs		  "|-+"
+		  InputSameDT		  off
+		  OutDataTypeMode	  "Inherit via internal rule"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "upper"
+		  Position		  [340, 38, 370, 52]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "lower"
+		  Position		  [340, 88, 370, 102]
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		}
+		Line {
+		  SrcBlock		  "Index\nVector"
+		  SrcPort		  1
+		  Points		  [0, 0; 15, 0]
+		  Branch {
+		    DstBlock		    "Sum"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 50]
+		    DstBlock		    "Sum1"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "position_count"
+		  SrcPort		  1
+		  Points		  [200, 0]
+		  Branch {
+		    Points		    [0, -65]
+		    DstBlock		    "Sum"
+		    DstPort		    2
+		  }
+		  Branch {
+		    Points		    [30, 0]
+		    DstBlock		    "Sum1"
+		    DstPort		    2
+		  }
+		}
+		Line {
+		  SrcBlock		  "( STATE_LENGTH / 2 ) vector"
+		  SrcPort		  1
+		  Points		  [20, 0; 0, -30]
+		  DstBlock		  "Index\nVector"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "state"
+		  SrcPort		  1
+		  DstBlock		  "Index\nVector"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Sum"
+		  SrcPort		  1
+		  DstBlock		  "upper"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Sum1"
+		  SrcPort		  1
+		  DstBlock		  "lower"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "write lower"
+	      Ports		      [1]
+	      Position		      [335, 124, 440, 146]
+	      FontName		      "Arial"
+	      SourceBlock	      "driver_interface_library/Output Driver"
+	      SourceType	      "Unknown"
+	      operation_type	      "LHS Assignment"
+	      input_is_contiguous     "off"
+	      t			      "-1"
+	      expr		      "sprintf('TPU_%s.PARM.R[%d][5]', module,"
+" master_channel)"
+	      port_width	      "1"
+	      pOpt		      "[]"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "write upper"
+	      Ports		      [1]
+	      Position		      [335, 78, 445, 102]
+	      FontName		      "Arial"
+	      SourceBlock	      "driver_interface_library/Output Driver"
+	      SourceType	      "Unknown"
+	      operation_type	      "LHS Assignment"
+	      input_is_contiguous     "off"
+	      t			      "-1"
+	      expr		      "sprintf('TPU_%s.PARM.R[%d][4]', module,"
+" master_channel)"
+	      port_width	      "1"
+	      pOpt		      "[]"
+	    }
+	    Line {
+	      SrcBlock		      "startup synchronization\ncalculations f"
+"or upper\nand lower bounds for the\ninitial state."
+	      SrcPort		      1
+	      DstBlock		      "write upper"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "startup synchronization\ncalculations f"
+"or upper\nand lower bounds for the\ninitial state."
+	      SrcPort		      2
+	      DstBlock		      "write lower"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "state"
+	      SrcPort		      1
+	      DstBlock		      "startup synchronization\ncalculations f"
+"or upper\nand lower bounds for the\ninitial state."
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "position_count"
+	      SrcPort		      1
+	      DstBlock		      "startup synchronization\ncalculations f"
+"or upper\nand lower bounds for the\ninitial state."
+	      DstPort		      2
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Start"
+	  Ports			  []
+	  Position		  [749, 60, 1270, 572]
+	  UserDataPersistent	  on
+	  UserData		  "DataTag2"
+	  List {
+	    ListType		    RTWdata
+	    TLCFile		    "extended_custcode"
+	    Location		    "Subsystem Enable Function"
+	    Top			    "/* Top Code */\n"
+	    Middle		    "/*Middle Code */\n"
+	    Bottom		    "/*Bottom Code*/\n"
+	    ReferenceMask	    ""
+	  }
+	  SourceBlock		  "driver_interface_library/Custom Code"
+	  SourceType		  "Subsystem Custom Coder"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Startup Mode"
+	  Ports			  [2, 0, 1]
+	  Position		  [295, 349, 395, 496]
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "Startup Mode"
+	    Location		    [340, 402, 1233, 921]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "state"
+	      Position		      [110, 118, 140, 132]
+	      Port		      "1"
+	      IconDisplay	      "Port number"
+	      DataType		      "uint16"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "offset"
+	      Position		      [115, 248, 145, 262]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	      DataType		      "uint16"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      EnablePort
+	      Name		      "Enable"
+	      Ports		      []
+	      Position		      [20, 20, 40, 40]
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Bitwise\nOperator1"
+	      Ports		      [2, 1]
+	      Position		      [425, 92, 460, 223]
+	      ShowName		      off
+	      SourceBlock	      "simulink/Bit\nOperations/Bitwise\nOpera"
+"tor"
+	      SourceType	      "Fixed-Point Bitwise Operator"
+	      logicop		      "OR"
+	      UseBitMask	      "off"
+	      NumInputPorts	      "2"
+	      BitMask		      "bin2dec('11011001')"
+	      BitMaskRealWorld	      "Stored Integer"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Bitwise\nOperator2"
+	      Ports		      [2, 1]
+	      Position		      [350, 160, 385, 220]
+	      ShowName		      off
+	      SourceBlock	      "simulink/Bit\nOperations/Bitwise\nOpera"
+"tor"
+	      SourceType	      "Fixed-Point Bitwise Operator"
+	      logicop		      "AND"
+	      UseBitMask	      "off"
+	      NumInputPorts	      "2"
+	      BitMask		      "bin2dec('11011001')"
+	      BitMaskRealWorld	      "Stored Integer"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant"
+	      Position		      [235, 188, 320, 222]
+	      ShowName		      off
+	      Value		      "bitcmp(255,16)"
+	      OutDataTypeMode	      "uint16"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Input Driver"
+	      Ports		      [0, 1]
+	      Position		      [115, 155, 225, 195]
+	      FontName		      "Arial"
+	      SourceBlock	      "driver_interface_library/Input Driver"
+	      SourceType	      "RTW Memory Get"
+	      t			      "-1"
+	      expr		      "sprintf('TPU_%s.PARM.R[%d][1]', module,"
+" master_channel)"
+	      portWidth		      "1"
+	      pOpt		      "[]"
+	      expression_type	      "Expression"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Start"
+	      Ports		      []
+	      Position		      [119, 295, 640, 422]
+	      UserDataPersistent      on
+	      UserData		      "DataTag3"
+	      List {
+		ListType		RTWdata
+		TLCFile			"extended_custcode"
+		Location		"Subsystem Initialize Function"
+		Bottom			"/* Force an update of the communtatio"
+" state */\ntpu_hsr(&TPU_A, 0, 0x2);                      \nwhile (tpu_get_hsr"
+"(&TPU_A, 0));               \n"
+		ReferenceMask		""
+	      }
+	      SourceBlock	      "driver_interface_library/Custom Code"
+	      SourceType	      "Subsystem Custom Coder"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "write offset"
+	      Ports		      [1]
+	      Position		      [520, 243, 630, 267]
+	      FontName		      "Arial"
+	      SourceBlock	      "driver_interface_library/Output Driver"
+	      SourceType	      "Unknown"
+	      operation_type	      "LHS Assignment"
+	      input_is_contiguous     "off"
+	      t			      "-1"
+	      expr		      "sprintf('TPU_%s.PARM.R[%d][2]', module,"
+" master_channel)"
+	      port_width	      "1"
+	      pOpt		      "[]"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "write state"
+	      Ports		      [1]
+	      Position		      [520, 148, 630, 172]
+	      FontName		      "Arial"
+	      SourceBlock	      "driver_interface_library/Output Driver"
+	      SourceType	      "Unknown"
+	      operation_type	      "LHS Assignment"
+	      input_is_contiguous     "off"
+	      t			      "-1"
+	      expr		      "sprintf('TPU_%s.PARM.R[%d][1]', module,"
+" master_channel)"
+	      port_width	      "1"
+	      pOpt		      "[]"
+	    }
+	    Line {
+	      SrcBlock		      "Input Driver"
+	      SrcPort		      1
+	      DstBlock		      "Bitwise\nOperator2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Constant"
+	      SrcPort		      1
+	      DstBlock		      "Bitwise\nOperator2"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Bitwise\nOperator2"
+	      SrcPort		      1
+	      DstBlock		      "Bitwise\nOperator1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "state"
+	      SrcPort		      1
+	      DstBlock		      "Bitwise\nOperator1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Bitwise\nOperator1"
+	      SrcPort		      1
+	      DstBlock		      "write state"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "offset"
+	      SrcPort		      1
+	      DstBlock		      "write offset"
+	      DstPort		      1
+	    }
+	    Annotation {
+	      Name		      "Manually control the offset and state d"
+"uring startup"
+	      Position		      [251, 58]
+	      FontName		      "Arial"
+	      FontSize		      14
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "mode == mode_run"
+	  Ports			  [1, 1]
+	  Position		  [195, 101, 265, 129]
+	  SourceBlock		  "simulink/Math\nOperations/Logic\nOperations"
+"/Compare\nTo Constant"
+	  SourceType		  "Fixed-Point Compare To Constant"
+	  relop			  "~="
+	  const			  "0"
+	  LogicOutDataTypeMode	  "uint8"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "mode == startup"
+	  Ports			  [1, 1]
+	  Position		  [180, 276, 250, 304]
+	  SourceBlock		  "simulink/Math\nOperations/Logic\nOperations"
+"/Compare\nTo Constant"
+	  SourceType		  "Fixed-Point Compare To Constant"
+	  relop			  "=="
+	  const			  "0"
+	  LogicOutDataTypeMode	  "uint8"
+	}
+	Line {
+	  SrcBlock		  "state"
+	  SrcPort		  1
+	  Points		  [30, 0]
+	  Branch {
+	    DstBlock		    "Initialize the COMM"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 215]
+	    DstBlock		    "Startup Mode"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "ipc"
+	  SrcPort		  1
+	  DstBlock		  "Initialize the COMM"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "mode"
+	  SrcPort		  1
+	  Points		  [45, 0]
+	  Branch {
+	    DstBlock		    "mode == mode_run"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 175]
+	    DstBlock		    "mode == startup"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "mode == mode_run"
+	  SrcPort		  1
+	  Points		  [75, 0]
+	  DstBlock		  "Initialize the COMM"
+	  DstPort		  trigger
+	}
+	Line {
+	  SrcBlock		  "mode == startup"
+	  SrcPort		  1
+	  Points		  [90, 0]
+	  DstBlock		  "Startup Mode"
+	  DstPort		  enable
+	}
+	Line {
+	  SrcBlock		  "offset"
+	  SrcPort		  1
+	  DstBlock		  "Startup Mode"
+	  DstPort		  2
+	}
+      }
+    }
+  }
+}
+MatData {
+  NumRecords		  4
+  DataRecord {
+    Tag			    DataTag3
+    Data		    "  %)30     .    V (   8    (     @         %    "
+"\"     $    !     0         %  0 \"0    $    _    =6YI<75E    :V5Y        ;&]"
+"C871I;VX =F%R<P      =&]P        ;6ED9&QE    8F]T=&]M      X    X    !@    @ "
+"   &          4    (     0    $    !          D    (            \\#\\.    ,  "
+"   8    (    !          %    \"     $    \"     0         0  ( )R<   X   !0  "
+"  !@    @    $          4    (     0   !H    !         !     :    4W5B<WES=&5"
+"M($]U='!U=',@1G5N8W1I;VX        .    2     8    (    !          %    \"     $"
+"    6     0         0    %@   &UO9'5L92!M87-T97)?8VAA;FYE;\"    X    P    !@ "
+"   @    $          4    (               !         !          #@   #     &    "
+"\"     0         !0    @               $         $          .    R     8    ("
+"    !          %    \"     $   \"8     0         0    F    \"\\J($9O<F-E(&%N("
+"'5P9&%T92!O9B!T:&4@8V]M;75N=&%T:6]N('-T871E(\"HO\"G1P=5]H<W(H)E1055\\D>VUO9'5"
+"L97TL(\"1[;6%S=&5R7V-H86YN96Q]+\" P>#(I.PIW:&EL92 H='!U7V=E=%]H<W(H)E1055\\D>"
+"VUO9'5L97TL(\"1[;6%S=&5R7V-H86YN96Q]*2D["
+  }
+  DataRecord {
+    Tag			    DataTag2
+    Data		    "  %)30     .    : H   8    (     @         %    "
+"\"     $    !     0         %  0 \"0    $    _    =6YI<75E    :V5Y        ;&]"
+"C871I;VX =F%R<P      =&]P        ;6ED9&QE    8F]T=&]M      X    X    !@    @ "
+"   &          4    (     0    $    !          D    (            \\#\\.    ,  "
+"   8    (    !          %    \"     $    \"     0         0  ( )R<   X   !0  "
+"  !@    @    $          4    (     0   !T    !         !     =    4W5B<WES=&5"
+"M($EN:71I86QI>F4@1G5N8W1I;VX    .    V     8    (    !          %    \"     $"
+"   \"D     0         0    I    &UO9'5L92!M87-T97)?8VAA;FYE;\"!M87-T97)?8VAA;F"
+"YE;%]P<FEO<FET>2!P87)A;65T97)?='EP92!C;W5N=&5R7V-H86YN96P@8V]U;G1E<E]P87)A;65"
+"T97(@8V]U;G1E<E]P87)A;65T97)?;F%M92!S=&%T95]M871R:7@@=7!D871E7W!E<FEO9\"!N=6U"
+"?<&EN<R!N=6U?<W1A=&5S      X    P    !@    @    $          4    (            "
+"   !         !          #@   ,@'   &    \"     0         !0    @    !    F < "
+"  $         $    )@'   O*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*"
+"BHJ*BHJ*BHJ*BHJ*BH**B!);FET:6%L:7IE($-/34T@5%!5($9U;F-T:6]N(&9O<B!B;&]C:R *(R"
+"!B;&]C:R ](&=E=%]P87)A;2AG8V(L)W!A<F5N=\"<I.PHJ(\"1[8FQO8VM]\"BHJ*BHJ*BHJ*BHJ"
+"*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*B\\*+RH@1&ES86)L92!A"
+";&P@0T]-32!44%4@8VAA;FYE;',@*B\\*(V9O<B!I(#T@,#IN=6U?<&EN<RTQ\"G1P=5]D:7-A8FQ"
+"E*\"944%5?)'MM;V1U;&5]+\" D>VUA<W1E<E]C:&%N;F5L*VE]*3L*(V5N9 H*+RI396QE8W0@=&"
+"AE($-/34T@1G5N8W1I;VX@;VX@=&AE(&UA<W1E<B!C:&%N;F5L(\"HO\"G1P=5]F=6YC*\"944%5?"
+")'MM;V1U;&5]+\" D>VUA<W1E<E]C:&%N;F5L?2P@5%!57T953D-424].7T-/34T@*3L*\"B\\J4V"
+"5L96-T('1H92!M;V1E(&]F(&]P97)A=&EO;B H(%-E;G-O<FQE<W,@36%T8V@@57!D871E($UO9&4"
+"@*2 J+PIT<'5?:'-Q*\"944%5?)'MM;V1U;&5]+\" D>VUA<W1E<E]C:&%N;F5L?2P@,\"D[\"@HO"
+"*B!7<FET92!.3U]/1E]024Y3+\"!#3U5.5$527T%$1%(@*B\\*>PHC<W=I=&-H('!A<F%M971E<E]"
+"T>7!E\"B-C87-E(#$*(\" @54E.5#@@8V]U;G1E<E]A9&1R(#T@,'@D>V1E8S)H97@H(#$V(\"H@8"
+"V]U;G1E<E]C:&%N;F5L(\"L@,B J(&-O=6YT97)?<&%R86UE=&5R(\"D@?3L*(V-A<V4@,@H@(\"!"
+"524Y4.\"!C;W5N=&5R7V%D9'(@/2 Q-B J('1P=5]A;&EA<U\\D>V-O=6YT97)?<&%R86UE=&5R7V"
+"YA;65]7V-H86YN96P@*R R(\"H@='!U7V%L:6%S7R1[8V]U;G1E<E]P87)A;65T97)?;F%M97U?<&"
+"%R86UE=&5R.PHC96YD\"B @(%1055\\D>VUO9'5L97TN4$%232Y26R1[;6%S=&5R7V-H86YN96Q]7"
+"5LP72 ](\"@@)'MN=6U?<&EN<WT@/#P@.\" I('P@8V]U;G1E<E]A9&1R.PI]\"@HO*B!7<FET92!"
+"54$1!5$5?4$5224]$(\"HO\"E1055\\D>VUO9'5L97TN4$%232Y26R1[;6%S=&5R7V-H86YN96Q]7"
+"5LS72 ](\"1[=7!D871E7W!E<FEO9'T[\"@HO*B!7<FET92!.54U\"15(@3T8@4U1!5$53(&%N9\""
+"!S970@4U1!5$5?3D\\@/2 P(\"HO\"E1055\\D>VUO9'5L97TN4$%232Y26R1[;6%S=&5R7V-H86Y"
+"N96Q]75LQ72 ](\"1[;G5M7W-T871E<WT@/#P@.#L*\"@HO*B!7<FET92!T:&4@<W1A=&4@=&%B;&"
+"4@*B\\*(V9O<B!I(#T@,3IN=6U?<W1A=&5S\"B @(\"-S=&%T95]L96YG=&@@/2!S=&%T95]M871R"
+":7A[,BII+3%].PH@(\" C<W1A=&5?<&%T=&5R;B ]('-T871E7VUA=')I>'LR*FE].R *(\" @(W-"
+"?8VAA;FYE;\" ](&UA<W1E<E]C:&%N;F5L(\"L@,2 K(&9L;V]R*&D@+R X*3L*(\" @(W-?<&%R8"
+"6T@/2!M;V0H:2 M(#$L.\"D[\"B @(\"\\J('-T871E(\"1[<W1A=&5?<&%T=&5R;GT@;V8@;&5N9"
+"W1H(\"1[<W1A=&5?;&5N9W1H?2 J+PH@(\" C)4EN=F5R=\"!T:&4@<W1A=&4@<&%T=&5R;B!T;R!"
+"G970@=&AE(&-O<G)E8W0@<&EN('-E;G-E+@H@(\" C<W @/2!B:71C;7 H8FEN,F1E8RAS=&%T95]"
+"P871T97)N*2QL96YG=&@H<W1A=&5?<&%T=&5R;BDI.PH@(\"!44%5?)'MM;V1U;&5]+E!!4DTN4EL"
+"D>W-?8VAA;FYE;'U=6R1[<U]P87)A;7U=(#T@*\" D>W-T871E7VQE;F=T:'T@/#P@.\" I('P@,'"
+"@D>V1E8S)H97@H<W I?3L*(V5N9 H*+RH@5W)I=&4@86X@2%-2(\"4Q,\"!T;R!M87-T97(@8VAA;"
+"FYE;\"!T;R!I;FET:6%L:7IE('1H92!F:7)S=\"!C;VUM=71A=&EO;B!S=&%T92 J+PIT<'5?:'-R"
+"*\"944%5?)'MM;V1U;&5]+\" D>VUA<W1E<E]C:&%N;F5L?2P@,'@R*3L*\"B\\J($5N86)L92!T:"
+"&4@5%!5(&%N9\"!W86ET(&9O<B!T:&4@2%-2('1O(&-L96%R(\"HO\"G1P=5]E;F%B;&4H)E1055"
+"\\D>VUO9'5L97TL(\"1[;6%S=&5R7V-H86YN96Q]+\" D>VUA<W1E<E]C:&%N;F5L7W!R:6]R:71Y"
+"?2D[\"G=H:6QE(\"AT<'5?9V5T7VAS<B@F5%!57R1[;6]D=6QE?2P@)'MM87-T97)?8VAA;FYE;'T"
+"I*3L.    ,     8    (    !          %    \"                0         0       "
+"   "
+  }
+  DataRecord {
+    Tag			    DataTag1
+    Data		    "  %)30     .    T (   8    (     @         %    "
+"\"     $    !     0         %  0 \"0    $    _    =6YI<75E    :V5Y        ;&]"
+"C871I;VX =F%R<P      =&]P        ;6ED9&QE    8F]T=&]M      X    X    !@    @ "
+"   &          4    (     0    $    !          D    (            \\#\\.    ,  "
+"   8    (    !          %    \"     $    \"     0         0  ( )R<   X   !0  "
+"  !@    @    $          4    (     0   !H    !         !     :    4W5B<WES=&5"
+"M($]U='!U=',@1G5N8W1I;VX        .    2     8    (    !          %    \"     $"
+"    6     0         0    %@   &UO9'5L92!M87-T97)?8VAA;FYE;\"    X    P    !@ "
+"   @    $          4    (               !         !          #@   #     &    "
+"\"     0         !0    @               $         $          .    P     8    ("
+"    !          %    \"     $   \",     0         0    C    \"\\J(%-T871E('!E<"
+"FEO9&EC('5P9&%T92!M871C:&5S(\"HO\"G1P=5]H<W(H)E1055\\D>VUO9'5L97TL(\"1[;6%S=&"
+"5R7V-H86YN96Q]+\" P>#,I.PIW:&EL92 H='!U7V=E=%]H<W(H)E1055\\D>VUO9'5L97TL(\"1["
+";6%S=&5R7V-H86YN96Q]*2D[      "
+  }
+  DataRecord {
+    Tag			    DataTag0
+    Data		    "  %)30     .    . (   8    (     @         %    "
+"\"     $    !     0         %  0 \"0    $    _    =6YI<75E    :V5Y        ;&]"
+"C871I;VX =F%R<P      =&]P        ;6ED9&QE    8F]T=&]M      X    X    !@    @ "
+"   &          4    (     0    $    !          D    (            \"$ .    ,   "
+"  8    (    !          %    \"     $    \"     0         0  ( )R<   X   !    "
+" !@    @    $          4    (     0    L    !         !     +    2&5A9&5R($9I"
+";&4       X    P    !@    @    $          4    (               !         !   "
+"       #@   %     &    \"     0         !0    @    !    &0    $         $    "
+"!D   !<(VEN8VQU9&4@(FUP8S4P,%]U=&EL+F@B          X    P    !@    @    $      "
+"    4    (               !         !          #@   #     &    \"     0       "
+"  !0    @               $         $          "
+  }
+}
+
+# Finite State Machines
+#
+#    Stateflow Version 6.0 (R14) dated Apr 19 2004, 12:10:15
+#
+#
+
+Stateflow {
+
+	machine {
+		id                   		1
+		name                 		"mpc555tpu"
+		created              		"18-Jul-2003 16:04:57"
+		isLibrary            		1
+		firstTarget          		2
+		sfVersion            		60014000.000006
+		sfDemoChecksum       		[4249244171 974405426 2972164445 973869376]
+	}
+
+	target {
+		id               		2
+		name             		"sfun"
+		description      		"Default Simulink S-Function Target."
+		machine          		1
+		linkNode         		[1 0 0]
+	}
+}

@@ -1,0 +1,74 @@
+%% File: toolbox/rtw/targets/mpc555dk/rt/blockset/tlc_c/RCS/sfun_bit2double.tlc
+%%
+%% Abstract:
+%%   
+%%
+%% $Revision: 1.8.4.1 $
+%% $Date: 2004/04/19 01:30:12 $
+%%
+%% Copyright 2001-2002 The MathWorks, Inc.
+
+%implements sfun_bit2double "C"
+
+
+%% Function: BlockTypeSetup
+%% Abstract:
+%%
+%function BlockTypeSetup(block,system) void
+   %<LibAddToModelSources("bitpack")>
+   %openfile buffer
+      #include "bitpack.h"
+      #include "simstruc_types.h"
+   %closefile buffer
+   %<LibCacheIncludes(buffer)>
+
+%endfunction %% BlockTypeSetup
+
+%% Function: BlockInstanceSetup =============================================
+%% Abstract:
+%%
+%function BlockInstanceSetup(block, system) void 
+%endfunction %% BlockInstanceSetup
+
+%% Function: BlockInstanceData =============================================
+%% Abstract:
+%%
+%function BlockInstanceData(block,system) Output
+%endfunction %% BlockInstanceData
+
+%% Function: BlockStart =============================================
+%% Abstract:
+%%
+%function Start(block,system) Output
+%endfunction
+
+%% Function: BlockOutputs =============================================
+%% Abstract:
+%%
+%function Outputs(block,system) Output
+   /* ------  sfun_bit2double outputs ---------------------------*/
+{
+   %assign nOutPorts = SFcnParamSettings.NUMBER_OF_ARGS
+   %assign outputWidth = SFcnParamSettings.OUTPUT_WIDTH
+
+   %assign yAddr = LibBlockOutputSignalAddr(0, "", "", 0)
+
+   memset(%<yAddr>,0,%<outputWidth>);
+   %assign index = 0
+   %foreach port = nOutPorts
+
+      %assign dTypeID = LibBlockInputSignalDataTypeId(port)
+      %assign uAddr   = LibBlockInputSignalAddr(port,"","",0)
+      %assign bits    = LibBlockParameterAddr(BITS,"","",index + 1)
+      %assign nBits  = CAST("Number",LibBlockParameterValue(BITS,index))
+
+      bitpack( (uint8_T *) %<yAddr>, %<outputWidth>, 
+            (const void * ) %<uAddr>, (real_T * ) %<bits>, %<nBits>);
+
+      %assign index = index + CAST("Number",LibBlockParameterValue(BITS,index)) + 1
+   
+   %endforeach
+}
+%endfunction
+
+%% [EOF] mpc555_can_rx.tlc

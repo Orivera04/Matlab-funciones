@@ -1,0 +1,41 @@
+# File    : makefile.unix
+# Abstract:
+#       once - Copy master props files to appropriate memlayout.xxx.prop files.
+#       all  - Do nothing.
+# 
+#  Copyright (c) 1994-2003 The MathWorks, Inc.
+#  $Revision: 1.1.6.1 $
+
+MAKEFILE   = makefile.unix
+
+TARGETS = memlayout.561.prop \
+			 memlayout.562.prop \
+			 memlayout.563.prop \
+			 memlayout.564.prop \
+			 memlayout.565.prop \
+			 memlayout.566.prop
+
+all : 
+
+once : $(TARGETS) 
+
+define copyfile
+	rm -f $@
+	cp $< $@
+	chmod a-w $@
+	@echo "Copied $@ from $<"
+endef
+
+memlayout.561.prop memlayout.562.prop: master561props $(MAKEFILE)
+	$(copyfile)
+
+memlayout.563.prop memlayout.564.prop: master563props $(MAKEFILE)
+	$(copyfile)
+
+memlayout.565.prop memlayout.566.prop: master565props $(MAKEFILE)
+	$(copyfile)
+
+cleanonce :
+	rm -f $(TARGETS)
+
+clean:

@@ -1,0 +1,37 @@
+%% $RCSfile: ti_c2000_genfiles.tlc,v $
+%% $Revision: 1.3.6.1 $ $Date: 2004/01/22 18:24:17 $
+%% Copyright 2003 The MathWorks, Inc.
+
+
+
+%if !EXISTS("TI_C2000_GENFILES")
+%assign TI_C2000_GENFILES = 1
+
+%include "ti_c2000_bld.tlc"
+
+%if (CompiledModel.ConfigSet.IsERTTarget == 0)   %% GRT-based target
+    %include "ti_c2000_grtmain.tlc"
+    %assign fName = "%<CompiledModel.Name>_main"
+    %<SLibCreatec2000GRTMain(fName)>
+%endif
+
+%include "ti_c2000_sourcefiles.tlc"
+
+%if (c2000TgtPrefOptions.DSPBoardDSPChipDSPChipLabel == "TI TMS320C2812") || \
+    (c2000TgtPrefOptions.DSPBoardDSPChipDSPChipLabel == "TI TMS320C2810")
+    %%
+    %include "ti_c2800_cmd.tlc"
+    %include "ti_c2800_csl.tlc"    
+    %%
+%elseif (c2000TgtPrefOptions.DSPBoardDSPChipDSPChipLabel == "TI TMS320C2401") || \
+        (c2000TgtPrefOptions.DSPBoardDSPChipDSPChipLabel == "TI TMS320C2407")
+    %%
+    %include "ti_c2400_cmd.tlc"
+    %include "ti_c2400_csl.tlc"    
+    %include "ti_c2400_vectors.tlc"
+    %%
+%endif
+
+%endif %% TI_C2000_GENFILES
+
+%% [EOF] ti_c2000_genfiles.tlc

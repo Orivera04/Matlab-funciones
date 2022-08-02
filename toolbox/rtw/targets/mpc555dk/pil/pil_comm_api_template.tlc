@@ -1,0 +1,623 @@
+%% File: pil_comm_api_template.tlc
+%%
+%% $Revision: 1.16.4.4 $
+%% $Date: 2004/04/29 03:40:17 $
+%%
+%% Copyright 2001-2003 The MathWorks, Inc.
+%%
+%% Abstract: Embedded real-time system target file for Processor in 
+%% the Loop Simulation generation communications interface.
+%%
+
+%with CompiledModel
+/*
+ * %<ModelName>_comm_c_api.c -- file generated from pil_comm_api_template.tlc
+ *
+%<SLibCommonHeaderInfo()>\
+ *
+ * Abstract:
+ *   Provide high level access routines for interfacing Processor in the
+ *   loop to the CommAPI subsystem.
+ */
+%endwith
+
+%% Revise: 8/3/2001
+%% Note:	Modified private uart initialization routines call to general 
+%%		uart rountines call; Initialized InBuffer/OutBuffer;
+%%
+
+%% Revise: 8/27/2001
+%% Note:	Moved LED blink control to main loop; 
+%%
+
+
+#include "%<ModelName>.h"
+#include "CommAPI.h"
+#include "pil_comm_api.h"
+#include "mpc5xx.h"
+
+/* include sample time info */
+#include "%<model_defines_file>"
+
+%with CompiledModel
+%assign stepArgDecl = ""
+%if disc_NumSampleTimes > 1
+  %assign stepArgDecl = "int stepTid"
+%endif
+%endwith
+
+#define SERVICE_WATCHDOG_TIMER \
+   USIU.SWSR.R = 0x556C; \
+   USIU.SWSR.R = 0xAA39; 
+
+EXTERN_C void %<ModelName>_step(%<stepArgDecl>);
+
+struct MemoryPacket buffer1st;
+struct MemoryPacket buffer2nd;
+EXTERN_C struct MemoryPacket *InBuffer = &buffer1st;
+EXTERN_C struct MemoryPacket *OutBuffer = &buffer2nd;
+
+static SFConnector *ptrSFConnector;
+
+PacketStats TxPackets;
+PacketStats TxPacketsBad;
+PacketStats RxPackets;
+PacketStats RxPacketsBad;
+
+EXTERN_C void CommClearPacketStats(PacketStats *PacketStatRec)
+{
+    int i;
+    int *LocalPacketStats = (int *)PacketStatRec;
+
+    for (i=0;i<(sizeof(PacketStats)/sizeof(int));i++) {
+	LocalPacketStats[i] = 0;
+    }
+}
+
+EXTERN_C void CommLogPacket(PacketStats *PacketStatRec, int PacketType)
+{
+    int *LocalPacketStats = (int *)PacketStatRec;
+
+    LocalPacketStats[NACK_PACKET+2]++;
+    
+    /* Assert that PacketStats is large enough to hold all packet types */
+    if ((PacketType > NACK_PACKET) || (PacketType <= UNDEFINED_PACKET)) {
+	LocalPacketStats[UNDEFINED_PACKET]++;
+    } else {
+	LocalPacketStats[PacketType]++;
+    }
+}
+
+EXTERN_C int CommReleaseCommChannel(void *local_ptrConnector)
+{
+    Disconnect(local_ptrConnector);
+    return 0;
+}
+
+EXTERN_C int _CommSendPacket(PacketStruct *OutPacket, int PacketSize, PacketTypeEnum PacketType)
+{
+    int   Status=0;
+    char *Buffer=NULL;
+    int   BufferSize=0;
+    int   retryTimes=0;
+
+    CommLogPacket(&TxPackets, PacketType);
+    Buffer = MemoryPacketGetBuffer(OutBuffer,(unsigned long)PacketSize, PacketType);
+    memcpy(Buffer,OutPacket,(unsigned long) PacketSize);
+
+    Status = !(MemoryPacketSend(OutBuffer,ptrSFConnector));
+
+    CommLogPacket(&TxPackets, CommGetPacketType());
+    return (int) Status;
+}
+
+EXTERN_C int _CommGetPacket(PacketStruct **OutPacket, int *BufferSize)
+{
+    int Status=0;
+
+    /* This Blocks until there is a packet to return */
+    Status = (!MemoryPacketGet(InBuffer, ptrSFConnector));
+
+    /* got the packet, now set return values */
+    *OutPacket = InBuffer->Buffer;
+    *BufferSize = (int)InBuffer->size;
+
+    CommLogPacket(&RxPackets, CommGetPacketType());
+
+    return Status;
+}
+
+EXTERN_C int CommGetPacket(PacketStruct **OutPacket, int *BufferSize)
+{
+    int Status;
+
+#ifdef USE_NACKS
+    {
+	int AckStatus;
+	Status    = _CommGetPacket(OutPacket, BufferSize);
+	if (Status) { return Status; }	/* no 0 value means error happened*/
+	AckStatus = _CommSendPacket(NULL, 0, ACK_PACKET);
+	if (AckStatus) { return AckStatus; }
+    }
+#else
+    Status = _CommGetPacket(OutPacket, BufferSize);
+#endif
+    return Status;
+}
+
+EXTERN_C int CommSendDSR()
+{
+    int   Status=false;
+    char *Buffer=NULL;
+    int   BufferSize=0;
+
+    Status = _CommSendPacket(NULL, 0, DSR_PACKET);
+    return Status;
+}
+
+EXTERN_C int CommDSRGetPacket(PacketStruct **OutPacket, int *BufferSize)
+{
+    int Status;
+
+#ifdef USE_NACKS
+    {
+	Status    = CommSendDSR();
+	if (Status) { return Status;}
+	Status    = CommGetPacket(OutPacket, BufferSize);
+    }
+#else
+    Status = _CommGetPacket(OutPacket, BufferSize);
+#endif
+    return Status;
+}
+
+EXTERN_C int CommDSRGetPacketNoACK(PacketStruct **OutPacket, int *BufferSize)
+{
+    int Status;
+
+    Status    =  CommSendDSR();
+    if (Status) { return Status;}	/* no 0 value means error happened */
+    Status    = _CommGetPacket(OutPacket, BufferSize);
+    return Status;
+}
+
+EXTERN_C int CommGetPacketACK(void)
+{
+    PacketStruct   *Packet=NULL;
+    int             PacketSize=0;
+    PacketTypeEnum  PacketType;
+    int             Status;
+
+    PacketType = UNDEFINED_PACKET;
+
+    while (PacketType == UNDEFINED_PACKET) {
+      Status     = _CommGetPacket(&Packet,&PacketSize);
+      PacketType = (PacketTypeEnum) CommGetPacketType();
+      if (PacketType == ACK_PACKET) 
+      {
+	Status = 0;
+	break;
+      } else {
+	Status = 1;	
+	break;
+      }
+    }
+
+    return Status;
+}
+
+EXTERN_C int CommSendPacketWithACK(PacketStruct *OutPacket, int PacketSize, PacketTypeEnum PacketType)
+{
+    int Status;
+
+    Status = _CommSendPacket(OutPacket, PacketSize, PacketType);
+    if (Status) { return Status;}
+    Status = CommGetPacketACK();
+    return Status;
+}
+
+EXTERN_C int CommSendPacket(PacketStruct *OutPacket, int PacketSize, PacketTypeEnum PacketType)
+{
+    bool boolStatus=false;
+    char *Buffer=NULL;
+    int   BufferSize=0;
+    int Status;
+
+#ifdef USE_NACKS
+    Status = CommSendPacketWithACK(OutPacket, PacketSize, PacketType);
+    return Status;
+#else
+    Status = _CommSendPacket(OutPacket, PacketSize, PacketType);
+    return Status;
+#endif
+}
+
+EXTERN_C int CommGetPacketDSR(void)
+{
+    PacketStruct   *Packet=NULL;
+    int             PacketSize=0;
+    PacketTypeEnum  PacketType;
+    int             Status;
+
+    PacketType = UNDEFINED_PACKET;
+
+    while (PacketType != DSR_PACKET) {
+      Status     = _CommGetPacket(&Packet,&PacketSize);
+      if (Status) { return Status;}
+      PacketType = (PacketTypeEnum) CommGetPacketType();
+      if (PacketType == DSR_PACKET) 
+      {
+	/* Status = POSIX_SUCCESS; */
+	break;
+      }
+    }
+    return Status;
+}
+
+EXTERN_C int CommSendStep()
+{
+    int   Status=false;
+    char *Buffer=NULL;
+    int   BufferSize=0;
+
+    Status = CommSendPacket(NULL, 0, STEP_PACKET);
+    return Status;
+}
+
+EXTERN_C int CommSendTerminate()
+{
+    int Status=false;
+
+    Status = CommSendPacket(NULL, 0, TERMINATE_PACKET);
+    /* if (Status) { UserStopSimulation("Problem happended on comm send termainte");} */
+    Status = CommReleaseCommChannel(ptrSFConnector);
+    return Status;
+}
+
+EXTERN_C int CommSendInit(void)
+{
+    int Status=false;
+    Status = CommSendPacket(NULL, 0, INIT_PACKET);
+    return Status;
+}
+
+EXTERN_C int CommDSRSendPacket(PacketStruct *OutPacket, int PacketSize, PacketTypeEnum PacketType)
+{
+    int Status=false;
+    Status = CommGetPacketDSR();
+    if (Status) { return Status;}
+    Status = CommSendPacket(OutPacket, PacketSize, PacketType);
+    return Status;
+}
+
+EXTERN_C int CommDSRSendInit(void)
+{
+    int Status=false;
+    Status = CommDSRSendPacket(NULL, 0, INIT_PACKET);
+    return Status;
+}
+
+EXTERN_C int CommDSRSendStep(void)
+{
+    int Status=false;
+    Status = CommDSRSendPacket(NULL, 0, STEP_PACKET);
+    return Status;
+}
+
+%with CompiledModel
+
+#if DISC_NUMST == 1 && !defined(MULTITASKING) /* single rate - single task */
+
+/* Function: rtOneStep ========================================================
+ *
+ * Abstract:
+ *   Perform one step of the model.  This function is modeled such that
+ *   it could be called from an interrupt service routine (ISR) with minor
+ *   modifications.
+ */
+EXTERN_C void CommStep(void)
+{
+    /**************
+     * Step model *
+     **************/
+    %<ModelName>_step();
+    return;
+} /* rtOneStep */
+
+
+#elif DISC_NUMST > 1 && !defined(MULTITASKING) /* multirate - single task */
+/* Function: rtOneStep ========================================================
+ *
+ * Abstract:
+ *   Perform one step of the model.  This function is modeled such that
+ *   it could be called from an interrupt service routine (ISR) with minor
+ *   modifications.
+ *
+ *   This routine is designed for a single tasking real-time environment.
+ *
+ *   Note that error checking is only neccessary when this routine is
+ *   attached to an interrupt.
+ *
+ *   Also, you may wish to unroll any or all of for and while loops to
+ *   improve the real-time performace of this function.
+ */
+void CommStep(void)
+{
+    int i;
+
+    /*******************************************
+     * Step the model for the base sample time *
+     *******************************************/
+    %<ModelName>_step(0);
+    
+#if 0  /* REMOVE: This code is now generated with the model's step function */
+
+    /****************************************************************
+     * Increment the taskTick counter and set it back to 0 if a hit *
+     ****************************************************************/
+    for (i = 1; i < DISC_NUMST; i++) { 
+        if (++%<ModelName>_rtO.cTaskTicks[i] == %<ModelName>_rtO.nTaskTicks[i]) {
+            %<ModelName>_rtO.cTaskTicks[i] = 0;
+        }
+    }
+
+#endif
+
+    return;
+} /* rtOneStep */
+
+#elif DISC_NUMST > 1 && defined(MULTITASKING) /* multirate - multitask */
+
+/* Function: rtOneStep ========================================================
+ *
+ * Abstract:
+ *   Perform one step of the model.  This function is modeled such that
+ *   it could be called from an interrupt service routine (ISR) with minor
+ *   modifications.
+ *
+ *   This routine is designed for a multitasking real-time environment, and
+ *   therefore needs to be fully re-entrant when it is called from an ISR.
+ *   The eventFlags array is a stack array variable which guarantees
+ *   that each subrate in the model is executed for each (preemptable) base
+ *   rate interrupt.
+ *
+ *   Note that error checking is only neccessary when this routine is
+ *   attached to an interrupt.
+ *
+ *   Also, you may wish to unroll any or all of for and while loops to
+ *   improve the real-time performace of this function.
+ */
+void CommStep(void)
+{
+    int i, j;
+    boolean_T eventFlags[DISC_NUMST]; /* necessary for preemption */
+
+    /*****************************************************************
+     * Buffer event flags locally so that the function is re-entrant *
+     *****************************************************************/
+    /* REPLACE: Sets the events buffer from within the generated code using
+     * MODEL_SETEVENT function instead of accessing the Real-Time object
+     * directly.
+     */
+     %<ModelName>_SetEventsForThisBaseStep(eventFlags);
+     
+#if 0  /* REMOVE: This code is now generated with the model's step function */
+
+    /***********************************************************************
+     * Update the perTaskSampleHits matrix required by rate transition     *
+     * blocks (zoh and unit delay blocks used for rate transition). This   *
+     * upper triangle matrix is accessed by the ssIsSpecialSampleHits      *
+     * macro to determine a "special hit".                                 *
+     *                                                                     *
+     * That is, each rate in the model is assigned a unique task           *
+     * identifier (tid).  Indexing into this matrix with the appropriate   *
+     * tids answers the question: When faster task i is executing is       *
+     * slower task j executing as well?                                    *
+     *                                                                     *
+     * For example, given 6 rates the hits matrix is a 5x6 matrix.         *
+     *                                                                     *
+     *                column j                                             *
+     *      tid   0   1   2   3   4   5                                    *
+     *          -------------------------                                  *
+     *        0 |   | X | X | X | X | X |                                  *
+     *    r     -------------------------   Given DISC_NUMST rates, this        *
+     *    o   1 |   |   | X | X | X | X |   matrix(i,j) answers:           *
+     *    w     -------------------------   If we are in task i, does      *
+     *        2 |   |   |   | X | X | X |   slower task j have a hit now?  *
+     *    i     -------------------------                                  * 
+     *        3 |   |   |   |   | X | X |                                  *
+     *          -------------------------                                  *
+     *        4 |   |   |   |   |   | X |   X = 0 or 1                     *
+     *          -------------------------                                  *
+     *                                                                     *
+     * The code below updates the slow tasks (stored in column j) for row  *
+     * i when there is a sample hit in row i.                              *
+     ***********************************************************************/
+    i = DISC_NUMST-1;  /* i=tid */
+    while (--i >= 0) {
+        if (!RT_OBJ.cTaskTicks[i]) {
+            for (j = i+1; j < DISC_NUMST; j++) { /* j=tid */
+                RT_OBJ.perTaskSampleHits[i][j] = !RT_OBJ.cTaskTicks[j];
+            }
+        }
+    }
+
+    /****************************************************************
+     * Increment the taskTick counter and set it back to 0 if a hit *
+     ****************************************************************/
+    i = DISC_NUMST;
+    while (--i > 0) {
+        if (++RT_OBJ.cTaskTicks[i] == RT_OBJ.nTaskTicks[i]) {
+            RT_OBJ.cTaskTicks[i] = 0;
+        }
+    }
+#endif
+
+    /* Set model inputs associated with base rate here */
+
+    /*******************************************
+     * Step the model for the base sample time *
+     *******************************************/
+    %<ModelName>_step(0);
+
+    /* Get model outputs associated with base rate here */
+
+    /*********************************************************
+     * Step the model for any other sample times (sub-rates) *
+     *********************************************************/
+    for (i = 1; i < DISC_NUMST; i++) {
+        if (eventFlags[i]) {
+            /* Set model inputs associated with subrate here */
+	    %<ModelName>_step(i);
+            /* Get model outputs associated with subrate here */
+	}
+    }
+
+    return;
+} /* rtOneStep */
+
+#else /* illegal state : single rate - multitask */
+# error "A single rate model can't have multiple tasks" 
+#endif 
+%endwith
+
+EXTERN_C void CommInit(int initarg)
+{
+    int Status=initarg;
+    PacketStruct *Packet=NULL;
+
+    Packet = NULL;
+
+    %<ModelName>_initialize((unsigned char) initarg);
+}
+
+EXTERN_C void CommTerminate(void)
+{
+    int Status=0;
+    PacketStruct *Packet=NULL;
+
+    %<ModelName>_terminate();
+}
+
+%assign local_overtime_in_sec = 4
+%if EXISTS("CommTimeout")
+  %assign local_overtime_in_sec = "%<CommTimeout>"
+%endif
+%assign local_baud = 57600
+%if EXISTS("COM_BAUD")
+  %assign local_baud = %<COM_BAUD>
+%endif
+%assign local_bits = 8
+%if EXISTS("COM_BITS")
+  %assign local_bits = %<COM_BITS>
+%endif
+%assign local_parity = 0
+%if EXISTS("COM_PARITY")
+  %switch (COM_PARITY) 
+    %case "None" 
+      %assign local_parity = 0
+      %break
+    %default 
+      %assign local_parity = 0
+  %endswitch 
+%endif
+%assign local_stop = 0
+%if EXISTS("COM_STOP")
+  %switch (COM_STOP) 
+    %case 1
+      %assign local_stop = 0
+      %break
+    %case 1.5
+      %assign local_stop = 1
+      %break
+    %case 2 
+      %assign local_stop = 2
+      %break
+    %default 
+      %assign local_stop = 0
+  %endswitch 
+%endif
+
+EXTERN_C SFConnector *CommGetCommChannel(int port)
+{
+    unsigned int localPort = (unsigned int)port;
+    unsigned long dwBaudRate = %<COM_BAUD>ul;    
+    SFConnector *local_ptrConnector=NULL;
+
+    general_uart_init(localPort, dwBaudRate);
+    local_ptrConnector = CreateSFConnector();
+
+    /*Initialize LED */
+    InitializeLED();
+    return local_ptrConnector;
+}
+
+EXTERN_C bool CommWaitForConnection(int port) 
+{
+    CommStateEnum Status = WaitingForConnection;
+    bool boolStatus = false;
+
+    /* Setup Comm device and SFConnector */
+    ptrSFConnector = CommGetCommChannel(port);
+
+    while (Status != ConnectionOpen) {
+        int ConnectStatus;
+
+        /* Ensure the watchdog does not time out */
+        SERVICE_WATCHDOG_TIMER;
+
+        /* More device setup */
+        ConnectStatus = Connect(ptrSFConnector);
+        if (ConnectStatus) {
+            Status = ConnectionOpen;
+        }
+    }
+
+    {
+        /* int boolStatus=false;*/
+        while (!boolStatus) {
+            /* Ensure the watchdog does not time out */
+            SERVICE_WATCHDOG_TIMER;
+
+            /* Wait for ANNOUNCE exchange */
+            boolStatus = WaitConnect(InBuffer, ptrSFConnector); /* Wait for Host start connection */
+        }
+        Status = ConnectionOpen;
+    }
+    /* return Status;*/
+    return boolStatus;
+}
+
+EXTERN_C char CommGetPacketType(void)
+{
+    return InBuffer->type;
+}
+
+EXTERN_C bool CommIsSameEndian(void) 
+{
+    /*
+     * return a comparison of the endian fields
+     */
+    return (ptrSFConnector->isLittleEndian == ptrSFConnector->fRemoteLittleEndian);
+}
+
+EXTERN_C int CommSendACK()
+{
+    int   Status=false;
+    char *Buffer=NULL;
+    int   BufferSize=0;
+
+    Status = _CommSendPacket(NULL, 0, ACK_PACKET);
+    return Status;
+}
+
+EXTERN_C int CommSendNACK()
+{
+    int   Status=false;
+    char *Buffer=NULL;
+    int   BufferSize=0;
+
+    Status = _CommSendPacket(NULL, 0, NACK_PACKET);
+    return Status;
+}
+

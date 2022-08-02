@@ -1,0 +1,36 @@
+%% $RCSfile: ti_c2000_bld.tlc,v $
+%% $Revision: 1.2 $ $Date: 2003/09/26 16:05:02 $
+%% Copyright 2003 The MathWorks, Inc.
+%%
+%% Abstract:
+%%  This file stores some model-specific 
+%%  information into m from tlc.
+
+
+
+%if EXISTS("_C2000_BLD_") == 0
+%assign _C2000_BLD_ = 1
+
+%% Function: cache_compiled_model_data =========================================
+%% Transfer RTW defines to M-file function for persistent storage.
+%% The information is later used in the creation
+%% of the CCS project (or .bat file).
+%function cache_compiled_model_data() void
+
+%assign temp = ArgsCache                                        \
+      {NumSampleTimes %<CompiledModel.NumSampleTimes>;          \
+       FixedStepOpts %<CompiledModel.FixedStepOpts.TID01EQ>;    \
+       NumContStates %<CompiledModel.NumContStates>;            \
+       SolverMode "%<CompiledModel.FixedStepOpts.SolverMode>"}
+
+%assign x = FEVAL("ti_RTWdefines", "set", ArgsCache)
+%endfunction %% cache_compiled_model_data
+
+
+%% Function: Entry point for creating build files =============================
+%%
+%<cache_compiled_model_data()>  %% construct Args cache
+
+%endif  %% _C2000_BLD_
+
+%% [EOF] ti_c2000_bld.tlc

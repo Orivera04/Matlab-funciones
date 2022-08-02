@@ -1,0 +1,47 @@
+%% $Revision: 1.1.6.2 $ 
+%% $Date: 2004/04/08 20:59:00 $
+%% Copyright 2001-2004 The MathWorks, Inc.
+%% part of the Target for TI C2000 DSP
+
+
+%% The following TLC code is common to the GRT-based and ERT-based
+%% TI C2000 System Target files.  
+%% This TLC file is included by both ti_c2000_grt.tlc and ti_c2000_ert.tlc.
+
+%assign c2000TgtPrefOptions = FEVAL("getTargetPreferencesList_tic2000")
+
+%% Set the size of the physical stack
+%if (c2000TgtPrefOptions.DSPBoardDSPChipDSPChipLabel == "TI TMS320C2812") || \
+      (c2000TgtPrefOptions.DSPBoardDSPChipDSPChipLabel == "TI TMS320C2810")
+      %if (c2000TgtPrefOptions.BuildOptionsLinkerOptionsLinkerCMDFile == "Full_memory_map")
+          %assign STACKSIZE = 4096
+      %else
+          %assign STACKSIZE = 1024      
+      %endif
+%else
+      %if (c2000TgtPrefOptions.BuildOptionsLinkerOptionsLinkerCMDFile == "Full_memory_map")
+          %assign STACKSIZE = 1024
+      %else
+          %assign STACKSIZE = 512      
+      %endif
+%endif
+
+%% Set the maximum size of the local stack used by the RTW 
+%assign MaxStackSize = STACKSIZE
+%assign DivideStackByRate = TLC_TRUE
+
+%assign matlab_path = FEVAL("matlabroot")
+%assign dsp_tlc_path = matlab_path + "/toolbox/dspblks/dspmex/tlc_c"
+%addincludepath dsp_tlc_path
+
+%if DivideStackByRate
+  %assign DivideStackByRate = TLC_FALSE
+  %% Obtain the number of the sample times used in the model
+  %assign NUMRATES = %<CompiledModel.NumSampleTimes>
+  %assign MaxStackSize = STACKSIZE / NUMRATES
+%endif
+
+%assign c2000ModelIRInfo = FEVAL("getIRInfo_C2000DSP","%<CompiledModel.Name>",CompiledModel.SampleTime)  
+
+%include "codegenentry.tlc"
+%include "ti_c2000_genfiles.tlc"

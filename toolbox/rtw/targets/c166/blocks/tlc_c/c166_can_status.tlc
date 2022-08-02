@@ -1,0 +1,63 @@
+%% File: c166_can_status.tlc
+%%
+%% Abstract:
+%%   Polls the CAN status register to determine bus off or error warning
+%%   status.
+%%
+%% $Revision: 1.1.6.3 $
+%% $Date: 2004/04/19 01:17:43 $
+%%
+%% Copyright 2002-2003 The MathWorks, Inc.
+
+%implements c166_can_status "C"
+%include "c166_common_includes.tlc"
+%include "can_comm_setup.tlc"
+
+%% Function: BlockTypeSetup
+%% Abstract:
+%%
+%function BlockTypeSetup(block,system) void
+
+   %<SetupCanDataTypes(block)>
+
+   %if !SLibCodeGenForSim() 
+   %endif
+
+%endfunction %% BlockTypeSetup
+
+%% Function: Outputs ========================================================
+%% Abstract:
+%%
+%% Test the appropriate bit in the CAN status register
+%%
+%function Outputs(block,system) Output
+
+  %assign twinCAN = FEVAL("c166cache","get","TwinCAN")
+  %if ( !SLibCodeGenForSim() ) && ( twinCAN == 0 )
+
+    %% Only generate code for real time
+     %assign csr = "C%<SFcnParamSettings.Module>CSR"
+      
+     %assign StatusType = SFcnParamSettings.StatusType
+     %switch StatusType
+       %case "Bus Off"
+	 %assign mask = "CSR_BOFF_MASK"
+	 %break
+	 
+       %case "Error Warning"
+	 %assign mask = "CSR_EWRN_MASK"
+	 %break
+	 
+       %default
+	 %exit "Invalid setting StatusType = %<StatusType> in block %<block>"
+	 
+     %endswitch
+
+     %assign outSig = LibBlockOutputSignal(0,"","",0)
+     /* Get %<StatusType> status for CAN module %<SFcnParamSettings.Module> */
+     %<outSig> = ( ( %<csr> & %<mask> ) == %<mask> );
+     
+   %endif
+
+%endfunction %%Outputs
+

@@ -1,0 +1,94 @@
+%% File: asc0_rx.tlc
+%%
+%% Abstract:
+%%   Receive data over the C166 Asynchronous/Synchronous Serial Interface
+%%
+%% $Revision: 1.2 $
+%% $Date: 2002/11/05 11:13:25 $
+%%
+%% Copyright 2002 The MathWorks, Inc.
+
+%implements asc0_rx "C"
+
+%% include environment routines
+%assign MATLAB_ROOT = FEVAL("matlabroot")
+%assign PATH_SEP = FEVAL("filesep")
+%assign TARGETS_PATH = "%<MATLAB_ROOT>%<PATH_SEP>toolbox%<PATH_SEP>rtw%<PATH_SEP>targets%<PATH_SEP>common%<PATH_SEP>configuration%<PATH_SEP>environment"
+%addincludepath "%<TARGETS_PATH>"
+%include "env.tlc"
+
+%if Accelerator
+  %%allow accelerator mode
+%else 
+  %% Prevent the block being put into non-accelerator, non-c166 targeting environment
+  %if (!chk_env("c166"))
+    %<LibBlockReportError(block, "Code generation settings are not compatible with this block. This block is intended for use with Embedded Target for Infineon C166® Microcontrollers")>
+    %exit
+  %endif
+%endif
+
+%include "targetlib.tlc"
+
+%% Function: BlockTypeSetup
+%% Abstract:
+%%
+%function BlockTypeSetup(block,system) void
+
+  %if !SLibCodeGenForSim() 
+
+     %% Only generate code for real time not for PIL
+		
+     %openfile buffer
+     #include "asc_serial_pec.h"
+     %closefile buffer
+     %<LibCacheIncludes(buffer)> 
+     
+   %endif
+   
+%endfunction %% BlockTypeSetup
+
+%% Function: Outputs ========================================================
+%% Abstract:
+%%
+%function Outputs(block,system) Output
+
+    %if !SLibCodeGenForSim() 
+      
+      %% Only generate code for real time not for PIL
+      
+      %assign data_addr = LibBlockOutputSignalAddr(0,"","",0)
+      %if SFcnParamSettings.ShowLength
+	%if LibBlockOutputSignalDataTypeName(1,"")!="uint16_T"
+	  %assign modifier = "(uint16_T)"
+	%else
+	  %assign modifier = ""    
+	%endif
+	%assign length =  "%<modifier> %<LibBlockInputSignal(0,"","",0)>"
+      %else
+	%assign length = LibBlockOutputSignalWidth(0)
+      %endif
+      
+      %assign rtnValModifier = ""    
+      %if SFcnParamSettings.ShowNumSent
+	%if LibBlockOutputSignalDataTypeName(0,"") != "uint16_T"
+	  %assign rtnValModifier = "(uint16_T)"
+	%endif
+	%assign numBytesRead = "%<LibBlockOutputSignal(1,"","",0)> = "
+      %else
+	%assign numBytesRead = ""
+      %endif
+
+      {
+	%assign maxLen = CAST("Unsigned",SFcnParamSettings.MaxLength)
+	uint16_T tmpVar = (%<length> <= %<maxLen>) ? %<length> : %<maxLen>;
+	%<numBytesRead> %<rtnValModifier> \
+	general_get_string( %<data_addr>,tmpVar);
+      }
+		
+    %endif
+
+%endfunction %%Outputs
+
+
+
+

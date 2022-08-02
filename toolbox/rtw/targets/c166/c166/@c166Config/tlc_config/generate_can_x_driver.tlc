@@ -1,0 +1,679 @@
+%% File: generate_can_x_driver.tlc
+%%
+%% Abstract:
+%%   Generate the file can_x_driver.c containing the driver code
+%%   for CAN module x.
+%%   
+%%
+%% $Revision: 1.1.6.8 $
+%% $Date: 2004/04/19 01:18:25 $
+%%
+%% Copyright 2002-2004 The MathWorks, Inc.
+
+%function SLibGenerateCanXDriver(record, module) Output
+  /* Real-Time Workshop code generation for Simulink model "%<CompiledModel.Name>.mdl".
+  *
+  * Model Version : %<ModelVersion>
+  * Real-Time Workshop file version : %<Version>
+  * Real-Time Workshop file generated on : %<GeneratedOn>
+  * TLC version : %<TLC_VERSION>
+  * File generated on : %<TLC_TIME>
+  *
+  * This file implements CAN driver functions.
+  */
+  
+  /* Includes */
+  #include <string.h>
+  #include "%<CompiledModel.Settings.TaskingRegisterDefs>" /* For selected C166 architecture */
+  #include "tmwtypes.h"
+  #include "can_driver.h"
+  #include "profile.h"
+  #include "profile_utils.h"
+
+
+  /* Typedefs */
+  typedef struct CAN_MSG_BUFFER_tag {
+    uint16_T MCR;
+    uint16_T UAR;
+    uint16_T LAR;
+    uint8_T MCFG;
+    uint8_T DATA[8];
+    uint8_T CAN_MSG_BUFFER_reserved;
+  } CAN_MSG_BUFFER;
+  %% Extract all the values we need from the record
+  %assign CANBITRATE = SLibSubsRef(record,"Timing.CAN_bit_rate")
+  %assign NUMQUANTA = SLibSubsRef(record,"Timing.Number_of_quanta")
+  %assign SAMPLEPOINT = SLibSubsRef(record,"Timing.Sample_point")
+  %assign PRESDIV = SLibSubsRef(record,"Timing.Register_Configuration")[0]
+  %assign PROPSEG = SLibSubsRef(record,"Timing.Register_Configuration")[1]
+  %assign PSEG1 = SLibSubsRef(record,"Timing.Register_Configuration")[2]
+  %assign PSEG2 = SLibSubsRef(record,"Timing.Register_Configuration")[3]
+  %assign RJW = SLibSubsRef(record,"Timing.Resynchronization_jump_width")
+  %assign GLOBMASKEXTENDED = "0x" + SLibSubsRef(record,"Masks.Global_mask_extended")
+  %assign GLOBMASKSTANDARD = "0x" + SLibSubsRef(record,"Masks.Global_mask_standard")
+  %assign BUFFER15MASK = "0x" + SLibSubsRef(record,"Masks.Buffer_15_mask")
+  %assign tmpIRQLEVEL = SLibSubsRef(record,"CAN_interrupt_level")
+  %assign tmpIRQLEVELGROUP = SLibSubsRef(record,"CAN_int_level_group")
+  
+  %assign tmpIRQLEVEL = IDNUM(tmpIRQLEVEL)
+  %assign IRQLEVEL = tmpIRQLEVEL[1]
+  %assign tmpIRQLEVELGROUP = IDNUM(tmpIRQLEVELGROUP)
+  %assign IRQLEVELGROUP = tmpIRQLEVELGROUP[1]
+  
+  %assign intDrivenFifoTx = SLibSubsRef(record,"RequireIntDrivenFifoTx")
+  %assign intDrivenFifoTx = SLibSubsRef(record,"RequireIntDrivenFifoTx")
+  %assign sharedTxBuffer = SLibSubsRef(record,"RequireSharedTxBuffer")
+
+  %if sharedTxBuffer == 1
+    %assign TXBUFFER = SLibSubsRef(record,"CAN_transmit_buffer_number")
+    %assign TXQLEN   = SLibSubsRef(record,"Transmit_queue_length")
+  %endif
+  
+  
+  /* Local function prototypes */
+  %if sharedTxBuffer == 1
+    static CAN_FRAME * q_get_slot(void);
+    static CAN_FRAME * q_get_highest(void);
+  %endif  
+  /* Defines */
+  
+  #define SET_RMTPND      (0xBFFFU)
+  #define SET_TXRQ        (0xEFFFU)
+  #define SET_MSGLST      (0xFBFFU)
+  #define SET_CPUUPD      SET_MSGLST
+  #define SET_NEWDAT      (0xFEFFU)
+  #define SET_MSGVAL      (0xFFBFU)
+  #define SET_TXIE        (0xFFEFU)
+  #define SET_RXIE        (0xFFFBU)
+  #define SET_INTPND      (0xFFFEU)
+  
+  #define CLEAR_RMTPND      (0x7FFFU)
+  #define CLEAR_TXRQ        (0xDFFFU)
+  #define CLEAR_MSGLST      (0xF7FFU)
+  #define CLEAR_CPUUPD      CLEAR_MSGLST
+  #define CLEAR_NEWDAT      (0xFDFFU)
+  #define CLEAR_MSGVAL      (0xFF7FU)
+  #define CLEAR_TXIE        (0xFFDFU)
+  #define CLEAR_RXIE        (0xFFF7U)
+  #define CLEAR_INTPND      (0xFFFDU)
+  
+  #define IS_SET_TXRQ(MCR)     ( ( (MCR) & (~SET_TXRQ    ) ) == 0 )
+  #define IS_SET_NEWDAT(MCR)   ( ( (MCR) & (~SET_NEWDAT  ) ) == 0 )
+  #define IS_CLEAR_TXRQ(MCR)   ( ( (MCR) & (~CLEAR_TXRQ  ) ) == 0 )
+  #define IS_CLEAR_MSGVAL(MCR) ( ( (MCR) & (~CLEAR_MSGVAL) ) == 0 )
+  
+  %if sharedTxBuffer == 1
+    /* Buffer to use for shared transmit queue */
+    #define TX_SHARED_BUFFER_IDX (%<TXBUFFER>-1)
+  %endif
+  
+  /*
+  * Macros to write CAN message identifiers to Upper and Lower
+  * Abitration Registers UARn, LARn
+  */
+  #define IDH(PID) ( * ( (uint16_T *) (((uint16_T *) (PID)) + 1) ) )
+  #define IDL(PID) ( *                 ((uint16_T *) (PID))        )
+  #define STD_ID_UAR(PID) ( ((IDL(PID) >> 3) & 0xFF) + ((IDL(PID) << 13) & 0xE000) )
+  #define XTD_ID_LAR(PID) ( ((IDL(PID) >> 5) & 0xFF) + ((IDL(PID) << 11) & 0xF800) )
+  #define XTD_ID_UAR(PID) ( ((IDH(PID) >> 5) & 0xFF) + ((IDH(PID) << 11) & 0xF800) \
+  + ((IDL(PID) >> 5) & 0x0700) )
+
+  /* Macros to read message identifier from UARn, LARn */
+  #define UAR_VAL(PUAR) ( * (   (uint16_T * ) (PUAR) )       )
+  #define LAR_VAL(PUAR) ( * ( ( (uint16_T * ) (PUAR) ) + 1 ) )
+  #define STD_ID(PUAR) ( ( UAR_VAL(PUAR) & 0xFF ) << 3 ) + ( (UAR_VAL(PUAR) & 0xE000) >> 13 )
+  #define XTD_ID(PUAR) ( ( (uint32_T) ( UAR_VAL(PUAR) & 0xFF ) ) << 21 ) \
+  + ( ( (uint32_T) (UAR_VAL(PUAR) & 0xFF00) ) << 5 ) \
+  + ( ( LAR_VAL(PUAR) & 0xFF ) << 5 ) + ( ( LAR_VAL(PUAR) & 0xF800 ) >> 11 )
+  
+  #define CAN_1_TRAP (0x40)
+  #define CAN_2_TRAP (0x41)
+  
+  %if sharedTxBuffer == 1
+  #define TX_QUEUE_LEN (%<TXQLEN>)
+  %endif
+  /* Define a value for the CAN message identifier that can be used to indicate
+  * when the message object is no longer valid.
+  */
+  #define CAN_LOWER_THAN_LOWEST 0xFFFFFFFF
+  
+  #define NUM_BUFFERS 15
+  
+  /* Local function prototypes */
+  %if intDrivenFifoTx == 1
+  static void can_%<module>_service_transmit_fifo(uint_T bufferNo, MESSAGE_CIRCULAR_BUFFER * circBuf);
+  %endif  
+  
+  
+  /* Local variables */
+  %if sharedTxBuffer == 1
+    static CAN_FRAME tx_queue[TX_QUEUE_LEN];
+  %endif  
+  
+  %if intDrivenFifoTx == 1
+    /* When interrupts are used, each buffer may have extra data that must
+    * be accessed during the interrupt callback */
+    static void * callbackDataCan%<module>[NUM_BUFFERS];
+  %endif
+  
+  
+  %if intDrivenFifoTx == 1
+    %<FcnGenerateFifoTxFns(module)>
+  %endif
+  
+  /* Initialize CAN module %<module> */
+  void can_%<module>_init(void) {
+    
+    /* Reset the CAN module and allow CPU access to the bit timing register */
+    %assign csr_init = 1
+    %assign csr_cce = 1
+    %assign csr = (csr_init) + (csr_cce << 6)
+    C%<module>CSR = %<SPRINTF("0x%x",csr)>U;
+
+    %assign pcir_ipc = 0
+    /* Interface port control:
+    *    IPC = %<pcir_ipc>
+    */
+    %assign pcir = (pcir_ipc << 8)
+    C%<module>PCIR = %<SPRINTF("0x%x",pcir)>U;
+    
+    %assign BTR_TSEG1 = PROPSEG + PSEG1 - 1
+    %assign BTR_TSEG2 = PSEG2 - 1
+    %assign BTR_SJW = RJW - 1
+    %assign BTR_BRP = PRESDIV - 1
+    %assign BTR = BTR_BRP + (BTR_SJW << 6) + (BTR_TSEG1 << 8) + (BTR_TSEG2 << 12)
+    /* CAN Bit Timing
+    * 
+    * CAN bit rate = %<CANBITRATE>
+    * Number of quanta = %<NUMQUANTA>
+    * Resynchronization jump width = %<RJW>
+    * Sample point = %<SAMPLEPOINT>
+    * Propagation segment = %<PROPSEG> quanta
+    * Phase segment 1 = %<PSEG1> quanta
+    * Phase segment 2 = %<PSEG2> quanta
+    * BTR/TSEG1 = %<BTR_TSEG1>
+    * BTR/TSEG2 = %<BTR_TSEG2>
+    * BTR/SJW = %<BTR_SJW>
+    * BTR/BRP = %<BTR_BRP>
+    */
+    C%<module>BTR = %<SPRINTF("0x%x",BTR)>U;
+   
+    /* Global mask registers for receive messages */
+    {
+      const uint16_T std_mask = %<GLOBMASKSTANDARD>;
+      C%<module>GMS = STD_ID_UAR( &std_mask ); 
+    }
+    {
+      const uint32_T xtd_mask = %<GLOBMASKEXTENDED>;
+      C%<module>UGML = XTD_ID_UAR( &xtd_mask );
+      C%<module>LGML = XTD_ID_LAR( &xtd_mask );
+    }
+
+    /* Reset all message objects */
+    {
+      CAN_MSG_BUFFER * pcan_msg = (void *) ( (unsigned int) &C%<module>MCR1 );
+      uint8_T i;
+      for (i=0; i<NUM_BUFFERS; i++) {
+	pcan_msg[i].MCR = ( CLEAR_TXIE & CLEAR_RXIE & CLEAR_INTPND 
+	& CLEAR_TXRQ & SET_CPUUPD & CLEAR_NEWDAT & CLEAR_MSGVAL );
+      }
+    }
+    
+    %if sharedTxBuffer == 1
+      /* Initialize the queue */
+      { 
+      uint32_T i;
+      CAN_FRAME * ptr = tx_queue;
+      for (i=0; i< TX_QUEUE_LEN; i++) {
+	ptr++->ID = CAN_LOWER_THAN_LOWEST;
+      }
+      }
+    
+      /* Configure the shared transmit buffer to generate interrupts */
+      C%<module>MCR%<TXBUFFER> = (SET_TXIE);
+    %endif
+    
+  }
+  
+  /* Start CAN module %<module> */
+  void can_%<module>_start(void) {
+    
+    /*
+    * Enable CAN module %<module> interrupts
+    *    Interrupt priority level = %<IRQLEVEL>
+    *    Interrupt group level = %<IRQLEVELGROUP>
+    */
+    %assign IE = (1<<6) %% interrupt enable bit
+    %assign tmp = IE + (IRQLEVEL << 2) + IRQLEVELGROUP
+    XP%<module[0]-1>IC = %<SPRINTF("0x%x",tmp)>;
+    
+    %assign csr_init = 0
+    %assign csr_ie = 1
+    %assign csr_cps = 0 %% On ST10F269 this bit is effectively hard-wired to 0
+    %assign csr_cce = 0
+    %assign csr = (csr_init) + (csr_ie << 1) \
+    + (csr_cps << 4) + (csr_cce << 6)
+    /* Start the CAN module
+    * 
+    * INIT = %<csr_init>
+    * IE  (interrupt enable) = %<csr_ie>
+    * CPS (clock prescaler control bit) = %<csr_cps>
+    * CCE (configuration change enable) = %<csr_cce>
+    */
+    C%<module>CSR = %<SPRINTF("0x%x",csr)>U;
+  }
+  
+  /* Interrupt service routine for CAN module %<module> */
+  _interrupt ( CAN_%<module>_TRAP ) void can_%<module>_isr(void)
+  {
+    uint8_T  intid = * ( (uint8_T *) (&(C%<module>PCIR)) );
+    
+    #ifdef PROFILING_ENABLED
+    /* Task execution profiling */
+    IEN = 0;
+    profile_section_start(PROFILING_ID_CAN_%<module>_ISR);
+    IEN = 1;
+    #endif 
+    
+    while (intid != 0) {
+      switch (intid) {
+	case 1:
+	{
+	  /* Read status partition of control register to clear INTID */
+	  volatile temp = C%<module>CSR;	  
+	}
+	break;
+	case 2:
+	{
+	  /* Message object 15 */
+	  C%<module>MCR15 = (CLEAR_INTPND) & (CLEAR_MSGVAL);	  
+	}
+	break;
+	%if sharedTxBuffer == 1
+	  %assign tmp = IDNUM(TXBUFFER)
+	  %assign txSharedBuffer = tmp[1] %% one-based value of shared tx buffer
+	  %assign txSharedBufferId = txSharedBuffer+2 %% INTID value for tx buffer
+	  case %<txSharedBufferId>:
+	  {
+	    /* Message object %<TXBUFFER> used for shared transmit queue */
+	    CAN_FRAME * newMsg;
+	    
+	    /* Clear interrupt pending flag at the earliest opportunity */
+	    C%<module>MCR%<TXBUFFER> =(CLEAR_INTPND) & (CLEAR_MSGVAL);
+	    
+	    /* Retrieve highest priority message from the queue */
+	    newMsg = q_get_highest();
+	    if (newMsg != NULL) {
+	      can_%<module>_load_msg(newMsg, (TX_SHARED_BUFFER_IDX) );
+	    } else {
+	      C%<module>MCR%<TXBUFFER> = CLEAR_MSGVAL;
+	    }
+	    /* Invalidate the queue entry for processed message */
+	    newMsg->ID = CAN_LOWER_THAN_LOWEST;
+	  }
+	  break;
+	%endif 
+	default:
+	{
+	  uint8_T bufferNo = intid-3; /* zero-based buffer number */
+	  CAN_MSG_BUFFER * buffer
+	  = ( (CAN_MSG_BUFFER *) ( (unsigned int) &C%<module>MCR1 ) ) + bufferNo;
+	  buffer->MCR = (CLEAR_INTPND) & (CLEAR_MSGVAL);
+	  %if intDrivenFifoTx == 1
+	    {
+	      MESSAGE_CIRCULAR_BUFFER * circBuf = 
+	      (MESSAGE_CIRCULAR_BUFFER *) callbackDataCan%<module>[bufferNo];
+	      can_%<module>_service_transmit_fifo(bufferNo, circBuf);
+	    }
+	  %endif
+      }
+      break;
+      }
+      intid = * ( (uint8_T *) (&(C%<module>PCIR)) );
+    }
+    
+    #ifdef PROFILING_ENABLED
+    /* Task execution profiling */
+    IEN = 0;
+    profile_section_end(PROFILING_ID_CAN_%<module>_ISR);
+    IEN = 1;
+    #endif 
+    
+  }
+
+  void can_%<module>_load_msg(const CAN_FRAME * msg, unsigned int buffer_no) {
+
+    uint8_T xtd;
+    uint8_T length = msg->LENGTH;
+    CAN_MSG_BUFFER * buffer 
+    = ( (CAN_MSG_BUFFER *) ( (unsigned int) &C%<module>MCR1 ) ) + buffer_no;
+    
+
+    /* Prepare the message object for update of its contents */
+    buffer->MCR = ( SET_CPUUPD & SET_NEWDAT );
+
+    if (msg->type == CAN_MESSAGE_EXTENDED) {
+      xtd = 1;
+      buffer->UAR = XTD_ID_UAR( &( msg->ID) );
+      buffer->LAR = XTD_ID_LAR( &( msg->ID) );
+    } else {
+      /* CAN_MESSAGE_STANDARD */
+      xtd = 0;
+      buffer->UAR = STD_ID_UAR( &( msg->ID) );
+    }
+    
+    buffer->MCFG = (xtd << 2) + (1 << 3) + (length << 4);
+    
+    {
+      memcpy( (void *) buffer->DATA, (void *) msg->DATA, length);
+    }    
+    
+    /* Set MSGVAL and TXRQ to send the message */
+    buffer->MCR = (SET_MSGVAL) & (SET_TXRQ) & (CLEAR_CPUUPD);
+  }
+  
+  %if sharedTxBuffer == 1  
+    %<FcnGenerateSharedTxQueueFns(module, IRQLEVEL, TXBUFFER)>
+  %endif
+
+  /* Initialize a buffer on CAN module %<module> to receive messages */
+void can_%<module>_init_receive(uint8_T buffer, CanFrameType type, uint32_T id) {
+
+  uint8_T xtd;
+  
+  /* Get a pointer to the CAN message object */
+  CAN_MSG_BUFFER * pcan_msg = ( (CAN_MSG_BUFFER *) ( (unsigned int) &C%<module>MCR1 ) ) + buffer;
+  
+  if (type == CAN_MESSAGE_EXTENDED) {
+    xtd = 1;
+    pcan_msg->UAR = XTD_ID_UAR( &( id ) );
+    pcan_msg->LAR = XTD_ID_LAR( &( id ) );
+  } else {
+    /* CAN_MESSAGE_STANDARD */
+    xtd = 0;
+    pcan_msg->UAR = STD_ID_UAR( &( id ) );
+  }
+  
+  pcan_msg->MCFG = (xtd << 2);
+  
+  pcan_msg->MCR = CLEAR_TXIE & CLEAR_RXIE & CLEAR_INTPND & CLEAR_RMTPND 
+  & CLEAR_TXRQ & CLEAR_MSGLST & CLEAR_NEWDAT & SET_MSGVAL;
+  
+  /* Extra initialisation for last message buffer only */
+  #define LAST_BUFFER 14
+  if (buffer == LAST_BUFFER) {
+    const uint32_T mask = %<BUFFER15MASK>;
+    if (type == CAN_MESSAGE_EXTENDED) {
+      C%<module>UMLM = XTD_ID_UAR( &( mask ) );
+      C%<module>LMLM = XTD_ID_LAR( &( mask ) );
+    } else {
+      /* CAN_MESSAGE_STANDARD */
+      C%<module>UMLM = STD_ID_UAR( &( id ) );
+    }    
+  }    
+}    
+
+/* Process a received message on CAN module %<module> */
+uint8_T can_%<module>_receive_msg(CAN_FRAME *msg, uint8_T buffer) {
+  
+  uint8_T rtn_value = NO_MSG_RECEIVED;
+
+  /* Get a pointer to the CAN message object */
+  CAN_MSG_BUFFER * pcan_msg = ( (CAN_MSG_BUFFER *) ( (unsigned int) &C%<module>MCR1 ) ) + buffer;
+
+  if (IS_SET_NEWDAT(pcan_msg->MCR)){
+    pcan_msg->MCR = CLEAR_NEWDAT;
+
+    {
+      uint16_T xtd     = ((pcan_msg->MCFG) >> 2) & 0x1;
+      uint16_T length  = ((pcan_msg->MCFG) >> 4) & 0x0F;
+      uint32_T id;
+      uint8_T data[8]; 
+      
+      /* Protect against illegal CAN messages with length > 8 */
+      if (length>8) {
+	length=8;
+      }
+      
+      if (xtd) {
+	id = XTD_ID( &(pcan_msg->UAR) );
+      } else {
+	id = STD_ID( &(pcan_msg->UAR) );
+      }
+
+      memcpy( (void *) data, (void *) pcan_msg->DATA, length);
+
+      /* Only copy if NEWDAT is still clear, i.e. we have consistent data */
+      if (IS_SET_NEWDAT(pcan_msg->MCR)) {
+	rtn_value = MSG_LOST;
+      } else {	
+        memcpy( (void *) msg->DATA, (void *) data, length);
+        msg->LENGTH = length;
+	msg->ID = id;
+	rtn_value = MSG_RECEIVED;
+      } 
+    }
+  }
+  return rtn_value;
+}
+
+/* Receive a message in the last buffer (requires special handling) */
+uint8_T can_%<module>_receive_last_msg(CAN_FRAME *msg) {
+  
+  uint8_T rtn_value = NO_MSG_RECEIVED;
+
+  if (IS_SET_NEWDAT(C%<module>MCR15)){
+    uint16_T xtd     = ((C%<module>MCFG15) >> 2) & 0x1;
+    uint16_T length  = ((C%<module>MCFG15) >> 4) & 0x0F;
+    uint32_T id;
+      
+    /* Protect against illegal CAN messages with length > 8 */
+    if (length>8) {
+      length=8;
+    }
+    
+    if (xtd) {
+      id = XTD_ID( &(C%<module>UAR15) );
+    } else {
+      id = STD_ID( &(C%<module>UAR15) );
+    }
+    
+    {
+      const CAN_MSG_BUFFER * pcan_msg = (CAN_MSG_BUFFER *) ( (unsigned int) &C%<module>MCR15 );
+      memcpy( (void *) msg->DATA, (void *) pcan_msg->DATA, length);
+    }
+
+    msg->LENGTH = length;
+    msg->ID = id;
+    
+    C%<module>MCR15 = CLEAR_NEWDAT;
+    
+    rtn_value = MSG_RECEIVED;
+  }
+
+  return rtn_value;
+}
+
+  %endfunction
+  
+  %function FcnGenerateFifoTxFns(module) Output
+  /* See documentation in header file */
+  void can_%<module>_init_transmit_fifo(uint_T bufferNo, 
+                      MESSAGE_CIRCULAR_BUFFER * p_msg_buf, 
+                      CAN_FRAME * p_can_frames, uint_T queue_len) {
+		      
+    
+    p_msg_buf->readIdx = 0;
+    p_msg_buf->writeIdx = 0;
+    p_msg_buf->size = queue_len;
+    p_msg_buf->overflowCount = 0;
+    p_msg_buf->full = 0;
+    p_msg_buf->buffer = p_can_frames;
+    p_msg_buf->canBufferInUse = 0;
+
+    /* Initialize the callback data */
+    callbackDataCan%<module>[bufferNo] = (void *) p_msg_buf;
+    
+    /* Configure buffer to generate interrupts on completion of transmit */
+    {
+      CAN_MSG_BUFFER * buffer 
+      = ( (CAN_MSG_BUFFER *) ( (unsigned int) &C%<module>MCR1 ) ) + bufferNo;
+      buffer->MCR = (SET_TXIE);
+    }
+  }
+		      
+  
+  /* See documentation in header file */
+  uint_T can_%<module>_send_can_message_fifo(const CAN_FRAME * msg, 
+                                MESSAGE_CIRCULAR_BUFFER * circBuf, 
+                                uint_T bufferNo) {
+/* IMPORTANT NOTE: interrupts from the corresponding CAN node must be inhibited while
+* this function is called. It is the responsibility of the caller to
+* ensure this is done */
+
+unsigned int result = 0;
+
+    if ( circBuf->canBufferInUse == 0 ) {
+        can_%<module>_load_msg(msg, bufferNo);
+	circBuf->canBufferInUse = 1;
+        result = 1;
+    } else {
+        /* Place message in the FIFO queue */
+        if ( ! (circBuf->full) ) {
+            int writeIdxNext = circBuf->writeIdx + 1;
+            writeIdxNext %= circBuf->size;
+            circBuf->buffer[circBuf->writeIdx] = *msg;
+	    circBuf->writeIdx = writeIdxNext;
+            if( writeIdxNext == circBuf->readIdx ) {
+                /* Write has got back around to where read is up to. */
+                circBuf->full = 1;
+	      }
+            result = 1;
+        } else { 
+            circBuf->overflowCount++;
+        }
+    }
+    return result;				  
+  }
+
+
+/*------------------------------------------------------------
+ * Function
+ *
+ *    can_%<module>_service_transmit_fifo
+ * 
+ * Purpose
+ *
+ *    Interrupt service routine callback function move messages from the 
+ *    FIFO queue into the dedicated hardware buffer from where they can
+ *    be transmitted.
+ *
+ * Arguments
+ * 
+ *    bufferNo    - The CAN buffer number
+ *
+ *    circBuf     - A pointer to the FIFO buffer associated with this
+ *                  CAN hardware buffer.
+ */ 
+ static void can_%<module>_service_transmit_fifo(uint_T bufferNo, MESSAGE_CIRCULAR_BUFFER * circBuf) {
+
+    int_T readIdx = circBuf->readIdx;
+    
+    if( ( readIdx != circBuf->writeIdx ) || (  circBuf->full == 1 ) ) {
+        can_%<module>_load_msg( &(circBuf->buffer[readIdx]), bufferNo );
+        readIdx++;
+        circBuf->readIdx = readIdx % circBuf->size;
+        circBuf->full = 0;
+    } else {
+      circBuf->canBufferInUse = 0;
+    }
+  }
+      
+
+  %endfunction
+  
+  
+%function FcnGenerateSharedTxQueueFns(module, IRQLEVEL, TXBUFFER) Output
+    /* Send a message using the shared buffer on CAN module %<module> */
+    uint8_T can_%<module>_send_msg(const CAN_FRAME * msg) {
+      
+      %assign client = "CAN module %<module>"
+      %<SLibC166TimersRaiseCPUPriority(client,IRQLEVEL)>
+      
+      if ( IS_CLEAR_MSGVAL(C%<module>MCR%<TXBUFFER>) ) {
+	/* Load message directly */
+	can_%<module>_load_msg(msg, TX_SHARED_BUFFER_IDX);
+      } else {
+	/* Place message in the queue */
+	CAN_FRAME * slot = q_get_slot();
+	if (slot->ID > msg->ID) {
+	  *slot = *msg;
+	}
+      }
+      
+      /* Restore CPU priority level to permit timer interrupts */
+      %<SLibC166TimersLowerCPULevel()>
+      
+      return 0U;
+    }
+    
+
+  
+  /*                  
+  *  q_get_slot: get a pointer to the lowest priority (or empty) slot in the queue
+  *
+  *  Parameters:
+  *
+  *  Returns:
+  *
+  *    Pointer to an empty slot in the queue if there is one, otherwise a pointer
+  *    to the lowest priority item in the queue.
+  */
+  static CAN_FRAME * q_get_slot(void) {
+    CAN_FRAME * ptr = tx_queue;
+    CAN_FRAME * ptr_lowest = tx_queue;
+    uint32_T lowest_priority_id = tx_queue->ID;
+    
+    while (++ptr != (tx_queue + TX_QUEUE_LEN)) {
+      if (ptr->ID > lowest_priority_id) {
+	lowest_priority_id = ptr->ID;
+	ptr_lowest = ptr;
+      }
+    }
+    
+    return ptr_lowest;
+  }
+
+
+  /*
+  *  q_get_highest: get the highest-priority item from the queue.
+  *
+  *  Parameters:
+  *
+  *  Returns:
+  *
+  *     A pointer to the highest priority item in the queue.
+  */
+  static CAN_FRAME * q_get_highest(void) {
+    CAN_FRAME * queue_highest = NULL;
+    CAN_FRAME * ptr = tx_queue;
+    CAN_FRAME * queue_end = tx_queue + TX_QUEUE_LEN;
+    uint32_T tmp_priority = CAN_LOWER_THAN_LOWEST;
+    
+/* Note that CAN message IDs are max 29 bit and the lower the ID the lower 
+ * the ID the higher the priority. This means that 0xFFFFFFFF is lower than
+ * the lowest priority 
+ */
+    do {
+      uint32_T id = ptr->ID;
+      if ( id < tmp_priority ) {
+	tmp_priority = id;
+	queue_highest = ptr;
+      }
+    } while (++ptr < queue_end);
+    
+    return queue_highest;
+}
+
+
+  %endfunction

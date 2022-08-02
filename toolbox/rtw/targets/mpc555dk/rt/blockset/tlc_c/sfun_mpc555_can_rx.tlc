@@ -1,0 +1,172 @@
+%% File: sfun_mpc555_can_rx.tlc
+%%
+%% Abstract:
+%%   Processes the CAN receive buffer in either interrupt driven or polled mode
+%%
+%% $Revision: 1.9.4.5 $
+%% $Date: 2004/04/19 01:30:20 $
+%%
+%% Copyright 2001-2003 The MathWorks, Inc.
+
+%implements sfun_mpc555_can_rx "C"
+%include "mpc555_common_includes.tlc"
+%include "can_comm_setup.tlc"
+
+%% Function: BlockTypeSetup
+%% Abstract:
+%%
+%function BlockTypeSetup(block,system) void
+
+   %<SetupCanDataTypes(block)>
+
+   %if !SLibCodeGenForSim() 
+
+      %% Only generate code for real time not for PIL
+      
+      %openfile buffer
+         #include "can_rx.h"
+         #include <string.h>
+	 %if SFcnParamSettings.UseQueue == 1
+	   #include "can_rx_queue.h"
+	 %endif
+      %closefile buffer
+      %<LibCacheIncludes(buffer)> 
+   %endif
+
+%endfunction %% BlockTypeSetup
+
+%% Function: Start =============================================
+%% Abstract:
+%%
+%function Start(block,system) Output
+
+   %if !SLibCodeGenForSim() 
+     %% Only generate code for real time not for PIL
+     
+     %assign CB = FcnGetModuleName(SFcnParamSettings.Module)
+     %assign idx = SFcnParamSettings.Buffer
+     
+     %%Determine Frame type
+     %if SFcnParamSettings.Type == 0
+       %assign type = "CAN_MESSAGE_STANDARD" 
+     %else
+       %assign type = "CAN_MESSAGE_EXTENDED"
+     %endif
+     
+     %assign canId = SFcnParamSettings.Identifier
+     
+     %if SFcnParamSettings.UseQueue == 1
+
+       %assign qlen = SFcnParamSettings.QueueLen
+       /* Initialize TouCAN module %<CB>, buffer %<idx> for operation with interrupt 
+       * driven queue of length %<qlen>; the queue is used to buffer received messages. 
+       * Received message identifier %<SPRINTF("0x%x",canId)>.
+       */
+       { 
+       static MESSAGE_CIRCULAR_BUFFER msgBuf;
+       static CAN_FRAME can_frames[%<qlen>];
+       %<LibBlockPWork(pCanRxCircBuffer,"","",0)> = &msgBuf;
+       initCanRxBuffered(&GlobalModule%<CB>,%<idx>,%<type>,%<canId>,&msgBuf, can_frames, %<qlen>);
+	 }
+       %else
+	 /* Initialize TouCAN module %<CB>, buffer %<idx> for operation with polling.
+	 * Received message identifier %<SPRINTF("0x%x",canId)>
+	 */
+	 initCanRx(&GlobalModule%<CB>,%<idx>,%<type>,%<canId>);
+       %endif
+       
+       
+   %endif
+
+%endfunction %% Start
+
+
+
+%% Function: Outputs ========================================================
+%% Abstract:
+%%
+%% Tests each CAN message buffer specified. If the 
+%%
+%function Outputs(block,system) Output
+
+  %if !SLibCodeGenForSim() 
+    
+    %% Only generate code for real time not for PIL
+    %assign CB = FcnGetModuleName(SFcnParamSettings.Module)
+    
+    %if SFcnParamSettings.Type == 0
+      %assign type = "CAN_MESSAGE_STANDARD"
+    %else
+      %assign type = "CAN_MESSAGE_EXTENDED"
+    %endif
+    
+    %assign bufferIndex=SFcnParamSettings.Buffer
+    %assign outSig = LibBlockOutputSignal(1,"","",0)
+    
+    /* Block: %<Name>
+    * Receive CAN message 
+    */
+    %if SFcnParamSettings.NotificationType == 1
+        %%
+        %% Using the Function Call Trigger for notification
+        %%
+        %if SFcnParamSettings.UseQueue == 1
+          while( receiveBufferedCanMessage(&(%<outSig>),%<LibBlockPWork(pCanRxCircBuffer,"","",0)>) 
+          == MSG_RECEIVED ){
+            %<MakeFcnCall(block,system,0)>
+          }
+        %else 
+          if( receiveCanMessage(&(%<outSig>),&GlobalModule%<CB>,%<bufferIndex>) == MSG_RECEIVED ){
+            %<MakeFcnCall(block,system,0)>
+          }
+        %endif
+    %else
+        %% Using the CAN IRQ block for notification
+        receiveCanMessage(&(%<outSig>),&GlobalModule%<CB>,%<bufferIndex>);
+    %endif
+  %endif
+%endfunction %%Outputs
+
+%% ---------------------------------------------
+%% Call the function call subsystem at index
+%% fcnIdx
+%% ---------------------------------------------
+%function MakeFcnCall(block,system,fcnIdx) Output
+  %with SFcnSystemOutputCall[%<fcnIdx>]
+    %% skip unconnected function call outputs
+    %if LibIsEqual(BlockToCall, "unconnected")
+      %return
+    %endif
+    %assign sysIdx = BlockToCall[0]
+    %assign blkIdx = BlockToCall[1]
+    %assign ssBlock = System[sysIdx].Block[blkIdx]
+    %assign sysToCall = System[ssBlock.ParamSettings.SystemIdx]
+    %<LibCallFCSS(sysToCall, tSimStruct, FcnPortElement, ...
+      ParamSettings.SampleTimesToSet[0][1])>\
+  %endwith
+%endfunction
+
+
+%% -----------------------------------------------
+%% Get the name of this CAN module 
+%% -----------------------------------------------
+%function FcnGetModuleName(moduleNumber) void
+  %switch moduleNumber
+   %case 0
+      %assign CB = "CAN_A"      
+      %break
+   %case 1
+      %assign CB = "CAN_B"
+      %break
+   %case 2
+      %assign CB = "CAN_C"
+      %break
+   %default
+      %exit "Unexpected moduleNumber in TOUCAN RX block"
+      %break
+  %endswitch
+  %return CB
+%endfunction
+
+%% [EOF] mpc555_can_rx.tlc
+

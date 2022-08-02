@@ -1,0 +1,165 @@
+%% $RCSfile: osekworks_lib.tlc,v $
+%% $Revision: 1.7.4.3 $
+%%
+%% Copyright 2002-2004 The MathWorks, Inc.
+%%
+%% Abstract:
+%%   Library file containing OSEKWorks support functions.
+%%
+
+%createrecord localData { \
+     AddOilExternISR "" \
+   }
+%addtorecord CompiledModel OSEKWorksData localData
+
+%function OSLibOSEKWorksAddExtISRToOil(buffer) void
+    %assign CompiledModel.OSEKWorksData.AddOilExternISR = CompiledModel.OSEKWorksData.AddOilExternISR + buffer
+%endfunction
+%function OSLibOSEKWorksDumpAddOilExtISRs() void
+    %return CompiledModel.OSEKWorksData.AddOilExternISR
+%endfunction
+%function OSLibOSEKWorksAddOilExtISRsIsEmpty() void
+  %return WHITE_SPACE(CompiledModel.OSEKWorksData.AddOilExternISR)
+%endfunction
+
+%function OSLibOSEKImplDeclareFPU() void
+  %openfile buffer
+  %% Need to save FPU context incase task is preempted from a non-model task
+  %if !PurelyIntegerCode
+    FPU = TRUE;
+  %else
+    FPU = FALSE;
+  %endif
+  %closefile buffer
+  %return buffer
+%endfunction
+  
+%function OSLibOSEKImpSpecificIncludes() void
+  %openfile tmpIncBuf
+
+  /* OSEKWorks header */
+  #include "osekworks.h"
+  #include <stdlib.h> /* for exit() */
+  %closefile tmpIncBuf
+  %return tmpIncBuf
+%endfunction
+
+%function OSLibOSEKImpSpecificTasks() void
+  %openfile tmpIncBuf
+  %closefile tmpIncBuf
+  %return tmpIncBuf
+%endfunction
+
+%function OSLibOSEKInsertMainFcn() void
+
+  %openfile tmpIncBuf
+
+  void exit(int unused)
+  {
+    unused = 0; /* quiet compiler */
+    
+    /* exit the model execution, leave overall OSEK application running */
+    %if NumSynchronousSampleTimes == 1 || SLibSingleTasking()
+      /* Cancel the alarm for the model task */
+    %else
+      /* Cancel all alarms for the model tasks */
+      CancelAlarm(baseAlarm);
+      %foreach i = NumSynchronousSampleTimes-1
+	%assign idx = i + 1
+	CancelAlarm(subAlarm_%<idx>);
+      %endforeach
+    %endif
+  }
+  
+  void main(void)
+  {
+    StartOS(mode0);
+    %% Can return here if ShutdownHook() returns or no ShutdownHook() defined.
+  }
+
+  %closefile tmpIncBuf
+  %return tmpIncBuf
+%endfunction
+
+%function OSEKImpSpecificCalcInterruptRateValue() void
+  %% Setup ticksPerBase which is same as timer interrupts per second
+  %% If implementations vary in TICKSPERBASE definition of 'per second', this code
+  %% will need to be adjusted accordingly.
+  %assign basePeriod = SampleTime[0].PeriodAndOffset[0]
+  %assign tol = 0.01         %% Define a tolerance of 1%
+  %assign fbr = 1.0/basePeriod
+  %assign minpost = fbr * (1.0-tol)
+  %assign maxpost = fbr * (1.0+tol)
+
+  %if TYPE(ticksPerBase) == "String" && (ticksPerBase == "Auto" || ticksPerBase == "auto")
+    %% Setup dynamically if user specifies 'Auto'
+    %assign withintol = 0
+    %assign fic = CAST("Number", ((fbr + 0.5) < 1)? 1:fbr + 0.5)
+    %foreach i = 100 %% Try at most 100 iterations
+      %assign cyclic = CAST("Number", fic * basePeriod + 0.5)
+      %if (fic > cyclic * minpost) && (fic < cyclic * maxpost)
+	%assign withintol = 1
+	%break
+      %else
+	%assign fic = fic + 1
+      %endif
+    %endforeach
+    %if !withintol
+      %assign errTxt = "Unable to Autoselect a TICKSPERBASE OSEK System Counter value within tolerance of %<tol*100>%. Please enter a numeric value for the OSEK System Counter option."
+      %<LibReportError(errTxt)>
+    %endif
+    %assign ::ticksPerBase = fic
+  %else
+    %% User specified the TICKSPERBASE value
+    %assign ::ticksPerBase = CAST("Number",ticksPerBase)
+    %% Perform error checking on OSEK system counter tick value and relation to the base period of the model.
+    %if ticksPerBase < 0
+      %assign errTxt = "TICKSPERBASE OSEK System Counter value which is set to '%<ticksPerBase>' must be a positive integer. Please enter a positive integer value for the OSEK System Counter option or set it to 'Auto'."
+      %<LibReportError(errTxt)>
+    %endif
+    %if (ticksPerBase * basePeriod) < (1 - tol)
+      %assign errTxt = "TICKSPERBASE OSEK System Counter value which is set to '%<ticksPerBase>' is too slow for this models base sample rate of '%<fbr>'. Please increase TICKSPERBASE to at least '%<CAST("Number", fbr + 0.5)>' or set it to 'Auto'."
+      %<LibReportError(errTxt)>
+    %endif
+    %assign cyclic = CAST("Number", ticksPerBase * basePeriod + 0.5)
+    %if !((ticksPerBase > cyclic * minpost) && (ticksPerBase < cyclic * maxpost))
+      %assign wrnTxt = "TICKSPERBASE OSEK counter option which is set to '%<ticksPerBase>' gives a tolerance ouside of %<tol*100>%. Consider increasing TICKSPERBASE or setting it to 'Auto'."
+      %<LibReportWarning(wrnTxt)>
+    %endif
+  %endif
+%endfunction
+
+%function OSLibOSEKAlarmTicksForRate(rate) void
+  %return CAST("Number", ticksPerBase * SampleTime[rate].PeriodAndOffset[0] + 0.5)
+%endfunction
+
+%function OSLibOSEKOffsetForRate(rate) void
+  %return CAST("Number", ticksPerBase * SampleTime[rate].PeriodAndOffset[1] + 0.5)
+%endfunction
+
+%function OSLibOSEKTimesPerSecondForRate(rate)  void
+  %return CAST("Real", OSLibOSEKAlarmTicksForRate(rate))/ticksPerBase
+%endfunction
+
+%function OSLibGenerateMPC555TouCanISR(level) void
+  %% Register function in oil file. For OSEKWorks, each external interrupt level
+  %% is defined within one ISR object, "Ext500DispatcherISR".
+  %openfile buffer
+  %% See OsekWorks PPC Architecture Supplement for naming convention: "INT_IMBIRQx"
+  SOURCE = %<FEVAL("strrep","%<level>","LEVEL","IMBIRQ")> {
+    HANDLER_FUNCTION = "can_%<level>"
+  };
+  %closefile buffer
+  %<OSLibOSEKWorksAddExtISRToOil(buffer)>
+
+  %% Define a function that provides compatibility layer between
+  %% mainHandler routine for TouCAN drivers and the required OSEK ISR prototype
+  %openfile buffer
+  void mainHandler( MPC555_IRQ_LEVEL level );
+  /* Need to provide a function with no arguments */
+  void can_%<level>(void) {
+    mainHandler(%<level>);
+  }
+  %closefile buffer
+  %<LibRegFileCustomCode(buffer, "trailer")>
+%endfunction

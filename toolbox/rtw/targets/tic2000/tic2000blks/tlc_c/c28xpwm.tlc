@@ -1,0 +1,152 @@
+%% $RCSfile: c28xpwm.tlc,v $
+%% $Revision: 1.1.6.2 $ $Date: 2004/04/08 20:59:46 $
+%% Copyright 2003-2004 The MathWorks, Inc.
+
+
+
+%implements c28xpwm "C"
+
+%% Function: BlockTypeSetup ==============================================
+%function BlockTypeSetup(block, system) void
+
+    %openfile buffer
+    #include "DSP281x_Device.h"
+    %closefile buffer
+    %<LibCacheIncludes(buffer)>
+    
+%endfunction %% BlockTypeSetup
+
+
+
+%% Function: BlockInstanceSetup ===============================================
+%function BlockInstanceSetup(block,system) void
+
+    %<AddParamsToBlock(block)>
+    %if (useModule=="MODULE_A")
+        %assign UNIT = "A"
+    %else
+        %assign UNIT = "B"
+    %endif
+    %openfile buffer
+         void config_PWM_%<UNIT>(uint16_T timerPeriod, uint16_T waveformType, 
+         uint16_T unit1Status, char* unit1Source, uint16_T unit1Value, 
+         uint16_T unit2Status, char* unit2Source, uint16_T unit2Value, 
+         uint16_T unit3Status, char* unit3Source, uint16_T unit3Value, uint16_T controlLogic,
+         uint16_T enableDeadband1, uint16_T enableDeadband2, uint16_T enableDeadband3,
+         uint16_T deadbandPrescaler, uint16_T deadbandPeriod, uint16_T timerToADC);
+    %closefile buffer
+    %<LibCacheDefine(buffer)>
+    
+%endfunction %% BlockInstanceSetup
+
+
+
+%% Function: Start ============================================================
+%function Start(block,system) Output
+
+    %assign controlLogic = unit1_1Logic + 4*unit1_2Logic + 16*unit2_1Logic + 64*unit2_2Logic + 256*unit3_1Logic + 1024*unit3_2Logic
+	EALLOW;
+    %if (useModule=="MODULE_A")  
+        GpioMuxRegs.GPAMUX.all = 0x00FF; // EVA PWM 1-6  pins
+        config_PWM_A (%<timerPeriod>,%<waveformType>,%<unit1Status>,"%<unit1Source>",%<unit1Value>,
+                      %<unit2Status>,"%<unit2Source>",%<unit2Value>,%<unit3Status>,"%<unit3Source>",%<unit3Value>,%<controlLogic>,
+                      %<enableDeadband1>, %<enableDeadband2>, %<enableDeadband3>, %<deadbandPrescaler>, %<deadbandPeriod>, %<adcstartEvent-1>);
+    %else
+        GpioMuxRegs.GPBMUX.all = 0x00FF; // EVB PWM 7-12 pins
+        config_PWM_B (%<timerPeriod>,%<waveformType>,%<unit1Status>,"%<unit1Source>",%<unit1Value>,
+                      %<unit2Status>,"%<unit2Source>",%<unit2Value>,%<unit3Status>,"%<unit3Source>",%<unit3Value>,%<controlLogic>,
+                      %<enableDeadband1>, %<enableDeadband2>, %<enableDeadband3>, %<deadbandPrescaler>, %<deadbandPeriod>, %<adcstartEvent-1>);
+    %endif
+    EDIS;
+    
+%endfunction %% Start
+
+
+
+%% Function: Outputs ==========================================================
+%function Outputs(block,system) Output
+
+/* %<Type> Block: %<Name> (%<ParamSettings.FunctionName>) */
+{
+    %assign INPORT = -1
+    
+    %if useModule == "MODULE_A"
+        %if (timerSource == "INPUT_PORT")
+            %assign INPORT = INPORT + 1
+            EvaRegs.T1PR = %<LibBlockInputSignal(INPORT,"","",0)>;
+        %endif  
+        %if (unit1Status && unit1Source == "INPUT_PORT")
+            %assign INPORT = INPORT + 1        
+            EvaRegs.CMPR1 = %<LibBlockInputSignal(INPORT,"","",0)>;
+        %endif
+        %if (unit2Status && unit2Source == "INPUT_PORT")
+            %assign INPORT = INPORT + 1
+            EvaRegs.CMPR2 = %<LibBlockInputSignal(INPORT,"","",0)>;
+        %endif
+        %if (unit3Status && unit3Source == "INPUT_PORT")
+            %assign INPORT = INPORT + 1
+            EvaRegs.CMPR3 = %<LibBlockInputSignal(INPORT,"","",0)>;
+        %endif
+    %else
+        %if (timerSource == "INPUT_PORT")
+            %assign INPORT = INPORT + 1
+            EvbRegs.T3PR = %<LibBlockInputSignal(INPORT,"","",0)>;
+        %endif
+        %if (unit1Status && unit1Source == "INPUT_PORT")
+            %assign INPORT = INPORT + 1        
+            EvbRegs.CMPR4 = %<LibBlockInputSignal(INPORT,"","",0)>;
+        %endif
+        %if (unit2Status && unit2Source == "INPUT_PORT")
+            %assign INPORT = INPORT + 1
+            EvbRegs.CMPR5 = %<LibBlockInputSignal(INPORT,"","",0)>;
+        %endif
+        %if (unit3Status && unit3Source == "INPUT_PORT")
+            %assign INPORT = INPORT + 1
+            EvbRegs.CMPR6 = %<LibBlockInputSignal(INPORT,"","",0)>;
+        %endif    
+    %endif
+}
+
+%endfunction %% Outputs
+
+
+
+%% Function: AddParamsToBlock =================================================
+%function AddParamsToBlock(block) void
+
+    %assign useModule         = SFcnParamSettings.useModule
+    %assign timerSource       = SFcnParamSettings.timerSource
+    %assign timerPeriod       = SFcnParamSettings.timerPeriod
+    %assign waveformType      = SFcnParamSettings.waveformType
+    %assign unit1Status       = SFcnParamSettings.unit1Status
+    %assign unit1Source       = SFcnParamSettings.unit1Source
+    %assign unit1Value        = SFcnParamSettings.unit1Value
+    %assign unit2Status       = SFcnParamSettings.unit2Status
+    %assign unit2Source       = SFcnParamSettings.unit2Source
+    %assign unit2Value        = SFcnParamSettings.unit2Value
+    %assign unit3Status       = SFcnParamSettings.unit3Status
+    %assign unit3Source       = SFcnParamSettings.unit3Source
+    %assign unit3Value        = SFcnParamSettings.unit3Value
+    %assign unit1_1Logic      = SFcnParamSettings.unit1_1Logic
+    %assign unit1_2Logic      = SFcnParamSettings.unit1_2Logic    
+    %assign unit2_1Logic      = SFcnParamSettings.unit2_1Logic
+    %assign unit2_2Logic      = SFcnParamSettings.unit2_2Logic    
+    %assign unit3_1Logic      = SFcnParamSettings.unit3_1Logic
+    %assign unit3_2Logic      = SFcnParamSettings.unit3_2Logic
+    %assign enableDeadband1   = SFcnParamSettings.enableDeadband1
+    %assign enableDeadband2   = SFcnParamSettings.enableDeadband2
+    %assign enableDeadband3   = SFcnParamSettings.enableDeadband3
+    %assign deadbandPrescaler = SFcnParamSettings.deadbandPrescaler
+    %assign deadbandPeriod    = SFcnParamSettings.deadbandPeriod
+    %assign adcstartEvent     = SFcnParamSettings.adcstartEvent
+    %%
+    %assign block = block + useModule + timerSource + timerPeriod + waveformType \ 
+                          + unit1Status + unit1Source + unit1Value + unit1_1Logic + unit1_2Logic \
+                          + unit2Status + unit2Source + unit2Value + unit2_1Logic + unit2_2Logic \
+                          + unit3Status + unit3Source + unit3Value + unit3_1Logic + unit3_2Logic \
+                          + enableDeadband1 + enableDeadband2 + enableDeadband3 \
+                          + deadbandPrescaler + deadbandPeriod + adcstartEvent         
+       
+%endfunction  %% AddParamsToBlock
+
+%% [EOF] c28xpwm.tlc

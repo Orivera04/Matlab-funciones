@@ -1,0 +1,160 @@
+<!--
+Copyright 2001-2004 The MathWorks, Inc.
+$Revision: 1.1.6.2 $ $Date: 2004/03/24 20:39:51 $
+-->
+
+<!--
+This HTML is auto-generated from an m-file.
+Your changes will be overwritten.
+--><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:x-large">Managing Image Acquisition Objects</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium;">Overview</p><ul xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd"><li><a href="#Finding Image Acquisition Objects in Memory">Finding Image Acquisition Objects in Memory</a></li><li><a href="#Removing Objects From Memory">Removing Objects From Memory</a></li></ul><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Finding Image Acquisition Objects in Memory<a name="Finding Image Acquisition Objects in Memory"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">To find image acquisition objects in memory, use the IMAQFIND function.
+IMAQFIND returns an array of video input objects.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">objects = imaqfind</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+objects =
+
+     []
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Create video input objects.</span>
+vidobj1 = videoinput(<span style="color:#B20000">'matrox'</span>, 1, <span style="color:#B20000">'M_CCIR'</span>);
+vidobj2 = videoinput(<span style="color:#B20000">'matrox'</span>, 1, <span style="color:#B20000">'M_PAL_RGB'</span>);
+vidobj3 = videoinput(<span style="color:#B20000">'matrox'</span>, 1, <span style="color:#B20000">'M_NTSC_RGB'</span>);
+
+<span style="color:green">% Find all valid objects.</span>
+objects = imaqfind</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+   Video Input Object Array:
+
+   Index:   Type:          Name:  
+   1        videoinput     M_CCIR-matrox-1
+   2        videoinput     M_PAL_RGB-matrox-1
+   3        videoinput     M_NTSC_RGB-matrox-1
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Removing Objects From Memory<a name="Removing Objects From Memory"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">To delete a video input object from memory, use the DELETE function with
+the object.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Delete the first object in the array.</span>
+delete(objects(1))</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Find all remaining valid objects.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">objects = imaqfind</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+   Video Input Object Array:
+
+   Index:   Type:          Name:  
+   1        videoinput     M_PAL_RGB-matrox-1
+   2        videoinput     M_NTSC_RGB-matrox-1
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Using the DELETE function with the object will remove the object from
+memory but not from the MATLAB workspace. To remove an object from the
+MATLAB workspace use the CLEAR function. To see what objects are in the
+MATLAB workspace, use the WHOS function.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Display the current workspace.</span>
+whos</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">  Name          Size                   Bytes  Class
+
+  objects       1x2                     1200  videoinput object
+  vidobj1       1x1                     1060  videoinput object
+  vidobj2       1x1                     1060  videoinput object
+  vidobj3       1x1                     1060  videoinput object
+
+Grand total is 185 elements using 4380 bytes
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Since an object was deleted, it is no longer valid.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">vidobj1</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">Invalid Image Acquisition object.
+This object is not associated with any hardware and
+should be removed from your workspace using CLEAR.
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Clear the associated variable.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">clear vidobj1</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Display the current workspace.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">whos</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">  Name          Size                   Bytes  Class
+
+  objects       1x2                     1200  videoinput object
+  vidobj2       1x1                     1060  videoinput object
+  vidobj3       1x1                     1060  videoinput object
+
+Grand total is 142 elements using 3320 bytes
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">To remove all image acquisition objects from memory and to reset the
+toolbox to its initial state, use the IMAQRESET function.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Note: Using the IMAQRESET function will only delete objects from
+memory, not clear them from the MATLAB workspace.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">imaqreset</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Verify no objects remain.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">objects = imaqfind</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+objects =
+
+     []
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Variables associated with deleted objects still remain.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">whos</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">  Name          Size                   Bytes  Class
+
+  objects       0x0                        0  double array
+  vidobj2       1x1                     1060  videoinput object
+  vidobj3       1x1                     1060  videoinput object
+
+Grand total is 86 elements using 2120 bytes
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Clear any remaining variables associated with deleted objects.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">clear vidobj2 vidobj3</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">See also IMAQFIND, IMAQDEVICE/DELETE, IMAQ/PRIVATE/CLEAR,
+IMAQDEVICE/ISVALID.
+</p><originalCode xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" code="%% Managing Image Acquisition Objects
+&#xA;
+&#xA;%% Finding Image Acquisition Objects in Memory
+&#xA;% To find image acquisition objects in memory, use the IMAQFIND function.
+&#xA;% IMAQFIND returns an array of video input objects.
+&#xA;
+&#xA;%%
+&#xA;objects = imaqfind
+&#xA;%%
+&#xA;
+&#xA;% Create video input objects.
+&#xA;vidobj1 = videoinput('matrox', 1, 'M_CCIR');
+&#xA;vidobj2 = videoinput('matrox', 1, 'M_PAL_RGB');
+&#xA;vidobj3 = videoinput('matrox', 1, 'M_NTSC_RGB');
+&#xA;
+&#xA;% Find all valid objects.
+&#xA;objects = imaqfind
+&#xA;
+&#xA;%% Removing Objects From Memory
+&#xA;% To delete a video input object from memory, use the DELETE function with
+&#xA;% the object.
+&#xA;
+&#xA;% Delete the first object in the array.
+&#xA;delete(objects(1))
+&#xA;
+&#xA;%%
+&#xA;% Find all remaining valid objects.
+&#xA;objects = imaqfind
+&#xA;
+&#xA;%%
+&#xA;% Using the DELETE function with the object will remove the object from
+&#xA;% memory but not from the MATLAB workspace. To remove an object from the
+&#xA;% MATLAB workspace use the CLEAR function. To see what objects are in the
+&#xA;% MATLAB workspace, use the WHOS function.
+&#xA;
+&#xA;% Display the current workspace.
+&#xA;whos
+&#xA;
+&#xA;%%
+&#xA;% Since an object was deleted, it is no longer valid.
+&#xA;vidobj1
+&#xA;
+&#xA;%%
+&#xA;% Clear the associated variable.
+&#xA;clear vidobj1
+&#xA;
+&#xA;%%
+&#xA;% Display the current workspace.
+&#xA;whos
+&#xA;
+&#xA;%% 
+&#xA;% To remove all image acquisition objects from memory and to reset the
+&#xA;% toolbox to its initial state, use the IMAQRESET function.
+&#xA;%
+&#xA;% Note: Using the IMAQRESET function will only delete objects from
+&#xA;% memory, not clear them from the MATLAB workspace.
+&#xA;imaqreset
+&#xA;%%
+&#xA;% Verify no objects remain.
+&#xA;objects = imaqfind
+&#xA;%%
+&#xA;% Variables associated with deleted objects still remain.
+&#xA;whos
+&#xA;%%
+&#xA;% Clear any remaining variables associated with deleted objects.
+&#xA;clear vidobj2 vidobj3
+&#xA;%%
+&#xA;% See also IMAQFIND, IMAQDEVICE/DELETE, IMAQ/PRIVATE/CLEAR,
+&#xA;% IMAQDEVICE/ISVALID."></originalCode>

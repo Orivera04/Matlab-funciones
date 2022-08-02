@@ -1,0 +1,41 @@
+%% $RCSfile: tidmcclarke.tlc,v $
+%% $Revision: 1.1.6.1 $ $Date: 2004/04/01 16:14:36 $
+%% Copyright 2004 The MathWorks, Inc.
+%%
+%% Abstract: TI C28x DMC library Clarke Transformation
+
+%implements tidmcclarke "C"
+
+%include "fix_published.tlc"
+
+
+%% Function: BlockTypeSetup ==============================================
+%function BlockTypeSetup(block, system) void
+    %<LibAddToCommonIncludes("<IQmathLib.h>")>
+%endfunction %% BlockTypeSetup
+
+
+%% Function: Outputs ==========================================================
+%%
+%function Outputs(block, system) Output
+	%assign OUTPORT_X  = 0
+	%assign dataTyp = LibBlockOutputSignalDataTypeId(OUTPORT_X)
+	%assign fracLen = FixPt_DataTypeFractionLength(block,dataTyp)
+	%assign MPY = "_IQ%<fracLen>mpy"
+	%assign SIN = "_IQ%<fracLen>sin"
+	%assign COS = "_IQ%<fracLen>cos"
+	
+	/* C28x DMC Library (%<ParamSettings.FunctionName>) - '%<Name>' */
+	{
+        %assign rollVars = ["U", "Y"]
+        %roll idx = RollRegions, lcv = RollThreshold, block,"Roller", rollVars        
+            %<LibBlockOutputSignal (0,"",lcv,idx)> = %<LibBlockInputSignal(0,"",lcv,idx)>;
+            %<LibBlockOutputSignal (1,"",lcv,idx)> = %<MPY>( %<LibBlockInputSignal(0,"",lcv,idx)> + \
+                                                             %<MPY>(%<LibBlockInputSignal(1,"",lcv,idx)>,_IQ%<fracLen>(2)), \
+                                                              _IQ%<fracLen>(0.57735026918963) );
+        %endroll
+	}
+
+%endfunction
+
+%% [EOF] tidmcclarke.tlc

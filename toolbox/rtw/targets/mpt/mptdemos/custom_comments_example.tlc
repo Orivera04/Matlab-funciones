@@ -1,0 +1,79 @@
+%% $Revision: 1.1.6.3 $
+%%
+%% Copyright 2003-2004 The MathWorks, Inc.
+
+%% An example of creating custom comments using a TLC file. The created 
+%% custom comments will be placed just above data declaration or definition 
+%% in generated code. 
+%% The TLC function name must be specified as UserCustomComments with three
+%% auguments. 
+%% Example:
+%%   %function UserCustomComments(objectRecord,modelName,request) void
+%% where
+%%   INPUTS:
+%%         objectRecord: A TLC record which contains the object properties. 
+%%                       This is the same record that is passed into DataAccess 
+%%                       function defined in the TLC file for Custom Storage
+%%                       class. 
+%%         modelName:    The name of working model        
+%%         request:      The nature of the code or information requested. Two 
+%%                       kinds of requests are supported:
+%%                       "declComment" -- comment for data declaration 
+%%                       "defnComment" -- comment for data definition 
+%%   RETURN: 
+%%         comments:     A comment according to standard C convention   
+%%
+%% Note: This TLC file has to be on the MATLAB path.
+
+%%=============================================================================
+%function UserCustomComments(objectRecord,modelName,request) void
+
+%% Examples of using TLC library functions 
+%%   object name:
+%%     objectName = LibGetRecordIdentifier(objectRecord)
+%%   class of the object--- Signal or Parameter:
+%%     class = LibGetSLDataObjectInfo(objectRecord, "Class") 
+%%   data type:
+%%     dataType = LibGetSLDataObjectInfo(objectRecord, "DataType")
+%%   custom storage class
+%%     csc = LibGetSLDataObjectInfo(objectRecord, "CustomStorageClass")
+%%   
+%% LibGetSLDataObjectInfo is a TLC library function for requesting any  
+%% property value of the Simulink or mpt data object associated with a 
+%% an objectRecord. If the requested property is not a property of the data 
+%% object, an error will be issued.
+%%
+ 
+ %assign objectName = LibGetRecordIdentifier(objectRecord)
+ %assign class = LibGetSLDataObjectInfo(objectRecord, "Class")
+ %assign dataType = LibGetSLDataObjectInfo(objectRecord, "DataType")
+ %assign units = LibGetSLDataObjectInfo(objectRecord, "DocUnits")
+ %assign csc = LibGetSLDataObjectInfo(objectRecord, "CustomStorageClass")
+ %assign declFile = LibGetSLDataObjectInfo(objectRecord, "DefinitionFile")
+ %assign owner = LibGetSLDataObjectInfo(objectRecord, "Owner")
+ %assign persistLevel = LibGetSLDataObjectInfo(objectRecord, "PersistenceLevel")
+ %if ISEQUAL(request,"defnComment")
+     %if ISEQUAL(class,"Parameter")
+        %assign value = LibGetSLDataObjectInfo(objectRecord, "Value")
+     %else
+        %assign value = " not available for Signal"
+     %endif
+     %assign comment = "/* Object: %<objectName>  - description:\n" + ...  
+                        "       DataType    -- %<dataType>\n" + ... 
+                        "       Units       -- %<units>\n" + ...
+                        "       Value       -- %<value>\n" + ...
+                        "       CSC         -- %<csc>\n" + ...
+                        "       DeclFile    -- %<declFile>\n" + ...
+                        "       Owner       -- %<owner>\n" + ...
+                        "       PersistLevel-- %<persistLevel>  */"  
+ %elseif ISEQUAL(request,"declComment")
+     %assign comment = "/* Object: %<objectName> - extern reference\n" + ...  
+                       "       CSC         -- %<csc>  */"
+ %else
+     %assign comment = ""
+ %endif
+
+ %return comment   
+%endfunction
+
+%%EOF

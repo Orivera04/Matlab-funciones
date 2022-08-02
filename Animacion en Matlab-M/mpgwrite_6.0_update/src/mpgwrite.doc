@@ -1,0 +1,89 @@
+MPGWRITE
+
+Purpose
+
+	Translate a Matlab movie into an MPEG file.
+
+Synopsis
+
+	mpgwrite(movie, map, 'filename', options)
+		Matrix movie;
+		Matrix map;
+		String filename;
+		Vector options;
+
+Arguments
+
+	movie 		a matrix containing a Matlab movie.
+	map 		matrix containing a Matlab colormap.
+	'filename' 	string containing the name of the MPEG
+				file to be created.
+	options 	(optional) vector of options for the MPEG encoder.
+			Default Value: [1, 0, 1, 0, 10, 8, 10, 25]
+
+Description
+
+	This routine takes a Matlab movie and converts it into an MPEG
+	movie which is placed in the specified output file "mpeg_file".
+	The MPEG file can be viewed with an MPEG player such as mpeg_play.
+	MPEG compression is lossy and the quality of the movie's 
+	reproduction can be controlled by several parameters.  The MPEG
+	encoder creates frames utilizing three types of interpolation.
+	I-Frames are encoded completely without interpolation from past or
+	future frames.  P-Frames are encoded relative to the previous
+	frame and B-Frames (bi-directional) are interpolated using
+	both the previous and the following frame.
+	
+	The options argument is a vector of integers.  Each interger
+	determines the value of one option depending on its position in
+	the vector.  No options in the vector may be skipped, but
+	options may be ommitted from the end of the list.  The repeat 
+	option directs mpgwrite to encode a specified number of copies of
+	the Matlab movie and place them into the MPEG file.  The P-Search
+	algorithm option controls how P-Frames are encoded.  Similarly, 
+	the B-Search algorithm controls B-Frame encoding.  The reference
+	frame can be either the original or the decoded image.  Using
+	the decoded image is slower but results in better quality.
+	The MPEG encoder divides each frame into blocks and expects that
+	many of these blocks will remain the same between frames except
+	for translation within the frame.  A range parameter provides 
+	the encoder with a search radius in pixels.  Higher values will
+	slow compression but improve the compression ratio.  The last
+	three parameters that may be specified control the quantization
+	scale.  Higher numbers result in better compression at the
+	expense of image quality.  The following is a list of parameters
+	and their allowed values:
+
+	1. REPEAT:
+		An integer number of times to repeat the movie
+		(default is 1).
+	2. P-SEARCH ALGORITHM:
+		0 = logarithmic	(fastest, default value)
+		1 = subsample
+		2 = exhaustive	(better, but slow)
+	3. B-SEARCH ALGORITHM:
+		0 = simple	(fastest)
+		1 = cross2	(slightly slower, default value)
+		2 = exhaustive	(very slow)
+	4. REFERENCE FRAME:
+		0 = original	(faster, default)
+		1 = decoded	(slower, but results in better quality)
+	5. RANGE IN PIXELS:
+		An integer search radius.  Default is 10.
+	6. I-FRAME Q-SCALE:
+		An integer between 1 and 31.  Default is 8.
+	7. P-FRAME Q-SCALE:
+		An integer between 1 and 31.  Default is 10.
+	8. B-FRAME Q-SCALE:
+		An integer between 1 and 31.  Default is 25.
+
+See Also
+
+	mpgread
+
+	
+Copyright (c) 1994 The MathWorks Inc.
+
+
+
+

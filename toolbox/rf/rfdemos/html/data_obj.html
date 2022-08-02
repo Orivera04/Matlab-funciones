@@ -1,0 +1,234 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>RF Data Objects</title>
+      <meta name="generator" content="MATLAB 7.0.0.5322a (R14) Prerelease">
+      <meta name="date" content="2004-03-18">
+      <meta name="m-file" content="data_obj">
+      <meta name="title" content="RF Data Objects">
+      <meta name="description" content="The RF Toolbox has several built-in RFDATA objects for storing, processing, and visualizing different types of RF data. This demo first creates an RFDATA.DATA object by reading the S-parameters of a 2-port passive network stored in a Touchstone data file 'passive.s2p', and visualizes the original S-parameters by using the built-in visualization methods of the data object. Then, it calculates and visualizes the S-parameters over a new frequency range."><style>
+body {
+  background-color: white;
+}
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+pre.codeinput {
+  margin-left: 30px;
+}
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.showbuttons {
+  margin-left: 30px;
+  border: solid black 2px;
+  padding: 4px;
+  background: #EBEFF3;
+}
+
+pre.codeoutput {
+  color: gray;
+  font-style: italic;
+}
+pre.error {
+  color: red;
+}
+    </style></head>
+   <body>
+      <h1>RF Data Objects</h1>
+      <p>The RF Toolbox has several built-in RFDATA objects for storing, processing, and visualizing different types of RF data. This
+         demo first creates an RFDATA.DATA object by reading the S-parameters of a 2-port passive network stored in a Touchstone data
+         file 'passive.s2p', and visualizes the original S-parameters by using the built-in visualization methods of the data object.
+         Then, it calculates and visualizes the S-parameters over a new frequency range.
+      </p>
+      <h2>Contents</h2>
+      <ul>
+         <li><a href="#1">Create an RFDATA.DATA object</a></li>
+         <li><a href="#2">View the properties and methods of the data object</a></li>
+         <li><a href="#3">Change the properties of the data object</a></li>
+         <li><a href="#4">View the network parameters of the data object that can be visualized</a></li>
+         <li><a href="#5">Plot the original S11 and input reflection coefficient on a Z Smith chart</a></li>
+         <li><a href="#6">Plot the original S21 on an X-Y plane</a></li>
+         <li><a href="#7">Analyze the data object over a new frequency range</a></li>
+         <li><a href="#8">Plot S11 and S22 over the new frequency range on a Y Smith chart</a></li>
+         <li><a href="#9">Plot S21 over the new frequency range on a polar plane</a></li>
+      </ul>
+      <h2>Create an RFDATA.DATA object<a name="1"></a></h2>
+      <p>Create an RFDATA.DATA object, by reading a Touchstone data file 'passive.s2p', using READ method of RFDATA.DATA object. For
+         more information on RFDATA objects, type: help rfdata
+      </p><pre class="codeinput">data = read(rfdata.data, <span class="string">'passive.s2p'</span>);
+</pre><h2>View the properties and methods of the data object<a name="2"></a></h2>
+      <p>The data object has built-in properties and methods. You can use the data object's methods: GET and METHODS to view its properties
+         and methods.
+      </p><pre class="codeinput">PropertiesOfData = get(data)
+MethodsOfData = methods(data);
+</pre><pre class="codeoutput">
+PropertiesOfData = 
+
+            Name: 'rfdata.data object'
+            Freq: [202x1 double]
+    S_Parameters: [2x2x202 double]
+              Z0: 50
+            OIP3: Inf
+              NF: 1
+        IntpType: 'linear'
+              ZS: 50
+              ZL: 50
+
+</pre><h2>Change the properties of the data object<a name="3"></a></h2>
+      <p>You can use the data object's SET method to change its properties.</p><pre class="codeinput">DefaultZl = get(data, <span class="string">'Zl'</span>)
+set(data, <span class="string">'Zl'</span>, 30+60i);
+NewZl = get(data, <span class="string">'Zl'</span>)
+</pre><pre class="codeoutput">
+DefaultZl =
+
+    50
+
+
+NewZl =
+
+  30.0000 +60.0000i
+
+</pre><h2>View the network parameters of the data object that can be visualized<a name="4"></a></h2>
+      <p>LISTPARAM lists all the network parameters of the data object that can be visualized. You can plot any of these parameters,
+         by using the built-in visualization methods of the data object, in a variety of different formats.
+      </p><pre class="codeinput">ParamsOfData = listparam(data)
+FormatsOfS11 = listformat(data, <span class="string">'S11'</span>)
+</pre><pre class="codeoutput">
+ParamsOfData = 
+
+    'S11'
+    'S12'
+    'S21'
+    'S22'
+    'GAMMAIn'
+    'GAMMAOut'
+    'VSWRIn'
+    'VSWROut'
+    'OIP3'
+    'NF'
+
+
+FormatsOfS11 = 
+
+    'dB'
+    'Magnitude (decibels)'
+    'Abs'
+    'Mag'
+    'Magnitude (linear)'
+    'Angle'
+    'Angle (degrees)'
+    'Angle (radians)'
+    'Real'
+    'Imag'
+    'Imaginary'
+
+</pre><h2>Plot the original S11 and input reflection coefficient on a Z Smith chart<a name="5"></a></h2>
+      <p>Plot S11 and the input reflection coefficient on a Z Smith chart</p><pre class="codeinput">smith(data, <span class="string">'S11'</span>, <span class="string">'GAMMAIN'</span>, <span class="string">'z'</span>);
+legend <span class="string">show</span>;
+</pre><img vspace="5" hspace="5" src="data_obj_01.png"><h2>Plot the original S21 on an X-Y plane<a name="6"></a></h2>
+      <p>Plot S21, in dB, on an X-Y plane</p><pre class="codeinput">plot(data,  <span class="string">'S21'</span>, <span class="string">'db'</span>);
+legend <span class="string">show</span>;
+</pre><img vspace="5" hspace="5" src="data_obj_02.png"><h2>Analyze the data object over a new frequency range<a name="7"></a></h2>
+      <p>The original S-parameters are given over the frequency range: 315KHz -&gt; 6GHz. If you want to see the S-parameters over a new
+         frequency range, you need to analyze the data object first.
+      </p><pre class="codeinput">f = [1e9:1e8:3e9];
+analyze(data, f);
+</pre><h2>Plot S11 and S22 over the new frequency range on a Y Smith chart<a name="8"></a></h2>
+      <p>Plot S11 and S22 on a Y Smith chart</p><pre class="codeinput">smith(data, <span class="string">'S11'</span>, <span class="string">'S22'</span>, <span class="string">'y'</span>);
+legend <span class="string">show</span>;
+</pre><img vspace="5" hspace="5" src="data_obj_03.png"><h2>Plot S21 over the new frequency range on a polar plane<a name="9"></a></h2>
+      <p>Plot S21 on a polar plane</p><pre class="codeinput">polar(data, <span class="string">'s21'</span>);
+legend <span class="string">show</span>;
+</pre><img vspace="5" hspace="5" src="data_obj_04.png"><p class="footer">Copyright 2004 The MathWorks, Inc.<br></p>
+      <!--
+##### SOURCE BEGIN #####
+%% RF Data Objects 
+% The RF Toolbox has several built-in RFDATA objects for storing, processing,
+% and visualizing different types of RF data. This demo first creates an
+% RFDATA.DATA object by reading the S-parameters of a 2-port passive network
+% stored in a Touchstone data file 'passive.s2p', and visualizes the original
+% S-parameters by using the built-in visualization methods of the data object.
+% Then, it calculates and visualizes the S-parameters over a new frequency
+% range.
+
+%   Copyright 2004 The MathWorks, Inc.
+%   $Revision: 1.1.6.4 $  $Date: 2004/03/30 13:12:10 $
+
+%% Create an RFDATA.DATA object
+% Create an RFDATA.DATA object, by reading a Touchstone data file
+% 'passive.s2p', using READ method of RFDATA.DATA object. For more
+% information on RFDATA objects, type: help rfdata
+data = read(rfdata.data, 'passive.s2p');
+
+%% View the properties and methods of the data object
+% The data object has built-in properties and methods. You can use the data
+% object's methods: GET and METHODS to view its properties and methods.
+PropertiesOfData = get(data) 
+MethodsOfData = methods(data);
+
+%% Change the properties of the data object
+% You can use the data object's SET method to change its properties.
+DefaultZl = get(data, 'Zl')
+set(data, 'Zl', 30+60i);
+NewZl = get(data, 'Zl')
+
+%% View the network parameters of the data object that can be visualized
+% LISTPARAM lists all the network parameters of the data object that can be
+% visualized. You can plot any of these parameters, by using the built-in
+% visualization methods of the data object, in a variety of different formats. 
+ParamsOfData = listparam(data)
+FormatsOfS11 = listformat(data, 'S11')
+
+%% Plot the original S11 and input reflection coefficient on a Z Smith chart
+% Plot S11 and the input reflection coefficient on a Z Smith chart
+smith(data, 'S11', 'GAMMAIN', 'z');
+legend show;
+
+%% Plot the original S21 on an X-Y plane
+% Plot S21, in dB, on an X-Y plane
+plot(data,  'S21', 'db');
+legend show;
+
+%% Analyze the data object over a new frequency range
+% The original S-parameters are given over the frequency range: 315KHz -> 6GHz.
+% If you want to see the S-parameters over a new frequency range, you need to
+% analyze the data object first.
+f = [1e9:1e8:3e9];
+analyze(data, f);
+
+%% Plot S11 and S22 over the new frequency range on a Y Smith chart
+% Plot S11 and S22 on a Y Smith chart 
+smith(data, 'S11', 'S22', 'y');
+legend show;
+
+%% Plot S21 over the new frequency range on a polar plane
+% Plot S21 on a polar plane
+polar(data, 's21');
+legend show;
+##### SOURCE END #####
+-->
+   </body>
+</html>

@@ -1,0 +1,155 @@
+% function addplot(ax_handle,l_handle)
+%
+% This function allows a user to interactively vary the data stored in a =
+%line by clicking on the axes.
+% The user can add datapoints to a line by clicking on the axes, and =
+% delete points from the line by use of a
+% context menu.
+%
+% If the function is called with no input arguments, then it is applied =
+%to the output of the gca command:
+%
+%  * if the current axes exist and have at least one child of type =
+%'line', then the first such child object
+%    is used as the l_handle input.
+%
+%  * if the current axes exist but are devoid of any line objects, a =
+%line object is created with a data
+%    set containing the points (0,0),(1,1)
+%
+%  * if no current axes exist, one is created with an empty line object =
+%child
+%
+% If the function is called on an axes with multiple line objects, and =
+%no l_handle specified, the first=20
+% line object is used. =20
+%=20
+% A further option exists to specify l_handle as a vector of two or more =
+%line objects - in this case, the=20
+% function determines which line the user clicked closest to, and =
+%invokes moveplot and adds data to that=20
+% line.  It is not recommended to use this option for more than two =
+%separate lines - beyond that point it=20
+% can become difficult for the program to determine which line object =
+%the user wished to indicate.
+%=20
+% To delete a point, right-click on it and select 'delete' (the only =
+%option) from the context menu that=20
+% appears.=20
+%
+% To disable the function, enter the syntax addplot(ax_handle,'off')
+%
+% This function requires the function 'moveplot.m'
+%
+% UPDATE 21 May 2002:  - fixed addplot to conform to Moveplot updates
+%                      - Added output option - if output argument is =
+%specified, Addplot will output the
+%                           handle of the line object(s) being adjusted.
+%
+% Written by Brandon Kuczenski for Kensington Labs
+% brandon_kuczenski@kensingtonlabs.com
+% 19 September 2001
+
+if nargin==0 % self-invoked
+    switch option
+    case 1
+        pos=get(gca,'currentpoint');
+        xl=3Dget(gca,'xlim');
+        if pos(1,1)&lt;xl(1) % click too far left
+            return % was 'break' - thanks to =
+                    %patrick.drechsler@biozentrum.uni-wuerzburg.de
+        else
+        % how many lines?
+        s=3Dlength(l_handle);
+        if s&gt;1 % if multiple, determine which is closest =
+(cumulatively)
+            for I=3D1:s
+                x=3Dget(l_handle(I),'Xdata')-pos(1,1);
+                y=3Dget(l_handle(I),'Ydata')-pos(2,2);
+                d(I)=3Dsum(sqrt(y.^2))/length(x); % just the y axis to =
+determine which line
+            end
+        else
+            d=3D0;
+        end
+        ch=3Dl_handle(find(d=3D=3Dmin(d))); % choose the one with the =
+minimum average distance
+        x=3Dget(ch,'xdata');
+        y=3Dget(ch,'ydata');
+        index=3Dmax(find(x&lt;pos(1,1)));
+        if index
+            x=3D[x(1:index) pos(1,1) x(index+1:end)];
+            y=3D[y(1:index) pos(2,2) y(index+1:end)];
+        else % index must have been empty
+            x=3D[pos(1,1) x];
+            y=3D[pos(2,2) y];
+        end
+   =20
+        k=3Dget(ch,'userdata');  % from here down is mostly copied from =
+moveplot
+   =20
+        k.index=3Dindex+1;
+        k.axesdata=3Dget(gca,'userdata');
+        k.doublebuffer=3Dget(gcf,'doublebuffer');
+        k.winbmfcn =3D get(gcf,'windowbuttonmotionfcn');  %  save =
+current window motion function
+        k.winbupfcn =3D get(gcf,'windowbuttonupfcn');  %  save current =
+window up function
+        k.winbdfcn =3D get(gcf,'windowbuttondownfcn');  %  save current =
+window down function
+        set(ch,'userdata',k,'xdata',x,'ydata',y);
+        =
+set(gcf,'windowbuttonmotionfcn',['moveplot(get(gca,''userdata''),''xy'',2=
+)'],'doublebuffer','on');
+        set(gca,'userdata',ch);
+        =
+set(gcf,'windowbuttonupfcn',['moveplot(get(gca,''userdata''),''xy'',3)'])=
+;
+        end     % the outside-the-box test
+    case 2 % delete point selected
+        pos=3Dget(ax_handle,'currentpoint');
+        x=3Dget(l_handle,'xdata');
+        y=3Dget(l_handle,'ydata');
+        d=3Dsqrt((x-pos(1,1)).^2+(y-pos(2,2)).^2);
+        index=3Dfind(d=3D=3Dmin(d));
+        x=3D[x(1:index-1) x(index+1:end)];
+        y=3D[y(1:index-1) y(index+1:end)];
+        set(l_handle,'xdata',x,'ydata',y);
+       =20
+    end
+else % user-invoked
+    if nargin&lt;1
+        ax_handle=3Dgca;
+    end
+    if nargin&lt;2
+        a=3Dfindobj('parent',ax_handle','type','line');
+        if ~isempty(a)
+            l_handle=3Da(1);
+        else
+            l_handle=3Dline('parent',ax_handle,'xdata',[0 1],'ydata',[0 =
+1]);
+            % other parameters are unnecessary - default
+        end
+    end
+    if nargin=3D=3D2&amp;ischar(l_handle)&amp;strcmp(l_handle,'off')
+        % disable the function
+        set(ax_handle,'ButtonDownFcn','','tag','');
+        set(get(gca,'userdata'),'uicontextmenu','')
+        moveplot(get(gca,'userdata'),'off'); % turn off moveplot too.
+    else
+        if ~strcmp(get(l_handle,'tag'),'moveplot')
+            moveplot(l_handle,'xy');
+        end
+        =
+set(ax_handle,'userdata',l_handle,'ButtonDownFcn','addplot(gca,get(gca,''=
+userdata''),1)','tag','addplot');
+        cmenu=3Duicontextmenu;
+        set(l_handle,'uicontextmenu',cmenu)
+        uimenu(cmenu,'Label','Delete =
+Point','callback','addplot(gca,gco,2)');
+    end
+    if nargout
+        out=3Dl_handle;
+    end
+end
+

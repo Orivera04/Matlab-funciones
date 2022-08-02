@@ -1,0 +1,161 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Options</title>
+<style>
+<!--
+h3           { color: #006699 }
+span.mcode   { font-family: Fixedsys; color: #993300; text-align:left }
+-->
+</style>
+</head>
+
+<body>
+
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1" height="86">
+  <tr>
+    <td width="70%" height="86">
+    <h2>Options</h2>
+    </td>
+    <td width="3%" height="86">&nbsp;<p>&nbsp;</p>
+    <p>&nbsp;</td>
+    <td width="27%" height="86">
+    <img border="0" src="../images/plt.png" width="214" height="98" align="right"></td>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber2">
+  <tr>
+    <td width="128" valign="top">
+    <h3>HelpFile</h3>
+    </td>
+    <td width="730" valign="top"><p><span class="mcode">plt(...,'HelpFile','helpfile.chm');<br>
+    plt(...,'HelpFile','helpfile.htm');<br>
+    plt(...,'HelpFile','picturehelp.gif');<br>
+    </span>Specify the help file to be loaded when the Help tag in the menu box 
+    is clicked. If a chm file is specified, the help browser is called (PC 
+    systems only), otherwise the web browser is called.<br>
+    Default: <span class="mcode">'plt.chm' </span>for PC systems,
+    <span class="mcode">'plt.htm' </span>for Unix systems</p>
+    <p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="128" valign="top">
+    <h3>Options</h3>
+    </td>
+    <td width="730" valign="top"><p><span class="mcode">plt(...,'Options',s);<br>
+    </span>s is a string specifying one or more options. The options allowed 
+    are:</p>
+    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="724" id="AutoNumber3">
+      <tr>
+        <td width="30">&nbsp;</td>
+        <td width="225"><span class="mcode">'Ticks'</span></td>
+        <td width="469">Use tick marks (i.e. no grid lines)</td>
+      </tr>
+      <tr>
+        <td width="30">&nbsp;</td>
+        <td width="225"><span class="mcode">'Menu'</span></td>
+        <td width="469">Enable the figure menu bar</td>
+      </tr>
+      <tr>
+        <td width="30">&nbsp;</td>
+        <td width="225"><span class="mcode">'Xlog'</span></td>
+        <td width="469">use logarithmic 
+      scaling on the x axis</td>
+      </tr>
+      <tr>
+        <td width="30">&nbsp;</td>
+        <td width="225"><span class="mcode">'Ylog'</span></td>
+        <td width="469">use logarithmic 
+      scaling on the y axis</td>
+      </tr>
+      <tr>
+        <td width="30">&nbsp;</td>
+        <td width="225"><span class="mcode">'-Help'</span> / <span class="mcode">
+        '+Help'</span></td>
+        <td width="469">removes/adds the Help tag from the menu box</td>
+      </tr>
+      <tr>
+        <td width="30">&nbsp;</td>
+        <td width="225"><span class="mcode">'-Mark'</span> / <span class="mcode">
+        '+Mark'</span></td>
+        <td width="469">removes/adds the Mark tag from the menu box</td>
+      </tr>
+      <tr>
+        <td width="30">&nbsp;</td>
+        <td width="225"><span class="mcode">'-Xlog'</span> / <span class="mcode">
+        '+Xlog'</span></td>
+        <td width="469">removes/adds the LinX/LogX tag from the menu box</td>
+      </tr>
+      <tr>
+        <td width="30">&nbsp;</td>
+        <td width="225"><span class="mcode">'-Ylog'</span> / <span class="mcode">
+        '+Ylog'</span></td>
+        <td width="469">removes/adds the LinY/LogY tag from the menu box</td>
+      </tr>
+      <tr>
+        <td width="30">&nbsp;</td>
+        <td width="225"><span class="mcode">'-Print'</span> / <span class="mcode">
+        '+Print'</span></td>
+        <td width="469">removes/adds the Print tag from the menu box</td>
+      </tr>
+      <tr>
+        <td width="30">&nbsp;</td>
+        <td width="225"><span class="mcode">'-Grid'</span> / <span class="mcode">
+        '+Grid'</span> </td>
+        <td width="469">removes/adds the Grid tag from the menu box</td>
+      </tr>
+      <tr>
+        <td width="30">&nbsp;</td>
+        <td width="225"><span class="mcode">'-Figmenu'</span> / <span class="mcode">
+        '+Figmenu'</span></td>
+        <td width="469">removes/adds the Menu tag from the menu box</td>
+      </tr>
+      <tr>
+        <td width="30">&nbsp;</td>
+        <td width="225"><span class="mcode">'-Rotate'</span> / <span class="mcode">
+        '+Rotate'</span></td>
+        <td width="469">removes/adds the XYrotate (XY<font face="Times New Roman">&#8596;) 
+        tag from the menu box</font></td>
+      </tr>
+      <tr>
+        <td width="30">&nbsp;</td>
+        <td width="225"><span class="mcode">'-All'</span> / <span class="mcode">
+        '+All'</span></td>
+        <td width="469">removes /adds all menu box items</td>
+      </tr>
+    </table>
+    <p>These options strings are case sensitive. The first letter must be a 
+    capital and the rest lower case as shown. For example if you wanted the 
+    display to initialize with the menu bar enabled and the grid lines off you 
+    could use either:<span class="mcode"><br>
+&nbsp;&nbsp; plt(...,'Options','Menu','Options','Ticks');<br>
+&nbsp;&nbsp; plt(...,'Options','Menu Ticks');<br>
+    </span>If you even wanted to prevent the user from re-enabling the grid 
+    lines by using the menu box you would use:<span class="mcode"><br>
+&nbsp;&nbsp; plt(...,'Options','Menu Ticks -Grid');<br>
+    </span>Instead of a space between the options, you can use any separator 
+    character you like. In fact plt really only looks at the capital letters so 
+    if you wanted to be very concise (not to mention cryptic), the previous 
+    command could be written:<br>
+    <span class="mcode">&nbsp;&nbsp; plt(...,'Options','MT-G');</span><br>
+    You can also use a plus sign on the menu box tags. 
+    For example, both of the following commands would remove all the menu box 
+    items except for the x and y axis lin/log controls:<br>
+    <span class="mcode">&nbsp;&nbsp; plt(...,'Options','-H-M-G-F');</span><br>
+    <span class="mcode">&nbsp;&nbsp; plt(...,'Options','+X+Y');<br>
+    </span>Note that the Print menu box tag is unique in that it is off by 
+    default and will only appear when<span class="mcode"> +P</span> appears in 
+    the Options string.</p>
+    <p>&nbsp;</p>
+    </td>
+  </tr>
+  </table>
+
+</body>
+
+</html>

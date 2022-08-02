@@ -1,0 +1,392 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>OPCDEMO_QUICKSTART.M</title>
+      <meta name="generator" content="MATLAB 7.0.0.1547 (R14) Prerelease">
+      <meta name="date" content="2004-03-17">
+      <meta name="m-file" content="opcdemo_quickstart">
+      <meta name="title" content="OPCDEMO_QUICKSTART.M">
+      <meta name="description" content="This example illustrates the basic steps involved in using the OPC Toolbox to acquire data from an OPC Server. This example utilises the Matrikon OPC Simulation Server to log data from the Saw-toothed and Triangle Waves signals. The data is then retrieved and plotted to determine if the two signals are related in any way."><style>
+body {
+  background-color: white;
+}
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+pre.codeinput {
+  margin-left: 30px;
+}
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.showbuttons {
+  margin-left: 30px;
+  border: solid black 2px;
+  padding: 4px;
+  background: #EBEFF3;
+}
+
+pre.codeoutput {
+  color: gray;
+  font-style: italic;
+}
+pre.error {
+  color: red;
+}
+    </style></head>
+   <body>
+      <h1>OPCDEMO_QUICKSTART.M</h1>
+      <p>This example illustrates the basic steps involved in using the OPC Toolbox to acquire data from an OPC Server. This example
+         utilises the Matrikon OPC Simulation Server to log data from the Saw-toothed and Triangle Waves signals. The data is then
+         retrieved and plotted to determine if the two signals are related in any way.
+      </p>
+      <h2>Contents</h2>
+      <ul>
+         <li><a href="#1">Step 1: Locate the OPC Server</a></li>
+         <li><a href="#4">Step 2: Create an OPC Data Access Client Object</a></li>
+         <li><a href="#6">Step 3: Connect to the Server</a></li>
+         <li><a href="#8">Step 4: Browse the Server Name Space</a></li>
+         <li><a href="#10">Step 5: Create OPC Data Access Group Objects</a></li>
+         <li><a href="#11">Step 6: Add Items to Groups</a></li>
+         <li><a href="#13">Step 7: Configure OPC Toolbox Object Properties</a></li>
+         <li><a href="#15">Step 8: Acquire OPC Server Data</a></li>
+         <li><a href="#18">Step 9: Plot the Data</a></li>
+         <li><a href="#20">Step 10: Clean up</a></li>
+      </ul>
+      <h2>Step 1: Locate the OPC Server<a name="1"></a></h2>
+      <p>In order to connect to an OPC Server, you need the HOSTNAME and SERVERID of that server. Your system administrator can provide
+         you with this information, or you can query a host for the data. In this example, we query the local host for available OPC
+         Servers.
+      </p><pre class="codeinput">hostInfo = opcserverinfo(<span class="string">'localhost'</span>)
+</pre><pre class="codeoutput">hostInfo = 
+                 Host: 'localhost'
+             ServerID: {'Matrikon.OPC.Simulation.1'  'ICONICS.Simulator.1'  'Softing.OPCToolboxDemo_ServerDA.1'}
+    ServerDescription: {'Matrikon OPC Server for Simulation and Testing'  'ICONICS Simulator OPC Server'  [1x38 char]}
+     OPCSpecification: {'DA2'  'DA2'  'DA2'}
+    ObjectConstructor: {'opcda('localhost', 'Matrikon.OPC.Simulation.1')'  [1x41 char]  [1x55 char]}
+</pre><p>Examine the returned structure in more detail.</p><pre class="codeinput">allServers = hostInfo.ServerID'
+</pre><pre class="codeoutput">allServers = 
+    'Matrikon.OPC.Simulation.1'
+    'ICONICS.Simulator.1'
+    'Softing.OPCToolboxDemo_ServerDA.1'
+</pre><p>To connect to the Matrikon server, use the ID 'Matrikon.OPC.Simulation.1'</p>
+      <h2>Step 2: Create an OPC Data Access Client Object<a name="4"></a></h2>
+      <p>Once you know the Host and ServerID of the OPC Server you want to connect to, you can create an opcda object associated with
+         that server.
+      </p><pre class="codeinput">da = opcda(<span class="string">'localhost'</span>, <span class="string">'Matrikon.OPC.Simulation.1'</span>)
+</pre><pre class="codeoutput">da =
+Summary of OPC Data Access Client Object: localhost/Matrikon.OPC.Simulation.1
+   Server Parameters
+      Host      : localhost
+      ServerID  : Matrikon.OPC.Simulation.1
+      Status    : disconnected
+      Timeout   : 10 seconds
+   Object Parameters
+      Group     : 0-by-1 dagroup object
+      Event Log : 0 of 1000 events
+</pre><p>At this point, the client is not yet connected to the server.</p>
+      <h2>Step 3: Connect to the Server<a name="6"></a></h2><pre class="codeinput">connect(da)
+</pre><p>To confirm that the client is connected, display the client.</p><pre class="codeinput">da
+</pre><pre class="codeoutput">da =
+Summary of OPC Data Access Client Object: localhost/Matrikon.OPC.Simulation.1
+   Server Parameters
+      Host      : localhost
+      ServerID  : Matrikon.OPC.Simulation.1
+      Status    : connected
+      Timeout   : 10 seconds
+   Object Parameters
+      Group     : 0-by-1 dagroup object
+      Event Log : 0 of 1000 events
+</pre><h2>Step 4: Browse the Server Name Space<a name="8"></a></h2>
+      <p>To find the Fully Qualified ID of the items we wish to examine, we need to browse the server's name space. We can use a partial
+         match to find all items containing the string 'Saw' and 'Triangle'
+      </p><pre class="codeinput">sawtoothItems = serveritems(da, <span class="string">'*Saw*'</span>)
+triangleItems = serveritems(da, <span class="string">'*Triangle*'</span>)
+</pre><pre class="codeoutput">sawtoothItems = 
+    'Saw-toothed Waves.'
+    'Saw-toothed Waves.ArrayOfReal8'
+    'Saw-toothed Waves.Int1'
+    'Saw-toothed Waves.Int2'
+    'Saw-toothed Waves.Int4'
+    'Saw-toothed Waves.Money'
+    'Saw-toothed Waves.Real4'
+    'Saw-toothed Waves.Real8'
+    'Saw-toothed Waves.UInt1'
+    'Saw-toothed Waves.UInt2'
+    'Saw-toothed Waves.UInt4'
+triangleItems = 
+    'Triangle Waves.'
+    'Triangle Waves.ArrayOfReal8'
+    'Triangle Waves.Int1'
+    'Triangle Waves.Int2'
+    'Triangle Waves.Int4'
+    'Triangle Waves.Money'
+    'Triangle Waves.Real4'
+    'Triangle Waves.Real8'
+    'Triangle Waves.UInt1'
+    'Triangle Waves.UInt2'
+    'Triangle Waves.UInt4'
+</pre><p>From this list, we wish to use the Real8 and UInt2 items. Make a cell array of item names.</p><pre class="codeinput">itmIDs = {<span class="string">'Saw-toothed Waves.Real8'</span>, <span class="keyword">...</span>
+    <span class="string">'Triangle Waves.Real8'</span>, <span class="keyword">...</span>
+    <span class="string">'Triangle Waves.UInt2'</span>};
+</pre><h2>Step 5: Create OPC Data Access Group Objects<a name="10"></a></h2>
+      <p>OPC Group objects contain many items that can be updated, logged, written to, and interacted with using a single object. In
+         this example, a group is created in order to log data from all items simultaneously.
+      </p><pre class="codeinput">grp = addgroup(da, <span class="string">'DemoGroup'</span>)
+</pre><pre class="codeoutput">grp =
+Summary of OPC Data Access Group Object: DemoGroup
+   Object Parameters
+      Group Type   : private
+      Item         : 0-by-1 daitem object
+      Parent       : localhost/Matrikon.OPC.Simulation.1
+      Update Rate  : 0.5
+      Deadband     : 0%
+   Object Status
+      Active       : on
+      Subscription : on
+      Logging      : off
+   Logging Parameters
+      Records      : 120
+      Duration     : at least 60 seconds
+      Logging to   : memory
+      Status       : Waiting for START.
+                     0 records available for GETDATA/PEEKDATA
+</pre><h2>Step 6: Add Items to Groups<a name="11"></a></h2>
+      <p>Once the group object has been created, you can now add items to that group. The next example adds the three items identified
+         in Step 4, using one command. The result is a vector of daitem objects.
+      </p><pre class="codeinput">itm = additem(grp, itmIDs)
+</pre><pre class="codeoutput">itm =
+   OPC Item Object Array:
+   Index:  DataType:  Active:  ItemID:
+   1       double     on       Saw-toothed Waves.Real8
+   2       double     on       Triangle Waves.Real8
+   3       uint16     on       Triangle Waves.UInt2
+</pre><p>View a summary of the first object in the object vector.</p><pre class="codeinput">itm(1)
+</pre><pre class="codeoutput">ans =
+Summary of OPC Data Access Item Object: Saw-toothed Waves.Real8
+   Object Parameters
+      Parent        : DemoGroup
+      Access Rights : read/write
+   Object Status
+      Active        : on
+   Data Parameters
+      Data Type     : double
+      Value         : 
+      Quality       : 
+      Timestamp     : 
+</pre><h2>Step 7: Configure OPC Toolbox Object Properties<a name="13"></a></h2>
+      <p>You configure OPC Toolbox object properties using the SET command, and retrieve properties using the GET command. For this
+         example, we wish to log 2 minutes of data at 0.2 second intervals.
+      </p><pre class="codeinput">logDuration = 0.2*60;
+logRate = 0.2;
+numRecords = ceil(logDuration./logRate)
+</pre><pre class="codeoutput">numRecords =
+    60
+</pre><p>We can now configure the group object to acquire this amount of data.</p><pre class="codeinput">set(grp, <span class="string">'UpdateRate'</span>,logRate, <span class="string">'RecordsToAcquire'</span>,numRecords);
+</pre><h2>Step 8: Acquire OPC Server Data<a name="15"></a></h2>
+      <p>To acquire the data, we issue a START function. Because we want all the data to be acquired before we continue with this example,
+         we call the WAIT function.
+      </p><pre class="codeinput">start(grp)
+wait(grp)
+</pre><p>Now that the data has been logged to memory, we need to retrieve it. Because we are interested in the time series, we will
+         obtain the logged data into separate arrays.
+      </p><pre class="codeinput">[logIDs, logVal, logQual, logTime, logEvtTime] = getdata(grp, <span class="string">'double'</span>);
+</pre><p>Examine the workspace for the sizes of the data</p><pre class="codeinput">whos <span class="string">log*</span>
+</pre><pre class="codeoutput">  Name              Size                    Bytes  Class
+
+  logDuration       1x1                         8  double array
+  logEvtTime       60x1                       480  double array
+  logIDs            1x3                       306  cell array
+  logQual          60x3                     16848  cell array
+  logRate           1x1                         8  double array
+  logTime          60x3                      1440  double array
+  logVal           60x3                      1440  double array
+
+Grand total is 3692 elements using 20530 bytes
+
+</pre><h2>Step 9: Plot the Data<a name="18"></a></h2>
+      <p>We can now plot this data on the same axes.</p><pre class="codeinput">plot(logTime, logVal);
+axis <span class="string">tight</span>
+datetick <span class="string">x</span> <span class="string">keeplimits</span>
+legend(logIDs)
+</pre><img vspace="5" hspace="5" src="opcdemo_quickstart_01.png"><p>The Value data does not provide the full picture. We should mark all the places where the quality was not Good. Bad quality
+         is marked in red, and Repeat quality is marked in orange.
+      </p><pre class="codeinput">hold <span class="string">on</span>
+isBadQual = strncmp(logQual, <span class="string">'Bad'</span>, 3);
+isRepeatQual = strncmp(logQual, <span class="string">'Repeat'</span>, 6);
+<span class="keyword">for</span> k=1:size(logQual,2)
+    badInd = isBadQual(:,k);
+    plot(logTime(badInd, k), logVal(badInd, k), <span class="string">'ro'</span>, <span class="keyword">...</span>
+        <span class="string">'MarkerFaceColor'</span>,<span class="string">'r'</span>, <span class="string">'MarkerEdgeColor'</span>,<span class="string">'k'</span>)
+    repInd = isRepeatQual(:,k);
+    plot(logTime(repInd, k), logVal(repInd, k), <span class="string">'ro'</span>, <span class="keyword">...</span>
+        <span class="string">'MarkerFaceColor'</span>,[0.8 0.5 0], <span class="string">'MarkerEdgeColor'</span>,<span class="string">'k'</span>)
+<span class="keyword">end</span>
+hold <span class="string">off</span>
+</pre><img vspace="5" hspace="5" src="opcdemo_quickstart_02.png"><h2>Step 10: Clean up<a name="20"></a></h2>
+      <p>Once you have finished with the OPC Toolbox objects, you must delete them from the OPC Toolbox engine. Deleting the client
+         object automatically deletes the group and item objects.
+      </p><pre class="codeinput">disconnect(da)
+delete(da)
+</pre><p>The objects are now invalid.</p><pre class="codeinput">isvalid(grp)
+</pre><pre class="codeoutput">ans =
+     0
+</pre><p>You should clear the objects from the workspace.</p><pre class="codeinput">clear <span class="string">da</span> <span class="string">grp</span> <span class="string">itm</span>
+</pre><p class="footer"><br></p>
+      <!--
+##### SOURCE BEGIN #####
+%% OPCDEMO_QUICKSTART.M
+% This example illustrates the basic steps involved in using the OPC
+% Toolbox to acquire data from an OPC Server. This example utilises the
+% Matrikon OPC Simulation Server to log data from the Saw-toothed and
+% Triangle Waves signals. The data is then retrieved and plotted to
+% determine if the two signals are related in any way.
+
+%% Step 1: Locate the OPC Server
+% In order to connect to an OPC Server, you need the HOSTNAME and SERVERID
+% of that server. Your system administrator can provide you with this
+% information, or you can query a host for the data. In this example, we
+% query the local host for available OPC Servers.
+hostInfo = opcserverinfo('localhost')
+%%
+% Examine the returned structure in more detail.
+allServers = hostInfo.ServerID'
+
+%%
+% To connect to the Matrikon server, use the ID 'Matrikon.OPC.Simulation.1'
+
+%% Step 2: Create an OPC Data Access Client Object
+% Once you know the Host and ServerID of the OPC Server you want to connect
+% to, you can create an opcda object associated with that server.
+da = opcda('localhost', 'Matrikon.OPC.Simulation.1')
+
+%%
+% At this point, the client is not yet connected to the server.
+
+%% Step 3: Connect to the Server
+connect(da)
+%%
+% To confirm that the client is connected, display the client.
+da
+
+%% Step 4: Browse the Server Name Space
+% To find the Fully Qualified ID of the items we wish to examine, we need
+% to browse the server's name space. We can use a partial match to find all
+% items containing the string 'Saw' and 'Triangle'
+
+sawtoothItems = serveritems(da, '*Saw*')
+triangleItems = serveritems(da, '*Triangle*')
+
+%%
+% From this list, we wish to use the Real8 and UInt2 items. Make a cell
+% array of item names.
+itmIDs = {'Saw-toothed Waves.Real8', ...
+    'Triangle Waves.Real8', ...
+    'Triangle Waves.UInt2'};
+
+%% Step 5: Create OPC Data Access Group Objects
+% OPC Group objects contain many items that can be updated, logged, written
+% to, and interacted with using a single object. In this example, a group
+% is created in order to log data from all items simultaneously.
+grp = addgroup(da, 'DemoGroup')
+
+%% Step 6: Add Items to Groups
+% Once the group object has been created, you can now add items to that
+% group. The next example adds the three items identified in Step 4, using
+% one command. The result is a vector of daitem objects.
+
+itm = additem(grp, itmIDs)
+
+%%
+% View a summary of the first object in the object vector.
+itm(1)
+
+%% Step 7: Configure OPC Toolbox Object Properties
+% You configure OPC Toolbox object properties using the SET command, and
+% retrieve properties using the GET command. For this example, we wish to
+% log 2 minutes of data at 0.2 second intervals.
+logDuration = 0.2*60;
+logRate = 0.2;
+numRecords = ceil(logDuration./logRate)
+
+%%
+% We can now configure the group object to acquire this amount of data.
+set(grp, 'UpdateRate',logRate, 'RecordsToAcquire',numRecords);
+
+%% Step 8: Acquire OPC Server Data
+% To acquire the data, we issue a START function. Because we want all the
+% data to be acquired before we continue with this example, we call the
+% WAIT function.
+start(grp)
+wait(grp)
+%%
+% Now that the data has been logged to memory, we need to retrieve it.
+% Because we are interested in the time series, we will obtain the logged
+% data into separate arrays.
+[logIDs, logVal, logQual, logTime, logEvtTime] = getdata(grp, 'double');
+%%
+% Examine the workspace for the sizes of the data
+whos log*
+
+%% Step 9: Plot the Data
+% We can now plot this data on the same axes.
+plot(logTime, logVal);
+axis tight
+datetick x keeplimits
+legend(logIDs)
+%%
+% The Value data does not provide the full picture. We should mark all the
+% places where the quality was not Good. Bad quality is marked in red, and
+% Repeat quality is marked in orange. 
+hold on
+isBadQual = strncmp(logQual, 'Bad', 3);
+isRepeatQual = strncmp(logQual, 'Repeat', 6);
+for k=1:size(logQual,2)
+    badInd = isBadQual(:,k);
+    plot(logTime(badInd, k), logVal(badInd, k), 'ro', ...
+        'MarkerFaceColor','r', 'MarkerEdgeColor','k')
+    repInd = isRepeatQual(:,k);
+    plot(logTime(repInd, k), logVal(repInd, k), 'ro', ...
+        'MarkerFaceColor',[0.8 0.5 0], 'MarkerEdgeColor','k')
+end
+hold off
+
+%% Step 10: Clean up
+% Once you have finished with the OPC Toolbox objects, you must delete
+% them from the OPC Toolbox engine. Deleting the client object
+% automatically deletes the group and item objects.
+disconnect(da)
+delete(da)
+%%
+% The objects are now invalid.
+isvalid(grp)
+%%
+% You should clear the objects from the workspace.
+clear da grp itm
+
+##### SOURCE END #####
+-->
+   </body>
+</html>

@@ -1,0 +1,1 @@
+col=30;m=300;cx=0;cy=0;l=1.5;x=linspace(cx-l,cx+l,m);y=linspace(cy-l,cy+l,m);[X,Y]=meshgrid(x,y);c= 0.11031031-0.67037*i;Z=X+i*Y;for k=1:col;Z=Z.^2+c;W=exp(-abs(Z));endcolormap cool(256)pcolor(W);shading flat;axis('square','equal','off');

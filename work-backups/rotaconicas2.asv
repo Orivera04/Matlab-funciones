@@ -1,0 +1,32 @@
+%Rotaciones de cónicas
+%Ecuación General: Ax^2+Bxy+Cx^2+Dx+Ey+F=0
+clear;
+clc;
+global h;
+syms x y  X Y 
+%Introducción de coeficientes.
+Coef=input('Dar los coeficientes [A,B,C,D,E,F]= ');
+A=Coef(1);B=Coef(2);C=Coef(3);D=Coef(4);E=Coef(5);F=Coef(6);
+disc=B^2-4*A*C; 
+if B==0
+    disp('No hay rotación');
+    B=C; C=D; D=E;
+    traslaconi([A,B,C,D,F]);
+    return
+end
+if A-C==0
+      v=1/2; w=sym(sqrt(2)/2);z=w; 
+else
+   T2t=sym(B/(A-C)); 
+   if B/(A-C)<0
+      C2t=-1/(sqrt(1+T2t^2));
+   else
+     C2t=1/(sqrt(1+T2t^2));   
+   end
+t=(C2t+1)/2;u=1-t;v=t^(1/2)*u^(1/2);w=sqrt(t);z=sqrt(u);
+end
+x=X*w-Y*z; y=X*z+Y*w; 
+ecua1=A*x^2+B*x*y+C*y^2+D*x+E*y+F; ecuasimbolica=simplify(ecua1);
+pretty(ecuasimbolica);  
+vc=coefpol(char(ecuasimbolica))
+traslaconi(vc);

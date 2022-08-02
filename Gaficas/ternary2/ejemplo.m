@@ -1,0 +1,17 @@
+   close all;clear all
+   warning off MATLAB:griddata:DuplicateDataPoints
+   load limestone
+   % (The data file comes with the zip file).
+   figure
+   % Plot the ternary axis system
+   [h,hg,htick]=terplot;
+   % Plot the data
+   % First set the colormap (can't be done afterwards)
+   colormap(jet)
+   [hd,hcb]=ternaryc(A(:,1),A(:,2),A(:,3),A(:,4),'o');
+   %   or
+   [hd]=ternaryc(A(:,1),A(:,2),A(:,3));
+   %   for a constant value ternary plot.
+   % Add the labels
+   hlabels=terlabel('Limestone','Water','Air');
+[h,c,hcb]=tercontour(A(:,1),A(:,2),A(:,3),A(:,4),'o');

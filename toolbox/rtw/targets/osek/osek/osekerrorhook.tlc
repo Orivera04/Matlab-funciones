@@ -1,0 +1,140 @@
+%% $RCSfile: osekerrorhook.tlc,v $
+%% $Revision: 1.2.4.1 $
+%%
+%% Copyright 2002-2003 The MathWorks, Inc.
+%%
+%% Abstract:
+%%   Creates an OSEK ErrorHook file.
+%%   By creating from TLC, will only be done if Terminate 
+%%   Function Required is set by the model's rtwoptions.
+%%
+%selectfile NULL_FILE
+
+%function OSLibOSEKCreateErrorHook() Output
+
+  %openfile tmpFcnBuf
+  /* Function: ErrorHook ==================================================
+   * Abstract:
+   *	ErrorHook function by OSEK. Will execute model terminate code when 
+   *	that terminate code is provided by the model.
+   */
+  void ErrorHook(StatusType Error)
+  {
+    /* Make these static so they are visible and persistent when not in function */
+    static TaskType TaskID=0;
+    static TaskStateType TaskState=0;
+    static StatusType status=E_OK;
+    static StatusType localError = E_OK;
+
+    localError = Error;
+
+    /* Get and store task id for visibility and call to GetTaskState */
+    if ( (status = GetTaskID( &TaskID )) != E_OK )
+    {
+      /* Insert Error Code Here*/
+    } 
+    
+    /* Get and store task state for visibility */
+    else if ( (status = GetTaskState( TaskID, &TaskState )) != E_OK )
+    {
+      /* Insert Error Code Here*/
+    }
+
+    %if IncludeMdlTerminateFcn == 1
+      /* Call model terminate function */
+      %<CompiledModel.Name>_terminate();
+    %endif
+
+#ifdef RTW_USER_ERROR_HOOK    
+    /* 
+     * When defined, RTW_USER_ERROR_HOOK must be the name of a function
+     * of the same type as ErrorHook that is called after the model 
+     * terminate code. The function would be provided through USER_SRCS
+     * and the #define would be provided through the rtwoption make 
+     * command field. 
+     */
+    RTW_USER_ERROR_HOOK(localError);
+#endif
+    switch ( localError )
+    {
+
+     /* Possible error codes:
+      *     E_OS_ACCESS    = 1
+      *     E_OS_CALLEVEL  = 2
+      *     E_OS_ID        = 3
+      *     E_OS_LIMIT     = 4
+      *     E_OS_NOFUNC    = 5
+      *     E_OS_RESOURCE  = 6
+      *     E_OS_STATE     = 7
+      *     E_OS_VALUE     = 8
+      *     E_OS_SYS_CHAIN = 10
+      */
+
+      case E_OS_ACCESS:
+#if 0 == 1 /* Change this conditional to something true to have the 
+            * error hook to jump to the restart vector. 
+	    */
+
+	/* No specific handler : go through reset vector to restart */
+        void (*reset_vector)(void) = (void *) 0x0100;
+	reset_vector();
+#else
+        /* Create a branch loop to be seen by a debugger, or logic analyzer */
+	while (1) {
+	  ;
+	}
+#endif
+      break;
+      case E_OS_CALLEVEL:
+        /* Create a branch loop to be seen by a debugger, or logic analyzer */
+	while (1) {
+	  ;
+	}
+      break;
+      case E_OS_ID:
+        /* Create a branch loop to be seen by a debugger, or logic analyzer */
+	while (1) {
+	  ;
+	}
+      break;
+      case E_OS_LIMIT:
+        /* Create a branch loop to be seen by a debugger, or logic analyzer */
+	while (1) {
+	  ;
+	}
+      break;
+      case E_OS_NOFUNC:
+        /* Create a branch loop to be seen by a debugger, or logic analyzer */
+	while (1) {
+	  ;
+	}
+      break;
+      case E_OS_RESOURCE:
+        /* Create a branch loop to be seen by a debugger, or logic analyzer */
+	while (1) {
+	  ;
+	}
+      break;
+      case E_OS_STATE:
+        /* Create a branch loop to be seen by a debugger, or logic analyzer */
+	while (1) {
+	  ;
+	}
+      break;
+      case E_OS_VALUE:
+        /* Create a branch loop to be seen by a debugger, or logic analyzer */
+	while (1) {
+	  ;
+	}
+      break;
+      default:
+        /* Create a branch loop to be seen by a debugger, or logic analyzer */
+	while (1) {
+	  ;
+	}
+      break;
+    }
+  }
+  %closefile tmpFcnBuf
+  %return tmpFcnBuf
+%endfunction

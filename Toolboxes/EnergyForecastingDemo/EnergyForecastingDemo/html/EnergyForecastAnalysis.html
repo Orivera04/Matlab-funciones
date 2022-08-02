@@ -1,0 +1,342 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>Energy Forecasting</title>
+      <meta name="generator" content="MATLAB 7.4">
+      <meta name="date" content="2007-07-19">
+      <meta name="m-file" content="EnergyForecastAnalysis"><style>
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head>
+   <body>
+      <div class="content">
+         <h1>Energy Forecasting</h1>
+         <introduction>
+            <p>This demo showcases visualization and analysis (heavy statistics) for forecasting energy usage based on historical data. We
+               have access to hour-by-hour utility usage for the month of January, including information on the day of the week and the Heating
+               Degree Days (defined as 65 minus Average Temperature) of each day. Using this information, we will come up with an algorithm
+               for forecasting future energy usage based on parameters such as day-type, forecasted temperature, and time of day.
+            </p>
+         </introduction>
+         <h2>Contents</h2>
+         <div>
+            <ul>
+               <li><a href="#1">Load Data</a></li>
+               <li><a href="#2">Visualization</a></li>
+               <li><a href="#3">Statistics - Examine Distribution</a></li>
+               <li><a href="#4">Visualize Confidence Intervals</a></li>
+               <li><a href="#6">Average Day Effects</a></li>
+               <li><a href="#8">Energy Usage Predictions</a></li>
+               <li><a href="#9">Correlation with Heating Degree Days</a></li>
+               <li><a href="#11">Conclusion</a></li>
+            </ul>
+         </div>
+         <h2>Load Data<a name="1"></a></h2>
+         <p>Load data from excel worksheet</p><pre class="codeinput">close <span class="string">all</span>;
+
+fileName   = <span class="string">'January.xls'</span>;
+energyData = xlsread(fileName, <span class="string">'Liability'</span>, <span class="string">'B2:Y32'</span>);
+DayType    = xlsread(fileName, <span class="string">'Weather'</span>  , <span class="string">'B2:B32'</span>);
+HDD        = xlsread(fileName, <span class="string">'Weather'</span>  , <span class="string">'C2:C32'</span>); <span class="comment">%Heating Degree Days</span>
+Temp       = xlsread(fileName, <span class="string">'Weather'</span>  , <span class="string">'D2:D32'</span>);
+
+numDays    = size(energyData,1);
+numHours   = size(energyData,2);
+
+allDays   = {<span class="string">'Monday'</span>, <span class="string">'Tuesday'</span>, <span class="string">'Wednesday'</span>, <span class="string">'Thursday'</span>, <span class="keyword">...</span>
+  <span class="string">'Friday'</span>, <span class="string">'Saturday'</span>, <span class="string">'Sunday'</span>};
+
+<span class="comment">% Forecast for</span>
+dayOfWeek = <span class="string">'Monday'</span>;
+timeOfDay = 15      ;   <span class="comment">% 3PM</span>
+</pre><h2>Visualization<a name="2"></a></h2>
+         <p>Quick visualization of data (in 3D and contour)</p><pre class="codeinput">myCreateFigure(energyData);
+</pre><img vspace="5" hspace="5" src="EnergyForecastAnalysis_01.png"> <h2>Statistics - Examine Distribution<a name="3"></a></h2>
+         <p>In order to do some statistics, I am going to determine the distribution type of this data set.</p><pre class="codeinput">averageDayProfile = mean(energyData);
+res = energyData-repmat(averageDayProfile,numDays,1);
+myDistFit(res);
+</pre><img vspace="5" hspace="5" src="EnergyForecastAnalysis_02.png"> <h2>Visualize Confidence Intervals<a name="4"></a></h2>
+         <p>From the distribution analysis, I will conclude that the data set has a normal distribution. With this information, we can
+            perform more in-depth statistics based on normal distribution.
+         </p>
+         <p>The following custom plotting routine takes <tt>data</tt> as an input, calculate the estimated mean and 95% confidence interval of the mean, and plots the the results.
+         </p><pre class="codeinput"><span class="comment">% Mean, Standard Deviation, and Confidence Intervals</span>
+[meanD,stdevD,ciD] = normfit(energyData );    <span class="comment">% across days</span>
+[meanH,stdevH,ciH] = normfit(energyData');    <span class="comment">% across hours</span>
+plotCI(energyData,meanD,stdevD,ciD,meanH,stdevH,ciH);
+</pre><img vspace="5" hspace="5" src="EnergyForecastAnalysis_03.png"> <p><b>Observations</b></p>
+         <p>As you can see, the daily profile seems to have a very tight confidence interval, suggesting that the general trend throughout
+            the day is similar from day to day.
+         </p>
+         <h2>Average Day Effects<a name="6"></a></h2>
+         <p>By looking at average profiles for each day of the week, we can make some observations on daily trends.</p><pre class="codeinput"><span class="keyword">for</span> id = 1:7  <span class="comment">% Monday thru Sunday</span>
+  dat(id,:) = mean(energyData(DayType==id,:),1); <span class="comment">%#ok</span>
+<span class="keyword">end</span>
+figure;
+plot(dat');
+xlabel(<span class="string">'hours'</span>);
+ylabel(<span class="string">'system load (MW)'</span>);
+legend(allDays{:}, <span class="string">'Location'</span>, <span class="string">'Best'</span>);
+</pre><img vspace="5" hspace="5" src="EnergyForecastAnalysis_04.png"> <p><b>Observations</b></p>
+         <p>We can see that the morning energy spike is not prominent on the weekends. Also, Mondays tend to have more usage throughout
+            the day, and Saturdays have the lowest usage.
+         </p>
+         <h2>Energy Usage Predictions<a name="8"></a></h2>
+         <p>Forecast usage based on time of day and day of week.</p><pre class="codeinput"><span class="comment">% Defined at the beginning of the script</span>
+<span class="comment">% dayOfWeek = 'Monday';</span>
+<span class="comment">% timeOfDay = 15      ;   % 3PM</span>
+
+<span class="comment">% call a function for estimating energy usage</span>
+estimateSingleDay(energyData, DayType, dayOfWeek, timeOfDay);
+</pre><pre class="codeoutput">
+sysLoad =
+
+   50.0157
+
+
+sysLoadCI =
+
+   48.0822
+   51.9493
+
+</pre><img vspace="5" hspace="5" src="EnergyForecastAnalysis_05.png"> <h2>Correlation with Heating Degree Days<a name="9"></a></h2>
+         <p>We have a single piece of information per day regarding the temperature of each day (Heating Degree Days). Let's try to see
+            if this information can be used as an indicator for any of the statistics of the profile. We can determine this by examining
+            the correlation coefficients between HDD and the various statistical parameters.
+         </p><pre class="codeinput"><span class="comment">% calculate other statistics</span>
+
+medianH = median(energyData, 2    );
+minH    = min   (energyData, [], 2);
+maxH    = max   (energyData, [], 2);
+rangeH  = range (energyData, 2    );
+
+<span class="comment">% Calculate a matrix of correlation coefficients and a matrix of p-values.</span>
+<span class="comment">% We're only interested in the first row (or column) of the matrices, since</span>
+<span class="comment">% we want to see how "hdd" correlates to the other variables</span>
+[R,P] = corrcoef([HDD,meanH',medianH,minH,maxH,rangeH,stdevH']);
+
+<span class="comment">% Display on screen</span>
+fprintf(<span class="string">'      '</span>);fprintf(<span class="string">'%7s '</span>, <span class="string">'mean'</span>, <span class="string">'median'</span>, <span class="string">'min'</span>, <span class="string">'max'</span>, <span class="string">'range'</span>, <span class="string">'stdev'</span>);fprintf(<span class="string">'\n'</span>);
+fprintf(<span class="string">'corr: '</span>);fprintf(<span class="string">'%7.4f '</span>, R(2:end,1));fprintf(<span class="string">'\n'</span>);
+fprintf(<span class="string">'p-val:'</span>);fprintf(<span class="string">'%7.4f '</span>, P(2:end,1));fprintf(<span class="string">'\n'</span>);
+</pre><pre class="codeoutput">         mean  median     min     max   range   stdev 
+corr:  0.5720  0.4125  0.6350  0.7606  0.4835  0.3802 
+p-val: 0.0008  0.0211  0.0001  0.0000  0.0059  0.0349 
+</pre><p><b>Observations</b></p>
+         <p>Correlation of 1 means perfect positive correlation. The result seems to show that Heating Degree Days is a good indicator
+            of the <b>maximum system load</b> for that day. It has relatively <b>high correlation</b> and is <b>significant</b>.
+         </p>
+         <h2>Conclusion<a name="11"></a></h2>
+         <p>We explored historical energy usage data to develop a forecasting system. Statistics and visualizations revealed that there
+            are usage trends throughout the day, and the trends seem to depend on the day of the week. This knowledge can be used for
+            a gross forecast of the energy usage. We also found that there are some correlations between the Heating Degree Days (HDD)
+            and certain statistical parameters of the profile. We may use this information to fine tune our forecast.
+         </p>
+         <p>Further analysis may provide more insights to developing this forecasting system.</p>
+         <p class="footer"><br>
+            Published with MATLAB&reg; 7.4<br></p>
+      </div>
+      <!--
+##### SOURCE BEGIN #####
+%% Energy Forecasting
+% This demo showcases visualization and analysis (heavy statistics) for
+% forecasting energy usage based on historical data. We have access to
+% hour-by-hour utility usage for the month of January, including
+% information on the day of the week and the Heating Degree Days (defined
+% as 65 minus Average Temperature) of each day. Using this information, we
+% will come up with an algorithm for forecasting future energy usage based
+% on parameters such as day-type, forecasted temperature, and time of day.
+
+%% Load Data
+% Load data from excel worksheet
+
+close all;
+
+fileName   = 'January.xls';
+energyData = xlsread(fileName, 'Liability', 'B2:Y32');
+DayType    = xlsread(fileName, 'Weather'  , 'B2:B32');
+HDD        = xlsread(fileName, 'Weather'  , 'C2:C32'); %Heating Degree Days
+Temp       = xlsread(fileName, 'Weather'  , 'D2:D32');
+
+numDays    = size(energyData,1);
+numHours   = size(energyData,2);
+
+allDays   = {'Monday', 'Tuesday', 'Wednesday', 'Thursday', ...
+  'Friday', 'Saturday', 'Sunday'};
+
+% Forecast for
+dayOfWeek = 'Monday';
+timeOfDay = 15      ;   % 3PM
+
+%% Visualization
+% Quick visualization of data (in 3D and contour)
+
+myCreateFigure(energyData);
+
+%% Statistics - Examine Distribution
+% In order to do some statistics, I am going to determine the distribution
+% type of this data set.
+
+averageDayProfile = mean(energyData);
+res = energyData-repmat(averageDayProfile,numDays,1);
+myDistFit(res);
+
+%% Visualize Confidence Intervals
+% From the distribution analysis, I will conclude that the data set has a
+% normal distribution. With this information, we can perform more in-depth
+% statistics based on normal distribution.
+%
+% The following custom plotting routine takes |data| as an input, calculate
+% the estimated mean and 95% confidence interval of the mean, and plots the
+% the results.
+
+% Mean, Standard Deviation, and Confidence Intervals
+[meanD,stdevD,ciD] = normfit(energyData );    % across days
+[meanH,stdevH,ciH] = normfit(energyData');    % across hours
+plotCI(energyData,meanD,stdevD,ciD,meanH,stdevH,ciH);
+
+%%
+% *Observations*
+%
+% As you can see, the daily profile seems to have a very tight confidence
+% interval, suggesting that the general trend throughout the day is similar
+% from day to day.
+
+%% Average Day Effects
+% By looking at average profiles for each day of the week, we can make some
+% observations on daily trends.
+
+for id = 1:7  % Monday thru Sunday
+  dat(id,:) = mean(energyData(DayType==id,:),1); %#ok
+end
+figure;
+plot(dat');
+xlabel('hours');
+ylabel('system load (MW)');
+legend(allDays{:}, 'Location', 'Best');
+
+%%
+% *Observations*
+%
+% We can see that the morning energy spike is not prominent on the
+% weekends. Also, Mondays tend to have more usage throughout the day, and
+% Saturdays have the lowest usage.
+
+%% Energy Usage Predictions
+% Forecast usage based on time of day and day of week. 
+
+% Defined at the beginning of the script
+% dayOfWeek = 'Monday';
+% timeOfDay = 15      ;   % 3PM
+
+% call a function for estimating energy usage
+estimateSingleDay(energyData, DayType, dayOfWeek, timeOfDay);
+
+%% Correlation with Heating Degree Days
+% We have a single piece of information per day regarding the temperature
+% of each day (Heating Degree Days). Let's try to see if this information
+% can be used as an indicator for any of the statistics of the profile. We
+% can determine this by examining the correlation coefficients between HDD
+% and the various statistical parameters.
+
+% calculate other statistics
+
+medianH = median(energyData, 2    );
+minH    = min   (energyData, [], 2);
+maxH    = max   (energyData, [], 2);
+rangeH  = range (energyData, 2    );
+
+% Calculate a matrix of correlation coefficients and a matrix of p-values.
+% We're only interested in the first row (or column) of the matrices, since
+% we want to see how "hdd" correlates to the other variables
+[R,P] = corrcoef([HDD,meanH',medianH,minH,maxH,rangeH,stdevH']);
+
+% Display on screen
+fprintf('      ');fprintf('%7s ', 'mean', 'median', 'min', 'max', 'range', 'stdev');fprintf('\n');
+fprintf('corr: ');fprintf('%7.4f ', R(2:end,1));fprintf('\n');
+fprintf('p-val:');fprintf('%7.4f ', P(2:end,1));fprintf('\n');
+
+%%
+% *Observations*
+%
+% Correlation of 1 means perfect positive correlation. The result seems to
+% show that Heating Degree Days is a good indicator of the *maximum system
+% load* for that day. It has relatively *high correlation* and is
+% *significant*.
+
+%% Conclusion
+% We explored historical energy usage data to develop a forecasting system.
+% Statistics and visualizations revealed that there are usage trends
+% throughout the day, and the trends seem to depend on the day of the week.
+% This knowledge can be used for a gross forecast of the energy usage. We
+% also found that there are some correlations between the Heating Degree
+% Days (HDD) and certain statistical parameters of the profile. We may use
+% this information to fine tune our forecast.
+%
+% Further analysis may provide more insights to developing this forecasting
+% system.
+##### SOURCE END #####
+-->
+   </body>
+</html>

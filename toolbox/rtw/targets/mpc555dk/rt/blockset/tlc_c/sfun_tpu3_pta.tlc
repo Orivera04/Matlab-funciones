@@ -1,0 +1,134 @@
+%% File: sfun_tpu3_pta.tlc
+%%
+%% Abstract:
+%%   Implement device driver for Programmable Time Accumulator
+%%   using Time Processing
+%%   Unit, TPU3.
+%%
+%% Disclaimers / restrictions if any.
+%%
+%% $Revision: 1.3 $
+%% $Date: 2002/12/10 16:49:09 $
+%%
+%% Copyright 2002 The MathWorks, Inc.
+
+%implements sfun_tpu3_pta "C"
+%include "mpc555_common_includes.tlc"
+%include "tpu3_function_library.tlc"
+
+%% Function: BlockInstanceSetup ===============================================
+%% Abstract:
+%%   Pre-code generation work
+%%
+%function BlockInstanceSetup(block, system) void
+%endfunction
+
+%% Function: Start ==========================================================
+%% Abstract:
+%%      Sets up TPU channels for PTA 
+%%
+%function Start(block, system) Output 
+   %if !SLibCodeGenForSim()
+      %% only generate code for RT
+      /* %<Type> Block: %<Name> */
+      /* PTA setup for TPU3 module %<SFcnParamSettings.Module> */
+      %assign channel = SFcnParamSettings.Channel
+      %assign module = SFcnParamSettings.Module
+      %assign irqfcn = "TPU_%<module>_CH%<CAST("Number",channel)>_IRQ_handler"
+      %assign proto = "void %<irqfcn>(TPU_ISR_MODULE_PTR module, TPU_IRQ_SOURCE source)"
+      %assign channelPri = SFcnParamSettings.ChannelPriority  
+      
+      %openfile buffer
+
+         /* TPU Programmable Time Accumulator (PTA) Interrupt Handler */
+         %<proto> {
+            /* The accumulation is complete
+               Use a long word access to capture HW and LW coherently */
+            %if SFcnParamSettings.TimeAccum
+               /* read HW and LW coherently into the DWORK vector */
+               %<LibBlockDWork(timeAccumDWORK, "", "", 0)> = %<tpuGetParamUINT32(module, channel, "TPU_PTA_HW_LW_32_PARAM")>;
+            %endif
+            %<tpuSetParam(module, channel, "TPU_PTA_HW_PARAM", "0U", "Reset HW for next accumulation")>
+            %<tpuDisableChannelInterrupt(module, channel, "Disable interrupts - only require 1 capture per sample")>
+         }
+      %closefile buffer
+      %<LibRegFileCustomCode(buffer,"trailer")>
+      %<LibCacheFunctionPrototype("%<proto>;")>
+     
+      /* Initialise accumulated time in the DWORK vector to 0 */
+      %<LibBlockDWork(timeAccumDWORK, "", "", 0)> = 0U;
+      %<tpuSetModuleHandler(module, channel, irqfcn, "set a PTA interrupt handler for this channel")>
+      %<tpuFunctionSelect(module, channel, "TPU_FN_PTA", "Select PTA TPU Function")>
+      
+      %% determine the appropriate CHANNEL_CONTROL
+      %% and Host Sequence settings
+      %switch SFcnParamSettings.Mode
+         %case 1
+            %% High time 
+            %assign chanCtrl = "TPU_PTA_TCR1_HIGH_OR_LOW_TIME"   
+            %assign hsqr = "TPU_PTA_HSQR_HIGH_TIME"
+            %break
+         %case 2
+            %% Low time
+            %assign chanCtrl =  "TPU_PTA_TCR1_HIGH_OR_LOW_TIME"
+            %assign hsqr = "TPU_PTA_HSQR_LOW_TIME"
+            %break
+         %case 3
+            %% Period Rising
+            %assign chanCtrl = "TPU_PTA_TCR1_PERIOD_RISING"
+            %assign hsqr = "TPU_PTA_HSQR_PERIOD_RISING"
+            %break
+         %case 4
+            %% Period Falling
+            %assign chanCtrl = "TPU_PTA_TCR1_PERIOD_FALLING"
+            %assign hsqr = "TPU_PTA_HSQR_PERIOD_FALLING"
+            %break
+         %default
+            %break
+      %endswitch
+      %<tpuSetParam(module, channel, "TPU_PTA_CHANNEL_CONTROL_PARAM", chanCtrl, "Set CHANNEL_CONTROL")>
+      %<tpuSetParam(module, channel, "TPU_PTA_Max_Period_COUNT_PARAM", SFcnParamSettings.MaxCount << 8, "Set MAX_COUNT and zero POSITION_COUNT")>
+      %<tpuSetParam(module, channel, "TPU_PTA_ACCUM_PARAM", "0U", "Zero ACCUM")>
+      %<tpuSetParam(module, channel, "TPU_PTA_HW_PARAM", "0U", "Zero HW")>
+      %<tpuSetParam(module, channel, "TPU_PTA_LW_PARAM", "0U", "Zero LW")>
+      %<tpuSetHSQR(module, channel, hsqr, "Set TPU Host Sequence Register")>
+      %<tpuSetHSRR(module, channel, "TPU_PTA_HSRR_INIT", "Set TPU Host Service Request Register")>
+      %<tpuSetChannelPriority(module, channel, channelPri, "Set Channel Priority Register to enable PTA")>
+      %<tpuWaitForClearHSRR(module, channel)>      
+   %endif
+%endfunction
+
+
+%% Function: Outputs ==========================================================
+%% Abstract:
+%%      Sets digital output
+%%
+%function Outputs(block, system) Output
+   %if !SLibCodeGenForSim()
+      %% only generate code for RT
+      /* %<Type> Block: %<Name> */
+      /* Programmable Time Accumulator (PTA)
+         for TPU3 module %<SFcnParamSettings.Module> */
+      %assign module = SFcnParamSettings.Module
+      %assign channel = SFcnParamSettings.Channel
+      %% get reference to the Time Accum output signal (output 1)
+      %assign timeAccum = LibBlockOutputSignal(0, "", "", 0)
+      %% get reference to the PERIOD_COUNT output signal (output 2)
+      %assign periodCount = LibBlockOutputSignal(1, "", "", 0)
+      
+      %if SFcnParamSettings.TimeAccum
+         /* disable interrupts while copying the accumulated time from
+            the DWORK vector */
+         EID();
+         %<timeAccum> = %<LibBlockDWork(timeAccumDWORK, "", "", 0)>;
+         /* enable interrupts */
+         EIE();
+      %endif 
+      
+      %if SFcnParamSettings.PeriodCount
+         /* read PERIOD_COUNT */
+         %<periodCount> =  (uint8_T) %<tpuGetParam(module, channel, "TPU_PTA_Max_Period_COUNT_PARAM")>;
+      %endif
+      %<tpuEnableChannelInterrupt(module, channel, "Enable interrupts to make 1 capture per sample")>
+   %endif
+%endfunction

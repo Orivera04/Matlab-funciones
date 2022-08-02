@@ -1,0 +1,21 @@
+function isinter = interior2a(A,B,C,t,u)
+%Programa para determinar si un pto. es interior a un triángulo.
+
+n=numel(t);
+for j=1:n-3
+   S=[t(j+3),u(j+3)];
+   T=posicion2(A,B,S)==2 & posicion2(B,C,S)==2 & posicion2(Q,P,S)==2;
+   V=posicion2(P,Q,S)==1 & posicion2(Q,R,S)==1 & posicion2(R,P,S)==1;
+if T|V
+    PI(j)=1
+    else 
+    PI(j)=0
+end
+end 
+   if any(PI)==1
+       isinter=1
+   else
+       isinter=0
+   end
+   PI
+end

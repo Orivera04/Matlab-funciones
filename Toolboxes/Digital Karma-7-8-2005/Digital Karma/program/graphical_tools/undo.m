@@ -1,0 +1,10 @@
+if exist('a');
+    if isempty(undovalue{1,currentwindow})==0;
+        save_redo;
+        undomatrix=undovalue{1,currentwindow};
+        a=undomatrix{end,1};
+        totaliterationscompleted=undomatrix{end,2};
+        undomatrix=undomatrix(1:end-1,:);
+        undovalue{1,currentwindow}=undomatrix;
+    end;
+end;

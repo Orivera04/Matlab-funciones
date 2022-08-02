@@ -1,0 +1,59 @@
+%Método de completación de cuadrados para hallar la ecuación canónica 
+% de una cónica o cónica degenerada
+
+%Introducción de los coeficientes de la ecuación
+%general:Ax^2+Cy^2+Dx+Ey+F=0
+
+A=input('Dar el coeficiente A: ');
+C=input('Dar el coeficiente C: ');
+D=input('Dar el coeficiente D: ');
+E=input('Dar el coeficiente E: ');
+F=input('Dar el coeficiente F: ');
+if A==0 & C==0
+    disp('La ecuación representa una recta o el conjunto vacío')
+elseif A*C==0 & A==0
+    c2y=E/(2*C);
+    c3y=c2y^2;
+    h=c2y
+    k=(F-c3y)/D
+    p=-D
+    disp('La cónica es una parábola con ecuación canónica: ');
+    fprintf('(y %+4.2f)^2 = %+4.2(x %+4.2f)\n',h,p,k);
+elseif A*C==0 & C==0
+    c2x=E/(2*A);
+    c3x=c2x^2;
+    h=c2x
+    k=(F-c3x)/E
+    p=-E 
+     disp('La cónica es una parábola con ecuación canónica: ');
+    fprintf('(x %+4.2f)^2 = %+4.2(y %+4.2f)\n',h,p,k);
+elseif A*C > 0  
+%Hallae los 2os. coeficentes del trinomio en x y del trinomo en y
+c2x=D/(2*A);
+c2y=E/(2*C);
+h=c2x
+k= c2y
+disp('La cónica es una elipse con ecuación canónica: ');
+fprintf('(x %4.2f)^2/C + (y %+4.2)^2/A = 1\n',h,k)
+elseif A*C < 0 & A>0
+ %Hallae los 2os. coeficentes del trinomio en x y del trinomo en y
+c2x=D/(2*A);
+c2y=E/(2*C);
+h=c2x
+k= c2y
+fprintf('La cónica es una hipérbola con ecuación canónica: ')
+fprintf('(x %+4.2f)^2/C - (y-%+4.2f)^2 = 1\n',h,k)
+elseif A*C < 0 & A<0
+ %Hallae los 2os. coeficentes del trinomio en x y del trinomo en y
+c2x=D/(2*A);
+c2y=E/(2*C);
+h=c2x
+k= c2y
+fprintf('La cónica es una hipérbola con ecuación canónica: ')
+fprintf('(x %+4.2f)^2/C - (y-%+4.2f)^2 = 1\n',h,k)
+end
+
+
+
+
+

@@ -1,0 +1,6 @@
+q = poly([1, 2, 1.1])
+roots(q)
+[r p] = residue(1, q)
+q = poly([2, 1, 1.0001])
+roots(q)
+[r p] = residue(1, q)

@@ -1,0 +1,1 @@
+title('{\it ax+by+c=0}')

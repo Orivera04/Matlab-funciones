@@ -1,0 +1,9 @@
+DeltaT=85-15;% C
+Length=1.3;% meters
+Alpha=matprop('aluminum','thermal expansion','SI');% 1/C
+E=matprop('aluminum','E','SI')*1e9;% Pascals
+Strain=Alpha*DeltaT;% unitless
+DeltaL=Length*(1+Strain);% meters
+Area=obeam(0.05, 0.03, 'area');% meters^2
+Force=DeltaL*E*Area/Length %Newtons
+Stress=Force/Area

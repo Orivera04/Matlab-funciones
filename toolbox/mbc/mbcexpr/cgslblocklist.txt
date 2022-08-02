@@ -1,0 +1,45 @@
+%CGSLBLOCKLIST.TXT - List of supported blocks
+%
+%  Each line of this file describes one supported block
+%  Each line must be unique and be of the following structure
+%   libraryname|blockname|blocktype|masktype|tagtype|expressionName|parsefunc
+%  expressionName and parsefunc must exist
+%  Use the same format and filename in another location to extend support
+%  If a blockname contains new line characters, in this file replace them
+%  with '\n'.
+
+%  Copyright 2000-2004 The MathWorks, Inc. and Ford Global Technologies, Inc.
+
+%  $Revision: 1.3.6.2 $    $Date: 2004/02/09 07:17:44 $ 
+
+cgeqlib|Variable|Inport|||cgvalue|cgparseinport
+cgeqlib|Constant|Constant|||cgconstant|cgparseconstant
+cgeqlib|From|From||||cgparsegoto
+cgeqlib|Gain|Gain|||cgdivexpr|cgparsegain
+cgeqlib|Goto|Goto||||cgparsegoto
+cgeqlib|IfExpr|SubSystem||ifexpr|cgifexpr|cgparseifexpr
+cgeqlib|MinMax|MinMax|||cgminmaxexpr|cgparseminmax
+cgeqlib|Product|Product|||cgdivexpr|cgparseproduct
+cgeqlib|RelationalOperator|RelationalOperator|||cgrelexpr|cgparserel
+cgeqlib|Sum|Sum|||cgsubexpr|cgparsesum
+cgeqlib|Table|Lookup2D|||cglookuptwo|cgparselookuptwo
+cgeqlib|Function|SubSystem|Lookup Table (1-D)||cgnormfunction|cgparsefunction
+cgeqlib|Extrapolating Table|SubSystem|Lookup Table (2-D)|lookuptwo|cglookuptwo|cgparselookuptwo
+cgeqlib|Extrapolating Function|Lookup||lookupone|cgnormfunction|cgparsefunction
+cgeqlib|Saturation|Saturate|||cgclipexpr|cgparsesaturation
+built-in|Merge|Merge|||cgmswitchexpr|cgparsemerge
+built-in|Switch|Switch|||cgifexpr|cgparseswitch
+built-in|MultiportSwitch|MultiPortSwitch|||cgmswitchexpr|cgparsemswitch
+built-in|Fcn|Fcn|||cgfuncexpr|cgparsefunc
+built-in|Mux|Mux||||cgparsemux
+built-in|Demux|Demux||||cgparsemux
+built-in|Bus Creator|BusCreator||||cgparsemux
+built-in|Bus Selector|BusSelector||||cgparsemux
+built-in|Selector|Selector||||cgparsemux
+built-in|Data Store Read|DataStoreRead||||cgparsedatastore
+built-in|Data Store Write|DataStoreWrite||||cgparsedatastore
+built-in|Chart||Stateflow||cgvalue|cgparsesf
+simulink/Look-Up\nTables|Interpolation (n-D)\nusing PreLook-Up|S-Function|LookupNDInterpIdx||cglookuptwo|cgparselookupnd
+simulink/Look-Up\nTables|Look-Up\nTable (n-D)|S-Function|LookupNDInterp||cglookuptwo|cgparselookupnd
+simulink/Look-Up\nTables|Look-Up\nTable|Lookup|||cgnormfunction|cgparsefunction
+simulink/Look-Up\nTables|PreLook-Up\nIndex Search|S-Function|LookupIdxSearch||cgnormfunction|cgparsefunction

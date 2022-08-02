@@ -1,0 +1,315 @@
+%% File: tpu3_function_library.tlc
+%%
+%% Abstract:
+%%
+%% Common functions for MPC555 TPU3 Configuration - using these functions simplifies writing new
+%% TPU Device Drivers - using the common functions makes sure that the TPU memory is accessed
+%% correctly - ie. avoids bit field writes, and allows register selection code
+%% (eg. 3 - (channel/4)) etc to be reused.
+%%
+%% $Revision: 1.2.4.2 $
+%% $Date: 2004/04/19 01:30:35 $
+%%
+%% Copyright 2002-2003 The MathWorks, Inc.
+
+%% Returns the code that sets up the Channel Function Select
+%% Register for a particular function and channel
+%% Note: the appropriate bits are inserted and a 16 bit register 
+%% write is used.
+%function tpuFunctionSelect(module, channel, function, comment)
+   %assign tpu_x = "TPU_" + CAST("String", module)
+   %assign channel = %<CAST("Number", channel)>
+   %assign regNum = %<CAST("Number", 3-(channel/4))>
+   %openfile buffer 
+   %if !LibIsEqual(comment, "") 
+      /* %<comment> */
+   %endif
+   %% calculate the right adjusted shift amount
+   %assign shift = 4U * (channel % 4)
+   %% Register access
+   %<tpu_x>.CFSR%<regNum>.R = INSERT_RA(%<function>, %<tpu_x>.CFSR%<regNum>.R, 4, %<shift>);
+   %closefile buffer
+   %return buffer
+%endfunction
+
+%% Returns the code that sets the specified TPU parameter
+%% Note: This is a 16 bit write
+%function tpuSetParam(module, channel, param, value, comment)
+   %assign tpu_x = "TPU_" + CAST("String", module)
+   %assign channel = %<CAST("Number", channel)>
+   %openfile buffer
+   %if !LibIsEqual(comment, "") 
+      /* %<comment> */
+   %endif
+   %% 16 bit parameter access
+   %<tpu_x>.PARM.R[%<channel>][%<param>] = %<value>;
+   %closefile buffer
+   %return buffer
+%endfunction
+
+%% Returns the code that sets the specified TPU parameter
+%% Note: This is a 32 bit write
+%function tpuSetParamUINT32(module, channel, param, value, comment)
+   %assign tpu_x = "TPU_" + CAST("String", module)
+   %assign channel = %<CAST("Number", channel)>
+   %openfile buffer
+   %if !LibIsEqual(comment, "") 
+      /* %<comment> */
+   %endif
+   %% 32 bit parameter access
+   %<tpu_x>.PARM.L[%<channel>][%<param>] = %<value>;
+   %closefile buffer
+   %return buffer
+%endfunction
+
+%% Returns the code that gets the specified TPU parameter
+%% Note: This is a 16 bit read
+%function tpuGetParam(module, channel, param)
+   %assign tpu_x = "TPU_" + CAST("String", module)
+   %assign channel = %<CAST("Number", channel)>
+   %% 16 bit parameter access
+   %assign buffer = "%<tpu_x>.PARM.R[%<channel>][%<param>]" 
+   %return buffer
+%endfunction
+
+%% Returns the code that gets the specified TPU paramater
+%% Note: This is a 32 bit read
+%function tpuGetParamUINT32(module, channel, param)
+   %assign tpu_x = "TPU_" + CAST("String", module)
+   %assign channel = %<CAST("Number", channel)>
+   %% 32 bit parameter access
+   %assign buffer = "%<tpu_x>.PARM.L[%<channel>][%<param>]"
+   %return buffer   
+%endfunction
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  PARAMETER ALIASING
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Function : tpuParameterAliasCheck ===========================================
+%%
+%% Generate Code to check that the Parameter Alias has been defined
+%function tpuParameterAliasCheck(block, name) Output
+#ifndef %<tpuChannelAliasLabel(name)>
+#error TPU parameter alias "%<name>" has been used in %<block.Name> but it has not been defined. Please check your diagram. Execute hilite_system('%<block.Name>') at the matlab prompt.
+#endif
+%endfunction
+
+%% Function : tpuParameterAliasAddress =========================================
+%%
+%% Generate an address from the TPU parameter alias
+%function tpuParameter16AliasAddress(name) void
+    %return "( 16 * %<tpuChannelAliasLabel(name)> ) + 2 * %<tpu16BitParameterAliasLabel(name)>"
+%endfunction
+
+%% Function : tpuChannelAliasLabel =============================================
+%%
+%% Generate a name to alias a channel by
+%function tpuChannelAliasLabel(name) void
+    %return "tpu_alias_%<name>_channel"
+%endfunction
+
+%% Function : tpu16BitParameterAliasLabel ======================================
+%%
+%% Generates a name to alias a 16 bit channel parameter by
+%function tpu16BitParameterAliasLabel(name) void
+    %return "tpu_alias_%<name>_parameter"
+%endfunction
+
+%% Generate a 16 bit parameter alias
+%function tpuGenerateParameterAliasDefines(name, channel, parameter) void
+        %openfile buffer
+            #ifdef %<tpuChannelAliasLabel(name)>
+            #error Channel Parameter Alias "%<name>" is defined in more than one block. Please check your diagram
+            #endif
+            #define %<tpuChannelAliasLabel(name)> %<channel>
+            #define %<tpu16BitParameterAliasLabel(name)> %<parameter>
+        %closefile buffer
+        %<LibCacheDefine(buffer)>
+%endfunction
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% NOTE: The HSRR is assumed clear out of RESET
+%% 
+%% Returns the code that sets the Host Service Request Bits
+%% Note: The HSRR is a special case - it is a self clearing register
+%% This means we must write 0's to all parts (channels) of the
+%% register that we do not want to have an effect on.   For this, 
+%% reason, we do not use the INSERT_RA macro - we simply shift the value
+%% to the appropriate position and write the register.
+%% 
+%function tpuSetHSRR(module, channel, value, comment)
+   %assign tpu_x = "TPU_" + CAST("String", module)
+   %assign channel = %<CAST("Number", channel)>
+   %assign regNum = %<CAST("Number", 1-(channel)/8)>
+   %openfile buffer
+   %if !LibIsEqual(comment, "") 
+      /* %<comment> */
+   %endif
+   %% calculate the right adjusted shift amount
+   %assign shift = 2U * (channel % 8)
+   %% register access
+   /* 
+    * HSRR is assumed clear out of RESET.
+    * Write to the HSRR bits, writing zero to parts of the 
+    * register we want to have no effect on - HSRR is self 
+    * clearing */
+   %<tpu_x>.HSRR%<regNum>.R = (%<value>) << %<shift>; 
+   %closefile buffer
+   %return buffer
+%endfunction
+
+%% NOTE: The HSRR is not written to if it is not already clear. 
+%% During execution the HSRR will only remain set in exceptional 
+%% circumstances (high loading on the TPU perhaps). This means 
+%% that it is possible to achieve unexpected results, and this 
+%% function should be used with care.  For example, currently the
+%% only use is for the Digital Output block which always updates 
+%% the HSRR bits on each model step.  Therefore, if for some
+%% reason the bits were not clear on a particular model step,
+%% the write to the bits would be tried again on the next step,
+%% making this safe - the observed behaviour would be a lag in
+%% value on the digital output, in relation to the block input.
+%%
+%% Returns the code that sets the Host Service Request Bits
+%% Note: The HSRR is a special case - it is a self clearing register
+%% This means we must write 0's to all parts (channels) of the
+%% register that we do not want to have an effect on.   For this, 
+%% reason, we do not use the INSERT_RA macro - we simply shift the value
+%% to the appropriate position and write the register.
+%%
+%function tpuSetHSRRMdlOutputs(module, channel, value, comment)
+%assign tpu_x = "TPU_" + CAST("String", module)
+   %assign channel = %<CAST("Number", channel)>
+   %assign regNum = %<CAST("Number", 1-(channel)/8)>
+   %openfile buffer
+   %if !LibIsEqual(comment, "") 
+      /* %<comment> */
+   %endif
+   %% calculate the right adjusted shift amount
+   %assign shift = 2U * (channel % 8)
+   %% register access
+   /* 
+    * Check that the HSRR is clear before we attempt to write
+    * to it. If it is not clear, perhaps owing to significant TPU load, 
+    * then do not make a new request.   Otherwise, write to the HSRR 
+    * bits, writing zero to parts of the 
+    * register we want to have no effect on - HSRR is self 
+    * clearing */
+   if (%<tpu_x>.HSRR%<regNum>.B.CH%<channel>==0) {
+      %<tpu_x>.HSRR%<regNum>.R = (%<value>) << %<shift>; 
+   }
+   %closefile buffer
+   %return buffer
+%endfunction
+
+%% Returns the code that sets the Host Sequence Bits
+%% Note: the appropriate bits are inserted and a 16 bit register 
+%% write is used.
+%function tpuSetHSQR(module, channel, value, comment)
+   %assign tpu_x = "TPU_" + CAST("String", module)
+   %assign channel = %<CAST("Number", channel)>
+   %assign regNum = %<CAST("Number", 1-(channel)/8)>   
+   %openfile buffer
+   %if !LibIsEqual(comment, "") 
+      /* %<comment> */
+   %endif
+   %% calculate the right adjusted shift amount
+   %assign shift = 2U * (channel % 8)
+   %% register access
+   %<tpu_x>.HSQR%<regNum>.R = INSERT_RA(%<value>, %<tpu_x>.HSQR%<regNum>.R, 2, %<shift>);
+   %closefile buffer
+   %return buffer
+%endfunction
+
+%% Returns the code that sets the Channel Priority
+%% Note: the appropriate bits are inserted and a 16 bit register 
+%% write is used.
+%function tpuSetChannelPriority(module, channel, priority, comment)
+   %assign tpu_x = "TPU_" + CAST("String", module)
+   %assign channel = %<CAST("Number", channel)>
+   %assign regNum = %<CAST("Number", 1-(channel)/8)>
+   %openfile buffer
+   %if !LibIsEqual(comment, "") 
+      /* %<comment> */
+   %endif
+   %% calculate the right adjusted shift amount
+   %assign shift = 2U * (channel % 8)
+   %% register access
+   %<tpu_x>.CPR%<regNum>.R = INSERT_RA(%<priority>, %<tpu_x>.CPR%<regNum>.R, 2, %<shift>); 
+   %closefile buffer
+   %return buffer
+%endfunction
+
+%% Returns the code that waits for the Host Service 
+%% Request Bits to clear
+%function tpuWaitForClearHSRR(module, channel)
+   %assign tpu_x = "TPU_" + CAST("String", module)
+   %assign channel = %<CAST("Number", channel)>
+   %assign regNum = %<CAST("Number", 1-(channel)/8)>
+   %openfile buffer
+   /* wait until TPU clears the service request to 00 */ 
+   %% note: using bit field access to READ the HSRR only
+   while (%<tpu_x>.HSRR%<regNum>.B.CH%<channel> != 0) {
+      /* Note that this while loop appears in initialisation code only,
+       * and not during the model outputs phase.  It is therefore
+       * not expected to halt execution unless there is a
+       * hardware failure */
+   }   
+   %closefile buffer
+   %return buffer
+%endfunction
+
+%% Returns the code that disables interrupts on the specified TPU
+%% Channel
+%function tpuDisableChannelInterrupt(module, channel, comment)
+   %assign tpu_x = "TPU_" + CAST("String", module)
+   %assign channel = %<CAST("Number", channel)>
+   %openfile buffer
+   %if !LibIsEqual(comment, "") 
+      /* %<comment> 
+   %else
+      %% Open the comments but do not insert a new line
+      /* \ 
+   %endif
+      Clear the bit in the Channel Interrupt Enable Register */
+   BITCLR(%<tpu_x>.CIER.R, %<channel>);
+   %closefile buffer
+   %return buffer
+%endfunction
+
+%% Returns the code that enables interrupts on the specified TPU
+%% Channel
+%function tpuEnableChannelInterrupt(module, channel, comment)
+   %assign tpu_x = "TPU_" + CAST("String", module)
+   %assign channel = %<CAST("Number", channel)>
+   %openfile buffer
+   %if !LibIsEqual(comment, "") 
+      /* %<comment> 
+   %else
+      %% Open the comments but do not insert a new line
+      /* \ 
+   %endif
+      Set the bit in the Channel Interrupt Enable Register */
+   BITSET(%<tpu_x>.CIER.R, %<channel>);
+   %closefile buffer
+   %return buffer
+%endfunction
+
+%% Returns the code that registers an interrupts handler for a
+%% given TPU Channel
+%function tpuSetModuleHandler(module, channel, function, comment)
+   %assign tpu_x = "TPU_" + CAST("String", module)
+   %assign channel = %<CAST("Number", channel)>
+   %openfile buffer
+   %if !LibIsEqual(comment, "") 
+      /* %<comment> */
+   %endif
+   setTPUModuleHandler(&GlobalTPUInterruptModule%<tpu_x>, (TPU_IRQ_SOURCE)%<channel>, %<function>);
+   %closefile buffer
+   %return buffer
+%endfunction
+

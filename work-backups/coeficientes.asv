@@ -1,0 +1,19 @@
+%Coeficientes de una ecuación
+%Determinar los coeficientes de cada variable en la ecuación Ax+By+C=0
+
+%Introducir la ecuación general de una recta
+disp('Escriba la ecuación como cadena,sin dejar espacios en blanco');
+ec=input('Ecuación : ');
+
+%Hallar coeficientes
+tam=numel(ec);
+
+A=find(ec=='x')-1;
+B=find(ec=='y')-1;
+C=horzcat(ec(tam-3),ec(tam-2));
+c1=str2num(ec(A));
+c2=str2num(ec(B));
+c3=str2num(C);
+fprintf('coeficiente de x: %d\n',c1);
+fprintf('coeficiente de y: %d\n',c2);
+fprintf('término independiente: %d\n',c3);

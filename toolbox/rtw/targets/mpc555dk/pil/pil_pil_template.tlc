@@ -1,0 +1,38 @@
+%% File: pil_pil_template.tlc
+%%
+%% $Revision: 1.10.4.2 $
+%% $Date: 2004/04/19 01:28:14 $
+%%
+%% Copyright 2001-2003 The MathWorks, Inc.
+%%
+%% Abstract: Embedded real-time system target file for Processor in 
+%% the Loop Simulation generation communications interface.
+%%
+
+%with CompiledModel
+/*
+ * %<ModelName>_pil.c -- file generated from pil_pil_template.tlc
+ *
+%<SLibCommonHeaderInfo()>\
+ *
+ */
+
+#include "%<ModelName>.h"
+
+#define %<ModelName>_initialize %<ModelName>_initialize_pil
+#define %<ModelName>_step %<ModelName>_step_pil
+#define %<ModelName>_terminate %<ModelName>_terminate_pil
+
+#ifndef %<ModelName>_rtO
+#define %<ModelName>_rtO %<ModelName>_rtO_pil
+#else
+#define %<ModelName>_O %<ModelName>_rtO_pil
+#endif
+#define %<tInput> %<ModelName>_U_pil
+#define %<tOutput> %<ModelName>_Y_pil
+#define %<tDWork> %<ModelName>_DWork_pil
+
+#include "%<ModelName>.c"
+
+%endwith
+/* [EOF] %<ModelName>.c */

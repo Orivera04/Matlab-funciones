@@ -1,0 +1,1 @@
+disp(text(0.2,0.5,'{\itAe}^{-\alpha\itt}sin\beta{\itt} \alpha<<\beta'))

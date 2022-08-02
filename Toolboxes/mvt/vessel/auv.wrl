@@ -1,0 +1,205 @@
+#VRML V2.0 utf8
+
+#Created with V-Realm Builder v2.0
+#Integrated Data Systems Inc.
+#www.ids-net.com
+
+
+DEF Coordinates Group {
+	children [ 
+	    DEF Origo Transform {
+		    children Shape {
+			    appearance	Appearance {
+				    material	Material {
+				    }
+
+			    }
+
+			    geometry	Sphere {
+				    radius	0.5
+			    }
+
+		    }
+	    }
+
+	    DEF y Transform {
+		    translation	0 2 0
+		    children [ 
+			Shape {
+				appearance	Appearance {
+					material	Material {
+						diffuseColor	0 1 0
+					}
+
+				}
+
+				geometry	Cylinder {
+					height	4
+					radius	0.5
+				}
+
+			}
+
+			DEF Arrow Transform {
+				translation	0 2 0
+				children Shape {
+					appearance	Appearance {
+						material	Material {
+							ambientIntensity	0.2
+							diffuseColor	0 1 0
+						}
+
+					}
+
+					geometry	Cone {
+					}
+
+				}
+			}
+		    ]
+	    }
+
+	    DEF x Transform {
+		    translation	2 0 0
+		    rotation	0 0 -1  1.5708
+		    children [ 
+			Shape {
+				appearance	Appearance {
+					material	Material {
+						diffuseColor	1 0 0
+					}
+
+				}
+
+				geometry	Cylinder {
+					height	4
+					radius	0.5
+				}
+
+			}
+
+			DEF Arrow Transform {
+				translation	0 2 0
+				children Shape {
+					appearance	Appearance {
+						material	Material {
+							ambientIntensity	0.2
+							diffuseColor	1 0 0
+						}
+
+					}
+
+					geometry	Cone {
+					}
+
+				}
+			}
+		    ]
+	    }
+
+	    DEF z Transform {
+		    translation	0 0 2
+		    rotation	1 0 0  1.5708
+		    children [ 
+			Shape {
+				appearance	Appearance {
+					material	Material {
+						diffuseColor	0 0 1
+					}
+
+				}
+
+				geometry	Cylinder {
+					height	4
+					radius	0.5
+				}
+
+			}
+
+			DEF Arrow Transform {
+				translation	0 2 0
+				children Shape {
+					appearance	Appearance {
+						material	Material {
+							ambientIntensity	0.2
+							diffuseColor	0 0 1
+						}
+
+					}
+
+					geometry	Cone {
+					}
+
+				}
+			}
+		    ]
+	    }
+	]
+}
+DEF view Transform {
+	rotation	1 0 0  1.5708
+	children [ 
+	    DEF auv_01 Viewpoint {
+		    fieldOfView	0.783
+		    orientation	0.506124 0.21691 -0.834739  2.882
+		    position	-56.73 -36.17 30.94
+		    description	"auv_01"
+	    }
+
+	    DEF auv_02 Viewpoint {
+		    fieldOfView	0.784
+		    orientation	-0.947168 -0.0544082 0.316089  3.5
+		    position	-3.123 -3.774 -5.999
+		    description	"auv_02"
+	    }
+
+	    DEF auv_03 Viewpoint {
+		    fieldOfView	0.784
+		    orientation	-0.404995 0.100399 -0.90879  3.238
+		    position	26.26 -8.242 10.3
+		    description	"auv_03"
+	    }
+
+	    DEF auv_04 Viewpoint {
+		    fieldOfView	0.784
+		    orientation	0.781398 -0.0979497 0.616298  2.89
+		    position	30.31 -10.97 -7.767
+		    description	"auv_04"
+	    }
+
+	    DEF auv_06 Viewpoint {
+		    fieldOfView	0.783
+		    orientation	0.630469 0.472976 -0.615469  2.285
+		    position	-4.832 -37.74 -1.24
+		    description	"auv_06"
+	    }
+
+	    DEF auv_05 Viewpoint {
+		    fieldOfView	0.783
+		    orientation	-0.997933 -0.00463815 0.0640921  3.142
+		    position	1.26 -1.093 -27.46
+		    description	"auv_05"
+	    }
+
+	    DEF auv_07 Viewpoint {
+		    fieldOfView	0.5523
+		    orientation	-0.154398 0.336095 -0.929086  3.28
+		    position	43.35 -77.36 65.45
+		    description	"auv_08"
+	    }
+	]
+}
+DEF vessel_trans Transform {
+	children DEF vessel_switch Switch {
+		whichChoice	0
+		choice [ 
+		    DEF vessel Inline {
+			    url	"auv.inline"
+		    }
+
+		    DEF axis Inline {
+			    url	"mediumaxis.inline"
+		    }
+		]
+	}
+}

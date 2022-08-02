@@ -1,0 +1,249 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>OPCDEMO_OBJECTS.M</title>
+      <meta name="generator" content="MATLAB 7.0.0.1547 (R14) Prerelease">
+      <meta name="date" content="2004-03-18">
+      <meta name="m-file" content="opcdemo_objects">
+      <meta name="title" content="OPCDEMO_OBJECTS.M">
+      <meta name="description" content="The OPC Toolbox uses three objects arranged in a strict hierarchy. This example shows you how to create and configure these three OPC Toolbox objects, and how to configure OPC TOolbox object properties."><style>
+body {
+  background-color: white;
+}
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+pre.codeinput {
+  margin-left: 30px;
+}
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.showbuttons {
+  margin-left: 30px;
+  border: solid black 2px;
+  padding: 4px;
+  background: #EBEFF3;
+}
+
+pre.codeoutput {
+  color: gray;
+  font-style: italic;
+}
+pre.error {
+  color: red;
+}
+    </style></head>
+   <body>
+      <h1>OPCDEMO_OBJECTS.M</h1>
+      <p>The OPC Toolbox uses three objects arranged in a strict hierarchy. This example shows you how to create and configure these
+         three OPC Toolbox objects, and how to configure OPC TOolbox object properties.
+      </p>
+      <h2>Contents</h2>
+      <ul>
+         <li><a href="#1">Creating client objects.</a></li>
+         <li><a href="#2">Adding groups to the client</a></li>
+         <li><a href="#5">Adding item objects to the group</a></li>
+         <li><a href="#8">Creating object vectors</a></li>
+         <li><a href="#9">Viewing object properties: Using GET</a></li>
+         <li><a href="#13">Clean up</a></li>
+      </ul>
+      <h2>Creating client objects.<a name="1"></a></h2>
+      <p>You create a client using the OPCDA function. You need the host name and the server ID for the OPC Server associated with
+         this client.
+      </p><pre class="codeinput">da = opcda(<span class="string">'localhost'</span>, <span class="string">'Matrikon.OPC.Simulation.1'</span>);
+connect(da);
+</pre><h2>Adding groups to the client<a name="2"></a></h2>
+      <p>To add groups to the client you use the ADDGROUP function. The following code automatically assigns a name to the group.</p><pre class="codeinput">grp1 = addgroup(da);
+</pre><p>To assign your own name (which must be unique for all the groups in a client) you pass the name as an additional argument.</p><pre class="codeinput">grp2 = addgroup(da, <span class="string">'MyGroup'</span>);
+</pre><p>To view a summary of the group object, type the object name.</p><pre class="codeinput">grp1
+</pre><pre class="codeoutput">grp1 =
+Summary of OPC Data Access Group Object: Group0
+   Object Parameters
+      Group Type   : private
+      Item         : 0-by-1 daitem object
+      Parent       : localhost/Matrikon.OPC.Simulation.1
+      Update Rate  : 0.5
+      Deadband     : 0%
+   Object Status
+      Active       : on
+      Subscription : on
+      Logging      : off
+   Logging Parameters
+      Records      : 120
+      Duration     : at least 60 seconds
+      Logging to   : memory
+      Status       : Waiting for START.
+                     0 records available for GETDATA/PEEKDATA
+</pre><h2>Adding item objects to the group<a name="5"></a></h2>
+      <p>Item objects are added to a group using the ADDITEM function. You specify the group object to add the item to, and the Item
+         ID of the server item you want to monitor.
+      </p><pre class="codeinput">itm1 = additem(grp1, <span class="string">'Random.Real8'</span>);
+</pre><p>To specify a data type for the item (for storage of the value in MATLAB) you specify the data type as a string.</p><pre class="codeinput">itm2 = additem(grp1, <span class="string">'Random.UInt2'</span>, <span class="string">'double'</span>);
+</pre><p>To view a summary of the object, type the name of the object.</p><pre class="codeinput">itm1
+</pre><pre class="codeoutput">itm1 =
+Summary of OPC Data Access Item Object: Random.Real8
+   Object Parameters
+      Parent        : Group0
+      Access Rights : read
+   Object Status
+      Active        : on
+   Data Parameters
+      Data Type     : double
+      Value         : 
+      Quality       : 
+      Timestamp     : 
+</pre><h2>Creating object vectors<a name="8"></a></h2>
+      <p>You can use object vectors to store references to multiple OPC Toolbox objects. The following example constructs an object
+         vector from the items added to the group. A summary of the object vector shows information about each objects in the vector.
+      </p><pre class="codeinput">itmVec = [itm1, itm2]
+</pre><pre class="codeoutput">itmVec =
+   OPC Item Object Array:
+   Index:  DataType:  Active:  ItemID:
+   1       double     on       Random.Real8
+   2       double     on       Random.UInt2
+</pre><h2>Viewing object properties: Using GET<a name="9"></a></h2>
+      <p>To view a list of all properties supported by the object, use the GET function with no output arguments.</p><pre class="codeinput">get(da)
+</pre><pre class="codeoutput">
+  General Properties:
+    Group = [1x2 dagroup]
+    Name = localhost/Matrikon.OPC.Simulation.1
+    Tag = 
+    Type = opcda
+    UserData = []
+
+  Callback Function and Event Properties:
+    ErrorFcn = @opccallback
+    EventLog = []
+    EventLogMax = 1000
+    ShutdownFcn = @opccallback
+    TimerFcn = []
+    TimerPeriod = 10
+
+  Server Connection Properties:
+    Host = localhost
+    ServerID = Matrikon.OPC.Simulation.1
+    Status = connected
+    Timeout = 10
+
+</pre><p>To obtain a specific property, pass that property name to the GET function.</p><pre class="codeinput">clientName = get(da,<span class="string">'Name'</span>)
+</pre><pre class="codeoutput">clientName =
+localhost/Matrikon.OPC.Simulation.1
+</pre><p>You can get information about a property using the PROPINFO function. Information includes whether the property is read only,
+         and valid property values for properties that have a predefined set of values.
+      </p><pre class="codeinput">statusInfo = propinfo(da, <span class="string">'Status'</span>)
+</pre><pre class="codeoutput">statusInfo = 
+               Type: 'string'
+         Constraint: 'enum'
+    ConstraintValue: {'disconnected'  'connected'}
+       DefaultValue: 'disconnected'
+           ReadOnly: 'always'
+</pre><p>To set the value of a property, use the SET function.</p><pre class="codeinput">set(da, <span class="string">'Timeout'</span>, 30)
+</pre><h2>Clean up<a name="13"></a></h2>
+      <p>When you are finished using OPC Toolbox objects, you should delete them from the OPC Toolbox engine. Deleting the client object
+         deletes the group and item objects associated with that client.
+      </p><pre class="codeinput">disconnect(da)
+delete(da)
+clear <span class="string">da</span> <span class="string">grp1</span> <span class="string">grp2</span> <span class="string">itm1</span> <span class="string">itm2</span> <span class="string">itmVec</span>
+</pre><p class="footer"><br></p>
+      <!--
+##### SOURCE BEGIN #####
+%% OPCDEMO_OBJECTS.M
+% The OPC Toolbox uses three objects arranged in a strict hierarchy. This
+% example shows you how to create and configure these three OPC Toolbox
+% objects, and how to configure OPC TOolbox object properties.
+
+%% Creating client objects.
+% You create a client using the OPCDA function. You need the host name and
+% the server ID for the OPC Server associated with this client.
+da = opcda('localhost', 'Matrikon.OPC.Simulation.1');
+connect(da);
+
+%% Adding groups to the client
+% To add groups to the client you use the ADDGROUP function. The
+% following code automatically assigns a name to the group.
+grp1 = addgroup(da);
+
+%%
+% To assign your own name (which must be unique for all the groups in a
+% client) you pass the name as an additional argument.
+grp2 = addgroup(da, 'MyGroup');
+
+%% 
+% To view a summary of the group object, type the object name.
+grp1
+
+%% Adding item objects to the group
+% Item objects are added to a group using the ADDITEM function. You specify
+% the group object to add the item to, and the Item ID of the server item
+% you want to monitor.
+itm1 = additem(grp1, 'Random.Real8');
+
+%%
+% To specify a data type for the item (for storage of the value in MATLAB)
+% you specify the data type as a string.
+itm2 = additem(grp1, 'Random.UInt2', 'double');
+
+%% 
+% To view a summary of the object, type the name of the object.
+itm1
+
+%% Creating object vectors
+% You can use object vectors to store references to multiple OPC Toolbox
+% objects. The following example constructs an object vector from the items
+% added to the group. A summary of the object vector shows information
+% about each objects in the vector.
+itmVec = [itm1, itm2]
+
+%% Viewing object properties: Using GET
+% To view a list of all properties supported by the object, use the GET
+% function with no output arguments.
+get(da)
+
+%%
+% To obtain a specific property, pass that property name to the GET function.
+clientName = get(da,'Name')
+
+%% 
+% You can get information about a property using the PROPINFO function.
+% Information includes whether the property is read only, and valid
+% property values for properties that have a predefined set of values.
+statusInfo = propinfo(da, 'Status')
+
+%%
+% To set the value of a property, use the SET function.
+set(da, 'Timeout', 30)
+
+%% Clean up
+% When you are finished using OPC Toolbox objects, you should delete them
+% from the OPC Toolbox engine. Deleting the client object deletes the group
+% and item objects associated with that client.
+disconnect(da)
+delete(da)
+clear da grp1 grp2 itm1 itm2 itmVec
+##### SOURCE END #####
+-->
+   </body>
+</html>

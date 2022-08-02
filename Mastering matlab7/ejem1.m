@@ -1,0 +1,1 @@
+text(0.2,0.3,'\fontname{courier} \fontsize{16} \bf x_{\alpha} + y^{2\pi}')

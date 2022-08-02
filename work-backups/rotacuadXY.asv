@@ -1,0 +1,19 @@
+function ecua=rotacuadXY(R)
+%Rotación de una cuadrica en XY.
+A=R(1),B=R(2),C=R(3),D=R(4),E=R(5),F=R(6),G=R(7),H=R(8),M=R(9),N=R(10);
+syms x y z X Y Z real;
+%ecua=A*x^2+B*y^2+C*z^2+D*x*y+E*x*z+F*y*z+G*x+H*y+M*z+N;
+[alfa,beta,gamma]=angrotcuad(A,B,C,D,E,F);
+alfa
+if alfa==0
+    x=X;y=Y;z=Z;
+else    
+x=X*cos(alfa)-Y*sin(alfa);
+y=X*sin(alfa)+Y*cos(alfa);
+z=Z
+end
+R1=A*x^2+B*y^2+C*z^2+D*x*y+E*x*z+F*y*z+G*x+H*y+M*z+N;
+R2=simplify(R1);
+C=coefpol3(char(R2));
+%C(4)=0;
+ecua=C;

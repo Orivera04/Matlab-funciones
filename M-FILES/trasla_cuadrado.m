@@ -1,0 +1,21 @@
+%Traslación de cuadrado. Traslación en dirección del
+%vector [a,b]
+
+%Dibujo del cuadrado con vértice SO en [0,0].
+lado=input('Lado del cuadrado: ');
+%Coordenadas del los vértices
+x=[0,0,lado,lado,0];
+y=[0,lado,lado,0,0];
+plot(x,y,'r','LineWidth',2);
+hold on;
+%axis([0 lado+1 0 lado+1]);
+%Traslación del cuadrado:coordenadas de traslación:[a,b]
+a=input('1a. coordenada de traslación: ');
+b=input('2a. coordenada de trallación: ');
+xt=a+x;
+yt=b+y;
+plot(xt,yt,'m','LineWidth',2);
+axis([0,lado+a+1 0 lado+b+1]);
+
+
+

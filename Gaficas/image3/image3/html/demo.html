@@ -1,0 +1,210 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>demo</title>
+      <meta name="generator" content="MATLAB 7.6">
+      <meta name="date" content="2008-10-24">
+      <meta name="m-file" content="demo"><style>
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head>
+   <body>
+      <div class="content"><pre class="codeinput">figure;
+
+subplot(2,2,1);
+  load <span class="string">mri</span>;
+  T = [1 0 0 0;0 1 0 0;0 0 2.5 0];
+  h1 = slice3(squeeze(D),T,1,64);
+  h2 = slice3(squeeze(D),T,2,64);
+  h3 = slice3(squeeze(D),T,3,14);
+  set([h1,h2,h3],<span class="string">'EdgeColor'</span>,<span class="string">'black'</span>,<span class="string">'LineStyle'</span>,<span class="string">'-'</span>);
+  colormap <span class="string">gray(88)</span>;
+  view(30,30); axis <span class="string">equal</span>; axis <span class="string">vis3d</span>;
+  light;
+title(<span class="string">'three slices rendered by slice3'</span>);
+a = axis;
+
+subplot(2,2,2);
+load <span class="string">clown</span>;
+C = reshape(map(X,:),[200,320,3]);
+<span class="keyword">for</span> k = 1:5
+    alpha = rand*360;                                    <span class="comment">% rotation, in ccw degrees</span>
+    cx = rand*800; cy = rand*600; cz = 0;                      <span class="comment">% the center position</span>
+    R = [+cos(alpha/180*pi) -sin(alpha/180*pi);    <span class="comment">% new x coordinate</span>
+         +sin(alpha/180*pi) +cos(alpha/180*pi);    <span class="comment">% new y coordinate</span>
+          0 0]*(0.5+rand)/1.5;                                     <span class="comment">% z = 0.</span>
+    t = [cx;cy;cz] - R * [size(C,1)/2+0.5; size(C,2)/2+0.5]; <span class="comment">% fix center</span>
+    h = image3(C,[R t]); axis <span class="string">equal</span>
+<span class="keyword">end</span>
+title(<span class="string">'5 images displayed in 2-D by image3'</span>);
+
+
+subplot(2,2,3);
+load <span class="string">mri</span>; D=squeeze(D);
+be = [54,96,34,96,1,14];
+h = box3(D,[1 0 0 0;0 1 0 0;0 0 2.5 0],be);
+set(h,<span class="string">'EdgeColor'</span>,<span class="string">'black'</span>,<span class="string">'LineStyle'</span>,<span class="string">'-'</span>);
+colormap <span class="string">gray(88)</span>;
+view(30,30); axis <span class="string">equal</span>; axis <span class="string">vis3d</span>;
+axis(a);
+light;
+title(<span class="string">'a volume rendered by box3'</span>);
+
+<span class="comment">% Requires frey_faces.mat</span>
+<span class="comment">% Available at http://www.cs.toronto.edu/~roweis/data.html</span>
+
+
+subplot(2,2,4);
+<span class="keyword">try</span>
+    load <span class="string">frey_rawface</span>;
+<span class="keyword">catch</span>
+    error(<span class="string">'download frey_rawface from http://www.cs.toronto.edu/~roweis/data.html'</span>);
+    <span class="keyword">return</span>
+<span class="keyword">end</span>
+facelibrary = {};
+<span class="keyword">for</span> k = 1:length(ff)
+    f = reshape(ff(:,k),[20 28]);
+    facelibrary{k} = f;
+<span class="keyword">end</span>
+N = 1000;
+h = scatterim2(randn(N,1),randn(N,1),facelibrary,rand(N,1)*1+0.01);
+set(h,<span class="string">'CDataMapping'</span>,<span class="string">'scaled'</span>);
+colormap <span class="string">gray</span>
+axis <span class="string">ij</span>; axis <span class="string">equal</span>;
+title(<span class="string">'a scatterplot using scatterim2'</span>);
+</pre><img vspace="5" hspace="5" src="demo_01.png"> <p class="footer"><br>
+            Published with MATLAB&reg; 7.6<br></p>
+      </div>
+      <!--
+##### SOURCE BEGIN #####
+figure;
+
+subplot(2,2,1);
+  load mri;
+  T = [1 0 0 0;0 1 0 0;0 0 2.5 0];
+  h1 = slice3(squeeze(D),T,1,64);
+  h2 = slice3(squeeze(D),T,2,64);
+  h3 = slice3(squeeze(D),T,3,14);
+  set([h1,h2,h3],'EdgeColor','black','LineStyle','-');
+  colormap gray(88);
+  view(30,30); axis equal; axis vis3d;
+  light;
+title('three slices rendered by slice3');
+a = axis;
+
+subplot(2,2,2);
+load clown;
+C = reshape(map(X,:),[200,320,3]);
+for k = 1:5
+    alpha = rand*360;                                    % rotation, in ccw degrees
+    cx = rand*800; cy = rand*600; cz = 0;                      % the center position
+    R = [+cos(alpha/180*pi) -sin(alpha/180*pi);    % new x coordinate
+         +sin(alpha/180*pi) +cos(alpha/180*pi);    % new y coordinate
+          0 0]*(0.5+rand)/1.5;                                     % z = 0.
+    t = [cx;cy;cz] - R * [size(C,1)/2+0.5; size(C,2)/2+0.5]; % fix center
+    h = image3(C,[R t]); axis equal
+end
+title('5 images displayed in 2-D by image3');
+
+
+subplot(2,2,3);
+load mri; D=squeeze(D);
+be = [54,96,34,96,1,14];
+h = box3(D,[1 0 0 0;0 1 0 0;0 0 2.5 0],be);
+set(h,'EdgeColor','black','LineStyle','-');
+colormap gray(88);
+view(30,30); axis equal; axis vis3d;
+axis(a);
+light;
+title('a volume rendered by box3');
+
+% Requires frey_faces.mat
+% Available at http://www.cs.toronto.edu/~roweis/data.html
+
+
+subplot(2,2,4);
+try
+    load frey_rawface;
+catch
+    error('download frey_rawface from http://www.cs.toronto.edu/~roweis/data.html');
+    return
+end
+facelibrary = {};
+for k = 1:length(ff)
+    f = reshape(ff(:,k),[20 28]);
+    facelibrary{k} = f;
+end
+N = 1000;
+h = scatterim2(randn(N,1),randn(N,1),facelibrary,rand(N,1)*1+0.01);
+set(h,'CDataMapping','scaled');
+colormap gray
+axis ij; axis equal;
+title('a scatterplot using scatterim2');
+
+
+
+##### SOURCE END #####
+-->
+   </body>
+</html>

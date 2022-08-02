@@ -1,0 +1,802 @@
+Library {
+  Name			  "aerolibbdyn"
+  Version		  5.0
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Wed Apr 02 11:51:35 2003"
+  Creator		  "sgage"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "sgage"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Mon Jul 14 13:24:28 2003"
+  ModelVersionFormat	  "1.%<AutoIncrement:24>"
+  ConfigurationManager	  "None"
+  SimParamPage		  "Solver"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeMexFile	  "ext_comm"
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock off
+  ConsistencyChecking	  "none"
+  ArrayBoundsChecking	  "none"
+  AlgebraicLoopMsg	  "warning"
+  BlockPriorityViolationMsg "warning"
+  MinStepSizeMsg	  "warning"
+  InheritedTsInSrcMsg	  "warning"
+  DiscreteInheritContinuousMsg "warning"
+  MultiTaskRateTransMsg	  "error"
+  SingleTaskRateTransMsg  "none"
+  CheckForMatrixSingularity "none"
+  IntegerOverflowMsg	  "warning"
+  Int32ToFloatConvMsg	  "warning"
+  ParameterDowncastMsg	  "error"
+  ParameterOverflowMsg	  "error"
+  ParameterPrecisionLossMsg "warning"
+  UnderSpecifiedDataTypeMsg "none"
+  UnnecessaryDatatypeConvMsg "none"
+  VectorMatrixConversionMsg "none"
+  InvalidFcnCallConnMsg	  "error"
+  SignalLabelMismatchMsg  "none"
+  UnconnectedInputMsg	  "warning"
+  UnconnectedOutputMsg	  "warning"
+  UnconnectedLineMsg	  "warning"
+  SfunCompatibilityCheckMsg "none"
+  ProdHWDeviceType	  "Microprocessor"
+  ProdHWWordLengths	  "8,16,32,32"
+  TargetHWChar		  2
+  TargetHWWordLengths	  "8,16,32,32"
+  RTWMakeCommand	  "make_rtw"
+  RTWGenerateCodeOnly	  off
+  RTWRetainRTWFile	  off
+  TLCProfiler		  off
+  TLCDebug		  off
+  TLCCoverage		  off
+  TLCAssertion		  off
+  SimulationMode	  "normal"
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      ShowAdditionalParam     off
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "sfix(16)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      ShowAdditionalParam     off
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      LatchInput	      off
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      Product
+      Inputs		      "2"
+      Multiplication	      "Element-wise(.*)"
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Reference
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      RTWSystemCode	      "Auto"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Sum
+      IconShape		      "rectangular"
+      Inputs		      "++"
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "aerolibbdyn"
+    Location		    [138, 613, 441, 886]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      "Estimate\nCenter of Gravity"
+      Ports		      [2, 2]
+      Position		      [30, 17, 125, 68]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Estimate Center of Gravity"
+      MaskDescription	      "Calculate the center of gravity location.  Line"
+"ar interpolation is used to determine center of gravity as a function of mass"
+"."
+      MaskHelp		      "web(asbhelp);"
+      MaskPromptString	      "Full mass:|Empty mass:|Full center of gravity:|"
+"Empty center of gravity:"
+      MaskStyleString	      "edit,edit,edit,edit"
+      MaskTunableValueString  "on,on,on,on"
+      MaskCallbackString      "|||"
+      MaskEnableString	      "on,on,on,on"
+      MaskVisibilityString    "on,on,on,on"
+      MaskToolTipString	      "on,on,on,on"
+      MaskVarAliasString      ",,,"
+      MaskVariables	      "fmass=@1;emass=@2;fcg=@3;ecg=@4;"
+      MaskInitialization      "cg(:,:,1)=ecg;\ncg(:,:,2)=fcg;\n\n[x y xp yp]=a"
+"eroimage('cg');"
+      MaskDisplay	      "port_label('input',1,'mass','texmode','on');\np"
+"ort_label('input',2,'dm/dt','texmode','on');\nport_label('output',1,'CG','tex"
+"mode','on');\nport_label('output',2,'dCG/dt','texmode','on');\npatch(xp,yp);"
+"\npatch(x,y,[1 1 1]);\n"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "2|1|[1 1 1]'|[0.5 0.5 0.5]'"
+      System {
+	Name			"Estimate\nCenter of Gravity"
+	Location		[183, 411, 483, 617]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Mass"
+	  Position		  [15, 33, 45, 47]
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "M_dot"
+	  Position		  [95, 153, 125, 167]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Interpolate\nCG"
+	  Ports			  [1, 1]
+	  Position		  [145, 27, 200, 53]
+	  SourceBlock		  "aerolibschedule/Interpolate\nMatrix(x)"
+	  SourceType		  "MatrixSchedule-1D"
+	  matrix		  "cg"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "PreLook-Up\nIndex Search"
+	  Ports			  [1, 1]
+	  Position		  [60, 14, 95, 66]
+	  SourceBlock		  "simulink/Look-Up\nTables/PreLook-Up\nIndex "
+"Search"
+	  SourceType		  "LookupIdxSearch"
+	  bpData		  "[emass fmass]"
+	  searchMode		  "Binary Search"
+	  cacheBpFlag		  "off"
+	  outputFlag		  "off"
+	  extrapMode		  "Clip to Range"
+	  rangeErrorMode	  "None"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product"
+	  Ports			  [2, 1]
+	  Position		  [165, 116, 200, 174]
+	  ShowName		  off
+	  InputSameDT		  off
+	  RndMeth		  "Floor"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "slope"
+	  Position		  [10, 119, 140, 141]
+	  ShowName		  off
+	  Value			  "(fcg - ecg)/(fmass - emass)"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "CG"
+	  Position		  [225, 33, 255, 47]
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "CG_dot"
+	  Position		  [215, 138, 245, 152]
+	  Port			  "2"
+	}
+	Line {
+	  SrcBlock		  "slope"
+	  SrcPort		  1
+	  DstBlock		  "Product"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "M_dot"
+	  SrcPort		  1
+	  DstBlock		  "Product"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Product"
+	  SrcPort		  1
+	  DstBlock		  "CG_dot"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Mass"
+	  SrcPort		  1
+	  DstBlock		  "PreLook-Up\nIndex Search"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Interpolate\nCG"
+	  SrcPort		  1
+	  DstBlock		  "CG"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "PreLook-Up\nIndex Search"
+	  SrcPort		  1
+	  DstBlock		  "Interpolate\nCG"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Estimate\nInertia Tensor"
+      Ports		      [2, 2]
+      Position		      [150, 17, 235, 68]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Estimate Inertia Tensor"
+      MaskDescription	      "Calculate the inertia tensor.  Linear interpola"
+"tion is used to determine inertia tensor as a function of mass."
+      MaskHelp		      "web(asbhelp);"
+      MaskPromptString	      "Full mass:|Empty mass:|Full inertia matrix:|Emp"
+"ty inertia matrix:"
+      MaskStyleString	      "edit,edit,edit,edit"
+      MaskTunableValueString  "on,on,on,on"
+      MaskCallbackString      "|||"
+      MaskEnableString	      "on,on,on,on"
+      MaskVisibilityString    "on,on,on,on"
+      MaskToolTipString	      "on,on,on,on"
+      MaskVarAliasString      ",,,"
+      MaskVariables	      "fmass=@1;emass=@2;fI=@3;eI=@4;"
+      MaskInitialization      "I(:,:,1)=eI;\nI(:,:,2)=fI;\n[xp yp xp2 yp2]=aer"
+"oimage('inertia');"
+      MaskDisplay	      "port_label('input',1,'mass','texmode','on');\np"
+"ort_label('input',2,'dm/dt','texmode','on');\nport_label('output',1,'I','texm"
+"ode','on');\nport_label('output',2,'dI/dt','texmode','on');\npatch(xp,yp);\np"
+"atch(xp2,yp2);"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "2|1|eye(3)|eye(3)/2"
+      System {
+	Name			"Estimate\nInertia Tensor"
+	Location		[116, 144, 424, 324]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Mass"
+	  Position		  [15, 33, 45, 47]
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "M_dot"
+	  Position		  [110, 143, 140, 157]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Interpolate\nInertia"
+	  Ports			  [1, 1]
+	  Position		  [145, 27, 200, 53]
+	  SourceBlock		  "aerolibschedule/Interpolate\nMatrix(x)"
+	  SourceType		  "MatrixSchedule-1D"
+	  matrix		  "I"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "PreLook-Up\nIndex Search"
+	  Ports			  [1, 1]
+	  Position		  [60, 14, 95, 66]
+	  SourceBlock		  "simulink/Look-Up\nTables/PreLook-Up\nIndex "
+"Search"
+	  SourceType		  "LookupIdxSearch"
+	  bpData		  "[emass fmass]"
+	  searchMode		  "Binary Search"
+	  cacheBpFlag		  "off"
+	  outputFlag		  "off"
+	  extrapMode		  "Clip to Range"
+	  rangeErrorMode	  "None"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product"
+	  Ports			  [2, 1]
+	  Position		  [180, 106, 215, 164]
+	  ShowName		  off
+	  InputSameDT		  off
+	  RndMeth		  "Floor"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "slope"
+	  Position		  [35, 109, 155, 131]
+	  ShowName		  off
+	  Value			  "(fI - eI)/(fmass - emass)"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Inertia"
+	  Position		  [225, 33, 255, 47]
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "I_dot"
+	  Position		  [230, 128, 260, 142]
+	  Port			  "2"
+	}
+	Line {
+	  SrcBlock		  "slope"
+	  SrcPort		  1
+	  DstBlock		  "Product"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "M_dot"
+	  SrcPort		  1
+	  DstBlock		  "Product"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Product"
+	  SrcPort		  1
+	  DstBlock		  "I_dot"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "PreLook-Up\nIndex Search"
+	  SrcPort		  1
+	  DstBlock		  "Interpolate\nInertia"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Interpolate\nInertia"
+	  SrcPort		  1
+	  DstBlock		  "Inertia"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Mass"
+	  SrcPort		  1
+	  DstBlock		  "PreLook-Up\nIndex Search"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Moments about CG \ndue to Forces"
+      Ports		      [3, 1]
+      Position		      [30, 127, 125, 193]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Moments About CG Due To Forces"
+      MaskDescription	      "Compute moments about center of gravity due to "
+"forces which are applied at point CP not the center of gravity."
+      MaskHelp		      "web(asbhelp);"
+      MaskInitialization      "[xpw ypw xp yp x y]=aeroimage('momcg');"
+      MaskDisplay	      "port_label('input',1,'F','texmode','on');\nport"
+"_label('input',2,'CG','texmode','on');\nport_label('input',3,'CP','texmode','"
+"on');\nport_label('output',1,'M','texmode','on');\npatch(xp,yp);\npatch(xpw,y"
+"pw,[1 1 1]);\nplot(x,y);"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      System {
+	Name			"Moments about CG \ndue to Forces"
+	Location		[180, 227, 678, 527]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Forces"
+	  Position		  [110, 98, 140, 112]
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "CG"
+	  Position		  [110, 128, 140, 142]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "CP"
+	  Position		  [110, 163, 140, 177]
+	  Port			  "3"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "3x3 Cross Product"
+	  Ports			  [2, 1]
+	  Position		  [240, 90, 315, 150]
+	  SourceBlock		  "aerolibutil/3x3 Cross Product"
+	  SourceType		  "CrossProduct"
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum"
+	  Ports			  [2, 1]
+	  Position		  [160, 125, 180, 145]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "|+-"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Moments"
+	  Position		  [360, 113, 390, 127]
+	}
+	Line {
+	  SrcBlock		  "CG"
+	  SrcPort		  1
+	  DstBlock		  "Sum"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "CP"
+	  SrcPort		  1
+	  Points		  [25, 0]
+	  DstBlock		  "Sum"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "3x3 Cross Product"
+	  SrcPort		  1
+	  DstBlock		  "Moments"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Forces"
+	  SrcPort		  1
+	  DstBlock		  "3x3 Cross Product"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sum"
+	  SrcPort		  1
+	  DstBlock		  "3x3 Cross Product"
+	  DstPort		  2
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Symmetric Inertia Tensor"
+      Ports		      [6, 1]
+      Position		      [150, 111, 235, 204]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Symmetric Inertia Tensor"
+      MaskDescription	      "Create an inertia tensor from moments and produ"
+"cts of inertia.  Each input corresponds to an element of the tensor.  "
+      MaskHelp		      "web(asbhelp);"
+      MaskInitialization      "[xp yp xp2 yp2]=aeroimage('inertia');"
+      MaskDisplay	      "port_label('input',1,'I_{xx}','texmode','on');"
+"\nport_label('input',2,'I_{xy}','texmode','on');\nport_label('input',3,'I_{xz"
+"}','texmode','on');\nport_label('input',4,'I_{yy}','texmode','on');\nport_lab"
+"el('input',5,'I_{yz}','texmode','on');\nport_label('input',6,'I_{zz}','texmod"
+"e','on');\nport_label('output',1,'I','texmode','on');\npatch(xp,yp);\npatch(x"
+"p2,yp2);"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      System {
+	Name			"Symmetric Inertia Tensor"
+	Location		[229, 278, 814, 602]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Ixx"
+	  Position		  [265, 33, 295, 47]
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Ixy"
+	  Position		  [20, 63, 50, 77]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Ixz"
+	  Position		  [125, 93, 155, 107]
+	  Port			  "3"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Iyy"
+	  Position		  [265, 153, 295, 167]
+	  Port			  "4"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Iyz"
+	  Position		  [240, 183, 270, 197]
+	  Port			  "5"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Izz"
+	  Position		  [265, 273, 295, 287]
+	  Port			  "6"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Create 3x3 Matrix"
+	  Ports			  [9, 1]
+	  Position		  [380, 25, 450, 295]
+	  SourceBlock		  "aerolibutil/Create 3x3 Matrix"
+	  SourceType		  "Create 3x3 Matrix"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Unary Minus"
+	  Ports			  [1, 1]
+	  Position		  [290, 179, 330, 201]
+	  ShowName		  off
+	  SourceBlock		  "fixpt_lib_4/Math/Unary Minus"
+	  SourceType		  "Fixed-Point Unary Minus"
+	  DoSatur		  "off"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Unary Minus1"
+	  Ports			  [1, 1]
+	  Position		  [170, 89, 210, 111]
+	  ShowName		  off
+	  SourceBlock		  "fixpt_lib_4/Math/Unary Minus"
+	  SourceType		  "Fixed-Point Unary Minus"
+	  DoSatur		  "off"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Unary Minus2"
+	  Ports			  [1, 1]
+	  Position		  [70, 59, 110, 81]
+	  ShowName		  off
+	  SourceBlock		  "fixpt_lib_4/Math/Unary Minus"
+	  SourceType		  "Fixed-Point Unary Minus"
+	  DoSatur		  "off"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Inertia"
+	  Position		  [475, 153, 505, 167]
+	}
+	Line {
+	  SrcBlock		  "Unary Minus2"
+	  SrcPort		  1
+	  Points		  [0, 0]
+	  Branch {
+	    DstBlock		    "Create 3x3 Matrix"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, 60]
+	    DstBlock		    "Create 3x3 Matrix"
+	    DstPort		    4
+	  }
+	}
+	Line {
+	  SrcBlock		  "Unary Minus1"
+	  SrcPort		  1
+	  Points		  [15, 0]
+	  Branch {
+	    DstBlock		    "Create 3x3 Matrix"
+	    DstPort		    3
+	  }
+	  Branch {
+	    Points		    [0, 120]
+	    DstBlock		    "Create 3x3 Matrix"
+	    DstPort		    7
+	  }
+	}
+	Line {
+	  SrcBlock		  "Unary Minus"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    DstBlock		    "Create 3x3 Matrix"
+	    DstPort		    6
+	  }
+	  Branch {
+	    Points		    [0, 60]
+	    DstBlock		    "Create 3x3 Matrix"
+	    DstPort		    8
+	  }
+	}
+	Line {
+	  SrcBlock		  "Izz"
+	  SrcPort		  1
+	  DstBlock		  "Create 3x3 Matrix"
+	  DstPort		  9
+	}
+	Line {
+	  SrcBlock		  "Iyz"
+	  SrcPort		  1
+	  DstBlock		  "Unary Minus"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Create 3x3 Matrix"
+	  SrcPort		  1
+	  DstBlock		  "Inertia"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Iyy"
+	  SrcPort		  1
+	  DstBlock		  "Create 3x3 Matrix"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "Ixz"
+	  SrcPort		  1
+	  DstBlock		  "Unary Minus1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Ixy"
+	  SrcPort		  1
+	  DstBlock		  "Unary Minus2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Ixx"
+	  SrcPort		  1
+	  DstBlock		  "Create 3x3 Matrix"
+	  DstPort		  1
+	}
+      }
+    }
+  }
+}

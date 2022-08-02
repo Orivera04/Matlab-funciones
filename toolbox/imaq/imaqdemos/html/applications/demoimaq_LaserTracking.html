@@ -1,0 +1,512 @@
+<!--
+Copyright 2001-2004 The MathWorks, Inc.
+$Revision: 1.1.6.2 $ $Date: 2004/03/24 20:39:43 $
+-->
+
+<!--
+This HTML is auto-generated from an m-file.
+Your changes will be overwritten.
+--><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:x-large">Laser Tracking</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Using the Image Acquisition Toolbox, image data streams from a camera
+are acquired directly into MATLAB. These images are used to track objects
+in the camera's view.  For this demonstration, the object being tracked
+is the dot produced by a laser pointer.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">The monitor of a computer running MATLAB is placed in the camera's view
+while a laser pointer shines a red dot on a MATLAB figure window. The
+camera is used to acquire images of the MATLAB figure window while the
+laser pointer moves around. By tracking the movement of the laser dot,
+the laser pointer can be used as a pointer device similar to a mouse.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">The first task involves calibrating the data to establish a relationship
+between the acquired image pixels and the MATLAB figure axes. Once this
+relationship is established, the laser dot can be tracked as it moves
+around within the MATLAB figure window.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">This demonstration uses a set of utility functions that aid in the processing
+of images. These utility functions require the Image Processing Toolbox
+and can be found in the following directory:
+</p><ul xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd"><li>MATLABROOT\toolbox\imaq\imaqdemos\html\applications\laserTracking
+</li></ul><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium;">Overview</p><ul xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd"><li><a href="#Physical Setup">Physical Setup</a></li><li><a href="#Configure the Acquisition">Configure the Acquisition</a></li><li><a href="#Create the Calibration Screen">Create the Calibration Screen</a></li><li><a href="#Position the Camera">Position the Camera</a></li><li><a href="#Perform Image Calibration">Perform Image Calibration</a></li><li><a href="#Calibration Results">Calibration Results</a></li><li><a href="#Laser Tracking">Laser Tracking</a></li></ul><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Physical Setup<a name="Physical Setup"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Focus a camera onto the screen of a computer that MATLAB is running on.
+</p>
+<img xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" src="demoimaq_LaserTracking_img_02_01.gif"><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p>
+
+<p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">It is best to have the ambient light in the room minimized. This
+demonstration has been successfully run in auditoriums using a projector.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Configure the Acquisition<a name="Configure the Acquisition"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">An image acquisition device will be used to acquire image data to perform the
+calibration and laser tracking. The device used will be a generic Windows
+video WebCam.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Add the directory containing the utility functions to the MATLAB path.</span>
+utilpath = fullfile(matlabroot, <span style="color:#B20000">'toolbox'</span>, <span style="color:#B20000">'imaq'</span>, <span style="color:#B20000">'imaqdemos'</span>, <span style="color:blue">...</span>
+    <span style="color:#B20000">'html'</span>, <span style="color:#B20000">'applications'</span>, <span style="color:#B20000">'laserTracking'</span>);
+addpath(utilpath);
+
+<span style="color:green">% Access and configure a device. </span>
+vid = videoinput(<span style="color:#B20000">'winvideo'</span>, 1, <span style="color:#B20000">'RGB24_320x240'</span>);
+set(vid, <span style="color:#B20000">'FramesPerTrigger'</span>, 1);
+set(vid, <span style="color:#B20000">'TriggerRepeat'</span>, Inf);
+triggerconfig(vid,<span style="color:#B20000">'manual'</span>)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Create the Calibration Screen<a name="Create the Calibration Screen"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">The calibration screen created is purposely set to black to get the best
+contrast for the laser pointer. Some systems work better when the window's
+colors are set dark for the title bars.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Since a red laser will be used, the red plane of the image is the only
+color plane of interest. The calibration square is made blue in order to
+make it appear "invisible" in the red plane.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Create the laser figure window.</span>
+laserFig = figure;
+hBox = plot([0 0 1 1 0], [0 1 1 0 0], <span style="color:#B20000">'b-'</span>);
+hold on
+
+<span style="color:green">% Set up calibration screen. Modify the cursor so it does not </span>
+<span style="color:green">% interfere with the calibration.</span>
+hTarget = plot(0, 0, <span style="color:#B20000">'yo'</span>);
+set(gca, <span style="color:#B20000">'Color'</span>, [0, 0, 0]);
+set(laserFig, <span style="color:#B20000">'Color'</span>, [0, 0, 0], <span style="color:#B20000">'Menubar'</span>, <span style="color:#B20000">'none'</span>, <span style="color:blue">...</span>
+    <span style="color:#B20000">'DoubleBuffer'</span>, <span style="color:#B20000">'on'</span>, <span style="color:#B20000">'Pointer'</span>, <span style="color:#B20000">'custom'</span>, <span style="color:blue">...</span>
+    <span style="color:#B20000">'PointerShapeCData'</span>, repmat(NaN, 16, 16));</pre><img xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" src="demoimaq_LaserTracking_img_06_01.gif"><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Position the Camera<a name="Position the Camera"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Position the camera such that only the blue square is visible.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Display positioning information.</span>
+posText = sprintf(<span style="color:#B20000">'%s\n%s'</span>, <span style="color:blue">...</span>
+    <span style="color:#B20000">'Position the camera and ensure the blue box'</span>, <span style="color:blue">...</span>
+    <span style="color:#B20000">'is the only thing in the camera''s view.'</span>);
+infoText = text(0, -0.2,  posText, <span style="color:#B20000">'Color'</span>, [1 1 1]);
+axis([-0.2 1.2 -0.2 1.2])
+axis(<span style="color:#B20000">'equal'</span>)</pre><img xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" src="demoimaq_LaserTracking_img_07_01.gif"><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Using the preview window, request that the camera be positioned such</span>
+<span style="color:green">% that the view is of the blue box and little else.</span>
+preview(vid)
+smallFigPos = get(laserFig, <span style="color:#B20000">'Position'</span>);
+set(laserFig, <span style="color:#B20000">'Position'</span>, get(0, <span style="color:#B20000">'ScreenSize'</span>));
+disp(<span style="color:#B20000">'Waiting for camera to be positioned...press any key to continue.'</span>)
+pause</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">Waiting for camera to be positioned...press any key to continue.
+</pre>
+
+<p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Perform Image Calibration<a name="Perform Image Calibration"></a></p>
+<p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Now that the camera is focused on the right area, a target is
+drawn at each of the four corners of the box. The calibration is performed
+by aiming the laser on each corner of the blue square, allowing a
+relationship to be established between the camera pixel coordinates (the
+image) and MATLAB axis coordinates (the square). For each target displayed:
+</p><ul xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd"><li>output a sound indicating the laser should be aimed
+</li><li>output a sound indicating a frame is about to be acquired
+</li><li>trigger the acquisition device
+</li><li>access the acquired image frame and determine the laser
+  position in pixel coordinates
+</li></ul><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">The laser position is determined by thresholding the red plane and
+looking for high intensity values. Some additional processing is
+performed to make sure the laser is not obscured by ghost images
+caused by poor optics in some WebCams. It is also verified that a
+laser dot was actually present on the screen.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Provide calibration instructions.</span>
+calibText = sprintf(<span style="color:#B20000">'%s\n%s'</span>, <span style="color:blue">...</span>
+    <span style="color:#B20000">'Aim the laser pointer on each target as it appears.'</span>, <span style="color:blue">...</span>
+    <span style="color:#B20000">'Hold the laser on the target until the target moves.'</span>);
+set(infoText, <span style="color:#B20000">'string'</span>, calibText);
+
+<img xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" src="demoimaq_LaserTracking_img_09_01.gif">
+
+<span style="color:green">% Start the acquisition and create a new figure to display </span>
+<span style="color:green">% calibration results in a MATLAB SPY plot.</span>
+start(vid)
+spyFig = figure;
+
+<span style="color:green">% Target 1...</span>
+figure(laserFig);
+set(hTarget, <span style="color:#B20000">'Xdata'</span>, 0, <span style="color:#B20000">'Ydata'</span>, 0);
+sound(1), pause(2)
+sound(1), trigger(vid);
+acqResults{1} = getdata(vid, 1);
+
+[xCalib(1), yCalib(1), laserSights] = util_findlaser(acqResults{1});
+figure(spyFig);
+spy(laserSights)
+title(<span style="color:#B20000">'Target 1: Suspected Laser Sighting'</span>)</pre><img xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" src="demoimaq_LaserTracking_img_10_01.gif"><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Target 2...</span>
+figure(laserFig);
+set(hTarget, <span style="color:#B20000">'Xdata'</span>, 0, <span style="color:#B20000">'Ydata'</span>, 1);
+sound(1), pause(2)
+sound(1), trigger(vid);
+acqResults{2} = getdata(vid, 1);
+
+[xCalib(2), yCalib(2), laserSights] = util_findlaser(acqResults{2});
+figure(spyFig);
+spy(laserSights)
+title(<span style="color:#B20000">'Target 2: Suspected Laser Sighting'</span>)</pre><img xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" src="demoimaq_LaserTracking_img_11_01.gif"><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Target 3...</span>
+figure(laserFig);
+set(hTarget, <span style="color:#B20000">'Xdata'</span>, 1, <span style="color:#B20000">'Ydata'</span>, 1);
+sound(1), pause(2)
+sound(1), trigger(vid);
+acqResults{3} = getdata(vid, 1);
+
+[xCalib(3), yCalib(3), laserSights] = util_findlaser(acqResults{3});
+figure(spyFig);
+spy(laserSights)
+title(<span style="color:#B20000">'Target 3: Suspected Laser Sighting'</span>)</pre><img xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" src="demoimaq_LaserTracking_img_12_01.gif"><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Target 4...</span>
+figure(laserFig);
+set(hTarget, <span style="color:#B20000">'Xdata'</span>, 1, <span style="color:#B20000">'Ydata'</span>, 0);
+sound(1), pause(2)
+sound(1), trigger(vid);
+acqResults{4} = getdata(vid, 1);
+
+[xCalib(4), yCalib(4), laserSights] = util_findlaser(acqResults{4});
+figure(spyFig);
+spy(laserSights)
+title(<span style="color:#B20000">'Target 4: Suspected Laser Sighting'</span>)</pre><img xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" src="demoimaq_LaserTracking_img_13_01.gif"><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Close the SPY plot and stop the acquisition.</span>
+close(spyFig)
+stop(vid);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Calibration Results<a name="Calibration Results"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Plot the acquired image and the calculated laser pointer coordinates
+for each target. Since the yellow crosshairs are positioned at the proper
+location in each image, the processing results are validated.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Target 1 results...</span>
+calibFig = figure;
+util_plotpos(acqResults{1}, xCalib(1), yCalib(1));</pre><img xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" src="demoimaq_LaserTracking_img_15_01.gif"><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Target 2 results...</span>
+util_plotpos(acqResults{2}, xCalib(2), yCalib(2));</pre><img xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" src="demoimaq_LaserTracking_img_16_01.gif"><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Target 3 results...</span>
+util_plotpos(acqResults{3}, xCalib(3), yCalib(3));</pre><img xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" src="demoimaq_LaserTracking_img_17_01.gif"><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Target 4 results...</span>
+util_plotpos(acqResults{4}, xCalib(4), yCalib(4));</pre><img xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" src="demoimaq_LaserTracking_img_18_01.gif"><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Close the figure illustrating calibration results.</span>
+close(calibFig)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Laser Tracking<a name="Laser Tracking"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Start the acquisition and process the acquired data a set number of
+times. The processing consists of locating the laser in the acquired
+image and determining the laser positions in pixel and MATLAB axis
+coordinates.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">In order to make things interesting, using the laser pointer, attempt
+to "draw" the letter 'M' (for MATLAB) within the blue box.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Update instructions on laser screen.</span>
+figure(laserFig);
+set(infoText, <span style="color:#B20000">'string'</span>, <span style="color:#B20000">'Move the laser pointer within the blue box.'</span>);
+
+<span style="color:green">% Start the acquisition. For each iteration:</span>
+<span style="color:green">%</span>
+<span style="color:green">% * output a sound to indicate a frame is about to be acquired</span>
+<span style="color:green">% * trigger the device</span>
+<span style="color:green">% * process the acquired image and locate the laser</span>
+<span style="color:green">% * convert pixel coordinates to MATLAB axis coordinates</span>
+laser.x = [];
+laser.y = [];
+start(vid)
+<span style="color:blue">for</span> i = 1:100,
+    <span style="color:green">% Acquire an image frame and determine the </span>
+    <span style="color:green">% camera pixel coordinates.</span>
+    sound(1), trigger(vid);
+    frame = getdata(vid, 1);
+    [x, y] = util_findlaser(frame);    
+
+    <span style="color:blue">if</span> ~isnan(x) &amp;&amp; ~isnan(y),
+        <span style="color:green">% If coordinates were valid, ensure the camera pixel coordinate </span>
+        <span style="color:green">% was in the calibration range.</span>
+        x = max([x min(xCalib([1 2]))]);
+        x = min([x max(xCalib([3 4]))]);
+        y = min([y max(yCalib([1 4]))]);
+        y = max([y min(yCalib([2 3]))]);
+        
+        <span style="color:green">% Determine spatial transformation from the unit square calibration points.</span>
+        tform = cp2tform([xCalib(:) yCalib(:)], [0 0; 0 1; 1 1; 1 0], <span style="color:#B20000">'projective'</span>);     
+        xyScreen = tformfwd([x, y], tform);
+        xScreen = xyScreen(1);
+        yScreen = xyScreen(2);
+        
+        <span style="color:green">% Ensure the new coordinates remain within the unit square.</span>
+        xScreen = min([xScreen 1]);
+        xScreen = max([xScreen 0]);    
+        yScreen = min([yScreen 1]);
+        yScreen = max([yScreen 0]);
+        
+        <span style="color:green">% Store the new MATLAB axis coordinates.</span>
+        laser.x = [laser.x(:); xScreen];
+        laser.y = [laser.y(:); yScreen];
+    <span style="color:blue">end</span>
+<span style="color:blue">end</span>
+
+<span style="color:green">% Plot the tracked laser positions.</span>
+set(laserFig, <span style="color:#B20000">'Position'</span>, smallFigPos);
+plot(laser.x, laser.y, <span style="color:#B20000">'r*'</span>);</pre><img xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" src="demoimaq_LaserTracking_img_20_01.gif"><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Close the laser figure.</span>
+close(laserFig);
+
+<span style="color:green">% Stop the acquisition, remove the object from memory,</span>
+<span style="color:green">% and clear the variable.</span>
+stop(vid)
+delete(vid)
+clear vid
+
+<span style="color:green">% Remove the directory containing the utility functions from the MATLAB path.</span>
+rmpath(utilpath);</pre><originalCode xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" code="%% Laser Tracking
+&#xA;% Using the Image Acquisition Toolbox, image data streams from a camera
+&#xA;% are acquired directly into MATLAB. These images are used to track objects 
+&#xA;% in the camera's view.  For this demonstration, the object being tracked 
+&#xA;% is the dot produced by a laser pointer.
+&#xA;%
+&#xA;% The monitor of a computer running MATLAB is placed in the camera's view
+&#xA;% while a laser pointer shines a red dot on a MATLAB figure window. The 
+&#xA;% camera is used to acquire images of the MATLAB figure window while the
+&#xA;% laser pointer moves around. By tracking the movement of the laser dot,
+&#xA;% the laser pointer can be used as a pointer device similar to a mouse.
+&#xA;%
+&#xA;% The first task involves calibrating the data to establish a relationship 
+&#xA;% between the acquired image pixels and the MATLAB figure axes. Once this 
+&#xA;% relationship is established, the laser dot can be tracked as it moves 
+&#xA;% around within the MATLAB figure window.
+&#xA;%
+&#xA;% This demonstration uses a set of utility functions that aid in the processing
+&#xA;% of images. These utility functions require the Image Processing Toolbox 
+&#xA;% and can be found in the following directory:
+&#xA;%
+&#xA;% * MATLABROOT\toolbox\imaq\imaqdemos\html\applications\laserTracking
+&#xA;%
+&#xA;
+&#xA;%% Physical Setup
+&#xA;% Focus a camera onto the screen of a computer that MATLAB is running on.
+&#xA;
+&#xA;
+&#xA;figure
+&#xA;
+&#xA;
+&#xA;%%
+&#xA;% It is best to have the ambient light in the room minimized. This
+&#xA;% demonstration has been successfully run in auditoriums using a projector.
+&#xA;
+&#xA;%% Configure the Acquisition
+&#xA;% An image acquisition device will be used to acquire image data to perform the 
+&#xA;% calibration and laser tracking. The device used will be a generic Windows
+&#xA;% video WebCam.
+&#xA;
+&#xA;% Add the directory containing the utility functions to the MATLAB path.
+&#xA;utilpath = fullfile('\\sandbox\cportal\tmsandbox', 'toolbox', 'imaq', 'imaqdemos', ...
+&#xA;    'html', 'applications', 'laserTracking');
+&#xA;addpath(utilpath);
+&#xA;
+&#xA;% Access and configure a device. 
+&#xA;vid = videoinput('winvideo', 1, 'RGB24_320x240');
+&#xA;set(vid, 'FramesPerTrigger', 1);
+&#xA;set(vid, 'TriggerRepeat', Inf);
+&#xA;triggerconfig(vid,'manual')
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;%% Create the Calibration Screen
+&#xA;% The calibration screen created is purposely set to black to get the best
+&#xA;% contrast for the laser pointer. Some systems work better when the window's
+&#xA;% colors are set dark for the title bars. 
+&#xA;%
+&#xA;% Since a red laser will be used, the red plane of the image is the only
+&#xA;% color plane of interest. The calibration square is made blue in order to 
+&#xA;% make it appear &#34;invisible&#34; in the red plane. 
+&#xA;
+&#xA;% Create the laser figure window.
+&#xA;laserFig = figure;
+&#xA;hBox = plot([0 0 1 1 0], [0 1 1 0 0], 'b-');
+&#xA;hold on
+&#xA;
+&#xA;% Set up calibration screen. Modify the cursor so it does not 
+&#xA;% interfere with the calibration.
+&#xA;hTarget = plot(0, 0, 'yo');
+&#xA;set(gca, 'Color', [0, 0, 0]);
+&#xA;set(laserFig, 'Color', [0, 0, 0], 'Menubar', 'none', ...
+&#xA;    'DoubleBuffer', 'on', 'Pointer', 'custom', ...
+&#xA;    'PointerShapeCData', repmat(NaN, 16, 16));
+&#xA;
+&#xA;%% Position the Camera
+&#xA;% Position the camera such that only the blue square is visible.
+&#xA;
+&#xA;% Display positioning information.
+&#xA;posText = sprintf('%s\n%s', ...
+&#xA;    'Position the camera and ensure the blue box', ...
+&#xA;    'is the only thing in the camera''s view.');
+&#xA;infoText = text(0, -0.2,  posText, 'Color', [1 1 1]);
+&#xA;axis([-0.2 1.2 -0.2 1.2])
+&#xA;axis('equal')
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Using the preview window, request that the camera be positioned such
+&#xA;% that the view is of the blue box and little else.
+&#xA;preview(vid)
+&#xA;smallFigPos = get(laserFig, 'Position');
+&#xA;set(laserFig, 'Position', get(0, 'ScreenSize'));
+&#xA;disp('Waiting for camera to be positioned...press any key to continue.')
+&#xA;pause
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;figure
+&#xA;
+&#xA;%% Perform Image Calibration
+&#xA;% Now that the camera is focused on the right area, a target is 
+&#xA;% drawn at each of the four corners of the box. The calibration is performed 
+&#xA;% by aiming the laser on each corner of the blue square, allowing a 
+&#xA;% relationship to be established between the camera pixel coordinates (the 
+&#xA;% image) and MATLAB axis coordinates (the square). For each target displayed:
+&#xA;%
+&#xA;% * output a sound indicating the laser should be aimed
+&#xA;% * output a sound indicating a frame is about to be acquired
+&#xA;% * trigger the acquisition device
+&#xA;% * access the acquired image frame and determine the laser 
+&#xA;%   position in pixel coordinates
+&#xA;%
+&#xA;% The laser position is determined by thresholding the red plane and
+&#xA;% looking for high intensity values. Some additional processing is 
+&#xA;% performed to make sure the laser is not obscured by ghost images 
+&#xA;% caused by poor optics in some WebCams. It is also verified that a 
+&#xA;% laser dot was actually present on the screen.
+&#xA;
+&#xA;% Provide calibration instructions.
+&#xA;calibText = sprintf('%s\n%s', ...
+&#xA;    'Aim the laser pointer on each target as it appears.', ...
+&#xA;    'Hold the laser on the target until the target moves.');
+&#xA;set(infoText, 'string', calibText);
+&#xA;
+&#xA;% Start the acquisition and create a new figure to display 
+&#xA;% calibration results in a MATLAB SPY plot.
+&#xA;start(vid)
+&#xA;spyFig = figure;
+&#xA;
+&#xA;% Target 1...
+&#xA;figure(laserFig);
+&#xA;set(hTarget, 'Xdata', 0, 'Ydata', 0);
+&#xA;sound(1), pause(2)
+&#xA;sound(1), trigger(vid);
+&#xA;acqResults{1} = getdata(vid, 1);
+&#xA;
+&#xA;[xCalib(1), yCalib(1), laserSights] = util_findlaser(acqResults{1});
+&#xA;figure(spyFig);
+&#xA;spy(laserSights)
+&#xA;title('Target 1: Suspected Laser Sighting')
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Target 2...
+&#xA;figure(laserFig);
+&#xA;set(hTarget, 'Xdata', 0, 'Ydata', 1);
+&#xA;sound(1), pause(2)
+&#xA;sound(1), trigger(vid);
+&#xA;acqResults{2} = getdata(vid, 1);
+&#xA;
+&#xA;[xCalib(2), yCalib(2), laserSights] = util_findlaser(acqResults{2});
+&#xA;figure(spyFig);
+&#xA;spy(laserSights)
+&#xA;title('Target 2: Suspected Laser Sighting')
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Target 3...
+&#xA;figure(laserFig);
+&#xA;set(hTarget, 'Xdata', 1, 'Ydata', 1);
+&#xA;sound(1), pause(2)
+&#xA;sound(1), trigger(vid);
+&#xA;acqResults{3} = getdata(vid, 1);
+&#xA;
+&#xA;[xCalib(3), yCalib(3), laserSights] = util_findlaser(acqResults{3});
+&#xA;figure(spyFig);
+&#xA;spy(laserSights)
+&#xA;title('Target 3: Suspected Laser Sighting')
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Target 4...
+&#xA;figure(laserFig);
+&#xA;set(hTarget, 'Xdata', 1, 'Ydata', 0);
+&#xA;sound(1), pause(2)
+&#xA;sound(1), trigger(vid);
+&#xA;acqResults{4} = getdata(vid, 1);
+&#xA;
+&#xA;[xCalib(4), yCalib(4), laserSights] = util_findlaser(acqResults{4});
+&#xA;figure(spyFig);
+&#xA;spy(laserSights)
+&#xA;title('Target 4: Suspected Laser Sighting')
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Close the SPY plot and stop the acquisition.
+&#xA;close(spyFig)
+&#xA;stop(vid);
+&#xA;
+&#xA;%% Calibration Results
+&#xA;% Plot the acquired image and the calculated laser pointer coordinates 
+&#xA;% for each target. Since the yellow crosshairs are positioned at the proper 
+&#xA;% location in each image, the processing results are validated.
+&#xA;
+&#xA;% Target 1 results...
+&#xA;calibFig = figure;
+&#xA;util_plotpos(acqResults{1}, xCalib(1), yCalib(1));
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Target 2 results...
+&#xA;util_plotpos(acqResults{2}, xCalib(2), yCalib(2));
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Target 3 results...
+&#xA;util_plotpos(acqResults{3}, xCalib(3), yCalib(3));
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Target 4 results...
+&#xA;util_plotpos(acqResults{4}, xCalib(4), yCalib(4));
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Close the figure illustrating calibration results.
+&#xA;close(calibFig)
+&#xA;
+&#xA;%% Laser Tracking
+&#xA;% Start the acquisition and process the acquired data a set number of 
+&#xA;% times. The processing consists of locating the laser in the acquired 
+&#xA;% image and determining the laser positions in pixel and MATLAB axis 
+&#xA;% coordinates.
+&#xA;%
+&#xA;% In order to make things interesting, using the laser pointer, attempt 
+&#xA;% to &#34;draw&#34; the letter 'M' (for MATLAB) within the blue box.
+&#xA;
+&#xA;% Update instructions on laser screen.
+&#xA;figure(laserFig);
+&#xA;set(infoText, 'string', 'Move the laser pointer within the blue box.');
+&#xA;
+&#xA;% Start the acquisition. For each iteration:
+&#xA;%
+&#xA;% * output a sound to indicate a frame is about to be acquired
+&#xA;% * trigger the device
+&#xA;% * process the acquired image and locate the laser
+&#xA;% * convert pixel coordinates to MATLAB axis coordinates
+&#xA;laser.x = [];
+&#xA;laser.y = [];
+&#xA;start(vid)
+&#xA;for i = 1:100,
+&#xA;    % Acquire an image frame and determine the 
+&#xA;    % camera pixel coordinates.
+&#xA;    sound(1), trigger(vid);
+&#xA;    frame = getdata(vid, 1);
+&#xA;    [x, y] = util_findlaser(frame);    
+&#xA;
+&#xA;    if ~isnan(x) &amp;&amp; ~isnan(y),
+&#xA;        % If coordinates were valid, ensure the camera pixel coordinate 
+&#xA;        % was in the calibration range.
+&#xA;        x = max([x min(xCalib([1 2]))]);
+&#xA;        x = min([x max(xCalib([3 4]))]);
+&#xA;        y = min([y max(yCalib([1 4]))]);
+&#xA;        y = max([y min(yCalib([2 3]))]);
+&#xA;        
+&#xA;        % Determine spatial transformation from the unit square calibration points.
+&#xA;        tform = cp2tform([xCalib(:) yCalib(:)], [0 0; 0 1; 1 1; 1 0], 'projective');     
+&#xA;        xyScreen = tformfwd([x, y], tform);
+&#xA;        xScreen = xyScreen(1);
+&#xA;        yScreen = xyScreen(2);
+&#xA;        
+&#xA;        % Ensure the new coordinates remain within the unit square.
+&#xA;        xScreen = min([xScreen 1]);
+&#xA;        xScreen = max([xScreen 0]);    
+&#xA;        yScreen = min([yScreen 1]);
+&#xA;        yScreen = max([yScreen 0]);
+&#xA;        
+&#xA;        % Store the new MATLAB axis coordinates.
+&#xA;        laser.x = [laser.x(:); xScreen];
+&#xA;        laser.y = [laser.y(:); yScreen];
+&#xA;    end
+&#xA;end
+&#xA;
+&#xA;% Plot the tracked laser positions.
+&#xA;set(laserFig, 'Position', smallFigPos);
+&#xA;plot(laser.x, laser.y, 'r*');
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Close the laser figure.
+&#xA;close(laserFig);
+&#xA;
+&#xA;% Stop the acquisition, remove the object from memory,
+&#xA;% and clear the variable.
+&#xA;stop(vid)
+&#xA;delete(vid)
+&#xA;clear vid
+&#xA;
+&#xA;% Remove the directory containing the utility functions from the MATLAB path.
+&#xA;rmpath(utilpath);
+&#xA;"></originalCode>

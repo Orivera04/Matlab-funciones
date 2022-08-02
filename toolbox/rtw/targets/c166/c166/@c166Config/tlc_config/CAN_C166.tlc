@@ -1,0 +1,81 @@
+%% File: CAN_C166.tlc
+%%
+%% Abstract:
+%%    Top level file for automatically generating C166 CAN driver
+%%
+%% $Revision: 1.1.6.5 $
+%% $Date: 2004/04/19 01:18:23 $
+%%
+%% Copyright 2002-2003 The MathWorks, Inc.
+
+
+%implements * "C"
+
+%addincludepath "../../../../common/can/datatypes"
+%include "can_comm_setup.tlc"
+%include "generate_can_x_driver.tlc"
+
+%function FcnGenerateCanDriver(record,module) void
+
+  %assign can_driver_c = "CAN_%<module>_driver.c"
+  %if RTWVerbose
+    %selectfile STDOUT
+    ### Creating %<can_driver_c>
+    %closefile STDOUT
+  %endif
+  %openfile bld_file = "%<can_driver_c>"
+  
+  %<SLibGenerateCanXDriver(record,module)>
+
+  %closefile bld_file
+  
+  %include "utillib.tlc"
+  %<SLibIndentFile(can_driver_c,"")>
+  
+%endfunction
+
+%% Main function to generate and configure the CAN drivers
+%function DriverConfiguration(record) void
+
+  %openfile buffer
+    #include "can_driver.h"
+  %closefile buffer
+  %<LibCacheIncludes(buffer)>
+
+%endfunction
+
+%function Start(record) Output
+
+  %% Get register names for this processor variant
+  %assign twinCAN = FEVAL("c166cache","get","TwinCAN")
+  
+  %if twinCAN == 1
+    %assign dummy = FEVAL("warndlg","The currently selected processor is not compatible with the standard CAN blocks. No "...
+    "code will be generated for the standard CAN blocks. You "...
+    "should consider using the TwinCAN blocks instead")
+    %return
+  %endif
+  
+  %<SetupCanDataTypes(record)>
+  
+  %assign moduleRecordA = SLibSubsRef(record,"CAN_A")
+  %assign moduleRecordB = SLibSubsRef(record,"CAN_B")
+  %assign enabledA = SLibSubsRef(moduleRecordA,"Module_enabled")
+  %assign enabledB = SLibSubsRef(moduleRecordB,"Module_enabled")
+  
+  %if enabledA == 1
+    %<FcnGenerateCanDriver(moduleRecordA,1)>
+    /* Initialize and start CAN module 1 drivers */
+    can_1_init();
+    can_1_start();
+  %endif 
+  %if enabledB == 1
+    %<FcnGenerateCanDriver(moduleRecordB,2)>
+    /* Initialize and start CAN module 2 drivers */
+    can_2_init();
+    can_2_start();
+  %endif 
+
+%endfunction
+
+

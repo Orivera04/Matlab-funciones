@@ -1,0 +1,25 @@
+%Escriba un programa que calcule 5 numeros y muestre los que sean mayores
+%que la media.
+clc;
+n1=input('Escriba el primer numero: ');
+n2=input('Escriba el primer numero: ');
+n3=input('Escriba el primer numero: ');
+n4=input('Escriba el primer numero: ');
+n5=input('Escriba el primer numero: ');
+media = (n1 + n2 + n3 + n4 + n5)/5;
+fprintf('\nLa media es %.2f\n\n',media);
+if n1 > media
+    fprintf('El primer numero es %.2f y es mayor que la media\n',n1);
+end
+if n2 > media
+    fprintf('El segundo numero es %.2f y es mayor que la media\n',n2);
+end
+if n3 > media
+    fprintf('El tercer numero es %.2f y es mayor que la media\n',n3);
+end
+if n4 > media
+    fprintf('El cuarto numero es %.2f y es mayor que la media\n',n4);
+end
+if n5 > media
+    fprintf('El quinto numero es %.2f y es mayor que la media\n',n5);
+end

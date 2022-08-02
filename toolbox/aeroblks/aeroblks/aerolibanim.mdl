@@ -1,0 +1,379 @@
+# $Revision: 1.10.2.2 $
+Library {
+  Name			  "aerolibanim"
+  Version		  5.0
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  off
+  StatusBar		  off
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Tue Aug 21 14:12:25 2001"
+  Creator		  "sgage"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "sgage"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Sat Apr 12 13:54:22 2003"
+  ModelVersionFormat	  "1.%<AutoIncrement:16>"
+  ConfigurationManager	  "None"
+  SimParamPage		  "Solver"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeMexFile	  "ext_comm"
+  ExtModeBatchMode	  off
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock off
+  SimulationMode	  "normal"
+  ConsistencyChecking	  "none"
+  ArrayBoundsChecking	  "none"
+  AlgebraicLoopMsg	  "warning"
+  BlockPriorityViolationMsg "warning"
+  MinStepSizeMsg	  "warning"
+  InheritedTsInSrcMsg	  "warning"
+  DiscreteInheritContinuousMsg "warning"
+  MultiTaskRateTransMsg	  "error"
+  SingleTaskRateTransMsg  "none"
+  CheckForMatrixSingularity "none"
+  IntegerOverflowMsg	  "warning"
+  Int32ToFloatConvMsg	  "warning"
+  ParameterDowncastMsg	  "error"
+  ParameterOverflowMsg	  "error"
+  ParameterPrecisionLossMsg "warning"
+  UnderSpecifiedDataTypeMsg "none"
+  UnnecessaryDatatypeConvMsg "none"
+  VectorMatrixConversionMsg "none"
+  InvalidFcnCallConnMsg	  "error"
+  SignalLabelMismatchMsg  "none"
+  UnconnectedInputMsg	  "warning"
+  UnconnectedOutputMsg	  "warning"
+  UnconnectedLineMsg	  "warning"
+  SfunCompatibilityCheckMsg "none"
+  ProdHWDeviceType	  "Microprocessor"
+  ProdHWWordLengths	  "8,16,32,32"
+  RTWMakeCommand	  "make_rtw"
+  RTWGenerateCodeOnly	  off
+  RTWRetainRTWFile	  off
+  TLCProfiler		  off
+  TLCDebug		  off
+  TLCCoverage		  off
+  TLCAssertion		  off
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      ShowAdditionalParam     off
+      LatchInput	      off
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Mux
+      Inputs		      "4"
+      DisplayOption	      "none"
+    }
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      PortCounts	      "[]"
+      SFunctionModules	      "''"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      RTWSystemCode	      "Auto"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "aerolibanim"
+    Location		    [12, 551, 283, 725]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      "3DoF Animation"
+      Ports		      [3]
+      Position		      [150, 33, 225, 117]
+      TreatAsAtomicUnit	      off
+      MaskType		      "3DoF_Animation"
+      MaskDescription	      "Create a 3-D animated view of a three-degrees-o"
+"f-freedom craft and its target, where X and Z target position (TargetPos), X "
+"and Z craft position (Xe,Ze), and craft attitude are inputs.  \n\nDisplay par"
+"ameters are in the same units of length as the input parameters. "
+      MaskHelp		      "web(asbhelp('3dofanimation'));"
+      MaskPromptString	      "Axes limits [xmin xmax ymin ymax zmin zmax]:|Ti"
+"me interval between updates:|Size of craft displayed:|Enter view:|Position of"
+" camera [xc yc zc]:|View angle:|Enable animation"
+      MaskStyleString	      "edit,edit,edit,popup(Fixed position|Cockpit|Fly"
+" alongside),edit,edit,checkbox"
+      MaskTunableValueString  "on,on,on,on,on,on,on"
+      MaskCallbackString      "||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,"
+      MaskVariables	      "u1=@1;u2=@2;u3=@3;u5=@4;u6=@5;u7=@6;u8=@7;"
+      MaskInitialization      "Config.axes = u1;\nConfig.update = u2;\nConfig."
+"craft = u3;\nConfig.camera_view = u5;\nConfig.camera_pos = u6;\nConfig.view ="
+" u7;\nConfig.Animenable = u8;\n[xp yp] = aeroimage('anim');"
+      MaskDisplay	      "port_label('input',1,'x_{t},z_{t}','texmode','o"
+"n');\nport_label('input',2,'x_e,z_e','texmode','on');\nport_label('input',3,'"
+"\\theta','texmode','on');\npatch(xp,yp) "
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "[0 5000 -2000 2000 -5050 -3050]|0.05|1.0|Fixed "
+"position|[2000 500 -3150]|10|on"
+      System {
+	Name			"3DoF Animation"
+	Location		[4, 51, 305, 199]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "TargetPos"
+	  Position		  [40, 98, 70, 112]
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Xe,Ze"
+	  Position		  [40, 13, 70, 27]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Attitude"
+	  Position		  [40, 53, 70, 67]
+	  Port			  "3"
+	}
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  "Animation\nS-Function"
+	  Ports			  [1]
+	  Position		  [205, 50, 285, 70]
+	  FunctionName		  "saeroanim3dof"
+	  Parameters		  "Config"
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux3"
+	  Ports			  [3, 1]
+	  Position		  [175, 28, 180, 92]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  Inputs		  "3"
+	}
+	Line {
+	  SrcBlock		  "Xe,Ze"
+	  SrcPort		  1
+	  Points		  [35, 0; 0, 20]
+	  DstBlock		  "Mux3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Attitude"
+	  SrcPort		  1
+	  DstBlock		  "Mux3"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "TargetPos"
+	  SrcPort		  1
+	  Points		  [35, 0; 0, -25]
+	  DstBlock		  "Mux3"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "Mux3"
+	  SrcPort		  1
+	  DstBlock		  "Animation\nS-Function"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "6DoF Animation"
+      Ports		      [2]
+      Position		      [40, 34, 120, 116]
+      TreatAsAtomicUnit	      off
+      MaskType		      "6DoF_Animation"
+      MaskDescription	      "Create a 3-D animated view of a six-degrees-of-"
+"freedom craft, where X, Y, and Z craft position (Position) and craft Euler an"
+"gles (Euler) are inputs.  \n\nDisplay parameters are in the same units of len"
+"gth as the input parameters. "
+      MaskHelp		      "web(asbhelp('6dofanimation'));"
+      MaskPromptString	      "Axes limits [xmin xmax ymin ymax zmin zmax]:|Ti"
+"me interval between updates:|Size of craft displayed:|Static object position "
+"[xp yp zp]:|Enter view:|Position of camera [xc yc zc]:|View angle:|Enable ani"
+"mation"
+      MaskStyleString	      "edit,edit,edit,edit,popup(Fixed position|Cockpi"
+"t|Fly alongside),edit,edit,checkbox"
+      MaskTunableValueString  "on,on,on,on,on,on,on,on"
+      MaskCallbackString      "|||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,"
+      MaskVariables	      "u1=@1;u2=@2;u3=@3;u4=@4;u5=@5;u6=@6;u7=@7;u8=@8"
+";"
+      MaskInitialization      "Config.axes = u1;\nConfig.update = u2;\nConfig."
+"craft = u3;\nConfig.target = u4;\nConfig.camera_view = u5;\nConfig.camera_pos"
+" = u6;\nConfig.view = u7;\nConfig.Animenable = u8;\n[xp yp] = aeroimage('anim"
+"');"
+      MaskDisplay	      "port_label('input',1,'x_e','texmode','on');\npo"
+"rt_label('input',2,'\\phi \\theta \\psi','texmode','on');\npatch(xp,yp) \n"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "[0 4000 -2000 2000 -5000 -3000]|0.1|1.0|[4000 0"
+" -5000]|Fixed position|[2000 500 -3150]|10|on"
+      System {
+	Name			"6DoF Animation"
+	Location		[180, 227, 415, 365]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Position"
+	  Position		  [60, 23, 90, 37]
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "Euler"
+	  Position		  [20, 53, 50, 67]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  "Animation\nS-Function"
+	  Ports			  [1]
+	  Position		  [145, 36, 215, 54]
+	  FunctionName		  "saeroanim"
+	  Parameters		  "Config"
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux3"
+	  Ports			  [2, 1]
+	  Position		  [115, 13, 120, 77]
+	  BackgroundColor	  "black"
+	  ShowName		  off
+	  Inputs		  "2"
+	}
+	Line {
+	  SrcBlock		  "Mux3"
+	  SrcPort		  1
+	  DstBlock		  "Animation\nS-Function"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Position"
+	  SrcPort		  1
+	  DstBlock		  "Mux3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Euler"
+	  SrcPort		  1
+	  DstBlock		  "Mux3"
+	  DstPort		  2
+	}
+      }
+    }
+  }
+}

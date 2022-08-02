@@ -1,0 +1,223 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>OPCDEMO_READWRITE</title>
+      <meta name="generator" content="MATLAB 7.0.0.1547 (R14) Prerelease">
+      <meta name="date" content="2004-03-18">
+      <meta name="m-file" content="opcdemo_readwrite">
+      <meta name="title" content="OPCDEMO_READWRITE">
+      <meta name="description" content="This example demonstrates how to use the OPC Toolbox synchronous read and write operations to exchange data with an OPC Server."><style>
+body {
+  background-color: white;
+}
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+pre.codeinput {
+  margin-left: 30px;
+}
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.showbuttons {
+  margin-left: 30px;
+  border: solid black 2px;
+  padding: 4px;
+  background: #EBEFF3;
+}
+
+pre.codeoutput {
+  color: gray;
+  font-style: italic;
+}
+pre.error {
+  color: red;
+}
+    </style></head>
+   <body>
+      <h1>OPCDEMO_READWRITE</h1>
+      <p>This example demonstrates how to use the OPC Toolbox synchronous read and write operations to exchange data with an OPC Server.</p>
+      <h2>Contents</h2>
+      <ul>
+         <li><a href="#1">Connect to server and create objects</a></li>
+         <li><a href="#2">Synchronous read operations</a></li>
+         <li><a href="#4">Synchronous write operations</a></li>
+         <li><a href="#7">Reading from multiple items</a></li>
+         <li><a href="#10">Writing to multiple items</a></li>
+         <li><a href="#12">Clean up</a></li>
+      </ul>
+      <h2>Connect to server and create objects<a name="1"></a></h2><pre class="codeinput">da = opcda(<span class="string">'localhost'</span>, <span class="string">'Matrikon.OPC.Simulation.1'</span>);
+connect(da);
+grp = addgroup(da);
+itm1 = additem(grp, <span class="string">'Random.Real8'</span>);
+</pre><h2>Synchronous read operations<a name="2"></a></h2>
+      <p>The default read operation gets values from the server cache.</p><pre class="codeinput">r = read(itm1)
+</pre><pre class="codeoutput">r = 
+       ItemID: 'Random.Real8'
+        Value: 1.9876e+003
+      Quality: 'Bad: Out of Service'
+    TimeStamp: [2004 3 18 9 47 58.6090]
+        Error: ''
+</pre><p>To read from the device (which may take long) specify the source of the read as 'device'.</p><pre class="codeinput">r = read(itm1, <span class="string">'device'</span>)
+</pre><pre class="codeoutput">r = 
+       ItemID: 'Random.Real8'
+        Value: 77.9359
+      Quality: 'Good: Non-specific'
+    TimeStamp: [2004 3 18 9 48 35.5620]
+        Error: ''
+</pre><h2>Synchronous write operations<a name="4"></a></h2>
+      <p>Add a writable item to the group.</p><pre class="codeinput">itm2 = additem(grp, <span class="string">'Bucket Brigade.Real8'</span>)
+</pre><pre class="codeoutput">itm2 =
+Summary of OPC Data Access Item Object: Bucket Brigade.Real8
+   Object Parameters
+      Parent        : Group0
+      Access Rights : read/write
+   Object Status
+      Active        : on
+   Data Parameters
+      Data Type     : double
+      Value         : 
+      Quality       : 
+      Timestamp     : 
+</pre><p>Write the value 10.</p><pre class="codeinput">write(itm2, 10)
+</pre><p>Read the value back into MATLAB.</p><pre class="codeinput">r = read(itm2)
+</pre><pre class="codeoutput">r = 
+       ItemID: 'Bucket Brigade.Real8'
+        Value: 0
+      Quality: 'Good: Non-specific'
+    TimeStamp: [2004 3 18 9 30 18.5460]
+        Error: ''
+</pre><h2>Reading from multiple items<a name="7"></a></h2>
+      <p>You can read data from multiple items using the group object.</p><pre class="codeinput">r = read(grp)
+</pre><pre class="codeoutput">r = 
+2x1 struct array with fields:
+    ItemID
+    Value
+    Quality
+    TimeStamp
+    Error
+</pre><p>Each element of the returned structure array contains information about each item. Extract the item information using indexing.</p><pre class="codeinput">r(1)
+</pre><pre class="codeoutput">ans = 
+       ItemID: 'Random.Real8'
+        Value: 77.9359
+      Quality: 'Good: Non-specific'
+    TimeStamp: [2004 3 18 9 48 35.5620]
+        Error: ''
+</pre><p>To obtain the values, use concatenation of MATLAB list creation operations.</p><pre class="codeinput">itmIDs = {r.ItemID}
+vals = [r.Value]
+</pre><pre class="codeoutput">itmIDs = 
+    'Random.Real8'    [1x20 char]
+vals =
+   77.9359         0
+</pre><h2>Writing to multiple items<a name="10"></a></h2>
+      <p>You can also write to multiple items. However, you must pass the values for the items in the group as a cell array. This particular
+         example will return a warning, since the first item will not allow you to write data to the item. However, the second item
+         will have the value 5.432 written.
+      </p><pre class="codeinput">write(grp, {1.234, 5.432})
+</pre><pre class="codeoutput">Warning: One or more items could not be written.
+	Random.Real8 returned 'The Items AccessRights do not allow the operation.'
+(Type "warning off opc:write:failed" to suppress this warning.)
+</pre><p>Read the value of the written item.</p><pre class="codeinput">r = read(itm2)
+</pre><pre class="codeoutput">r = 
+       ItemID: 'Bucket Brigade.Real8'
+        Value: 0
+      Quality: 'Good: Non-specific'
+    TimeStamp: [2004 3 18 9 30 18.5460]
+        Error: ''
+</pre><h2>Clean up<a name="12"></a></h2>
+      <p>Once you have finished with the OPC Toolbox objects, you must delete them from the OPC Toolbox engine. Deleting the client
+         object automatically deletes the group and item objects.
+      </p><pre class="codeinput">disconnect(da)
+delete(da)
+clear <span class="string">da</span> <span class="string">grp</span> <span class="string">itm1</span> <span class="string">itm2</span>
+</pre><p class="footer"><br></p>
+      <!--
+##### SOURCE BEGIN #####
+%% OPCDEMO_READWRITE
+% This example demonstrates how to use the OPC Toolbox synchronous read and
+% write operations to exchange data with an OPC Server.
+
+%% Connect to server and create objects
+da = opcda('localhost', 'Matrikon.OPC.Simulation.1');
+connect(da);
+grp = addgroup(da);
+itm1 = additem(grp, 'Random.Real8');
+
+%% Synchronous read operations
+% The default read operation gets values from the server cache.
+r = read(itm1)
+%%
+% To read from the device (which may take long) specify the source of the
+% read as 'device'.
+r = read(itm1, 'device')
+
+%% Synchronous write operations
+% Add a writable item to the group.
+itm2 = additem(grp, 'Bucket Brigade.Real8')
+
+%%
+% Write the value 10.
+write(itm2, 10)
+
+%%
+% Read the value back into MATLAB.
+r = read(itm2)
+
+%% Reading from multiple items
+% You can read data from multiple items using the group object.
+r = read(grp)
+
+%%
+% Each element of the returned structure array contains information about
+% each item. Extract the item information using indexing.
+r(1)
+
+%%
+% To obtain the values, use concatenation of MATLAB list creation operations.
+itmIDs = {r.ItemID}
+vals = [r.Value]
+
+%% Writing to multiple items
+% You can also write to multiple items. However, you must pass the values
+% for the items in the group as a cell array. This particular example will
+% return a warning, since the first item will not allow you to write data
+% to the item. However, the second item will have the value 5.432 written.
+write(grp, {1.234, 5.432})
+
+%%
+% Read the value of the written item.
+r = read(itm2)
+
+%% Clean up
+% Once you have finished with the OPC Toolbox objects, you must delete
+% them from the OPC Toolbox engine. Deleting the client object
+% automatically deletes the group and item objects.
+disconnect(da)
+delete(da)
+clear da grp itm1 itm2
+##### SOURCE END #####
+-->
+   </body>
+</html>

@@ -1,0 +1,13 @@
+function [raiz, it] = newton(func,x,precis)
+%xo es el valor inicial, precis es la precision requerida 
+%func es la funcion.
+it = 0; x0 = x;
+der = diff(func);
+d = eval(func)/eval(der);
+while abs(d) > precis
+    x1 = x0 - d;
+    it = it +1;
+    x0 = x1;
+    d = eval(func)/eval(der);
+end;
+raiz = x0;

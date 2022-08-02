@@ -1,0 +1,36 @@
+%% $RCSfile: stiiqmath_iqmpyi32int.tlc,v $
+%% $Revision: 1.1.6.2 $ $Date: 2004/04/08 20:59:59 $
+%% Copyright 2003-2004 The MathWorks, Inc.
+%%
+%% Abstract: TI C28x IQmath library "IQmpyi32int" (optimized IQ multiplication function)
+
+%implements stiiqmath_iqmpyi32int "C"
+
+%include "fix_published.tlc"
+
+
+%% Function: BlockTypeSetup ==============================================
+%function BlockTypeSetup(block, system) void
+    %<LibAddToCommonIncludes("<IQmathLib.h>")>
+%endfunction %% BlockTypeSetup
+
+
+%% Function: Outputs ==========================================================
+%%
+%function Outputs(block, system) Output
+	%assign INPORT_A = 0
+	%assign dataTypeIdY = LibBlockInputSignalDataTypeId(INPORT_A)
+	%assign fractionLengthY = FixPt_DataTypeFractionLength( block, dataTypeIdY )
+
+	/* C28x IQmath Library (%<ParamSettings.FunctionName>) - '%<Name>' */
+	{	
+        %assign rollVars = ["U", "Y"]
+        %roll idx = RollRegions, lcv = RollThreshold, block,"Roller", rollVars
+			%<LibBlockOutputSignal (0, "", lcv, idx)> = _IQ%<fractionLengthY>mpyI32int (%<LibBlockInputSignal (0, "", lcv, idx)>, \
+                                                                                        %<LibBlockInputSignal (1, "", lcv, idx)>);
+		%endroll
+	}
+
+%endfunction
+
+%% [EOF] stiiqmath_iqmpyi32int.tlc

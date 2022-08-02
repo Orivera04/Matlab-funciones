@@ -1,0 +1,1021 @@
+# $Revision: 1.1.6.6 $
+Library {
+  Name			  "aerolibatmos2"
+  Version		  5.0
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  off
+  StatusBar		  off
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Tue Aug 21 14:06:07 2001"
+  Creator		  "sgage"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "sgage"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Wed Apr 02 15:52:45 2003"
+  ModelVersionFormat	  "1.%<AutoIncrement:103>"
+  ConfigurationManager	  "None"
+  SimParamPage		  "Solver"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeMexFile	  "ext_comm"
+  ExtModeBatchMode	  off
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock off
+  SimulationMode	  "normal"
+  ConsistencyChecking	  "none"
+  ArrayBoundsChecking	  "none"
+  AlgebraicLoopMsg	  "warning"
+  BlockPriorityViolationMsg "warning"
+  MinStepSizeMsg	  "warning"
+  InheritedTsInSrcMsg	  "warning"
+  DiscreteInheritContinuousMsg "warning"
+  MultiTaskRateTransMsg	  "error"
+  SingleTaskRateTransMsg  "none"
+  CheckForMatrixSingularity "none"
+  IntegerOverflowMsg	  "warning"
+  Int32ToFloatConvMsg	  "warning"
+  ParameterDowncastMsg	  "error"
+  ParameterOverflowMsg	  "error"
+  ParameterPrecisionLossMsg "warning"
+  UnderSpecifiedDataTypeMsg "none"
+  UnnecessaryDatatypeConvMsg "none"
+  VectorMatrixConversionMsg "none"
+  InvalidFcnCallConnMsg	  "error"
+  SignalLabelMismatchMsg  "none"
+  UnconnectedInputMsg	  "warning"
+  UnconnectedOutputMsg	  "warning"
+  UnconnectedLineMsg	  "warning"
+  SfunCompatibilityCheckMsg "none"
+  ProdHWDeviceType	  "Microprocessor"
+  ProdHWWordLengths	  "8,16,32,32"
+  RTWMakeCommand	  "make_rtw"
+  RTWGenerateCodeOnly	  off
+  RTWRetainRTWFile	  off
+  TLCProfiler		  off
+  TLCDebug		  off
+  TLCCoverage		  off
+  TLCAssertion		  off
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      ShowAdditionalParam     off
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "sfix(16)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "2^0"
+    }
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ShowAdditionalParam     off
+      ParameterDataTypeMode   "Same as input"
+      ParameterDataType	      "sfix(16)"
+      ParameterScalingMode    "Best Precision: Matrix-wise"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      ShowAdditionalParam     off
+      LatchInput	      off
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Math
+      Operator		      "exp"
+      OutputSignalType	      "auto"
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      Product
+      Inputs		      "2"
+      Multiplication	      "Element-wise(.*)"
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Saturate
+      UpperLimit	      "0.5"
+      LowerLimit	      "-0.5"
+      LinearizeAsGain	      on
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      PortCounts	      "[]"
+      SFunctionModules	      "''"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      RTWSystemCode	      "Auto"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Sum
+      IconShape		      "rectangular"
+      Inputs		      "++"
+      ShowAdditionalParam     off
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "aerolibatmos2"
+    Location		    [504, 53, 837, 403]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      "COESA Atmosphere Model"
+      Ports		      [1, 4]
+      Position		      [35, 124, 150, 196]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Atmosphere Model"
+      MaskDescription	      "Calculate various atmosphere models including 1"
+"976 COESA-extended U.S. Standard Atmosphere, MIL-HDBK-310, and MIL-STD-210C. "
+" Given geopotential altitude, calculate absolute temperature, pressure and de"
+"nsity using standard interpolation formulas.\n\nThe COESA model extrapolates "
+"temperature linearly and pressure/density logarithmically beyond the range\n"
+"\n	0 <= altitude <= 84852 meters (geopotential)\n \nThe MIL specificat"
+"ions are not extrapolated beyond their defined altitudes which are typically"
+"\n\n	0 <= altitude <= 80000 meters (geometric)\n\nDepending on the giv"
+"en information either density or pressure is calculated using a perfect gas r"
+"elationship.\n\nThe unit system selected applies to both input and outputs. "
+      MaskHelp		      "web(asbhelp('COESA Atmosphere Model'));"
+      MaskPromptString	      "Units:|Specification:|Atmospheric model type:|E"
+"xtreme parameter:|Frequency of occurrence:|Altitude of extreme value:|Extreme"
+" parameter:|Frequency of occurrence:|Action for out of range input:"
+      MaskStyleString	      "popup(Metric (MKS)|English (Velocity in ft/s)|E"
+"nglish (Velocity in kts)),popup(1976 COESA-extended U.S. Standard Atmosphere|"
+"MIL-HDBK-310|MIL-STD-210C),popup(Profile|Envelope),popup(High temperature|Low"
+" temperature|High density|Low density),popup(1%|10%),popup(5 km (16404 ft)|10"
+" km (32808 ft)|20 km (65617 ft)|30 km (98425 ft)|40 km (131234 ft)),popup(Hig"
+"h temperature|Low temperature|High density|Low density|High pressure|Low pres"
+"sure),popup(Extreme values|1%|5%|10%|20%),popup(None|Warning|Error)"
+      MaskTunableValueString  "off,on,on,on,on,on,on,on,off"
+      MaskCallbackString      "aeroicon('aeroblkatmos');|aeroicon('aeroblkatmo"
+"s');|aeroicon('aeroblkatmos');||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,off,off,off,off,off,off,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,"
+      MaskVariables	      "units=@1;spec=@2;model=@3;profile_var=@4;profil"
+"e_percent=@5;profile_alt=@6;envelope_var=@7;envelope_percent=@8;action=@9;"
+      MaskInitialization      "[ports] = aeroicon('aeroblkatmos','icon');\n[x "
+"y miny txt] = aeroimage('atmosphere');\n"
+      MaskDisplay	      "port_label(ports(1).type,ports(1).port,ports(1)"
+".txt,'texmode','on');\nport_label(ports(2).type,ports(2).port,ports(2).txt,'t"
+"exmode','on');\nport_label(ports(3).type,ports(3).port,ports(3).txt,'texmode'"
+",'on');\nport_label(ports(4).type,ports(4).port,ports(4).txt,'texmode','on');"
+"\nport_label(ports(5).type,ports(5).port,ports(5).txt,'texmode','on');\nplot("
+"x,y)\ntext(0.5,miny-.07,txt,'HorizontalAlignment','center');"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "Metric (MKS)|1976 COESA-extended U.S. Standard "
+"Atmosphere|Profile|High temperature|1%|5 km (16404 ft)|High temperature|1%|Wa"
+"rning"
+      System {
+	Name			"COESA Atmosphere Model"
+	Location		[313, 143, 904, 460]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Height"
+	  Position		  [30, 148, 60, 162]
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Density Conversion"
+	  Ports			  [1, 1]
+	  Position		  [365, 200, 455, 230]
+	  SourceBlock		  "aerolibconvert/Density Conversion"
+	  SourceType		  "Density Conversion"
+	  IU			  "kg/m^3"
+	  OU			  "kg/m^3"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Length Conversion"
+	  Ports			  [1, 1]
+	  Position		  [100, 140, 135, 170]
+	  SourceBlock		  "aerolibconvert/Length Conversion"
+	  SourceType		  "Length Conversion"
+	  IU			  "m"
+	  OU			  "m"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Pressure Conversion"
+	  Ports			  [1, 1]
+	  Position		  [290, 160, 335, 190]
+	  SourceBlock		  "aerolibconvert/Pressure Conversion"
+	  SourceType		  "Pressure Conversion"
+	  IU			  "Pa"
+	  OU			  "Pa"
+	}
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  "S-Function"
+	  Ports			  [1, 4]
+	  Position		  [175, 75, 255, 235]
+	  FunctionName		  "saeroatmos"
+	  Parameters		  "spec,model,profile_var,profile_percent,prof"
+"ile_alt,envelope_var,envelope_percent,action"
+	  SFunctionModules	  "aeroatmcoesa aeroatmenvelope310 aeroatmenve"
+"lope210c aeroatmprofile310 aeroatmprofile210c"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Temperature Conversion"
+	  Ports			  [1, 1]
+	  Position		  [295, 80, 335, 110]
+	  SourceBlock		  "aerolibconvert/Temperature Conversion"
+	  SourceType		  "Temperature Conversion"
+	  IU			  "K"
+	  OU			  "K"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Velocity Conversion"
+	  Ports			  [1, 1]
+	  Position		  [395, 120, 440, 150]
+	  SourceBlock		  "aerolibconvert/Velocity Conversion"
+	  SourceType		  "Velocity Conversion"
+	  IU			  "m/s"
+	  OU			  "m/s"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Temperature"
+	  Position		  [490, 88, 520, 102]
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Speed of Sound"
+	  Position		  [490, 128, 520, 142]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Air Pressure"
+	  Position		  [490, 168, 520, 182]
+	  Port			  "3"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Air Density"
+	  Position		  [490, 208, 520, 222]
+	  Port			  "4"
+	}
+	Line {
+	  SrcBlock		  "Length Conversion"
+	  SrcPort		  1
+	  DstBlock		  "S-Function"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Velocity Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Speed of Sound"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "S-Function"
+	  SrcPort		  2
+	  DstBlock		  "Velocity Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "S-Function"
+	  SrcPort		  1
+	  DstBlock		  "Temperature Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "S-Function"
+	  SrcPort		  3
+	  DstBlock		  "Pressure Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "S-Function"
+	  SrcPort		  4
+	  DstBlock		  "Density Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Temperature Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Temperature"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Height"
+	  SrcPort		  1
+	  DstBlock		  "Length Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Pressure Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Air Pressure"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Density Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Air Density"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "ISA Atmosphere Model"
+      Ports		      [1, 4]
+      Position		      [35, 22, 150, 93]
+      TreatAsAtomicUnit	      off
+      MaskType		      "International Standard Atmosphere Model"
+      MaskDescription	      "Compute International Standard Atmosphere (ISA)"
+" model for altitudes between 0 Km and 20 Km using a lapse rate method.  \n\nS"
+"elect change atmospheric parameters to create custom atmosphere."
+      MaskHelp		      "web(asbhelp('isaatmospheremodel'));"
+      MaskPromptString	      "Change atmospheric parameters|Acceleration due "
+"to gravity (m/s^2):|Ratio of specific heats:|Characteristic gas constant (J/K"
+"g/K):|Lapse rate (K/m):|Height of troposphere (m):|Height of tropopause (m):|"
+"Air density at mean sea level (Kg/m^3):|Ambient pressure at mean sea level (N"
+"/m^2):|Ambient temperature at mean sea level (K):"
+      MaskStyleString	      "checkbox,edit,edit,edit,edit,edit,edit,edit,edi"
+"t,edit"
+      MaskTunableValueString  "on,on,on,on,on,on,on,on,on,on"
+      MaskCallbackString      "aeroicon('aeroblkisa')|||||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,off,off,off,off,off,off,off,off,off"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,"
+      MaskVariables	      "custom=@1;g=@2;gamma=@3;R=@4;L=@5;h_trop=@6;h_s"
+"trat=@7;rho0=@8;P0=@9;T0=@10;"
+      MaskInitialization      "ports = aeroicon('aeroblkisa','icon');\n[x y mi"
+"ny txt] = aeroimage('atmosphere');"
+      MaskDisplay	      "port_label('input',1,'h (m)','texmode','on');\n"
+"port_label('output',1,'T (K)','texmode','on');\nport_label('output',2,'a (m/s"
+")','texmode','on');\nport_label('output',3,'P (Pa)','texmode','on');\nport_la"
+"bel('output',4,'\\rho (kg/m^3)','texmode','on');\nplot(x,y)\ntext(0.5,miny-.0"
+"7,txt,'HorizontalAlignment','center');"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "off|9.80665|1.4|287.0531|0.0065|11000|20000|1.2"
+"25|101325|288.15"
+      System {
+	Name			"ISA Atmosphere Model"
+	Location		[231, 74, 973, 489]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Height"
+	  Position		  [15, 93, 45, 107]
+	}
+	Block {
+	  BlockType		  Math
+	  Name			  "(T/T0)^(g/LR)\n"
+	  Ports			  [2, 1]
+	  Position		  [390, 162, 420, 193]
+	  Operator		  "pow"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "1/T0"
+	  Position		  [265, 150, 310, 190]
+	  Gain			  "1/T0"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Altitude of\nTroposphere"
+	  Position		  [75, 286, 125, 304]
+	  Value			  "h_trop"
+	  ShowAdditionalParam	  on
+	  OutDataTypeMode	  "Inherit via back propagation"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant"
+	  Position		  [325, 175, 370, 195]
+	  ShowName		  off
+	  Value			  "g/(L*R)"
+	  ShowAdditionalParam	  on
+	  OutDataTypeMode	  "Inherit via back propagation"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Lapse\nRate"
+	  Position		  [135, 82, 170, 118]
+	  Gain			  "L"
+	}
+	Block {
+	  BlockType		  Saturate
+	  Name			  "Limit \naltitude  to\nStratosphere"
+	  Position		  [220, 315, 250, 345]
+	  UpperLimit		  "0"
+	  LowerLimit		  "h_trop-h_strat"
+	}
+	Block {
+	  BlockType		  Saturate
+	  Name			  "Limit \naltitude  to\ntroposhere"
+	  Position		  [75, 85, 105, 115]
+	  UpperLimit		  "h_trop"
+	  LowerLimit		  "0"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "P0"
+	  Position		  [510, 158, 560, 202]
+	  Gain			  "P0"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product"
+	  Ports			  [2, 1]
+	  Position		  [455, 232, 485, 263]
+	  ShowName		  off
+	  Inputs		  "*/"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product1"
+	  Ports			  [2, 1]
+	  Position		  [370, 278, 390, 347]
+	  ShowName		  off
+	  Inputs		  "/*"
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product2"
+	  Ports			  [2, 1]
+	  Position		  [615, 172, 645, 203]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "Product3"
+	  Ports			  [2, 1]
+	  Position		  [615, 242, 645, 273]
+	  ShowName		  off
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Sea Level \nTemperature"
+	  Position		  [115, 26, 165, 44]
+	  Value			  "T0"
+	  ShowAdditionalParam	  on
+	  OutDataTypeMode	  "Inherit via back propagation"
+	}
+	Block {
+	  BlockType		  Math
+	  Name			  "Stratosphere\nModel"
+	  Ports			  [1, 1]
+	  Position		  [445, 300, 475, 330]
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum"
+	  Ports			  [2, 1]
+	  Position		  [160, 312, 190, 343]
+	  ShowName		  off
+	  Inputs		  "+-"
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum1"
+	  Ports			  [2, 1]
+	  Position		  [210, 77, 240, 108]
+	  ShowName		  off
+	  Inputs		  "+-"
+	}
+	Block {
+	  BlockType		  Math
+	  Name			  "a"
+	  Ports			  [1, 1]
+	  Position		  [370, 80, 400, 110]
+	  Operator		  "sqrt"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "g/R"
+	  Position		  [285, 308, 335, 352]
+	  Gain			  "g/R"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "gamma*R"
+	  Position		  [270, 76, 345, 114]
+	  Gain			  "gamma*R"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "rho0"
+	  Position		  [510, 228, 560, 272]
+	  Gain			  "rho0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Temperature"
+	  Position		  [310, 28, 340, 42]
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Speed of Sound"
+	  Position		  [455, 88, 485, 102]
+	  Port			  "2"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Air Pressure"
+	  Position		  [680, 183, 710, 197]
+	  Port			  "3"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Air Density"
+	  Position		  [675, 253, 705, 267]
+	  Port			  "4"
+	}
+	Line {
+	  SrcBlock		  "Limit \naltitude  to\nStratosphere"
+	  SrcPort		  1
+	  DstBlock		  "g/R"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sum"
+	  SrcPort		  1
+	  DstBlock		  "Limit \naltitude  to\nStratosphere"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Altitude of\nTroposphere"
+	  SrcPort		  1
+	  Points		  [5, 0; 0, 25]
+	  DstBlock		  "Sum"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Product1"
+	  SrcPort		  1
+	  DstBlock		  "Stratosphere\nModel"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "g/R"
+	  SrcPort		  1
+	  DstBlock		  "Product1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Stratosphere\nModel"
+	  SrcPort		  1
+	  Points		  [95, 0; 0, -50]
+	  Branch {
+	    DstBlock		    "Product3"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, -70]
+	    DstBlock		    "Product2"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  SrcBlock		  "Product3"
+	  SrcPort		  1
+	  DstBlock		  "Air Density"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "rho0"
+	  SrcPort		  1
+	  DstBlock		  "Product3"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Product2"
+	  SrcPort		  1
+	  DstBlock		  "Air Pressure"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "P0"
+	  SrcPort		  1
+	  DstBlock		  "Product2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sea Level \nTemperature"
+	  SrcPort		  1
+	  Points		  [25, 0]
+	  DstBlock		  "Sum1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Lapse\nRate"
+	  SrcPort		  1
+	  DstBlock		  "Sum1"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Sum1"
+	  SrcPort		  1
+	  Points		  [0, 0; 5, 0]
+	  Branch {
+	    Points		    [0, 75]
+	    Branch {
+	      Points		      [0, 125]
+	      DstBlock		      "Product1"
+	      DstPort		      1
+	    }
+	    Branch {
+	      DstBlock		      "1/T0"
+	      DstPort		      1
+	    }
+	  }
+	  Branch {
+	    Points		    [0, 0]
+	    DstBlock		    "gamma*R"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -60]
+	    DstBlock		    "Temperature"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "a"
+	  SrcPort		  1
+	  DstBlock		  "Speed of Sound"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "gamma*R"
+	  SrcPort		  1
+	  DstBlock		  "a"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "1/T0"
+	  SrcPort		  1
+	  Points		  [0, 0; 5, 0]
+	  Branch {
+	    Points		    [0, 85]
+	    DstBlock		    "Product"
+	    DstPort		    2
+	  }
+	  Branch {
+	    DstBlock		    "(T/T0)^(g/LR)\n"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "(T/T0)^(g/LR)\n"
+	  SrcPort		  1
+	  Points		  [0, 0; 15, 0]
+	  Branch {
+	    DstBlock		    "P0"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Product"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Product"
+	  SrcPort		  1
+	  DstBlock		  "rho0"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Limit \naltitude  to\ntroposhere"
+	  SrcPort		  1
+	  DstBlock		  "Lapse\nRate"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Height"
+	  SrcPort		  1
+	  Points		  [0, 0]
+	  Branch {
+	    Points		    [0, 235]
+	    DstBlock		    "Sum"
+	    DstPort		    2
+	  }
+	  Branch {
+	    DstBlock		    "Limit \naltitude  to\ntroposhere"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Constant"
+	  SrcPort		  1
+	  DstBlock		  "(T/T0)^(g/LR)\n"
+	  DstPort		  2
+	}
+	Annotation {
+	  Position		  [368, 48]
+	}
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Lapse Rate Model"
+      Ports		      [1, 4]
+      Position		      [175, 22, 290, 93]
+      SourceBlock	      "aerolibatmos2/ISA Atmosphere Model"
+      SourceType	      "International Standard Atmosphere Model"
+      custom		      on
+      g			      "9.80665"
+      gamma		      "1.4"
+      R			      "287.0531"
+      L			      "0.0065"
+      h_trop		      "11000"
+      h_strat		      "20000"
+      rho0		      "1.225"
+      P0		      "101325"
+      T0		      "288.15"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Non-Standard Day 210C"
+      Ports		      [1, 4]
+      Position		      [175, 229, 290, 301]
+      SourceBlock	      "aerolibatmos2/COESA Atmosphere Model"
+      SourceType	      "Atmosphere Model"
+      units		      "Metric (MKS)"
+      spec		      "MIL-STD-210C"
+      model		      "Profile"
+      profile_var	      "High temperature"
+      profile_percent	      "1%"
+      profile_alt	      "5 km (16404 ft)"
+      envelope_var	      "High temperature"
+      envelope_percent	      "1%"
+      action		      "Warning"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Non-Standard Day 310"
+      Ports		      [1, 4]
+      Position		      [175, 124, 290, 196]
+      SourceBlock	      "aerolibatmos2/COESA Atmosphere Model"
+      SourceType	      "Atmosphere Model"
+      units		      "Metric (MKS)"
+      spec		      "MIL-HDBK-310"
+      model		      "Profile"
+      profile_var	      "High temperature"
+      profile_percent	      "1%"
+      profile_alt	      "5 km (16404 ft)"
+      envelope_var	      "High temperature"
+      envelope_percent	      "1%"
+      action		      "Warning"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Pressure Altitude"
+      Ports		      [1, 1]
+      Position		      [35, 242, 150, 288]
+      TreatAsAtomicUnit	      off
+      MaskType		      "Pressure Altitude"
+      MaskDescription	      "Calculate pressure altitude based on ambient pr"
+"essure.\n\nPressure altitude is the altitude in the 1976 COESA-extended U.S. "
+"Standard Atmosphere with specified ambient pressure.  Pressure altitude is al"
+"so known as the mean sea level altitude (MSL)."
+      MaskHelp		      "web(asbhelp('pressurealtitude'));"
+      MaskPromptString	      "Units:|Action for out of range input:"
+      MaskStyleString	      "popup(Metric (MKS)|English),popup(None|Warning|"
+"Error)"
+      MaskTunableValueString  "off,off"
+      MaskCallbackString      "|"
+      MaskEnableString	      "on,on"
+      MaskVisibilityString    "on,on"
+      MaskToolTipString	      "on,on"
+      MaskVarAliasString      ","
+      MaskVariables	      "units=@1;action=@2;"
+      MaskInitialization      "ports = aeroicon('aeroblkpalt','icon');"
+      MaskDisplay	      "port_label(ports(1).type,ports(1).port,ports(1)"
+".txt,'texmode','on');\nport_label(ports(2).type,ports(2).port,ports(2).txt,'t"
+"exmode','on');\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "Metric (MKS)|Warning"
+      System {
+	Name			"Pressure Altitude"
+	Location		[180, 227, 602, 386]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Pstatic"
+	  Position		  [15, 68, 45, 82]
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Length Conversion"
+	  Ports			  [1, 1]
+	  Position		  [280, 59, 320, 91]
+	  ShowName		  off
+	  SourceBlock		  "aerolibconvert/Length Conversion"
+	  SourceType		  "Length Conversion"
+	  IU			  "m"
+	  OU			  "m"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Pressure Conversion"
+	  Ports			  [1, 1]
+	  Position		  [70, 60, 115, 90]
+	  ShowName		  off
+	  SourceBlock		  "aerolibconvert/Pressure Conversion"
+	  SourceType		  "Pressure Conversion"
+	  IU			  "Pa"
+	  OU			  "Pa"
+	}
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  "S-Function"
+	  Ports			  [1, 1]
+	  Position		  [160, 56, 245, 94]
+	  FunctionName		  "saeropalt"
+	  Parameters		  "action"
+	  SFunctionModules	  "aeroatmcoesa"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Altitude_p"
+	  Position		  [360, 68, 390, 82]
+	}
+	Line {
+	  SrcBlock		  "Pressure Conversion"
+	  SrcPort		  1
+	  DstBlock		  "S-Function"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Length Conversion"
+	  SrcPort		  1
+	  DstBlock		  "Altitude_p"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Pstatic"
+	  SrcPort		  1
+	  DstBlock		  "Pressure Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "S-Function"
+	  SrcPort		  1
+	  DstBlock		  "Length Conversion"
+	  DstPort		  1
+	}
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+%rotación de la parábola
+%x1=x2*cos(t)-y2*sin(t);
+%y2=x2*sin(t)+y2*cos(t);
+%T1=cos(t)^2;T2=sin(t)^2;T3=cos(t)*sin(t);
+clear;
+clc;
+syms x y X Y t x1 y1 x2 y2
+%Introducción de coeficientes.
+Coef=input('Dar los coeficientes [A,B,C,D,E,F]= ');
+A=Coef(1);B=Coef(2);C=Coef(3);D=Coef(4);E=Coef(5);F=Coef(6);
+if B==0 
+    disp('No hay rotación');
+elseif B~=0 && A-C==0
+    theta=45;
+    cost=sym(sqrt(2))/2; sent=sym(sqrt(2))/2
+    disp(['Angulo de rotación theta=',num2str(theta),'º']);
+elseif B~=0 && A-C~=0
+    tan2t=B/(A-C);
+    cos2t=sym(sqrt(1/(1+tan2t^2)));
+    cost=sqrt(((1+cos2t)/2));
+    sent=sqrt(1-cost^2);
+    theta=atan(tan2t)/2;
+    ang_grados=180*theta/pi;
+    disp(['Angulo de rotación theta=',num2str(ang_grados),'º']);
+end
+if theta>0
+x=X*cost-Y*sent; y=X*sent+Y*cost;
+else
+x=X*sent-Y*cost; y=X*cost+Y*sent;
+end
+ecua1=A*x^2+B*x*y+C*y^2+D*x+E*y+F;
+ecua2=simplify(ecua1)
+%Ecuacion de la cónica trasladada y rotada.
+disp('Ecuación de cónica  rotada:');
+ecua3=char(ecua2);
+ecuarot=strcat(ecua3,'=0');
+pretty(sym(ecuarot));
+CP=coefpol(ecua3)

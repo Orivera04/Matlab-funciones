@@ -1,0 +1,16 @@
+f=inline('x^2+y^2','x','y');
+h=input('De el valor de h: ');
+x=0:h:1;
+y=0:h:1;
+for i=1:1/h
+    for j=1:1/h
+        s=cumsum(f(x(i),y(j))*h^2);
+    end
+    fprintf('la suma acumulada No.  %d ',i);
+    fprintf('es %6.4f  \n',s);
+    suma(i)=s;
+end
+%sumatotal=cumsum(suma);
+%sumatotal
+suma
+cumsum(suma)

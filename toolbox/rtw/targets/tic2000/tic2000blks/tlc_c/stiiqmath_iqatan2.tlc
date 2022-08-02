@@ -1,0 +1,45 @@
+%% $RCSfile: stiiqmath_iqatan2.tlc,v $
+%% $Revision: 1.1.6.2 $ $Date: 2004/04/08 20:59:51 $
+%% Copyright 2003-2004 The MathWorks, Inc.
+%%
+%% Abstract: TI C28x IQmath library "IQatan2" (optimized IQ arc tangent function)
+
+%implements stiiqmath_iqatan2 "C"
+
+%include "fix_published.tlc"
+
+
+%% Function: BlockTypeSetup ==============================================
+%function BlockTypeSetup(block, system) void
+    %<LibAddToCommonIncludes("<IQmathLib.h>")>
+%endfunction %% BlockTypeSetup
+
+
+%% Function: Outputs ==========================================================
+%%
+%function Outputs(block, system) Output
+	%assign OUTPORT_Y  = 0
+	%assign dataTypeIdY = LibBlockOutputSignalDataTypeId(OUTPORT_Y)
+	%assign fractionLengthY = FixPt_DataTypeFractionLength( block,dataTypeIdY )
+	%assign option = LibBlockParameterValue(P1, 0)
+	
+	/* C28x IQmath Library (%<ParamSettings.FunctionName>) - '%<Name>' */
+	{
+	    %assign rollVars = ["U", "Y"]
+        %roll idx = RollRegions, lcv = RollThreshold, block,"Roller", rollVars
+			%switch %<option>
+			%case 1     %% atan2
+				%<LibBlockOutputSignal (0, "", lcv, idx)> = _IQ%<fractionLengthY>atan2 (%<LibBlockInputSignal (1, "", lcv, idx)>, \
+                                                                                        %<LibBlockInputSignal (0, "", lcv, idx)>);			
+            %break
+			%case 2     %% atan2PU
+				%<LibBlockOutputSignal (0, "", lcv, idx)> = _IQ%<fractionLengthY>atan2PU (%<LibBlockInputSignal (1, "", lcv, idx)>, \
+                                                                                          %<LibBlockInputSignal (0, "", lcv, idx)>);			
+			%break
+			%endswitch			
+		%endroll
+	}
+
+%endfunction
+
+%% [EOF] stiiqmath_iqatan2.tlc

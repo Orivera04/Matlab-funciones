@@ -1,0 +1,142 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>screenxymon</title>
+      <meta name="generator" content="MATLAB 7.2">
+      <meta name="date" content="2006-10-10">
+      <meta name="m-file" content="script_screenxymon"><style>
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows.  On Gecko-based browsers, the shrink-to-fit doesn't work. */ 
+p,h1,h2,div.content div {
+  /* for MATLAB's browser */
+  width: 600px;
+  /* for Mozilla, but the "width" tag overrides it anyway */
+  max-width: 600px;
+  /* for IE */
+  width:expression(document.body.clientWidth > 620 ? "600px": "auto" );
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head>
+   <body>
+      <div class="content">
+         <h1>screenxymon</h1>
+         <introduction>
+            <p>SCREEN X-Y MONitor coordinates.</p>
+         </introduction>
+         <h2>Contents</h2>
+         <div>
+            <ul>
+               <li><a href="#1">Syntax</a></li>
+               <li><a href="#2">Description</a></li>
+               <li><a href="#3">Examples:</a></li>
+            </ul>
+         </div>
+         <h2>Syntax<a name="1"></a></h2><pre>newxy = screenxymon(monitor,xy) </pre><h2>Description<a name="2"></a></h2>
+         <p>Calculates relative screen coordinates for the monitor from the absolute coordinates. This function simplifies the use of
+            multiple monitors in Matlab through the use of relative coordinates for each monitor. 
+         </p>
+			<p>&quot;newxy" is a vector of xy pairs (pixels) calculated for each input xy pair. 
+         </p>
+			<p>"monitor" is a number
+            associated with each number (Default=1). Monitor numbering is defined as the row number of the corresponding monitor in the
+            root property 'MonitorPositions'. "xy" is a vector of absolute xy coordinate pairs (pixels) which are relative to the lower
+            left corner of the primary monitor (1,1).
+         </p>
+			<p>See also SCREENXYABS.M for calculation of absolute coordinates.</p>
+			<p>Uses getmondim.m.</p>
+         <h2>Examples:<a name="3"></a></h2>
+         <p>y=screenxymon(2,[1,1]);  y=screenxymon(2,[1,1,1024,768]);</p>
+         <div>
+            <ul>
+               <li><b>Copyright</b> 2006 Mirtech, Inc. created 09/27/2006  by Mirko Hrovat on Matlab Ver. 7.2 
+				<br>
+				email: <a href="mailto:mhrovat@email.com">mhrovat@email.com</a>
+               </li>
+            </ul>
+         </div>
+			<p class="footer"><br>
+            Published with wg_publish; V1.0<br></p>
+      </div>
+      <!--
+##### SOURCE BEGIN #####
+%% screenxymon
+% newxy = screenxymon(monitor,xy)  SCREEN X-Y MONitor coordinates.
+%% Syntax
+%  newxy=screenxymon(monitor,xy)
+%% Description
+% Calculates relative screen coordinates for the monitor from the
+% absolute coordinates. This function simplifies the use of multiple monitors
+% in Matlab through the use of relative coordinates for each monitor.
+% See also SCREENXYABS.M for calculation of absolute coordinates.
+% "newxy" is a vector of xy pairs (pixels) calculated for each input xy pair.
+% "monitor" is a number associated with each number (Default=1).
+% Monitor numbering is defined as the row number of the corresponding
+% monitor in the root property 'MonitorPositions'.
+% "xy" is a vector of absolute xy coordinate pairs (pixels) which are relative
+% to the lower left corner of the primary monitor (1,1).
+%% Examples:
+% y=screenxymon(2,[1,1]);  y=screenxymon(2,[1,1,1024,768]);
+%%
+%%
+% * *Copyright* 2006 Mirtech, Inc.
+% created 09/27/2006  by Mirko Hrovat on Matlab Ver. 7.2
+% Mirtech, Inc.       email: mhrovat@email.com
+% Uses getmondim.m
+%
+
+##### SOURCE END #####
+-->
+   </body>
+</html>

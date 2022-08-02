@@ -1,0 +1,149 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>OPCDEMO_CUSTOMCALLBACK</title>
+      <meta name="generator" content="MATLAB 7.0.0.1547 (R14) Prerelease">
+      <meta name="date" content="2004-03-18">
+      <meta name="m-file" content="opcdemo_customcallback">
+      <meta name="title" content="OPCDEMO_CUSTOMCALLBACK">
+      <meta name="description" content="This example demonstrates how to use a custom callback for the OPC Toolbox. The example makes use of the display_opcdata function, which plots recently acquired data in a figure window."><style>
+body {
+  background-color: white;
+}
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+pre.codeinput {
+  margin-left: 30px;
+}
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.showbuttons {
+  margin-left: 30px;
+  border: solid black 2px;
+  padding: 4px;
+  background: #EBEFF3;
+}
+
+pre.codeoutput {
+  color: gray;
+  font-style: italic;
+}
+pre.error {
+  color: red;
+}
+    </style></head>
+   <body>
+      <h1>OPCDEMO_CUSTOMCALLBACK</h1>
+      <p>This example demonstrates how to use a custom callback for the OPC Toolbox. The example makes use of the <a href="matlab:open('display_opcdata.m')">display_opcdata</a> function, which plots recently acquired data in a figure window.
+      </p>
+      <h2>Contents</h2>
+      <ul>
+         <li><a href="#2">Step 1: Create the OPC Toolbox object hierarchy</a></li>
+         <li><a href="#3">Step 2: Configure property values</a></li>
+         <li><a href="#4">Step 3: Acquire data</a></li>
+         <li><a href="#5">Step 4: Clean up</a></li>
+      </ul>
+      <p>To run this example on your system, you must have the Matrikon Simulation Server installed. Alternatively, you can replace
+         the values used in the creation of the objects with values for a server you can access.
+      </p>
+      <h2>Step 1: Create the OPC Toolbox object hierarchy<a name="2"></a></h2>
+      <p>This example creates a hierarchy of OPC Toolbox objects for the Matrikon Simulation Server.</p><pre class="codeinput">da = opcda(<span class="string">'localhost'</span>,<span class="string">'Matrikon.OPC.Simulation.1'</span>);
+connect(da);
+grp = addgroup(da,<span class="string">'CallbackTest'</span>);
+itm1 = additem(grp,<span class="string">'Triangle Waves.Real8'</span>);
+itm2 = additem(grp,<span class="string">'Saw-toothed Waves.UInt2'</span>);
+</pre><h2>Step 2: Configure property values<a name="3"></a></h2>
+      <p>This example sets the UpdateRate value to 0.2 seconds, and the RecordsToAcquire property to 200. The example also specifies
+         as the value of the RecordsAcquiredFcn callback the event callback function display_opcdata. The object will execute the RecordsAcquiredFcn
+         every 5 records, as specified by the value of the RecordsAcquiredFcnCount property.
+      </p><pre class="codeinput">set(grp,<span class="string">'UpdateRate'</span>,0.2);
+set(grp,<span class="string">'RecordsToAcquire'</span>,200);
+set(grp,<span class="string">'RecordsAcquiredFcnCount'</span>,5);
+set(grp,<span class="string">'RecordsAcquiredFcn'</span>,@display_opcdata);
+</pre><h2>Step 3: Acquire data<a name="4"></a></h2>
+      <p>Start the group object. Every time 5 records are acquired, the object executes the display_opcdata callback function. This
+         callback function displays the most recently acquired records logged to the memory buffer.
+      </p><pre class="codeinput">start(grp)
+wait(grp)
+</pre><img vspace="5" hspace="5" src="opcdemo_customcallback_01.png"><h2>Step 4: Clean up<a name="5"></a></h2>
+      <p>Always remove OPC Toolbox objects from memory, and the variables that reference them, when you no longer need them. Deleting
+         the client object deletes the group and item objects also.
+      </p><pre class="codeinput">delete(da)
+clear <span class="string">da</span> <span class="string">grp</span> <span class="string">itm1</span> <span class="string">itm2</span>
+</pre><p class="footer"><br></p>
+      <!--
+##### SOURCE BEGIN #####
+%% OPCDEMO_CUSTOMCALLBACK
+% This example demonstrates how to use a custom callback for the OPC
+% Toolbox. The example makes use of the 
+% <matlab:open('display_opcdata.m') display_opcdata> 
+% function, which plots recently acquired data in a figure window.
+
+%%
+% To run this example on your system, you must have the
+% Matrikon Simulation Server installed. Alternatively, you can replace the
+% values used in the creation of the objects with values for a server you
+% can access.
+
+%% Step 1: Create the OPC Toolbox object hierarchy
+% This example creates a hierarchy of OPC Toolbox objects for the Matrikon
+% Simulation Server. 
+da = opcda('localhost','Matrikon.OPC.Simulation.1');
+connect(da);
+grp = addgroup(da,'CallbackTest');
+itm1 = additem(grp,'Triangle Waves.Real8');
+itm2 = additem(grp,'Saw-toothed Waves.UInt2');
+
+%% Step 2: Configure property values
+% This example sets the UpdateRate value to 0.2 seconds, and the
+% RecordsToAcquire property to 200. The example also specifies as the value
+% of the RecordsAcquiredFcn callback the event callback function
+% display_opcdata. The object will execute the RecordsAcquiredFcn every 5
+% records, as specified by the value of the RecordsAcquiredFcnCount
+% property.
+set(grp,'UpdateRate',0.2);
+set(grp,'RecordsToAcquire',200);
+set(grp,'RecordsAcquiredFcnCount',5);
+set(grp,'RecordsAcquiredFcn',@display_opcdata);
+
+%% Step 3: Acquire data
+% Start the group object. Every time 5 records are acquired, the object
+% executes the display_opcdata callback function. This callback function
+% displays the most recently acquired records logged to the memory buffer. 
+start(grp)
+wait(grp)
+
+%% Step 4: Clean up
+% Always remove OPC Toolbox objects from memory, and the variables that
+% reference them, when you no longer need them. Deleting the client object
+% deletes the group and item objects also.
+delete(da)
+clear da grp itm1 itm2
+##### SOURCE END #####
+-->
+   </body>
+</html>

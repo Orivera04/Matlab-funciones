@@ -1,0 +1,204 @@
+% $tokens{"name:30"}
+% Version $tokens{"version:30"} $tokens{"release"} $tokens{"date"}
+%
+% ヘルプとマニュアル
+%   Readme      - Financial Toolbox のリリースノート
+%   ftb         - 引数のヘルプを参照するためのヘッダ
+%   calendar    - 金融カレンダ関数の内容 
+%
+% 通貨書式
+%   cur2frac    - 10進数の通貨価値を分数の通貨価値に変換
+%   cur2str     - 通貨価値を Financial Toolbox の銀行書式に変換
+%   frac2cur    - 分数の通貨価値を10進数の通貨価値に変換
+%   
+% チャート
+%   bolling     - Bollinger バンドチャート
+%   candle      - Candlestickチャート
+%   dateaxis    - シリアル日付の軸ラベルを日付軸ラベルに変換
+%   pointfig    - 点図形チャート
+%   highlow     - 高値-安値-始値-終値チャート
+%   movavg      - リード／ラグ移動平均チャート
+%   
+% 現在価値と将来価値
+%   pvfix       - 定額定期支払額の現金価値
+%   pvvar       - 変動キャッシュフローの現在価値
+%   fvfix       - 定額定期支払額の将来価値
+%   fvvar       - 変動キャッシュフローの将来価値
+%   fvdisc      - 割引有価証券の将来価値
+%   
+% 年金
+%   annurate    - 年金の定期金利
+%   annuterm    - 価値を実現する期間数
+%   
+% 経過利子
+%   acrubond    - 定期的利払いの有価証券の経過利子
+%   acrudisc    - 満期償還割引有価証券の経過利子
+%   
+% 価格
+%   bndprice    - SIA標準確定利付証券の価格
+%   prbond      - 定期的利払いの有価証券の価格
+%   prmat       - 満期時利払いの有価証券の価格
+%   proddf      - 最初の期間が端数の有価証券の価格
+%   proddfl     - 最初と最後の期間が端数で最初の期間に決済する有価証券の
+%                 価格
+%   proddl      - 最後の期間が端数の有価証券の価格
+%   prtbill     - 財務省証券の価格
+%   prdisc      - 割引有価証券の価格
+%   
+% 利率の時間構造
+%   disc2zero   - 割引曲線からゼロ曲線を導出
+%   fwd2zero    - フォワード曲線からゼロ曲線を導出
+%   prbyzero    - ゼロ曲線から債券価格を導出
+%   pyld2zero   - 額面利回り曲線からゼロ曲線を導出
+%   termfit     - Spline Toolbox を使って、時間構造のフィッテング
+%   tbl2bond    - 財務省証券データ書式を財務省長期債のデータ書式に変換
+%   tr2bonds    - 米国財務省長期債のデータを変換
+%   zbtprice    - 市場債券価格からブートストラップゼロ利率曲線を出力
+%   zbtyield    - 市場債券利回りからブートストラップゼロ利率曲線を出力
+%   zero2disc   - 与えられたゼロ曲線を割引曲線に変換
+%   zero2fwd    - 与えられたゼロ曲線をフォワード曲線に変換
+%   zero2pyld   - 与えられたゼロ曲線を額面利回り曲線に変換
+% 
+% 利回り
+%   bndyield    - SIA 標準確定利付証券の利回り
+%   beytbill    - 財務省証券の債券換算利回り
+%   discrate    - 有価証券の割引率
+%   yldbond     - 定期的利回りの有価証券の利回り
+%   yldmat      - 満期時利払いの有価証券の利回り
+%   yldoddf     - 最初の期間が端数の有価証券の利回り
+%   yldoddfl    - 最初と最後の期間が端数で、最初の期間に決済する有価証券
+%                 の利回り
+%   yldoddl     - 最後の期間が端数の有価証券の利回り
+%   yldtbill    - 財務省証券の利回り
+%   ylddisc     - 割引有価証券の利回り
+%   
+% 収益率
+%   effrr       - 実効収益率
+%   irr         - 内部収益率
+%   mirr        - 修正内部収益率
+%   nomrr       - 名目収益率
+%   taxedrr     - 税引き後収益率
+%   xirr        - 非定期的キャッシュフローの内部収益率
+%   
+% 支払いの計算
+%   payadv      - 指定の回数の前払いの定期支払額
+%   payodd      - 最初の期間が端数の期間の年金の支払額
+%   payper      - 貸付、または、年金の定期支払額
+%   payuni      - 変動キャッシュフローに等価な統一支払額
+%   
+% 利率の感応度
+%   bnddurp     - 価格から SIA 標準有価証券のデュレーションを計算
+%   bnddury     - 利回りから SIA 標準有価証券のデュレーションを計算
+%   bndconvp    - 価格から SIA 標準有価証券のコンベクシティを計算
+%   bndconvy    - 利回りから SIA 標準有価証券のコンベクシティを計算
+%   bondconv    - コンベクシティ
+%   bonddur     - Macauley 及び修正デュレーション
+%   cfconv      - キャッシュフローコンベクシティ及びボラティリティ
+%   cfdur       - キャッシュフローデュレーション及び修正デュレーション
+%   
+% 償却と減価償却
+%   amortize    - 償却
+%   depfixdb    - 固定逓減残高減価償却
+%   depgendb    - 一般逓減残高減価償却
+%   deprdv      - 残存減価償却可能価値
+%   depsoyd     - 年数減価償却の総和
+%   depstln     - 定額減価償却
+%     
+% オプションの評価と感応度
+%   binprice    - 二項モデルのプットとコールの価格決定
+%   blkprice    - Black のオプション価格決定
+%   blsdelta    - 基礎価格の変化に対す Black-Scholes の感応度
+%   blsgamma    - 基礎デルタの変化に対する Black-Scholes の感応度
+%   blsimpv     - Black-Scholes インプライド・ボラティリティ
+%   blslambda   - Black-Scholes の弾性値
+%   blsprice    - Black-Scholes モデルのプットとコールの価格決定
+%   blsrho      - 利率の変化に対する Black-Scholes の感応度
+%   blstheta    - 満期までの時間の変化に対する Black-Scholes の感応度
+%   blsvega     - 基礎価格ボラティリティの変化に対する Black-Scholes の
+%                 感応度
+%   opprofit    - オプションの収益
+%   
+% ボラティリティ分析 (ARCH/GARCH)
+%   ugarch      - 一変量 ARCH/GARCH パラメータ推定
+%   ugarchllf   - 一変量 GARCH パラメータの 対数尤度関数
+%   ugarchpred  - 一変量 GARCH プロセスによるボラティリティの予測
+%   ugarchsim   - 一変量 GARCH プロセスのシミュレーション
+%
+% ポートフォリオ分析
+%   cov2corr    - 共分散を標準偏差及び相関に変換
+%   corr2cov    - 標準偏差及び相関を共分散に変換
+%   ewstats     - 資産収益及び共分散推定
+%   portsim     - 複数資産収益時系列のシミュレーション
+%   ret2tick    - 資産収益時系列を価格時系列に変換
+%   tick2ret    - 資産価格時系列を収益時系列に変換
+%   frontcon    - 基本的制約の下の有効フロンティア
+%   portalloc   - 資本配分
+%   portopt     - 任意の制約群の下での有効フロンティア
+%   portcons    - ポートフォリオ上の制約の設定
+%   pcalims     - ポートフォリオ資産配分の範囲
+%   pcglims     - ポートフォリオ資産集合配分の範囲
+%   pcgcomp     - ポートフォリオ集合を集合構成上の範囲に変換
+%   pcpval      - ポートフォリオの総価値
+%   portrand    - ランダム化されたポートフォリオのリスク、収益、加重値
+%   portstats   - ポートフォリオのリスク及び期待収益率
+%   portvrisk   - リスクの下でのポートフォリオの価値
+%
+% ============== 金融日付関数 (help calendar)==============
+%
+% 現行の時間と日付
+%   today       - 現行の日付
+%   
+% 日付と時間の構成要素及び書式
+%   datedisp    - デート番号入力を含む行列を表示
+%   datefind    - 行列内の日付番号のインデックス
+%   day         - 日の出力
+%   eomdate     - 月の末日
+%   hour        - 時間の出力
+%   lweekdate   - 月の最後の平日の日付
+%   minute      - 秒の出力
+%   month       - 月
+%   months      - 指定された日付間に存在する全ての月の数
+%   m2xdate     - MATLAB 日付を EXCEL 日付に変換
+%   nweekdate   - 月の指定された平日の日付
+%   second      - 指定した日付、または、時間の秒
+%   x2mdate     - EXCEL 日付を MATLAB 日付に変換
+%   year        - 指定した日付の年
+%   yeardays    - 年を構成する日付の数
+%   
+% 金融日付
+%   busdate     - つぎの営業日、または、前の営業日
+%   datemnth    - 将来の月、または、過去の月における日の日付
+%   datewrkdy   - 将来、または、過去の営業日の日付
+%   days360     - 1年＝360日として計算された日付間の日数
+%   days365     - 1年＝365日として計算された日付間の日数
+%   daysdif     - 設定した日付カウント基準で計算された日付間の日数
+%   daysact     - 現実の年に基づいて計算された日付間の日数
+%   fbusdate    - 月の最初の営業日
+%   holidays    - 休日及び休業日
+%   isbusday    - 指定された日付が営業日の場合、真を出力
+%   lbusdate    - 月の最後の営業日
+%   wrkdydif    - 指定した日付間の営業日数
+%   yearfrac    - 指定した日付間の年の端数
+%   
+% クーポン債日付
+%   accrfrac    - 経過利子クーポン期間の端数
+%   cfamounts   - 有価証券に対するキャッシュフローの額
+%   cfdates     - 有価証券に対するキャッシュフローの日付
+%   cftimes     - 有価証券に対するキャッシュフローの時間係数
+%   cfport      - キャッシュフロー額のポートフォリオ形式
+%   cpncount    - 指定した日付間でのクーポン支払い回数
+%   cpndaten    - 指定した日付より後に到来する次回クーポン支払日
+%   cpndatenq   - 指定した日付より後に到来する準(quasi)クーポン支払日
+%   cpndatep    - 指定した日付より前に到来した前回クーポン支払日
+%   cpndatepq   - 指定した日付より前に到来した準クーポン支払日
+%   cpndaysn    - 指定した日付と次回クーポン支払日間の日数
+%   cpndaysp    - 指定した日付と前回クーポン支払日間の日数
+%   cpnpersz    - 指定した日付を含む期間の日数の長さ
+%
+% テキストの前の部分がスクロールによってスクリーンからはみだして消えて
+% しまう場合、つぎのコマンドを試してみてください。
+% 
+%    more on, help finance, more off
+
+
+% Copyright 1995-2003 The MathWorks, Inc. 

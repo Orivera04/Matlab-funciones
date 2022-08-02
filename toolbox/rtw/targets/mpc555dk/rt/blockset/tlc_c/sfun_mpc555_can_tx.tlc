@@ -1,0 +1,139 @@
+%% File: toolbox/rtw/targets/mpc555dk/rt/blockset/tlc_c/RCS/sfun_mpc555_can_tx.tlc
+%%
+%% Abstract:
+%%   CAN transmit block
+%%
+%% $Revision: 1.9.4.6 $
+%% $Date: 2004/04/19 01:30:22 $
+%%
+%% Copyright 2001-2003 The MathWorks, Inc.
+
+%implements sfun_mpc555_can_tx "C"
+%include "mpc555_common_includes.tlc"
+%include "can_comm_setup.tlc"
+
+
+%% Function: BlockTypeSetup
+%% Abstract:
+%%
+%function BlockTypeSetup(block,system) void
+   %<SetupCanDataTypes(block)>
+
+   %if !SLibCodeGenForSim() 
+     %% Only generate code for real time not for PIL
+     
+     %openfile buffer
+     #include <string.h>
+     #include "mpc5xx.h"      
+     #include "can_common.h"
+     %if SFcnParamSettings.TxMode==3
+       #include "can_tx_queue.h"
+     %endif
+     %closefile buffer
+   %endif
+   
+%endfunction %% BlockTypeSetup
+
+%% Function: Start =============================================
+%% Abstract:
+%%
+%function Start(block,system) Output
+
+   %if !SLibCodeGenForSim() 
+     %% Only generate code for real time not for PIL
+     
+     %if SFcnParamSettings.TxMode==3
+       
+       %assign CB = FcnGetModuleName(SFcnParamSettings.Module)
+       %assign idx = SFcnParamSettings.Buffers[0]
+
+       %assign qlen = SFcnParamSettings.FifoQueueLength
+	/* Initialize TouCAN module %<CB>, buffer %<idx> for operation with FIFO 
+	* queue of length %<qlen>; the queue is used to buffer messages to be transmitted.
+	 */
+	 { 
+	 static MESSAGE_CIRCULAR_BUFFER msgBuf;
+	 static CAN_FRAME can_frames[%<qlen>];
+	 %<LibBlockPWork(pCanTxCircBuffer,"","",0)> = &msgBuf;
+	 initTransmitFifo(&GlobalModule%<CB>,%<idx>,&msgBuf, can_frames, %<qlen>);
+	 }
+       %endif
+   %endif
+
+%endfunction %% Start
+
+
+%% Function: Outputs ========================================================
+%% Abstract:
+%%
+%function Outputs(block,system) Output
+
+  %if !SLibCodeGenForSim() 
+    
+    %% Only generate code for real time not for PIL
+    %assign CB = FcnGetModuleName(SFcnParamSettings.Module)
+
+    %assign rollVars = ["U"]
+    %roll idx = RollRegions, lcv = RollThreshold, block, "Roller", rollVars
+      %if SFcnParamSettings.TxMode==1
+	/* Send message using priority queue and shared TouCAN buffer(s) */
+	sendCanMessage(&GlobalModule%<CB>,%<LibBlockInputSignalAddr(0, "", lcv, idx)>);
+      %elseif SFcnParamSettings.TxMode==2
+	/* Send message using dedicated buffer */
+	{
+	  P_TOUCAN_MBUFF p_mbuff = ...
+	  (void *) &(GlobalModule%<CB>.reg->MBUFF[%<CAST("Unsigned", ...
+	  SFcnParamSettings.Buffers[idx])>]);
+	  loadCanMessage(%<LibBlockInputSignalAddr(0, "", lcv, idx)>,p_mbuff);
+	}
+      %elseif SFcnParamSettings.TxMode==3
+	/* Send message using FIFO queue and dedicated TouCAN buffer */
+	sendCanMessageFifo(&GlobalModule%<CB>,%<LibBlockInputSignalAddr(0, "", lcv, idx)>,
+	%<LibBlockPWork(pCanTxCircBuffer,"","",0)>, %<CAST("Unsigned", SFcnParamSettings.Buffers[0])> );	
+      %endif
+    %endroll
+  %endif
+
+%endfunction %%Outputs
+
+
+%% ---------------------------------------------
+%% Call the function call subsystem at index
+%% fcnIdx
+%% ---------------------------------------------
+%function MakeFcnCall(block,system,fcnIdx) Output
+  %with SFcnSystemOutputCall[%<fcnIdx>]
+    %% skip unconnected function call outputs
+    %if LibIsEqual(BlockToCall, "unconnected")
+      %return
+    %endif
+    %assign sysIdx = BlockToCall[0]
+    %assign blkIdx = BlockToCall[1]
+    %assign ssBlock = System[sysIdx].Block[blkIdx]
+    %assign sysToCall = System[ssBlock.ParamSettings.SystemIdx]
+    %<LibCallFCSS(sysToCall, tSimStruct, FcnPortElement, ...
+      ParamSettings.SampleTimesToSet[0][1])>\
+  %endwith
+%endfunction
+
+
+%% -----------------------------------------------
+%% Get the name of this CAN module 
+%% -----------------------------------------------
+%function FcnGetModuleName(moduleNumber) void
+  %switch moduleNumber
+   %case 0
+      %assign CB = "CAN_A"      
+      %break
+   %case 1
+      %assign CB = "CAN_B"
+      %break
+   %case 2
+      %assign CB = "CAN_C"
+      %break
+   %default
+      %exit "Unexpected moduleNumber in TOUCAN TX block"
+      %break
+  %endswitch
+  %return CB
+%endfunction

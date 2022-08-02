@@ -1,0 +1,370 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>HDL Butterworth Filter</title>
+      <meta name="generator" content="MATLAB 7.0">
+      <meta name="date" content="2004-03-26">
+      <meta name="m-file" content="hdlbutter"><style>
+body {
+  background-color: white;
+  margin:10px;
+}
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+pre.codeinput {
+  margin-left: 30px;
+}
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.showbuttons {
+  margin-left: 30px;
+  border: solid black 2px;
+  padding: 4px;
+  background: #EBEFF3;
+}
+
+pre.codeoutput {
+  color: gray;
+  font-style: italic;
+}
+pre.error {
+  color: red;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows.  On Gecko-based browsers, the shrink-to-fit doesn't work. */ 
+p,h1,h2,div {
+  /* for MATLAB's browser */
+  width: 600px;
+  /* for Mozilla, but the "width" tag overrides it anyway */
+  max-width: 600px;
+  /* for IE */
+  width:expression(document.body.clientWidth > 620 ? "600px": "auto" );
+}
+
+    </style></head>
+   <body>
+      <h1>HDL Butterworth Filter</h1>
+      <introduction>
+         <p>This demonstration illustrates how to generate HDL code for a 5th order Butterworth filter. The cutoff-frequency for this
+            filter is very low relative to the sample rate, leading to a filter that is difficult to make practical.  Also, small input
+            (8-bit) and output (9-bit) word sizes cause the quantized filter to require scaling to be realizable.
+         </p>
+      </introduction>
+      <h2>Contents</h2>
+      <div>
+         <ul>
+            <li><a href="#1">Design the filter</a></li>
+            <li><a href="#2">Create the quantized filter</a></li>
+            <li><a href="#3">Requantize the filter</a></li>
+            <li><a href="#4">Examine the scale values</a></li>
+            <li><a href="#5">Generate HDL code from the quantized filter</a></li>
+            <li><a href="#6">Generate a test bench from the quantized filter</a></li>
+            <li><a href="#7">ModelSim simulation results</a></li>
+            <li><a href="#9">Conclusion</a></li>
+         </ul>
+      </div>
+      <h2>Design the filter<a name="1"></a></h2>
+      <p>Use the CD sampling rate of 44.1 kHz and a cut-off frequency of 500 Hz.  First, create the filter design object, then create
+         the double-precision filter. Convert it from the default structure (DF2SOS) to the desired structure, DF1SOS.  Finally, examine
+         the response in log frequency using fvtool.
+      </p><pre class="codeinput">Fs  = 44100;
+Fn  = Fs/2;
+Fco =   500;
+
+filtdes = fdesign.lowpass(<span class="string">'n,fc'</span>, 5, Fco, Fs);
+Hd = butter(filtdes);
+Hd = convert(Hd, <span class="string">'df1sos'</span>);
+
+fvtool(Hd, <span class="string">'Fs'</span>, Fs, <span class="string">'FrequencyScale'</span>, <span class="string">'log'</span>);
+</pre><img vspace="5" hspace="5" src="hdlbutter_01.png"> <h2>Create the quantized filter<a name="2"></a></h2>
+      <p>Set the filter object to fixed-point mode to quantize it.  Assume 8-bit fixed-point input and output data with 12-bit coefficents
+         and 20-bit adders and states.  Check the response with fvtool.
+      </p><pre class="codeinput">Hd.arithmetic            = <span class="string">'fixed'</span>;
+Hd.InputWordLength       = 8;
+Hd.InputFracLength       = 7;
+Hd.OutputWordLength      = 9;
+Hd.OutputMode            = <span class="string">'SpecifyPrecision'</span>;
+Hd.OutputFracLength      = 7;
+Hd.CoeffWordLength       = 12;
+Hd.AccumWordLength       = 20;
+Hd.NumStateWordLength    = 20;
+Hd.DenStateWordLength    = 20;
+Hd.CastBeforeSum         = false;
+Hd.RoundMode             = <span class="string">'round'</span>;
+Hd.OverflowMode          = <span class="string">'wrap'</span>;
+
+fvtool(Hd, <span class="string">'Fs'</span>, Fs, <span class="string">'FrequencyScale'</span>, <span class="string">'log'</span>);
+</pre><img vspace="5" hspace="5" src="hdlbutter_02.png"> <h2>Requantize the filter<a name="3"></a></h2>
+      <p>In the plot above, fvtool shows that the quantized passband is approximately 2 dB lower than the desired response.  Adjust
+         the coefficient word length from 12 to 16 to get the quantized response closer to the reference double-precision response
+         and zoom in on the passband response. The quantized filter is now just over 0.1 dB lower than the reference filter.
+      </p><pre class="codeinput">Hd.CoeffWordLength = 16;
+fvtool(Hd, <span class="string">'Fs'</span>, Fs, <span class="string">'FrequencyScale'</span>, <span class="string">'log'</span>);
+axis([0 1.0 -1 1]);
+</pre><img vspace="5" hspace="5" src="hdlbutter_03.png"> <h2>Examine the scale values<a name="4"></a></h2>
+      <p>A key step for hardware realization of the filter design is to check whether the scale values are reasonable and adjust the
+         scale value if needed.  First, examine the quantized scale values relative to the input specification--an 8-bit value with
+         fraction length of 7 bits. Since the first two scale values are smaller than the input settings, most of the input values
+         are quantized away.  To correct this, the filter needs to be scaled.
+      </p><pre class="codeinput">scales = Hd.scalevalues .* 2^Hd.InputFracLength
+<span class="comment">% Now scale the filter using the frequency domain infinity norm.</span>
+scale(Hd,<span class="string">'Linf'</span>);
+<span class="comment">% After scaling, the scale value are all one in this case.</span>
+scales = Hd.scalevalues
+</pre><pre class="codeoutput">
+scales =
+
+    0.1563
+    0.1563
+    4.4063
+  128.0000
+
+
+scales =
+
+     1
+     1
+     1
+     1
+
+</pre><h2>Generate HDL code from the quantized filter<a name="5"></a></h2>
+      <p>Starting with the correctly quantized filter, VHDL or Verilog code. You have the option of generating a VHDL, Verilog, or
+         ModelSim .do file test bench to verify that the HDL design matches the MATLAB filter.
+      </p>
+      <p>Create a temporary work directory. Generate VHDL code for the filter and open the generated file in the editor.</p>
+      <p>To generate Verilog instead, change the value of the property 'TargetLanguage', from 'VHDL' to 'Verilog'.</p><pre class="codeinput">workingdir = tempname;
+generatehdl(Hd,<span class="string">'Name'</span>, <span class="string">'hdlbutter'</span>, <span class="string">'TargetLanguage'</span>, <span class="string">'VHDL'</span>,<span class="keyword">...</span>
+            <span class="string">'TargetDirectory'</span>, workingdir);
+edit(fullfile(workingdir, <span class="string">'hdlbutter.vhd'</span>));
+</pre><pre class="codeoutput">### Starting VHDL code generation process for filter: hdlbutter
+### Generating hdlbutter.vhd file in: C:\Temp\tp014717
+### Starting generation of hdlbutter VHDL entity
+### Starting generation of hdlbutter VHDL architecture
+### First-order section, # 1
+### Second-order section, # 2
+### Second-order section, # 3
+### HDL latency is 2 samples
+### Successful completion of VHDL code generation process for filter: hdlbutter
+
+</pre><h2>Generate a test bench from the quantized filter<a name="6"></a></h2>
+      <p>Since the passband of this filter is so low relative to the sampling rate, a custom input stimulus is a better way to test
+         the filter implementation. Build the test input with one cycle of each of 50 to 300 Hz in 50 Hz steps.
+      </p>
+      <p>Generate a ModelSim .do file test bench to verify that the results match the MATLAB results exactly.</p>
+      <p>After generating the test bench, open the generated file in the editor.</p><pre class="codeinput">userstim = [];
+<span class="keyword">for</span> n = [50, 100, 150, 200, 250, 300]
+  userstim = [ userstim, sin(2*pi*n/Fs*(0:Fs/n))];
+<span class="keyword">end</span>
+
+generatetb(Hd, <span class="string">'ModelSim'</span>, <span class="string">'TestBenchName'</span>, <span class="string">'hdlbutter_tb'</span>,<span class="keyword">...</span>
+           <span class="string">'TestBenchStimulus'</span>, [],<span class="keyword">...</span>
+           <span class="string">'TestBenchUserStimulus'</span>, userstim,<span class="keyword">...</span>
+           <span class="string">'TargetDirectory'</span>, workingdir);
+edit(fullfile(workingdir, <span class="string">'hdlbutter_tb.do'</span>));
+</pre><pre class="codeoutput">### Starting generation of ModelSim .do file Test Bench
+### Generating input stimulus
+### Done generating input stimulus; length 2166 samples.
+### Generating ModelSim .do file hdlbutter_tb in: C:\Temp\tp014717
+### Done generating ModelSim .do file test bench.
+
+</pre><h2>ModelSim simulation results<a name="7"></a></h2>
+      <p>The following display shows the ModelSim HDL simulator after running the .do file test bench. Compare the ModelSim result
+         with the MATLAB result below.
+      </p>
+      <p><img vspace="5" hspace="5" src="butter_screen.jpg"> </p><pre class="codeinput">xrange = (0:length(userstim) - 1);
+y = filter(Hd, userstim);
+subplot(2,1,1); plot(xrange, userstim);
+axis([0 length(userstim) -1.1 1.1]);
+title(<span class="string">'HDL Butterworth filter in Stimulus.'</span>);
+xlabel(<span class="string">'Sample #'</span>);
+subplot(2,1,2); plot(xrange, y);
+axis([0 length(userstim) -1.1 1.1]);
+title(<span class="string">'HDL Butterworth filter out Response.'</span>);
+xlabel(<span class="string">'Sample #'</span>);
+</pre><img vspace="5" hspace="5" src="hdlbutter_04.png"> <h2>Conclusion<a name="9"></a></h2>
+      <p>You designed a double-precision Butterworth filter to meet the given specification. You then quantized the filter and discoverd
+         problems. Requantizing the coefficients and scaling the filter corrected these problems.  You then generated VHDL filter code
+         and a ModelSim .do file test bench.
+      </p>
+      <p>You can use the ModelSim HDL Simulator, to verify these results.  You can also experiment with VHDL and Verilog for both filters
+         and test benches.
+      </p>
+      <p class="footer">Copyright 2004 The MathWorks, Inc.<br>
+         Published with MATLAB&reg; 7.0<br></p>
+      <!--
+##### SOURCE BEGIN #####
+%% HDL Butterworth Filter
+% This demonstration illustrates how to generate HDL code for a 5th
+% order Butterworth filter. The cutoff-frequency for this filter is very
+% low relative to the sample rate, leading to a filter that is difficult
+% to make practical.  Also, small input (8-bit) and output (9-bit) word
+% sizes cause the quantized filter to require scaling to be realizable.
+
+% Copyright 2004 The MathWorks, Inc. 
+% $Revision: 1.1.6.1 $  $Date: 2004/04/08 20:51:34 $
+
+%% Design the filter
+% Use the CD sampling rate of 44.1 kHz and a cut-off frequency of 500
+% Hz.  First, create the filter design object, then create the
+% double-precision filter. Convert it from the default structure
+% (DF2SOS) to the desired structure, DF1SOS.  Finally, examine the
+% response in log frequency using fvtool.
+
+Fs  = 44100;
+Fn  = Fs/2;
+Fco =   500;
+
+filtdes = fdesign.lowpass('n,fc', 5, Fco, Fs);
+Hd = butter(filtdes);
+Hd = convert(Hd, 'df1sos');
+
+fvtool(Hd, 'Fs', Fs, 'FrequencyScale', 'log');
+
+%% Create the quantized filter
+% Set the filter object to fixed-point mode to quantize it.  Assume
+% 8-bit fixed-point input and output data with 12-bit coefficents and
+% 20-bit adders and states.  Check the response with fvtool.
+
+Hd.arithmetic            = 'fixed';
+Hd.InputWordLength       = 8;
+Hd.InputFracLength       = 7;
+Hd.OutputWordLength      = 9;
+Hd.OutputMode            = 'SpecifyPrecision';
+Hd.OutputFracLength      = 7;
+Hd.CoeffWordLength       = 12;
+Hd.AccumWordLength       = 20;
+Hd.NumStateWordLength    = 20;
+Hd.DenStateWordLength    = 20;
+Hd.CastBeforeSum         = false;
+Hd.RoundMode             = 'round';
+Hd.OverflowMode          = 'wrap';
+
+fvtool(Hd, 'Fs', Fs, 'FrequencyScale', 'log');
+
+%% Requantize the filter
+% In the plot above, fvtool shows that the quantized passband is
+% approximately 2 dB lower than the desired response.  Adjust the
+% coefficient word length from 12 to 16 to get the quantized response
+% closer to the reference double-precision response and zoom in on the
+% passband response. The quantized filter is now just over 0.1 dB lower
+% than the reference filter.
+
+Hd.CoeffWordLength = 16;
+fvtool(Hd, 'Fs', Fs, 'FrequencyScale', 'log');
+axis([0 1.0 -1 1]);
+
+%% Examine the scale values
+% A key step for hardware realization of the filter design is to check
+% whether the scale values are reasonable and adjust the scale value if
+% needed.  First, examine the quantized scale values relative to the
+% input specificationREPLACE_WITH_DASH_DASHan 8-bit value with fraction length of 7 bits.
+% Since the first two scale values are smaller than the input settings,
+% most of the input values are quantized away.  To correct this, the
+% filter needs to be scaled.
+
+scales = Hd.scalevalues .* 2^Hd.InputFracLength
+% Now scale the filter using the frequency domain infinity norm.
+scale(Hd,'Linf');
+% After scaling, the scale value are all one in this case.
+scales = Hd.scalevalues
+
+%% Generate HDL code from the quantized filter
+% Starting with the correctly quantized filter, VHDL or Verilog code.
+% You have the option of generating a VHDL, Verilog, or ModelSim .do
+% file test bench to verify that the HDL design matches the MATLAB
+% filter.
+%
+% Create a temporary work directory. Generate VHDL code for the filter
+% and open the generated file in the editor.
+%
+% To generate Verilog instead, change the value of the property
+% 'TargetLanguage', from 'VHDL' to 'Verilog'.
+
+
+workingdir = tempname;
+generatehdl(Hd,'Name', 'hdlbutter', 'TargetLanguage', 'VHDL',...
+            'TargetDirectory', workingdir);
+edit(fullfile(workingdir, 'hdlbutter.vhd'));
+
+%% Generate a test bench from the quantized filter
+% Since the passband of this filter is so low relative to the sampling
+% rate, a custom input stimulus is a better way to test the filter
+% implementation. Build the test input with one cycle of each of 50 to
+% 300 Hz in 50 Hz steps.
+%
+% Generate a ModelSim .do file test bench to verify that the results
+% match the MATLAB results exactly.
+%
+% After generating the test bench, open the generated file in the
+% editor.
+
+userstim = [];
+for n = [50, 100, 150, 200, 250, 300]
+  userstim = [ userstim, sin(2*pi*n/Fs*(0:Fs/n))];
+end
+
+generatetb(Hd, 'ModelSim', 'TestBenchName', 'hdlbutter_tb',...
+           'TestBenchStimulus', [],...
+           'TestBenchUserStimulus', userstim,...
+           'TargetDirectory', workingdir);
+edit(fullfile(workingdir, 'hdlbutter_tb.do'));
+
+%% ModelSim simulation results
+% The following display shows the ModelSim HDL simulator after running
+% the .do file test bench. Compare the ModelSim result with the MATLAB
+% result below.
+
+%%
+% <<butter_screen.jpg>>
+
+xrange = (0:length(userstim) - 1);
+y = filter(Hd, userstim);
+subplot(2,1,1); plot(xrange, userstim); 
+axis([0 length(userstim) -1.1 1.1]);
+title('HDL Butterworth filter in Stimulus.');
+xlabel('Sample #');
+subplot(2,1,2); plot(xrange, y); 
+axis([0 length(userstim) -1.1 1.1]);
+title('HDL Butterworth filter out Response.');
+xlabel('Sample #');
+
+%% Conclusion
+% You designed a double-precision Butterworth filter to meet the given
+% specification. You then quantized the filter and discoverd problems.
+% Requantizing the coefficients and scaling the filter corrected these
+% problems.  You then generated VHDL filter code and a ModelSim .do file
+% test bench.
+%
+% You can use the ModelSim HDL Simulator, to verify these results.  You
+% can also experiment with VHDL and Verilog for both filters and
+% test benches.
+
+##### SOURCE END #####
+-->
+   </body>
+</html>

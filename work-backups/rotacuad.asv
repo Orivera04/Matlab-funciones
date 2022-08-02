@@ -1,0 +1,13 @@
+function ecua=rotacuadFC(A,B,C,D,E,F,N)
+%Rotación de una cuádrica con ecua=AX^2+BY^2+CZ^2+DXY+EXZ+FYZ+GX+HY+MZ+N 
+%La ecuación no tiene términos lineales; es decir en X,Y,Z.
+syms X Y Z;
+R11=A;R22=B;R33=C;
+R12=D/2; R13=E/2; R23=F/2;
+R21=D/2; R31=E/2; R32=F/2;
+R=[R11,R12,R13;R21,R22,R23;R31,R32,R33];
+[v,d]=eig(R);
+ecua=d(1)*X+d(2)*Y+d(3)*Z+N;
+
+
+

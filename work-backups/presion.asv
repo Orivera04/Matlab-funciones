@@ -1,0 +1,17 @@
+%Relacion entre presion vs numero de mach
+%
+clear;clf;hold off;
+M = [0:0.01:1];
+k = 1.4;
+p0_entre_p = (1 + (k-1)/2 + M.^2).^(k/(k-1));
+hold on
+axis('square'); %hace que la grafica sea cuadrada
+plot(M,p0_entre_p)
+xlabel('M, numero de Mach')
+ylabel('p0/p')
+title('Relacion de presion p(estancamiento)/p(estatica')
+text(0.45,1.55,'Compresible')
+Mb = [0:0.01:0.7];
+p0_entre_pb = 1 + (k-1)/2*Mb.^2; 
+plot(Mb,p0_entre_pb, '--')
+text(0.5, 1.1, 'Incompresible')

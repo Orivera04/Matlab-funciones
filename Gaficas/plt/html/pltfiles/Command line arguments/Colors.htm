@@ -1,0 +1,199 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Colors</title>
+<style>
+<!--
+h3           { color: #006699 }
+span.mcode   { font-family: Fixedsys; color: #993300; text-align:left }
+-->
+</style>
+</head>
+
+<body>
+
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1" height="86">
+  <tr>
+    <td width="70%" height="86">
+    <h2>Colors</h2>
+    </td>
+    <td width="3%" height="86">&nbsp;<p>&nbsp;</p>
+    <p>&nbsp;</td>
+    <td width="27%" height="86">
+    <img border="0" src="../images/plt.png" width="214" height="98" align="right"></td>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" id="AutoNumber2">
+  <tr>
+    <td width="128" valign="top">
+    <h3>TRACEc</h3>
+    </td>
+    <td width="1262" valign="top"><p><span class="mcode">plt(...,'TRACEc',ct);<br>
+    </span>Specify trace colors. c must contain at least as many rows as there 
+    are traces. For example if three traces were defined and we 
+    wanted to use red, yellow, and white for these traces, then<span class="mcode"><br>
+    ct = [1 0 0; 1 1 0; 1 1 1];</span></p>
+    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="564" id="AutoNumber3" height="205">
+      <tr>
+        <td width="564" height="205">Default (for up to 34 lines): <span class="mcode"><br>
+        ct=[0&nbsp; 1&nbsp; 0;&nbsp;&nbsp; 1&nbsp; 0&nbsp; 1;&nbsp;&nbsp; 0&nbsp; 1&nbsp; 1;&nbsp;&nbsp; 
+    1&nbsp; 1&nbsp; 0;&nbsp;&nbsp;.2 .6&nbsp; 1;<br>
+        &nbsp; &nbsp; 1&nbsp; 0&nbsp; 0;&nbsp;&nbsp; 1&nbsp; 1&nbsp; 1;&nbsp;&nbsp; 1 .2 .6;&nbsp;&nbsp; 
+    1 .6 .2; &nbsp;.2&nbsp; 1 .6;<br>
+        &nbsp;&nbsp;&nbsp; 0&nbsp; 0&nbsp; 1;&nbsp; .6&nbsp; 1 .2;&nbsp;&nbsp;.6 .2&nbsp; 1;&nbsp;&nbsp; 0 .6&nbsp; 0;&nbsp;&nbsp;.6&nbsp; 0 .6;<br>
+        &nbsp;&nbsp;&nbsp; 0 .6 .6;&nbsp; .6 .6&nbsp; 0;&nbsp;&nbsp;.7 .7 .7;&nbsp; .6&nbsp; 0&nbsp; 0;&nbsp;&nbsp;.2 
+    .2 .7;<br>
+        &nbsp;&nbsp; .5 .5 .5;&nbsp; .7 .2 .2;&nbsp; .2 .7 .2;&nbsp;&nbsp; 0&nbsp; 0 .6;&nbsp;&nbsp;.3 .3 .3;<br>
+&nbsp;&nbsp;&nbsp; 0 .9 .4;&nbsp;&nbsp; 0 .4 .9;&nbsp; .9 .4&nbsp; 0;&nbsp; .4 .9&nbsp; 
+        0;&nbsp; .9&nbsp; 0 .4;<br>
+&nbsp;&nbsp; .4&nbsp; 0 .9;&nbsp; .8 .5 .5;&nbsp; .5 .8 .5;&nbsp; .5 .5 .8];<br>
+        </span>If the number of lines (=N) is more than 34, ct is expanded via:<span class="mcode"><br>
+        &nbsp;
+        for k=35:N ct = [ct; .75 * ct(k-34,:)]; end;</span></td>
+      </tr>
+    </table>
+<p>For plt to operate properly, each trace color must be unique. If you want two 
+traces to be the same color, alter on trace by an amount to small for the eye to 
+notice. For example, if you have three traces and you want them to be [red red 
+blue], then use</p>
+<p><span class="mcode">ct = [1 0 0; .99 0 0; 0 0 1];</span></p>
+<p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="128" valign="top">
+    <h3>CURSORc&nbsp;&nbsp;&nbsp;&nbsp; </h3>
+    </td>
+    <td width="1262" valign="top"><p><span class="mcode">plt(...,'CURSORc',rgb);<br>
+    </span>Specify the cursor color.
+    Here, and on the rest of this 
+    page,<span class="mcode">
+    rgb</span> must be a 3 element row or column vector.</p>
+    <div align="left">
+      <table border="1" cellpadding="6" style="border-collapse: collapse" bordercolor="#C0C0C0" width="438" id="AutoNumber4" cellspacing="0">
+        <tr>
+          <td width="75">Defaults:</td>
+          <td width="207">Only one trace<br>
+          (dark plot backgrounds)</td>
+          <td width="152">
+    <span class="mcode">[1 1 .5]</span></td>
+        </tr>
+        <tr>
+          <td width="75">&nbsp;</td>
+          <td width="207">Only one trace<br>
+          (light plot backgrounds)</td>
+          <td width="152">
+    <span class="mcode">[0 0 .5]</span></td>
+        </tr>
+        <tr>
+          <td width="75">&nbsp;</td>
+          <td width="207">More than one trace</td>
+          <td width="152">Cursor color is set to match trace color</td>
+        </tr>
+      </table>
+    </div>
+    <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="128" valign="top">
+    <h3>DELTAc</h3>
+    </td>
+    <td width="1262" valign="top"><p><span class="mcode">plt(...,'DELTAc',rgb);<br>
+    </span>Specify color indicating the delta cursor.<br>
+    Default:
+    <span class="mcode">[1 0 0]</span></p>
+    <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="128" valign="top">
+    <h3>PltBKc</h3>
+    </td>
+    <td width="1262" valign="top"><p> <span class="mcode">plt(...,'PltBKc',rgb);<br>
+    </span>Specify the plot area background color.<br>
+    Default: <span class="mcode">
+    [0 0 0]</span></p>
+    <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="128" valign="top">
+    <h3>FigBKc</h3>
+    </td>
+    <td width="1262" valign="top"><p><span class="mcode">plt(...,'FigBKc',rgb);<br>
+    </span>Specify the figure window background color .<br>
+    Default:
+    <span class="mcode">[.25 .15 .15]</span></p>
+    <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="128" valign="top">
+    <h3>xyAXc</h3>
+    </td>
+    <td width="1262" valign="top"><p><span class="mcode">plt(...,'xyAXc',rgb);<br>
+    </span>Specify the color of the x and y axes.<br>
+    Default: <span class="mcode">
+    [1 1 1]</span></p>
+    <p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="128" valign="top">
+    <h3>xyLBLc&nbsp;&nbsp;&nbsp; </h3>
+    </td>
+    <td width="1262" valign="top"><p><span class="mcode">plt(...,'xyLBLc',rgb);<br>
+    </span>Specify the color of the x and y axis labels.<br>
+    Default:
+    <span class="mcode">[.64 .78 .94]</span><p>
+    &nbsp;</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="128" valign="top">
+    <h3>GRIDc</h3>
+    </td>
+    <td width="1262" valign="top">
+    <p><span class="mcode">plt(...,'GRIDc',rgb);</span><br>
+    Specify the color of the grid lines.<br>
+    Default: <span class="mcode">[.3 .3 .3]</span><br>
+    &nbsp;</td>
+  </tr>
+  <tr>
+    <td width="128" valign="top">
+    <h3>COLORc</h3>
+    </td>
+    <td width="1262" valign="top">
+    <p style="margin-bottom: 18">
+    <span class="mcode">plt(...,'COLORc',c);</span><br>
+    Sets the PltBKc, FigBKc, xyAXc, and xyLBLc colors mentioned above to be
+    consistent with Matlab's current default colors. Trace colors are set as 
+    follows:</p>
+    <table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse" bordercolor="#C0C0C0" width="590" id="AutoNumber5">
+      <tr>
+        <td width="97">c = <span class="mcode">0</span> or <span class="mcode">'default'</span></td>
+        <td width="466">Matlab's current default trace colors are  
+    used.<br>
+        i.e.&nbsp; <span class="mcode">TRACEc = get(0,'DefaultAxesColorOrder')</span></td>
+      </tr>
+      <tr>
+        <td width="97">c is a 3 column array</td>
+        <td width="466">c is appended to the default trace colors 
+        property.<br>
+        i.e.&nbsp; <span class="mcode">TRACEc = [get(0,'DefaultAxesColorOrder') 
+        c]<br>
+        </span>(useful if Matlab doesn't have enough default trace colors)</td>
+      </tr>
+      </table>
+    <p>TRACEc so defined will be ignored if it has fewer number of rows than the 
+    number of traces to be plotted. Instead the default colors (<span class="mcode">ct</span> 
+    above) will be used if the axis background is dark, and <span class="mcode">
+    1-ct</span> will be used if the background is light.<br>
+    &nbsp;</td>
+  </tr>
+</table>
+
+</body>
+
+</html>

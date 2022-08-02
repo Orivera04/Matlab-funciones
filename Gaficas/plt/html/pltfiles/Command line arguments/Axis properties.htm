@@ -1,0 +1,106 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Axis properties</title>
+<style>
+<!--
+h3           { color: #006699 }
+span.mcode   { font-family: Fixedsys; color: #993300; text-align:left }
+-->
+</style>
+</head>
+
+<body>
+
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1" height="86">
+  <tr>
+    <td width="70%" height="86">
+    <h2>Axis properties</h2>
+    </td>
+    <td width="3%" height="86">&nbsp;<p>&nbsp;</p>
+    <p>&nbsp;</td>
+    <td width="27%" height="86">
+    <img border="0" src="../images/plt.png" width="214" height="98" align="right"></td>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber2">
+  <tr>
+    <td width="123" valign="top">
+    <h3>Xlim</h3>
+    </td>
+    <td width="884" valign="top"><p><span class="mcode">plt(...,'Xlim',[xmin xmax]);<br>
+    </span>Specify x-axis limits</p>
+    <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="123" valign="top">
+    <h3>Ylim</h3>
+    </td>
+    <td width="884" valign="top"><p> <span class="mcode">plt(...,'Ylim',[ymin ymax]);<br>
+    </span>Specify y-axis limits</p>
+    <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="123" valign="top">
+    <h3>YlimR</h3>
+    </td>
+    <td width="884" valign="top"><p><span class="mcode">plt(...,'YlimR',[ymin ymax]);<br>
+    </span>Specify limits for right hand y axis. The last trace will be plotted on 
+    the right hand axis if either the <span class="mcode">YlimR</span> or the 
+    <span class="mcode">LabelYR</span> parameters are used.</p>
+    <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="123" valign="top">
+    <h3>AxisPos</h3>
+    </td>
+    <td width="884" valign="top"><p><span class="mcode">plt(...,'AxisPos',p);<br>
+    </span>p is a 4 element vector that modifies the size and position of the 
+    plot axis in the figure window. The first two elements modify the x and y 
+    coordinates of the lower left corner of the axis. The last two elements 
+    modify the axis width and height respectively. For example if
+    <span class="mcode">p = [1 1 .9 1]</span>, the width of the plot will shrink 
+    by 10%. If <span class="mcode">p = [1 2 1 .8]</span> then the space between 
+    the bottom of the figure window and the bottom of the x-axis will double and 
+    the plot height will shrink by 20%. Changing the size and position of the 
+    axis is often useful when building applications to make room for additional 
+    GUI objects. If p is a 5 element vector, the width of the trace ID box is 
+    increased by a factor of p(5) to allow longer trace names. If p is an 8 
+    element vector, the position of the trace ID box (xLeft,yBottom,width,height) 
+    is multiplied by last four elements of p (i.e. p(5:8)) </p>
+    <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="123" valign="top">
+    <h3>NewLimit&nbsp;&nbsp;&nbsp; </h3>
+    </td>
+    <td width="884" valign="top"><p><span class="mcode">plt(...,'NewLimit',s);<br>
+    </span>Evaluate string s when either the x or y-axis limits are changed<p>
+    &nbsp;</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="123" valign="top">
+    <h3>ENApre</h3>
+    </td>
+    <td width="884" valign="top">
+    <p><span class="mcode">plt(...,'ENApre',[ENAx ENAy]);</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ENAx or ENAy = 0 to disable metric prefixes on the x/y axis.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ENAx or ENAy = 1 to enable metric prefixes on the x/y axis (default).<br>
+    When metric prefixes are enabled plt will choose the best unit for the 
+    respective axis. As an example, suppose the x-axis label is 'seconds' and 
+    the x-axis data is [0 1 2 3 4 5]*1e-8. With metric prefixes disabled, the 
+    x-axis tick-labels and cursor readout will be in scientific notation. With 
+    metric prefixes enabled, the x-axis label will change to &quot;nano-seconds&quot; and 
+    scientific notation will no longer be required making the graph and cursors 
+    far more readable.</td>
+  </tr>
+</table>
+
+</body>
+
+</html>

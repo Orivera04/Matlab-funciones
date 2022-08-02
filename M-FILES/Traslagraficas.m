@@ -1,0 +1,44 @@
+%Traslaciones M: matriz de gráfica original.
+%T: Matriz de traslación.
+%TX: traslacion sobre el eje X
+%TY: traslacion sobre el eje 
+%TV: traslacion en dirección del vector V=[h,k]
+clear;
+clc;
+%Introducción de dominio y rango de gráfica 
+x=input('Introducir dominio de la gráfica x=');
+y=input('Introducir función f(x)=');
+%Selección de traslación y gráfica.
+disp('Seleccionar traslación en el menú');
+n=menu('Escoja tipo de traslación','Traslación en dirección X',...
+    'Traslación en dirección Y','Traslacion en dirección V');
+switch n
+    case 1
+        h=input('Dar constante de traslación h= ');
+        x1=x+h;
+        plot(x,y);
+        title(['Traslación en dirección de X. h=',num2str(h)]);
+        hold on;
+        plot(x1,y,'r');
+        grid on;
+    case 2
+        k=input('Dar constante de traslación k= ');
+        y1=y+k;
+        plot(x,y);
+        title(['Traslación en dirección de Y. k=',num2str(k)])
+        hold on;
+        plot(x,y1,'r');
+        grid on;
+    case 3
+        TV=input('Dar vector de traslación [h,k]=');
+        h=TV(1);
+        k=TV(2);
+        x1=x+h;
+        y1=y+k;
+        plot(x,y);
+        title(['Traslación en dirección de V =',[num2str(h),num2str(k)]])
+        hold on;
+        plot(x1,y1,'r');
+        grid on;
+end
+

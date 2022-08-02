@@ -1,0 +1,49 @@
+# Makefile for C3F Flash Drivers
+#
+# 	Compiles the C3F drivers for the MPC555. Note that these
+# 	drivers are compiled for the default configuration of
+#
+# Copyright 2002-2003 The MathWorks, Inc.
+#
+# $Revision: 1.1.6.3 $
+# $Date: 2004/04/19 01:25:21 $
+
+.PHONY : default
+default : all
+
+LIBRARY = $(DRIVERS_LIBRARY_DIR)/lib_C3f_flash.$(MPC5XX_VARIANT).a
+
+#
+# Include the mpc555_build_rules component
+#
+COMPONENT=mpc555_build_rules
+include $(COMPONENT_MANAGER)
+#
+# Locate the C3F Driver directory 
+#
+C3FDIR:=general_Market_C3f_Driver_V3.1.1
+
+# -------- Do not change anything below here -------------------------
+
+DRIVER_DIR:=$(C3FDIR)/MPC56X/c-array_driver
+INCLUDES += -I$(DRIVER_DIR)/gmd_include
+
+# Ensure we only pick up the driver code and nothing else
+# The pattern for the driver sources is gmd*bin.c
+C3F_SOURCES = $(notdir $(wildcard $(DRIVER_DIR)/gmd_driver/*bin.c))
+C3F_OBJECTS = $(patsubst %.c,%.o,$(C3F_SOURCES))
+
+OBJECTS := $(C3F_OBJECTS) flash_interface.o c3f_flash.o 
+
+.PHONY : all
+all : setup $(LIBRARY)
+
+objects : $(OBJECT_TARGETS)
+
+vpath %.c 	$(DRIVER_DIR)/gmd_driver
+
+$(LIBRARY) : $(OBJECT_TARGETS) 
+	$(LIBCMD) $(LIBRARY) $(OBJECT_TARGETS) 
+
+$(OBJECT_TARGETS) : makefile.c3f
+

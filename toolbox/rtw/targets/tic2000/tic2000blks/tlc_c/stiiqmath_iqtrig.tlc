@@ -1,0 +1,60 @@
+%% $RCSfile: stiiqmath_iqtrig.tlc,v $
+%% $Revision: 1.1.6.2 $ $Date: 2004/04/08 21:00:11 $
+%% Copyright 2003-2004 The MathWorks, Inc.
+%%
+%% Abstract: TI C28x IQmath library "IQtrig" (optimized IQ Trignometric functions)
+
+%implements stiiqmath_iqtrig "C"
+
+%include "fix_published.tlc"
+
+
+%% Function: BlockTypeSetup ==============================================
+%function BlockTypeSetup(block, system) void
+    %<LibAddToCommonIncludes("<IQmathLib.h>")>
+%endfunction %% BlockTypeSetup
+
+
+%% Function: GetTrigFcnCallLine ===============================================
+%%
+%% Abstract:
+%%     Extracts the next input from LibBlockInputSignal and increments
+%%     according to Stereo (1 or 2 channels) and FrameSize.
+%%      
+%function GetTrigFcnCallLine (option, fractionLengthY) void
+	%switch %<option>	
+	%case 1 %% sin option selected
+		%assign Expression = "_IQ%<fractionLengthY>sin"
+	%break
+	%case 2 %% sinPU option selected
+		%assign Expression =  "_IQ%<fractionLengthY>sinPU"
+	%break
+	%case 3 %% cos option selected
+		%assign Expression = "_IQ%<fractionLengthY>cos"
+	%break
+	%case 4 %% cosPU option selected
+		%assign Expression =  "_IQ%<fractionLengthY>cosPU"
+	%break
+	%endswitch
+    %return Expression
+%endfunction %% GetTrigFcnCallLine
+
+
+%% Function: Outputs ==========================================================
+%%
+%function Outputs(block, system) Output
+	%assign OUTPORT_Y  = 0
+	%assign dataTypeIdY = LibBlockOutputSignalDataTypeId(OUTPORT_Y)
+	%assign fractionLengthY = FixPt_DataTypeFractionLength( block, dataTypeIdY )
+	%assign option = LibBlockParameterValue(P1, 0)
+			
+	/* C28x IQmath Library (%<ParamSettings.FunctionName>) - '%<Name>' */
+    {
+	    %assign rollVars = ["U", "Y"]
+        %roll idx = RollRegions, lcv = RollThreshold, block,"Roller", rollVars
+		    %<LibBlockOutputSignal (0, "", lcv, idx)> = %<GetTrigFcnCallLine (option,fractionLengthY)>(%<LibBlockInputSignal (0, "", lcv, idx)>);
+		%endroll
+    }
+%endfunction
+
+%% [EOF] stiiqmath_iqtrig.tlc

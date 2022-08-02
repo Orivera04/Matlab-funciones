@@ -1,0 +1,104 @@
+%Método de completación de cuadrados para obtener la ecuación
+%canónica de una cónica apartir de la ec. general Ax^2+By^2+Cx+Dy+F=0
+
+%Leer los coeficientes A,B,C,D,F 
+A=input('Dar el coeficiente A: ');
+B=input('Dar el coeficiente B: ');
+C=input('Dar el coeficiente C: ');
+D=input('Dar el coeficiente D: ');
+F=input('Dar el coeficiente F: ');
+syms x y
+if A==0 & B==0
+    disp('La ecuación representa una recta o ningún punto');
+    break
+end
+if A<0 & B<0
+    A=-A
+    B=-B
+    C=-C
+    D=-D
+    F=-F
+end
+     disc=B*C^2+A*D^2-4*A*B*F;
+     
+if A~=0 & B~=0
+    if disc == 0
+      disp('La ecuación representa un punto');
+      break
+    elseif disc < 0 
+      if A*B>0
+          disp('La ecuación representa el conjunto vacío');
+          break
+      elseif A*B<0 
+          disp('')
+      end      
+    else    
+        disp('');
+    end   
+%Calcular las traslaciones h,k y el t.i. f
+h=C/(-2*A);
+k=D/(-2*B);
+f=A*h^2+B*k^2-F;
+%Ecuación canónica
+a=f/A;
+b=f/B;
+if a*b>0 & a==b
+    disp('La cónica es una circunferencia con ecuación:');
+elseif a*b>0 & a~=b
+    disp('La cónica es una elipse con ecuación:');   
+elseif a*b<0
+    disp('La cónica es una hipérbola con ecuación:');
+end
+    ec=((x-h)^2/a+(y-k)^2/b);
+    ecu=strcat(char(ec),'=1');
+    ecua=sym(ecu);
+    pretty(ecua);
+elseif A~=0 & B==0
+    if C==0 & D==0
+        if F<=0
+            disp('La ecuación representa dos rectas paralelas');
+            break
+        else
+            disp('la ecuación represena el conjunto vacío');
+            break
+        end
+    elseif C~=0 & D==0
+        disp('La ecuaciòn representa dos rectas o el conjunto vacío')
+        break
+    elseif C==0 & D~=0
+        disp('')
+    end 
+    disp('La cónica es una parábola con ecuación:');
+    h=C/(2*A);
+    k=F/D-C^2/(4*A*D);
+    p=A/D;
+    ec=(y-k)+p*(x+h)^2;
+    ecu=strcat(char(ec),'=0'); 
+    ecua=sym(ecu);
+    pretty(ecua);
+elseif A==0 & B~=0
+    if C==0 & D==0
+        if F<=0
+            disp('La ecuación representa dos rectas paralelas');
+            break
+        else
+            disp('la ecuación represena el conjunto vacío');
+            break
+        end
+    elseif C==0 & D~=0
+        disp('La ecuaciòn representa dos rectas o el conjunto vacío')
+        break
+    elseif C==0 & D~=0
+        disp('')
+    end 
+    disp('La cónica es una parábola con ecuación:');
+    h=D/(2*B);
+    k=F/C-D^2/(4*B*C);
+    p=B/C;
+    ec=(x-h)+p*(y+h)^2;
+    ecu=strcat(char(ec),'=0'); 
+    ecua=sym(ecu);
+    pretty(ecua);
+    
+end
+    

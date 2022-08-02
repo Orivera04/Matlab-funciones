@@ -1,0 +1,11 @@
+disp('Part 4: Advanced Properties.')
+disp('  ')
+disp('Invoke the m-file matrix_data if you')
+disp('have not done so in this MATLAB session.')
+disp('  ')
+disp('Display the values of I4, Z1, Z2, and Z3')
+disp('to see what those matrices look like.')
+disp('  ')
+disp('To move on to Part 5, type matrix5.')
+disp('  ')
+

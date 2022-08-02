@@ -1,0 +1,11 @@
+DataSet=1;
+data=[7 3 45 8 4 3; 6 4 60 6 4 2; 6 4 30 6 4 2; 5 5 60 5 4 4];
+a=data(DataSet,1); %sets a equal to matrix `data' row #DataSet column #1
+b=data(DataSet,2); %sets b equal to matrix `data' row #DataSet column #2
+c=data(DataSet,3); %sets c equal to matrix `data' row #DataSet column #3
+d=data(DataSet,4); %sets d equal to matrix `data' row #DataSet column #4
+e=data(DataSet,5); %sets e equal to matrix `data' row #DataSet column #5
+f=data(DataSet,6); %sets f equal to matrix `data' row #DataSet column #6
+af=rise2xy([-e,f,d,a,0]);
+reaction=threevector(af,[0,0,0;DR(90),0,0;DR(180-c),a+b,0]);
+CableMagnitude=mag(reaction(3,:))

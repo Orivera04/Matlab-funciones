@@ -1,0 +1,199 @@
+%% File: profilegen.tlc
+%%
+%% $Revision: 1.9.4.3 $
+%% $Date: 2004/04/19 01:24:06 $
+%%
+%% Abstract:
+%%   This is the tlc file used to generate batch command which 
+%%   will generate HTML profile report later.
+%%
+%%   It should be placed after "codegenentry.tlc" as it needs info about 
+%%   generated module code.
+%%
+%% Copyright 2001-2003 The MathWorks, Inc.
+%%
+%selectfile NULL_FILE
+
+%with CompiledModel.PathInfo
+%% Create model generated file list file
+%assign ModelName = CompiledModel.Name
+%assign model_gen_file_list = "%<MODEL_ABS_PATH>%<PATH_SEP>%<ModelName>_gen_file_list.txt"
+%openfile handle_file = "%<model_gen_file_list>"
+
+%if ISFIELD(CompiledModel,"ModelFiles")
+%with CompiledModel
+  %with ModelFiles
+    %foreach fileIdx = LibGetNumModelFiles()
+      
+      %assign fileName  = LibGetModelFileAttribute(fileIdx,"Name")
+      %assign fileSrc   = LibGetModelFileAttribute(fileIdx,"Creator")
+      %assign fileType  = LibGetModelFileAttribute(fileIdx,"Type")
+      %assign opFile    = ModelFile[fileIdx]
+      
+      %if fileType == "SystemBody" && fileSrc == "Simulink"
+	%<opFile.Name>
+      %endif
+      
+    %endforeach
+  %endwith
+%endwith
+%else
+  %foreach fileIdx = ::CompiledModel.NumSources
+    %assign mdlSrc  = ::CompiledModel.Sources[fileIdx]
+    %%assign srcStr = srcStr + "%<mdlSrc>.c "
+     %<mdlSrc>
+  %endforeach
+%endif
+%closefile handle_file
+
+
+
+%% create batch file to create profile report adn hookup with regular report
+%assign MAP_NAME = "EPPC_C_debug.MAP"
+%assign gen_report_batch_file = "htmlreport.m"
+%assign rtwlib_filelist_file = "%<PROFILE_DIR>%<PATH_SEP>rtwlib.txt"
+
+
+%assign PERL = "%<MATLABROOT>%<PATH_SEP>sys%<PATH_SEP>perl%<PATH_SEP>win32%<PATH_SEP>bin%<PATH_SEP>perl"
+%assign MAP2IR = "%<PROFILE_DIR>%<PATH_SEP>map2ir.pl"
+%assign IR2HTML = "%<PROFILE_DIR>%<PATH_SEP>ir2html.pl"
+%assign HOOKUP_HTML = "%<PROFILE_DIR>%<PATH_SEP>hookup.pl"
+
+%%assign rule_file_name   = "%<CompiledModel.Settings.ToolChain>"
+%if (DK_TLC_TYPE == "EXP") || (DK_TLC_TYPE == "PIL")
+  %assign TARGET_MEMORY_MODEL = "RAM"
+%endif
+
+%switch TARGET_MEMORY_MODEL
+%case "RAM"
+    %assign TMM_FILE_SUFFIX="_ram"
+    %break
+%case "FLASH"
+    %assign TMM_FILE_SUFFIX="_flash"
+    %break
+%default
+    %error "Cannot find rul file for %<TARGET_MEMORY_MODEL>"
+%endswitch
+
+%assign MAP_FILE = "%<MODEL_ABS_PATH>%<PATH_SEP>..%<PATH_SEP>%<ModelName>%<TMM_FILE_SUFFIX>.map"
+%assign ELF_FILE = "%<MODEL_ABS_PATH>%<PATH_SEP>..%<PATH_SEP>%<ModelName>%<TMM_FILE_SUFFIX>.elf"
+
+%if FEVAL("lower", CompiledModel.Settings.ToolChain) == "codewarrior"
+  %switch TARGET_MEMORY_MODEL
+  %case "RAM"
+    %assign RULE_FILE = "%<PROFILE_DIR>%<PATH_SEP>cw.rul"
+    %break
+  %case "FLASH"
+    %assign RULE_FILE = "%<PROFILE_DIR>%<PATH_SEP>cwflash.rul"
+    %break
+  %endswitch
+%elseif  FEVAL("lower", CompiledModel.Settings.ToolChain) == "diab" 
+  %assign RULE_FILE = "%<PROFILE_DIR>%<PATH_SEP>diab.rul"
+%else
+  %exit Real-Time Workshop Error: Unsupported target compiler %<CompiledModel.Settings.ToolChain> detected
+%endif  
+
+%assign IR_FILE = "%<MODEL_ABS_PATH>%<PATH_SEP>%<ModelName>.csv"
+%if DK_TLC_TYPE == "EXP"
+    %assign HTML_RULE_FILE = "%<PROFILE_DIR>%<PATH_SEP>exp_html.rul"
+%else
+    %switch TARGET_MEMORY_MODEL
+    %case "RAM"
+        %assign HTML_RULE_FILE = "%<PROFILE_DIR>%<PATH_SEP>ram_html.rul"
+        %break
+    %case "FLASH"
+        %assign HTML_RULE_FILE = "%<PROFILE_DIR>%<PATH_SEP>flash_html.rul"
+        %break
+    %default
+        %error "Cannot find rul file for %<TARGET_MEMORY_MODEL>"
+    %endswitch
+%endif
+%% we need PATH_SEP so we could pass it directly to IR2HTML perl script;
+%assign HTML_REPORT_DIR = "%<MODEL_ABS_PATH>%<PATH_SEP>html%<PATH_SEP>"
+%assign PROFILE_REPORT_FILE = "%<HTML_REPORT_DIR>profile.html"
+%assign noPATH_PROFILE_REPORT_FILE = "profile.html"
+%assign HTML_REPORT_CONTENTS =  "%<HTML_REPORT_DIR>%<ModelName>_contents.html"
+
+
+
+%assign HTML_REPORT_FRAME = "%<MODEL_ABS_PATH>%<PATH_SEP>html%<PATH_SEP>%<ModelName>_codegen_rpt.html"
+%openfile handle_file = "%<gen_report_batch_file>"
+function htmlreport
+    OldFiles=[];
+    %% Check timeflag of MAP file to determine whether model been successfully built
+    if cmpTimeFlag('%<gen_report_batch_file>', '%<MAP_FILE>') <= 0
+      OldFiles=[OldFiles ' %<MAP_FILE>'];
+    end
+    %% Check timeflag of elf file to determine whether model been successfully built
+    if cmpTimeFlag('%<gen_report_batch_file>', '%<ELF_FILE>') <= 0
+      OldFiles=[OldFiles ' %<ELF_FILE>'];
+    end
+    if ~isempty(OldFiles)
+      error(['### Detected target build failure. Map and/or program file(s) are not up-to-date.'])
+    end
+%if "%<GenerateReport>" == "1"
+    fprintf('### Generating code profile report for model: %s\n', '%<ModelName>');
+    !"%<PERL>" "%<MAP2IR>" "%<MAP_FILE>" "%<RULE_FILE>" "%<IR_FILE>" "%<model_gen_file_list>" "%<rtwlib_filelist_file>"
+  %if "%<GenerateReport>" == "1"
+    !"%<PERL>" "%<IR2HTML>" "%<IR_FILE>" "%<HTML_RULE_FILE>" "%<PROFILE_REPORT_FILE>" "%<HTML_REPORT_DIR>%<PATH_SEP>"
+                                                                         %% need double \ here to prevent pass in "
+    !"%<PERL>" "%<HOOKUP_HTML>" "%<HTML_REPORT_CONTENTS>" "%<noPATH_PROFILE_REPORT_FILE>"
+    rtwprivate('rtwshowhtml', '%<HTML_REPORT_FRAME>')
+    rtwprivate('rtwshowhtml', '%<HTML_REPORT_FRAME>')
+    fprintf('### Generated code profile report for model: %s\n', '%<ModelName>');
+  %else
+    !"%<PERL>" "%<IR2HTML>" "%<IR_FILE>" "%<HTML_RULE_FILE>" "%<PROFILE_REPORT_FILE>"  
+    rtwprivate('rtwshowhtml', '%<PROFILE_REPORT_FILE>')
+    rtwprivate('rtwshowhtml', '%<PROFILE_REPORT_FILE>')
+    fprintf('### Generated code profile report for model: %s\n', '%<ModelName>');
+  %endif
+%endif
+function result = cmpTimeFlag(file1, file2)
+  %% CMPTIMEFLAG Compare time/date flag of the two input files
+  %% CMPTIMEFLAG(file1, file2) return 1  if file1 is earlier than file2
+  %%			      return 0  if same time or any file doesn't exist
+  %%			      return -1 if file1 is later than file2
+  %%   file2 can be wildcard, it will return -1 unless every file2 ealier than file1
+  
+    record1 = dir(eval('file1'));
+      [row col] = size(record1);
+      if (row == 0) | (col == 0)
+        result = 0;
+        return
+      end
+    record2 = dir(eval('file2'));
+      [row col] = size(record2);
+      if (row == 0) | (col == 0)
+        result = 0;
+        return
+      end    
+    date1 = datevec(record1.date);
+
+    match_file_num = row;
+    for loop = 1:match_file_num
+      date2 = datevec(record2(loop).date);
+      for i = 1:6
+        if date1(i) < date2(i)
+          result = 1;
+          return
+        elseif date1(i) > date2(i)
+          result = -1;
+          if (loop == match_file_num)
+            return
+          else
+            break
+          end
+        else
+        end
+      end
+    end
+    result = 0;
+
+function profileHouseKeeping
+    if exist('%<model_gen_file_list>')
+      delete('%<model_gen_file_list>');
+    end
+  
+%closefile handle_file
+
+%endwith

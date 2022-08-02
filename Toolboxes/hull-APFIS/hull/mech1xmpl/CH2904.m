@@ -1,0 +1,13 @@
+Angle=DR(0.2);
+Slack=[0.001 0.0015 0]; %meters
+PicturedLength=[0.5 0.45 0.7]; %meters
+Length=PicturedLength+Slack;%meters %NEEDED
+WirePlacement=[0.2 0.5 0.8]; %meters
+Horizontal=WirePlacement-cos(Angle)*WirePlacement;
+Vertical=PicturedLength+sin(Angle)*PicturedLength;
+NewLength=hyp(Horizontal,Vertical);
+DeltaL=NewLength-Length; %meters %NEEDED
+Radii=[0.01 0.01 0.009]/2;
+Area=circle(Radii,'area');%meters^2 %NEEDED
+E=[210 200 205]*1e9;%Pascals %NEEDED
+Forces=DeltaL.*E.*Area./Length

@@ -1,0 +1,318 @@
+# Copyright 1994-2004 The MathWorks, Inc.
+#
+# File    : c166.tmf   $Revision: 1.14.4.7 $
+#
+# Abstract:
+#	Real-Time Workshop template makefile used to create a makefile
+#       <model>.mk to build applications for C166 family using the Tasking
+#       compiler.
+#
+#       This file can be used as a starting point for supporting 
+#       Real-Time Workshop Embedded Coder on the C166 architecture.
+#
+# 	Note that this template is automatically customized by the Real-Time
+#	Workshop build procedure to create "<model>.mk".
+#
+#       The following defines can be used to modify the behavior of the
+#	build:
+#
+#    OPTS           - Additional user defines.
+#    USER_SRCS      - Additional user sources, such as files needed by
+#                     S-functions.
+#    USER_INCLUDES  - Additional include paths
+#                     (i.e. USER_INCLUDES="-Iwhere-ever1 -Iwhere-ever2")
+#
+
+
+#------------------------ Macros read by make_rtw -----------------------------
+#
+# The following macros are read by the Real-Time Workshop build procedure:
+#
+#  MAKECMD         - This is the command used to invoke the make utility
+#  HOST            - What platform this template makefile is targeted for
+#                    (i.e. PC or UNIX)
+#  BUILD           - Invoke make from the Real-Time Workshop build procedure
+#                    (yes/no)?
+#  SYS_TARGET_FILE - Name of system target file.
+
+MAKECMD         = "|>MATLAB_ROOT<|\rtw\bin\win32\gmake"
+HOST            = PC
+BUILD           = yes
+SYS_TARGET_FILE = c166.tlc
+
+#---------------------- Tokens expanded by make_rtw ---------------------------
+#
+# The following tokens, when wrapped with "|>" and "|<" are expanded by the
+# Real-Time Workshop build procedure.
+#
+#  MODEL_NAME      - Name of the Simulink block diagram
+#  MODEL_MODULES   - Any additional generated source modules
+#  MAKEFILE_NAME   - Name of makefile created from template makefile <model>.mk
+#  MATLAB_ROOT     - Path to were MATLAB is installed.
+#  MATLAB_BIN      - Path to MATLAB executable.
+#  S_FUNCTIONS     - List of additional S-function modules.
+#  S_FUNCTIONS_LIB - List of S-functions libraries to link.
+#  NUMST           - Number of sample times
+#  BUILDARGS       - Options passed in at the command line.
+#  MULTITASKING    - yes (1) or no (0): Is solver mode multitasking
+#  INTEGER_CODE    - yes (1) or no (0): Is generated code purely integer
+#  MAT_FILE        - yes (1) or no (0): Should mat file logging be done,
+#                    if 0, the generated code runs indefinitely
+#  EXT_MODE        - yes (1) or no (0): Build for external mode
+#  MULTI_INSTANCE_CODE - Is the generated code multi instantiable (1/0)?
+#  ADD_MDL_NAME_TO_GLOBALS - Do we add the model name to global 
+#                        identifiers (1/0)?
+
+MODEL               = |>MODEL_NAME<|
+MODULES             = |>MODEL_MODULES<|
+MAKEFILE            = |>MAKEFILE_NAME<|
+MATLAB_ROOT         = |>MATLAB_ROOT<|
+MATLAB_BIN          = |>MATLAB_BIN<|
+S_FUNCTIONS         = |>S_FUNCTIONS<|
+S_FUNCTIONS_LIB     = |>S_FUNCTIONS_LIB<|
+NUMST               = |>NUMST<|
+BUILDARGS           = |>BUILDARGS<|
+MULTITASKING        = |>MULTITASKING<|
+INTEGER_CODE        = |>INTEGER_CODE<|
+MAT_FILE            = 0
+ONESTEPFCN          = 1
+TERMFCN             = 0
+EXT_MODE            = 0
+MULTI_INSTANCE_CODE     = |>MULTI_INSTANCE_CODE<|
+ADD_MDL_NAME_TO_GLOBALS = |>ADD_MDL_NAME_TO_GLOBALS<|
+C166ROOT                = $(subst ",,|>C166ROOT<|)
+STATIC_RTWLIB           = |>STATIC_RTWLIB<|
+
+#---------------------------- Target Specific Definitions -------------------------------
+
+#
+# Make variables that provide compiler flags, memory model settings and other
+# application-specific or user-defined settings.
+#
+include make_vars.mk
+
+#
+# Execution profiling
+#
+ifeq ($(EXECUTION_PROFILING_ENABLED),1)
+   PROFILING_SRCS = profile.c
+   PROFILING_OPTS = -DPROFILING_ENABLED -DPROFILING_NUM_SAMPLES=$(EXECUTION_PROFILING_NUM_SAMPLES)
+endif
+
+#---------------------------- Tasking Tool Definitions -------------------------------
+
+CC166   = $(C166ROOT)\bin\cc166
+M166    = $(C166ROOT)\bin\m166
+A166    = $(C166ROOT)\bin\a166
+L166    = $(C166ROOT)\bin\l166
+IEEE166 = $(C166ROOT)\bin\ieee166
+IHEX166 = $(C166ROOT)\bin\ihex166
+LIBCMD  = $(C166ROOT)\bin\ar166
+
+
+#---------------------------- General Tool Definitions -------------------------------
+
+PERL   = $(MATLAB_ROOT)\sys\perl\win32\bin\perl
+
+# If the input argument LM_LICENSE_FILE is defined, export it
+export LM_LICENSE_FILE
+
+#------------------------------ Include Path ----------------------------------
+
+MATLAB_INCLUDES = \
+ -I. \
+ -I"$(MATLAB_ROOT)\toolbox\rtw\targets\c166\src" \
+ -I"$(MATLAB_ROOT)\extern\include" \
+ -I"$(MATLAB_ROOT)\simulink\include" \
+ -I"$(MATLAB_ROOT)\rtw\c\src" \
+ -I"$(MATLAB_ROOT)\rtw\c\libsrc" \
+ -I"$(MATLAB_ROOT)\toolbox\rtw\targets\common\profile\execution"
+
+
+# Additional includes
+
+ADD_INCLUDES = \
+|>START_EXPAND_INCLUDES<| -I"|>EXPAND_DIR_NAME<|" \
+|>END_EXPAND_INCLUDES<|
+
+INCLUDES = $(MATLAB_INCLUDES) $(ADD_INCLUDES) $(USER_INCLUDES)
+
+
+#-------------Tasking Macro Preprocessor M166 include path----------------------
+#
+# The macro preprocessor m166 picks up the include path from an environment
+# variable
+#
+M166INC = $(C166ROOT)/include
+export M166INC
+
+
+#-------------------------------- Build Flags --------------------------------------
+
+# Optimization Options
+OPT_OPTS = $(DEFAULT_OPT_OPTS)
+
+# General User Options
+OPTS =
+
+# Compiler options, etc:
+CC_OPTS = $(OPT_OPTS) $(OPTS) $(PROFILING_OPTS)
+
+CPP_REQ_DEFINES = -DMODEL=$(MODEL) -DNUMST=$(NUMST) \
+		  -DMT=$(MULTITASKING) \
+		  -DMAT_FILE=$(MAT_FILE) -DINTEGER_CODE=$(INTEGER_CODE) \
+		  -DONESTEPFCN=$(ONESTEPFCN) -DTERMFCN=$(TERMFCN) \
+		  -DHAVESTDIO -DMULTI_INSTANCE_CODE=$(MULTI_INSTANCE_CODE)\
+		  -DADD_MDL_NAME_TO_GLOBALS=$(ADD_MDL_NAME_TO_GLOBALS) \
+		  -D__LITTLE_ENDIAN__=1
+
+CFLAGS = -c $(OPT_CC) $(CC_OPTS) $(CPP_REQ_DEFINES) $(INCLUDES)
+
+LOCATEFLAGS1 = print(..\$(MODEL).map) summary listsymbols map globals lines locals 
+LOCATEFLAGS2 = publics symb nopaging pagewidth(80)  symbolcolumns(1) 
+LOCATEFLAGS = $(LOCATEFLAGS1) $(LOCATEFLAGS2)
+
+#-------------------------- Additional Libraries ------------------------------
+
+# Expand any possibly precompiled libraries - eg. RTW, DSP, Add2
+#
+# We handle the RTW library specially depending on the
+# static rtwlib option in the rtwoptions gui. All other libraries
+# are assumed to be precompiled with no source available. 
+|>START_PRECOMP_LIBRARIES<|
+ifneq ($(findstring rtwlib,|>EXPAND_LIBRARY_NAME<|),)
+   # rtwlib : We can apply the special STATIC_RTWLIB option
+   ifeq ($(STATIC_RTWLIB),0)
+	  # Build a dynamic library
+      LIBS += |>EXPAND_LIBRARY_NAME<|.lib
+   else
+	  # Use the static library
+      LIBS += |>EXPAND_LIBRARY_LOCATION<|/|>EXPAND_LIBRARY_NAME<|_c166.lib
+   endif
+else
+  # Force static libraries
+  LIBS += |>EXPAND_LIBRARY_LOCATION<|/|>EXPAND_LIBRARY_NAME<|_c166.lib
+endif
+|>END_PRECOMP_LIBRARIES<| 
+
+
+# These libraries will be built in the build directory. There
+# are no precompiled sources. These library types can be 
+# triggered by setting the 
+# 	Precompile flag = 0
+# in the rtwmakecfg.m files 
+|>START_EXPAND_LIBRARIES<|
+LIBS += |>EXPAND_LIBRARY_NAME<|.lib
+|>END_EXPAND_LIBRARIES<|
+
+#----------------------------- Source Files -----------------------------------
+
+REQ_SRCS  = $(MODEL).c $(MODULES) $(ADD_SRCS) $(EXT_SRC) $(PROFILING_SRCS)
+REQ_ASMS = start.asm dispatcher.asm
+
+USER_OBJS       = $(USER_SRCS:.c=.obj)
+LOCAL_USER_OBJS = $(notdir $(USER_OBJS))
+
+SRCS = $(REQ_SRCS) $(S_FUNCTIONS)
+
+OBJS      = $(SRCS:.c=.obj) $(REQ_ASMS:.asm=.obj) $(USER_OBJS) 
+LINK_OBJS = $(SRCS:.c=.obj) $(REQ_ASMS:.asm=.obj) $(LOCAL_USER_OBJS) 
+
+PROGRAM = "..\$(MODEL).abs"
+
+#--------------------------------- Rules --------------------------------------
+$(PROGRAM) : $(OBJS) $(LINK_OBJS) $(LIBS)
+	@echo ### Creating executable: $(MODEL).abs
+	$(CC166) -o $(MODEL).out $(LINK_OBJS) $(OPT_LC) $(LIBS) $(LOCATEFLAGS)
+	$(IEEE166) $(MODEL).out $@
+	$(IHEX166) $(MODEL).out $(MODEL).hex
+	@echo ### Created executable: $(MODEL).abs
+
+dispatcher.src : dispatcher.asm
+	$(M166) $< $(OPT_MPP)
+
+dispatcher.obj : dispatcher.src
+	$(CC166) -c $< NOM166 $(CFLAGS)
+
+start.src : start.asm 
+	$(M166) $< $(OPT_MPP)
+
+start.obj : start.src
+	$(CC166) -c $< NOM166 $(CFLAGS)
+	@del $<
+
+profile.obj : $(MATLAB_ROOT)\toolbox\rtw\targets\common\profile\execution\profile.c \
+              profile_vars.h \
+              $(MATLAB_ROOT)\toolbox\rtw\targets\common\profile\execution\profile.h
+	$(CC166) $(CFLAGS) $<
+
+%.obj : %.c
+	$(CC166) $(CFLAGS) $<
+
+%.obj : ../%.c
+	$(CC166) $(CFLAGS) $<
+
+%.obj : $(MATLAB_ROOT)/toolbox/rtw/targets/c166/src/%.c
+	$(CC166) $(CFLAGS) $<
+
+%.obj : $(MATLAB_ROOT)/rtw/c/src/%.c
+	$(CC166) $(CFLAGS) $<
+
+|>START_EXPAND_RULES<|%.obj : |>EXPAND_DIR_NAME<|/%.c
+	$(CC166) $(CFLAGS) $<
+|>END_EXPAND_RULES<|
+
+%.obj : $(MATLAB_ROOT)/simulink/src/%.c
+	$(CC166) -c $(CFLAGS) $<
+
+# explicit rule to build ccp_utils.o  
+# because the source files are not in the current directory
+# and it needs to be dependant on ccp_auto_defs.h!
+ccp_utils.obj :	$(MATLAB_ROOT)\toolbox\rtw\targets\common\can\blocks\tlc_c\ccp_utils.c \
+						$(MATLAB_ROOT)\toolbox\rtw\targets\common\can\blocks\tlc_c\ccp_utils.h \
+						ccp_auto_defs.h
+	$(CC166) $(CFLAGS) $<
+
+# Libraries:
+|>START_EXPAND_LIBRARIES<|MODULES_|>EXPAND_LIBRARY_NAME<| = \
+|>START_EXPAND_MODULES<|    |>EXPAND_MODULE_NAME<|.obj \
+|>END_EXPAND_MODULES<|
+
+|>EXPAND_LIBRARY_NAME<|.lib : $(MAKEFILE) rtw_proj.tmw $(MODULES_|>EXPAND_LIBRARY_NAME<|)
+	@echo ### Creating $@
+	@if exist $@ del $@
+	$(LIBCMD) rc $@ $(MODULES_|>EXPAND_LIBRARY_NAME<|)
+	@echo ### Created $@
+
+|>END_EXPAND_LIBRARIES<|
+
+|>START_PRECOMP_LIBRARIES<|MODULES_|>EXPAND_LIBRARY_NAME<| = \
+|>START_EXPAND_MODULES<|    |>EXPAND_MODULE_NAME<|.obj \
+|>END_EXPAND_MODULES<|
+
+|>EXPAND_LIBRARY_NAME<|.lib : $(MAKEFILE) rtw_proj.tmw $(MODULES_|>EXPAND_LIBRARY_NAME<|)
+	@echo ### Creating $@
+	@if exist $@ del $@
+	$(LIBCMD) rc $@ $(MODULES_|>EXPAND_LIBRARY_NAME<|)
+	@echo ### Created $@
+
+|>END_PRECOMP_LIBRARIES<|
+
+#----------------------------- Dependencies ------------------------------------
+
+$(OBJS) $(LINK_OBJS): $(MAKEFILE) rtw_proj.tmw
+
+
+
+#--------- Miscellaneous rules to purge, clean and lint (sol2 only) ------------
+
+purge : clean
+	@echo ### Deleting the generated source code for $(MODEL)
+	@del $(MODEL).c $(MODEL).h $(MODEL)_types.h $(MODEL)_data.c $(MODEL).rtw \
+	        $(MODEL)_private.h $(MODULES) rtw_proj.tmw $(MAKEFILE)
+
+clean :
+	@echo ### Deleting the objects and $(PROGRAM)
+	@del $(LINK_OBJS) ..\$(MODEL).abs
+
+# EOF: c166_main.tmf

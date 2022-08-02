@@ -1,0 +1,298 @@
+From: <Guardado por Microsoft Internet Explorer 5>
+Subject: 
+Date: Thu, 26 Jul 2007 13:22:04 -0600
+MIME-Version: 1.0
+Content-Type: text/html;
+	charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://www.mathworks.com/matlabcentral/files/15231/awaitbar.m
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.2869
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD>
+<META http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dwindows-1252">
+<META content=3D"MSHTML 6.00.2900.2912" name=3DGENERATOR></HEAD>
+<BODY><PRE>function fout =3D awaitbar(x,whichbar,varargin)
+%AWAITBAR Display progress bar with abort button and upon clicking on =
+the
+%					abourt button or the close figure button will abort the process=20
+%					and close the waitbar
+%=20
+% USAGE:
+%  H =3D awaitbar(x,message):
+%			 creates and displays a waitbar of fractional length X with the =
+message=20
+%			 text in the waitbar figure. The handle to the waitbar figure is =
+returned=20
+%			 in H. x should be between 0 and 1. =20
+%	 H =3D awaitbar(x,message,figTitle):
+%			 displays text in the figure title
+%	 H =3D awaitbar(x,message,figTitle,figPosition):
+%      figure is positioned according to the value specified in =
+figPosition
+%	 awaitbar(x): update in the most recently created waitbar window=20
+%	 awaitbar(x,H): update in waitbar H
+%	 awaitbar(x,H,message): will update the message text in  the waitbar =
+figure,
+%	 awaitbar(x,H,message,figTitle): will update the title text in  the =
+waitbar figure,
+%	 hh =3D awaitbar(x,H,....): if the output is assigned to the variable =
+'hh',
+%					then when the waitbar figure is closed by clicking close button, =
+then=20
+%					the loop process will be aborted.(See example below)
+%
+% FEATURES
+% 1.  Abort button to abort the process and close the waitbar figure.
+% 1.  It stays on top of other figures. % Thanks to Peder =
+Axensten(11398).=20
+% 2.  Only one waitbar window, so no old ones left around. Thanks to =
+Peder Axensten(11398).
+% 5.  Elapsed time and Estimated Remaining time are shown in the figure.
+% 6.  Update of the progress is also shown in the figure title.
+% 7.  User defined figure position
+%
+% EXAMPLES:
+%   abort =3D false;	% This initialisation is needed to use abort the =
+process.=20
+%										% Please do not change variable name "abort" otherwise=20
+%										% "abort" button will not work
+%   h =3D awaitbar(0,'Running Monte-Carlo, please wait...');=20
+%   for i=3D1:100,
+%			pause(0.2); % Do some computational stuff
+%			hh=3Dawaitbar(i/100,h,'Running the process','Progress');=20
+%																			% asssign the ouput to the variable "hh"
+%																			% in order to abort the process by closing
+%																			% the waitbar figure
+%			if abort; close(h);break; end   % Abort the process by clicking =
+abort button
+%			if isempty(hh); break; end      % Break the process when closing the =
+figure
+%		end
+%
+% See also WAITBAR, WAITBAR (11398)
+%
+% I appreciate the bug reports and suggestions.
+%
+% Copyright 2007 by Durga Lal Shrestha.
+% eMail: durgals@hotmail.com
+% $Date: 2007/06/07
+% $Revision: 1.0.0 $ $Date: 2007/06/07 $
+%
+%% Argument check
+figTitle =3D 'Progress'; % default title
+if nargin&gt;=3D2
+    if ischar(whichbar)
+        % Delete all pre-existing waitbar graphical objects (Thanks to =
+Peder Axensten(11398)
+        showhid=3Dget(0, 'showhid');
+        set(0, 'showhid', 'on');
+        try delete(findobj('Tag', 'TMWAWaitbar')); catch end
+        set(0, 'showhid', showhid);
+				%
+        type=3D2; %we are initializing
+        name=3Dwhichbar;
+        t0=3Dclock;
+        if nargin&gt;=3D3
+            figTitle =3D varargin{1};
+        end
+    elseif isnumeric(whichbar)
+        type=3D1; %we are updating, given a handle
+        f=3Dwhichbar;
+				if x=3D=3D1;delete(f);clear f; end;
+        if nargin =3D=3D 4
+            figTitle =3D varargin{2};
+        end
+        f =3D findobj(allchild(0),'flat','Tag','TMWAWaitbar');
+%         if isempty(f)
+%             fout=3D1;
+%          end
+    else
+        error('AWaitbar:InvalidInputs', ['Input arguments of type ' =
+class(whichbar) ' not valid.'])
+    end
+elseif nargin=3D=3D1
+    f =3D findobj(allchild(0),'flat','Tag','TMWAWaitbar');
+    if isempty(f)
+        type=3D2;
+        name=3D'AWaitbar';
+				t0=3Dclock;
+    else
+        type=3D1;
+        f=3Df(1);
+    end
+else
+    error('AWaitbar:InvalidArguments', 'Input arguments not valid.');
+end
+
+%%=20
+x =3D max(0,min(100*x,100));
+switch type
+    case 1,  % awaitbar(x)    update
+        try p =3D findobj(f,'Type','patch');
+            l =3D findobj(f,'Type','line');
+            lapseObj =3D findobj(f,'Tag','lapseTag');
+            etaObj =3D findobj(f,'Tag','etaTag');
+            percentObj =3D findobj(f,'Tag','percentTag');
+            if isempty(f) | isempty(p) | isempty(l) | =
+isempty(lapseObj)|isempty(etaObj)|isempty(percentObj),
+                error('Couldn''t find Awaitbar handles.');
+            end
+            set(f,  'Name',   [num2str(floor(x)) '% ' figTitle]);
+            t0=3D get(f,'UserData');
+            xpatch =3D [0 x x 0];
+            set(p,'XData',xpatch')
+            xline =3D get(l,'XData');
+            set(l,'XData',xline);
+            time_lapse =3D etime(clock,t0);
+            time_lapse =3D round(time_lapse);
+            if(x~=3D0),time_eta=3D(time_lapse/x)*(100-x);else return; =
+end;
+            time_eta=3Dround(time_eta);
+            str_lapse=3D get_timestr(time_lapse);
+            str_eta=3D get_timestr(time_eta);
+            set(lapseObj,'String',str_lapse);
+            set(etaObj,'String',str_eta);
+            set(percentObj,'String',strcat(num2str(floor(x)),'%'));
+            if nargin&gt;2,
+                % Update awaitbar title:
+                hAxes =3D findobj(f,'type','axes');
+                hTitle =3D get(hAxes,'title');
+                set(hTitle,'string',varargin{1});
+            end
+        catch end;
+        %%
+    case 2,  % awaitbar(x,name)  initialize
+        oldRootUnits =3D get(0,'Units');
+        set(0, 'Units', 'points');
+        screenSize =3D get(0,'ScreenSize');
+        axFontSize=3Dget(0,'FactoryAxesFontSize');
+        pointsPerPixel =3D 72/get(0,'ScreenPixelsPerInch');
+        width =3D 360 * pointsPerPixel;
+        height =3D 120 * pointsPerPixel;
+
+        if nargin=3D=3D4
+            fig_pos =3D varargin{4};
+            pos =3D [fig_pos(1) fig_pos(2)-height fig_pos(3) height];
+        else
+            pos =3D [screenSize(3)/2-width/2 screenSize(4)/2-height/2 =
+width height];
+        end
+        f =3D figure(...
+            'Units', 'points', ...
+            'Position', pos, ...
+            'Resize','off', ...
+            'CreateFcn','', ...
+            'NumberTitle','off', ...
+            'IntegerHandle','off', ...
+            'MenuBar', 'none', ...
+            'Tag','TMWAWaitbar',...
+            'Visible','on',...
+            'name',figTitle,...
+            'UserData',t0);
+        h =3D uicontrol('Style', 'pushbutton', 'String', 'Abort',...
+            'BackgroundColor',[0 1 1],'FontWeight','bold',...
+            'FontSize',11,'units','Points','Position', [0.8.*width  3 50 =
+30],...
+            'Callback', 'abort=3Dtrue;');
+        colormap([]);
+        axNorm=3D[.05 .55 .82 .2];
+        axPos=3DaxNorm.*[pos(3:4),pos(3:4)];
+        uicontrol('Parent',f,...
+            'Units','points',...
+            'Position',[pos(3).*0.08 pos(4).*0.25 pos(3).*0.45 =
+pos(4).*0.17],...
+            'String','Time Elapsed:',...=20
+            'BackgroundColor', [0.80 0.80 0.80],...           =20
+            'Style','text');
+        uicontrol('Parent',f,...
+            'Units','points',...
+            'Position',[pos(3).*0.00 pos(4).*0.05 pos(3).*0.45 =
+pos(4).*0.17],...
+            'String','Estimated Time Remaining:',...  =20
+            'BackgroundColor', [0.80 0.80 0.80],...           =20
+            'Style','text');
+        uicontrol('Parent',f,...
+            'Units','points',...
+            'Position',[pos(3).*0.40 pos(4).*0.25 pos(3).*0.15 =
+pos(4).*0.17],...          =20
+            'BackgroundColor', [0.80 0.80 0.80],...           =20
+            'Style','text',...
+            'Tag','lapseTag');
+        uicontrol('Parent',f,...
+            'Units','points',...
+            'Position',[pos(3).*0.40 pos(4).*0.05 pos(3).*0.15 =
+pos(4).*0.17],...      =20
+            'BackgroundColor', [0.80 0.80 0.80],...          =20
+            'Style','text',...
+            'Tag','etaTag');
+        uicontrol('Parent',f,...
+            'Units','points',...
+            'Position',[pos(3).*0.88 pos(4).*0.55 pos(3).*.11 =
+pos(4).*0.20],...
+            'String','%',...
+            'Style','text',...
+            'BackgroundColor', [0.80 0.80 0.80],...
+            'ForegroundColor',[1 0 0],...
+            'FontSize',[10],...
+            'FontWeight','bold',...
+            'Tag','percentTag');
+        h =3D axes('XLim',[0 100],...
+            'YLim',[0 1],...
+            'Box','on', ...
+            'Units','Points',...
+            'FontSize', axFontSize,...
+            'Position',axPos,...
+            'XTickMode','manual',...
+            'YTickMode','manual',...
+            'XTick',[],...
+            'YTick',[],...
+            'XTickLabelMode','manual',...
+            'XTickLabel',[],...
+            'YTickLabelMode','manual',...
+            'YTickLabel',[]);
+        %tHandle=3Dtitle(name);
+        tHandle=3Dget(h,'title');
+        %oldTitleUnits=3Dget(tHandle,'Units');
+        set(tHandle,...
+            'Units',      'points',...
+            'String',     name,'FontSize',[11]);
+
+        xpatch =3D [0 x x 0];
+        ypatch =3D [0 0 1 1];
+        xline =3D [100 0 0 100 100];
+        yline =3D [0 0 1 1 0];
+        p =3D =
+patch(xpatch,ypatch,'r','EdgeColor','r','EraseMode','none');
+        l =3D line(xline,yline,'EraseMode','none');
+        set(l,'Color',get(gca,'XColor'));
+        set(f,'HandleVisibility','callback','visible','on');
+        set(0, 'Units', oldRootUnits);
+end  % case
+drawnow;
+%% Put the waitbar window on top of all others (Thanks to Peder =
+Axensten(11398).
+children=3Dallchild(0);
+if((numel(children) &gt; 1) &amp;&amp; (children(1) ~=3D f))
+    uistack(f, 'top');
+end
+%%
+if nargout=3D=3D1,
+    fout =3D f;
+end
+end
+%% Internal Function
+function timestr=3D get_timestr(s) %(Thanks to Peder Axensten(11398).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%=
+%%%
+%	Return a time string, given seconds.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%=
+%%%
+=09
+	h=3D			floor(s/3600);						% Hours.
+	s=3D			s - h*3600;
+	m=3D			floor(s/60);						% Minutes.
+	s=3D			s - m*60;							% Seconds.
+	timestr=3D	sprintf('%0d:%02d:%02d', h, m, floor(s));
+end</PRE></BODY></HTML>

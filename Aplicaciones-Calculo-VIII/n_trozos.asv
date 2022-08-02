@@ -1,0 +1,19 @@
+function n_trozos(a,b,n)
+for i=1:n
+    x_i=input('subintervalo #i: ');
+    y_i=input('función #i: ');
+    plot(x_i,y_i);
+    hold on
+    axis([0 4 0 7]);
+    inix(i)=x_i(1);
+    iniy(i)=y_i(1);
+    finx(i)=x_i(end);
+    finy(i)=y_i(end);
+    %x1=[x_i(end),x_i(end)];y1=[y_i(1),y_i(end)];
+    %plot(x1,y1,'--r');
+end
+for k=1:n-1
+    x1=x1=[finx(k),finx(k)];y1=[finy((k),y_i(end)];
+    plot(x1,y1,'--r');
+end
+hold off

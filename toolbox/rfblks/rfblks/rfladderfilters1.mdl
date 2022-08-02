@@ -1,0 +1,972 @@
+Library {
+  Name			  "rfladderfilters1"
+  Version		  6.0
+  RequirementInfo	  "9"
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "d"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  BlockNameDataTip	  off
+  BlockParametersDataTip  on
+  BlockDescriptionStringDataTip	off
+  ToolBar		  off
+  StatusBar		  off
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Tue Oct 20 09:15:41 1998"
+  Creator		  "tdelve"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "fwei"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Fri Mar 12 12:22:43 2004"
+  ModelVersionFormat	  "1.%<AutoIncrement:36>"
+  ConfigurationManager	  "none"
+  SimParamPage		  "Solver"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock off
+  ProdHWDeviceType	  "Specified"
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.0.3"
+      Array {
+	Type			"Handle"
+	Dimension		8
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.0.3"
+	  StartTime		  "0.0"
+	  StopTime		  "10.0"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  RelTol		  "1e-3"
+	  SolverMode		  "SingleTasking"
+	  Solver		  "ode45"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.0.3"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SaveTime		  on
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsOut"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    5
+	    Cell		    "ZeroExternalMemoryAtStartup"
+	    Cell		    "ZeroInternalMemoryAtStartup"
+	    Cell		    "InitFltsAndDblsToZero"
+	    Cell		    "OptimizeModelRefInitCode"
+	    Cell		    "NoFixptDivByZeroProtection"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.0.3"
+	  BlockReduction	  on
+	  BooleanDataType	  off
+	  ConditionallyExecuteInputs on
+	  ConditionalExecOptimization "on_for_testing"
+	  InlineParams		  off
+	  InlineInvariantSignals  on
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  on
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  ParameterPooling	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.0.3"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg on
+	  CheckExecutionContextRuntimeOutputMsg	on
+	  SignalResolutionControl "TryResolveAllWithWarning"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  SolverPrmCheckMsg	  "none"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterPrecisionLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.0.3"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "Specified"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  on
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.0.3"
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    1
+	    Cell		    "IncludeHyperlinkInReport"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.0.3"
+	  SystemTargetFile	  "grt.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  TemplateMakefile	  "grt_default_tmf"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Array {
+		Type			"Cell"
+		Dimension		9
+		Cell			"IgnoreCustomStorageClasses"
+		Cell			"InsertBlockDesc"
+		Cell			"SFDataObjDesc"
+		Cell			"SimulinkDataObjDesc"
+		Cell			"DefineNamingRule"
+		Cell			"SignalNamingRule"
+		Cell			"ParamNamingRule"
+		Cell			"InlinedPrmAccess"
+		Cell			"CustomSymbolStr"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.0.3"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      CustomSymbolStr	      "$R$N$M"
+	      MangleLength	      1
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    Simulink.GRTTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Array {
+		Type			"Cell"
+		Dimension		12
+		Cell			"IncludeMdlTerminateFcn"
+		Cell			"CombineOutputUpdateFcns"
+		Cell			"SuppressErrorStatus"
+		Cell			"ERTCustomFileBanners"
+		Cell			"GenerateSampleERTMain"
+		Cell			"MultiInstanceERTCode"
+		Cell			"PurelyIntegerCode"
+		Cell			"SupportNonFinite"
+		Cell			"SupportComplex"
+		Cell			"SupportAbsoluteTime"
+		Cell			"SupportContinuousTime"
+		Cell			"SupportNonInlinedSFcns"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.0.3"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns off
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      ExtMode		      off
+	      ExtModeStaticAlloc      off
+	      ExtModeTesting	      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTransport	      0
+	      ExtModeMexFile	      "ext_comm"
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	      GenerateASAP2	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	Simulink.SFSimCC {
+	  $ObjectID		  11
+	  Version		  "1.0.3"
+	  SFSimApplyToAllLibs	  on
+	  SFSimEnableDebug	  on
+	  SFSimOverflowDetection  on
+	  SFSimEcho		  on
+	  SFSimBuildMode	  "Incremental"
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      SimulationMode	      "normal"
+      CurrentDlgPage	      "Solver"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      PMComponent
+      SubClassName	      "unknown"
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "rfladderfilters1"
+    Location		    [16, 54, 599, 336]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      PMComponent
+      Name		      "LC Bandpass Pi"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [175, 171, 265, 219]
+      DeleteFcn		      "rfblkspassives1(gcb,'rfDelete');"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "lcbandpasspi"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      MaskType		      "LC Bandpass Pi"
+      MaskDescription	      "Model an LC bandpass pi network."
+      MaskHelp		      "helpview(rfbhelp)"
+      MaskPromptString	      "Inductance (H):|Capacitance (F):|Plot the netwo"
+"rk parameters of this block|Source of frequency data:|Source of frequency dat"
+"a:|Frequency data (Hz):|Plot type:|Parameter:|Parameter:|Parameter:|Format:|F"
+"ormat:|Format:"
+      MaskStyleString	      "edit,edit,checkbox,popup(Derived from Input Por"
+"t parameters|User specified),popup(User specified),edit,popup(Composite data|"
+"X-Y plane|Polar plane|Z Smith chart|Y Smith chart|ZY Smith chart),popup(S11|S"
+"12|S21|S22|VSWRIn|VSWROut),popup(S11|S22),popup(S11|S12|S21|S22),popup(Magnit"
+"ude (decibels)|Magnitude (linear)|Angle (degrees)|Real|Imaginary),popup(Magni"
+"tude (decibels)|None),popup(None)"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off,off,off,off,off"
+",off"
+      MaskCallbackString      "||rfblkspassives1(gcb,'rfUpdateBlockMask');|rfb"
+"lkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask"
+"');||rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateB"
+"lockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rf"
+"UpdateBlockMask');|||"
+      MaskEnableString	      "on,on,on,off,off,off,off,off,off,off,off,off,of"
+"f"
+      MaskVisibilityString    "on,on,on,off,on,on,on,on,off,off,on,off,off"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,,,,"
+      MaskVariables	      "L=@1;C=@2;DisplayData=&3;PlotFreq=&4;PlotFreqNo"
+"Sim=&5;Freq=@6;AllPlotType=&7;NetworkData=&8;SmithData=&9;PolarData=&10;Compl"
+"exFormat=&11;DBFormat=&12;NoneFormat=&13;"
+      MaskInitialization      "load rlccomps; \n\nl2stemx = [0.0 0.1 0.1 0.1 0"
+".1];\nl2stemy = [0.5 0.5 0.3 0.7 0.5];\nr2stemx = [0.6 0.6 0.6 0.6 0.7];\nr2s"
+"temy = [0.5 0.7 0.3 0.5 0.5];\n\ncomp1x = capx(2:end-1); \ncomp1x = [0.3 comp"
+"1x 0.7] -0.1;\ncomp1y = capy;\ncomp2x = indx(1:43);\ncomp2x = [comp2x indx(10"
+"4:end)];\ncomp2x(44:end) = comp2x(44:end)-0.2;\ncomp2y = indy(1:43);\ncomp2y "
+"= [comp2y indy(104:end)];\ncompx1 = [NaN   comp1x   NaN   comp2x   NaN];\ncom"
+"py1 = [NaN comp1y+0.2 NaN comp2y-0.2 NaN];\ncompxval1 = 0.5*[l2stemy compy1 r"
+"2stemy];\ncompyval1 = 1.2*[l2stemx compx1-0.1 r2stemx-0.1];\n\nlstemx = [0.0 "
+"0.2];\nlstemy = [0.5 0.5];\nrstemx = [0.8 1.0];\nrstemy = [0.5 0.5];\ncomp1x "
+"= indx; comp1y = indy;\ncomp2x = capx; comp2y = capy;\ncompx2 = [lstemx NaN  "
+" comp1x   NaN comp2x+0.6 NaN rstemx+0.6 NaN]/1.6;\ncompy2 = [lstemy NaN   com"
+"p1y   NaN   comp2y   NaN   rstemy NaN] -0.2;\ncompxval2 = 0.5*(compx2+0.5);\n"
+"compyval2 = 1.2*(compy2+0.3);\n\nl2stemx = [0.0 0.1 0.1 0.1 0.1];\nl2stemy = "
+"[0.5 0.5 0.3 0.7 0.5];\nr2stemx = [0.6 0.6 0.6 0.6 0.7];\nr2stemy = [0.5 0.7 "
+"0.3 0.5 0.5];\n\ncomp1x = capx(2:end-1); \ncomp1x = [0.3 comp1x 0.7] -0.1;\nc"
+"omp1y = capy;\ncomp2x = indx(1:43);\ncomp2x = [comp2x indx(104:end)];\ncomp2x"
+"(44:end) = comp2x(44:end)-0.2;\ncomp2y = indy(1:43);\ncomp2y = [comp2y indy(1"
+"04:end)];\ncompx3 = [NaN   comp1x   NaN   comp2x   NaN];\ncompy3 = [NaN comp1"
+"y+0.2 NaN comp2y-0.2 NaN];\ncompxval3 = 0.5*([l2stemy compy3 r2stemy]+1);\nco"
+"mpyval3 = 1.2*[l2stemx compx3-0.1 r2stemx-0.1];\n\ngndx = [NaN 0.1:0.1:0.9];"
+"\ngndy = [NaN zeros(1,9)];\nsrcx = [0.1 0.3 NaN 0.7 0.9 NaN];\nsrcy = [0.72 0"
+".72 NaN 0.72 0.72 NaN];\n\nmStr = rfblkspassives1(gcb,'rfInit');\nif(~isempty"
+"(mStr.emsg)) error(mStr.emsg); end\nif(~isempty(mStr.wmsg)) warning(mStr.wmsg"
+"); end\n\n"
+      MaskDisplay	      "plot([srcx compxval1 compxval2 compxval3 gndx],"
+"[srcy compyval1 compyval2 compyval3 gndy]*0.9+0.15);\n\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "[1.4446e-9  4.3949e-8  1.4446e-9]|[3.5785e-11  "
+"1.1762e-12  3.5785e-11]|off|Derived from Input Port parameters|User specified"
+"|[500e6:4e6:900e6]|X-Y plane|S21|S11|S11|Magnitude (decibels)|Magnitude (deci"
+"bels)|None"
+      MaskTabNameString	      ",,,,,,,,,,,,"
+    }
+    Block {
+      BlockType		      PMComponent
+      Name		      "LC Bandpass Tee"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [35, 171, 125, 219]
+      DeleteFcn		      "rfblkspassives1(gcb,'rfDelete');"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "lcbandpasstee"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      MaskType		      "LC Bandpass Tee"
+      MaskDescription	      "Model an LC bandpass tee network."
+      MaskHelp		      "helpview(rfbhelp)"
+      MaskPromptString	      "Inductance (H):|Capacitance (F):|Plot the netwo"
+"rk parameters of this block|Source of frequency data:|Source of frequency dat"
+"a:|Frequency data (Hz):|Plot type:|Parameter:|Parameter:|Parameter:|Format:|F"
+"ormat:|Format:"
+      MaskStyleString	      "edit,edit,checkbox,popup(Derived from Input Por"
+"t parameters|User specified),popup(User specified),edit,popup(Composite data|"
+"X-Y plane|Polar plane|Z Smith chart|Y Smith chart|ZY Smith chart),popup(S11|S"
+"12|S21|S22|VSWRIn|VSWROut),popup(S11|S22),popup(S11|S12|S21|S22),popup(Magnit"
+"ude (decibels)|Magnitude (linear)|Angle (degrees)|Real|Imaginary),popup(Magni"
+"tude (decibels)|None),popup(None)"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off,off,off,off,off"
+",off"
+      MaskCallbackString      "||rfblkspassives1(gcb,'rfUpdateBlockMask');|rfb"
+"lkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask"
+"');||rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateB"
+"lockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rf"
+"UpdateBlockMask');|||"
+      MaskEnableString	      "on,on,on,off,off,off,off,off,off,off,off,off,of"
+"f"
+      MaskVisibilityString    "on,on,on,off,on,on,on,on,off,off,on,off,off"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,,,,"
+      MaskVariables	      "L=@1;C=@2;DisplayData=&3;PlotFreq=&4;PlotFreqNo"
+"Sim=&5;Freq=@6;AllPlotType=&7;NetworkData=&8;SmithData=&9;PolarData=&10;Compl"
+"exFormat=&11;DBFormat=&12;NoneFormat=&13;"
+      MaskInitialization      "load rlccomps; \n\nlstemx = [0.0 0.2];\nlstemy "
+"= [0.5 0.5];\nrstemx = [0.8 1.0];\nrstemy = [0.5 0.5];\n\ncomp1x = indx; comp"
+"1y = indy;\ncomp2x = capx; comp2y = capy;\ncompx1 = [lstemx NaN   comp1x   Na"
+"N comp2x+0.6 NaN rstemx+0.6 NaN]/1.6;\ncompy1 = [lstemy NaN   comp1y   NaN   "
+"comp2y   NaN   rstemy NaN] -0.2;\ncompxval1 = 0.5*compx1; \ncompyval1 = 1.2*("
+"compy1+0.3);\n\nl2stemx = [0.0 0.1 0.1 0.1 0.1];\nl2stemy = [0.5 0.5 0.3 0.7 "
+"0.5];\nr2stemx = [0.6 0.6 0.6 0.6 0.7];\nr2stemy = [0.5 0.7 0.3 0.5 0.5];\n\n"
+"comp1x = capx(2:end-1); \ncomp1x = [0.3 comp1x 0.7] -0.1;\ncomp1y = capy;\nco"
+"mp2x = indx(1:43);\ncomp2x = [comp2x indx(104:end)];\ncomp2x(44:end) = comp2x"
+"(44:end)-0.2;\ncomp2y = indy(1:43);\ncomp2y = [comp2y indy(104:end)];\ncompx2"
+" = [NaN   comp1x   NaN   comp2x   NaN];\ncompy2 = [NaN comp1y+0.2 NaN comp2y-"
+"0.2 NaN];\ncompxval2 = 0.5*([l2stemy compy2 r2stemy]+0.5);\ncompyval2 = 1.2*("
+"[l2stemx compx2-0.1 r2stemx-0.1]);\n\ncomp1x = indx; comp1y = indy;\ncomp2x ="
+" capx; comp2y = capy;\ncompx3 = [lstemx NaN   comp1x   NaN comp2x+0.6 NaN rst"
+"emx+0.6]/1.6;\ncompy3 = [lstemy NaN   comp1y   NaN   comp2y   NaN   rstemy  ]"
+" - 0.2;\ncompxval3 = 0.5*(compx3+1);\ncompyval3 = 1.2*(compy3+0.3);\n\ngndx ="
+" [NaN 0:0.1:1];\ngndy = [NaN zeros(1,11)];\n\nmStr = rfblkspassives1(gcb,'rfI"
+"nit');\nif(~isempty(mStr.emsg)) error(mStr.emsg); end\nif(~isempty(mStr.wmsg)"
+") warning(mStr.wmsg); end\n\n\n"
+      MaskDisplay	      "plot([compxval1 compxval2 compxval3 gndx]*0.8+0"
+".1,[compyval1 compyval2 compyval3 gndy]*0.85+0.15);\n\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "[2.7812e-8  3.013e-9  2.7812e-8]|[1.8587e-12  1"
+".7157e-11  1.8587e-12]|off|Derived from Input Port parameters|User specified|"
+"[500e6:4e6:900e6]|X-Y plane|S21|S11|S11|Magnitude (decibels)|Magnitude (decib"
+"els)|None"
+      MaskTabNameString	      ",,,,,,,,,,,,"
+    }
+    Block {
+      BlockType		      PMComponent
+      Name		      "LC Bandstop Pi"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [455, 171, 545, 219]
+      DeleteFcn		      "rfblkspassives1(gcb,'rfDelete');"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "lcbandstoppi"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      MaskType		      "LC Bandstop Pi"
+      MaskDescription	      "Model an LC bandstop pi network."
+      MaskHelp		      "helpview(rfbhelp)"
+      MaskPromptString	      "Inductance (H):|Capacitance (F):|Plot the netwo"
+"rk parameters of this block|Source of frequency data:|Source of frequency dat"
+"a:|Frequency data (Hz):|Plot type:|Parameter:|Parameter:|Parameter:|Format:|F"
+"ormat:|Format:"
+      MaskStyleString	      "edit,edit,checkbox,popup(Derived from Input Por"
+"t parameters|User specified),popup(User specified),edit,popup(Composite data|"
+"X-Y plane|Polar plane|Z Smith chart|Y Smith chart|ZY Smith chart),popup(S11|S"
+"12|S21|S22|VSWRIn|VSWROut),popup(S11|S22),popup(S11|S12|S21|S22),popup(Magnit"
+"ude (decibels)|Magnitude (linear)|Angle (degrees)|Real|Imaginary),popup(Magni"
+"tude (decibels)|None),popup(None)"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off,off,off,off,off"
+",off"
+      MaskCallbackString      "||rfblkspassives1(gcb,'rfUpdateBlockMask');|rfb"
+"lkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask"
+"');||rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateB"
+"lockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rf"
+"UpdateBlockMask');|||"
+      MaskEnableString	      "on,on,on,off,off,off,off,off,off,off,off,off,of"
+"f"
+      MaskVisibilityString    "on,on,on,off,on,on,on,on,off,off,on,off,off"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,,,,"
+      MaskVariables	      "L=@1;C=@2;DisplayData=&3;PlotFreq=&4;PlotFreqNo"
+"Sim=&5;Freq=@6;AllPlotType=&7;NetworkData=&8;SmithData=&9;PolarData=&10;Compl"
+"exFormat=&11;DBFormat=&12;NoneFormat=&13;"
+      MaskInitialization      "load rlccomps; \n\nlstemx = [0.0 0.2];\nlstemy "
+"= [0.5 0.5];\nrstemx = [0.8 1.0];\nrstemy = [0.5 0.5];\n\ncomp1x = capx;\ncom"
+"p1y = capy;\ncomp2x = indx(1:43);\ncomp2x = [comp2x indx(104:end)];\ncomp2x(4"
+"4:end) = comp2x(44:end)-0.2;\ncomp2y = indy(1:43);\ncomp2y = [comp2y indy(104"
+":end)];\ncompx2 = [NaN comp1x   NaN comp2x+0.6 NaN ]/1.6 -0.2;\ncompy2 = [NaN"
+" comp1y   NaN   comp2y   NaN ];\ncompxval1 = (compy2 - 0.2)/1.25;\ncompyval1 "
+"= compx2 + 0.2;\n\nl2stemx = [0.0 0.2 0.2 0.2 0.2];\nl2stemy = [0.5 0.5 0.4 0"
+".6 0.5]-0.1;\nr2stemx = [0.6 0.6 0.6 0.6 0.8];\nr2stemy = [0.5 0.6 0.4 0.5 0."
+"5]-0.1;\n\ncomp1x = indx(1:43);\ncomp1x = [comp1x indx(104:end)]-0.1;\ncomp1x"
+"(44:end) = comp1x(44:end)-0.2;\ncomp1y = indy(1:43);\ncomp1y = [comp1y indy(1"
+"04:end)]-0.2;\ncomp2x = capx(2:end-1);\ncomp2x = [0.2 comp2x-0.1 0.6]-0.1;\nc"
+"omp2y = capy;\ncompx2 = [NaN   comp1x   NaN   comp2x   NaN]+0.1;\ncompy2 = [N"
+"aN comp1y+0.2 NaN comp2y-0.2 NaN];\ncompxval2 = ([l2stemx compx2 r2stemx]+0.3"
+")/1.25;\ncompyval2 = [l2stemy compy2 r2stemy]+0.35;\n\ncomp1x = capx;\ncomp1y"
+" = capy;\ncomp2x = indx(1:43);\ncomp2x = [comp2x indx(104:end)];\ncomp2x(44:e"
+"nd) = comp2x(44:end)-0.2;\ncomp2y = indy(1:43);\ncomp2y = [comp2y indy(104:en"
+"d)];\ncompx3 = [NaN comp1x   NaN comp2x+0.6 NaN ]/1.6;\ncompy3 = [NaN comp1y "
+"  NaN   comp2y   NaN ];\ncompxval3 = (compy3+0.6)/1.25;\ncompyval3 = compx3 ;"
+"\n\ngndx = [NaN 0.14:0.01:0.98];\ngndy = [NaN 0.125*ones(1,85)];\nsrcx = [NaN"
+" 0.14:0.01:0.24 NaN 0.88:0.01:0.99 NaN];\nsrcy = [NaN 0.75*ones(1,11) NaN 0.7"
+"5*ones(1,12) NaN];\n\nmStr = rfblkspassives1(gcb,'rfInit');\nif(~isempty(mStr"
+".emsg)) error(mStr.emsg); end\nif(~isempty(mStr.wmsg)) warning(mStr.wmsg); en"
+"d\n"
+      MaskDisplay	      "plot([srcx compxval1 compxval2 compxval3 gndx]-"
+"0.05,[srcy compyval1 compyval2 compyval3 gndy]);\n\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "[2.8091e-8  2.2603e-9  2.8091e-8]|[1.8403e-12  "
+"2.2871e-11  1.8403e-12]|off|Derived from Input Port parameters|User specified"
+"|[500e6:4e6:900e6]|X-Y plane|S21|S11|S11|Magnitude (decibels)|Magnitude (deci"
+"bels)|None"
+      MaskTabNameString	      ",,,,,,,,,,,,"
+    }
+    Block {
+      BlockType		      PMComponent
+      Name		      "LC Bandstop Tee"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [315, 171, 405, 219]
+      DeleteFcn		      "rfblkspassives1(gcb,'rfDelete');"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "lcbandstoptee"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      MaskType		      "LC Bandstop Tee"
+      MaskDescription	      "Model an LC bandstop tee network."
+      MaskHelp		      "helpview(rfbhelp)"
+      MaskPromptString	      "Inductance (H):|Capacitance (F):|Plot the netwo"
+"rk parameters of this block|Source of frequency data:|Source of frequency dat"
+"a:|Frequency data (Hz):|Plot type:|Parameter:|Parameter:|Parameter:|Format:|F"
+"ormat:|Format:"
+      MaskStyleString	      "edit,edit,checkbox,popup(Derived from Input Por"
+"t parameters|User specified),popup(User specified),edit,popup(Composite data|"
+"X-Y plane|Polar plane|Z Smith chart|Y Smith chart|ZY Smith chart),popup(S11|S"
+"12|S21|S22|VSWRIn|VSWROut),popup(S11|S22),popup(S11|S12|S21|S22),popup(Magnit"
+"ude (decibels)|Magnitude (linear)|Angle (degrees)|Real|Imaginary),popup(Magni"
+"tude (decibels)|None),popup(None)"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off,off,off,off,off"
+",off"
+      MaskCallbackString      "||rfblkspassives1(gcb,'rfUpdateBlockMask');|rfb"
+"lkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask"
+"');||rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateB"
+"lockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rf"
+"UpdateBlockMask');|||"
+      MaskEnableString	      "on,on,on,off,off,off,off,off,off,off,off,off,of"
+"f"
+      MaskVisibilityString    "on,on,on,off,on,on,on,on,off,off,on,off,off"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,,,,"
+      MaskVariables	      "L=@1;C=@2;DisplayData=&3;PlotFreq=&4;PlotFreqNo"
+"Sim=&5;Freq=@6;AllPlotType=&7;NetworkData=&8;SmithData=&9;PolarData=&10;Compl"
+"exFormat=&11;DBFormat=&12;NoneFormat=&13;"
+      MaskInitialization      "load rlccomps; \n\nl2stemx = [0.0 0.1 0.1 0.1 0"
+".1];\nl2stemy = [0.5 0.5 0.4 0.6 0.5]-0.1;\nr2stemx = [0.5 0.5 0.5 0.5 0.6];"
+"\nr2stemy = [0.5 0.6 0.4 0.5 0.5]-0.1;\n\ncomp1x = indx(1:43);\ncomp1x = [com"
+"p1x indx(104:end)]-0.1;\ncomp1x(44:end) = comp1x(44:end)-0.2;\ncomp1y = indy("
+"1:43);\ncomp1y = [comp1y indy(104:end)]-0.2;\ncomp2x = capx(2:end-1);\ncomp2x"
+" = [0.2 comp2x-0.1 0.6]-0.1;\ncomp2y = capy;\ncompx1 = [NaN   comp1x   NaN   "
+"comp2x   NaN];\ncompy1 = [NaN comp1y+0.2 NaN comp2y-0.2 NaN];\ncompxval1 = [l"
+"2stemx compx1 r2stemx]/1.25;\ncompyval1 = [l2stemy compy1 r2stemy]+0.35;\n\nl"
+"stemx = [0.0 0.2];\nlstemy = [0.5 0.5];\nrstemx = [0.8 1.0];\nrstemy = [0.5 0"
+".5];\n\ncomp1x = capx;\ncomp1y = capy;\ncomp2x = indx(1:43);\ncomp2x = [comp2"
+"x indx(104:end)];\ncomp2x(44:end) = comp2x(44:end)-0.2;\ncomp2y = indy(1:43);"
+"\ncomp2y = [comp2y indy(104:end)];\ncompx2 = [NaN comp1x   NaN comp2x+0.6 NaN"
+" ]/1.6;\ncompy2 = [NaN comp1y   NaN   comp2y   NaN ];\nstemx1 = [0.5 0.5];\ns"
+"temy1 = [0.85 0.75];\ncompx2 = [compx2 stemy1];\ncompy2 = [compy2 stemx1];\nc"
+"ompxval2 = (compy2+0.1)/1.25;\ncompyval2 = compx2-0.1;\n\ncomp1x = indx(1:43)"
+";\ncomp1x = [comp1x indx(104:end)]-0.1;\ncomp1x(44:end) = comp1x(44:end)-0.2;"
+"\ncomp1y = indy(1:43);\ncomp1y = [comp1y indy(104:end)]-0.2;\ncomp2x = capx(2"
+":end-1);\ncomp2x = [0.2 comp2x-0.1 0.6]-0.1;\ncomp2y = capy;\ncompx3 = [NaN c"
+"omp1x   NaN   comp2x   NaN];\ncompy3 = [NaN comp1y+0.2 NaN comp2y-0.2 NaN];\n"
+"compxval3 = ([l2stemx compx3 r2stemx]+0.6)/1.25;\ncompyval3 = [l2stemy compy3"
+" r2stemy]+0.35;\n\ngndx = [NaN 0:0.01:0.96];\ngndy = [NaN 0.025*ones(1,97)];"
+"\n\nmStr = rfblkspassives1(gcb,'rfInit');\nif(~isempty(mStr.emsg)) error(mStr"
+".emsg); end\nif(~isempty(mStr.wmsg)) warning(mStr.wmsg); end\n\n"
+      MaskDisplay	      "plot([compxval1 compxval2 compxval3 gndx]*0.9+0"
+".05,[compyval1 compyval2 compyval3 gndy]*0.85+0.1);\n\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "[2.7908e-9  4.9321e-8  2.7908e-9]|[1.8523e-11  "
+"1.0481e-12  1.8523e-11] |off|Derived from Input Port parameters|User specifie"
+"d|[500e6:4e6:900e6]|X-Y plane|S21|S11|S11|Magnitude (decibels)|Magnitude (dec"
+"ibels)|None"
+      MaskTabNameString	      ",,,,,,,,,,,,"
+    }
+    Block {
+      BlockType		      PMComponent
+      Name		      "LC Highpass Pi"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [455, 76, 545, 124]
+      DeleteFcn		      "rfblkspassives1(gcb,'rfDelete');"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "lchighpasspi"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      MaskType		      "LC Highpass Pi"
+      MaskDescription	      "Model an LC highpass pi network."
+      MaskHelp		      "helpview(rfbhelp)"
+      MaskPromptString	      "Inductance (H):|Capacitance (F):|Plot the netwo"
+"rk parameters of this block|Source of frequency data:|Source of frequency dat"
+"a:|Frequency data (Hz):|Plot type:|Parameter:|Parameter:|Parameter:|Format:|F"
+"ormat:|Format:"
+      MaskStyleString	      "edit,edit,checkbox,popup(Derived from Input Por"
+"t parameters|User specified),popup(User specified),edit,popup(Composite data|"
+"X-Y plane|Polar plane|Z Smith chart|Y Smith chart|ZY Smith chart),popup(S11|S"
+"12|S21|S22|VSWRIn|VSWROut),popup(S11|S22),popup(S11|S12|S21|S22),popup(Magnit"
+"ude (decibels)|Magnitude (linear)|Angle (degrees)|Real|Imaginary),popup(Magni"
+"tude (decibels)|None),popup(None)"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off,off,off,off,off"
+",off"
+      MaskCallbackString      "||rfblkspassives1(gcb,'rfUpdateBlockMask');|rfb"
+"lkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask"
+"');||rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateB"
+"lockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rf"
+"UpdateBlockMask');|||"
+      MaskEnableString	      "on,on,on,off,off,off,off,off,off,off,off,off,of"
+"f"
+      MaskVisibilityString    "on,on,on,off,on,on,on,on,off,off,on,off,off"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,,,,"
+      MaskVariables	      "L=@1;C=@2;DisplayData=&3;PlotFreq=&4;PlotFreqNo"
+"Sim=&5;Freq=@6;AllPlotType=&7;NetworkData=&8;SmithData=&9;PolarData=&10;Compl"
+"exFormat=&11;DBFormat=&12;NoneFormat=&13;"
+      MaskInitialization      "load rlccomps\nxstem1 = [0.5 0.6 NaN];\nystem1 "
+"= [1.1 1.1 NaN];\nxstem2 = [1.2 1.3 NaN];\nystem2 = [1.1 1.1 NaN];\ncompx = ["
+"indy xstem1 capx+0.4 xstem2 indy+0.8]*0.55;\ncompy = [indx+0.3 ystem1 capy+0."
+"6 ystem2 indx+0.3]*0.7;\ngndx = [NaN 0.1:0.1:0.9];\ngndy = [NaN 0.35*ones(1,9"
+")];\nsrcx = [0.1 0.3 NaN 0.7 0.9 NaN];\nsrcy = [0.77 0.77 NaN 0.77 0.77 NaN];"
+"\n\nmStr = rfblkspassives1(gcb,'rfInit');\nif(~isempty(mStr.emsg)) error(mStr"
+".emsg); end\nif(~isempty(mStr.wmsg)) warning(mStr.wmsg); end\n\n"
+      MaskDisplay	      "plot([srcx compx gndx],[srcy compy gndy]*1.3 -0"
+".275)\n\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "[1.1881e-6  1.1881e-6]|2.2363e-9|off|Derived fr"
+"om Input Port parameters|User specified|[1:1e5:4e6]|X-Y plane|S21|S11|S11|Mag"
+"nitude (decibels)|Magnitude (decibels)|None"
+      MaskTabNameString	      ",,,,,,,,,,,,"
+    }
+    Block {
+      BlockType		      PMComponent
+      Name		      "LC Highpass Tee"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [315, 76, 405, 124]
+      DeleteFcn		      "rfblkspassives1(gcb,'rfDelete');"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "lchighpasstee"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      MaskType		      "LC Highpass Tee"
+      MaskDescription	      "Model an LC highpass tee network."
+      MaskHelp		      "helpview(rfbhelp)"
+      MaskPromptString	      "Inductance (H):|Capacitance (F):|Plot the netwo"
+"rk parameters of this block|Source of frequency data:|Source of frequency dat"
+"a:|Frequency data (Hz):|Plot type:|Parameter:|Parameter:|Parameter:|Format:|F"
+"ormat:|Format:"
+      MaskStyleString	      "edit,edit,checkbox,popup(Derived from Input Por"
+"t parameters|User specified),popup(User specified),edit,popup(Composite data|"
+"X-Y plane|Polar plane|Z Smith chart|Y Smith chart|ZY Smith chart),popup(S11|S"
+"12|S21|S22|VSWRIn|VSWROut),popup(S11|S22),popup(S11|S12|S21|S22),popup(Magnit"
+"ude (decibels)|Magnitude (linear)|Angle (degrees)|Real|Imaginary),popup(Magni"
+"tude (decibels)|None),popup(None)"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off,off,off,off,off"
+",off"
+      MaskCallbackString      "||rfblkspassives1(gcb,'rfUpdateBlockMask');||rf"
+"blkspassives1(gcb,'rfUpdateBlockMask');||rfblkspassives1(gcb,'rfUpdateBlockMa"
+"sk');|rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdate"
+"BlockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask');|||"
+      MaskEnableString	      "on,on,on,off,off,off,off,off,off,off,off,off,of"
+"f"
+      MaskVisibilityString    "on,on,on,off,on,on,on,on,off,off,on,off,off"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,,,,"
+      MaskVariables	      "L=@1;C=@2;DisplayData=&3;PlotFreq=&4;PlotFreqNo"
+"Sim=&5;Freq=@6;AllPlotType=&7;NetworkData=&8;SmithData=&9;PolarData=&10;Compl"
+"exFormat=&11;DBFormat=&12;NoneFormat=&13;"
+      MaskInitialization      "load rlccomps\nxstem1 = [0.8 0.9 NaN];\nxstem2 "
+"= [NaN 0.9 1];\nystem1 = [0.8 0.8 NaN];\nystem2 = [NaN 0.8 0.8];\nsrcx = [cap"
+"x xstem1 indy+0.4 xstem2 capx+1]*0.5; \nsrcy = [capy+0.3 ystem1 indx ystem2 c"
+"apy+0.3];\ngndx = [NaN 0.1:0.1:0.9];\ngndy = [NaN 0.2*ones(1,9)];\n\nmStr = r"
+"fblkspassives1(gcb,'rfInit');\nif(~isempty(mStr.emsg)) error(mStr.emsg); end"
+"\nif(~isempty(mStr.wmsg)) warning(mStr.wmsg); end"
+      MaskDisplay	      "plot([srcx gndx],[srcy gndy]*0.9);\n\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "5.5907e-6|[4.7524e-10  4.7524e-10]|off|Derived "
+"from Input Port parameters|User specified|[1:1.0e5:4e6]|X-Y plane|S21|S11|S11"
+"|Magnitude (decibels)|Magnitude (decibels)|None"
+      MaskTabNameString	      ",,,,,,,,,,,,"
+    }
+    Block {
+      BlockType		      PMComponent
+      Name		      "LC Lowpass Pi"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [175, 76, 265, 124]
+      DeleteFcn		      "rfblkspassives1(gcb,'rfDelete');"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "lclowpasspi"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      MaskType		      "LC Lowpass Pi"
+      MaskDescription	      "Model an LC lowpass pi network."
+      MaskHelp		      "helpview(rfbhelp)"
+      MaskPromptString	      "Inductance (H):|Capacitance (F):|Plot the netwo"
+"rk parameters of this block|Source of frequency data:|Source of frequency dat"
+"a:|Frequency data (Hz):|Plot type:|Parameter:|Parameter:|Parameter:|Format:|F"
+"ormat:|Format:"
+      MaskStyleString	      "edit,edit,checkbox,popup(Derived from Input Por"
+"t parameters|User specified),popup(User specified),edit,popup(Composite data|"
+"X-Y plane|Polar plane|Z Smith chart|Y Smith chart|ZY Smith chart),popup(S11|S"
+"12|S21|S22|VSWRIn|VSWROut),popup(S11|S22),popup(S11|S12|S21|S22),popup(Magnit"
+"ude (decibels)|Magnitude (linear)|Angle (degrees)|Real|Imaginary),popup(Magni"
+"tude (decibels)|None),popup(None)"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off,off,off,off,off"
+",off"
+      MaskCallbackString      "||rfblkspassives1(gcb,'rfUpdateBlockMask');|rfb"
+"lkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask"
+"');||rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateB"
+"lockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rf"
+"UpdateBlockMask');|||"
+      MaskEnableString	      "on,on,on,off,off,off,off,off,off,off,off,off,of"
+"f"
+      MaskVisibilityString    "on,on,on,off,on,on,on,on,off,off,on,off,off"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,,,,"
+      MaskVariables	      "L=@1;C=@2;DisplayData=&3;PlotFreq=&4;PlotFreqNo"
+"Sim=&5;Freq=@6;AllPlotType=&7;NetworkData=&8;SmithData=&9;PolarData=&10;Compl"
+"exFormat=&11;DBFormat=&12;NoneFormat=&13;"
+      MaskInitialization      "load rlccomps\nxstem1 = [0.5 0.6 NaN];\nystem1 "
+"= [1.1 1.1 NaN];\nxstem2 = [1.2 1.3 NaN];\nystem2 = [1.1 1.1 NaN];\ncompx = ["
+"capy xstem1 indx+0.4 xstem2 capy+0.8]*0.9-0.3;\ncompy = [capx+0.3 ystem1 indy"
+"+0.6 ystem2 capx+0.3]*0.7;\ngndx = [NaN compx];\ngndy = [NaN 0.35*ones(1,138)"
+"];\nsrcx = [0.05 0.15 NaN 0.875 0.975 NaN];\nsrcy = [0.77 0.77 NaN 0.77 0.77 "
+"NaN];\n\nmStr = rfblkspassives1(gcb,'rfInit');\nif(~isempty(mStr.emsg)) error"
+"(mStr.emsg); end\nif(~isempty(mStr.wmsg)) warning(mStr.wmsg); end\n\n"
+      MaskDisplay	      "plot([srcx compx gndx]*0.9+0.05,[srcy compy gnd"
+"y]*1.2 -0.2)\n\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "2.8318e-6|[5.3296e-9  5.3296e-9]|off|Derived fr"
+"om Input Port parameters|User specified|[1:1.0e5:4e6]|X-Y plane|S21|S11|S11|M"
+"agnitude (decibels)|Magnitude (decibels)|None"
+      MaskTabNameString	      ",,,,,,,,,,,,"
+    }
+    Block {
+      BlockType		      PMComponent
+      Name		      "LC Lowpass Tee"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [35, 76, 125, 124]
+      DeleteFcn		      "rfblkspassives1(gcb,'rfDelete');"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "lclowpasstee"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      MaskType		      "LC Lowpass Tee"
+      MaskDescription	      "Model an LC lowpass tee network."
+      MaskHelp		      "helpview(rfbhelp)"
+      MaskPromptString	      "Inductance (H):|Capacitance (F):|Plot the netwo"
+"rk parameters of this block|Source of frequency data:|Source of frequency dat"
+"a:|Frequency data (Hz):|Plot type:|Parameter:|Parameter:|Parameter:|Format:|F"
+"ormat:|Format:"
+      MaskStyleString	      "edit,edit,checkbox,popup(Derived from Input Por"
+"t parameters|User specified),popup(User specified),edit,popup(Composite data|"
+"X-Y plane|Polar plane|Z Smith chart|Y Smith chart|ZY Smith chart),popup(S11|S"
+"12|S21|S22|VSWRIn|VSWROut),popup(S11|S22),popup(S11|S12|S21|S22),popup(Magnit"
+"ude (decibels)|Magnitude (linear)|Angle (degrees)|Real|Imaginary),popup(Magni"
+"tude (decibels)|None),popup(None)"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off,off,off,off,off"
+",off"
+      MaskCallbackString      "||rfblkspassives1(gcb,'rfUpdateBlockMask');|rfb"
+"lkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask"
+"');||rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rfUpdateB"
+"lockMask');|rfblkspassives1(gcb,'rfUpdateBlockMask');|rfblkspassives1(gcb,'rf"
+"UpdateBlockMask');|||"
+      MaskEnableString	      "on,on,on,off,off,off,off,off,off,off,off,off,of"
+"f"
+      MaskVisibilityString    "on,on,on,off,on,on,on,on,off,off,on,off,off"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,,,,"
+      MaskVariables	      "L=@1;C=@2;DisplayData=&3;PlotFreq=&4;PlotFreqNo"
+"Sim=&5;Freq=@6;AllPlotType=&7;NetworkData=&8;SmithData=&9;PolarData=&10;Compl"
+"exFormat=&11;DBFormat=&12;NoneFormat=&13;"
+      MaskInitialization      "load rlccomps\nxstem1 = [ 0.8 0.9 NaN];\nystem1"
+" = [0.8 0.8 NaN];\nxstem2 = [NaN 0.9 1];\nystem2 = [NaN 0.8 0.8];\nsrcx = [in"
+"dx xstem1 capy+0.4 xstem2 indx+1]*0.5; \nsrcy = [indy+0.3 ystem1 capx ystem2 "
+"indy+0.3];\ngndx = [NaN srcx];\ngndy = [NaN 0.2*ones(1,243)];\n\nmStr = rfblk"
+"spassives1(gcb,'rfInit');\nif(~isempty(mStr.emsg)) error(mStr.emsg); end\nif("
+"~isempty(mStr.wmsg)) warning(mStr.wmsg); end\n\n"
+      MaskDisplay	      "plot([srcx gndx],[srcy gndy]*0.9)\n\n"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "port"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "[1.3324e-5  1.3324e-5]|1.1327e-9|off|Derived fr"
+"om Input Port parameters|User specified|[1:1.0e5:4e6]|X-Y plane|S21|S11|S11|M"
+"agnitude (decibels)|Magnitude (decibels)|None"
+      MaskTabNameString	      ",,,,,,,,,,,,"
+    }
+    Annotation {
+      Name		      "Ladder Filters "
+      Position		      [287, 32]
+      FontName		      "Arial"
+      FontSize		      14
+      FontWeight	      "bold"
+    }
+  }
+}

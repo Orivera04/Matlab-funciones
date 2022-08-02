@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body>
+% example for the usage of the parameter class<br>
+% <br>
+% (c) 2003, University of Cambridge<br>
+% Stefan Bleeck (stefan@bleeck.de)<br>
+% http://www.mrc-cbu.cam.ac.uk/cnbh/aimmanual/tools/parameter<br>
+% $Date: 2004/07/26$
+<p><br>
+  function example1(params)<br>
+  % example function puts a simple gui on the screen that draws some markers<br>
+  % call it without parameters: type draw</p>
+<p>% check if the folders &quot;units&quot; and &quot;tools&quot; are in the
+  path. If not, do it<br>
+  % automatically. <br>
+  % Please put them in the path permanently with file/set path...<br>
+  extra_path</p>
+<p><br>
+  % check the number of inputs<br>
+  if nargin==0 % initial call without parameters.<br>
+  params=parameter('drawing parameters'); % create an object of the parameter
+  class with name<br>
+  % now we add some items to it:<br>
+  params=add(params,'panel','select shape',3); % a panel is a square around the
+  following (in this case 3) items<br>
+  params=add(params,'radiobutton','square'); % three radiobuttons<br>
+  params=add(params,'radiobutton','circle',1); % this one is selected<br>
+  params=add(params,'radiobutton','other...'); % here the user can make its own
+  choice<br>
+  params=add(params,'slider','radius',unit_length,5,'cm',0,10); % a slider value
+  with the unit &quot;length&quot;. watch what happens!<br>
+  % params=setcallback(params,'radius','example1(params)'); % try this!<br>
+  % params=add(params,'float','radius',unit_length,5,'cm',0,inf); % a float value
+  with the unit &quot;length&quot;. watch what happens!<br>
+  params=add(params,'bool','hold on','true'); % a tick box that is set to true<br>
+  params=add(params,'button','clear','figure(1),cla;'); % first button: clear
+  the figure<br>
+  params=add(params,'button','draw','example1(params)'); % second button calls
+  the drawing part of the function</p>
+<p> figure(1) % opens new figure<br>
+  parametergui(params); % create the gui<br>
+  return % and return to the shell. From now on the gui has the control <br>
+  end</p>
+<p><br>
+  % if we are here then we are called from the gui with the parameter<br>
+  % structure in &quot;params&quot;</p>
+<p>figure(1) % always work in the same figure<br>
+  % check the value of the tick box. Get it by its name:<br>
+  if get(params,'hold on') % returns the value of the item in params with the
+  name 'hold on'<br>
+  hold on<br>
+  else<br>
+  clf<br>
+  end</p>
+<p>% we plot a shape in the figure. Lets see how big the user wants it.<br>
+  % get the entry of the float field as units poits (not exactly cm but close
+    enough...)<br>
+  radius=getas(params,'radius','point');<br>
+  switch get(params,'select shape') % get the currently selected radiobutton<br>
+  case 'circle'<br>
+  mark='o';<br>
+  case 'triangle'<br>
+  mark='^';<br>
+  otherwise % non of the two above. It must be the 'other...' value<br>
+  mark=get(params,'select shape'); % get the string in the &quot;other...&quot; line<br>
+  end<br>
+  % and finally plot something<br>
+  plot(0,0,'markersize',radius,'marker',mark);</p>
+<p>%wait for further commands from the gui...</p>
+<p></p>
+<p></p>
+</body>
+</html>

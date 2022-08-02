@@ -1,0 +1,609 @@
+# $Revision: 1.1.6.4 $
+Library {
+  Name			  "mptlib"
+  Version		  6.0
+  PostLoadFcn		  "data_file_loader(bdroot);"
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "all"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  off
+  StatusBar		  off
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Sat Jan 01 00:02:23 2000"
+  Creator		  "pmenter"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "lzhang"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Wed Jan 28 10:17:22 2004"
+  ModelVersionFormat	  "1.%<AutoIncrement:57>"
+  ConfigurationManager	  "None"
+  SimParamPage		  "Solver"
+  TargetProperties	  "DataTag0"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  ProdHWDeviceType	  "Specified"
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.0.2"
+      Array {
+	Type			"Handle"
+	Dimension		8
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.0.2"
+	  StartTime		  "0.0"
+	  StopTime		  "10.0"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  RelTol		  "1e-3"
+	  SolverMode		  "SingleTasking"
+	  Solver		  "ode45"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.0.2"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SaveTime		  on
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsOut"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    5
+	    Cell		    "ZeroExternalMemoryAtStartup"
+	    Cell		    "ZeroInternalMemoryAtStartup"
+	    Cell		    "InitFltsAndDblsToZero"
+	    Cell		    "OptimizeModelRefInitCode"
+	    Cell		    "NoFixptDivByZeroProtection"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.0.2"
+	  BlockReduction	  on
+	  BooleanDataType	  off
+	  ConditionallyExecuteInputs on
+	  ConditionalExecOptimization "on_for_testing"
+	  InlineParams		  off
+	  InlineInvariantSignals  on
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  on
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  ParameterPooling	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  OptimizeModelRefInitCode off
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.0.2"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg on
+	  CheckExecutionContextRuntimeOutputMsg	on
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  SolverPrmCheckMsg	  "none"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterPrecisionLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  UnknownTsInhSupMsg	  "warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.0.2"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "Specified"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  on
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.0"
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    1
+	    Cell		    "IncludeHyperlinkInReport"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.0.2"
+	  SystemTargetFile	  "grt.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  TemplateMakefile	  "grt_default_tmf"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Array {
+		Type			"Cell"
+		Dimension		9
+		Cell			"IgnoreCustomStorageClasses"
+		Cell			"InsertBlockDesc"
+		Cell			"SFDataObjDesc"
+		Cell			"SimulinkDataObjDesc"
+		Cell			"DefineNamingRule"
+		Cell			"SignalNamingRule"
+		Cell			"ParamNamingRule"
+		Cell			"InlinedPrmAccess"
+		Cell			"CustomSymbolStr"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.0.2"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      CustomSymbolStr	      "$R$N$M"
+	      MangleLength	      1
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    Simulink.GRTTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Array {
+		Type			"Cell"
+		Dimension		13
+		Cell			"IncludeMdlTerminateFcn"
+		Cell			"CombineOutputUpdateFcns"
+		Cell			"SuppressErrorStatus"
+		Cell			"ERTCustomFileBanners"
+		Cell			"GenerateSampleERTMain"
+		Cell			"MultiInstanceERTCode"
+		Cell			"PurelyIntegerCode"
+		Cell			"SupportNonFinite"
+		Cell			"SupportComplex"
+		Cell			"SupportAbsoluteTime"
+		Cell			"SupportContinuousTime"
+		Cell			"SupportNonInlinedSFcns"
+		Cell			"LifeSpan"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.0.2"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Automatic"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns off
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      LifeSpan		      "inf"
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      ExtMode		      off
+	      ExtModeStaticAlloc      off
+	      ExtModeTesting	      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTransport	      0
+	      ExtModeMexFile	      "ext_comm"
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	      GenerateASAP2	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	Simulink.SFSimCC {
+	  $ObjectID		  11
+	  Version		  "1.0.2"
+	  SFSimApplyToAllLibs	  on
+	  SFSimEnableDebug	  on
+	  SFSimOverflowDetection  on
+	  SFSimEcho		  on
+	  SFSimBuildMode	  "Incremental"
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      SimulationMode	      "normal"
+      CurrentDlgPage	      "Solver"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      SystemSampleTime	      "-1"
+      RTWSystemCode	      "Auto"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "mptlib"
+    Location		    [186, 172, 456, 372]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      "Data Object Wizard"
+      Description	      "DOW"
+      Ports		      []
+      Position		      [90, 48, 174, 91]
+      BackgroundColor	      "[0.592157, 0.717647, 0.807843]"
+      DropShadow	      on
+      ShowName		      off
+      OpenFcn		      "dataobjectwizard(bdroot);"
+      FontName		      "Arial"
+      FontSize		      11
+      FontWeight	      "bold"
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      EnableExecutionContextPropagation	on
+      MaskType		      "Data Object Wizard"
+      MaskDescription	      "Simulink data object wizard for creating potent"
+"ial Simulink data objects."
+      MaskHelp		      "helpview([docroot,'/toolbox/ecoder/ecoder.map']"
+",'data_obj_wiz');"
+      MaskDisplay	      "disp('Data Object\\nWizard')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"Data Object Wizard"
+	Location		[428, 296, 926, 596]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Subsystem"
+	  Ports			  []
+	  Position		  [130, 60, 230, 110]
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  EnableExecutionContextPropagation on
+	  System {
+	    Name		    "Subsystem"
+	    Location		    [433, 403, 931, 703]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	  }
+	}
+      }
+    }
+    Annotation {
+      Name		      "Real-Time Workshop Embedded Coder  4.0\nCopyrig"
+"ht (c) 2003 by The MathWorks, Inc."
+      Position		      [136, 130]
+      FontName		      "Arial"
+      FontWeight	      "bold"
+    }
+  }
+}
+MatData {
+  NumRecords		  1
+  DataRecord {
+    Tag			    DataTag0
+    Data		    "  %)30     .    H!,   8    (     @         %    "
+"\"     $    !     0         %  0 &0    $   !]    1VQO8F%L1&%T80              "
+"     $=L;V)A;$1A=&%?1FEL951E;7!A;'1E<P!R96=I<W1E<F5D5'EP90              3F%M9"
+"5)U;&5S                     $UI<V-E;&QA;F5O=7,                    .    B 0   "
+"8    (    $0         !          $    &    :&%N9&QE   !    $    $=L;V)A;$1A=&$"
+"N4V-O<&4.    0 0   8    (     0         %    \"     <    !     0         .   "
+" 4 (   8    (    \"0         %    \"    \" \"   !     0         \"    ( (   $"
+"    /    * $  %@!  !@ 0  J $  !@\"   @ @            !';&]B86Q$871A %-C;W!E &U"
+"A8VAI;F5';&]B86Q( &UA8VAI;F5';&]B86P 1VQO8F%L1&5C;&%R871I;VY,;V-A=&EO;@!);F-L"
+"=61E($EN($,@4V]U<F-E($9I;&4 1VQO8F%L4F5F97)E;F-E3&]C871I;VX 4F5F97)E;F-E($EN("
+"$,@4V]U<F-E($9I;&4 1V5N97)A=&50<F]T;W1Y<&5(96%D97)&:6QE $UA8VAI;F5687)&:6QE $"
+"9I;&5496UP;&%T97, 1FEL951E;7!L871E %1E;7!L871E<P!A8W1I=F5496UP;&%T949U;&Q0871"
+"H \"                            $    \"               ,    #0                "
+"                                         !                     0         \"  "
+"                   @                    <    #     0         $     0    $    "
+"%          8    '          @    )     0    (    *     0    ,    +     0    0 "
+"   !    #@         /               .    >     8    (     0         %    \"   "
+"  $    !     0         .    2     8    (    #0         %    \"     4    !    "
+" 0         &    %        -T\"     0    $    !          X    X    !@    @    &"
+"          4    (     0    $    !          D    (            \\#\\.    .     8"
+"    (    !@         %    \"     $    !     0         )    \"               #@"
+"   #     &    \"     D\"        !0    @    !     0    $          @ !       . "
+"   ,     8    (    \"0(        %    \"     $    !     0         \"  $       X"
+"   !(    !@    @    -          4    (    !0    $    !          8    4        "
+"W0(    !     0    (         #@     \"   &    \"    !$          0         !   "
+" !@   &AA;F1L90   0   !8   !&:6QE5&5M<&QA=&4N5&5M<&QA=&5S   .    L $   8    ("
+"     0         %    \"     (    !     0         .      $   8    (    \"0     "
+"    %    \"    -     !     0         \"    T     $    $    6    '@   \"     L"
+"    ,@   #0              !&:6QE5&5M<&QA=&4 5&5M<&QA=&5S &%C=&EV951E;7!L871E1G"
+"5L;%!A=&@ (                        0    (                                    "
+"                      0                    $                    !     P      "
+"   $               .    >     8    (     0         %    \"     $    !     0  "
+"       .    2     8    (    #0         %    \"     4    !     0         &    "
+"%        -T\"     0    $    !          X    @ @  !@    @    1          $     "
+"     0    8   !H86YD;&4   $    0    =7-E<E1Y<&5S+D-U<W1O;0X   #8 0  !@    @  "
+"  !          4    (     @    $    !          X    H 0  !@    @    )          "
+"4    (    ^     $    !          (   #X     0    <   !H    B    )    #     \\ "
+"   /@              '5S97)4>7!E<P!#=7-T;VT =7-E<E1Y<&4 <F5A;#,R7U0 =&UW5'EP90!"
+"B87-E5'EP90!S:6YG;&4                              0    (                     "
+"                                     0                    $                  "
+"  #     P         $    !0         $    !@         '               .    >     "
+"8    (     0         %    \"     $    !     0         .    2     8    (    #0"
+"         %    \"     4    !     0         &    %        -T\"     0    $    ! "
+"         X   !P P  !@    @    1          $          0    8   !H86YD;&4   $   "
+" 3    3F%M95)U;&5S+DYA;652=6QE<P      #@   \" #   &    \"     $         !0   "
+" @    #     0    $         #@   # \"   &    \"     D         !0    @      @  "
+" 0    $          @     \"   !    #@   !@!   X 0  0 $  ' !  #X 0    (         "
+"    3F%M95)U;&5S %9A<FEA8FQE07!P<F]A8V@ 3F]N90!687)I86)L94-A<V54>7!E $YO($-H8"
+"6YG90!687)I86)L94YA;65#<F5A=&5-1G5N8W1I;VX ( !087)A;65T97)!<'!R;V%C: !087)A;6"
+"5T97)#87-E5'EP90!087)A;65T97).86UE0W)E871E349U;F-T:6]N $1E9FEN94%P<')O86-H $1"
+"E9FEN94-A<V54>7!E $1E9FEN94YA;65#<F5A=&5-1G5N8W1I;VX 0V%S94-A=&5G;W)Y16YU;4QI"
+"<W1%>'0                               $    !                                 "
+"                         $                    !                    \"@    (  "
+"        P    0         !0    8         !P    @          P    D         !0    "
+"H         !P    L          P    P         !0    T         !P    X    !       "
+"                   X   !X    !@    @    !          4    (     0    $    !    "
+"      X   !(    !@    @    -          4    (    !0    $    !          8    4 "
+"       W0(    !     0    $         #@   #@    &    \"     8         !0    @  "
+"  !     0    $         \"0    @               X   \"H!@  !@    @    1        "
+"  $          0    8   !H86YD;&4   $    5    36ES8V5L;&%N96]U<RY/<'1I;VYS    #"
+"@   %@&   &    \"     $         !0    @    .     0    $         #@    @#   & "
+"   \"     D         !0    @   #8 @   0    $          @   -@\"   !    %    +@!"
+"  #8 0  X $  ! \"  #0 @  V (             36ES8V5L;&%N96]U<P!/<'1I;VYS $EN8VQU"
+"9&5&:6QE16YC;&]S=7)E \"-I;F-L=61E(\")H96%D97(N:\"( 0V]D94=E;F5R871I;VY-971H;V"
+"0 4W1A;F1A<F0 0W5S=&]M0V]M;65N=$5N86)L90!097)M:71\";&EN9$9U;F-T:6]N0V%L;', 4&"
+"5R;6ET1&%T841I8W1I;VYA<GE);FET:6%L5F%L=65S %!E<FUI=$1A=&%$:6-T:6]N87)Y1&%T851"
+"Y<&4 4&5R;6ET1&%T841I8W1I;VYA<GE!<G)A>41I;65N<VEO;G, 4V%V941I8W1I;VYA<GE);DUO"
+"9&5L $9O<F-E1FEX9610;VEN=%-A='5R871I;VY/9F8 26YT97)N86Q!<'!R;V%C: !$:7)E8W0@2"
+"6YC;'5S:6]N '5S94)A<V5%4E1496UP;&%T90!3=&%T969L;W=#96YT<FEC &5N86)L94U05 !0;W"
+"-T4')O8V5S<T5N86)L90!0<F%G;6%%;F%B;&4                        !     @         "
+"                                                !                     0      "
+"              \\    #          0    %          8    '     0         (     0  "
+"  $    )     0    (    *     0    ,    +     0    0    ,     0    4    -     "
+"0    8    .          \\    0     0    <    1     0    @    2     0    D    3 "
+"    0    H    4     0    L               X   !X    !@    @    !          4   "
+" (     0    $    !          X   !(    !@    @    -          4    (    !0    $"
+"    !          8    4        W0(    !     0    $         #@   #     &    \"  "
+"   D\"        !0    @    !     0    $          @ !       .    ,     8    (   "
+" \"0(        %    \"     $    !     0         \"  $       X    P    !@    @  "
+"  ) @        4    (     0    $    !          (  0      #@   #     &    \"    "
+" D\"        !0    @    !     0    $          @ !       .    ,     8    (    "
+"\"0(        %    \"     $    !     0         \"  $       X    P    !@    @   "
+" ) @        4    (     0    $    !          (  0      #@   #     &    \"     "
+"D\"        !0    @    !     0    $          @ !       .    ,     8    (    \""
+"0(        %    \"     $    !     0         \"  $       X    P    !@    @    )"
+" @        4    (     0    $    !          (  0      #@   #     &    \"     D"
+"\"        !0    @    !     0    $          @ !       .    ,     8    (    \"0"
+"(        %    \"     $    !     0         \"  $       X    P    !@    @    ) "
+"@        4    (     0    $    !          (  0      #@   (@    &    \"     D  "
+"       !0    @    !    6     $          @   %@      4E-      X   !(    !@    "
+"@    \"          4    (     0    $    !          4 !  '     0    <   !H86YD;&"
+"4   X         "
+  }
+}

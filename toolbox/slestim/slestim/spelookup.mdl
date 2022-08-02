@@ -1,0 +1,287 @@
+# $Revision: 1.1.6.4 $
+Library {
+  Name			  "spelookup"
+  Version		  6.0
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  off
+  StatusBar		  off
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Tue Oct 30 08:10:09 2001"
+  Creator		  "beryilma"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "beryilma"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Thu Jan 15 13:37:36 2004"
+  ModelVersionFormat	  "1.%<AutoIncrement:58>"
+  ConfigurationManager	  "none"
+  SimParamPage		  "Solver"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  ProdHWDeviceType	  "Specified"
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      PortCounts	      "[]"
+      SFunctionModules	      "''"
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Courier New"
+    FontSize		    12
+    FontWeight		    "bold"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "spelookup"
+    Location		    [258, 237, 758, 473]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      "S-Function"
+      Name		      "Adaptive Lookup\nTable (1D Stair-Fit)"
+      Ports		      [2, 2]
+      Position		      [45, 55, 155, 135]
+      FontName		      "Arial"
+      FontSize		      11
+      FunctionName	      "sfun_lookupnd_stair_fit"
+      Parameters	      "Tb_NumDim, Bp_Data, Bp_Index, Tb_Input, Tb_Data"
+", Tb_NumData, Ad_Method, Ad_Factor, Tb_Output, Ad_Enable, Ad_Lock, Ad_Range"
+      SFunctionModules	      "lookup_methods"
+      MaskType		      "Adaptive Lookup Table (1D)"
+      MaskDescription	      "Perform adaptive table lookup.  Breakpoints rel"
+"ate the coordinate inputs to cell locations in the table.  The data is used t"
+"o dynamically update the cell values at these locations."
+      MaskHelp		      "web(spehelp)"
+      MaskPromptString	      "First input (row) breakpoint set:|Make initial "
+"table an input|Table data (initial):|Table numbering data:|Adaptation method:"
+"|Adaptation gain (0 to 1):|Make adapted table an output|Add adaptation enable"
+"/disable/reset port|Add cell lock enable/disable port|Action for out-of-range"
+" input"
+      MaskStyleString	      "edit,checkbox,edit,edit,popup(Sample mean|Sampl"
+"e mean (with forgetting)),edit,checkbox,checkbox,checkbox,popup(Ignore|Adapt)"
+      MaskTunableValueString  "on,on,on,on,on,on,on,on,on,on"
+      MaskCallbackString      "|lookupnd_stair_fit('TableInput')|||lookupnd_st"
+"air_fit('AdaptMethod')|||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,"
+      MaskVariables	      "Bp_Row=@1;Tb_Input=@2;Tb_Data=@3;Tb_NumData=@4;"
+"Ad_Method=@5;Ad_Factor=@6;Tb_Output=@7;Ad_Enable=@8;Ad_Lock=@9;Ad_Range=@10;"
+      MaskInitialization      "Tb_NumDim = 1; Bp_Cell = {Bp_Row};\n[Bp_Data, B"
+"p_Index] = lookupnd_stair_fit('Parameters', Tb_NumDim, Bp_Cell);\n[si, so, st"
+"] = lookupnd_stair_fit('Icon', Tb_NumDim);"
+      MaskDisplay	      "image(imread('a_lookup.bmp', 'bmp'), 'center')"
+"\ntext(0.5, 0.9, st, 'HorizontalAlignment', 'center')\nport_label('input', si"
+"(1).port, si(1).txt);\nport_label('input', si(2).port, si(2).txt);\nport_labe"
+"l('input', si(3).port, si(3).txt);\nport_label('input', si(4).port, si(4).txt"
+");\nport_label('input', si(5).port, si(5).txt);\nport_label('output', so(1).p"
+"ort, so(1).txt);\nport_label('output', so(2).port, so(2).txt);\nport_label('o"
+"utput', so(3).port, so(3).txt);"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "[10,22,31,40]|off|[4 5 6]|[1 2 3]|Sample mean ("
+"with forgetting)|0.9|off|off|off|Ignore"
+      MaskTabNameString	      ",,,,,,,,,"
+    }
+    Block {
+      BlockType		      "S-Function"
+      Name		      "Adaptive Lookup\nTable (2D Stair-Fit)"
+      Ports		      [2, 2]
+      Position		      [195, 55, 305, 135]
+      FontName		      "Arial"
+      FontSize		      11
+      FunctionName	      "sfun_lookupnd_stair_fit"
+      Parameters	      "Tb_NumDim, Bp_Data, Bp_Index, Tb_Input, Tb_Data"
+", Tb_NumData, Ad_Method, Ad_Factor, Tb_Output, Ad_Enable, Ad_Lock, Ad_Range"
+      SFunctionModules	      "lookup_methods"
+      MaskType		      "Adaptive Lookup Table (2D)"
+      MaskDescription	      "Perform adaptive table lookup.  Breakpoints rel"
+"ate the coordinate inputs to cell locations in the table.  The data is used t"
+"o dynamically update the cell values at these locations."
+      MaskHelp		      "web(spehelp)"
+      MaskPromptString	      "First input (row) breakpoint set:|Second input "
+"(column) breakpoint set:|Make initial table an input|Table data (initial):|Ta"
+"ble numbering data:|Adaptation method:|Adaptation gain (0 to 1):|Make adapted"
+" table an output|Add adaptation enable/disable/reset port|Add cell lock enabl"
+"e/disable port|Action for out-of-range input"
+      MaskStyleString	      "edit,edit,checkbox,edit,edit,popup(Sample mean|"
+"Sample mean (with forgetting)),edit,checkbox,checkbox,checkbox,popup(Ignore|A"
+"dapt)"
+      MaskTunableValueString  "on,on,on,on,on,on,on,on,on,on,on"
+      MaskCallbackString      "||lookupnd_stair_fit('TableInput')|||lookupnd_s"
+"tair_fit('AdaptMethod')|||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,,"
+      MaskVariables	      "Bp_Row=@1;Bp_Column=@2;Tb_Input=@3;Tb_Data=@4;T"
+"b_NumData=@5;Ad_Method=@6;Ad_Factor=@7;Tb_Output=@8;Ad_Enable=@9;Ad_Lock=@10;"
+"Ad_Range=@11;"
+      MaskInitialization      "Tb_NumDim = 2; Bp_Cell = {Bp_Row, Bp_Column};\n"
+"[Bp_Data, Bp_Index] = lookupnd_stair_fit('Parameters', Tb_NumDim, Bp_Cell);\n"
+"[si, so, st] = lookupnd_stair_fit('Icon', Tb_NumDim);"
+      MaskDisplay	      "image(imread('a_lookup.bmp', 'bmp'), 'center')"
+"\ntext(0.5, 0.9, st, 'HorizontalAlignment', 'center')\nport_label('input', si"
+"(1).port, si(1).txt);\nport_label('input', si(2).port, si(2).txt);\nport_labe"
+"l('input', si(3).port, si(3).txt);\nport_label('input', si(4).port, si(4).txt"
+");\nport_label('input', si(5).port, si(5).txt);\nport_label('output', so(1).p"
+"ort, so(1).txt);\nport_label('output', so(2).port, so(2).txt);\nport_label('o"
+"utput', so(3).port, so(3).txt);"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "[10,22,31,40]|[10,22,31,40]|off|[4 5 6;16 19 20"
+";10 18 23]|[1 2 3; 4 5 6; 7 8 9]|Sample mean (with forgetting)|0.9|off|off|of"
+"f|Ignore"
+      MaskTabNameString	      ",,,,,,,,,,"
+    }
+    Block {
+      BlockType		      "S-Function"
+      Name		      "Adaptive Lookup\nTable (nD Stair-Fit)"
+      Ports		      [2, 2]
+      Position		      [345, 55, 455, 135]
+      FontName		      "Arial"
+      FontSize		      11
+      FunctionName	      "sfun_lookupnd_stair_fit"
+      Parameters	      "Tb_NumDim, Bp_Data, Bp_Index, Tb_Input, Tb_Data"
+", Tb_NumData, Ad_Method, Ad_Factor, Tb_Output, Ad_Enable, Ad_Lock, Ad_Range"
+      SFunctionModules	      "lookup_methods"
+      MaskType		      "Adaptive Lookup Table (nD)"
+      MaskDescription	      "Perform adaptive table lookup.  Breakpoints rel"
+"ate the coordinate inputs to cell locations in the table.  The data is used t"
+"o dynamically update the cell values at these locations."
+      MaskHelp		      "web(spehelp)"
+      MaskPromptString	      "Number of table dimensions:|Table breakpoints ("
+"cell array):|Make initial table an input|Table data (initial):|Table numberin"
+"g data:|Adaptation method:|Adaptation gain (0 to 1):|Make adapted table an ou"
+"tput|Add adaptation enable/disable/reset port|Add cell lock enable/disable po"
+"rt|Action for out-of-range input"
+      MaskStyleString	      "edit,edit,checkbox,edit,edit,popup(Sample mean|"
+"Sample mean (with forgetting)),edit,checkbox,checkbox,checkbox,popup(Ignore|A"
+"dapt)"
+      MaskTunableValueString  "on,on,on,on,on,on,on,on,on,on,on"
+      MaskCallbackString      "||lookupnd_stair_fit('TableInput')|||lookupnd_s"
+"tair_fit('AdaptMethod')|||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,,,,"
+      MaskVariables	      "Tb_NumDim=@1;Bp_Cell=@2;Tb_Input=@3;Tb_Data=@4;"
+"Tb_NumData=@5;Ad_Method=@6;Ad_Factor=@7;Tb_Output=@8;Ad_Enable=@9;Ad_Lock=@10"
+";Ad_Range=@11;"
+      MaskInitialization      "[Bp_Data, Bp_Index] = lookupnd_stair_fit('Param"
+"eters', Tb_NumDim, Bp_Cell);\n[si, so, st] = lookupnd_stair_fit('Icon', Tb_Nu"
+"mDim);\nif strcmp(get_param(bdroot(gcb), 'BlockDiagramType'), 'library')\n  s"
+"t = 'n-D T(u)';\nend"
+      MaskDisplay	      "image(imread('a_lookup.bmp', 'bmp'), 'center')"
+"\ntext(0.5, 0.9, st, 'HorizontalAlignment', 'center')\nport_label('input', si"
+"(1).port, si(1).txt);\nport_label('input', si(2).port, si(2).txt);\nport_labe"
+"l('input', si(3).port, si(3).txt);\nport_label('input', si(4).port, si(4).txt"
+");\nport_label('input', si(5).port, si(5).txt);\nport_label('output', so(1).p"
+"ort, so(1).txt);\nport_label('output', so(2).port, so(2).txt);\nport_label('o"
+"utput', so(3).port, so(3).txt);"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "2|{[10,22,31,40], [10,22,31,40]}|off|[4 5 6;16 "
+"19 20;10 18 23]|[1 2 3; 4 5 6; 7 8 9]|Sample mean (with forgetting)|0.9|off|o"
+"ff|off|Ignore"
+      MaskTabNameString	      ",,,,,,,,,,"
+    }
+    Annotation {
+      Name		      "Adaptive Lookup Tables"
+      Position		      [250, 28]
+      FontName		      "Arial"
+      FontSize		      14
+      FontWeight	      "bold"
+    }
+    Annotation {
+      Name		      "Simulink Parameter Estimation 1.0\nCopyright (c"
+") 2001-2004 The MathWorks, Inc."
+      Position		      [256, 205]
+      FontName		      "Arial"
+      FontWeight	      "bold"
+    }
+  }
+}

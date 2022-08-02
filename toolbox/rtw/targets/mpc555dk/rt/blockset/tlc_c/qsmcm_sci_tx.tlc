@@ -1,0 +1,62 @@
+%% File: qsmcm_sci_tx.tlc
+%%
+%% Abstract:
+%%   Transmit data over the MPC555 Serial Communications Interface
+%%
+%% $Revision: 1.2 $
+%% $Date: 2002/12/10 16:49:05 $
+%%
+%% Copyright 2002 The MathWorks, Inc.
+
+%implements qsmcm_sci_tx "C"
+%include "mpc555_common_includes.tlc"
+
+%% Function: BlockTypeSetup
+%% Abstract:
+%%
+%function BlockTypeSetup(block,system) void
+
+  %if !SLibCodeGenForSim() 
+
+     %% Only generate code for real time not for PIL
+		
+     %openfile buffer
+     #include "qsmcm_sci.h"
+     %closefile buffer
+     %<LibCacheIncludes(buffer)> 
+     
+   %endif
+   
+%endfunction %% BlockTypeSetup
+
+%% Function: Outputs ========================================================
+%% Abstract:
+%%
+%function Outputs(block,system) Output
+
+    %if !SLibCodeGenForSim() 
+      
+      %% Only generate code for real time not for PIL
+      %assign module = "sci%<CAST("Number",SFcnParamSettings.Module)>"
+       %assign data_addr = LibBlockInputSignalAddr(0,"","",0)
+      %if SFcnParamSettings.ShowLength
+	%assign length =  "%<LibBlockInputSignal(1,"","",0)>"
+      %else
+	%assign length = LibBlockInputSignalWidth(0)
+      %endif
+
+      %assign numBytesSent = ""
+      %if SFcnParamSettings.ShowNumSent
+	%assign numBytesSent = "%<LibBlockOutputSignal(0,"","",0)> ="
+      %endif
+
+      %<numBytesSent> 
+      general_send_string_%<module>(%<data_addr>,%<length>);
+		
+    %endif
+
+%endfunction %%Outputs
+
+
+
+

@@ -1,0 +1,95 @@
+%% File: c166lib.tlc
+%% 
+%% Abstract: 
+%%    Library functions used by the C166 target.
+%% 
+%% $Revision: 1.1.6.2 $ 
+%% $Date: 2004/04/19 01:18:35 $ 
+%% 
+%% Copyright 2002-2003 The MathWorks, Inc.
+
+%% Function: SLibRegNames ================================================
+%% Abstract:
+%%   Set register names according to the processor variant in use. The names
+%%   are placed into a global variable C166Reg.
+%function SLibRegNames() void
+  
+  %% Get register names for this processor variant
+  %assign cputype = FEVAL("c166cache","get","CPUType")
+  
+  %switch cputype
+    %case "0x166"
+      %%fallsthrough
+    %case "0x167"
+      %createrecord ::C166Reg {\
+      asc0_bg   "S0BG"   \
+      asc0_con  "S0CON"  \
+      asc0_rbuf "S0RBUF" \
+      asc0_ric  "S0RIC"  \
+      asc0_ric_ie  "S0RIE" \
+      asc0_tbuf "S0TBUF" \
+      asc0_tic  "S0TIC"  \
+      asc0_tic_ie  "S0TIE"  \
+      caprel    "CAPREL" \
+      t2        "T2" \
+      t2con     "T2CON" \
+      t2ic      "T2IC"  \
+      t3        "T3" \
+      t3con     "T3CON" \
+      t3ic      "T3IC"  \
+      t4        "T4" \
+      t4con     "T4CON" \
+      t4ic      "T4IC"  \
+      t5        "T5" \
+      t5con     "T5CON" \
+      t5ic      "T5IC"  \
+      t6        "T6" \
+      t6con     "T6CON" \
+      t6ic      "T6IC"  \
+      rtc_ic    "XP3IC" \
+      t14       "T14" \
+      t14rel    "T14REL" \
+      rtcie     "RTCIE" \
+      rtcir     "RTCIR" \
+    }
+      %break
+    %case "0x1662"
+      %%fallsthrough
+    %default
+      %createrecord ::C166Reg {\
+      asc0_bg   "ASC0_BG"   \
+      asc0_con  "ASC0_CON"  \
+      asc0_rbuf "ASC0_RBUF" \
+      asc0_ric  "ASC0_RIC"  \
+      asc0_ric_ie  "ASC0_RIC_IE" \
+      asc0_tbuf "ASC0_TBUF" \
+      asc0_tic  "ASC0_TIC"  \
+      asc0_tic_ie  "ASC0_TIC_IE"  \
+      caprel    "CAPREL" \
+      t2        "GPT12E_T2" \
+      t2con     "GPT12E_T2CON" \
+      t2ic      "GPT12E_T2IC"  \
+      t3        "GPT12E_T3" \
+      t3con     "GPT12E_T3CON" \
+      t3ic      "GPT12E_T3IC"  \
+      t4        "GPT12E_T4" \
+      t4con     "GPT12E_T4CON" \
+      t4ic      "GPT12E_T4IC"  \
+      t5        "GPT12E_T5" \
+      t5con     "GPT12E_T5CON" \
+      t5ic      "GPT12E_T5IC" \ 
+      t6        "GPT12E_T6" \
+      t6con     "GPT12E_T6CON" \
+      t6ic      "GPT12E_T6IC" \ 
+      altsel0p3 "ALTSEL0P3" \
+      rtc_ic    "RTC_IC" \
+      t14       "RTC_T14" \
+      t14rel    "RTC_T14REL" \
+      rtcie     "T14IE" \
+      rtcir     "T14IR" \
+      rtcpre    "RTCPRE" \
+    }
+    %break
+  %endswitch
+%endfunction
+

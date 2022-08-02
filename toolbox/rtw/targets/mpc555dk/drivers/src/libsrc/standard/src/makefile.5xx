@@ -1,0 +1,43 @@
+# File : makefile
+#
+# Abstract :
+# 	Build all srcs from the ../src directory
+# 	into object files and then add them to a
+# 	library
+# $Revision: 1.1.6.4 $
+# $Date: 2004/04/19 01:25:52 $
+#
+# Copyright 2002-2003 The MathWorks, Inc.
+#
+
+
+.PHONY : all
+
+COMPONENT:=mpc555_build_rules
+include $(COMPONENT_MANAGER)
+
+# Get the list of source files to compile
+SRCS:=$(wildcard *.c)
+
+OBJECTS:=$(SRCS:.c=.o)
+
+FS = $(findstring $(MPC5XX_VARIANT),533 534 535 536)
+ifneq ($(FS),)
+# Variant is 533 or 534 or 535 or 536 --> No TPU modules
+OBJECTS:=$(filter-out tpu_common.o tpu_interrupt_handler.o,$(OBJECTS))
+else
+# Other variants have TPU modules
+# Add the TPU utilities file. The source will be found in the mpc5xx_registers make plugin directory.
+OBJECTS+=mpc500_util.o
+endif
+
+LIBRARY:=$(DRIVERS_LIBRARY_DIR)/lib_drivers.$(MPC5XX_VARIANT).a
+
+all : setup $(LIBRARY)
+	
+$(LIBRARY) : $(OBJECT_TARGETS)
+	$(LIBCMD) $(LIBRARY) $(OBJECT_TARGETS)
+	
+clean: general_clean
+
+$(OBJECT_TARGETS) : makefile.5xx

@@ -1,0 +1,1321 @@
+# $Revision: 1.1.6.3 $
+Model {
+  Name			  "c2812cantest"
+  Version		  6.0
+  GraphicalInterface {
+    NumRootInports	    0
+    NumRootOutports	    0
+    ParameterArgumentNames  ""
+    ComputedModelVersion    "1.101"
+    NumTestPointedSignals   0
+  }
+  SaveDefaultBlockParams  on
+  SampleTimeColors	  off
+  LibraryLinkDisplay	  "none"
+  WideLines		  off
+  ShowLineDimensions	  off
+  ShowPortDataTypes	  off
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  ShowStorageClass	  off
+  ShowTestPointIcons	  on
+  ShowViewerIcons	  on
+  SortedOrder		  off
+  ExecutionContextIcon	  off
+  ShowLinearizationAnnotations on
+  RecordCoverage	  off
+  CovPath		  "/"
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeVarName	  "covCumulativeData"
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  DataTypeOverride	  "UseLocalSettings"
+  MinMaxOverflowLogging	  "UseLocalSettings"
+  MinMaxOverflowArchiveMode "Overwrite"
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Wed Nov 19 11:48:59 2003"
+  Creator		  "zgalijas"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "zgalijas"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Fri Apr 09 13:52:15 2004"
+  ModelVersionFormat	  "1.%<AutoIncrement:101>"
+  ConfigurationManager	  "None"
+  SimParamPage		  "RTW"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  AccelSystemTargetFile	  "accel.tlc"
+  AccelTemplateMakefile	  "accel_default_tmf"
+  AccelMakeCommand	  "make_rtw"
+  TryForcingSFcnDF	  off
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  BufferReuse		  on
+  ProdHWDeviceType	  "TI C2000"
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.0.3"
+      Array {
+	Type			"Handle"
+	Dimension		8
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.0.3"
+	  StartTime		  "0.0"
+	  StopTime		  "inf"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  RelTol		  "1e-3"
+	  SolverMode		  "SingleTasking"
+	  Solver		  "FixedStepDiscrete"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.0.3"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  off
+	  SaveState		  off
+	  SaveTime		  off
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "sigsOut"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    4
+	    Cell		    "ZeroExternalMemoryAtStartup"
+	    Cell		    "ZeroInternalMemoryAtStartup"
+	    Cell		    "InitFltsAndDblsToZero"
+	    Cell		    "OptimizeModelRefInitCode"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.0.3"
+	  BlockReduction	  on
+	  BooleanDataType	  on
+	  ConditionallyExecuteInputs on
+	  ConditionalExecOptimization "on_for_testing"
+	  InlineParams		  off
+	  InlineInvariantSignals  off
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  on
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  ParameterPooling	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.0.3"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg on
+	  CheckExecutionContextRuntimeOutputMsg	on
+	  SignalResolutionControl "TryResolveAllWithWarning"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  SolverPrmCheckMsg	  "none"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterPrecisionLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.0.3"
+	  ProdBitPerChar	  16
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  16
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Zero"
+	  ProdEndianess		  "LittleEndian"
+	  ProdWordSize		  16
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "TI C2000"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "32-bit Generic"
+	  TargetUnknown		  off
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.0.3"
+	  UpdateModelReferenceTargets "IfOutOfDate"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    2
+	    Cell		    "IncludeHyperlinkInReport"
+	    Cell		    "GenCodeOnly"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.0.3"
+	  SystemTargetFile	  "ti_c2000_grt.tlc"
+	  GenCodeOnly		  on
+	  MakeCommand		  "make_rtw"
+	  TemplateMakefile	  "ti_c2000_grt.tmf"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ProcessScript		  "ti_c2000_grt_make_rtw_hook"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Array {
+		Type			"Cell"
+		Dimension		8
+		Cell			"IgnoreCustomStorageClasses"
+		Cell			"InsertBlockDesc"
+		Cell			"SFDataObjDesc"
+		Cell			"SimulinkDataObjDesc"
+		Cell			"DefineNamingRule"
+		Cell			"SignalNamingRule"
+		Cell			"ParamNamingRule"
+		Cell			"InlinedPrmAccess"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.0.3"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      CustomSymbolStr	      "$R$N$M"
+	      MangleLength	      1
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    Simulink.STFCustomTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Array {
+		Type			"Cell"
+		Dimension		15
+		Cell			"IncludeMdlTerminateFcn"
+		Cell			"CombineOutputUpdateFcns"
+		Cell			"SuppressErrorStatus"
+		Cell			"ERTCustomFileBanners"
+		Cell			"GenerateSampleERTMain"
+		Cell			"MultiInstanceERTCode"
+		Cell			"PurelyIntegerCode"
+		Cell			"SupportNonFinite"
+		Cell			"SupportComplex"
+		Cell			"SupportAbsoluteTime"
+		Cell			"SupportContinuousTime"
+		Cell			"SupportNonInlinedSFcns"
+		Cell			"LifeSpan"
+		Cell			"NoFixptDivByZeroProtection"
+		Cell			"CustomSymbolStr"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.0.3"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant off
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns off
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      off
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      SystemTargetFile	      "ti_c2000_grt.tlc"
+	      DialogCategory	      0
+	      ActivateCallback	      "ti_c2000_callback('ActivateCallback',hS"
+"rc,hDlg);"
+	      ForcedBaseTarget	      off
+	      Array {
+		Type			"Handle"
+		Dimension		1
+		Simulink.GRTTargetCC {
+		  $BackupClass		  "Simulink.TargetCC"
+		  $ObjectID		  11
+		  Array {
+		    Type		    "Cell"
+		    Dimension		    1
+		    Cell		    "GenerateSampleERTMain"
+		    PropName		    "DisabledProps"
+		  }
+		  Version		  "1.0.3"
+		  TargetFcnLib		  "ansi_tfl_tmw.mat"
+		  GenFloatMathFcnCalls	  "ANSI_C"
+		  UtilityFuncGeneration	  "Auto"
+		  GenerateFullHeader	  on
+		  GenerateSampleERTMain	  off
+		  IsPILTarget		  off
+		  ModelReferenceCompliant off
+		  IncludeMdlTerminateFcn  on
+		  CombineOutputUpdateFcns off
+		  SuppressErrorStatus	  off
+		  IncludeFileDelimiter	  "Auto"
+		  ERTCustomFileBanners	  off
+		  SupportAbsoluteTime	  on
+		  LogVarNameModifier	  "rt_"
+		  MatFileLogging	  off
+		  MultiInstanceERTCode	  off
+		  SupportNonFinite	  on
+		  SupportComplex	  on
+		  PurelyIntegerCode	  off
+		  SupportContinuousTime	  on
+		  SupportNonInlinedSFcns  on
+		  ExtMode		  off
+		  ExtModeStaticAlloc	  off
+		  ExtModeTesting	  off
+		  ExtModeStaticAllocSize  1000000
+		  ExtModeTransport	  0
+		  ExtModeMexFile	  "ext_comm"
+		  RTWCAPISignals	  off
+		  RTWCAPIParams		  off
+		  RTWCAPIStates		  off
+		  GenerateASAP2		  off
+		}
+		PropName		"Components"
+	      }
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	Simulink.SFSimCC {
+	  $ObjectID		  12
+	  Version		  "1.0.3"
+	  SFSimApplyToAllLibs	  on
+	  SFSimEnableDebug	  on
+	  SFSimOverflowDetection  on
+	  SFSimEcho		  on
+	  SFSimBuildMode	  "Incremental"
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      SimulationMode	      "normal"
+      CurrentDlgPage	      "Hardware Implementation"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "sfix(16)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "2^0"
+      SampleTime	      "inf"
+    }
+    Block {
+      BlockType		      DiscretePulseGenerator
+      PulseType		      "Sample based"
+      TimeSource	      "Use simulation time"
+      Amplitude		      "1"
+      Period		      "2"
+      PulseWidth	      "1"
+      PhaseDelay	      "0"
+      SampleTime	      "1"
+      VectorParams1D	      on
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      MultiPortSwitch
+      Inputs		      "4"
+      zeroidx		      off
+      InputSameDT	      on
+      OutDataTypeMode	      "Inherit via internal rule"
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      Scope
+      Floating		      off
+      ModelBased	      off
+      TickLabels	      "OneTimeTick"
+      ZoomMode		      "on"
+      Grid		      "on"
+      TimeRange		      "auto"
+      YMin		      "-5"
+      YMax		      "5"
+      SaveToWorkspace	      off
+      SaveName		      "ScopeData"
+      LimitDataPoints	      on
+      MaxDataPoints	      "5000"
+      Decimation	      "1"
+      SampleInput	      off
+      SampleTime	      "0"
+    }
+    Block {
+      BlockType		      Selector
+      InputType		      "Vector"
+      IndexMode		      "One-based"
+      ElementSrc	      "Internal"
+      Elements		      "1"
+      RowSrc		      "Internal"
+      Rows		      "1"
+      ColumnSrc		      "Internal"
+      Columns		      "1"
+      InputPortWidth	      "-1"
+      IndexIsStartValue	      off
+      OutputPortSize	      "1"
+    }
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      PortCounts	      "[]"
+      SFunctionModules	      "''"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Switch
+      Criteria		      "u2 >= Threshold"
+      Threshold		      "0"
+      InputSameDT	      on
+      OutDataTypeMode	      "Inherit via internal rule"
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      TriggerPort
+      TriggerType	      "rising"
+      StatesWhenEnabling      "inherit"
+      ShowOutputPort	      off
+      OutputDataType	      "auto"
+      SampleTimeType	      "triggered"
+      SampleTime	      "1"
+      ZeroCross		      on
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "c2812cantest"
+    Location		    [71, 89, 610, 528]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      "\n"
+      Ports		      []
+      Position		      [177, 355, 264, 399]
+      BackgroundColor	      "lightBlue"
+      DropShadow	      on
+      OpenFcn		      "runc2xxxcantest"
+      FontName		      "Arial"
+      FontSize		      11
+      FontWeight	      "bold"
+      ShowPortLabels	      off
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskType		      "Run demo"
+      MaskDisplay	      "disp(sprintf('Build/Reload\\n& Run'))"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"\n"
+	Location		[463, 396, 961, 696]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      " Info"
+      Ports		      []
+      Position		      [65, 355, 143, 399]
+      BackgroundColor	      "lightBlue"
+      DropShadow	      on
+      ShowName		      off
+      FontName		      "Arial"
+      FontSize		      14
+      FontWeight	      "bold"
+      ShowPortLabels	      off
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskDisplay	      "disp('Info')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			" Info"
+	Location		[273, 260, 828, 792]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Annotation {
+	  Name			  "This example demonstrates the use of the c2"
+"812 CAN Receive, c2812 CAN Transmit, \nC2812 PWM, and C2812 From Memory block"
+"s in generating the pulse waveform.  \n\n\"Read Duty Cycle\" reads duty cycle"
+" value stored at the memory location 0xFFE0. This value\ncontrols the width o"
+"f the pulse waveform generated by the PWM1 while its period is fixed at\n6400"
+"0 clock cycles.\n\n\"Transmit CAN Msg\" uses mailbox 5 to transmit duty cycle"
+" value packed in a standard CAN\nmessage frame, while \"Receive CAN Msg\" use"
+"s mailbox 0 to receive it.\n\n\"Process CAN Msg\" unpacks the duty cycle valu"
+"e and sends it to the PWM. The duty cycle of\nthe generated pulse waveform is"
+" determined by the relative ratio of the pulse width and the \npulse period. "
+"In this example, the duty cycle toggles between 25%, 50%, and 75% based on\nu"
+"sers selection. This effect can be observed on the oscilloscope.\n\nPWM Duty "
+"Cycle can be changed while the generated code is running using \"write\" meth"
+"od\nof the companion product Link for Code Composer Studio. Select either 25%"
+", 50%, or 75% \nvalue from the GUI that opens up when \"Build/Reload & Run\" "
+"is pressed.\n\n\"Simulate Duty Cycle Change\" and \"Simulate PWM Waveform\" a"
+"re dedicated to simulation\nonly. Use these blocks to simulate and observe ef"
+"fects achieved with the generated code.  \n"
+	  Position		  [31, 358]
+	  HorizontalAlignment	  "left"
+	  FontName		  "Arial"
+	  FontSize		  12
+	}
+	Annotation {
+	  Name			  "The code generation portion of this demo re"
+"quires the following hardware:\n\nSpectrum Digital eZdsp F2812\nOscilloscope "
+"and probes\n\nConnect the output of PWM1 on the eZdsp F2812 to the analog inp"
+"ut of the oscilloscope."
+	  Position		  [30, 95]
+	  HorizontalAlignment	  "left"
+	  FontName		  "Arial"
+	  FontSize		  12
+	}
+	Annotation {
+	  Name			  "Setup:"
+	  Position		  [51, 28]
+	  FontName		  "Arial"
+	  FontSize		  12
+	  FontWeight		  "bold"
+	}
+	Annotation {
+	  Name			  "Demo Description:"
+	  Position		  [29, 168]
+	  HorizontalAlignment	  "left"
+	  FontName		  "Arial"
+	  FontSize		  12
+	  FontWeight		  "bold"
+	}
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "C28x PWM"
+      Ports		      [1]
+      Position		      [375, 169, 475, 221]
+      BackgroundColor	      "orange"
+      SourceBlock	      "c2800dspchiplib/C28x PWM"
+      SourceType	      "C28x PWM"
+      useModule		      "A"
+      timerSource	      "Specify via dialog"
+      timerPeriod	      "64000"
+      waveformType	      "Symmetric"
+      unit1Status	      on
+      unit1Source	      "Input port"
+      unit1Value	      "2000"
+      unit2Status	      off
+      unit2Source	      "Input port"
+      unit2Value	      "2000"
+      unit3Status	      off
+      unit3Source	      "Input port"
+      unit3Value	      "2000"
+      unit1_1Logic	      "Active low"
+      unit1_2Logic	      "Active high"
+      unit2_1Logic	      "Active high"
+      unit2_2Logic	      "Active low"
+      unit3_1Logic	      "Active high"
+      unit3_2Logic	      "Active low"
+      enableDeadband1	      off
+      enableDeadband2	      off
+      enableDeadband3	      off
+      deadbandPrescaler	      "1"
+      deadbandPeriod	      "1"
+      adcstartEvent	      "None"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "F2812 eZdsp"
+      Tag		      "C2000 TARGET PREFERENCES BLOCK"
+      Ports		      []
+      Position		      [425, 350, 490, 405]
+      UserDataPersistent      on
+      UserData		      "DataTag0"
+      FontName		      "Arial"
+      SourceBlock	      "c2000tgtpreflib/F2812 eZdsp"
+      SourceType	      "c2000 Target Preferences"
+      ShowPortLabels	      on
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Process CAN Msg"
+      Tag		      "20"
+      Ports		      [1, 1, 0, 1]
+      Position		      [230, 170, 330, 220]
+      TreatAsAtomicUnit	      on
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+      Port {
+	PortType		0
+	PortNumber		2
+	ShowSigGenPortName	on
+      }
+      System {
+	Name			"Process CAN Msg"
+	Location		[511, 472, 875, 684]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [25, 103, 55, 117]
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  TriggerPort
+	  Name			  "function"
+	  Ports			  []
+	  Position		  [170, 15, 190, 35]
+	  TriggerType		  "function-call"
+	  StatesWhenEnabling	  "held"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Preprocess\nduty cycle"
+	  Tag			  "30"
+	  Ports			  [1, 1]
+	  Position		  [190, 86, 240, 134]
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  System {
+	    Name		    "Preprocess\nduty cycle"
+	    Location		    [338, 361, 583, 549]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Ctrl"
+	      Position		      [25, 38, 55, 52]
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant1"
+	      Tag		      "31"
+	      Position		      [25, 127, 65, 163]
+	      NamePlacement	      "alternate"
+	      Value		      "16000"
+	      OutDataTypeMode	      "uint16"
+	    }
+	    Block {
+	      BlockType		      Switch
+	      Name		      "Switch"
+	      Tag		      "32"
+	      Position		      [125, 75, 165, 115]
+	      Threshold		      "16000"
+	      InputSameDT	      off
+	      OutDataTypeMode	      "Inherit via back propagation"
+	      SaturateOnIntegerOverflow	off
+	      ZeroCross		      off
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortType		0
+		PortNumber		2
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortType		0
+		PortNumber		3
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "W1"
+	      Position		      [200, 88, 230, 102]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	      Port {
+		PortType		0
+		PortNumber		1
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Constant1"
+	      SrcPort		      1
+	      Points		      [25, 0; 0, -35]
+	      DstBlock		      "Switch"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Ctrl"
+	      SrcPort		      1
+	      Points		      [20, 0]
+	      Branch {
+		Points			[0, 50]
+		DstBlock		"Switch"
+		DstPort			2
+	      }
+	      Branch {
+		Points			[15, 0; 0, 35]
+		DstBlock		"Switch"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Switch"
+	      SrcPort		      1
+	      DstBlock		      "W1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Selector
+	  Name			  "Select\nfirst\nelement"
+	  Ports			  [1, 1]
+	  Position		  [105, 91, 145, 129]
+	  Elements		  "[1]"
+	  InputPortWidth	  "4"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  Position		  [290, 103, 320, 117]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "Select\nfirst\nelement"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Preprocess\nduty cycle"
+	  SrcPort		  1
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Select\nfirst\nelement"
+	  SrcPort		  1
+	  DstBlock		  "Preprocess\nduty cycle"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Read Duty Cycle"
+      Ports		      [0, 1]
+      Position		      [55, 85, 155, 135]
+      BackgroundColor	      "orange"
+      SourceBlock	      "memblks/From Memory"
+      SourceType	      "From Memory"
+      memAddressMask	      "8FF0"
+      dType		      "uint16"
+      Ts		      "1/10"
+      frameSize		      "1"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Receive CAN Msg"
+      Ports		      [0, 2]
+      Position		      [55, 177, 155, 228]
+      BackgroundColor	      "orange"
+      FontName		      "Arial"
+      SourceBlock	      "c2800dspchiplib/C28x eCAN Receive"
+      SourceType	      "C28x eCAN Receive"
+      mailboxNo		      "0"
+      messageID		      "bin2dec('111000111')"
+      messageType	      "Standard (11-bit identifier)"
+      sampleTime	      "1/10"
+      dataType		      "uint16"
+      outputMessageLength     off
+      outputMessageTimeStamp  off
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Simulate\nPWM Waveform"
+      Ports		      [1]
+      Position		      [415, 269, 445, 301]
+      Location		      [623, 63, 890, 228]
+      Open		      on
+      NumInputPorts	      "1"
+      ZoomMode		      "xonly"
+      List {
+	ListType		AxesTitles
+	axes1			"%<SignalLabel>"
+      }
+      TimeRange		      "10"
+      YMin		      "0"
+      YMax		      "17500"
+      DataFormat	      "StructureWithTime"
+      MaxDataPoints	      "10000"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Simulate Duty\nCycle Change"
+      Ports		      [0, 1]
+      Position		      [180, 265, 245, 305]
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskPromptString	      "Duty Cycle"
+      MaskStyleString	      "popup(25 %|50 %|75 %)"
+      MaskTunableValueString  "on"
+      MaskEnableString	      "on"
+      MaskVisibilityString    "on"
+      MaskToolTipString	      "on"
+      MaskVariables	      "dutyCycle=@1;"
+      MaskDisplay	      "disp ('Duty Cycle\\nChange')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "75 %"
+      System {
+	Name			"Simulate Duty\nCycle Change"
+	Location		[278, 415, 657, 723]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  DiscretePulseGenerator
+	  Name			  "25 % Pulse\nGenerator1"
+	  Ports			  [0, 1]
+	  Position		  [40, 83, 85, 117]
+	  Amplitude		  "16000"
+	  Period		  "4000"
+	  PulseWidth		  "1000"
+	  SampleTime		  "64/80000"
+	}
+	Block {
+	  BlockType		  DiscretePulseGenerator
+	  Name			  "50 % Pulse\nGenerator2"
+	  Ports			  [0, 1]
+	  Position		  [40, 158, 85, 192]
+	  Amplitude		  "16000"
+	  Period		  "4000"
+	  PulseWidth		  "2000"
+	  SampleTime		  "64/80000"
+	}
+	Block {
+	  BlockType		  DiscretePulseGenerator
+	  Name			  "75 % Pulse\nGenerator3"
+	  Ports			  [0, 1]
+	  Position		  [40, 233, 85, 267]
+	  Amplitude		  "16000"
+	  Period		  "4000"
+	  PulseWidth		  "3000"
+	  SampleTime		  "64/80000"
+	}
+	Block {
+	  BlockType		  Constant
+	  Name			  "Constant"
+	  Position		  [175, 35, 205, 65]
+	  Value			  "dutyCycle"
+	}
+	Block {
+	  BlockType		  MultiPortSwitch
+	  Name			  "Multiport\nSwitch"
+	  Ports			  [4, 1]
+	  Position		  [215, 147, 245, 193]
+	  Inputs		  "3"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via back propagation"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    2
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    3
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    4
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out2"
+	  Position		  [330, 163, 360, 177]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Line {
+	  SrcBlock		  "Multiport\nSwitch"
+	  SrcPort		  1
+	  DstBlock		  "Out2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "75 % Pulse\nGenerator3"
+	  SrcPort		  1
+	  Points		  [40, 0; 0, -65]
+	  DstBlock		  "Multiport\nSwitch"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Constant"
+	  SrcPort		  1
+	  Points		  [10, 0; 0, 65; -75, 0; 0, 40]
+	  DstBlock		  "Multiport\nSwitch"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "25 % Pulse\nGenerator1"
+	  SrcPort		  1
+	  Points		  [40, 0; 0, 65]
+	  DstBlock		  "Multiport\nSwitch"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "50 % Pulse\nGenerator2"
+	  SrcPort		  1
+	  DstBlock		  "Multiport\nSwitch"
+	  DstPort		  3
+	}
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Transmit CAN Msg"
+      Ports		      [1]
+      Position		      [375, 85, 475, 135]
+      BackgroundColor	      "orange"
+      FontName		      "Arial"
+      SourceBlock	      "c2800dspchiplib/C28x eCAN Transmit"
+      SourceType	      "C28x eCAN Transmit"
+      mailboxNo		      "5"
+      messageID		      "bin2dec('111000111')"
+      messageType	      "Standard (11-bit identifier)"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+    }
+    Line {
+      SrcBlock		      "Read Duty Cycle"
+      SrcPort		      1
+      DstBlock		      "Transmit CAN Msg"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Receive CAN Msg"
+      SrcPort		      2
+      Points		      [45, 0; 0, -20]
+      DstBlock		      "Process CAN Msg"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Receive CAN Msg"
+      SrcPort		      1
+      Points		      [40, 0; 0, -40; 80, 0]
+      DstBlock		      "Process CAN Msg"
+      DstPort		      trigger
+    }
+    Line {
+      SrcBlock		      "Simulate Duty\nCycle Change"
+      SrcPort		      1
+      DstBlock		      "Simulate\nPWM Waveform"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Process CAN Msg"
+      SrcPort		      1
+      DstBlock		      "C28x PWM"
+      DstPort		      1
+    }
+    Annotation {
+      Name		      "PWM Duty Cycle Control via CAN Messaging"
+      Position		      [269, 34]
+      FontName		      "Arial Narrow"
+      FontSize		      22
+      FontWeight	      "bold"
+    }
+  }
+}
+MatData {
+  NumRecords		  1
+  DataRecord {
+    Tag			    DataTag0
+    Data		    "  %)30     .    2 H   8    (     @         %    "
+"\"     $    !     0         %  0 $     $    0    =&EC,C P,%1G=%!R969S  X   #X"
+"\"0  !@    @    1          $          0    8   !H86YD;&4   $    <    1%-05&=T"
+"4&MG+F5:9'-P1C(X,3)49W10<F5F<P     .    H D   8    (     0         %    \"   "
+"  X    !     0         .    8 4   8    (    \"0         %    \"    # %   !   "
+"  0         \"    , 4   $    E      (  , \"  #( @  Z ,  \"@%   P!0           "
+" !$4U!49W10:V< 95ID<W!&,C@Q,E1G=%!R969S $)U:6QD3W!T:6]N<P!#;VUP:6QE<D]P=&EO;G"
+", 0V]M<&EL97)697)B;W-I='D 5F5R8F]S90!3>6UB;VQI8T1E8G5G9VEN9P!997, 2V5E<$%3349"
+"I;&5S $QI;FME<D]P=&EO;G, 3&EN:V5R0TU$1FEL90!&=6QL7VUE;6]R>5]M87  4G5N5&EM94]P"
+"=&EO;G, 3W9E<G)U;D%C=&EO;@!#;VYT:6YU90!$4U!\";V%R9 !E6F1S<$8R.#$R1%-00F]A<F0 "
+"1%-00F]A<F1,86)E; !&,C@Q,B!04\"!%;75L871O<@!$4U!#:&EP $,R.#$R1%-00VAI< !$4U!#"
+":&EP3&%B96P 5$D@5$U3,S(P0S(X,3( 94-!3@!30D< 3VYL>5]F86QL:6YG7V5D9V5S %-!30!38"
+"6UP;&5?;VYE7W1I;64 4V5L9E1E<W1-;V1E $-#4TQI;FL 0S(X,#!#0U-,:6YK $-O9&5'96YE<F"
+"%T:6]N $,R.# P0V]D94=E;F5R871I;VX 4V-H961U;&5R $,R.# P4V-H961U;&5R %1I;65R $-"
+"055]T:6UE<C                            $    \"               !     P         "
+"      0    0               $    *               !    #0               0   !$ "
+"              $    5               !    &                0   !\\             "
+"  $    A               !    (P                                               "
+"          !                     0         \"                     @         # "
+"                    P         $                    !          %              "
+"      !0         &                    !@         '                    !P     "
+"    (                    \"          )                    \"0         *      "
+"              \"@         +                    \"P                    0    # "
+"    0    0    0     0    @    >     0    D    @     0    L          P    0   "
+" !     0    H    !     @    T    !     P    ,    %          8    '          @"
+"    )     0         !    \"P         ,     0    X         #P    (    2       "
+"  !,    4     0    <          @   !8         %P   !@    !    !@         #    "
+"&0         :    &P         <    '0    $    %               !    (@    $    * "
+"    0   \"0         )0              #@   '@    &    \"     $         !0    @ "
+"   !     0    $         #@   $@    &    \"     T         !0    @    %     0  "
+"  $         !@   !0       #= @    $    !     0         .    ,     8    (    !"
+"          %    \"     $    #     0         0  , ;V9F  X   !(    !@    @    - "
+"         4    (    !0    $    !          8    4        W0(    !     0    ,   "
+"      #@   $@    &    \"     T         !0    @    %     0    $         !@   !"
+"0       #= @    $    !    !          .    2     8    (    #0         %    \" "
+"    4    !     0         &    %        -T\"     0    $    %          X   !(  "
+"  !@    @    -          4    (    !0    $    !          8    4        W0(    "
+"!     0    (         #@   #     &    \"     0         !0    @    !     @    $"
+"         $  \" &]N   .    2     8    (    #0         %    \"     4    !     0"
+"         &    %        -T\"     0    $    (          X   !(    !@    @    -  "
+"        4    (    !0    $    !          8    4        W0(    !     0    <    "
+"     #@   $@    &    \"     T         !0    @    %     0    $         !@   !0"
+"       #= @    $    !    !@         .    2     8    (    #0         %    \"  "
+"   4    !     0         &    %        -T\"     0    $    )          X   !(   "
+" !@    @    -          4    (    !0    $    !          8    4        W0(    !"
+"     0    L         #@   $@    &    \"     T         !0    @    %     0    $ "
+"        !@   !0       #= @    $    !    \"@         .    B     8    (    \"0 "
+"        %    \"     $   !8     0         \"    6      !24T     #@   $@    &  "
+"  \"     (         !0    @    !     0    $         !0 $  <    !    !P   &AA;F"
+"1L90  #@         "
+  }
+}

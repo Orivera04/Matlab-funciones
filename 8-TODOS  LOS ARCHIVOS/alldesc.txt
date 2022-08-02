@@ -1,0 +1,445 @@
+Descriptions of the instructional m-files to accompany
+
+            Linear Algebra LABS with MATLAB, Second Edition
+
+                        by David R. Hill and David E. Zitarelli
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+   
+ DOCTOR                                          
+           Loads the data for doctorates awarded annually in 
+           mathematics to U.S. citizens. Column x contains the year,
+           column u contains the number of doctorates in mathematics
+           awarded to U.S. citizens annually, and w contains the 
+           percentage of doctorates who are women.
+ 
+           Use in the form   ==>  doctor  <==
+ 
+ 
+ DOTPROD   The dot product of two n-vectors x and y is computed.
+
+           The vectors can be either rows, columns, or matrices
+           of the same size.
+ 
+           Use in the form  ==>  dotprod(x,y)  <==
+ 
+  
+ EVECSRCH  Searching for eigenvectors of a 2 by 2 real matrix A.
+
+           Vectors x around the unit circle are used as 
+           input to the function F(x) = A*x. If x and F(x)
+           are parallel their images are retained otherwise
+           both input & output are erased. The vectors x 
+           such that x and F(x) are parallel can be returned
+           to the user in matrix VEC. If A has complex 
+           eigenvectors a message is displayed.
+ 
+           Use in the form  ==>  VEC = evecsrch(A)  <== or  
+                            ==>  evecsrch(A)  <== or
+                            ==>  evecsrch  <==
+ 
+           In the latter form the user will be prompted for input. 
+           A demo is available in this mode.
+ 
+
+ GSCHMIDT  The Gram-Schmidt process on the columns in matrix x.
+
+           The orthonormal basis appears in the columns of y
+           unless there is a second argument in which case y 
+           contains only an orthogonal basis. The second argument
+           can have any value.
+ 
+           Use in the form  ==> y = gschmidt(x)  <==  or
+                            ==> y = gschmidt(x,v)  <==
+ 
+
+ HIGHJUMP  Loads the Olympic data for the men's high jump.
+           Column x contains the date and column y the winning
+           height in inches.
+ 
+           Use in the form   ==>  highjump  <==
+ 
+ 
+ HOMSOLN  Find the general solution of a homogeneous system.
+
+          The routine returns a set of basis vectors for
+          the null space of Ax = 0. Use in the form
+ 
+                       ==>  ns = homsoln(A)  <==
+ 
+          If there is a second argument the general solution is
+          displayed. Use in the form
+ 
+                       ==>  homsoln(A,1)  <==
+ 
+          This option assumes that the general solution has at
+          most 10 arbitrary constants.
+  
+
+ IGRAPH  Creates the graph associated with an incidence matrix A.
+
+         The nodes are labeled and the edges drawn. It is assumed
+         that the graph is not directed (that is, all edges are
+         two way) and that the number of nodes is 9 or less. The 
+         intersection of edges that are not labeled is not 
+         considered a node of the graph. (Warning: the graph 
+         displayed may look different from the one you might 
+         construct by hand.)
+ 
+         Use in the form   ==>  igraph(A)  <==
+ 
+
+ INVERT   Compute the inverse of a matrix A by using the reduced
+          row echelon form applied to [A I]. If A is singular a
+          warning is given.
+ 
+          Use in the form   ==>  B = invert(A)  <==
+ 
+
+ LINCOMBO  Graphic game to express one vector as a linear
+           combination of two others. Geometrically 'size' a
+           parallelogram to force a vector to be its diagonal.
+           Sliders are used to change coefficients on the 'basis'
+           vectors. Coefficients can also be entered manually.  
+           There is an option to check your geometric solution.
+            
+           Use in the form    ==> lincombo  <==
+
+
+ LINEEXP  Line Experimenter                      
+ 
+          An interactive routine that lets you choose pairs of 
+          points for two lines using the mouse. Selection of
+          integer point values or decimal point values can be
+          made. Various experiments can be performed.
+  
+          Use in the form   ===>  lineexp   <===
+ 
+
+ LISUB  Find a linearly independent subset of vectors.
+
+        If code = 'r' the vectors are the rows of A.
+        If code = 'c' the vectors are the columns of A.
+        Any other value in code causes an error.
+        The routine returns a subset of linearly independent
+        vectors from the original set.
+ 
+        Use in the form  ==>  lisub(A,'r')  <== or 
+                         ==>  lisub(A,'c')  <==
+ 
+ 
+ LONGJUMP                                          
+           Loads the Olympic data for the men's long jump.
+           Column x contains the date and column y the winning
+           height in inches.
+ 
+           Use in the form   ==>  longjump  <==
+ 
+ 
+ LSQGAME Least Squares Line Game               
+ 
+      An interactive 'game' to select the least squares line
+      to a set of data. Two guesses for the lsq line can be made
+      using the mouse to select two points that are then connected.
+      The 'true' least squares line can be displayed. 
+      The sum of the squares of the vertical deviations from the 
+      corresponding line is computed and displayed.
+         
+      The data set for the 'game' can be entered using the mouse,
+      typed in as an n by 2 matrix, loaded from a previously
+      stored data set, or loaded by executing an m-file. In the 
+      latter two cases the data set must be an n by 2 matrix 
+      specifically named dmat. Upon quitting the game the data
+      set dmat can be saved for future use. 
+ 
+      Use in the form   ===>  lsqgame   <===
+ 
+
+ LSQLINE   This routine will construct the equation of the least
+           square line to a data set of ordered pairs and then
+           graph the line and the data set. A short menu of 
+           options is available, including evaluating the equation
+           of the line at points and displaying the deviations 
+           between the linear model and the data set.
+ 
+           Use in the form:  ==> lsqline  <==
+ 
+           You will be prompted for input.
+ 
+           On exit variable lsqcoeff contains the coefficients 
+           of the least squares line:
+ 
+                          y = c(1)*x + c(2)
+ 
+   
+ M1500run                                          
+           Loads the Olympic data for the men's 1500 meter run.
+           Column x contains the date and column y the winning times
+           in seconds.
+ 
+           Use in the form   ==>  m1500run  <==
+ 
+ 
+ MAPCIRC A 2 by 2 matrix A is used to map the unit circle.
+
+         The graphical behavior exhibited for various choices of A
+         can be studied. 
+ 
+         Use in the form  ==>  mapcirc(A)  <== or
+                          ==>  mapcirc(A,1)  <==
+                       (to display eigenvectors and their images)  
+                    or    ==>  mapcirc  <==
+ 
+         In the latter case you will be presented with a menu
+         of options.
+ 
+
+MATDAT1  Data set #1 for matrix operations             
+ 
+      Data are displayed and loaded. Memory is first cleared.
+ 
+      Use in the form:   ==> matdat1  <==
+ 
+
+MATDAT2  Data set #2 for matrix operations             
+ 
+      Data are displayed and loaded. Memory is first cleared.
+ 
+      Use in the form:   ==> matdat2  <==
+ 
+
+MATOPS  Screen aid that lists matrix operations.
+ 
+        Use in the form  ==>  matops  <==
+ 
+   
+MATVEC  (Matrix) * (vector) as a function operation.  
+
+        Function F(x) = A*x, where A is a 2 by 2 matrix 
+        is explored using the mouse to select an input 
+        vector from the unit circle. The input is shown
+        graphically as a radius of the circle. The output
+        is displayed as a linear combination of the columns
+        of A with 'weights' the components of the input 
+        vector. In addition the output vector is scaled so 
+        we can graph it in the unit circle. The components
+        of the scaled vector are displayed.
+ 
+        The graphical user interface is employed to make it
+        easy to investigate various ideas relative to this function.
+ 
+        Use in the form  ==>  matvec  <==
+        Follow the on-screen directions for input and the button 
+        labels for working with the function.
+ 
+
+MODN  Returns the remainder of x divided by n.
+      x can be a matrix. It is assumed n is a positive integer.
+ 
+      Use in the form ==> r = modn(x,n)  or  modn(x,n)  <==
+ 
+ 
+PLANELT   Demonstration of plane linear transformations:
+ 
+                Rotations              Reflections  
+          Expansions/Compressions      Shears
+ 
+          Or you may specify your own transformation.
+ 
+          Graphical results of successive plane linear
+          transformations can be seen using a multiple window
+          display. Standard figures can be chosen or you may
+          choose to use your own figure.
+ 
+          Use in the form  ==>  planelt  <==
+ 
+
+PROJECT  Projecting vector U onto vector W orthogonally. Vectors
+         U and W can be either a pair of 2D or 3D vectors. A sketch
+         showing U being projected onto W is displayed sequentially.
+ 
+         Use in the form  ==>  project(u,w)  <== or
+                          ==>  project  <==                
+ 
+         In the latter case a menu of options is presented.
+         One option is a demo which randomly selects 2D or 3D.
+ 
+
+PROJXY  Orthogonal projection of a 3-d vector onto the xy-plane. 
+ 
+        Developing the orthogonal projection of a 3D vector onto
+        the XY-plane through a series of plots that show the
+        projections onto the X & Y axes, forming a linear
+        combination of the axes projections, and displaying 
+        a vector orthogonal to the XY-plane using the original 
+        vector and its projection.
+        This routine can be used in the form
+ 
+                    ==>  projxy(u)  <==
+ 
+        where u is the 3D-vector to be projected, or in the form
+ 
+                    ==>  projxy     <==
+ 
+        which will prompt the user for vector input. Display 
+        options of full screen or subplots are available.   
+
+
+
+
+RATIONAL  A utility for courseware to implement the rational
+          format in a transparent way.
+ 
+          Use in the form     ==>   rational(A)  <==
+          where A is a matrix.
+ 
+
+REDUCE  Perform row reduction on matrix A by explicitly choosing
+        row operations to use. A row operation can be "undone", but
+        this feature cannot be used in succession.
+ 
+        Use in the form ==>  reduce(A)  <==
+ 
+
+ROWECH   Practice forming the reduced row echelon form of matrix A.
+
+         The user chooses row operations to transform A to reduced
+         row echelon form. Hints, help, and checks are available.
+         Intermediate steps can be checked for
+              ** leading 1's
+              ** if a leading 1 is in a column of the proper form
+              ** rows with leading 1's form a staircase downward
+                 to the right
+              ** zero rows appear last
+         A total check for correctness is also available.
+ 
+         Use in the form   ==>  rowech(A)  <==
+ 
+
+ROWOP   Perform row reduction on real matrix A by explicitly 
+        choosing row operations to use. A row operation can be 
+        "undone", but this feature cannot be used in succession.
+        Matrices can be at most 6 by 6.
+ 
+        Use in the form ===>  rowop  <===
+ 
+        If the matrix A is complex, the routine REDUCE is called.
+ 
+
+RREFQUIK  This function is equivalent to RREF, except it has been
+          made into a "movie" to show the progress of the 
+          calculation.
+          Use in the form  ==> rrefquik(A) <==
+ 
+
+RREFSTEP Reduced row echelon form of matrix A is computed          
+         step-by-step. At each step a message is displayed
+         which describes the action to be taken. You may either     
+         perform the action and see the result or request an
+         explanation of why the action is to be taken. This 
+         routine is for small matrices and is to be used for 
+         developing skills in obtaining the reduced row echelon
+         form of a matrix. Rational or real display format can be 
+         chosen.
+ 
+         Use in the form  ===>   rrefstep(A)      <===
+ 
+
+RREFVIEW  Finds the reduced row echelon form of matrix A showing 
+          the steps in the form of a movie. All steps are performed 
+          automatically. The pivots are chosen as the first nonzero
+          value from the eligible entries. An option for rational
+          display is available.
+ 
+          Use in the form  ==>    rrefview(A)      <== 
+
+
+SYMROWOP  Perform row reduction on symbolic matrix A by explicitly 
+          choosing row operations to use. A row operation can be 
+          "undone", but this feature cannot be used in succession. 
+          Matrices can be at most 5 by 5.
+ 
+          If a row operation involves the multiplication by a 
+          reciprocal a warning is issued that the routine assumes 
+          that the denominator is not zero. This must be 
+          acknowledged by clicking on a continue button. After 
+          acknowledging, finish input of row operation information 
+          to have the row operation performed.
+ 
+          Restriction: multipliers can not reference entries by 
+          location. That is, 1/A(2,3) can not be used. You must 
+          explicitly enter the contents of the entry.
+ 
+          Use in the form ===>  symrowop  <===
+ 
+          This routine requires the Symbolic Math Toolbox.
+
+
+SYMRREF  Symbolic reduced row echelon form.
+
+         The input matrix A must be symbolic or an error message
+         is displayed. If a row operation of the form (1/k)*Row(i) 
+         is performed where k is symbolic a restriction that k is 
+         assumed not zero is recorded. The restrictions are 
+         displayed in matrix R when the routine is used in the
+         form  [B,R]=symrref(A).
+ 
+         Other forms are ===>  symrref(A)  or  B=symrref(A)  <===
+ 
+         This routine requires the Symbolic Math Toolbox.
+
+
+UBALL  Unit balls in 2-space or 3-space for vector norms.
+
+       A demonstration of the shape of the set of all vectors
+       in 2-space or 3-space whose norm is less than or equal
+       to 1. Input consists of selecting 2-space or 3-space, the 
+       number of trials, and the norm to be used. For instance
+       the 1, 2, 3, ... norms. To use the infinity norm enter 
+       inf as the input for the norm. EXPERIMENT!
+ 
+       Use in the form  ==> uball  <==
+ 
+       
+VAULTLSQ  A routine to show linearity in three 'eras' for
+          the men's Olympic pole vault event. A single picture
+          is produced.
+ 
+          This routine requires file pvault.mat which contains
+          the data for the pole vault event. The data is divided 
+          into subsets:
+ 
+                   Yr   Ht
+           Vectors x1 & y1 are the data for 1896 - 1924
+           Vectors x2 & y2 are the data for 1928 - 1960
+           Vectors x3 & y3 are the data for 1964 - 1988
+           Vectors x4 & y4 are the data for 1964 - 1992
+           Vectors x  & y  are the data for 1896 - 1988
+           Vectors xn & yn are the data for 1896 - 1992
+ 
+           Use in the form ==> vaultlsq  <==
+ 
+  
+VIZROWOP   Perform row operations on a 2 by 2 linear
+           system and see the corresponding graphics operation.
+           A row operation can be "undone", but this feature 
+           cannot be used in succession.
+  
+           Use in the form ==>  vizrowop  <==
+
+
+            
+
+W100DASH  Loads the Olympic data for the women's 100 meter dash.
+          Column x contains the date and column y the winning times
+          in seconds.
+ 
+          Use in the form   ==>  w100dash  <==
+ 
+
+W100FREE  Loads the Olympic data for the women's 100-meter 
+          freestyle swimming competition. Column x contains
+          the date and column y the winning times in seconds.
+ 
+          Use in the form   ==>  w100free  <==
+ 

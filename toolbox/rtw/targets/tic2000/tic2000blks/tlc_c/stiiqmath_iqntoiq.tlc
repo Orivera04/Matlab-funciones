@@ -1,0 +1,47 @@
+%% $RCSfile: stiiqmath_iqntoiq.tlc,v $
+%% $Revision: 1.1.6.2 $ $Date: 2004/04/08 21:00:01 $
+%% Copyright 2003-2004 The MathWorks, Inc.
+%%
+%% Abstract: TI C28x IQmath library "IQNtoIQ" (optimized IQ function)
+
+%implements stiiqmath_iqntoiq "C"
+
+%include "fix_published.tlc"
+
+
+%% Function: BlockTypeSetup ==============================================
+%function BlockTypeSetup(block, system) void
+    %<LibAddToCommonIncludes("<IQmathLib.h>")>
+%endfunction %% BlockTypeSetup
+
+
+%% Function: Outputs ==========================================================
+%%
+%function Outputs(block, system) Output
+	%assign INPORT_A = 0
+	%assign OUTPORT_Y  = 0
+	
+	%assign dataTypeIdA = LibBlockInputSignalDataTypeId(INPORT_A)
+	%assign QA = FixPt_DataTypeFractionLength( block, dataTypeIdA )
+	
+	%assign dataTypeIdY = LibBlockOutputSignalDataTypeId(OUTPORT_Y)
+	%assign QY = FixPt_DataTypeFractionLength( block, dataTypeIdY )
+	
+	%assign diff1 = %<QY> - %<QA>
+	%assign diff2 = %<QA> - %<QY>
+
+	/* C28x IQmath Library (%<ParamSettings.FunctionName>) - '%<Name>' */
+	{
+	    %assign rollVars = ["U", "Y"]
+        %roll idx = RollRegions, lcv = RollThreshold, block,"Roller", rollVars
+			%if (%<diff1> >= 0)
+                 %<LibBlockOutputSignal (0, "", lcv, idx)> = (long)(%<LibBlockInputSignal (0, "", lcv, idx)> << %<diff1>);
+			%else
+                 %<LibBlockOutputSignal (0, "", lcv, idx)> = (long)(%<LibBlockInputSignal (0, "", lcv, idx)> >> %<diff2>);
+			%endif
+        %endroll
+	}
+  
+%endfunction
+
+%% [EOF] stiiqmath_iqntoiq.tlc

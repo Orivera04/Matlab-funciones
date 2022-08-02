@@ -1,0 +1,67 @@
+# File: toolbox/rtw/targets/mpc555dk/rt_makefile
+#
+# Abstract:
+#   Top level makefile to build all code associated with 
+#   real-time standalone target
+#
+# $Revision: 1.13.2.5 $
+# $Date: 2004/04/19 01:30:37 $
+#
+# Copyright 2001-2003 The MathWorks, Inc.
+
+##############################################################
+ifndef MAKEVARS_MPC_DEFINED
+  include rt_makevars.mk
+endif
+
+##############################################################
+# Define local symbols
+##############################################################
+MPC555RT_MAKEDIR     = $(DIAB_ERT_ROOT)/blockset/tlc_c
+DRIVERS_MAKEDIR      = $(MPC555_DRIVERS_ROOT)
+
+##############################################################
+# TARGETS
+##############################################################
+ALLTARGETS = MPC555RT DRIVERS
+ALLTARGETS_clean = MPC555RT_clean  DRIVERS_clean
+
+.PHONY: INFO $(ALLTARGETS) $(ALLTARGETS_clean) clean
+
+INFO :
+	@echo @
+	@echo @ MPC555RT_ROOT : $(DIAB_ERT_ROOT)
+	@echo @ DRIVERS_ROOT  : $(MPC555_DRIVERS_ROOT)
+	@echo @ DIABROOT      : $(DIABROOT)
+	@echo @
+
+MPC555RT:
+	$(MAKE) -C $(MPC555RT_MAKEDIR) -f makefile
+	@echo *** [$@] complete ***
+
+#######################################################
+#
+# DRIVERS Rule
+# Call the makefile like
+#
+# make -f rt_makefile DRIVERS MPC555_TOOL_CHAIN=CODE_WARRIOR
+# 
+DRIVERS:
+ifdef MPC555_TOOL_CHAIN
+	$(MAKE) -C $(DRIVERS_MAKEDIR) -f makefile MPC555_TOOL_CHAIN=$(MPC555_TOOL_CHAIN)
+	@echo *** [$@] complete ***
+else 
+	$(error MPC555_TOOL_CHAIN must be set to either DIAB or CODE_WARRIOR)
+endif
+
+clean: $(ALLTARGETS_clean)
+	@echo *** Completed process: [$@]
+
+MPC555RT_clean:
+	$(MAKE) -C $(MPC555RT_MAKEDIR) -f makefile clean
+	@echo *** [$@] complete ***
+
+DRIVERS_clean:
+	$(MAKE) -C $(DRIVERS_MAKEDIR) -f makefile clean MPC555_TOOL_CHAIN=CODE_WARRIOR
+	$(MAKE) -C $(DRIVERS_MAKEDIR) -f makefile clean MPC555_TOOL_CHAIN=DIAB
+	@echo *** [$@] complete ***

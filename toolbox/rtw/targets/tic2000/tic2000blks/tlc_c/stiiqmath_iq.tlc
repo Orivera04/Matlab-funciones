@@ -1,0 +1,35 @@
+%% $RCSfile: stiiqmath_iq.tlc,v $
+%% $Revision: 1.1.6.2 $ $Date: 2004/04/08 20:59:49 $
+%% Copyright 2003-2004 The MathWorks, Inc.
+%%
+%% Abstract: TI C28x IQmath library "IQ" (optimized IQ function)
+
+%implements stiiqmath_iq "C"
+
+%include "fix_published.tlc"
+
+
+%% Function: BlockTypeSetup ==============================================
+%function BlockTypeSetup(block, system) void
+    %<LibAddToCommonIncludes("<IQmathLib.h>")>
+%endfunction %% BlockTypeSetup
+
+
+%% Function: Outputs ==========================================================
+%%
+%function Outputs(block, system) Output
+	%assign OUTPORT_Y  = 0
+	%assign dataTypeIdY = LibBlockOutputSignalDataTypeId(OUTPORT_Y)
+	%assign fractionLengthY = FixPt_DataTypeFractionLength( block, dataTypeIdY )
+
+	/* C28x IQmath Library (%<ParamSettings.FunctionName>) - '%<Name>' */
+	{
+		%assign rollVars = ["U", "Y"]
+		%roll idx = RollRegions, lcv = RollThreshold, block,"Roller", rollVars
+			%<LibBlockOutputSignal (0, "", lcv, idx)> = _IQ%<fractionLengthY> (%<LibBlockInputSignal (0, "", lcv, idx)>);
+		%endroll
+	}
+  
+%endfunction
+
+%% [EOF] stiiqmath_iq.tlc

@@ -1,0 +1,5 @@
+a = reshape(1:12,3,4)
+p=prod(a)
+p=prod(a,2)
+s=sum(a)
+t=trapz(a)

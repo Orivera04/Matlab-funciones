@@ -1,0 +1,35 @@
+%% File: osekenv.tlc
+%% Abstract:
+%%   OSEK specific TLC environment checking and setting routines.
+%%
+%% $Revision $
+%% $Date: 2004/04/19 01:31:01 $
+%%
+%% Copyright 2002-2003 The MathWorks, Inc.
+
+%if EXISTS("_OSEKENVLIB_") == 0
+%assign _OSEKENVLIB_ = 1
+
+%assign sep = "%<CompiledModel.PathInfo.PATH_SEP>"
+%assign tgt_root = "%<CompiledModel.PathInfo.TARGET_ROOT_DIR>"
+%addincludepath "%<tgt_root>%<sep>..%<sep>common%<sep>configuration%<sep>environment" 
+%include "env.tlc"
+
+%% child class constructor
+%function osek_set_env() void
+    %% call parent constructor
+    %<set_env("osek")>
+    %% init subclass specific member
+    %assign sep = "%<CompiledModel.PathInfo.PATH_SEP>"
+    %assign tgt_root = "%<CompiledModel.PathInfo.TARGET_ROOT_DIR>"
+    %assign CompiledModel.osek.tlc_file_ptr = "%<tgt_root>%<sep>osek%<sep>osekenv.tlc"
+    %assign CompiledModel.osek.chk_env_ptr = "osek_chk_env"
+%endfunction
+
+%% child tlc function
+%function osek_chk_env() void
+    %% insert subclass specific check here
+    %return TLC_TRUE
+%endfunction
+
+%endif %%_OSEKENVLIB_

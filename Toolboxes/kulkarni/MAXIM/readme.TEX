@@ -1,0 +1,727 @@
+*******************************************
+*                                         * 
+*                  MAXIM                  *
+*                                         *  
+*******************************************
+
+
+       
+1. Introduction
+
+
+
+MAXIM is a collection of MATLAB programs (m-files) intended to be used with the book ``Modeling, Analysis, Design and Control of Stochastic Systems'' by V G Kulkarni. These files were created by using MATLAB version 5.0, and use no special MATLAB toolboxes. These M-files are User Contributed Routines which are being redistributed by The MathWorks, upon request, on an "as is" basis. A User Contributed Routine is not a product of The MathWorks, Inc. and The MathWorks assumes no responsibility for any errors that may exist in these routines. 
+
+User questions and comments can be directed to 
+         +--------------------------------------+
+         *   V G Kulkarni                       *
+         *   Department of Operations Research  *
+         *   University Of North Carolina       *
+         *   Chapel Hill, NC 27707              *
+         *   email: vkulkarn@email.unc.edu      *
+         +--------------------------------------+
+The user may modify the files for personal use, but then must change the name of the file. Also, the user is not permitted to sell the software after modifying it. If the software is used for commercial or academic purposes, it should be properly acknowledged. 
+
+The user should put all these m-files in a directory called maxim. Then, assuming maxim resides in the root directory in c: drive, the user should type 
+path(path,'C:\maxim')
+in the beginning in MATLAB before using these files. A brief description of the programs follows.
+
+
+
+2. Probability
+
+
+
+MAXIM can compute the distributions of discrete and continuous random variables as described below.
+
+2.1 Binomial Cumulative Distribution Function
+Usage: y=bincdf(n,p)
+Input: n a non-negative integer;  0 <= p <= 1.
+Output: y(i) = P(X <= i-1), i=1,2,...,n+1, where X is a  Binomial(n,p) rv.
+
+2.2 Binomial Probability Mass Function
+Usage:  y=binpmf(n,p)
+Input: n >= 0, integer; 0 <= p <= 1.
+Output: y(i) = P(X = i-1),  i=1,...n+1, where X  is a  Binomial(n,p) rv.
+
+2.3 Erlang Cumulative Distribution Function
+Usage:  y=erlangcdf(k,l,x)
+Input: k >= 1, integer; l >= 0, x is a row vector.
+Output: y(i) =  F(x(i)), where F is an Erlang(k,l) cdf. 
+
+2.4 Plot of Erlang Cumulative Distribution Function
+Usage:  erlangcdfplot(k,l,x),
+Input: k >= 1, integer; l >= 0; x is a row vector.
+Output: Plot of the cdf of Eralng(k,l) (y vs. x).
+ 
+2.5 Eralng Probability Density Function
+Usage:  y=erlangpdf(k,l,x)
+Input: k >= 1, integer; l >= 0, x is a non-negative row vector.
+Output: y(i) =f(x(i)), where f is an Erlang(k,l) pdf.
+
+2.6 Plot of Erlang Probability Density Function
+Usage:  erlangpdfplot(k,l,x),
+Input: k >= 1, integer; l >= 0, x is a row vector.
+Output: Plot of the pdf of Eralng(k,l) (y vs. x).
+
+2.7 Exponential Cumulative Distribution Function
+Usage:  y=expcdf(l,x)
+Input: l >= 0, x is a non-negative row vector.
+Output: y(i) =  F(x(i)), where F is an Exp(l) cdf. 
+
+2.8 Plot of Exponential Cumulative Distribution Function
+Usage:  expcdfplot(l,x),
+Input: l >= 0, x is a row vector.
+Output: Plot of the cdf of exp(l) (y vs. x). 
+
+2.9 Exponential Probability Density Function
+Usage:  y=exppdf(l,x)
+Input:  l >= 0 , x is a row vector.
+Output: y(i) =f(x(i)), where f is an Exp(l) pdf.
+
+2.10 Plot of Exponential Probability Density Function
+Usage:  exppdfplot(k,l,x),
+Input: l >= 0, x is a row vector.
+Output: Plot of the pdf of exp(l) (y vs. x). 
+
+2.11 Geometric Cumulative Distribution Function
+Usage:  y=geometriccdf(p,k)
+Input: k >= 1, integer; 0 <= p <= 1.
+Output: y(i) = P(X <= i),  i=1,2,...,k, where X  is a Geometric(p) rv.
+
+2.12 Geometric Probability Mass Function
+Usage:  y=geometricpmf(p,k)
+Input: k >= 1, integer; 0 <= p <= 1.
+Output: y(i) = P(X = i),  i=1,...k, where X is a  Geometric(p) rv.
+
+2.13 Negative Binomial Cumulative Distribution Function
+Usage:  y=negbincdf(r,p,k)
+Input: r,k >= 1, integer; 0 <= p <= 1.
+Output: y(i) = P(X <= i),  i=r,r+1,...,r+k, where X  is a Negative Binomial(r,p) rv.
+
+2.14 Negative Binomial Probability Mass Function
+Usage:  y=negbinpmf(r,p,k)
+Input: r,k >= 1, integer; 0 <= p <= 1.
+Output: y(i) = P(X = i),  i=r,r+1,...,r+k, where X  is a  Negative Binomial(r,p) rv.
+
+2.15  Normal Cumulative Distribution Function
+Usage:  y=normalcdf(m,s,x)
+Input: s >= 0, x is a row vector.
+Output: y(i) =  F(x(i)), where F is an Normal(m,s) cdf, with mean  m and variance s. 
+
+2.16 Plot of Normal Cumulative Distribution Function
+Usage:  normalcdfplot(m,s,x),
+Input: s >= 0, x is a row vector.
+Output: Plot of the cdf of Normal(m,s) (y vs. x). 
+
+2.17 Normal Probability Density Function
+Usage:  y=normalpdf(m,s,x)
+Input:  s >= 0 , x is a row vector.
+Output: y(i) =f(x(i)), where f is an Normal(m,s) pdf, with mean m and variance s. 
+
+2.18 Plot of Normal Probability Density Function
+Usage:  normalpdfplot(m,s,x)
+Input: s >= 0, x is a row vector
+Output: Plot of the pdf of Normal(m,s) (y vs. x). 
+
+2.19 Poisson Cumulative Distribution Function
+Usage:  y=poissoncdf(l,k)
+Input: 0 <= l <= 700.
+Output: y(i) = P(X <= i-1),  i=1,2,...,k+1, where X is a  Poisson(l) rv.
+ 
+2.20 Poisson Probability Mass Function
+Usage:  y=poissonpmf(l,k)
+Input:  0 <= l <= 700.
+Output: y(i) = P(X = i-1),  i=1,...k+1, where X  is a Poisson(l) rv.
+ 
+
+
+3. Discrete Time Markov Models
+
+
+MAXIM includes 7 m-files for the computational analysis of Discrete Time Markov Chains. It also includes 12 m-files that generate special Discrete Time Markov Models.
+
+3.1 Transient Distribution.
+Usage:  y = dtmctd(a,n,P).
+Input: P must be  a square stochastic matrix of size N by N. a must be  a row vector of length N, representing the distribution of the initial state. n is a non-negative integer.  
+Output: y(i) = P(X_n = i),  1 <= i <= N, where X_n, n >= 0 is a DTMC with transition probability matrix P and initial distribution a.
+
+3.2 Time Plot of Transient Distribution.
+Usage:  y = dtmctdplot(a,j,NN,P).
+Input: P must be a square stochastic matrix of size N by N. a must be  a row vector of length N, representing the distribution of the initial state. NN is a non-negative integer. 1 <= j <= N, an integer. 
+Output: y(n) = P(X_n-1 = j),  1 <= n <= NN+1, where X_n, n >= 0 is a DTMC with transition probability matrix P and initial distribution a. Also produces a plot y against the time axis.
+
+3.3  Occupancy Times.
+Usage:  M = dtmcot(P,n).
+Input: P must a square stochastic matrix of size N by N. n >= 0 an integer. 
+Output: M(i,j) = the expected number of visits to state j starting from state i by a DTMC X_n, n >= 0 with transition probability matrix P.
+
+3.4 Limiting Distribution and Occupancy Distribution.
+Usage:  y = dtmcod(P).
+Input: P must an aperiodic irreducible square stochastic matrix of size N by N. 
+Output:  y(i) = limit as n goes to infinity of P(X_n = i),  1 <= i <= N, where X_n, n >= 0 is an irreducible aperiodic DTMC with transition probability matrix P. If the DTMC is periodic y is the occupancy distribution of \X.
+
+3.5 Total Cost.
+Usage:  y = dtmctc(P,c,n).
+Input: P must a square stochastic matrix of size N by N, c is column vector of length N, n >= 0 is an integer. c must be a column vector of length N. 
+Output:  y(i) is the total expected cost incurred over time 0 through n staring in state i, for a DTMC X_n, n >= 0 with a transition probability matrix P, and that incurs an expected cost c(i) every time it visits state i.
+ 
+3.6 Long-run Cost Rate.
+Usage:  y = dtmclrc(P,c).
+Input: P must an irreducible square stochastic matrix of size N by N, c is column vector of length N. 
+Output:  y is the long-run expected cost per unit time for a DTMC X_n, n >= 0 with a transition probability matrix P, and that incurs an expected cost c(i) every time it visits state i.
+ 
+3.7 First Passage Times.
+Usage:  y = dtmcfpt(T,P).
+Input: P must a stochastic matrix of size N by N , T is row vector representing the set of target states. 
+Output:  y=[y0 y1 y2], where y0, y1, and y2 are column vectors.  [y1(i) y2(i)] is the [mean,  second moment] of the first passage time to visit any of the states in the target set of states T, starting in a non-target state y0(i) for a DTMC X_n, n >= 0 with a transition probability matrix P.
+
+3.8 Machine Reliability
+Usage:  P=ex5mr(uu,dd,k,r).
+Input: uu = P(up|up); 
+dd = P(down|down);
+k = number of machines;
+r = number of repair persons.
+Output: P = transition  probability matrix for the machine reliability problem. (See Example 5.4)
+  
+3.9 Machine Reliability Cost Model
+Usage:  c=ex5mrcost(uu,dd,k,r,ru,cd,cbr)
+Input: uu = P(machine is up tomorrow|it is up today); 
+dd = P(machine is down tomorrow|it is down today);
+k = number of machines;
+r = number of repair persons;
+ru = per day revenue of an up machine;
+cd = per day cost of a down machine;
+cbr =  per day cost of a busy repair person. 
+Output: c(i) = one day cost if i machines are working at the beginning of the day.
+
+3.10 Inventory Systems
+Usage:  P=ex5inv(s,S,y).
+Input: s = base stock level (stock not allowed to go below this level); 
+S = Restocking level;
+y = row vector of the pmf of weekly demand.
+Output: P = transition  probability matrix for the inventory system problem. (See Example 5.6)
+  
+3.11 Inventory Systems Cost Model
+Usage:  c=ex5invcost(s,S,y,hc,ps,oc)
+Input: s =  base stock level (stock not allowed to go below this level); 
+S = Restocking level;
+y = row vector of the pmf of weekly demand;
+hc =  cost of holding one item for one unit of time;
+ps =  profit from selling one item;
+oc =  cost of placing an order;
+Output: c(i) = expected cost in the current period if the inventory at the beginning is i.
+
+3.12 Manpower Systems
+Usage:  P=ex5manp(p,l,a).
+Input: p a row vector, p(i) =  probability of promotion from grade i to i+1. 
+l = a row vector of the same length as p,  l(i) =  probability of leaving from grade i.
+a = row vector, a(i) = probability that a new employee joins grade i.
+Output: P = transition  probability matrix for the manpower system problem. (See Example 5.8)
+
+3.13 Manpower Systems Cost Model
+Usage:  c=ex5manpcost(p,l,a,s,b,d,t)
+Input: p a row vector, p(i) =  probability of promotion from grade i to 
+i+1. The last element of p must be zero. 
+l = a row vector of the same length as p, l(i) =  probability of leaving 
+from grade i.
+a = row vector, a(i) = probability that a new employee joins grade i. Must be a valid pmf.
+s = a row vector, s(i) = salary of an employee in grade i.
+b = a row vector, b(i) = bonus for promotion from grade i to i+1. The last element of b must be zero.
+d =  a row vector, d(i) = cost of an employee departing from grade i.
+t = a row vector, t(i) = cost of training an employee staring in grade i.
+Output: c = a column vector, c(i) = expected one-period cost in state i. 
+
+3.14 Manufacturing Systems
+Usage:  P=ex5mfg(A,B,a1,a2).
+Input: A = size of the bin for machine 1;
+B = size of the bin for machine 2;
+a1 = prob(non-defective) for machine 1;
+a2 = prob(non-defective) for machine 2.
+Output: P = transitrion probability matrix for the manufacturing system. (See Example 5.7.)
+
+3.15 Manufacturing Systems Cost Model
+Usage:  c=ex5mfgcost(A,B,a1,a2,r,du,hA,hB)
+Input: A = size of bin for machine 1;
+B = size of bin for machine 2;
+a1 = prob(non-defective) for machine 1;
+a2 = prob(non-defective) for machine 2.
+r =  revenue from a complete assembly;
+du = cost of turning a machine on;
+hA = cost of holding an item in bin A for one period;
+hB = cost of holding an item in bin B for one period;
+Output: c = column vector, c(i) = expected one-period cost in state i.
+ 
+3.16 Stock Market
+Usage:  P=ex5stock(L,U).
+Input: L = Lower bound for the stock price,
+U = Upper bound for the stock price.
+Output: P = transition  probability matrix for the stock market. (See Example 5.9.)
+
+3.17 Telecommunications.
+Usage:  P=ex5tel(K,a).
+Input: K = buffer capacity,
+a = row vector, a(i) =  p(i-1 packets arrive during one time slot).
+Output: P = transition  probability matrix for the Telecommunications system. (See  Example 5.10.)
+
+3.18 Telecommunications Cost Model
+Usage:  c=ex5telcost(K,a,rt,cl)
+Input: K = buffer capacity,
+a = row vector, a(i) =  p(i-1 packets arrive during one time slot). a must be a valid pmf.
+rt =  revenue from transmitting a single packet,
+cl =  cost of losing a single packet.
+Output: c = column vector, c(i) =  expected cost in one slot if there are i-1 packets in the buffer at the end of the previous slot, 1 <= i \<= K+1.
+
+3.19 Weather Model.
+Usage:  y = ex5wea.
+Output: The 3X3 matrix of the weather model of Example 5.5. 
+
+
+4. Continuous Time Markov Models
+
+
+MAXIM includes 8 m-files for the computational analysis of Continuous Time Markov Chains. It also includes 15 m-files that generate special Continuous Time Markov Models.
+
+
+4.1 Transition Matrix.
+Usage:  B = ctmctm(a,t,R).
+Input: R must a square matrix of size N by N, with zeros on the diagonal, and non-negative numbers on the off-diagonal entries. a must be  a row vector of length N, representing the distribution of the initial state. t is a non-negative real number.  
+Output: B(i,j) = P(X(t) = j|X(0)=i),  1 <= i,j <= N, where {X(t), t >= 0} is a CTMC with rate matrix R and initial distribution a. Uses uniformization algorithm with error tolerance of .00001.
+
+4.2 Transient Distribution.
+Usage:  y = ctmctd(a,t,R).
+Input: R must a square matrix of size N by N, with zeros on the diagonal, and non-negative numbers on the off-diagonal entries. a must be  a row vector of length N, representing the distribution of the initial state. t is a non-negative real number.  
+Output: y(i) = P(X(t) = i),  1 <= i <= N, where {X(t), t >= 0} is a CTMC with rate matrix R and initial distribution a. Uses uniformization algorithm with error tolerance of .00001.
+
+4.3 Time Plot of Transient Distribution.
+Usage:  y = ctmctdplot(a,j,T,R).
+Input: R must a square matrix of size N by N, with zeros on the diagonal, and non-negative numbers on the off-diagonal entries. a must be  a row vector of length N, representing the distribution of the initial state, j is an integer between 1 and N, T is a non-negative real number. 
+Output: y(i) = P(X(T*(i-1)/20) = j),  1 <= i <= 21, where {X(t), t >= 0} is a CTMC with rate matrix R and initial distribution a. Also produces a plot y against the time axis.
+
+4.4 Matrix of Occupancy Times.
+Usage:  M = ctmcom(R,t).
+Input:  R must a square matrix of size N by N, with zeros on the diagonal, and non-negative numbers on the off-diagonal entries. t is a non-negative real number. 
+Output: M(i,j) = the expected time spent in  state j starting from state i during [0,t] by a CTMC {X(t), t >= 0} with rate matrix R.
+
+4.5 Limiting Distribution and Occupancy Distribution.
+Usage:  y = ctmcod(R).
+Input: R must an irreducible square matrix of size N by N, with zeros on the diagonal, and non-negative numbers on the off-diagonal entries. 
+Output:  y(i) = limit as t goes to infinity of  P(X(t) = i),  1 <= i <= N, where {X(t), t >= 0} is an irreducible CTMC with rate matrix R.
+ 
+4.6 Total Cost.
+Usage:  y = ctmctc(R,c,t).
+Input: R must a square matrix of size N by N, with zeros on the diagonal, and non-negative numbers on the off-diagonal entries. c must be a column vector of length N, t is non-negative real number. 
+Output:  y(i) is the total expected cost incurred over [0,t] staring in state i, for a CTMC {X(t), t >= 0} with rate matrix R, and that incurs cost at rate  c(i) per unit  time it spends in state i.
+ 
+4.7 Long-run Cost Rate.
+Usage:  y = ctmclrc(R,c).
+Input: R must a square matrix of size N by N, with zeros on the diagonal, and non-negative numbers on the off-diagonal entries. c must be a column vector of length N. 
+Output:  y is the long-run expected cost per unit time for a CTMC {X(t), t >= 0}  with rate matrix R, and that incurs cost at rate  c(i) per unit  time it spends in state i.
+ 
+4.8 First Passage Times.
+Usage:  y = ctmcfpt(T,R).
+Input: R must a square matrix of size N by N, with zeros on the diagonal, and non-negative numbers on the off-diagonal entries. T is row vector representing the set of target states. 
+Output:  y=[y0 y1 y2], where y0, y1, and y2 are column vectors.  [y1(i) y2(i)] is the [mean, second moment] of the first passage time to visit any of the states in the target set of states T, starting in a non-target state y0(i) for a CTMC {X(t), t >= 0} with a rate matrix R.
+ 
+4.9 Call Center
+Usage:  R = ex6ars(l,m,M,H).
+Input: l =  call arrival rate per hour;
+m =  number of calls served by one server per hour;
+M = number of reservation clerks;
+H =  number of calls that can be put on hold.
+Output: R is the rate matrix for the Call Center of Example  6.12.
+
+4.10 Call Center Cost Model
+Usage:  c = ex6cccost(l,m,M,H,r,h)
+Input: l =  call arrival rate per hour;
+m =  number of calls served by one server per hour;
+M = number of reservation clerks;
+H =  number of calls that can be put on hold;
+r =  revenue from one call;
+h = cost per unit time of putting a call on hold.
+Output: c = column vector, c(i) = cost rate when there are i calls in the system. 
+
+4.11 Finite Birth and Death Process.
+Usage:  R = ex6fbd(l,m).
+Input: l =  row vector of birth rates,
+m =  row vector of death rates. (same size as l).
+Output: R is the rate matrix for the Finite Birth and Death Process of  of Example  6.10.
+
+4.12 General Machine Shop.
+Usage:  R = ex6gms(l,m,N,M).
+Input: l =  repair rate,
+m =  failure rate,
+N = number of machines,
+M = number of repair persons.
+Output: R is the rate matrix for the General Machine Shop of Example  6.7.
+
+4.13 General Machine Shop Cost Model
+Usage:  c = ex6gms(l,m,N,M,r,dc,rc)
+Input: l =  repair rate,
+m =  failure rate,
+N = number of machines,
+M = number of repair persons,
+r = revenue per working machine per unit time,
+dc = cost per unit time per down machine,
+rc = cost per unit time per machine under repair,
+Output: c(i) is the cost rate in state i for the General Machine Shop of Example  6.7.
+ 
+4.14 Inventory Management.
+Usage:  R = ex6inv(l,m,k,r).
+Input: l =  arrival rate of deliveries,
+m =  arrival rate of demands,
+k = base stock (order if stock goes below k),
+r = order size.
+Output: R is the rate matrix for the Inventory Management System of Example  6.14.
+
+4.15 Inventory Management Cost Model
+Usage:  c = ex6invcost(l,m,k,r,hc,oc,rev)
+Input: l =  arrival rate of deliveries,
+m =  arrival rate of demands,
+k = base stock (order if stock goes below k),
+r = order size.
+hc = holding cost per machine per unit time;
+oc = cost of placing an order;
+rev = net revenue from selling a machine;
+Output: c(i) is the cost rate in state i  for the Inventory Management System of Example  
+6.14.
+
+4.16 Manufacturing System.
+Usage:  R = ex6inv(l,m,k,K).
+Input: l =  production rate,
+m =  demand rate,
+k = the machine is turned on when the inventory decreases to k,
+K = storage capacity.
+Output: R is the rate matrix for the Manufacturing System of Example  6.15.
+Note: States (i,1) are numbered i+1, for 0 <= i < K, and states (i,0) are numbered 2*K-i+1, for k+1 <= i <= K.
+
+4.17 Manufacturing System Cost Model
+Usage:  c = ex6mfgcost(l,m,k,K,rev,hc,du)
+Input: l =  production rate,
+m =  demand rate,
+k = the machine is turned on when the inventory decreases to k,
+K = storage capacity,
+rev =  net revenue from selling an item,
+hc = cost of holding an item for one unit of time,
+du = cost of turning the machine on.
+Output: c(i) is the cost rate in state i for the Manufacturing System of Example  6.15.
+Note: States (i,1) are numbered i+1, for 0 <= i < K, and states (i,0) are numbered 2*K-i+1, for k+1 <= i <= K.  
+ 
+4.18 Single Server Queue
+Usage:  R = ex6ssq(l,m,K).
+Input: l =  arrival rate,
+m =  service rate,
+K = capacity.
+Output: R is the rate matrix for the Single Server Queue of Example  6.9.
+
+4.19 Single Server Queue Cost Model
+Usage:  c = ex6ssqcost(l,m,K,hc,lc,bc)
+Input: l =  arrival rate,
+m =  service rate,
+K = capacity,
+hc =  cost of holding a customer for one unit of time,
+lc =   cost of losing a customer,
+bc =  cost of keeping the server busy for one unit of time.
+Output: c(i) is the cost rate in state i for the Single Server Queue of Example  6.9.
+
+
+4.20 Telephone Switch.
+Usage:  R = ex6tel(l,m,K).
+Input: l =  call arrival rate,
+m =  call completion rate,
+K = switch capacity.
+Output: R is the rate matrix for the Telephone Switch  of Example  6.11.
+
+4.21 Telephone Switch Cost Model
+Usage:  c = ex6tel(l,m,K,hc,lc)
+Input: l =  call arrival rate,
+m =  call completion rate,
+K = switch capacity,
+hc = cost per unit time of holding a call,
+lc =  cost of losing a call,
+Output: c(i) is the cost rate in state i for the Telephone Switch  of Example  6.11.
+
+4.21 Leaky Bucket.
+Usage:  R = ex6lb(l,m,D,M).
+Input: l =  packet arrival rate,
+m =  token generation rate,
+D = data buffer capacity,
+M = token buffer capacity.
+Output: R is the rate matrix for the Leaky Bucket   of Example  6.12.
+
+4.23 Airplane Reliability.
+Usage:  R = ex6ar(l).
+Input: l =  engine failure rate.
+Output: R is the rate matrix for the Airplane Reliability Model    of Example  6.8.
+
+
+ 
+5. Generalized Markov Models
+
+
+MAXIM includes 2 m-files for the computational analysis of Semi Markov Chains. It also includes 1 m-file that generates a special Semi Markov Models.
+
+5.1 Occupancy Distribution of an SMP.
+Usage:  y = smpod(P,w).
+Input: P must an irreducible stochastic square matrix of size N by N, w must be a column vector of length N with non-negative entries. 
+Output:  y(i),  1 <= i <= N, is the long run fraction  of the time an SMP with transition probability matrix P and sojourn time vector w spends in state i.
+
+5.2 Long-run Cost Rate for an SMP.
+Usage:  y = smplrc(P,w,c,d).
+Input: P must an irreducible stochastic square matrix of size N by N, w must be a column vector of length N with non-negative entries, c and d must be column vectors of length N. 
+Output:  y is the long-run expected cost per unit time for an SMP with transition probability matrix P, sojourn time vector w, and that incurs cost at rate  c(i) per unit  time it spends in state i and a lump sum cost d(i) every time it visits state i. 
+ 
+5.3 Series System
+Usage: [P,w] = ex7ser(N,v,tau)}
+Input: N = a positive integer;
+v =  a positive column vector of length N;
+tau =  a positive column vector of length N.
+Output:  P is the transition probability matrix and w is the sojourn time vector of the SMP representation of the series system of example 7.21.
+ 
+
+ 
+6. Queueing Models
+
+
+
+MAXIM includes 10 m-files for the computational analysis of Queueing Models. 
+
+
+6.1 M/M/1/K Queue.
+Usage:  y = mm1k(l,m,K,i).
+Input: l > 0, m > 0,  K >= 1 integer, 1 <= i <= 6, integer. 
+Output: Computes the performance of an M/M/1/K queue with arrival rate l, service rate m, and capacity K, as follows: 
+i = 1 --> y = mean number in system,
+i = 2 --> y = mean number in queue,
+i = 3 --> y = mean waiting time of entering customers,
+i = 4 --> y = mean queueing time of entering customers,
+i = 5 --> y(j) = P(j-1  in system),
+i = 6 --> y(j) = P(entering customer sees j-1 in system).
+
+6.2 M/M/s/K Queue.
+Usage:  y = mmsk(l,m,s,K,i).
+Input: l > 0, m > 0,  s, K >= 1 integers, 1 <= i <= 8, integer.
+Output: Computes the performance of an M/M/s/K queue with arrival rate l, service rate m, s servers, and capacity K, as follows: 
+i = 1 --> y = mean number in system,
+i = 2 --> y = mean number in queue,
+i = 3 --> y = mean waiting time of entering customers,
+i = 4 --> y = mean queueing time of entering customers,
+i = 5 --> y(j) = P(j-1  in system),
+i = 6 --> y(j) = P(entering customer sees j-1 in system),
+i = 7 --> y = mean number of busy servers in system, 
+i = 8 --> y = P(entering customer has to wait).
+
+6.3 M/M/K/K queue.
+Use the M/M/s/K program with s = K.
+
+6.4 M/M/1 Queue.
+Usage:  y = mm1(l,m,i).
+Input: l > 0, m > 0, 1 <= i <= 5, integer.
+Output: Computes the performance of an M/M/1 queue with arrival rate l, and service rate m, as follows: 
+i = 1 --> y = mean number in system,
+i = 2 --> y = mean number in queue,
+i = 3 --> y = mean waiting time of entering customers,
+i = 4 --> y = mean queueing time of entering customers,
+i = 5 --> y(j) = P(j-1  in system).
+
+6.5 M/M/s Queue.
+Usage:  y = mms(l,m,s,i).
+Input: l > 0, m > 0,  s >= 1 integer, 1 <= i <= 6, integer.
+Output: Computes the performance of an M/M/s queue with arrival rate l, service rate m, and s servers as follows: 
+i = 1 --> y = mean number in system,
+i = 2 --> y = mean number in queue,
+i = 3 --> y = mean waiting time of entering customers,
+i = 4 --> y = mean queueing time of entering customers,
+i = 5 --> y(j) = P(j-1  in system),
+i = 6 --> y = mean number of busy servers.
+
+6.6 M/M/infinity Queue.
+Usage:  y = mminf(l,m,i).
+Input: l > 0, m > 0,  1 <= i <= 6, integer.
+Output: Computes the performance of an M/M/infinity queue with arrival rate l, and service rate m as follows: 
+i = 1 --> y = mean number in system,
+i = 2 --> y = mean number in queue,
+i = 3 --> y = mean waiting time of entering customers,
+i = 4 --> y = mean queueing time of entering customers,
+i = 5 --> y(j) = P(j-1  in system),
+i = 6 --> y = mean number of busy servers.
+
+6.7 M/G/1 Queue.
+Usage:  y = mg1(l,m,s2,i).
+Input: l > 0, m > 0, s2 > 0,  1 <= i <= 5, integer.
+Output: Computes the performance of an M/G/1 queue with arrival rate l, and service times with mean m and variance s2, as follows: 
+i = 1 --> y = mean number in system,
+i = 2 --> y = mean number in queue,
+i = 3 --> y = mean waiting time of entering customers,
+i = 4 --> y = mean queueing time of entering customers,
+i = 5 --> y = P(server busy).
+
+6.8 Functional Equation for the G/M/1 queue.
+Usage:  y = funeq(i,x,m).
+Input: 1 <= i <= 6, integer, x depends upon i, m > 0.  
+Output: y is the solution in (0,1) to the key functional equation for the G/M/1 queue with service rate m, and inter arrival time distribution F with parameter x as given below:
+i = 1 --> F =  Exp(x),
+i = 2 --> F =  Erl(x(1), x(2)),
+i = 3 --> F = Hyperexp(x(1),x(2:x(1)+1),x(x(1)+2:2*x(1)+1)),
+i = 4 --> F =  constant(x),
+i = 5 --> F = discrete with pmf(x), x(i) = P(int. arr. time = i-1),
+i = 6 --> F = U(x(1),x(2)).
+
+6.9 G/M/1 Queue.
+Usage:  y = gm1(l,m,a,i).
+Input: l > 0, m > 0, 0 < a < 1,  1 <= i <= 6, integer.
+Output: Computes the performance of a G/M/1 queue with arrival rate l, service rate m, and the solution a to the key functional equation of the G/M/1 queue, as follows: 
+i = 1 --> y = mean number in system,
+i = 2 --> y = mean number in queue,
+i = 3 --> y = mean waiting time of entering customers,
+i = 4 --> y = mean queueing time of entering customers,
+i = 5 --> y(j) = P(j-1  customers in the system),
+i = 6 --> y(j) = P(arriving customer sees j-1 in system).
+
+6.10 Jackson Networks
+Usage:  y = qn(l,m,s,RM,i)
+Input: l, m non-negative vectors of length N, s an integer vector of 
+length N, RM is a substochastic matrix of size N by N,  0 <= i <= 4, integer.
+Output: Computes the performance of a Jackson queueing network with N nodes, 
+external arrival rate l(i) service rate m(i), and number of servers s(i) 
+at node i, routing matrix RM, as follows:
+i = 0 --> y(i) = total arrival rate at node i, 
+i = 1 --> y(i) = mean number at node i,
+i = 2 --> y(i) = mean number in queue at node i,
+i = 3 --> y(i) = mean waiting time of  customers at node i,
+i = 4 --> y(i) = mean queueing time of customers at node i.
+
+
+7. Design Models
+
+
+MAXIM includes 4 m-files for the 4 design problems. 
+
+
+7.1 Optimal Leasing of Phone Lines
+Usage:  y = ex8olpl(l,m,Kmax,r,cl)
+Input: l =  arrival rate of calls per minute;
+m =  call completion rate per minute;
+Kmax = maximum number of lines allowed.
+r =  revenue from a call in dollars per minute;
+cl =  cost of leasing a line in dollars per minute;
+Output: y(k) = long run revenue per hour from using k lines.
+
+7.2 Optimal Number of Tellers
+Usage:  y = ex8ont(l,m,K,Ct,Cw)
+Input: l =  arrival rate, customers per minute;
+m =  service completion rate, customers per minute;
+K = Capacity.
+Ct =  cost of one teller per hour;
+Cw =  cost of keeping one customer in the system for one hour;
+Output: y(k) = long run revenue per hour from using k-1 tellers.
+
+7.3 Optimal Replacement
+Usage:  y = ex8or(C,D,k,l,x)
+Input: C = Cost of planned replacement.
+D = Additional cot of an unplanned replacement.
+k,l =  The successive lifetimes are iid   Erl(k,l) random variables.
+x = a row vector of possible replacement times.
+Output: y(k) = long run cost rate  from using age replacement with parameter T = x(k). Also plots a graph of y vs. x.
+
+7.4 Optimal Server Allocation
+Usage:  y = ex8osa(l,m,s)
+Input: l =  arrival rate, customers per hour;
+m = [m1 m2]  service completion rates, customers per minute, at nodes 1 and 2;
+s = total number of servers.
+Output: y(k) = long run expected number of customers in the system if k servers are allocated to node 1 and s-k servers are allocated to node 2.
+
+
+
+8. Control Models
+
+
+MAXIM includes 2 m-files for computing the optimal policies. It also includes 4 m-files to find optimal policies for 4 specific models.
+
+8.1 Optimal Policies for DTMPDPs 
+Usage:  [I,g] = dtmdp(pc,x)
+Input: pc is the name of a  function file written in MATLAB that takes two inputs: a row vector x of problem specific parameters, and  a single scalar input 
+argument i such that 
+pc(x, -1) is the cost matrix of size S by A, 
+pc(x, a) is the S by S transition matrix P(a), 1 <= a <= A.
+Output: I(i) is the optimal action in state i, if I(i) = -1 then the 
+optimal action in state i is undefined. g is the long run average cost of 
+operating the optimal policy.
+note: pc=`ex9ogm' and  pc=`ex9inv' are two example functions as described below.
+ 
+ 
+
+8.2 Optimal Group Maintenance 
+Usage:  P = ex9ogm(x,i)
+Input: x is a row vector of length 5, with components as follow: 
+x(1) =   number of machines,
+x(2) = probability that a working machine continues to work for one more day,
+x(3) =  cost of a new machine,
+x(4) =  cost of replacement (cost of the visit),
+x(5) = revenue from a working machine in one day.
+i =  integer taking values in {-1,1,2,...,X(1)+1}.
+Output:  i = -1 --> P  is the cost matrix, 
+i = a --> P is the transition matrix P(a-1), 1 <= a <= X(1)+1,
+for the optimal group maintenence problem of Example 10.1.
+Note:  [I,g] = dtmdp('ex9ogm',x) produces the optimal policy for the group maintenance problem, with parameters x=[N,p,C_r,C_v,R] as described in Example 10.1. 
+
+8.3 Optimal Inventory Control 
+Usage:  P = ex9inv(x,i)
+Input: x is a row vector of length 6, with components as follow (see section 10.4): 
+x(1) = h  storage cost per item per unit time,
+x(2) = p selling price of one item,
+x(3) = c purchase price of one item,
+x(4) = d delivery charge for non-zero orders,
+x(5) = B storage capacity,
+x(6) = lambda parameter of the Poisson demand per unit time.
+i =  integer taking values in {-1,1,2,...,X(5)+1}.
+Output:  i = -1 --> P  is the cost matrix, 
+i = a --> P is the transition matrix P(a-1), 1 <= a <= X(1)+1,
+for the optimal inventory problem of Section 10.4.
+Note:  [I,g] = dtmdp('ex9inv',x) produces the optimal policy for the inventory control problem, with parameters x=[h,p,c,d,B,lambda] as described in Section 10.4. 
+
+8.4 Optimal Policies for SMDPs 
+Usage:  [I,g] = smdp(pc,x)
+Input: pc is the name of a function file written in MATLAB that takes two inputs: a row vector x of problem specific parameters, and a single scalar i such that 
+pc(x,-2) is the sojourn time matrix of size S by A,
+pc(x,-1) is the cost matrix of size S by A, 
+pc(x,a) is the S by S transition matrix P(a), 1 <= a <= A.
+Output: I(i) is the optimal action in state i, if I(i) = -1 then the 
+optimal action in state i is undefined. g is the long run average cost of 
+operating the optimal policy.
+
+8.5 Optimal Processor Scheduling 
+Usage:  P = ex9ops(x,i)
+Input: x is a row vector of length 7, with components as follow (see Example 10.2): 
+x(1) = C_h  holding  cost per job per unit time,
+x(2) = C_p operating cost per processor per unit time,
+x(3) = K maximum number of processors,
+x(4) = M maximum number of jobs (capacity),
+x(5) = lambda arrival rate (jobs per unit time),
+x(6) = mu service rate per processor per unit time.,
+x(7) = C_l cost of losing a job.
+i =  integer taking values in \-2,-1,1,2,...,X(4)+1\.
+Output: i=-2 --> P is the sojourn time matrix,
+i = -1 --> P  is the cost matrix, 
+i = a --> P is the transition matrix P(a-1), 1 <= a <= X(5)+1,
+for the optimal processor scheduling  problem of Example 10.2.
+Note:  [I,g] = dtmdp('ex9ops',x) produces the optimal policy for the processor scheduling problem, with parameters x=[C_h, C_p, K, M, lambda, mu, C_l] as described in Example 10.2.  
+
+8.6 Optimal Machine Operation 
+Usage:  P = ex9omo(x,i)
+Input: x is a row vector of length 7, with components as follow (see Section 10.7): 
+x(1) = h  holding  cost per job per unit time,
+x(2) = s cost of turning the machine on,
+x(3) = K capacity of the warehouse,
+x(4) = lambda production rate (items per unit time),
+x(5) = mu demand rate (items per unit time),
+x(6) = r revenue per item sale,
+x(7) = c operating cost of the machine per unit time.
+i =  integer taking values in {-2,-1,1,2,...,X(3)+1}.
+Output: i=-2 --> P is the sojourn time matrix,
+i = -1 --> P  is the cost matrix, 
+i = a --> P is the transition matrix P(a-1), 1 <= a <= X(3)+1,
+for the optimal machine operation   problem of Section 10.7.
+Note:  [I,g] = dtmdp('ex9omo',x) produces the optimal policy for the processor scheduling problem, with parameters x=[h,s,K,lambda,mu,r,c] as described in Section 10.7.  
+
+

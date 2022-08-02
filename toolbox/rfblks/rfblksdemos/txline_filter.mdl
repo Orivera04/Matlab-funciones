@@ -1,0 +1,1284 @@
+Model {
+  Name			  "txline_filter"
+  Version		  6.0
+  GraphicalInterface {
+    NumRootInports	    0
+    NumRootOutports	    0
+    ParameterArgumentNames  ""
+    ComputedModelVersion    "1.377"
+    NumTestPointedSignals   0
+  }
+  SaveDefaultBlockParams  on
+  SampleTimeColors	  on
+  LibraryLinkDisplay	  "none"
+  WideLines		  off
+  ShowLineDimensions	  off
+  ShowPortDataTypes	  off
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  ShowStorageClass	  off
+  ShowTestPointIcons	  off
+  ShowViewerIcons	  on
+  SortedOrder		  off
+  ShowLinearizationAnnotations on
+  RecordCoverage	  off
+  CovPath		  "/"
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeVarName	  "covCumulativeData"
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  DataTypeOverride	  "UseLocalSettings"
+  MinMaxOverflowLogging	  "UseLocalSettings"
+  MinMaxOverflowArchiveMode "Overwrite"
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Wed Dec 11 15:20:53 2002"
+  Creator		  "RobertZ"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "rzeng"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Tue Feb 24 18:29:39 2004"
+  ModelVersionFormat	  "1.%<AutoIncrement:377>"
+  ConfigurationManager	  "None"
+  SimParamPage		  "Solver"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  AccelSystemTargetFile	  "accel.tlc"
+  AccelTemplateMakefile	  "accel_default_tmf"
+  AccelMakeCommand	  "make_rtw"
+  TryForcingSFcnDF	  off
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  BufferReuse		  on
+  ProdHWDeviceType	  "Specified"
+  UpdateModelReferenceTargets "IfOutOfDate"
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.0.2"
+      Array {
+	Type			"Handle"
+	Dimension		8
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.0.2"
+	  StartTime		  "0.0"
+	  StopTime		  "10"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  RelTol		  "1e-3"
+	  SolverMode		  "Auto"
+	  Solver		  "ode45"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.0.2"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  off
+	  SaveState		  off
+	  SaveTime		  off
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "sigsOut"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Version		  "1.0.2"
+	  BlockReduction	  on
+	  BooleanDataType	  on
+	  ConditionallyExecuteInputs on
+	  ConditionalExecOptimization "on_for_testing"
+	  InlineParams		  off
+	  InlineInvariantSignals  on
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  on
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  ParameterPooling	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  OptimizeModelRefInitCode off
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.0.2"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg on
+	  CheckExecutionContextRuntimeOutputMsg	on
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  SolverPrmCheckMsg	  "none"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterPrecisionLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  UnknownTsInhSupMsg	  "warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.0.2"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "Specified"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  off
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.0.2"
+	  UpdateModelReferenceTargets "IfOutOfDate"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Version		  "1.0.2"
+	  SystemTargetFile	  "grt.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  TemplateMakefile	  "grt_default_tmf"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Version		      "1.0.2"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      CustomSymbolStr	      "$R$N$M"
+	      MangleLength	      1
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    Simulink.GRTTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Version		      "1.0.2"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Automatic"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns off
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      LifeSpan		      "inf"
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      ExtMode		      off
+	      ExtModeStaticAlloc      off
+	      ExtModeTesting	      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTransport	      0
+	      ExtModeMexFile	      "ext_comm"
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	      GenerateASAP2	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	Simulink.SFSimCC {
+	  $ObjectID		  11
+	  Version		  "1.0.2"
+	  SFSimApplyToAllLibs	  on
+	  SFSimEnableDebug	  on
+	  SFSimOverflowDetection  on
+	  SFSimEcho		  on
+	  SFSimBuildMode	  "Incremental"
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      SimulationMode	      "normal"
+      ExtraOptions	      "-aExtModeTransport=\"tcpip\" "
+      CurrentDlgPage	      "Solver"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      ActionPort
+      InitializeStates	      "held"
+      ActionType	      "unset"
+    }
+    Block {
+      BlockType		      Actuator
+      SubClassName	      "unknown"
+      PortType		      "blob"
+    }
+    Block {
+      BlockType		      SwitchCase
+      CaseConditions	      "{1}"
+      CaseShowDefault	      on
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      ComplexToMagnitudeAngle
+      Output		      "Magnitude and angle"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      ComplexToRealImag
+      Output		      "Real and imag"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "sfix(16)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "2^0"
+      SampleTime	      "inf"
+    }
+    Block {
+      BlockType		      DataTypeConversion
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      ConvertRealWorld	      "Real World Value (RWV)"
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      FrameConversion
+      OutFrame		      "Frame based"
+    }
+    Block {
+      BlockType		      From
+      IconDisplay	      "Tag"
+    }
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ParameterDataTypeMode   "Same as input"
+      ParameterDataType	      "sfix(16)"
+      ParameterScalingMode    "Best Precision: Matrix-wise"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Goto
+      IconDisplay	      "Tag"
+    }
+    Block {
+      BlockType		      Ground
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Lookup
+      InputValues	      "[-4:5]"
+      OutputValues	      " rand(1,10)-0.5"
+      LookUpMeth	      "Interpolation-Extrapolation"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+      LUTDesignTableMode      "Redesign Table"
+      LUTDesignDataSource     "Block Dialog"
+      LUTDesignFunctionName   "sqrt(x)"
+      LUTDesignUseExistingBP  on
+      LUTDesignRelError	      "0.01"
+      LUTDesignAbsError	      "1e-6"
+    }
+    Block {
+      BlockType		      MagnitudeAngleToComplex
+      Input		      "Magnitude and angle"
+      ConstantPart	      "0"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Math
+      Operator		      "exp"
+      OutputSignalType	      "auto"
+      SampleTime	      "-1"
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Merge
+      Inputs		      "2"
+      InitialOutput	      "[]"
+      AllowUnequalInputPortWidths off
+      InputPortOffsets	      "[]"
+    }
+    Block {
+      BlockType		      Mux
+      Inputs		      "4"
+      DisplayOption	      "none"
+      BusObject		      "BusObject"
+      NonVirtualBus	      off
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      PMComponent
+      SubClassName	      "unknown"
+    }
+    Block {
+      BlockType		      PMIOPort
+    }
+    Block {
+      BlockType		      Probe
+      ProbeWidth	      on
+      ProbeSampleTime	      on
+      ProbeComplexSignal      on
+      ProbeSignalDimensions   off
+      ProbeFramedSignal	      off
+      ProbeWidthDataType      "double"
+      ProbeSampleTimeDataType "double"
+      ProbeComplexityDataType "double"
+      ProbeDimensionsDataType "double"
+      ProbeFrameDataType      "double"
+    }
+    Block {
+      BlockType		      Product
+      Inputs		      "2"
+      Multiplication	      "Element-wise(.*)"
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Sensor
+      SubClassName	      "unknown"
+      PortType		      "blob"
+    }
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      PortCounts	      "[]"
+      SFunctionModules	      "''"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      SystemSampleTime	      "-1"
+      RTWSystemCode	      "Auto"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Sum
+      IconShape		      "rectangular"
+      Inputs		      "++"
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Terminator
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "txline_filter"
+    Location		    [9, 76, 915, 439]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      " "
+      Ports		      []
+      Position		      [35, 220, 95, 260]
+      BackgroundColor	      "cyan"
+      DropShadow	      on
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      EnableExecutionContextPropagation	on
+      MaskType		      "Interpolation filter info block"
+      MaskDisplay	      "disp('Info')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			" "
+	Location		[6, 240, 534, 665]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Annotation {
+	  Name			  " Transmission Line Bandstop Filters\n\nThe "
+"RF Blockset has the following blocks for transmission lines:\nCoaxial Transmi"
+"ssion Line\nTransmission Line\nMicrostrip Transmission Line\nParallel Plate T"
+"ransmission Line\nTwo Wire Transmission Line \nCoplanar Waveguide Transmissio"
+"n Line\n\nThis demo simulates a bandstop Transmission Line filter and\na band"
+"stop Microstrip filter with a Gaussian random signal input.\n\nThe spectrum p"
+"lot shows frequency ranging from \n1.5GHz to 6.5GHz centered at 4GHz.\n\n\nIf"
+" you want to see the frequency response centered at other RF frequency, \nyou"
+" need to change the Center frequency parameter in the \n'Input Port' block.\n"
+"\nIf you want to change the range of frequency response that is determined by"
+" \nthe Sample time parameter specified in the 'Input Port' and 'White Noise' "
+"blocks,\nyou need to change the Sample time parameter in both blocks.\n"
+	  Position		  [265, 214]
+	  FontName		  "MS Sans Serif"
+	  FontSize		  14
+	}
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Frequency Response"
+      Ports		      [1]
+      Position		      [825, 120, 860, 170]
+      SourceBlock	      "dspsnks4/Spectrum\nScope"
+      SourceType	      "Spectrum Scope"
+      ShowPortLabels	      off
+      ScopeProperties	      off
+      Domain		      "Frequency"
+      HorizSpan		      "1"
+      UseBuffer		      off
+      BufferSize	      "1024"
+      Overlap		      "512"
+      inpFftLenInherit	      on
+      FFTlength		      "1024"
+      numAvg		      "100"
+      DisplayProperties	      off
+      AxisGrid		      on
+      Memory		      off
+      FrameNumber	      on
+      AxisLegend	      on
+      AxisZoom		      off
+      OpenScopeAtSimStart     on
+      OpenScopeImmediately    off
+      FigPos		      "[215 317 403 201]"
+      AxisProperties	      off
+      XUnits		      "Hertz"
+      XRange		      "[-Fs/2...Fs/2]"
+      InheritXIncr	      off
+      XIncr		      "1/5e9"
+      XLabel		      "Samples"
+      YUnits		      "dB"
+      YMin		      "-40"
+      YMax		      "35"
+      YLabel		      "Magnitude, dB"
+      LineProperties	      on
+      LineColors	      "'k'|'b'|'r'"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Input  Port1"
+      Description	      "source block"
+      Ports		      [1, 0, 0, 0, 0, 0, 1]
+      Position		      [170, 100, 215, 160]
+      SourceBlock	      "rfports1/Input Port"
+      SourceType	      "Input Port"
+      ShowPortLabels	      on
+      MaxLength		      "128"
+      Fc		      "4e9"
+      Ts		      "1/5e9"
+      Zs		      "50"
+      NoiseFlag		      off
+      seed		      "67987"
+      GoToTag		      "ACBFHCICWIVGOQFZQMSDURJ"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Input  Port2"
+      Description	      "source block"
+      Ports		      [1, 0, 0, 0, 0, 0, 1]
+      Position		      [170, 205, 215, 265]
+      SourceBlock	      "rfports1/Input Port"
+      SourceType	      "Input Port"
+      ShowPortLabels	      on
+      MaxLength		      "128"
+      Fc		      "4e9"
+      Ts		      "1/5e9"
+      Zs		      "50"
+      NoiseFlag		      off
+      seed		      "67987"
+      GoToTag		      "BACGIDJDAJWHPAGARNTEVSK"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Matrix\nConcatenation"
+      Ports		      [3, 1]
+      Position		      [780, 123, 785, 167]
+      BackgroundColor	      "black"
+      ShowName		      off
+      SourceBlock	      "simulink/Math\nOperations/Matrix\nConcatenation"
+      SourceType	      "Matrix Concatenation"
+      numInports	      "3"
+      catMethod		      "Horizontal"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+      Port {
+	PortType		0
+	PortNumber		2
+	ShowSigGenPortName	on
+      }
+      Port {
+	PortType		0
+	PortNumber		3
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Microstrip\nTransmission Line"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [240, 211, 330, 259]
+      ShowName		      off
+      SourceBlock	      "rftxlines1/Microstrip\nTransmission Line"
+      SourceType	      "Microstrip Transmission Line"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "microstrip"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      Width		      "2.6501e-3"
+      Height		      "0.635e-3"
+      Thickness		      "0.01e-3"
+      EpsilonR		      "9.8"
+      SigmaCond		      "inf"
+      LossTangent	      "0"
+      LineLength	      "0.00663"
+      StubMode		      "Series"
+      Termination	      "Short"
+      DisplayData	      off
+      PlotFreq		      "Derived from Input Port parameters"
+      PlotFreqNoSim	      "User specified"
+      Freq		      "1.5e9:10e6:6.5e9"
+      AllPlotType	      "X-Y plane"
+      NetworkData	      "S21"
+      SmithData		      "S11"
+      PolarData		      "S11"
+      ComplexFormat	      "Magnitude (decibels)"
+      DBFormat		      "Magnitude (decibels)"
+      NoneFormat	      "None"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Microstrip\nTransmission Line1"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [355, 211, 445, 259]
+      ShowName		      off
+      SourceBlock	      "rftxlines1/Microstrip\nTransmission Line"
+      SourceType	      "Microstrip Transmission Line"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "microstrip"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      Width		      "0.40564e-3"
+      Height		      "0.635e-3"
+      Thickness		      "0.01e-3"
+      EpsilonR		      "9.8"
+      SigmaCond		      "inf"
+      LossTangent	      "0"
+      LineLength	      "0.00735"
+      StubMode		      "Shunt"
+      Termination	      "Open"
+      DisplayData	      off
+      PlotFreq		      "User specified"
+      PlotFreqNoSim	      "User specified"
+      Freq		      "1.5e9:10e6:6.5e9"
+      AllPlotType	      "X-Y plane"
+      NetworkData	      "S21"
+      SmithData		      "S11"
+      PolarData		      "S11"
+      ComplexFormat	      "Magnitude (decibels)"
+      DBFormat		      "Magnitude (decibels)"
+      NoneFormat	      "None"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Microstrip\nTransmission Line2"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [470, 211, 560, 259]
+      ShowName		      off
+      SourceBlock	      "rftxlines1/Microstrip\nTransmission Line"
+      SourceType	      "Microstrip Transmission Line"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "microstrip"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      Width		      "2.6501e-3"
+      Height		      "0.635e-3"
+      Thickness		      "0.01e-3"
+      EpsilonR		      "9.8"
+      SigmaCond		      "inf"
+      LossTangent	      "0"
+      LineLength	      "0.00663"
+      StubMode		      "Series"
+      Termination	      "Short"
+      DisplayData	      off
+      PlotFreq		      "User specified"
+      PlotFreqNoSim	      "User specified"
+      Freq		      "1.5e9:10e6:6.5e9"
+      AllPlotType	      "X-Y plane"
+      NetworkData	      "S21"
+      SmithData		      "S11"
+      PolarData		      "S11"
+      ComplexFormat	      "Magnitude (decibels)"
+      DBFormat		      "Magnitude (decibels)"
+      NoneFormat	      "None"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Output Port1"
+      Ports		      [0, 1, 0, 0, 0, 1]
+      Position		      [585, 100, 630, 160]
+      SourceBlock	      "rfports1/Output Port"
+      SourceType	      "Output Port"
+      ShowPortLabels	      on
+      Zl		      "50"
+      num_Models	      "1"
+      GoToTag		      "ACBFHCICWIVGOQFZQMSDURJ"
+      DisplayData	      off
+      PlotFreq		      "Derived from Input Port parameters"
+      Freq		      "1e9:1e8:3e9"
+      AllPlotType	      "Composite data"
+      NoBudgetPlot	      "Composite data"
+      NetworkData	      "S11"
+      SmithData		      "S11"
+      PolarData		      "S11"
+      ComplexFormat	      "Magnitude (decibels)"
+      DBFormat		      "Magnitude (decibels)"
+      DBMFormat		      "dBm"
+      NoneFormat	      "None"
+      Port {
+	PortNumber		1
+	Name			"Transmission Line Output"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Output Port2"
+      Ports		      [0, 1, 0, 0, 0, 1]
+      Position		      [585, 205, 630, 265]
+      SourceBlock	      "rfports1/Output Port"
+      SourceType	      "Output Port"
+      ShowPortLabels	      on
+      Zl		      "50"
+      num_Models	      "1"
+      GoToTag		      "BACGIDJDAJWHPAGARNTEVSK"
+      DisplayData	      off
+      PlotFreq		      "Derived from Input Port parameters"
+      Freq		      "1e9:1e8:3e9"
+      AllPlotType	      "Composite data"
+      NoBudgetPlot	      "Composite data"
+      NetworkData	      "S11"
+      SmithData		      "S11"
+      PolarData		      "S11"
+      ComplexFormat	      "Magnitude (decibels)"
+      DBFormat		      "Magnitude (decibels)"
+      DBMFormat		      "dBm"
+      NoneFormat	      "None"
+      Port {
+	PortNumber		1
+	Name			"Microstrip Output"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Series Stub1"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [240, 106, 330, 154]
+      ShowName		      off
+      SourceBlock	      "rftxlines1/Transmission Line"
+      SourceType	      "Transmission Line"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "txline"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      Z0		      "20.71"
+      PV		      "1.8e8"
+      Loss		      "0"
+      LineLength	      "0.0113"
+      StubMode		      "Series"
+      Termination	      "Short"
+      DisplayData	      off
+      PlotFreq		      "User specified"
+      PlotFreqNoSim	      "User specified"
+      Freq		      "1.5e9:10e6:6.5e9"
+      AllPlotType	      "X-Y plane"
+      NetworkData	      "S21"
+      SmithData		      "S11"
+      PolarData		      "S11"
+      ComplexFormat	      "Magnitude (decibels)"
+      DBFormat		      "Magnitude (decibels)"
+      NoneFormat	      "None"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Series Stub2"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [470, 106, 560, 154]
+      ShowName		      off
+      SourceBlock	      "rftxlines1/Transmission Line"
+      SourceType	      "Transmission Line"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "txline"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      Z0		      "20.71"
+      PV		      "1.8e8"
+      Loss		      "0"
+      LineLength	      "0.0113"
+      StubMode		      "Series"
+      Termination	      "Short"
+      DisplayData	      off
+      PlotFreq		      "Derived from Input Port parameters"
+      PlotFreqNoSim	      "User specified"
+      Freq		      "1.5e9:10e6:6.5e9"
+      AllPlotType	      "X-Y plane"
+      NetworkData	      "S21"
+      SmithData		      "S11"
+      PolarData		      "S11"
+      ComplexFormat	      "Magnitude (decibels)"
+      DBFormat		      "Magnitude (decibels)"
+      NoneFormat	      "None"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Shunt Stub"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [355, 106, 445, 154]
+      ShowName		      off
+      SourceBlock	      "rftxlines1/Transmission Line"
+      SourceType	      "Transmission Line"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "txline"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      Z0		      "60.355"
+      PV		      "1.8e8"
+      Loss		      "0"
+      LineLength	      "0.0113"
+      StubMode		      "Shunt"
+      Termination	      "Open"
+      DisplayData	      off
+      PlotFreq		      "Derived from Input Port parameters"
+      PlotFreqNoSim	      "User specified"
+      Freq		      "1.5e9:10e6:6.5e9"
+      AllPlotType	      "X-Y plane"
+      NetworkData	      "S21"
+      SmithData		      "S11"
+      PolarData		      "S11"
+      ComplexFormat	      "Magnitude (decibels)"
+      DBFormat		      "Magnitude (decibels)"
+      NoneFormat	      "None"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "White Noise"
+      Ports		      [0, 1]
+      Position		      [40, 111, 75, 149]
+      UserDataPersistent      on
+      UserData		      "DataTag0"
+      Diagnostics	      "AllowInheritedTsInSrc"
+      SourceBlock	      "dspsrcs4/Random\nSource"
+      SourceType	      "Random Source"
+      SrcType		      "Gaussian"
+      NormMethod	      "Ziggurat"
+      CltLength		      "12"
+      Min		      "-1.25"
+      Max		      "1.25"
+      Mean		      "0"
+      Var		      "1"
+      RepMode		      "Not repeatable"
+      Seed		      "1"
+      Inherit		      off
+      SampMode		      "Discrete"
+      SampTime		      "1/5e9"
+      SampFrame		      "256"
+      DataType		      "Double"
+      OutComplex	      "Complex"
+      Port {
+	PortNumber		1
+	Name			"Input"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "aSubsystem"
+      Ports		      []
+      Position		      [152, 91, 644, 174]
+      BackgroundColor	      "[1.000000, 1.000000, 0.549020]"
+      ShowName		      off
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      EnableExecutionContextPropagation	on
+      MaskDisplay	      "disp('')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"aSubsystem"
+	Location		[463, 581, 676, 663]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "aSubsystem1"
+      Ports		      []
+      Position		      [151, 194, 640, 279]
+      BackgroundColor	      "[1.000000, 1.000000, 0.549020]"
+      ShowName		      off
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      EnableExecutionContextPropagation	on
+      MaskDisplay	      "disp('')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"aSubsystem1"
+	Location		[463, 581, 676, 663]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+      }
+    }
+    Line {
+      Name		      "Input"
+      Labels		      [0, 0]
+      SrcBlock		      "White Noise"
+      SrcPort		      1
+      Points		      [60, 0]
+      Branch {
+	DstBlock		"Input  Port1"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, 105]
+	Branch {
+	  Labels		  [2, 0]
+	  Points		  [0, 75; 610, 0; 0, -150]
+	  DstBlock		  "Matrix\nConcatenation"
+	  DstPort		  3
+	}
+	Branch {
+	  DstBlock		  "Input  Port2"
+	  DstPort		  1
+	}
+      }
+    }
+    Line {
+      SrcBlock		      "Matrix\nConcatenation"
+      SrcPort		      1
+      DstBlock		      "Frequency Response"
+      DstPort		      1
+    }
+    Line {
+      LineType		      "Connection"
+      SrcBlock		      "Series Stub1"
+      SrcPort		      LConn1
+      DstBlock		      "Input  Port1"
+      DstPort		      RConn1
+    }
+    Line {
+      LineType		      "Connection"
+      SrcBlock		      "Series Stub1"
+      SrcPort		      RConn1
+      DstBlock		      "Shunt Stub"
+      DstPort		      LConn1
+    }
+    Line {
+      LineType		      "Connection"
+      SrcBlock		      "Shunt Stub"
+      SrcPort		      RConn1
+      DstBlock		      "Series Stub2"
+      DstPort		      LConn1
+    }
+    Line {
+      LineType		      "Connection"
+      SrcBlock		      "Series Stub2"
+      SrcPort		      RConn1
+      DstBlock		      "Output Port1"
+      DstPort		      LConn1
+    }
+    Line {
+      Name		      "Transmission Line Output"
+      Labels		      [1, 1]
+      SrcBlock		      "Output Port1"
+      SrcPort		      1
+      DstBlock		      "Matrix\nConcatenation"
+      DstPort		      1
+    }
+    Line {
+      LineType		      "Connection"
+      SrcBlock		      "Input  Port2"
+      SrcPort		      RConn1
+      DstBlock		      "Microstrip\nTransmission Line"
+      DstPort		      LConn1
+    }
+    Line {
+      LineType		      "Connection"
+      SrcBlock		      "Microstrip\nTransmission Line"
+      SrcPort		      RConn1
+      DstBlock		      "Microstrip\nTransmission Line1"
+      DstPort		      LConn1
+    }
+    Line {
+      LineType		      "Connection"
+      SrcBlock		      "Microstrip\nTransmission Line1"
+      SrcPort		      RConn1
+      DstBlock		      "Microstrip\nTransmission Line2"
+      DstPort		      LConn1
+    }
+    Line {
+      LineType		      "Connection"
+      SrcBlock		      "Microstrip\nTransmission Line2"
+      SrcPort		      RConn1
+      DstBlock		      "Output Port2"
+      DstPort		      LConn1
+    }
+    Line {
+      Name		      "Microstrip Output"
+      Labels		      [1, 1]
+      SrcBlock		      "Output Port2"
+      SrcPort		      1
+      Points		      [95, 0; 0, -90]
+      DstBlock		      "Matrix\nConcatenation"
+      DstPort		      2
+    }
+    Annotation {
+      Name		      "Transmission Line Bandstop Filters"
+      Position		      [398, 45]
+      FontName		      "Arial"
+      FontSize		      14
+      FontWeight	      "bold"
+    }
+    Annotation {
+      Name		      "Center Frequency: 4GHz"
+      Position		      [398, 337]
+      FontName		      "Arial"
+      FontSize		      12
+      FontWeight	      "bold"
+      FontAngle		      "italic"
+    }
+  }
+}
+MatData {
+  NumRecords		  1
+  DataRecord {
+    Tag			    DataTag0
+    Data		    "  %)30     .    V     8    (     @         %    "
+"\"     $    !     0         %  0 \"0    $    2    4V5E9       4V5E9$9L86<    "
+"     #@   #@    &    \"     0         !0    @    !    !0    $         $     4"
+"    T.3@S,0    X   !     !@    @    $          4    (     0    T    !        "
+" !     -    1&].;W13879E4V5E9     "
+  }
+}

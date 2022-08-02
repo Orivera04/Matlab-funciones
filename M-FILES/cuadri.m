@@ -1,0 +1,2 @@
+function P=poli
+P=[0 3 3 0 0;2 2 0 0 2]

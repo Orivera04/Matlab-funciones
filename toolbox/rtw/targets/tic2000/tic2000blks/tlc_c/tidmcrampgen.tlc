@@ -1,0 +1,52 @@
+%% $RCSfile: tidmcrampgen.tlc,v $
+%% $Revision: 1.1.6.1 $ $Date: 2004/04/01 16:14:41 $
+%% Copyright 2004 The MathWorks, Inc.
+%%
+%% Abstract: TI C28x DMC library Ramp Generation
+
+%implements tidmcrampgen "C"
+
+%include "fix_published.tlc"
+
+
+%% Function: BlockTypeSetup ==============================================
+%function BlockTypeSetup(block, system) void
+    %<LibAddToCommonIncludes("<IQmathLib.h>")>
+%endfunction %% BlockTypeSetup
+
+
+%% Function: Outputs ==========================================================
+%%
+%function Outputs(block, system) Output
+
+	%assign OUTPORT_X  = 0
+	%assign dataTyp = LibBlockOutputSignalDataTypeId(OUTPORT_X)
+	%assign fracLen = FixPt_DataTypeFractionLength(block,dataTyp)
+
+	/* C28x DMC Library (%<ParamSettings.FunctionName>) - '%<Name>' */
+	{
+        int32_T* angleregPtr = %<LibBlockDWorkAddr (ANGLE_REG, "", "", 0)>;
+        %assign rollVars = ["U", "Y"]
+        %roll idx = RollRegions, lcv = RollThreshold, block,"Roller", rollVars
+        
+        	*angleregPtr = _IQ%<fracLen>mpy (%<LibBlockInputSignal(2,"",lcv,idx)>, _IQ%<fracLen>(%<LibBlockParameterValue(P1, 0)>));
+        	
+            if (*angleregPtr > _IQ%<fracLen>(1))
+                *angleregPtr -= _IQ%<fracLen>(1);
+            else if (*angleregPtr < _IQ%<fracLen>(-1))
+                *angleregPtr += _IQ%<fracLen>(1);
+                
+            %<LibBlockOutputSignal (0,"",lcv,idx)> = _IQ%<fracLen>mpy (*angleregPtr++, %<LibBlockInputSignal(0,"",lcv,idx)>) + \
+                                                      %<LibBlockInputSignal(1,"",lcv,idx)>;
+                                                      
+            if (%<LibBlockOutputSignal (0,"",lcv,idx)> > _IQ%<fracLen>(1))
+                %<LibBlockOutputSignal (0,"",lcv,idx)> -= _IQ%<fracLen>(1);
+            else if (%<LibBlockOutputSignal (0,"",lcv,idx)> < _IQ%<fracLen>(-1))
+                %<LibBlockOutputSignal (0,"",lcv,idx)> += _IQ%<fracLen>(1);                                                      
+
+        %endroll
+	}
+
+%endfunction
+
+%% [EOF] tidmcrampgen.tlc

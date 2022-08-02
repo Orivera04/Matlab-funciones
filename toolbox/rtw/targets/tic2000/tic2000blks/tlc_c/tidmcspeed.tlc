@@ -1,0 +1,87 @@
+%% $RCSfile: tidmcspeed.tlc,v $
+%% $Revision: 1.1.6.1 $ $Date: 2004/04/01 16:14:42 $
+%% Copyright 2004 The MathWorks, Inc.
+%%
+%% Abstract: TI C28x DMC library Ramp Generation
+
+%implements tidmcspeed "C"
+
+%include "fix_published.tlc"
+
+
+%% Function: BlockTypeSetup ==============================================
+%function BlockTypeSetup(block, system) void
+    %<LibAddToCommonIncludes("<IQmathLib.h>")>
+%endfunction %% BlockTypeSetup
+
+
+
+%% Function: Outputs ==========================================================
+%%
+%function get_IQN1_N2(block,input, oldQ, newQ) Output
+	%assign diff1 = newQ - oldQ
+	%assign diff2 = oldQ - newQ 
+	%if (%<diff1> >= 0)
+         %assign OutputString = "%<input> << %<diff1>"
+	%else
+         %assign OutputString = "%<input> >> %<diff2>"
+	%endif
+	%return OutputString
+%endfunction
+
+
+%% Function: Outputs ==========================================================
+%%
+%function Outputs(block, system) Output
+
+	%assign OUTPORT_X  = 0
+	%assign dataTyp = LibBlockOutputSignalDataTypeId(OUTPORT_X)
+	%assign fracLen = FixPt_DataTypeFractionLength(block,dataTyp)
+    %assign IQN  = "_IQ%<fracLen>"
+    %assign rpm_max = %<LibBlockParameterValue(P1, 0)>
+    %assign k1 = %<LibBlockParameterValue(P2, 0)>
+    %assign k2 = %<LibBlockParameterValue(P3, 0)>
+
+	/* C28x DMC Library (%<ParamSettings.FunctionName>) - '%<Name>' */
+	{
+	 	int32_T tmp1;
+        int32_T* ptrOldFreq = %<LibBlockDWorkAddr (OLD_FREQ, "", "", 0)>;
+        int32_T* ptrOldTheta = %<LibBlockDWorkAddr (OLD_THETA, "", "", 0)>;
+        int32_T k3 = _IQ%<fracLen>(1) - _IQ%<fracLen>(%<k2>); 
+        
+        %assign rollVars = ["U", "Y"]
+        %roll idx = RollRegions, lcv = RollThreshold, block,"Roller", rollVars
+        
+			if (%<LibBlockInputSignal(1,"",lcv,idx)> == 0) {
+				if (%<LibBlockInputSignal(0,"",lcv,idx)> > *ptrOldTheta) 
+				    tmp1 = _IQ%<fracLen>(1) - %<LibBlockInputSignal(0,"",lcv,idx)> + *ptrOldTheta;
+				else tmp1 = %<LibBlockInputSignal(0,"",lcv,idx)> - *ptrOldTheta;
+			} else if (%<LibBlockInputSignal(1,"",lcv,idx)> == 1) {
+				if (%<LibBlockInputSignal(0,"",lcv,idx)> < *ptrOldTheta) 
+				    tmp1 = _IQ%<fracLen>(1) + %<LibBlockInputSignal(0,"",lcv,idx)> - *ptrOldTheta;
+				else tmp1 = %<LibBlockInputSignal(0,"",lcv,idx)> - *ptrOldTheta;
+			}
+					
+			tmp1 = _IQ21mpyIQX  (_IQ21(%<k1>),21,tmp1,%<fracLen>);
+            tmp1 = _IQ21mpyIQX  (_IQ%<fracLen>(%<k2>), %<fracLen>, %<get_IQN1_N2(block,"*ptrOldFreq",fracLen,21)>, 21) +
+                   _IQ21mpyIQX  (k3, %<fracLen>, tmp1, 21);
+			
+			if (tmp1 > _IQ21(1)) {
+			    %<LibBlockOutputSignal(0,"",lcv,idx)> = _IQ%<fracLen>(1);
+		    } else if (tmp1<_IQ21(-1)) {
+			    %<LibBlockOutputSignal(0,"",lcv,idx)> = _IQ%<fracLen>(-1);      
+		    } else {
+			    %<LibBlockOutputSignal(0,"",lcv,idx)> = %<get_IQN1_N2(block,"tmp1",21,fracLen)>;
+			}
+			    
+			*ptrOldFreq++ = %<LibBlockOutputSignal(0,"",lcv,idx)>;
+		    *ptrOldTheta++ = %<LibBlockInputSignal(0,"",lcv,idx)>;
+
+		    %<LibBlockOutputSignal(1,"",lcv,idx)> = _IQ%<fracLen>mpy ((int32_T)(%<rpm_max>), \
+		                                                              %<LibBlockOutputSignal(0,"",lcv,idx)>);
+        %endroll
+	}
+
+%endfunction
+
+%% [EOF] tidmcspeed.tlc

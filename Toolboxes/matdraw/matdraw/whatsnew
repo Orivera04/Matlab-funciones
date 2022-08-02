@@ -1,0 +1,80 @@
+Changes from 5.0
+People complained to me that they couldn't use matdraw in conjunction
+with plotyy, so I added in commands to change the display order of objects
+as per a standard draw package.  Plotyy creates two axes, the front one
+with fillcolor 'none' and the back one with fillcolor 'white'.  To reverse
+them you'll want to select the front axes, change its fillcolor to 'white',
+send it to back, and then select the new front axes and set its fillcolor
+to 'none'.  Also made a change that fixes a problem introduced by 
+MATLAB 5.2 which made it impossible to select axes labels.  Other than that,
+there are just a few minor bug fixes.
+
+Changes from 2.2a
+
+There have been extensive changes under the hood for version 5, but
+not so much has changed on the face of things.  The draw menu now
+has separate menus for linestyles and markers with submenus for
+marker edge color and marker face color.  All MatDraw's data is now
+stored in the global MDDatObjs.  Interactive text modification is now
+handled using MATLAB 5's 'editing' property.  Since multi-line text 
+is now possible, you must click somewhere outside of the text area to
+indicate that you are finished editing the text item.  Also, a menu 
+for text alignment has been added.
+
+The viewer has been reworked to match MATLAB 5's new camera paradigm.
+You can now do EL and Az rotations and zoom in the camera.  Camera
+zooms may behave strangely due to the quirks of MATLAB 5's way of doing things.
+In addition, the viewer now displays the current figure and allows you to switch
+between figures, as well as showing the current axes at the bottom right.
+If you click and drag on the sample axes in the viewer they will rotate as per
+MATLAB 5's rotate3d function, and the EL and Az fields will be updated to match.
+There is a button which is intended to allow the user to modify the camera's 
+target, but this feature has not yet been implemented.
+
+
+Changes from version 2.2
+
+The changes from 2.2 are mainly bug-fixes.  Arrow drawing and
+dragging of objects now work normally even when one or more
+axis is on a logarithmic scale.  The "Quit" menu item now quits
+from MatDraw, not from Matlab.  The location of the Draw Tools
+palette is now stored in the mdprefs.mat file.  It is now easier
+to set default behaviors. Before you had to make sure no objects
+were selected; now clicking on a tool other than the select tool
+automatically deselects everything.  Various bugs with the
+preferences dialog box were fixed.  
+
+Changes from version 2.1
+
+The changes from version 2.1 are mainly in response to various
+user requests.
+
+I've added a preferences dialog box.  This will let you set the
+selection color, the number of points used to draw circles
+(so you can get triangles, diamonds, etc.) and several other
+aspects of the environment.  Some people complained that they
+couldn't see the shade of gray that I was using to indicate
+selection of an object.  Well, now you can set it to whatever
+you like.
+
+I've added the ability to manipulate axes to the Page Setup
+dialog box.  No longer will you be limited to rectangular
+grids of regularly sized axes.  This was also requested by
+users.
+
+Now when you choose the Print menu item from the Workspace
+menu, MatDraw checks to see what you have defined as your 
+'Print String' (defined in the preferences dialog box) and
+prompts you for a file name if appropriate. Examples of 
+acceptable print strings: '-dgif', '-Pmyprinter', '-deps -epsi'
+Leading spaces in the print string will mess this function up, 
+so be careful.
+
+Finally, the most requested feature was the ability to save
+the figures after you had modified them.  I had thought it would
+be enough just to use print -dmfile, but it turns out that the
+MATHWORKS function grabs menus as well.  The 'Save Figure' menu
+item in the Workspace menu deletes all of MatDraw's menus before
+saving the figure and then restores them.  
+
+

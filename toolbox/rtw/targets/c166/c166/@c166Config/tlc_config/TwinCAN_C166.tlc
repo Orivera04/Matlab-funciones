@@ -1,0 +1,80 @@
+%% File: TwinCAN_C166.tlc
+%%
+%% Abstract:
+%%   
+%%
+%% $Revision: 1.1.6.4 $
+%% $Date: 2004/04/19 01:18:24 $
+%%
+%% Copyright 2002-2003 The MathWorks, Inc.
+
+
+%implements * "C"
+
+%addincludepath "../../../../common/can/datatypes"
+%include "can_comm_setup.tlc"
+%include "generate_twincan_x_driver.tlc"
+
+%function FcnGenerateTwinCanDriver(record) void
+
+%assign can_driver_c = "TwinCAN_driver.c"
+  %if RTWVerbose
+    %selectfile STDOUT
+    ### Creating %<can_driver_c>
+    %closefile STDOUT
+  %endif
+  %openfile bld_file = "%<can_driver_c>"
+  
+  %<SLibGenerateTwinCanXDriver(record)>
+
+  %closefile bld_file
+  
+  %include "utillib.tlc"
+  %<SLibIndentFile(can_driver_c,"")>
+  
+%endfunction
+
+
+%% Main function to generate and configure the CAN drivers
+%function DriverConfiguration(record) void
+
+  %openfile buffer
+  #include "xc164cs_CAN.H"
+  #include "twincan_driver.h"
+  %closefile buffer
+  %<LibCacheIncludes(buffer)>
+
+%endfunction
+
+%function Start(record) Output
+
+  %assign twinCAN = FEVAL("c166cache","get","TwinCAN")
+  
+  %if twinCAN == 0
+    %assign dummy = FEVAL("warndlg","The currently selected processor is not compatible with the TwinCAN blocks. No "...
+    "code will be generated for the TwinCAN blocks. You "...
+    "should consider using the standard CAN blocks instead", ...
+    "Embedded Target for Infineon C166 Microcontrollers")
+    %return
+  %endif
+  
+  %<SetupCanDataTypes(record)>
+  
+  %assign moduleRecordA = SLibSubsRef(record,"CAN_A")
+  %assign moduleRecordB = SLibSubsRef(record,"CAN_B")
+  %assign enabledA = SLibSubsRef(moduleRecordA,"Module_enabled")
+  %assign enabledB = SLibSubsRef(moduleRecordB,"Module_enabled")
+  
+  %<FcnGenerateTwinCanDriver(record)>
+  /* Initialize and start CAN drivers */
+  twincan_init();
+  %if enabledA == 1
+    can_A_start();
+  %endif
+  %if enabledB == 1
+    can_B_start();
+  %endif
+
+%endfunction
+
+

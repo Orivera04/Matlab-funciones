@@ -1,0 +1,110 @@
+%% CUSTOM STORAGE CLASS: AdvancedStruct.tlc
+%%
+%% $Revision: 1.3 $
+%% $Date: 2002/06/17 12:10:09 $
+%%
+%% Copyright 1994-2002 The MathWorks, Inc.
+
+%% File Abstract ================================================================
+%%
+%% AdvancedStruct custom storage class:
+%% - Packs scalar data into a structure.
+%% - The structure name is hard-coded as "advancedStruct".
+%% - Structure definition is #included from external header file
+%% - The fieldname for each parameter / signal object is specified using a
+%%   custom storage class attribute: data.RTWInfo.CustomAttributes.FieldName.
+%%
+
+%selectfile NULL_FILE
+%implements * "C"
+
+%% Function: DataAccess =========================================================
+%% Abstract:
+%%   Data specific function.
+%%
+%function DataAccess(record, request, idx, reim) void
+
+  %assign cscAttribs = LibGetCustomStorageAttributes(record)
+  %assign fieldName  = cscAttribs.FieldName
+
+  %switch request
+    %case "initialize"
+      %assign gndValue = LibGetGroundValue(record, tRealPart)
+      %return "advancedStruct.%<fieldName> = %<gndValue>;"
+
+    %case "contents"
+      %return "advancedStruct.%<fieldName>"
+      
+    %case "address"
+      %return "&(advancedStruct.%<fieldName>)"
+      
+    %case "declare"
+    %case "define"
+      %break
+
+    %case "layout"
+      %% Uses The Mathworks' data layout.
+      %return LibDefaultCustomStorageLayout(record)
+
+    %default
+      %% Handle other / unrecognized requests
+      %return LibDefaultCustomStorageUnknownDataAccessType(record, request, ...
+	idx, reim)
+  %endswitch
+
+%endfunction
+
+
+%% Function: ClassAccess ========================================================
+%% Abstract:
+%%   Class specific function.
+%%
+%function ClassAccess(record, request) void
+  
+  %switch request
+    %case "setup"
+      %% Include the definition of advancedStruct in <model>_common.h.
+      %openfile buffer
+      #include <advancedStruct.h>
+      %closefile buffer
+      %<LibCacheIncludes(buffer)>
+      
+      %% Example error check
+      %<FcnLocalErrorCheckExample(record)>
+      %break
+      
+    %default
+      %% Handle other / unrecognized requests
+      %return LibDefaultCustomStorageUnknownClassAccessType(record, request)
+  %endswitch
+  
+%endfunction
+
+
+%% Function: FcnLocalErrorCheckExample ==========================================
+%% Abstract:
+%%   Insure that only one object refers to a particular FieldName.
+%%
+%function FcnLocalErrorCheckExample(record) void
+
+  %createrecord tmpCache {}
+  
+  %assign numData = LibCustomStorageClassRecordNumData(record)
+  
+  %foreach idx = numData
+    %assign data       = LibGetDataRecord(record, idx)
+    %assign cscAttribs = LibGetCustomStorageAttributes(data)
+    %assign fieldName  = cscAttribs.FieldName
+    
+    %% Check if fieldName already exists
+    %if ISFIELD(tmpCache,fieldName)
+      %assign errTxt = "Multiple references to %<fieldName>"
+      %<LibReportError(errTxt)>
+    %else
+      %addtorecord tmpCache %<fieldName> 1
+    %endif
+  %endforeach  	  
+
+%endfunction
+
+%% [EOF] AdvancedStruct.tlc

@@ -1,0 +1,167 @@
+%% File: mpc555rt_genfiles.tlc
+%%
+%% Abstract:
+%%   Generate files required to build mpc55DK targets.
+%%
+%% $Revision: 1.12.6.8 $
+%% $Date: 2004/04/29 03:40:12 $
+%%
+%% Copyright 2001-2004 The MathWorks, Inc.
+%selectfile NULL_FILE
+
+%with CompiledModel
+%with CompiledModel.PathInfo
+%with CompiledModel.Settings
+
+%assign model_makevars_file = "%<ModelName>_makevars.mk"
+
+%if RTWVerbose
+    %selectfile STDOUT
+    ### Creating %<model_makevars_file>
+    %closefile  STDOUT
+%endif
+%openfile bld_file = "%<model_makevars_file>"
+			# Automatically Generated File
+			# Do not edit
+
+			# Compiler Location
+	%switch FEVAL("lower",Settings.ToolChain)
+		%case "diab"
+DIABROOT=%<Settings.ToolChainOptions.CompilerPath>
+MPC555_TOOL_CHAIN=DIAB
+		%break
+	%case "codewarrior"
+CWROOT=%<Settings.ToolChainOptions.CompilerPath>
+MPC555_TOOL_CHAIN=CODE_WARRIOR
+		%break
+		%default
+			%error %<Settings.ToolChain> is not supported
+	%endswitch
+include mpc5xxvariant.mk
+
+	%% Get the Compiler Optimization Switches
+	%assign optSwitches = FEVAL("uget_param",CompiledModel.Name,"MPC555_OPTIMIZATION_FLAGS")
+	%% Strip the quotes off the switch
+	%assign optSwitches = FEVAL("regexprep",optSwitches,"^'(.*)'$","$1")
+
+   %% If Compiler Optimisation switches are set to debug
+   %% set DEBUG_OPTS variable for Compiler, Assembler & Linker
+   %% otherwise set the OPT_OPTS variable for Compiler optimisations
+   %assign switchtype = FEVAL("uget_param",CompiledModel.Name,"MPC555_OPTIMIZATION_SWITCH")
+   %% lower case
+   %assign switchtypelower = FEVAL("lower", switchtype)
+OVERRIDE_DEFAULT_OPT_OPTS = 1
+OVERRIDE_DEFAULT_DEBUG_OPTS = 1
+   %if LibIsEqual(switchtypelower, "debug")
+      %% debug build
+OPT_OPTS:=
+DEBUG_OPTS:=%<optSwitches> 
+   %else
+      %% not a debug build
+OPT_OPTS:=%<optSwitches>
+DEBUG_OPTS:=
+   %endif
+%closefile bld_file
+
+%if RTWVerbose
+    %selectfile STDOUT
+    ### Creating realtime_vars.h
+    %closefile  STDOUT
+%endif
+%openfile buffer = "realtime_vars.h"
+/*
+ * realtime_vars.h
+ *
+%<SLibCommonHeaderInfo()>\
+ *
+ * Description  : Header file to define model dependent variables required
+ *                by the build process. This file is included by
+ *                mpc555dk_main.c
+ */
+ 
+/* Model sample period */
+#define TIMER_TICK_PERIOD		%<CompiledModel.FundamentalStepSize>
+
+/* 
+ * Macro used by CCP block to determine which DAQ Lists to 
+ * process after a Single-Tasking model step.
+ *
+ * Note: this macro should be called prior to calling MODEL_STEP
+ * since MODEL_STEP will update the timing information.
+ *
+ * Note: Only call this macro for Single Tasking models
+ *
+ */
+#ifndef DISC_NUMST
+   #error DISC_NUMST must be defined 
+#endif
+
+#ifndef CCP_MT_PROCESSED
+   #error CCP_MT_PROCESSED must be defined 
+#endif
+
+#ifndef CCP_AUTOBUILD_PROCESSED 
+   #error CCP_AUTOBUILD_PROCESSED must be defined
+#endif
+ 
+#if (DISC_NUMST > 1) && !defined(MULTITASKING) && defined(CCP_DAQ_LIST_ENABLED)
+   #ifndef NCSTATES
+      #error NCSTATES must be defined
+   #else
+      #if NCSTATES > 0
+         #error CCP DAQ lists are not supported with multi-rate, singleTasking models, that also contain continuous states
+      #else
+         #define MPC555_IS_SINGLE_TASKING_SAMPLE_HIT(TID_NUM)   (%<LibIsSampleHit("TID_NUM")>)
+      #endif
+   #endif
+#else
+   /* MPC555_IS_SINGLE_TASKING_SAMPLE_HIT macro not required */
+#endif
+
+%closefile buffer
+
+%% Indent non standard files
+SLibIndentFile("realtime_vars.h","")
+
+
+
+%if RTWVerbose
+    %selectfile STDOUT
+    ### Creating profile_vars.h
+    %closefile  STDOUT
+%endif
+%openfile buffer = "profile_vars.h"
+/*
+* profile_vars.h
+*
+%<SLibCommonHeaderInfo()>\
+*
+  * Description  : Header file to define model dependent variables required
+*                by execution profiling, if it is enabled.
+*/
+
+#include "profile_utils.h"
+
+%assign nanoSecondsPerDecrementerTick = ...
+  FEVAL("dec_time_per_tick",CompiledModel.Name, 1e-9)
+
+%if nanoSecondsPerDecrementerTick == ""
+  %exit "The number of nanoseconds per timer tick cannot be zero"
+%endif
+
+/* Number of nano seconds per decrementer tick */
+#define PROFILING_TIME_PER_TICK %<nanoSecondsPerDecrementerTick>
+
+%closefile buffer
+
+%% Indent non standard files
+SLibIndentFile("profile_vars.h","")
+
+
+
+
+%endwith
+%endwith
+%endwith
+
+

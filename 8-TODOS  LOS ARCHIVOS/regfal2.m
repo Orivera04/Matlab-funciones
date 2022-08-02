@@ -1,0 +1,34 @@
+function raiz = regfal2(fun,a,b,xtol,ftol,ntol)
+%Metodo de la biseccion
+f=inline(fun);
+F=f(a);
+G=f(b);
+w=a;
+Fw=F;
+SF=sign(F);
+n=0;
+while (n < ntol) | (abs(b-a)/2 > xtol) | (abs(Fw) > ftol)
+    n=n+1;
+    w=(F*b - G*a)/(F-G);
+    Sw=sign(Fw);
+    Fw=f(w);
+    if SF*Fw < 0
+        b=w;
+        if Sw*Fw > 0
+            F=F/2;
+        end
+    else
+        a=w;
+        F=Fw;
+        if Sw*Fw > 0
+            G=G/2;
+        end
+    end
+end;
+format long;
+a
+b
+fprintf('La solucion esta en el intervalo [%8.2f %8.2f]',a,b)
+
+    
+        

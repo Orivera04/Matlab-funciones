@@ -1,0 +1,125 @@
+clc;
+pa1='ALASKA';
+pa2='CANADA';
+pa3='ESTADOS UNIDOS';
+pa4='MEXICO';
+pa5='GUATEMALA';
+pa6='BELICE';
+pa7='EL SALVADOR';
+pa8='HONDURAS';
+pa9='NICARAGUA';
+pa10='COSTA RICA';
+pa11='PANAMA';
+pa12='COLOMBIA';
+pa13='VENEZUELA';
+pa14='ARGENTINA';
+pa15='PERU';
+pa16='CHILE';
+pa17='ECUADOR';
+pa18='URUGUAY';
+pa19='BRASIL';
+pa20='PARAGUAY';
+
+num=randint(1,1,[1,20]);
+switch num
+    case 1
+        palabra=pa1;
+    case 2
+        palabra=pa2;
+    case 3
+        palabra=pa3;
+    case 4
+        palabra=pa4;
+    case 5
+        palabra=pa5;
+    case 6
+        palabra=pa6;
+    case 7
+        palabra=pa7;
+    case 8
+        palabra=pa8;
+    case 9
+        palabra=pa9;
+    case 10
+        palabra=pa10;
+    case 11
+        palabra=pa11;
+    case 12
+        palabra=pa12;
+    case 13
+        palabra=pa13;
+    case 14
+        palabra=pa14;
+    case 15
+        palabra=pa15;
+    case 16
+        palabra=pa16;
+    case 17
+        palabra=pa17;
+    case 18
+        palabra=pa18;
+    case 19
+        palabra=pa19;
+    case 20
+        palabra=pa20;
+end
+disp(palabra) %QUITAR ESTA PARTE
+tama=length(palabra);
+copia=palabra;
+cont=0;
+for i=1:tama
+    if strcmp(' ',palabra(i))==0
+        copia(i)='_';
+    elseif strcmp(' ',palabra(i))==1
+        copia(i)=' ';
+        cont=1;
+    end
+end
+fprintf('\nLa palabra tiene %d letras\n\n',tama-cont);
+fprintf('                    ');
+for i=1:tama
+    if strcmp(' ',palabra(i))==0
+        fprintf('_ ');
+    elseif strcmp(' ',palabra(i))==1
+        fprintf('  ');
+    end
+end
+error=0;
+validar='                                                ';
+valcon=1;
+fprintf('\n\nERRORES: %d\n',error);
+while 1
+    letra=input('\n\nESCRIBA LA LETRA: >>','s');
+    posi=find(palabra==letra);
+    if length(posi)~=0
+        num=length(posi);
+        for i=1:num
+            copia(posi(i))=letra;
+        end
+    vallet=find(validar==letra);
+    if length(vallet)==0
+        
+    else
+        vallet=find(validar==letra);
+        if length(vallet)==0
+            error=error+1;
+            validar(valcon)=letra;
+            valcon=valcon+1;
+        end
+    end
+    clc;
+    fprintf('\nLa palabra tiene %d letras\n\n',tama-cont);
+    fprintf('                    ');
+    for i=1:tama
+            fprintf('%s ',copia(i));
+    end
+    if (copia==palabra)|(error==6);
+        break;
+    end
+    fprintf('\n\nERRORES: %d\n',error);
+end
+if (copia==palabra)
+    fprintf('\n\nFELICIDADES, UD HA ENCONTRADO LA PALABRA');
+elseif (error==6);
+    fprintf('\n\nUD HA PERDIDO, La palabra correcta es: %s',palabra);
+end

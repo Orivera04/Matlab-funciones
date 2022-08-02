@@ -1,0 +1,39 @@
+function CP=coefpol2(cade)
+%Coeficientes de un polinomio en x,y sin terminos cruzados.
+clc;
+syms X Y Z u v w p r s
+CP=zeros(1,10);
+i1=findstr('X^2',cade);
+i2=findstr('Y^2',cade);
+i3=findstr('Z^2',cade);
+m=numel(i1);n=numel(i2); p=numel(i3);
+if m==0 && n==0 && p==0 
+    error('Cuádrica degenerada')
+end
+pol1=strrep(cade,'X^2','u');
+pol2=strrep(pol1,'Y^2','v');
+pol3=strrep(pol2,'Z^2','w');
+pol4=strrep(pol3,'X*Y','p');
+pol5=strrep(pol4,'X*Z','r');
+pol6=strrep(pol5,'Y*Z','s');
+pol7=strrep(pol6,'p','X^6');
+pol8=strrep(pol7,'r','X^5');
+pol9=strrep(pol8,'s','X^4');
+pol10=strrep(pol9,'u','X^9');
+pol11=strrep(pol10,'v','X^8');
+pol12=strrep(pol11,'w','X^7');
+pol13=strrep(pol12,'X','X^3');
+pol14=strrep(pol13,'Y','X^2');
+pol15=strrep(pol14,'Z','X');
+pol16=strrep(pol15,'X','t');
+pol17=strrep(pol16,'t^3','t');
+pol17
+CP1=sym2poly(sym(pol17));
+ini=[];   
+if m==0 && n~=0
+    ini=[0];
+elseif m==0 && n==0
+    ini=[0 0];    
+end
+ecua=cade
+CP=[ini,CP1];

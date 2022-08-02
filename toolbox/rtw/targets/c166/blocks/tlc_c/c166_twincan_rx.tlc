@@ -1,0 +1,165 @@
+%% File: c166_twincan_rx.tlc
+%%
+%% Abstract:
+%%   Polls the TwinCAN receive buffer to see if a message
+%%   is available.
+%%
+%% $Revision: 1.1.6.2 $
+%% $Date: 2004/04/19 01:17:47 $
+%%
+%% Copyright 2002-2003 The MathWorks, Inc.
+
+%implements c166_twincan_rx "C"
+%include "c166_common_includes.tlc"
+%include "can_comm_setup.tlc"
+
+%% Function: BlockTypeSetup
+%% Abstract:
+%%
+%function BlockTypeSetup(block,system) void
+
+   %<SetupCanDataTypes(block)>
+
+%endfunction %% BlockTypeSetup
+
+
+%% Function: Start =============================================
+%% Abstract:
+%%
+%function Start(block,system) Output
+
+  %assign twinCAN = FEVAL("c166cache","get","TwinCAN")
+  %if ( !SLibCodeGenForSim() ) && ( twinCAN == 1 )
+     
+    %% Only generate code for real time
+    
+    %assign module = SFcnParamSettings.Module
+    
+    %%Determine Frame type
+    %if SFcnParamSettings.Type == 0
+      %assign type = "CAN_MESSAGE_STANDARD" 
+    %else
+      %assign type = "CAN_MESSAGE_EXTENDED"
+    %endif
+    
+    /*  Setup the TwinCAN Receive buffers */
+    %foreach messageIndex = SIZE(SFcnParamSettings.Buffers,1)
+      %assign idx = SFcnParamSettings.Buffers[messageIndex]
+      %% Get the message ID from the parameter list
+      %assign ID = SFcnParamSettings.IDS[messageIndex]
+      %% Generate the code for initializing the buffer
+      can_init_receive(%<idx>,%<type>,%<ID>, %<module-1>);
+    %endforeach %% messageIndex
+    
+  %endif
+
+%endfunction %% Start
+
+
+
+%% Function: Outputs ========================================================
+%% Abstract:
+%%
+%% Tests each CAN message buffer specified. If the 
+%%
+%function Outputs(block,system) Output
+
+  %assign twinCAN = FEVAL("c166cache","get","TwinCAN")
+  %if ( !SLibCodeGenForSim() ) && ( twinCAN == 1 )
+    
+    %switch SFcnParamSettings.Module
+      %case 1
+	%assign moduleLetter = "A"
+	%break
+      %case 2
+	%assign moduleLetter = "B"
+	%break
+      %default
+	%exit "Invalid value for Module, Module = %<Module>"
+    %endswitch
+        
+      
+    %% Only generate code for real time
+    %assign module = SFcnParamSettings.Module
+    
+    /*  Read receive buffers for block %<Name> 
+    * using TwinCAN node %<moduleLetter> */
+    {
+      %assign nBuffers = SIZE(SFcnParamSettings.Buffers,1)
+      %if nBuffers != 1
+	int_T triggers[%<nBuffers>];
+      %endif
+      
+      %% Scan all the buffers first. If a message is available
+      %% the copy it to the output signal. If more than
+      %% one message buffer is being scanned then set the
+      %% appropriate flag in the trigger array. If
+      %% only one message buffer is being scanned and
+      %% there is a message then call it's function call
+      %% subsystem immediately.
+      
+      %foreach idx=nBuffers
+	%assign bufferIndex=SFcnParamSettings.Buffers[idx]
+	%assign outSig = LibBlockOutputSignal(1,"","",idx)
+	
+	/* Process CAN receive buffer %<bufferIndex> */
+	%assign receiveMsg =  "can_receive_msg(&(%<outSig>),%<bufferIndex>)"
+	
+	%if nBuffers != 1
+	  if( %<receiveMsg> == MSG_RECEIVED ){
+	    triggers[%<idx>]=1;
+	  }else{
+	    triggers[%<idx>]=0;
+	  }
+	%else
+	  if( %<receiveMsg> == MSG_RECEIVED ){
+	    %<MakeFcnCall(block,system,0)>
+	  }
+	%endif
+      %endforeach
+      
+      %if nBuffers!= 1
+	/* *****************************************
+	
+	PROCESS RECIEVED MESSAGES  
+	
+	If a message has been recieved then
+	a flag will have been set at the
+	appropriate place in the array trigger.
+	If this is set then execute the handling
+	code.
+	
+	*******************************************/
+	%foreach idx=nBuffers
+	  if(triggers[%<idx>]){
+	    %<MakeFcnCall(block,system,idx)>
+	  }
+	%endforeach
+      %endif
+      
+    }
+    
+  %endif
+
+%endfunction %%Outputs
+
+%% ---------------------------------------------
+%% Call the function call subsystem at index
+%% fcnIdx
+%% ---------------------------------------------
+%function MakeFcnCall(block,system,fcnIdx) Output
+   /* -- Call CAN RX Fcn-Call_%<fcnIdx> -- */
+   %with SFcnSystemOutputCall[%<fcnIdx>]
+      %% skip unconnected function call outputs
+      %if LibIsEqual(BlockToCall, "unconnected")
+        %return
+      %endif
+      %assign sysIdx = BlockToCall[0]
+      %assign blkIdx = BlockToCall[1]
+      %assign ssBlock = System[sysIdx].Block[blkIdx]
+      %assign sysToCall = System[ssBlock.ParamSettings.SystemIdx]
+      %<LibCallFCSS(sysToCall, tSimStruct, FcnPortElement, ...
+        ParamSettings.SampleTimesToSet[0][1])>\
+   %endwith
+%endfunction
+

@@ -1,0 +1,526 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>SEQSTATSDEMO Example of sequence statistics with MATLAB</title>
+      <meta name="generator" content="MATLAB 7.0.0.3444 (R14) Beta 2">
+      <meta name="date" content="2004-01-21">
+      <meta name="m-file" content="seqstatsdemo">
+      <meta name="title" content="SEQSTATSDEMO Example of sequence statistics with MATLAB">
+      <meta name="description" content="This demonstration looks at some statistics about the DNA content of the human mitochondrial genome."><style>
+body {
+  background-color: white;
+}
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+pre.codeinput {
+  margin-left: 30px;
+}
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.showbuttons {
+  margin-left: 30px;
+  border: solid black 2px;
+  padding: 4px;
+  background: #EBEFF3;
+}
+
+pre.codeoutput {
+  color: gray;
+  font-style: italic;
+}
+pre.error {
+  color: red;
+}
+    </style></head>
+   <body>
+      <h1>SEQSTATSDEMO Example of sequence statistics with MATLAB</h1>
+      <p>This demonstration looks at some statistics about the DNA content of the human mitochondrial genome.</p>
+      <h2>Contents</h2>
+      <ul>
+         <li><a href="#1">Introduction</a></li>
+         <li><a href="#6">Composition of the mitochondrial genome.</a></li>
+         <li><a href="#13">Exploring the Open Reading Frames (ORFs)</a></li>
+         <li><a href="#16">Extracting and analyzing the ND2 protein</a></li>
+      </ul>
+      <h2>Introduction<a name="1"></a></h2>
+      <p>Mitochondria are generally the major energy production center in eukaryotes. The Genome repository at the NCBI contains more
+         interesting information about the human mitochondrial genome.
+      </p><pre class="codeinput">web(<span class="string">'http://www.ncbi.nlm.nih.gov/genomes/framik.cgi?db=Genome&amp;gi=12188'</span>)
+</pre><p>The consensus sequence of the human mitochondria genome has accession number NC_001807. The whole GenBank entry is quite large
+         and this example only uses the nucleotide sequence, so you can use the <b>getgenbank</b> function with the 'SequenceOnly' flag to read just the sequence information into the MATLAB workspace.
+      </p><pre class="codeinput">mitochondria = getgenbank(<span class="string">'NC_001807'</span>,<span class="string">'SequenceOnly'</span>,true);
+</pre><p>If you don't have a live web connection, you can load the data from a MAT-file using the command</p><pre class="codeinput"><span class="comment">% load mitochondria     % &lt;== Uncomment this if no internet connection</span>
+</pre><p>The MATLAB <b>whos</b> command gives information about the size of the sequence.
+      </p><pre class="codeinput">whos mitochondria
+</pre><pre class="codeoutput">  Name               Size                    Bytes  Class
+
+  mitochondria       1x16571                 33142  char array
+
+Grand total is 16571 elements using 33142 bytes
+
+</pre><p>You will use some of the sequence statistics function in the Bioinformatics Toolbox to look at various properties of this
+         sequence. You can look at the composition of the nucleotides with the <b>ntdensity</b> function.
+      </p><pre class="codeinput">ntdensity(mitochondria)
+</pre><img vspace="5" hspace="5" src="seqstatsdemo_01.png"><h2>Composition of the mitochondrial genome.<a name="6"></a></h2>
+      <p>This shows that the genome is A-T rich. You can get more specific information with the <b>basecount</b> function.
+      </p><pre class="codeinput">basecount(mitochondria)
+</pre><pre class="codeoutput">
+ans = 
+
+    A: 5113
+    C: 5192
+    G: 2180
+    T: 4086
+
+</pre><p>These are on the 5'-3' strand. You can look at the reverse complement using the <b>seqrcomplement</b> function.
+      </p><pre class="codeinput">basecount(seqrcomplement(mitochondria))
+</pre><pre class="codeoutput">
+ans = 
+
+    A: 4086
+    C: 2180
+    G: 5192
+    T: 5113
+
+</pre><p>As expected, the base counts on the reverse complement strand are complementary to the counts on the 5'-3' strand.</p>
+      <p>You can use the chart option to <b>basecount</b> to display a pie chart of the distribution of the bases.
+      </p><pre class="codeinput">figure
+basecount(mitochondria,<span class="string">'chart'</span>,<span class="string">'pie'</span>);
+</pre><img vspace="5" hspace="5" src="seqstatsdemo_02.png"><p>Now look at the dimers in the sequence and display the information in a bar chart using <b>dimercount</b>.
+      </p><pre class="codeinput">figure
+dimercount(mitochondria,<span class="string">'chart'</span>,<span class="string">'bar'</span>)
+</pre><pre class="codeoutput">
+ans = 
+
+    AA: 1594
+    AC: 1495
+    AG: 801
+    AT: 1223
+    CA: 1536
+    CC: 1779
+    CG: 439
+    CT: 1438
+    GA: 615
+    GC: 716
+    GG: 427
+    GT: 421
+    TA: 1368
+    TC: 1202
+    TG: 512
+    TT: 1004
+
+</pre><img vspace="5" hspace="5" src="seqstatsdemo_03.png"><p>You can look at codons using <b>codoncount</b>. The function <b>dimercount</b> simply counts all adjacent nucleotides; however <b>codoncount</b> counts the codons on a particular reading frame. With no options, the function shows the codon counts on the first reading
+         frame.
+      </p><pre class="codeinput">codoncount(mitochondria)
+</pre><pre class="codeoutput">AAA - 172     AAC - 157     AAG -  67     AAT - 123     
+ACA - 153     ACC - 163     ACG -  42     ACT - 130     
+AGA -  58     AGC -  90     AGG -  50     AGT -  43     
+ATA - 132     ATC - 103     ATG -  57     ATT -  96     
+CAA - 166     CAC - 167     CAG -  68     CAT - 135     
+CCA - 146     CCC - 215     CCG -  50     CCT - 182     
+CGA -  33     CGC -  60     CGG -  18     CGT -  20     
+CTA - 187     CTC - 126     CTG -  52     CTT -  98     
+GAA -  68     GAC -  62     GAG -  47     GAT -  39     
+GCA -  67     GCC -  87     GCG -  23     GCT -  61     
+GGA -  53     GGC -  61     GGG -  23     GGT -  25     
+GTA -  61     GTC -  49     GTG -  26     GTT -  36     
+TAA - 136     TAC - 127     TAG -  82     TAT - 107     
+TCA - 143     TCC - 126     TCG -  37     TCT - 103     
+TGA -  64     TGC -  35     TGG -  27     TGT -  25     
+TTA - 115     TTC - 113     TTG -  37     TTT -  99     
+
+</pre><p>Using a loop you can also look at all the other reading frames:</p><pre class="codeinput"><span class="keyword">for</span> frame = 1:3
+    figure
+    subplot(2,1,1); codoncount(mitochondria,<span class="string">'frame'</span>,frame,<span class="string">'figure'</span>,true);
+    title(sprintf(<span class="string">'Codons for frame %d'</span>,frame));
+    subplot(2,1,2); codoncount(mitochondria,<span class="string">'reverse'</span>,true,<span class="string">'frame'</span>,frame,<span class="string">'figure'</span>,true);
+    title(sprintf(<span class="string">'Codons for reverse frame %d'</span>,frame));
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="seqstatsdemo_04.png"><img vspace="5" hspace="5" src="seqstatsdemo_05.png"><img vspace="5" hspace="5" src="seqstatsdemo_06.png"><h2>Exploring the Open Reading Frames (ORFs)<a name="13"></a></h2>
+      <p>In a nucleotide sequence an obvious thing to look for is if there are any open reading frames. The function <b>seqshoworfs</b> can be used to visualize ORFs in a sequence. Note: In the HTML tutorial only the first 7500 bases of the first reading frame
+         are shown, however when running the demo you will be able to inspect the complete mitochondrial genome with the aid of the
+         <b>Help Browser</b> .
+      </p><pre class="codeinput">seqshoworfs(mitochondria);
+</pre>
+
+<pre><p>Frame 1</p><br><br>000001    GATCACAGGTCTATCACCCTATTAACCACTCACGGGAGCTCTCCATGCATTTGGTATTTTCGTC<br>000065    TGGGGGGTGTGCACGCGATAGCATTGCGAGACGCTGGAGCCGGAGCACCCTATGTCGCAGTATC<br>000129    TGTCTTTGATTCCTGCCTCATTCTATTATTTATCGCACCTACGTTCAATATTACAGGCGAACAT<br>000193    ACCTACTAAAGTGTGTTAATTAATTAATGCTTGTAGGACATAATAATAACAATTGAATGTCTGC<br>000257    ACAGCCGCTTTCCACACAGACATCATAACAAAAAATTTCCACCAAACCCCCCCCTCCCCCCGCT<br>000321    TCTGGCCACAGCACTTAAACACATCTCTGCCAAACCCCAAAAACAAAGAACCCTAACACCAGCC<br>000385    TAACCAGATTTCAAATTTTATCTTTAGGCGGTATGCACTTTTAACAGTCACCCCCCAACTAACA<br>000449    CATTATTTTCCCCTCCCACTCCCATACTACTAATCTCATCAATACAACCCCCGCCCATCCTACC<br>000513    CAGCACACACACACCGCTGCTAACCCCATACCCCGAACCAACCAAACCCCAAAGACACCCCCCA<br>000577    CAGTTTATGTAGCTTACCTCCTCAAAGCAATACACTGAAAATGTTTAGACGGGCTCACATCACC<br>000641    CCATAAACAAATAGGTTTGGTCCTAGCCTTTCTATTAGCTCTTAGTAAGATTACACATGCAAGC<br>000705    ATCCCCGTTCCAGTGAGTTCACCCTCTAAATCACCACGATCAAAAGGGACAAGCATCAAGCACG<br>000769    CAGCAATGCAGCTCAAAACGCTTAGCCTAGCCACACCCCCACGGGAAACAGCAGTGATTAACCT<br>000833    TTAGCAATAAACGAAAGTTTAACTAAGCTATACTAACCCCAGGGTTGGTCAATTTCGTGCCAGC<br>000897    CACCGCGGTCACACGATTAACCCAAGTCAATAGAAGCCGGCGTAAAGAGTGTTTTAGATCACCC<br>000961    CCTCCCCAATAAAGCTAAAACTCACCTGAGTTGTAAAAAACTCCAGTTGACACAAAATAGACTA<br>001025    CGAAAGTGGCTTTAACATATCTGAACACACAATAGCTAAGACCCAAACTGGGATTAGATACCCC<br>001089    ACTATGCTTAGCCCTAAACCTCAACAGTTAAATCAACAAAACTGCTCGCCAGAACACTACGAGC<br>001153    CACAGCTTAAAACTCAAAGGACCTGGCGGTGCTTCATATCCCTCTAGAGGAGCCTGTTCTGTAA<br>001217    TCGATAAACCCCGATCAACCTCACCACCTCTTGCTCAGCCTATATACCGCCATCTTCAGCAAAC<br>001281    CCTGATGAAGGCTACAAAGTAAGCGCAAGTACCCACGTAAAGACGTTAGGTCAAGGTGTAGCCC<br>001345    <b><font color="#0000FF">ATGAGGTGGCAAGAAATGGGCTACATTTTCTACCCCAGAAAACTACGA</font></b>TAGCCCTTATGAAACT<br>001409    TAAGGGTCGAAGGTGGATTTAGCAGTAAACTGAGAGTAGAGTGCTTAGTTGAACAGGGCCCTGA<br>001473    AGCGCGTACACACCGCCCGTCACCCTCCTCAAGTATACTTCAAAGGACATTTAACTAAAACCCC<br>001537    TACGCATTTATATAGAGGAGACAAGTCGTAACATGGTAAGTGTACTGGAAAGTGCACTTGGACG<br>001601    AACCAGAGTGTAGCTTAACACAAAGCACCCAACTTACACTTAGGAGATTTCAACTTAACTTGAC<br>001665    CGCTCTGAGCTAAACCTAGCCCCAAACCCACTCCACCTTACTACCAGACAACCTTAGCCAAACC<br>001729    ATTTACCCAAATAAAGTATAGGCGATAGAAATTGAAACCTGGCGCAATAGATATAGTACCGCAA<br>001793    GGGAAAGATGAAAAATTATAACCAAGCATAATATAGCAAGGACTAACCCCTATACCTTCTGCAT<br>001857    AATGAATTAACTAGAAATAACTTTGCAAGGAGAGCCAAAGCTAAGACCCCCGAAACCAGACGAG<br>001921    CTACCTAAGAACAGCTAAAAGAGCACACCCGTCTATGTAGCAAAATAGTGGGAAGATTTATAGG<br>001985    TAGAGGCGACAAACCTACCGAGCCTGGTGATAGCTGGTTGTCCAAGATAGAATCTTAGTTCAAC<br>002049    TTTAAATTTGCCCACAGAACCCTCTAAATCCCCTTGTAAATTTAACTGTTAGTCCAAAGAGGAA<br>002113    CAGCTCTTTGGACACTAGGAAAAAACCTTGTAGAGAGAGTAAAAAATTTAACACCCATAGTAGG<br>002177    CCTAAAAGCAGCCACCAATTAAGAAAGCGTTCAAGCTCAACACCCACTACCTAAAAAATCCCAA<br>002241    ACATATAACTGAACTCCTCACACCCAATTGGACCAATCTATCACCCTATAGAAGAACTAATGTT<br>002305    AGTATAAGTAACATGAAAACATTCTCCTCCGCATAAGCCTGCGTCAGATCAAAACACTGAACTG<br>002369    ACAATTAACAGCCCAATATCTACAATCAACCAACAAGTCATTATTACCCTCACTGTCAACCCAA<br>002433    CACAGGCATGCTCATAAGGAAAGGTTAAAAAAAGTAAAAGGAACTCGGCAAACCTTACCCCGCC<br>002497    TGTTTACCAAAAACATCACCTCTAGCATCACCAGTATTAGAGGCACCGCCTGCCCAGTGACAC<b><font color="#0000FF">A</font></b><br>002561    <b><font color="#0000FF">TGTTTAACGGCCGCGGTACCCTAACCGTGCAAAGG</font></b>TAGCATAATCACTTGTTCCTTAAATAGGG<br>002625    ACCTGTATGA<b><font color="#0000FF">ATGGCTCCACGAGGGTTCAGCTGTCTCTTACTTTTAACCAGTGAAATTGACCTG</font></b><br>002689    <b><font color="#0000FF">CCCGTGAAGAGGCGGGCA</font></b>TGACACAGCAAGACGAGAAGACCCTATGGAGCTTTAATTTATTAAT<br>002753    GCAAACAGTACCTAACAAACCCACAGGTCCTAAACTACCAAACCTGCATTAAAAATTTCGGTTG<br>002817    GGGCGACCTCGGAGCAGAACCCAACCTCCGAGCAGTACATGCTAAGACTTCACCAGTCAAAGCG<br>002881    AACTACTATACTCAATTGATCCAATAACTTGACCAACGGAACAAGTTACCCTAGGGATAACAGC<br>002945    GCAATCCTATTCTAGAGTCCATATCAACAATAGGGTTTACGACCTCG<b><font color="#0000FF">ATGTTGGATCAGGACAT</font></b><br>003009    <b><font color="#0000FF">CCCGATGGTGCAGCCGCTATTAAAGGTTCGTTTGTTCAACGAT</font></b>TAAAGTCCTACGTGATCTGAG<br>003073    TTCAGACCGGAGTAATCCAGGTCGGTTTCTATCTACTTCAAATTCCTCCCTGTACGAAAGGACA<br>003137    AGAGAAATAAGGCCTACTTCACAAAGCGCCTTCCCCCGTAA<b><font color="#0000FF">ATGATATCATCTCAACTTAGTAT</font></b><br>003201    <b><font color="#0000FF">TATACCCACACCCACCCAAGAACAGGGTTTGTTAAGATGGCAGAGCCCGGTAATCGCA</font></b>TAAAAC<br>003265    TTAAAACTTTACAGTCAGAGGTTCAATTCCTCTTCTTAACAACATACCCATGGCCAACCTCCTA<br>003329    CTCCTCATTGTACCCATTCTAATCGCAATGGCATTCCTAATGCTTACCGAACGAAAAATTCTAG<br>003393    GCTATATACAACTACGCAAAGGCCCCAACGTTGTAGGCCCCTACGGGCTACTACAACCCTTCGC<br>003457    TGACGCCATAAAACTCTTCACCAAAGAGCCCCTAAAACCCGCCACATCTACCATCACCCTCTAC<br>003521    ATCACCGCCCCGACCTTAGCTCTCACCATCGCTCTTCTACT<b><font color="#0000FF">ATGAACCCCCCTCCCCATACCCA</font></b><br>003585    <b><font color="#0000FF">ACCCCCTGGTCAACCTCAACCTAGGCCTCCTATTTATTCTAGCCACCTC</font></b>TAGCCTAGCCGTTTA<br>003649    CTCAATCCTCTGATCAGGGTGAGCATCAAACTCAAACTACGCCCTGATCGGCGCACTGCGAGCA<br>003713    GTAGCCCAAACAATCTCATATGAAGTCACCCTAGCCATCATTCTACTATCAACATTACTAATAA<br>003777    GTGGCTCCTTTAACCTCTCCACCCTTATCACAACACAAGAACACCTCTGATTACTCCTGCCATC<br>003841    <b><font color="#0000FF">ATGACCCTTGGCCATAATATGATTTATCTCCACACTAGCAGAGACCAACCGAACCCCCTTCGAC</font></b><br>003905    <b><font color="#0000FF">CTTGCCGAAGGGGAGTCCGAACTAGTCTCAGGCTTCAACATCGAATACGCCGCAGGCCCCTTCG</font></b><br>003969    <b><font color="#0000FF">CCCTATTCTTCATAGCCGAATACACAAACATTATTATAATAAACACCCTCACCACTACAATCTT</font></b><br>004033    <b><font color="#0000FF">CCTAGGAACAACATA</font></b>TGACGCACTCTCCCCTGAACTCTACACAACATATTTTGTCACCAAGACC<br>004097    CTACTTCTAACCTCCCTGTTCTT<b><font color="#0000FF">ATGAATTCGAACAGCATACCCCCGATTCCGCTACGACCAAC</font></b><br>004161    <b><font color="#0000FF">TCATACACCTCCTATGAAAAAACTTCCTACCACTCACCCTAGCATTACTTATATGATATGTCTC</font></b><br>004225    <b><font color="#0000FF">CATACCCATTACAATCTCCAGCATTCCCCCTCAAACCTAAGAAATATGTCTGATAAAAGAGTTA</font></b><br>004289    <b><font color="#0000FF">CTTTGATAGAG</font></b>TAAATAATAGGAGCTTAAACCCCCTTATTTCTAGGACTATGAGAATCGAACCC<br>004353    ATCCCTGAGAATCCAAAATTCTCCGTGCCACCTATCACACCCCATCCTAAAGTAAGGTCAGCTA<br>004417    AATAAGCTATCGGGCCCATACCCCGAAAATGTTGGTTATACCCTTCCCGTACTAATTAATCCCC<br>004481    TGGCCCAACCCGTCATCTACTCTACCATCTTTGCAGGCACACTCATCACAGCGCTAAGCTCGCA<br>004545    CTGATTTTTTACCTGAGTAGGCCTAGAAATAAAC<b><font color="#0000FF">ATGCTAGCTTTTATTCCAGTTCTAACCAAA</font></b><br>004609    <b><font color="#0000FF">AAAATAAACCCTCGTTCCACAGAAGCTGCCATCAAGTATTTCCTCACGCAAGCAACCGCATCCA</font></b><br>004673    <b><font color="#0000FF">TAATCCTTCTAATAGCTATCCTCTTCAACAATATACTCTCCGGACAA</font></b>TGAACCATAACCAATAC<br>004737    TACCAATCAATACTCATCATTAATAATCATA<b><font color="#0000FF">ATGGCTATAGCAATAAAACTAGGAATAGCCCCC</font></b><br>004801    <b><font color="#0000FF">TTTCACTTC</font></b>TGAGTCCCAGAGGTTACCCAAGGCACCCCTCTGACATCCGGCCTGCTTCTTCTCA<br>004865    CATGACAAAAACTAGCCCCCATCTCAATCATATACCAAATCTCTCCCTCACTAAACGTAAGCCT<br>004929    TCTCCTCACTCTCTCAATCTTATCCATCATAGCAGGCAGTTGAGGTGGATTAAACCAAACCCAG<br>004993    CTACGCAAAATCTTAGCATACTCCTCAATTACCCACATAGGATGAATAATAGCAGTTCTACCGT<br>005057    ACAACCCTAACATAACCATTCTTAATTTAACTATTTATATTATCCTAACTACTACCGCATTCCT<br>005121    ACTACTCAACTTAAACTCCAGCACCACGACCCTACTACTATCTCGCACCTGAAACAAGCTAACA<br>005185    TGACTAACACCCTTAATTCCATCCACCCTCCTCTCCCTAGGAGGCCTGCCCCCGCTAACCGGCT<br>005249    TTTTGCCCAAATGGGCCATTATCGAAGAATTCACAAAAAACAATAGCCTCATCATCCCCACCAT<br>005313    CATAGCCACCATCACCCTCCTTAACCTCTACTTCTACCTACGCCTAATCTACTCCACCTCAATC<br>005377    ACACTACTCCCCATATCTAACAACGTAAAAATAAAATGACAGTTTGAACATACAAAACCCACCC<br>005441    CATTCCTCCCCACACTCATCGCCCTTACCACGCTACTCCTACCTATCTCCCCTTTTATACTAAT<br>005505    AATCTTATAGAAATTTAGGTTAAATACAGACCAAGAGCCTTCAAAGCCCTCAGTAAGTTGCAAT<br>005569    ACTTAATTTCTGCAACAGCTAAGGACTGCAAAACCCCACTCTGCATCAACTGAACGCAAATCAG<br>005633    CCACTTTAATTAAGCTAAGCCCTTACTAGACCAATGGGACTTAAACCCACAAACACTTAGTTAA<br>005697    CAGCTAAGCACCCTAATCAACTGGCTTCAATCTACTTCTCCCGCCGCCGGGAAAAAAGGCGGGA<br>005761    GAAGCCCCGGCAGGTTTGAAGCTGCTTCTTCGAATTTGCAATTCAATATGAAAATCACCTCGGA<br>005825    GCTGGTAAAAAGAGGCCTAACCCCTGTCTTTAGATTTACAGTCCAATGCTTCACTCAGCCATTT<br>005889    TACCTCACCCCCACTGATGTTCGCCGACCGTTGACTATTCTCTACAAACCACAAAGACATTGGA<br>005953    ACACTATACCTATTATTCGGCGCATGAGCTGGAGTCCTAGGCACAGCTCTAAGCCTCCTTATTC<br>006017    GAGCCGAGCTGGGCCAGCCAGGCAACCTTCTAGGTAACGACCACATCTACAACGTTATCGTCAC<br>006081    AGCCCATGCATTTGTAATAATCTTCTTCATAGTAATACCCATCATAATCGGAGGCTTTGGCAAC<br>006145    TGACTAGTTCCCCTAATAATCGGTGCCCCCGAT<b><font color="#0000FF">ATGGCGTTTCCCCGCATAAACAACATAAGCT</font></b><br>006209    <b><font color="#0000FF">TC</font></b>TGACTCTTACCTCCCTCTCTCCTACTCCTGCTCGCATCTGCTATAGTGGAGGCCGGAGCAGG<br>006273    AACAGGTTGAACAGTCTACCCTCCCTTAGCAGGGAACTACTCCCACCCTGGAGCCTCCGTAGAC<br>006337    CTAACCATCTTCTCCTTACACCTAGCAGGTGTCTCCTCTATCTTAGGGGCCATCAATTTCATCA<br>006401    CAACAATTATCAATATAAAACCCCCTGCCATAACCCAATACCAAACGCCCCTCTTCGTCTGATC<br>006465    CGTCCTAATCACAGCAGTCCTACTTCTCCTATCTCTCCCAGTCCTAGCTGCTGGCATCACTATA<br>006529    CTACTAACAGACCGCAACCTCAACACCACCTTCTTCGACCCCGCCGGAGGAGGAGACCCCATTC<br>006593    TATACCAACACCTATTCTGATTTTTCGGTCACCCTGAAGTTTATATTCTTATCCTACCAGGCTT<br>006657    CGGAATAATCTCCCATATTGTAACTTACTACTCCGGAAAAAAAGAACCATTTGGATACATAGGT<br>006721    ATGGTCTGAGCT<b><font color="#0000FF">ATGATATCAATTGGCTTCCTAGGGTTTATCGTG</font></b>TGAGCACACCATATATTTA<br>006785    CAGTAGGAATAGACGTAGACACACGAGCATATTTCACCTCCGCTACCATAATCATCGCTATCCC<br>006849    CACCGGCGTCAAAGTATTTAGCTGACTCGCCACACTCCACGGAAGCAATATGAAATGATCTGCT<br>006913    GCAGTGCTCTGAGCCCTAGGATTCATCTTTCTTTTCACCGTAGGTGGCCTGACTGGCATTGTAT<br>006977    TAGCAAACTCATCACTAGACATCGTACTACACGACACGTACTACGTTGTAGCTCACTTCCACTA<br>007041    TGTCCTATCAATAGGAGCTGTATTTGCCATCATAGGAGGCTTCATTCACTGATTTCCCCTATTC<br>007105    TCAGGCTACACCCTAGACCAAACCTACGCCAAAATCCATTTCACTATCATATTCATCGGCGTAA<br>007169    ATCTAACTTTCTTCCCACAACACTTTCTCGGCCTATCCGGA<b><font color="#0000FF">ATGCCCCGACGTTACTCGGACTA</font></b><br>007233    <b><font color="#0000FF">CCCCGATGCATACACCACA</font></b>TGAAACATCCTATCATCTGTAGGCTCATTCATTTCTCTAACAGCA<br>007297    GTAATATTAATAATTTTCATGATTTGAGAAGCCTTCGCTTCGAAGCGAAAAGTCCTAATAGTAG<br>007361    AAGAACCCTCCATAAACCTGGAGTGACTATATGGATGCCCCCCACCCTACCACACATTCGAAGA<br>007425    ACCCGTATACATAAAATCTAGACAAAAAAGGAAGGAATCGAACCCCCCAAAGCTGGTTTCAAGC<br>007489    CAACCCCATGGC</p><br><br></p></pre>
+
+<p>If you compare this output to the genes shown on the NCBI page there seem to be slightly fewer ORFs, and hence fewer genes,
+         than expected. Vertebrate mitochondria do not use the Standard genetic code so some codons have different meaning in mitochondrial
+         genomes. For more information about using different genetic codes in MATLAB see the help for the function <b>geneticcode</b>.
+      </p><pre class="codeinput">help geneticcode
+</pre><pre class="codeoutput">
+ GENETICCODE returns a structure containing mappings for the genetic code.
+ 
+    MAP = GENETICCODE returns a structure containing mapping for the Standard
+    genetic code.
+ 
+    GENETICCODE(ID) returns a structure of the mapping for alternate genetic
+    codes, where ID is either the transl_table ID from the NCBI Genetics web
+    page (http://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi?mode=c)
+    or one of the following supported names. NAME can be truncated to the
+    first two characters of the name.
+ 
+    ID  Name
+ 
+  	1	Standard
+  	2	Vertebrate Mitochondrial
+  	3	Yeast Mitochondrial
+  	4	Mold, Protozoan, and Coelenterate Mitochondrial and Mycoplasma/Spiroplasma
+  	5	Invertebrate Mitochondrial
+  	6	Ciliate, Dasycladacean and Hexamita Nuclear
+  	9	Echinoderm Mitochondrial
+  	10	Euplotid Nuclear
+  	11	Bacterial and Plant Plastid
+  	12	Alternative Yeast Nuclear
+  	13	Ascidian Mitochondrial
+  	14	Flatworm Mitochondrial
+  	15	Blepharisma Nuclear
+  	16	Chlorophycean Mitochondrial
+  	21	Trematode Mitochondrial
+  	22	Scenedesmus Obliquus Mitochondrial
+  	23	Thraustochytrium Mitochondrial
+ 
+    Examples:
+ 
+        moldcode = geneticcode(4)
+        wormcode = geneticcode('Flatworm Mitochondrial')
+ 
+    See also &lt;a href="matlab:help nt2aa"&gt;nt2aa&lt;/a&gt;, &lt;a href="matlab:help revgeneticcode"&gt;revgeneticcode&lt;/a&gt;.
+
+</pre><p>The 'GeneticCode' option to the <b>seqshoworfs</b> function allows you to look at the ORFs again but this time with the vertebrate mitochondrial genetic code. Notice that there
+         are now two much larger ORFs on the first reading frame: One starting at position 4471 and the other starting at 5905. These
+         correspond to the ND2 (NADH dehydrogenase subunit 2) and COX1 (cytochrome c oxidase subunit I) genes.
+      </p><pre class="codeinput">orfs = seqshoworfs(mitochondria,<span class="string">'GeneticCode'</span>,<span class="string">'Vertebrate Mitochondrial'</span>,<span class="keyword">...</span>
+        <span class="string">'alternativestart'</span>,true)
+</pre><pre class="codeoutput">
+orfs = 
+
+    Start: [1x26 double]
+     Stop: [1x26 double]
+
+</pre>
+
+<pre><p>Frame 1</p><br><br>000001    GATCACAGGTCT<b><font color="#0000FF">ATCACCCTATTAACCACTCACGGGAGCTCTCCATGCATTTGGTATTTTCGTC</font></b><br>000065    <b><font color="#0000FF">TGGGGGGTGTGCACGCGATAGCATTGCGAGACGCTGGAGCCGGAGCACCCTATGTCGCAGTATC</font></b><br>000129    <b><font color="#0000FF">TGTCTTTGATTCCTGCCTCATTCTATTATTTATCGCACCTACGTTCAATATTACAGGCGAACAT</font></b><br>000193    <b><font color="#0000FF">ACCTAC</font></b>TAAAGTGTGTTAATTAATTAATGCTTGTAGGAC<b><font color="#0000FF">ATAATAATAACAATTGAATGTCTGC</font></b><br>000257    <b><font color="#0000FF">ACAGCCGCTTTCCACAC</font></b>AGACATCATAACAAAAAATTTCCACCAAACCCCCCCCTCCCCCCGCT<br>000321    TCTGGCCACAGCACTTAAACACATCTCTGCCAAACCCCAAAAACAAAGAACCCTAACACCAGCC<br>000385    TAACCAGATTTCAAATTTTATCTTTAGGCGGTATGCACTTTTAACAGTCACCCCCCAACTAACA<br>000449    CATTATTTTCCCCTCCCACTCCC<b><font color="#0000FF">ATACTACTAATCTCATCAATACAACCCCCGCCCATCCTACC</font></b><br>000513    <b><font color="#0000FF">CAGCACACACACACCGCTGCTAACCCCATACCCCGAACCAACCAAACCCCAA</font></b>AGACACCCCCCA<br>000577    CAGTTTATGTAGCTTACCTCCTCAAAGCAATACACTGAAAATGTTTAGACGGGCTCACATCACC<br>000641    CCATAAACAAATAGGTTTGGTCCTAGCCTTTCTATTAGCTCTTAGTAAGATTACAC<b><font color="#0000FF">ATGCAAGC</font></b><br>000705    <b><font color="#0000FF">ATCCCCGTTCCAGTGAGTTCACCCTCTAAATCACCACGATCAAAAGGGACAAGCATCAAGCACG</font></b><br>000769    <b><font color="#0000FF">CAGCAATGCAGCTCAAAACGCTTAGCC</font></b>TAGCCACACCCCCACGGGAAACAGCAGTGATTAACCT<br>000833    TTAGCAATAAACGAAAGTTTAACTAAGCT<b><font color="#0000FF">ATACTAACCCCAGGGTTGGTCAATTTCGTGCCAGC</font></b><br>000897    <b><font color="#0000FF">CACCGCGGTCACACGATTAACCCAAGTCAATAGAAGCCGGCGTAAAGAGTGTTTTAGATCACCC</font></b><br>000961    <b><font color="#0000FF">CCTCCCCAA</font></b>TAAAGCTAAAACTCACCTGAGTTGTAAAAAACTCCAGTTGACACAAAATAGACTA<br>001025    CGAAAGTGGCTTTAACATATCTGAACACACAATAGCTAAGACCCAAACTGGGATTAGATACCCC<br>001089    ACTATGCTTAGCCCTAAACCTCAACAGTTAA<b><font color="#0000FF">ATCAACAAAACTGCTCGCCAGAACACTACGAGC</font></b><br>001153    <b><font color="#0000FF">CACAGCTTAAAACTCAAAGGACCTGGCGGTGCTTCATATCCCTCTAGAGGAGCCTGTTCTGTAA</font></b><br>001217    <b><font color="#0000FF">TCGATAAACCCCGATCAACCTCACCACCTCTTGCTCAGCCTATATACCGCCATCTTCAGCAAAC</font></b><br>001281    <b><font color="#0000FF">CCTGATGAAGGCTACAAAG</font></b>TAAGCGCAAGTACCCACGTAAAGACGTTAGGTCAAGGTGTAGCCC<br>001345    ATGAGGTGGCAAGAAATGGGCTACATTTTCTACCCCAGAAAACTACGATAGCCCTTATGAAACT<br>001409    TAAGGGTCGAAGGTGGATTTAGCAGTAAACTGAGAGTAGAGTGCTTAGTTGAACAGGGCCCTGA<br>001473    AGCGCGTACACACCGCCCGTCACCCTCCTCAAGTATACTTCAAAGGACATTTAACTAAAACCCC<br>001537    TACGCATTTATATAGAGGAGACAAGTCGTAACATGGTAA<b><font color="#0000FF">GTGTACTGGAAAGTGCACTTGGACG</font></b><br>001601    <b><font color="#0000FF">AACCAGAGTGTAGCTTAACACAAAGCACCCAACTTACACTTAGG</font></b>AGATTTCAACTTAACTTGAC<br>001665    CGCTCTGAGCTAAACCTAGCCCCAAACCCACTCCACCTTACTACCAGACAACCTTAGCCAAACC<br>001729    ATTTACCCAAATAAAGTATAGGCG<b><font color="#0000FF">ATAGAAATTGAAACCTGGCGCAATAGATATAGTACCGCA</font></b>A<br>001793    GGGAAAGATGAAAAATTATAACCAAGCATAATATAGCAAGGACTAACCCCTATACCTTCTGCAT<br>001857    AATGAATTAACTAGAA<b><font color="#0000FF">ATAACTTTGCAAGGAGAGCCAAAGCTAAGACCCCCGAAACCAGACGAG</font></b><br>001921    <b><font color="#0000FF">CTACCTAAGAACAGC</font></b>TAAAAGAGCACACCCGTCTATGTAGCAAAATAGTGGGAAGATTTATAGG<br>001985    TAGAGGCGACAAACCTACCGAGCCTGGTGATAGCTGGTTGTCCAAGATAGAATCTTAGTTCAAC<br>002049    TTTAAATTTGCCCACAGAACCCTCTAAATCCCCTTGTAAATTTAACTGTTAGTCCAAAGAGGAA<br>002113    CAGCTCTTTGGACACTAGGAAAAAACCTTGTAGAGAGAGTAAAAAATTTAACACCCATAGTAGG<br>002177    CCTAAAAGCAGCCACCA<b><font color="#0000FF">ATTAAGAAAGCGTTCAAGCTCAACACCCACTACCTAAAAAATCCCAA</font></b><br>002241    <b><font color="#0000FF">ACATATAACTGAACTCCTCACACCCAATTGGACCAATCTATCACCCTATAGA</font></b>AGAACTAATGTT<br>002305    AGT<b><font color="#0000FF">ATAAGTAACATGAAAACATTCTCCTCCGCA</font></b>TAAGCCTGCGTCAGATCAAAACACTGAACTG<br>002369    ACAATTAACAGCCCAATATCTACAATCAACCAACAAGTCATTATTACCCTCACTGTCAACCCAA<br>002433    CACAGGCATGCTCATAAGGAAAGGTTAAAAAAAGTAAAAGGAACTCGGCAAACCTTACCCCGCC<br>002497    TGTTTACCAAAAACATCACCTCTAGCATCACCAGTATTAGAGGCACCGCCTGCCCAGTGACAC<b><font color="#0000FF">A</font></b><br>002561    <b><font color="#0000FF">TGTTTAACGGCCGCGGTACCCTAACCGTGCAA</font></b>AGGTAGCATAATCACTTGTTCCTTAAATAGGG<br>002625    ACCTGTATGA<b><font color="#0000FF">ATGGCTCCACGAGGGTTCAGCTGTCTCTTACTTTTAACCAGTGAAATTGACCTG</font></b><br>002689    <b><font color="#0000FF">CCCGTGAAGAGGCGGGCATGACACAGCAAGACG</font></b>AGAAGACCCTATGGAGCTTTAATTTATTAAT<br>002753    GCAAACAGTACCTAACAAACCCACAGGTCCTAAACTACCAAACCTGC<b><font color="#0000FF">ATTAAAAATTTCGGTTG</font></b><br>002817    <b><font color="#0000FF">GGGCGACCTCGGAGCAGAACCCAACCTCCGAGCAGTACATGCTAAGACTTCACCAGTCAAAGCG</font></b><br>002881    <b><font color="#0000FF">AACTACTATACTCAATTGATCCAA</font></b>TAACTTGACCAACGGAACAAGTTACCCTAGGGATAACAGC<br>002945    GCAATCCT<b><font color="#0000FF">ATTCTAGAGTCCATATCAACAATAGGGTTTACGACCTCGATGTTGGATCAGGACAT</font></b><br>003009    <b><font color="#0000FF">CCCGATGGTGCAGCCGCTATTAAAGGTTCGTTTGTTCAACGAT</font></b>TAAAGTCCTACGTGATCTGAG<br>003073    TTCAGACCGGAGTAATCCAGGTCGGTTTCT<b><font color="#0000FF">ATCTACTTCAAATTCCTCCCTGTACGAAAGGACA</font></b><br>003137    <b><font color="#0000FF">AGAGAAATAAGGCCTACTTCACAAAGCGCCTTCCCCCG</font></b>TAA<b><font color="#0000FF">ATGATATCATCTCAACTTAGTAT</font></b><br>003201    <b><font color="#0000FF">TATACCCACACCCACCCAAGAACAGGGTTTGTTAAGATGGCAGAGCCCGGTAATCGCA</font></b>TAAAAC<br>003265    TTAAAACTTTACAGTCAGAGGTTCAATTCCTCTTCTTAACAACATACCCATGGCCAACCTCCTA<br>003329    CTCCTCATTGTACCCATTCTAATCGCAATGGC<b><font color="#0000FF">ATTCCTAATGCTTACCGAACGAAAAATTCTAG</font></b><br>003393    <b><font color="#0000FF">GCTATATACAACTACGCAA</font></b>AGGCCCCAACGTTGTAGGCCCCTACGGGCTACTACAACCCTTCGC<br>003457    TGACGCCATAAAACTCTTCACCAAAGAGCCCCTAAAACCCGCCAC<b><font color="#0000FF">ATCTACCATCACCCTCTAC</font></b><br>003521    <b><font color="#0000FF">ATCACCGCCCCGACCTTAGCTCTCACCATCGCTCTTCTACTATGAACCCCCCTCCCCATACCCA</font></b><br>003585    <b><font color="#0000FF">ACCCCCTGGTCAACCTCAACCTAGGCCTCCTATTTATTCTAGCCACCTC</font></b>TAGCCTAGCCGTTTA<br>003649    CTCAATCCTCTGATCAGG<b><font color="#0000FF">GTGAGCATCAAACTCAAACTACGCCCTGATCGGCGCACTGCGAGCA</font></b><br>003713    <b><font color="#0000FF">GTAGCCCAAACAATCTCATATGAAGTCACCCTAGCCATCATTCTACTATCAACATTACTAATAA</font></b><br>003777    <b><font color="#0000FF">GTGGCTCCTT</font></b>TAACCTCTCCACCCTTATCACAACACAAGAACACCTCTG<b><font color="#0000FF">ATTACTCCTGCCATC</font></b><br>003841    <b><font color="#0000FF">ATGACCCTTGGCCATAATATGATTTATCTCCACACTAGC</font></b>AGAGACCAACCGAACCCCCTTCGAC<br>003905    CTTGCCGAAGGGGAGTCCGAACTAGTCTCAGGCTTCAACATCGAATACGCCGCAGGCCCCTTCG<br>003969    CCCT<b><font color="#0000FF">ATTCTTCATAGCCGAATACACAAACATTATTATAATAAACACCCTCACCACTACAATCTT</font></b><br>004033    <b><font color="#0000FF">CCTAGGAACAACATATGACGCACTCTCCCCTGAACTCTACACAACATATTTTGTCACCAAGACC</font></b><br>004097    <b><font color="#0000FF">CTACTTCTAACCTCCCTGTTCTTATGAATTCGAACAGCATACCCCCGATTCCGCTACGACCAAC</font></b><br>004161    <b><font color="#0000FF">TCATACACCTCCTATGAAAAAACTTCCTACCACTCACCCTAGCATTACTTATATGATATGTCTC</font></b><br>004225    <b><font color="#0000FF">CATACCCATTACAATCTCCAGCATTCCCCCTCAAACCTAAGAAATATGTCTGATAAA</font></b>AGAGTTA<br>004289    CTTTGATAGAGTAAATAATAGGAGCTTAAACCCCCTTATTTCTAGGACTATGAGAATCGAACCC<br>004353    ATCCCTGAGA<b><font color="#0000FF">ATCCAAAATTCTCCGTGCCACCTATCACACCCCATCCTAAAG</font></b>TAAGGTCAGCTA<br>004417    AATAAGCTATCGGGCCCATACCCCGAAAATGTTGGTTATACCCTTCCCGTACTA<b><font color="#0000FF">ATTAATCCCC</font></b><br>004481    <b><font color="#0000FF">TGGCCCAACCCGTCATCTACTCTACCATCTTTGCAGGCACACTCATCACAGCGCTAAGCTCGCA</font></b><br>004545    <b><font color="#0000FF">CTGATTTTTTACCTGAGTAGGCCTAGAAATAAACATGCTAGCTTTTATTCCAGTTCTAACCAAA</font></b><br>004609    <b><font color="#0000FF">AAAATAAACCCTCGTTCCACAGAAGCTGCCATCAAGTATTTCCTCACGCAAGCAACCGCATCCA</font></b><br>004673    <b><font color="#0000FF">TAATCCTTCTAATAGCTATCCTCTTCAACAATATACTCTCCGGACAATGAACCATAACCAATAC</font></b><br>004737    <b><font color="#0000FF">TACCAATCAATACTCATCATTAATAATCATAATGGCTATAGCAATAAAACTAGGAATAGCCCCC</font></b><br>004801    <b><font color="#0000FF">TTTCACTTCTGAGTCCCAGAGGTTACCCAAGGCACCCCTCTGACATCCGGCCTGCTTCTTCTCA</font></b><br>004865    <b><font color="#0000FF">CATGACAAAAACTAGCCCCCATCTCAATCATATACCAAATCTCTCCCTCACTAAACGTAAGCCT</font></b><br>004929    <b><font color="#0000FF">TCTCCTCACTCTCTCAATCTTATCCATCATAGCAGGCAGTTGAGGTGGATTAAACCAAACCCAG</font></b><br>004993    <b><font color="#0000FF">CTACGCAAAATCTTAGCATACTCCTCAATTACCCACATAGGATGAATAATAGCAGTTCTACCGT</font></b><br>005057    <b><font color="#0000FF">ACAACCCTAACATAACCATTCTTAATTTAACTATTTATATTATCCTAACTACTACCGCATTCCT</font></b><br>005121    <b><font color="#0000FF">ACTACTCAACTTAAACTCCAGCACCACGACCCTACTACTATCTCGCACCTGAAACAAGCTAACA</font></b><br>005185    <b><font color="#0000FF">TGACTAACACCCTTAATTCCATCCACCCTCCTCTCCCTAGGAGGCCTGCCCCCGCTAACCGGCT</font></b><br>005249    <b><font color="#0000FF">TTTTGCCCAAATGGGCCATTATCGAAGAATTCACAAAAAACAATAGCCTCATCATCCCCACCAT</font></b><br>005313    <b><font color="#0000FF">CATAGCCACCATCACCCTCCTTAACCTCTACTTCTACCTACGCCTAATCTACTCCACCTCAATC</font></b><br>005377    <b><font color="#0000FF">ACACTACTCCCCATATCTAACAACGTAAAAATAAAATGACAGTTTGAACATACAAAACCCACCC</font></b><br>005441    <b><font color="#0000FF">CATTCCTCCCCACACTCATCGCCCTTACCACGCTACTCCTACCTATCTCCCCTTTTATACTAAT</font></b><br>005505    <b><font color="#0000FF">AATCTTA</font></b>TAGAAATTTAGGTTAAATACAGACCAAGAGCCTTCAAAGCCCTCAGTAAGTTGCAAT<br>005569    ACTTAATTTCTGCAACAGCTAAGGACTGCAAAACCCCACTCTGCATCAACTGAACGCAAATCAG<br>005633    CCACTTTAATTAAGCTAAGCCCTTACTAGACCAATGGGACTTAAACCCACAAACACTTAGTTAA<br>005697    CAGCTAAGCACCCTAATCAACTGGCTTCAATCTACTTCTCCCGCCGCCGGGAAAAAAGGCGGGA<br>005761    GAAGCCCCGGCAGGTTTGAAGCTGCTTCTTCGA<b><font color="#0000FF">ATTTGCAATTCAATATGAAAATCACCTCGGA</font></b><br>005825    <b><font color="#0000FF">GCTGG</font></b>TAAAAAGAGGCCTAACCCCTGTCTTTAGATTTACAGTCCAATGCTTCACTCAGCCATTT<br>005889    TACCTCACCCCCACTG<b><font color="#0000FF">ATGTTCGCCGACCGTTGACTATTCTCTACAAACCACAAAGACATTGGA</font></b><br>005953    <b><font color="#0000FF">ACACTATACCTATTATTCGGCGCATGAGCTGGAGTCCTAGGCACAGCTCTAAGCCTCCTTATTC</font></b><br>006017    <b><font color="#0000FF">GAGCCGAGCTGGGCCAGCCAGGCAACCTTCTAGGTAACGACCACATCTACAACGTTATCGTCAC</font></b><br>006081    <b><font color="#0000FF">AGCCCATGCATTTGTAATAATCTTCTTCATAGTAATACCCATCATAATCGGAGGCTTTGGCAAC</font></b><br>006145    <b><font color="#0000FF">TGACTAGTTCCCCTAATAATCGGTGCCCCCGATATGGCGTTTCCCCGCATAAACAACATAAGCT</font></b><br>006209    <b><font color="#0000FF">TCTGACTCTTACCTCCCTCTCTCCTACTCCTGCTCGCATCTGCTATAGTGGAGGCCGGAGCAGG</font></b><br>006273    <b><font color="#0000FF">AACAGGTTGAACAGTCTACCCTCCCTTAGCAGGGAACTACTCCCACCCTGGAGCCTCCGTAGAC</font></b><br>006337    <b><font color="#0000FF">CTAACCATCTTCTCCTTACACCTAGCAGGTGTCTCCTCTATCTTAGGGGCCATCAATTTCATCA</font></b><br>006401    <b><font color="#0000FF">CAACAATTATCAATATAAAACCCCCTGCCATAACCCAATACCAAACGCCCCTCTTCGTCTGATC</font></b><br>006465    <b><font color="#0000FF">CGTCCTAATCACAGCAGTCCTACTTCTCCTATCTCTCCCAGTCCTAGCTGCTGGCATCACTATA</font></b><br>006529    <b><font color="#0000FF">CTACTAACAGACCGCAACCTCAACACCACCTTCTTCGACCCCGCCGGAGGAGGAGACCCCATTC</font></b><br>006593    <b><font color="#0000FF">TATACCAACACCTATTCTGATTTTTCGGTCACCCTGAAGTTTATATTCTTATCCTACCAGGCTT</font></b><br>006657    <b><font color="#0000FF">CGGAATAATCTCCCATATTGTAACTTACTACTCCGGAAAAAAAGAACCATTTGGATACATAGGT</font></b><br>006721    <b><font color="#0000FF">ATGGTCTGAGCTATGATATCAATTGGCTTCCTAGGGTTTATCGTGTGAGCACACCATATATTTA</font></b><br>006785    <b><font color="#0000FF">CAGTAGGAATAGACGTAGACACACGAGCATATTTCACCTCCGCTACCATAATCATCGCTATCCC</font></b><br>006849    <b><font color="#0000FF">CACCGGCGTCAAAGTATTTAGCTGACTCGCCACACTCCACGGAAGCAATATGAAATGATCTGCT</font></b><br>006913    <b><font color="#0000FF">GCAGTGCTCTGAGCCCTAGGATTCATCTTTCTTTTCACCGTAGGTGGCCTGACTGGCATTGTAT</font></b><br>006977    <b><font color="#0000FF">TAGCAAACTCATCACTAGACATCGTACTACACGACACGTACTACGTTGTAGCTCACTTCCACTA</font></b><br>007041    <b><font color="#0000FF">TGTCCTATCAATAGGAGCTGTATTTGCCATCATAGGAGGCTTCATTCACTGATTTCCCCTATTC</font></b><br>007105    <b><font color="#0000FF">TCAGGCTACACCCTAGACCAAACCTACGCCAAAATCCATTTCACTATCATATTCATCGGCGTAA</font></b><br>007169    <b><font color="#0000FF">ATCTAACTTTCTTCCCACAACACTTTCTCGGCCTATCCGGAATGCCCCGACGTTACTCGGACTA</font></b><br>007233    <b><font color="#0000FF">CCCCGATGCATACACCACATGAAACATCCTATCATCTGTAGGCTCATTCATTTCTCTAACAGCA</font></b><br>007297    <b><font color="#0000FF">GTAATATTAATAATTTTCATGATTTGAGAAGCCTTCGCTTCGAAGCGAAAAGTCCTAATAGTAG</font></b><br>007361    <b><font color="#0000FF">AAGAACCCTCCATAAACCTGGAGTGACTATATGGATGCCCCCCACCCTACCACACATTCGAAGA</font></b><br>007425    <b><font color="#0000FF">ACCCGTATACATAAAATCTAGACAAAAA</font></b>AGGAAGGAATCGAACCCCCCAAAGCTGGTTTCAAGC<br>007489    CAACCCCATGGC</p><br><br></p></pre>
+
+<h2>Extracting and analyzing the ND2 protein<a name="16"></a></h2>
+      <p>The ORF of interest starts at position 4471, the following commands can be used to find the corresponding stop codon:</p><pre class="codeinput">ND2Start = 4471;
+startIndex = find(orfs(1).Start == ND2Start)
+ND2Stop = orfs(1).Stop(startIndex)
+</pre><pre class="codeoutput">
+startIndex =
+
+    24
+
+
+ND2Stop =
+
+        5512
+
+</pre><p>Once the positions are known, MATLAB indexing can be used to extract the region of interest.</p><pre class="codeinput">ND2Seq = mitochondria(ND2Start:ND2Stop);
+</pre><p>If you look at the <b>codoncount</b> for this gene we see a lot of CTA and ATC codons.
+      </p><pre class="codeinput">codoncount(ND2Seq)
+</pre><pre class="codeoutput">AAA - 10     AAC - 14     AAG -  2     AAT -  6     
+ACA - 11     ACC - 24     ACG -  3     ACT -  5     
+AGA -  0     AGC -  4     AGG -  0     AGT -  1     
+ATA - 22     ATC - 24     ATG -  2     ATT -  8     
+CAA -  8     CAC -  3     CAG -  2     CAT -  1     
+CCA -  4     CCC - 12     CCG -  2     CCT -  5     
+CGA -  0     CGC -  3     CGG -  0     CGT -  1     
+CTA - 26     CTC - 18     CTG -  4     CTT -  7     
+GAA -  5     GAC -  0     GAG -  1     GAT -  0     
+GCA -  8     GCC -  7     GCG -  1     GCT -  4     
+GGA -  5     GGC -  7     GGG -  0     GGT -  1     
+GTA -  3     GTC -  2     GTG -  0     GTT -  3     
+TAA -  0     TAC -  8     TAG -  0     TAT -  2     
+TCA -  7     TCC - 11     TCG -  1     TCT -  4     
+TGA - 10     TGC -  0     TGG -  1     TGT -  0     
+TTA -  8     TTC -  7     TTG -  1     TTT -  8     
+
+</pre><p>For those of you who have not memorized the genetic code you can easily check what amino acids these codons get translated
+         into using the <b>nt2aa</b> and <b>aminolookup</b> functions.
+      </p><pre class="codeinput">aminolookup(<span class="string">'code'</span>,nt2aa(<span class="string">'CTA'</span>))
+aminolookup(<span class="string">'code'</span>,nt2aa(<span class="string">'ATC'</span>))
+</pre><pre class="codeoutput">
+ans =
+
+Leu	Leucine
+
+
+
+ans =
+
+Ile	Isoleucine
+
+
+</pre><p>The <b>nt2aa</b> function converts the nucleotide sequence to the corresponding amino acid sequence. Again the 'GeneticCode' option must be
+         used to specify the vertebrate mitochondrial genetic code.
+      </p><pre class="codeinput">ND2 = nt2aa(ND2Seq,<span class="string">'GeneticCode'</span>,<span class="string">'Vertebrate Mitochondria'</span>);
+</pre><p>You can get a more complete picture of the amino acid content with <b>aacount</b>.
+      </p><pre class="codeinput">figure
+aacount(ND2,<span class="string">'chart'</span>,<span class="string">'bar'</span>)
+</pre><pre class="codeoutput">
+ans = 
+
+    A: 20
+    R: 4
+    N: 20
+    D: 0
+    C: 0
+    Q: 10
+    E: 6
+    G: 13
+    H: 4
+    I: 31
+    L: 64
+    K: 12
+    M: 25
+    F: 15
+    P: 23
+    S: 28
+    T: 43
+    W: 11
+    Y: 10
+    V: 8
+
+</pre><img vspace="5" hspace="5" src="seqstatsdemo_07.png"><p>Notice the high leucine, threonine and isoleucine content and also the lack of cysteine or aspartic acid.</p>
+      <p>You can use the <b>atomiccomp</b> and <b>molweight</b> functions to find out more about the ND2 protein.
+      </p><pre class="codeinput">atomiccomp(ND2)
+molweight(ND2)
+</pre><pre class="codeoutput">
+ans = 
+
+    C: 1818
+    H: 2882
+    N: 420
+    O: 471
+    S: 25
+
+
+ans =
+
+  3.8960e+004
+
+</pre><p>For further investigation of the properties of the ND2 protein, try using <b>proteinplot</b>. This is a graphical user interface (GUI) that allows you to easily create plots of various properties, such as hydrophobicity,
+         of a protein sequence. Click on the "Help" menu in the GUI for more information on how to use the tool.
+      </p><pre class="codeinput">proteinplot(ND2)
+</pre><img vspace="5" hspace="5" src="seqstatsdemo_08.png"><p class="footer">Copyright 2003-2004 The MathWorks, Inc.<br></p>
+      <!--
+##### SOURCE BEGIN #####
+%% SEQSTATSDEMO Example of sequence statistics with MATLAB
+% This demonstration looks at some statistics about the DNA content of the
+% human mitochondrial genome.
+
+%   Copyright 2003-2004 The MathWorks, Inc. 
+%   $Revision: 1.10.2.4 $  $Date: 2004/01/13 00:47:52 $ 
+
+
+
+%% Introduction
+% Mitochondria are generally the major energy production center in
+% eukaryotes. The Genome repository at the NCBI contains more interesting
+% information about the human mitochondrial genome. 
+
+web('http://www.ncbi.nlm.nih.gov/genomes/framik.cgi?db=Genome&gi=12188')   
+
+%%
+% The consensus sequence of the human mitochondria genome has accession
+% number NC_001807. The whole GenBank entry is quite large and this example
+% only uses the nucleotide sequence, so you can use the *getgenbank*
+% function with the 'SequenceOnly' flag to read just the sequence
+% information into the MATLAB workspace.
+
+mitochondria = getgenbank('NC_001807','SequenceOnly',true);
+
+%%
+% If you don't have a live web connection, you can load the data from a
+% MAT-file using the command
+
+% load mitochondria     % <== Uncomment this if no internet connection
+
+%%
+% The MATLAB *whos* command gives information about the size of the
+% sequence.
+
+whos mitochondria
+
+%%
+% You will use some of the sequence statistics function in the
+% Bioinformatics Toolbox to look at various properties of this sequence.
+% You can look at the composition of the nucleotides with the *ntdensity*
+% function. 
+
+ntdensity(mitochondria)
+
+%% Composition of the mitochondrial genome.
+% This shows that the genome is A-T rich. You can get more specific
+% information with the *basecount* function.
+
+basecount(mitochondria)
+
+%%
+% These are on the 5'-3' strand. You can look at the reverse complement
+% using the *seqrcomplement* function.
+
+basecount(seqrcomplement(mitochondria))
+
+%%
+% As expected, the base counts on the reverse complement strand are
+% complementary to the counts on the 5'-3' strand.  
+%%
+% You can use the chart option to *basecount* to display a pie chart of the
+% distribution of the bases.
+
+figure('color',[1 1 1])
+basecount(mitochondria,'chart','pie');
+
+%%
+% Now look at the dimers in the sequence and display the information in a
+% bar chart using *dimercount*.
+
+figure('color',[1 1 1])
+dimercount(mitochondria,'chart','bar')
+
+%%
+% You can look at codons using *codoncount*. The function *dimercount*
+% simply counts all adjacent nucleotides; however *codoncount* counts the
+% codons on a particular reading frame. With no options, the function shows
+% the codon counts on the first reading frame. 
+
+codoncount(mitochondria)
+
+%%
+% Using a loop you can also look at all the other reading frames:
+
+for frame = 1:3
+    figure('color',[1 1 1])
+    subplot(2,1,1); codoncount(mitochondria,'frame',frame,'figure',true);
+    title(sprintf('Codons for frame %d',frame));
+    subplot(2,1,2); codoncount(mitochondria,'reverse',true,'frame',frame,'figure',true); 
+    title(sprintf('Codons for reverse frame %d',frame));
+end
+
+%% Exploring the Open Reading Frames (ORFs)
+% In a nucleotide sequence an obvious thing to look for is if there are any
+% open reading frames. The function *seqshoworfs* can be used to visualize
+% ORFs in a sequence. 
+% Note: In the HTML tutorial only the first 7500 bases of the first reading
+% frame are shown, however when running the demo you will be able to
+% inspect the complete mitochondrial genome with the aid of the *Help
+% Browser* .
+
+[du,htm01] = seqshoworfs(mitochondria(1:7500),'nodisplay',true,'frames',1);
+
+%%
+% If you compare this output to the genes shown on the NCBI page there seem
+% to be slightly fewer ORFs, and hence fewer genes, than expected.
+% Vertebrate mitochondria do not use the Standard genetic code so some
+% codons have different meaning in mitochondrial genomes. For more
+% information about using different genetic codes in MATLAB see the help
+% for the function *geneticcode*.
+
+help geneticcode
+
+%%
+% The 'GeneticCode' option to the *seqshoworfs* function allows you to look
+% at the ORFs again but this time with the vertebrate mitochondrial genetic
+% code. 
+% Notice that there are now two much larger ORFs on the first reading
+% frame: One starting at position 4471 and the other starting at 5905.
+% These correspond to the ND2 (NADH dehydrogenase subunit 2) and COX1
+% (cytochrome c oxidase subunit I) genes. 
+
+[orfs,htm02] = seqshoworfs(mitochondria(1:7500),'GeneticCode','Vertebrate Mitochondrial',...
+        'alternativestart',true,'nodisplay',true,'frames',1);orfs
+
+%% Extracting and analyzing the ND2 protein
+% The ORF of interest starts at position 4471, the following commands can
+% be used to find the corresponding stop codon:
+
+ND2Start = 4471;
+startIndex = find(orfs(1).Start == ND2Start)
+ND2Stop = orfs(1).Stop(startIndex)
+
+%%
+% Once the positions are known, MATLAB indexing can be used to extract the
+% region of interest. 
+
+ND2Seq = mitochondria(ND2Start:ND2Stop);
+
+%%
+% If you look at the *codoncount* for this gene we see a lot of CTA and ATC
+% codons. 
+
+codoncount(ND2Seq) 
+
+%%
+% For those of you who have not memorized the genetic code you can easily
+% check what amino acids these codons get translated into using the *nt2aa*
+% and *aminolookup* functions.  
+
+aminolookup('code',nt2aa('CTA')) 
+aminolookup('code',nt2aa('ATC'))
+
+%%
+% The *nt2aa* function converts the nucleotide sequence to the
+% corresponding amino acid sequence. Again the 'GeneticCode' option must be
+% used to specify the vertebrate mitochondrial genetic code.
+
+ND2 = nt2aa(ND2Seq,'GeneticCode','Vertebrate Mitochondria');
+
+%%
+% You can get a more complete picture of the amino acid content with
+% *aacount*. 
+
+figure('color',[1 1 1])
+aacount(ND2,'chart','bar')
+
+%%
+% Notice the high leucine, threonine and isoleucine content and also the
+% lack of cysteine or aspartic acid.
+
+%%
+% You can use the *atomiccomp* and *molweight* functions to find out more
+% about the ND2 protein.
+
+atomiccomp(ND2)
+molweight(ND2)
+
+%%
+% For further investigation of the properties of the ND2 protein, try using
+% *proteinplot*. This is a graphical user interface (GUI) that allows you
+% to easily create plots of various properties, such as hydrophobicity, of
+% a protein sequence. Click on the "Help" menu in the GUI for more
+% information on how to use the tool. 
+
+proteinplot(ND2)
+
+
+##### SOURCE END #####
+-->
+   </body>
+</html>

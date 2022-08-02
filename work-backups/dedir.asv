@@ -1,0 +1,9 @@
+function dd = dedir(f,u,v,s)
+syms x y;
+%f = la funcion f 
+%s = el vector s 
+%u = el valor de u 
+%v = el valor de v 
+gradi = [diff(f,x) diff(f,y)]
+gradie = subs(gradi,{x y]},{u v])
+dd = gradie*(s/norm(s))

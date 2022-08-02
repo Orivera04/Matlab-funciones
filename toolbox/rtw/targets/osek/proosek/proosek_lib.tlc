@@ -1,0 +1,388 @@
+%% $RCSfile: proosek_lib.tlc,v $
+%% $Revision: 1.6.6.3 $
+%%
+%% Copyright 2002-2004 The MathWorks, Inc.
+%%
+%% Abstract:
+%%   Library file containing OSEKWorks support functions.
+%%
+%%
+%% PUBLIC
+%%
+
+%function OSLibOSEKImplDeclareFPU() void
+  %openfile buffer
+  %% Need to save FPU context incase task is preempted
+  %if !PurelyIntegerCode
+    USE_HW_FP = YES;
+  %else
+    USE_HW_FP = NO;
+  %endif
+  %closefile buffer
+  %return buffer
+%endfunction
+  
+%% OSLibOSEKImpSpecificImplOil
+%%
+%%   Provide the IMPLEMENTATION section of the OIL file. This is
+%% typically unique for each OSEK implementation {ProOSEK,
+%% OSEKWorks, etc...}
+%%
+%function OSLibOSEKImpSpecificImplOil(mdlName) void
+  %openfile tmpIncBuf
+  
+IMPLEMENTATION OSEK_PPC
+{
+  OS
+  {
+    ENUM [MPC555] MICROCONTROLLER; /* $Choose a member of the PPC series*/
+    BOOLEAN USERMAIN; /* $Initialization starts user main() instead of OS*/
+    BOOLEAN PPC_NODISPATCHER; /* $Do not generate interrupt dispatcher etc.*/
+  };
+
+  TASK
+  {
+    INT STACKSIZE; /* $The task's stack size*/
+    ENUM [NO,YES,DONTKNOW] CALLSCHEDULER; /* $Does the task call Schedule()?*/
+    ENUM [NO,YES,DONTKNOW] USE_HW_FP; /* $Does the task use the FPU?*/
+  };
+
+  ISR
+  {
+    ENUM [PPC_IRQ0,PPC_LEVEL0,PPC_IRQ1,PPC_LEVEL1,PPC_IRQ2,PPC_LEVEL2,PPC_IRQ3,PPC_LEVEL3,PPC_IRQ4,PPC_LEVEL4,PPC_IRQ5,PPC_LEVEL5,PPC_IRQ6,PPC_LEVEL6,PPC_IRQ7,PPC_LEVEL7] PPC_LEVEL; /* $The interrupt level to use for this ISR*/
+    INT STACKSIZE;
+    BOOLEAN PPC_PREEMPT_ISR; /* $Shall this category 2 ISR be preemptive?*/
+    COUNTER COUNTER; /* $Trigger a counter instead of calling an ISR (cat. 2 only)*/
+    BOOLEAN ENABLE_ON_STARTUP; /* $Check this if the interrupt should be enabled during startup (INITIAL_INTERRUPT_DESCRIPTOR)*/
+  };
+
+  COUNTER
+  {
+    ENUM [USERCOUNTER,PPC_PIT,PPC_TIMEBASE1,PPC_TIMEBASE2] PPC_TYPE; /* $Choose a timer or set it as usercounter*/
+    INT TIME_IN_NS; /* $Tick period for system timers in nanoseconds*/
+  };
+
+  MESSAGE
+  {
+    INT [0 .. 4095] LENGTH; /* $Message length */
+    STRING TYPE; /* $Type for message data */
+    INT [0 .. 32767] QUEUELENGTH; /* $Queue length for Queued messages */
+    ENUM [NON_OVERWRITE,OVERWRITE] QUEUING; /* $Queuing strategy */
+    TASK NOTIFYTASK; /* $Task for ActivateTask or SetEvent */
+    EVENT NOTIFYEVENT; /* $Event for SetEvent */
+    TASK TASK[];
+  };
+};
+
+  %closefile tmpIncBuf
+  %return tmpIncBuf
+%endfunction
+
+%%OSLibOSEKInsertMainFcn
+%function OSLibOSEKInsertMainFcn() void
+  %openfile tmpIncBuf
+
+#include <_ansi.h>
+#include <stdio.h>
+
+void *memset(void *dst, int value, size_t size)
+{
+    char_T *dest=dst;
+    int count=0;
+    while (count<(int)size) {
+	dest[count++] = (char)value;
+    }
+    return dst;
+}
+
+void *memcpy(void *dst, const void *src, size_t size)
+{
+    char_T *dest=dst;
+    const char_T *srce=src;
+    int count=0;
+    while (count<(int)size) {
+	dest[count++] = srce[count];
+    }
+    return dst;
+}
+
+void exit(int unused)
+{
+  unused = 0; /* quiet compiler */
+  
+  /* exit the model execution, leave overall OSEK application running */
+  %if NumSynchronousSampleTimes == 1 || SLibSingleTasking()
+    /* Cancel the alarm for the model task */
+  %else
+    /* Cancel all alarms for the model tasks */
+    CancelAlarm(baseAlarm);
+    %foreach i = NumSynchronousSampleTimes-1
+      %assign idx = i + 1
+      CancelAlarm(subAlarm_%<idx>);
+    %endforeach
+  %endif
+}
+
+  %closefile tmpIncBuf
+  %return tmpIncBuf
+%endfunction
+
+%% OSLibOSEKOffsetForRate
+%function OSLibOSEKOffsetForRate(rate) void
+  %assign ThisOffsetInSeconds = CAST("Real", SampleTime[rate].PeriodAndOffset[1])
+  %assign NSperSEC = 1000000000
+
+  %assign CounterRateInSeconds = CAST("Real", CompiledModel.OSEKData.CounterAlarmData.TIME_IN_NS) / NSperSEC
+
+  %assign OffsetTicksForRate = CAST("Real", ThisOffsetInSeconds / CounterRateInSeconds)
+  %return OffsetTicksForRate
+%endfunction
+
+%% OSLibOSEKTimesPerSecondForRate
+%function OSLibOSEKTimesPerSecondForRate(rate)  void
+  %% The BaseRate provides integral values to achieve all sub-rates, 
+  %% including their offsets. 
+  %assign BaseRateTicksForRate = \
+      CAST("Number", SampleTime[rate].PeriodAndOffset[0]/SampleTime[0].PeriodAndOffset[0])
+  %assign NSperSEC = 1000000000
+
+  %with CompiledModel.OSEKData.CounterAlarmData
+    %assign RateInNS = CAST("Real",TIME_IN_NS) * CAST("Real",TICKSPERBASE) * CAST("Real",BaseRateTicksForRate)
+  %endwith
+  %assign CounterRateInSeconds = CAST("Real", RateInNS / NSperSEC)
+  %return CounterRateInSeconds
+%endfunction
+
+%% OSLibOSEKImpSpecificTasks
+%function OSLibOSEKImpSpecificTasks() void
+  %openfile tmpIncBuf 
+  %closefile tmpIncBuf
+  %return tmpIncBuf
+%endfunction
+
+%% OSLibOSEKAlarmTicksForRate
+%function OSLibOSEKAlarmTicksForRate(rate)
+  %assign ThisRateInBaseRate = CAST("Real", SampleTime[rate].PeriodAndOffset[0]/SampleTime[0].PeriodAndOffset[0])
+  %return CAST("Number", ThisRateInBaseRate * CompiledModel.OSEKData.CounterAlarmData.TICKSPERBASE)
+%endfunction 
+  
+%% OSLibOSEKImpSpecificIncludes
+%function OSLibOSEKImpSpecificIncludes() void
+  %openfile tmpIncBuf
+  #include "os.h"
+  #include <stdlib.h> /* for exit() */
+  %closefile tmpIncBuf
+  %return tmpIncBuf
+%endfunction
+
+%% OSEKImpSpecificCalcInterruptRateValue
+%function OSEKImpSpecificCalcInterruptRateValue() void
+%endfunction
+
+%%
+%% PRIVATE
+%%
+
+%function OSEKImplCreatePITData() void
+  %%
+  %% For ProOSEK, using the PIT, on a phyCORE-MPC555 (PHYCORE555), the 
+  %% defaults come from: 
+  %%
+  %%	Freq(pitrtclk) = (oscclk=20Mhz)/(div=256) = 78125hz
+  %%      
+  %% Typically, Freq(pitrtclk) is hardwired into ProOSEK's boards/<board> 
+  %% board specific directory board.h file. 
+  %%
+  %% For the moment, this code will presume the above values. In the future, 
+  %% either the need for the <board> directory will be replaced with RTW 
+  %% dialogs and generated files, or the boards directory will be used 
+  %% to extract the information from the ProOSEK environment. 
+  %%
+  %% ganularity = minimum = 12800ns, maximum = 838860800ns
+  %%
+  %%     1 PIT tick  = 12800     TIME_IN_NS = 0.0000128s = 1/78125
+  %% 65536 PIT ticks = 838860800 TIME_IN_NS = 0.8388608s
+  %%
+
+  %% setup min and max for the clock that drives the counter. 
+  %assign pitOSCCLK     = CAST("Real", 20 * 1000000) 		%% 20Mhz
+  %assign pitDIV        = CAST("Real", 256)          		%% scalar 4 or 254
+  %assign pitFREQ       = CAST("Real", pitOSCCLK / pitDIV)	%% Cycles/Sec
+  %assign pitTickSize   = CAST("Real", 1 / pitFREQ)		%% Secs/Cycle
+
+  %assign maxpitticks   = CAST("Number", 65536)        		%% scalar 4 or 254
+
+  %createrecord localPITData {PIT_OSCCLK pitOSCCLK; \
+                              PIT_DIV pitDIV; \
+                              PITFreq pitFREQ; \
+			      PITTickSize pitTickSize; \
+			      TimeBaseType "PPC_PIT"; \
+			      PITMin  1; \
+			      PITMax  maxpitticks \
+			    }
+  %return localPITData
+%endfunction
+
+%function OSEKImplGetTimeBaseType() void
+  %with CompiledModel.OSEKData.PITData
+    %assign localMinTimeBase = TimeBaseType
+  %endwith
+  %return localMinTimeBase
+%endfunction
+
+%function OSEKImplGetTimeBaseMin() void
+  %with CompiledModel.OSEKData.PITData
+    %assign localMinTimeBase = CAST("Real", PITMin * PITTickSize) %% Secs
+  %endwith
+  %return localMinTimeBase
+%endfunction
+
+%function OSEKImplGetTimeBaseMax() void
+  %with CompiledModel.OSEKData.PITData
+    %assign localMaxTimeBase = CAST("Real", PITMax * PITTickSize) %% Secs
+  %endwith
+  %return localMaxTimeBase
+%endfunction
+
+%function OSEKImplGetTimeBaseIncr() void
+  %with CompiledModel.OSEKData.PITData
+    %assign localMaxTimeBase = CAST("Real", PITTickSize) %% Secs 
+  %endwith
+  %return localMaxTimeBase
+%endfunction
+
+%function OSEKImplCreateCounterAlarmData() void
+  %% Determine the values required for the OSEK implementation to set up its 
+  %% specific values to interrupt the minimum required to achieve the 
+  %% model's base rate. 
+
+  %% Conversion value NanoSeconds/Second
+  %assign NSperSEC = CAST("Real", 1000000000)
+
+  %% 
+  %% When TimeInNS specifies a value, it specifies the rate at which 
+  %% the system counter will be incremented.
+  %% 
+  %if TYPE(TimeInNS) == "Number"
+    %assign CounterTimeMin = CAST("Real", TimeInNS) / NSperSEC
+    %assign CounterTimeMax = CounterTimeMin
+    %% Is TimeInNS appropriate for the Counter?
+  %else
+    %assign CounterTimeMin = %<OSEKImplGetTimeBaseMin()>
+    %assign CounterTimeMax = %<OSEKImplGetTimeBaseMax()>
+  %endif
+
+  %assign CounterMin = CAST("Real", 1)
+  %assign CounterMax = CAST("Real", 65535) %% Limit to 16bits
+  %assign CounterIncr = CAST("Real", 1)
+
+  %assign basePeriodInSecs = CompiledModel.SampleTime[0].PeriodAndOffset[0]
+ 
+  %% Is the base rate greater than the minimum?
+  %% Is the base rate less than the maximum?
+  
+  %% The following assignment causes an error, for testing. 
+  %%assign CounterTimeMin = CAST("Number", basePeriodInSecs +1 )
+  %if (basePeriodInSecs < CounterTimeMin)
+    %assign errTxt = "The model requires too fast a rate. Base Rate: '%<basePeriodInSecs>', Fastest Rate: '%<CounterTimeMin>'."
+    %<LibReportError(errTxt)>
+  %endif
+
+  %% Setup the maximum time period for (any rate) the base rate. 
+  %% When we exceed the maximum do we cascade counters, create 
+  %% a base rate faster than then maximum to control sub-rates???
+  %assign maxalarm = CAST("Real", CounterTimeMax * CounterMax)
+
+  %% The following assignment causes an error, for testing. 
+  %%assign maxalarm = CAST("Number", basePeriodInSecs - 1 )
+  %if (basePeriodInSecs > maxalarm)
+    %assign errTxt = " The model's rate is too slow. Base Rate '%<basePeriodInSecs>', Slowest Rate '%<maxalarm>'."
+    %<LibReportError(errTxt)>
+  %endif
+
+  %% The base rate is within bounds. Now find settings for the counter 
+  %% and alarm to execute the base rate task periodically within 
+  %% tolerance. 
+
+  %if TYPE(TimeInNS) == "Number"
+    %%
+    %% The counter increment rate is fixed because TimeInNS is a specified 
+    %% value.
+    %%
+    %assign CounterIncrementRate = CAST("Real", TimeInNS / NSperSEC)
+    %assign CountPerAlarm        = CAST("Real", basePeriodInSecs / CounterIncrementRate)
+  %else
+    %%
+    %% The counter increment rate can be adjusted. Make it as slow as possible.
+    %%
+    %assign CounterIncrementRate = CAST("Real", basePeriodInSecs)
+    %assign CountPerAlarm        = CAST("Real", 1)
+  
+    %foreach i = 100 %% Try at most 100 iterations
+      %if (CounterIncrementRate > CounterTimeMax)
+	%% with the base rate requiring a period greater than the maxcountincr period, 
+	%% we can not select an alarm interval of one. Multiply alarm interval and divide
+	%% PITTicksPerCountIncr by two. This could be better, but how???
+	%assign CounterIncrementRate = CAST("Real", CounterIncrementRate / 2)
+	%assign CountPerAlarm        = CAST("Real", CountPerAlarm * 2)
+	%continue
+      %endif
+      %break
+    %endforeach
+  %endif
+
+
+  %% Is the base rate an integral of the granularity within a tolerance?
+  %% Can the counter count high enough?
+
+  %assign CounterTimeInNS = CAST("Number", CounterIncrementRate * NSperSEC)
+  %assign CountPerAlarm   = CAST("Number", CountPerAlarm)
+
+  %createrecord localCounterAlarmData { \
+    MINCYCLE CAST("Number", CounterMin); \
+    MAXALLOWEDVALUE CAST("Number", CounterMax); \
+    TICKSPERBASE CountPerAlarm; \
+    PPC_TYPE OSEKImplGetTimeBaseType(); \
+    TIME_IN_NS CounterTimeInNS  \
+  }
+  %return localCounterAlarmData
+%endfunction
+
+%function OSLibOSEKImplLibInit() void
+  %addtorecord CompiledModel.OSEKData PITData %<OSEKImplCreatePITData()>
+  %addtorecord CompiledModel.OSEKData CounterAlarmData %<OSEKImplCreateCounterAlarmData()>
+%endfunction
+
+%%
+%% Perform library initialization
+%%
+%<OSLibOSEKImplLibInit()>
+
+%function OSLibGenerateMPC555TouCanISR(level) void
+  %% Register function in oil file. For ProOSEK, each external interrupt level
+  %% is defined as it's own ISR object in the oil file.
+  %openfile buffer
+  ISR can_%<level>
+  {
+    CATEGORY = 2;
+    %% See ProOSEK provided PPC.oil for naming convention: "PPC_LEVELx"
+    %% xxx Error out if ProOSEK is outside range of 0-6, since 7 is PIT and >7 not defined in PPC.oil
+    PPC_LEVEL = %<FEVAL("strrep","%<level>","INT","PPC")>;
+    STACKSIZE = 1024;
+    PPC_PREEMPT_ISR = FALSE;
+    ENABLE_ON_STARTUP = TRUE;
+  };
+  %closefile buffer
+  %<OSLibOSEKAddISRToOil(buffer)>
+
+  %% Define a function that provides compatibility layer between
+  %% mainHandler routine for TouCAN drivers and the required OSEK ISR prototype
+  %openfile buffer
+  void mainHandler( MPC555_IRQ_LEVEL level );
+  /* Need to provide a function with no arguments */
+  void can_%<level>(void) {
+    mainHandler(%<level>);
+  }
+  %closefile buffer
+  %<LibRegFileCustomCode(buffer, "trailer")>
+%endfunction

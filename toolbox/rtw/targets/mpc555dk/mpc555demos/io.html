@@ -1,0 +1,34 @@
+<html>
+<!-- $New for R14 $  $Date: 2003/09/01 09:17:47 $ -->
+<head><title>Embedded Target for Motorola MPC555 Demo: demos</title></head>
+<body>
+
+<p style="color:#990000; font-weight:bold; font-size:x-large">Real_Time I/O Demo Model</p>
+<p> Demonstration of MPC555 I/O device driver blocks and CAN support. A subsystem of the mpc555rt_io model can be run on target hardware. The mpc555rt_io model can communicate via a CAN channel with the mpc555rt_iohost companion model, running in Simulink.
+</p>
+<p>This model serves as a reference when using I/O device driver blocks provided with the Embedded Target for Motorola MPC555. This model illustrates how to use MPC555 I/O blocks for digital input/output, Pulse Width Modulation (PWM), waveform measurement, analog input, and Controller Area Network (CAN). PWM and digital I/O are demonstrated via Modular I/O System (MIOS) and Time Processor Unit (TPU3).
+</p>
+<p>You can generate code for the subsystem Target_IO and run it on MPC555 hardware.
+</p>
+
+<p>
+<h3>How to open this demo:</h3>
+</p>
+<p>Click the link or at the command line type </a><a href="matlab:mpc555rt_io">mpc555rt_io</a>.
+</p>
+
+<p><em>Note: You must have Vector-Informatik CAN hardware and drivers in order to use this demo to exchange CAN messages with the companion model </a><a href="matlab:mpc555rt_iohost">mpc555rt_iohost</a>.</em></p>
+
+<p>If you have a CAN board and Vector-Informatik CAN drivers installed, you can exchange CAN messages with the companion model <code>mpc555rt_iohost</code>. The subsystem code communicates, via a CAN channel, with the <code>mpc555rt_iohost</code> model, running in Simulink.</p>
+
+<a name="mpc555_io_host_demo"></a><!-- H2 --><p><font size=+1 color="#990000"><b>I/O Host Demo</b></font><br>
+<p>The MPC555 I/O Host Demo is run as a Simulink simulation which is non-real-time. During simulation, this model can be used to view signals from the MPC555 when running the <code>mpc555rt_io</code> model subsystem code on the Phytec board.</p>
+<p>The I/O Host demo model is a companion model that provides signal viewing using Simulink Scope blocks. The subsystem code communicates, via a CAN channel, with the <code>mpc555rt_iohost</code> model, running in Simulink.</p>
+<p>To open this model, click the link or at the command line type</p>
+<ul class=continued><li class=continued><pre><a href="matlab:mpc555rt_iohost">mpc555rt_iohost
+</a></pre></li></ul>
+<p>Generate code for the <code>mpc555rt_io</code> demo subsystem and download it to an MPC555. Configure the <code>mpc555rt_iohost</code> demo to look at a physical CAN channel by locating and double-clicking the Vector Configuration block and selecting a CAN channel under <strong>Channel parameter</strong>. Run the mpc555<code>rt_iohost</code> model in simulation and view the signals from the code running on the MPC555.
+</p>
+
+</body>
+</html>

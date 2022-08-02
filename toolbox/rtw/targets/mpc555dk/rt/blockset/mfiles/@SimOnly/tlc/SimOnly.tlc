@@ -1,0 +1,116 @@
+%% File: SimOnly.tlc
+%%
+%% Abstract:
+%%   This is a generic template to be used as a starting point when implementing a
+%%   custom storage class with Real-Time Workshop Embedded Coder.  This template
+%%   implements externally visible global variables.
+%%
+%% $Revision: 1.9.4.2 $
+%% $Date: 2004/04/19 01:29:31 $
+%%
+%% Copyright 2001-2003 The MathWorks, Inc.
+
+%% Make sure no white space in this file shows up in code.
+%selectfile NULL_FILE
+
+%% Target language is C
+%implements * "C"
+
+%% include environment routines
+%assign MATLAB_ROOT = FEVAL("matlabroot")
+%assign PATH_SEP = FEVAL("filesep")
+%assign TARGETS_PATH = "%<MATLAB_ROOT>%<PATH_SEP>toolbox%<PATH_SEP>rtw%<PATH_SEP>targets%<PATH_SEP>common%<PATH_SEP>configuration%<PATH_SEP>environment"
+%addincludepath "%<TARGETS_PATH>"
+%include "targetlib.tlc"
+
+%function DataAccess(record, request, idx, reim) void
+
+  %assign codeGenForSim = SLibCodeGenForSim()
+
+  %switch request
+    %case "initialize"
+      %if codeGenForSim
+	%return LibDefaultCustomStorageInitialize(record, idx, reim)
+      %else
+	%return ""
+      %endif
+      %break
+      
+    %case "contents"
+      %if codeGenForSim
+	%assign id = LibGetRecordIdentifier(record)
+	%return "%<id>%<idx>%<reim>"
+      %else
+	%return ""
+      %endif
+      %break
+      
+    %case "address"
+      %if codeGenForSim
+	%return LibDefaultCustomStorageAddress(record, idx, reim)
+      %else
+	%return ""
+      %endif
+      %break
+      
+    %case "declare"
+      %if codeGenForSim
+	%return "extern %<LibDefaultCustomStorageDeclare(record)>"
+      %else
+	%return ""
+      %endif
+      %break
+      
+    %case "define"
+      %if codeGenForSim
+	%return "%<LibDefaultCustomStorageDefine(record)>"
+      %else
+	%return ""
+      %endif
+      %break
+      
+    %case "layout"
+      %return LibDefaultCustomStorageLayout(record)
+      %break
+
+    %default
+      %return LibDefaultCustomStorageUnknownDataAccessType ...
+	(record, request, idx, reim)
+      %break
+      
+  %endswitch
+
+%endfunction
+
+
+%% Function: ClassAccess ========================================================
+%% Abstract:
+%%   ClassAccess provides an API for requesting information or actions
+%%   corresponding to a custom storage class.
+%%
+%function ClassAccess(record, request) void
+
+  %assign codeGenForSim = SLibCodeGenForSim()
+
+  %switch request
+    %case "setup"
+      %return
+      %break
+
+    %case "comment"
+      %if codeGenForSim
+	%return LibDefaultCustomStorageComment(record)
+      %else
+	%return "/* Simulation signal removed for real-time code generation */"
+      %endif
+      %break
+
+    %default
+      %return LibDefaultCustomStorageUnknownClassAccessType(record, request)
+      %break
+      
+  %endswitch
+      
+%endfunction
+
+%% [EOF] TEMPLATE.tlc

@@ -1,0 +1,606 @@
+# Copyright 2002-2003 The MathWorks, Inc.
+#
+# File    : proosek.tmf  $Revision: 1.13.4.3 $
+#
+# Abstract:
+#	"Embedded Target for OSEK" template makefile(TMF) for generating a
+#       downloadable image file ProOSEK.
+#
+#       This TMF was created from a combination of a RTW template
+#	makefile and a demo makefile for ProOSEK.
+#
+# 	Note that this template includes makefiles from the 3.0r3 ProOSEK 
+#       environment. This template provides several optional and required 
+#       defines to interface ProOSEK's make environment: FILE, OIL_FILE, 
+#       CPU, BOARD, TOOL, OBJS_USER, CC_INCLUDE_USER, CC_OPT_USER, HOST. 
+#
+# 	Note that this template is automatically customized by the Real-Time
+#	Workshop build procedure to create "<model>.mk"
+#
+#       The following defines can be used to modify the behavior of the
+#	build:
+#	  OPT_OPTS       - Optimization options. Default is -O. To enable 
+#                          debugging specify as OPT_OPTS=-g. 
+#                          Because of optimization problems in IBM_RS, 
+#                          default is no-optimization. 
+#	  OPTS           - User specific compile options.
+#	  USER_SRCS      - Additional user sources, such as files needed by
+#			   S-functions.
+#	  USER_INCLUDES  - Additional include paths
+#			   (i.e. USER_INCLUDES="-Iwhere-ever -Iwhere-ever2")
+#
+#       This template makefile is designed to be used with a system target
+#       file that contains 'rtwgensettings.BuildDirSuffix'
+
+
+#------------------------ Macros read by make_rtw ------------------------------
+#
+# The following macros are read by the Real-Time Workshop build procedure:
+#
+#  MAKECMD         - This is the command used to invoke the make utility
+#  HOST            - What platform this template makefile is targeted for
+#                    (i.e. PC or UNIX)
+#  BUILD           - Invoke make from the Real-Time Workshop build procedure
+#                    (yes/no)?
+#  SYS_TARGET_FILE - Name of system target file.
+#  BUILD_SUCCESS   - string that identifies succussful build on PC hosts
+
+MAKECMD         = gmake
+HOST            = PC
+BUILD           = yes
+SYS_TARGET_FILE = ProOSEK.tlc
+BUILD_SUCCESS   = Created executables
+
+#---------------------- Tokens expanded by make_rtw ----------------------------
+#
+# The following tokens, when wrapped with "|>" and "|<" are expanded by the
+# Real-Time Workshop build procedure.
+#
+#  MODEL_NAME          - Name of the Simulink block diagram
+#  MODEL_MODULES       - Any additional generated source modules
+#  MAKEFILE_NAME       - Name of makefile created from template makefile <model>.mk
+#  MATLAB_ROOT         - Path to were MATLAB is installed.
+#  S_FUNCTIONS         - List of additional S-function modules.
+#  S_FUNCTIONS_LIB     - List of S-functions libraries to link. 
+#  NUMST               - Number of sample times
+#  COMPUTER            - Computer type. See the MATLAB computer command.
+#  BUILDARGS           - Options passed in at the command line.
+#  MULTITASKING        - yes (1) or no (0): Is solver mode multitasking
+#  INTEGER_CODE        - yes (1) or no (0): Is generated code purely integer
+#  MAT_FILE            - yes (1) or no (0): Should mat file logging be done,
+#                        if 0, the generated code runs indefinitely
+#  EXT_MODE            - yes (1) or no (0): Build for external mode
+#  TMW_EXTMODE_TESTING - yes (1) or no (0): Build ext_test.c for external mode
+#                        testing.
+#  MULTI_INSTANCE_CODE - Is the generated code multi instantiable (1/0)?
+#  ADD_MDL_NAME_TO_GLOBALS - Do we add the model name to global 
+#                        identifiers (1/0)?
+
+MODEL                   = |>MODEL_NAME<|
+MODULES                 = |>MODEL_MODULES<|
+MAKEFILE                = |>MAKEFILE_NAME<|
+MATLAB_ROOT             = |>MATLAB_ROOT<|
+S_FUNCTIONS             = |>S_FUNCTIONS<|
+S_FUNCTIONS_LIB         = |>S_FUNCTIONS_LIB<|
+NUMST                   = |>NUMST<|
+COMPUTER                = |>COMPUTER<|
+BUILDARGS               = |>BUILDARGS<|
+MULTITASKING            = |>MULTITASKING<|
+INTEGER_CODE            = |>INTEGER_CODE<|
+MAT_FILE                = |>MAT_FILE<|
+ONESTEPFCN              = |>COMBINE_OUTPUT_UPDATE_FCNS<|
+TERMFCN                 = |>INCLUDE_MDL_TERMINATE_FCN<|
+B_ERTSFCN               = |>GENERATE_ERT_S_FUNCTION<|
+MEXEXT                  = |>MEXEXT<|
+EXT_MODE                = |>EXT_MODE<|
+TMW_EXTMODE_TESTING     = |>TMW_EXTMODE_TESTING<|
+MULTI_INSTANCE_CODE     = |>MULTI_INSTANCE_CODE<|
+ADD_MDL_NAME_TO_GLOBALS = |>ADD_MDL_NAME_TO_GLOBALS<|
+BUILDACTION		= |>BUILDACTION<|
+GENERATE_ASAP2          = |>GENERATE_ASAP2<|
+GENERATE_REPORT         = |>GENERATE_REPORT<|
+OSEK_BOARD    		= $(subst ",,|>BSP_NAME<|)
+# Place quote, " , here for context sensitive editors. 
+
+ifeq ($(B_ERTSFCN),1)
+$(error should not get here)
+endif
+
+# Include generated make variables file.
+include |>MODEL_NAME<|_makevars.mk
+
+#
+# Definitions for default source and build root directories:
+#
+# All user source files should reside in a tree under $(SRC).
+# Build derived objects are stored in a corresponding tree under $(BLD).
+# $(SRC) and $(BLD) can be independent directories, but in 
+# almost all cases you should leave them rooted at '.'
+#
+SRC = .
+BLD = .$(DIRCHAR)$(BUILD_DIR)
+AR  = $(TOOLPATH)powerpc-eabi-ar
+
+
+#----------------------------------------------------------------
+# Setup and use ProOSEK make environment:
+#  - Declare the first target rule, RTW_BUILD, to control the make
+#  process.  
+#  - Setup make variables expected by ProOSEK make environment
+#  - Include ProOSEK makefiles that setup the default ProOSEK make
+#  environment and target rules. The ProOSEK environment provides a
+#  default target BUILD_ALL that creates $(BUILD_DIR)/$(FILE).elf, so
+#  setup FILE:=$(MODEL) before inclusion. 
+#  - Make the RTW_BUILD target depend on the BUILD_ALL target to
+#  trigger the ProOSEK make process.
+
+#  - Declare the first target rule, RTW_BUILD, to control the make
+#  process.  
+#
+.PHONY : RTW_BUILD
+RTW_BUILD : 
+	@echo $(BUILD_SUCCESS): $(MODEL).elf, .srec, .bin
+	@$(BLANK)
+
+#  - Setup make variables expected by ProOSEK make environment
+#
+HOST           = Win32
+CPU            = PPC
+TOOL           = gcc
+BOARD          = $(OSEK_BOARD)
+OIL_FILE       = $(MODEL).oil
+FILE           = $(MODEL)
+
+# Setup so the ProOSEK make BUILD_ALL target provides information
+# before performing other actions.
+#
+BUILD_ALL: SHOW_ALL 
+
+#  - Include ProOSEK makefiles that setup the default ProOSEK make
+#  environment and target rules. The ProOSEK environment provides a
+#  default target BUILD_ALL that creates $(BUILD_DIR)/$(FILE).elf,
+#  using the setup FILE:=$(MODEL) before inclusion. 
+#
+include $(OSEK_BASE)/make/host.$(HOST)
+include $(OSEK_BASE)/make/make.$(CPU)$(TOOL)
+
+#  - Make the RTW_BUILD target depend on the BUILD_ALL target to
+#  trigger the ProOSEK make process.
+#
+RTW_BUILD : BUILD_ALL
+
+#----------------------------------------------------------------
+# Setup and use RTW make environment:
+#
+
+#  - Create macros to reference files in the ProOSEK build
+#  directory. Some of these are built by the ProOSEK make
+#  process. Some are derrived from the ProOSEK result. 
+#
+PROOSEK_ELF=$(BUILD_DIR)/$(FILE).elf
+PROOSEK_MAP=$(BUILD_DIR)/$(FILE).map
+PROOSEK_SREC=$(BUILD_DIR)/$(FILE).srec
+PROOSEK_BIN=$(BUILD_DIR)/$(FILE).bin
+
+#  - The ProOSEK default target rule, BUILD_ALL, generates both an ELF
+#  and a MAP file, so map the action that generates the map through a
+#  dependency rule to the elf.
+#
+$(PROOSEK_MAP) : $(PROOSEK_ELF) 
+
+#  - Create macros to reference files in the RTW current working
+#  directory. Make them depend on result files in the ProOSEK
+#  directory. 
+RTW_ELF:=..\$(FILE).elf
+RTW_MAP:=..\$(FILE).map
+RTW_SREC:=..\$(FILE).srec
+RTW_BIN:=..\$(FILE).bin
+
+RTW_ELF  : $(PROOSEK_ELF)
+RTW_MAP  : $(PROOSEK_MAP)
+RTW_SREC : $(PROOSEK_SREC)
+RTW_BIN  : $(PROOSEK_BIN)
+
+#  - Make the default target rule depend on the target rule that
+#  propagates the ProOSEK generated elf to the tarditional RTW target
+#  directory. 
+#
+RTW_BUILD : RTW_ELF RTW_MAP RTW_SREC RTW_BIN
+
+#----------------------------------------------------------------
+# Provide a method to create PROOSEK_SREC, as it is not provided by
+# the ProOSEK make environment. 
+#
+
+$(PROOSEK_SREC) : $(PROOSEK_ELF)
+	$(OBJCOPY) --output-target srec $< $@
+
+#----------------------------------------------------------------
+# Provide a method to create PROOSEK_BIN, as it is not provided by
+# the ProOSEK make environment. 
+#
+
+$(PROOSEK_BIN) : $(PROOSEK_ELF)
+	$(OBJCOPY) --output-target binary $< $@
+
+#----------------------------------------------------------------
+# Make linker command file depend on their sources. This is a
+# departure from the default behavior of the ProOSEK make
+# environment. 
+
+$(BUILD_DIR)/$(FILE).cmd : $(OSEK_BASE)$(DIRCHAR)boards$(DIRCHAR)$(BOARD)$(DIRCHAR)os.cmd
+
+#----------------------------------------------------------------
+# Provide the SHOW_ALL target rule. Conditionally make it depending on
+# the ProOSEK show_config target and the RTW show_config_user.
+#
+.PHONY : SHOW_ALL
+SHOW_ALL :
+
+SHOW_CONFIG=YES
+ifeq ($(SHOW_CONFIG),YES)
+SHOW_ALL : show_config
+SHOW_ALL : show_config_user
+endif
+
+#----------------------------------------------------------------
+# Symbolic and actual target rules to propagate generated files from
+# the ProOSEK build directory to the traditional RTW target
+# directory. 
+#
+
+.PHONY : RTW_ELF
+RTW_ELF : $(RTW_ELF)
+$(RTW_ELF) : $(PROOSEK_ELF)
+	copy $(subst /,\,$<) $(subst /,\,$@) >NUL
+
+.PHONY : RTW_MAP
+RTW_MAP : $(RTW_MAP) 
+$(RTW_MAP) : $(PROOSEK_MAP)
+	copy $(subst /,\,$<) $(subst /,\,$@) >NUL
+
+.PHONY : RTW_SREC
+RTW_SREC : $(RTW_SREC) 
+$(RTW_SREC) : $(PROOSEK_SREC)
+	copy $(subst /,\,$<) $(subst /,\,$@) >NUL
+
+.PHONY : RTW_BIN
+RTW_BIN : $(RTW_BIN) 
+$(RTW_BIN) : $(PROOSEK_BIN)
+	copy $(subst /,\,$<) $(subst /,\,$@) >NUL
+
+#------------------------------ Include Path -----------------------------------
+
+MATLAB_INCLUDES = \
+	-I$(MATLAB_ROOT)/extern/include \
+	-I$(MATLAB_ROOT)/simulink/include \
+	-I$(MATLAB_ROOT)/rtw/c/src
+
+# Additional includes 
+
+# Define EXPANDED_INCLUDES
+EXPANDED_INCLUDES = \
+|>START_EXPAND_INCLUDES<|	-I|>EXPAND_DIR_NAME<| \
+|>END_EXPAND_INCLUDES<|
+
+ADD_INCLUDES += $(EXPANDED_INCLUDES)
+
+INCLUDES = -I. -I.. $(MATLAB_INCLUDES) $(ADD_INCLUDES) $(USER_INCLUDES)
+
+#----------------------------- APP C Flags -------------------------------------
+
+CPP_REQ_DEFINES =  -D$(BOARD) -DMODEL=$(MODEL) -DNUMST=$(NUMST) \
+		  -DMT=$(MULTITASKING) \
+		  -DINTEGER_CODE=$(INTEGER_CODE) \
+		  -DONESTEPFCN=$(ONESTEPFCN) -DTERMFCN=$(TERMFCN) \
+		  -DMULTI_INSTANCE_CODE=$(MULTI_INSTANCE_CODE)\
+		  -DADD_MDL_NAME_TO_GLOBALS=$(ADD_MDL_NAME_TO_GLOBALS)
+
+#----------------------------- ProOSEK make compile environment ----------------
+CC_INCLUDE_USER = $(INCLUDES)
+CC_OPT_USER = -mfull-toc $(OPT_OPTS) $(CPP_REQ_DEFINES) $(OPT)
+
+#----------------------------------------------------------------
+# List of objects to build the application. If more than one 
+# object exists for the application, add it to this list. All files
+# listed here are built using the selected compiler.
+OBJS_USER =$(notdir $(OBJ_FILES))
+
+#-------------------------- Additional Libraries -------------------------------
+
+# Create library suffix based on INTEGER_CODE and OSEK implementation
+ifeq ($(INTEGER_CODE),0)
+LIBSUFFIX:=proosek.a
+else
+LIBSUFFIX:=int_proosek.a
+endif
+
+# PRECOMP_LIBRARIES are those libraries that are defined by rtwmakecfg
+# files with a precompiled flag set to true.  
+#
+# Setup environment for PRECOMP_LIBRARIES. PRECOMP_LIBRARIES are
+# libraries that may already exist. If they do not exist, they will be
+# created.
+#
+|>START_PRECOMP_LIBRARIES<|
+# Determine what |>EXPAND_LIBRARY_NAME<| library to use...
+#
+#   - When the STATIC_|>EXPAND_LIBRARY_NAME<| macro is specified, use
+#   that library.
+#   - Otherwise, when the STATIC_LIBDIR macro is specified, (create if
+#   necessary and) use an implementation specific library from that
+#   directory. 
+#   - Otherwise, create and use a library from the model's build
+#   directory. 
+#
+MODEL_LIB_|>EXPAND_LIBRARY_NAME<|:=$(BUILD_DIR)\|>EXPAND_LIBRARY_NAME<|.a
+ifdef STATIC_|>EXPAND_LIBRARY_NAME<|
+ LIB_|>EXPAND_LIBRARY_NAME<|:=$(STATIC_|>EXPAND_LIBRARY_NAME<|)
+else
+ ifneq "$(strip $(STATIC_LIBDIR))" ""
+  LIB_|>EXPAND_LIBRARY_NAME<|:=$(STATIC_LIBDIR)/|>EXPAND_LIBRARY_NAME<|_$(LIBSUFFIX)
+ else
+  LIB_|>EXPAND_LIBRARY_NAME<|:=$(MODEL_LIB_|>EXPAND_LIBRARY_NAME<|)
+ endif
+endif
+LIBS += $(LIB_|>EXPAND_LIBRARY_NAME<|) 
+|>END_PRECOMP_LIBRARIES<|
+
+# EXPAND_LIBRARIES are those libraries that are defined by rtwmakecfg
+# files with a precompiled flag set to false.  
+#
+# Setup environment for EXPAND_LIBRARIES. EXPAND_LIBRARIES are
+# always compiled for a model
+#
+|>START_EXPAND_LIBRARIES<|
+LIBS += |>EXPAND_LIBRARY_NAME<|.a |>END_EXPAND_LIBRARIES<|
+
+# MPC555_LIBS = $(MATLAB_ROOT)/toolbox/rtw/targets/mpc555dk/pil/BSPs/phyCORE-555/lib/mw_bsp.a
+
+LIBS += $(S_FUNCTIONS_LIB) $(EXT_LIB)
+LIBS += $(MPC555_LIBS)
+
+#---------------------------- Application Source Files -------------------------
+ifeq ($(INTEGER_CODE),1)
+ADD_SRCS = 
+LFLAGS =
+else
+ADD_SRCS = rt_nonfinite.c
+LFLAGS = -lm
+endif
+
+APP_SRCS = $(MODEL).c $(MODULES) $(ADD_SRCS) $(EXT_SRC) $(S_FUNCTIONS) $(USER_SRCS)
+
+
+#---------------------------------------------------------------------
+#
+# Makefile to generate downloadable image files, $(MODEL).elf and $(MODEL).srec.
+#
+#   To build, cd to model build directory, model_ProOSEK, and enter "model.bat all"
+#   To remove all generated files, enter "model.bat clean"
+#
+# The most commonly used command line macro is "BOARD", which specifies
+# the directory name of the required board support package.  For example,
+#
+#   "model.bat all BOARD=boardxyz"
+#
+# The following definitions should be set to provide
+# the correct build environment:
+# 
+#---------------------------------------------------------------------
+
+#
+# Definitons for application files:
+#
+# C_FILES       = all application specific C source files.
+# S_FILES       = all application specific assembly source files.
+# APP_INCS      = all application specific include files.
+# MAIN_OIL_FILE = top level OIL source code file for the application.
+# INC_OIL_FILES = any OIL files which are included in the top level OIL file.
+#
+C_FILES = $(APP_SRCS)
+
+S_FILES = 
+
+APP_INCS =
+
+MAIN_OIL_FILE = $(SRC)/$(MODEL_NAME).oil
+
+INC_OIL_FILES = 
+
+#
+# Define ProOSEK header file to be included.
+#
+SYS_INCS = $(OSEK_INC)/ProOSEK.h
+
+#
+# Construct the object file lists.
+#
+S_OBJECTS = $(S_FILES:$(SRC)/%.s=$(BLD)/%.o)
+USE_CUSTOM_STARTUP=YES
+ifeq ($(USE_CUSTOM_STARTUP),YES)
+S_OBJECTS += $(BLD)/startup.o
+endif
+O_OBJECTS = $(O_FILE:$(BLD)/%.c=$(BLD)/%.o)
+C_OBJECTS = $(C_FILES:%.c=$(BLD)/%.o)
+OBJ_FILES = $(C_OBJECTS) $(O_OBJECTS) $(S_OBJECTS) 
+
+#
+# Additional hook for including any user defined makefile variables
+#
+-include ..\user_makefile_variables.mk
+
+# Make all target objects depend on make and project_tag files. 
+#$(BOARD)/%.o: $(SRC)/$(MAKEFILE) rtw_proj.tmw
+
+# start EXPANDING rules
+|>START_EXPAND_RULES<|
+# EXPANDED rule for directory |>EXPAND_DIR_NAME<|
+$(BOARD)/%.o: |>EXPAND_DIR_NAME<|/%.c 
+	@$(BLANK)
+	@ echo Target $@ first dependency $< for "|>EXPAND_DIR_NAME<|\$*.c"
+	$(CC) $(CC_OPT) $(CC_INCLUDE) -o $(BUILD_DIR)$(DIRCHAR)$*.o $<
+|>END_EXPAND_RULES<|
+# EXPANDED rules complete
+
+#----------------------------- Application Libraries -----------------------------------
+# start EXPANDING "LIBRARIES"
+|>START_EXPAND_LIBRARIES<|
+# EXPANDED MODULES for |>EXPAND_LIBRARY_NAME<|
+MODULES_|>EXPAND_LIBRARY_NAME<| = \
+|>START_EXPAND_MODULES<|    $(BUILD_DIR)/|>EXPAND_MODULE_NAME<|.o \
+|>END_EXPAND_MODULES<|
+
+# EXPANDED rule for |>EXPAND_LIBRARY_NAME<|
+$(BUILD_DIR)/|>EXPAND_LIBRARY_NAME<|.a : $(MAKEFILE) rtw_proj.tmw $(MODULES_|>EXPAND_LIBRARY_NAME<|)
+	@$(BLANK)
+	@echo ### Creating $@ 
+	$(AR) -r $@ $(MODULES_|>EXPAND_LIBRARY_NAME<|)
+|>END_EXPAND_LIBRARIES<|
+# Completed EXPANSION of macros and rules for "LIBRARIES"
+
+# Start EXPANDING "PRECOMP_LIBRARIES"
+|>START_PRECOMP_LIBRARIES<|
+# EXPANDED MODULES for |>EXPAND_LIBRARY_NAME<|
+MODULES_|>EXPAND_LIBRARY_NAME<| = \
+|>START_EXPAND_MODULES<|    $(BUILD_DIR)/|>EXPAND_MODULE_NAME<|.o \
+|>END_EXPAND_MODULES<|
+
+#
+# Create rules for model's "precompiled" |>EXPAND_LIBRARY_NAME<| object library,
+# building it if it doesn't already exist.
+#
+#
+
+# LIB_|>EXPAND_LIBRARY_NAME<| target for easily building library from
+# command line.
+#
+.PHONY : LIB_|>EXPAND_LIBRARY_NAME<| 
+LIB_|>EXPAND_LIBRARY_NAME<| : $(LIB_|>EXPAND_LIBRARY_NAME<|)
+
+# When REBUILD_STATIC_LIBS is set to 1, by checking the the rtwoptions
+# category 'OSEKWorks code generation options' dialog checkbox 'Force
+# rebuild of the static libraries used by the model', setup for clean up 
+# all and rebuild of this static library
+#
+ifeq "$(REBUILD_STATIC_LIBS)" "1"
+ REMOVE_LIBS += REMOVE_|>EXPAND_LIBRARY_NAME<|
+
+ # This rule, making this PRECOMP_LIBRARY depend on
+ # REMOVE_ALL_PRECOMP_LIBRARIES, causes all PRECOMP_LIBRARIES to be
+ # removed before this PRECOM_LIBRARY is built.
+ $(LIB_|>EXPAND_LIBRARY_NAME<|) : REMOVE_ALL_PRECOMP_LIBRARIES
+
+ # These rules apply the typical dependencies for building a library
+ # for when REBUILD_STATIC_LIBS is set.
+ $(LIB_|>EXPAND_LIBRARY_NAME<|) : $(MAKEFILE) rtw_proj.tmw 
+ $(LIB_|>EXPAND_LIBRARY_NAME<|) : $(MODULES_|>EXPAND_LIBRARY_NAME<|)
+
+ # Force objects related to library to rebuilt whenever the
+ # REMOVE_|>EXPAND_LIBRARY_NAME<| target is executed.
+ $(MODULES_|>EXPAND_LIBRARY_NAME<|) : REMOVE_|>EXPAND_LIBRARY_NAME<|
+endif
+
+# Phony target rule that actually removes the |>EXPAND_LIBRARY_NAME<| library
+.PHONY : REMOVE_|>EXPAND_LIBRARY_NAME<|
+REMOVE_|>EXPAND_LIBRARY_NAME<| :
+	@echo Removing $(subst /,\,$(LIB_|>EXPAND_LIBRARY_NAME<|))
+	-$(RM) $(subst /,\,$(LIB_|>EXPAND_LIBRARY_NAME<|))
+
+ifeq "$(MODEL_LIB_|>EXPAND_LIBRARY_NAME<|)" "$(LIB_|>EXPAND_LIBRARY_NAME<|)" 
+ # When the library is in the model directory, have it depend on the
+ # module objects from the model directory, and have the module
+ # objects depend on the typical dependency rules 
+ #
+ $(LIB_|>EXPAND_LIBRARY_NAME<|)     : $(MODULES_|>EXPAND_LIBRARY_NAME<|)
+ $(MODULES_|>EXPAND_LIBRARY_NAME<|) : $(MAKEFILE) 
+ $(MODULES_|>EXPAND_LIBRARY_NAME<|) : rtw_proj.tmw 
+else
+ # If the static library doesn't exist, have it depend on the 
+ # module objects from the model directory, and have the module
+ # objects depend on the typical dependency rules 
+ #
+ ifeq "$(strip $(wildcard $(subst \,/,$(LIB_|>EXPAND_LIBRARY_NAME<|))))" ""
+  $(LIB_|>EXPAND_LIBRARY_NAME<|)     : $(MODULES_|>EXPAND_LIBRARY_NAME<|)
+  $(MODULES_|>EXPAND_LIBRARY_NAME<|) : $(MAKEFILE) 
+  $(MODULES_|>EXPAND_LIBRARY_NAME<|) : rtw_proj.tmw 
+ endif
+endif
+
+# Provide target to create, or update, the library from objects in
+# the current model's build directory .
+$(LIB_|>EXPAND_LIBRARY_NAME<|) : 
+	@$(BLANK)
+	@echo ### Creating Precomp $@ 
+	$(AR) -r $@ $(MODULES_|>EXPAND_LIBRARY_NAME<|)
+|>END_PRECOMP_LIBRARIES<|
+# Completed EXPANSION of macros and rules for "PRECOMP_LIBRARIES"
+
+REMOVE_ALL_PRECOMP_LIBRARIES : $(REMOVE_LIBS)
+
+$(BOARD)/%.o: $(OSEK_BASE)$(DIRCHAR)boards$(DIRCHAR)$(BOARD)/%.s
+	@$(BLANK)
+	@ echo Target $@ first dependency $< for "d:\Work\mrate_proosek/$*.c"
+	$(AS) $(AS_OPT) $(AS_INCLUDE) -o $(BUILD_DIR)$(DIRCHAR)$*.o $<
+
+$(BOARD)/%.o: %.c 
+	@$(BLANK)
+	@ echo Target $@ first dependency $< for "d:\Work\mrate_proosek/$*.c"
+	$(CC) $(CC_OPT) $(CC_INCLUDE) -o $(BUILD_DIR)$(DIRCHAR)$*.o $<
+
+$(BOARD)/%.o: $(MATLAB_ROOT)/rtw/c/src/%.c
+	@$(BLANK)
+	@ echo Target $@ first dependency $< for "d:\Work\mrate_proosek/$*.c"
+	$(CC) $(CC_OPT) $(CC_INCLUDE) -o $(BUILD_DIR)$(DIRCHAR)$*.o $<
+
+
+$(PROOSEK_ELF) : $(subst \,/,$(OBJ_FILES)) $(LIBS)
+
+#
+# Additional hook for including any user defined makefile rules
+#
+-include ..\user_makefile_rules.mk
+
+#
+# Echo the standard configuration variables.
+#
+show_config_user :
+ifeq ($(SHOW_CONFIG),YES)
+	@echo +---------------------------------------------------------------------------------------+
+	@echo + C_FILES.......... $(C_FILES)
+	@echo + C_OBJECTS........ $(C_OBJECTS)
+	@echo + O_OBJECTS........ $(O_OBJECTS)
+	@echo + OBJ_FILES........ $(OBJ_FILES)
+	@echo + CPU.............. $(CPU)
+	@echo + BOARD............ $(BOARD)
+	@echo + TOOL............. $(TOOL)
+	@echo + SRC_DIR.......... $(SRC)
+	@echo + BLD_DIR.......... $(BLD)
+	@echo + OIL_FILE......... $(OIL_FILE)
+	@echo +---------------------------------------------------------------------------------------+
+endif
+
+#------------------------Macros to support actions -----------------------------
+
+# Setup macros for commands: 
+#     - AS	- macro for assembler command
+#     - OBJCOPY - macro for command to convert the ELF to an SREC for
+#     flashing the image.  
+#
+# OBJCOPY = $(TOOLPATH)powerpc-eabi-objcopy # This one seems to be broken
+OBJCOPY = $(MATLAB)\toolbox\rtw\targets\osek\proosek\gnu\ppc-eabi-objcopy.exe
+AS      = $(TOOLPATH)powerpc-eabi-as
+
+#------------------------------ Macro tweaks -----------------------------------
+#
+# Modify macros for compilation after file parsing is complete. 
+#
+CC_OPT:=$(subst -gdwarf-2,-gdwarf,$(CC_OPT))
+
+ifeq ($(USE_CUSTOM_STARTUP),YES)
+CC_OPT:=$(subst -DINCLUDE_Startup,,$(CC_OPT))
+endif
+
+LINK:=$(LINK) --cref
+
+# EOF: ProOSEK.tmf

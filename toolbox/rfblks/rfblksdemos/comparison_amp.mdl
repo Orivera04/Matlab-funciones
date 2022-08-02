@@ -1,0 +1,1704 @@
+Model {
+  Name			  "comparison_amp"
+  Version		  6.0
+  GraphicalInterface {
+    NumRootInports	    0
+    NumRootOutports	    0
+    ParameterArgumentNames  ""
+    ComputedModelVersion    "1.253"
+    NumTestPointedSignals   0
+  }
+  SaveDefaultBlockParams  on
+  SampleTimeColors	  off
+  LibraryLinkDisplay	  "none"
+  WideLines		  off
+  ShowLineDimensions	  off
+  ShowPortDataTypes	  off
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  ShowStorageClass	  off
+  ShowTestPointIcons	  on
+  ShowViewerIcons	  on
+  SortedOrder		  off
+  ExecutionContextIcon	  off
+  ShowLinearizationAnnotations on
+  RecordCoverage	  off
+  CovPath		  "/"
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeVarName	  "covCumulativeData"
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  DataTypeOverride	  "UseLocalSettings"
+  MinMaxOverflowLogging	  "UseLocalSettings"
+  MinMaxOverflowArchiveMode "Overwrite"
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Tue Aug 05 16:54:12 2003"
+  Creator		  "ashivapr"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "rzeng"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Mon Mar 01 14:41:44 2004"
+  ModelVersionFormat	  "1.%<AutoIncrement:253>"
+  ConfigurationManager	  "None"
+  SimParamPage		  "Solver"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  AccelSystemTargetFile	  "accel.tlc"
+  AccelTemplateMakefile	  "accel_default_tmf"
+  AccelMakeCommand	  "make_rtw"
+  TryForcingSFcnDF	  off
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  BufferReuse		  on
+  ProdHWDeviceType	  "Specified"
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.0.3"
+      Array {
+	Type			"Handle"
+	Dimension		8
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.0.3"
+	  StartTime		  "0.0"
+	  StopTime		  "10.0"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  RelTol		  "1e-3"
+	  SolverMode		  "Auto"
+	  Solver		  "ode45"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.0.3"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  off
+	  SaveState		  off
+	  SaveTime		  off
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsOut"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Version		  "1.0.3"
+	  BlockReduction	  on
+	  BooleanDataType	  on
+	  ConditionallyExecuteInputs on
+	  ConditionalExecOptimization "on_for_testing"
+	  InlineParams		  off
+	  InlineInvariantSignals  on
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  on
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  ParameterPooling	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.0.3"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg on
+	  CheckExecutionContextRuntimeOutputMsg	on
+	  SignalResolutionControl "TryResolveAllWithWarning"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  SolverPrmCheckMsg	  "none"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterPrecisionLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.0.3"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "Specified"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  off
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.0.3"
+	  UpdateModelReferenceTargets "IfOutOfDate"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Version		  "1.0.3"
+	  SystemTargetFile	  "grt.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  TemplateMakefile	  "grt_default_tmf"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Version		      "1.0.3"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      CustomSymbolStr	      "$R$N$M"
+	      MangleLength	      1
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    Simulink.GRTTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Version		      "1.0.3"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns off
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      ExtMode		      off
+	      ExtModeStaticAlloc      off
+	      ExtModeTesting	      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTransport	      0
+	      ExtModeMexFile	      "ext_comm"
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	      GenerateASAP2	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	Simulink.SFSimCC {
+	  $ObjectID		  11
+	  Version		  "1.0.3"
+	  SFSimApplyToAllLibs	  on
+	  SFSimEnableDebug	  on
+	  SFSimOverflowDetection  on
+	  SFSimEcho		  on
+	  SFSimBuildMode	  "Incremental"
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      SimulationMode	      "normal"
+      CurrentDlgPage	      "Solver"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      ActionPort
+      InitializeStates	      "held"
+      ActionType	      "unset"
+    }
+    Block {
+      BlockType		      Actuator
+      SubClassName	      "unknown"
+      PortType		      "blob"
+    }
+    Block {
+      BlockType		      SwitchCase
+      CaseConditions	      "{1}"
+      CaseShowDefault	      on
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      ComplexToMagnitudeAngle
+      Output		      "Magnitude and angle"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      ComplexToRealImag
+      Output		      "Real and imag"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "sfix(16)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "2^0"
+      SampleTime	      "inf"
+    }
+    Block {
+      BlockType		      DataTypeConversion
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      ConvertRealWorld	      "Real World Value (RWV)"
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      FrameConversion
+      OutFrame		      "Frame based"
+    }
+    Block {
+      BlockType		      From
+      IconDisplay	      "Tag"
+    }
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ParameterDataTypeMode   "Same as input"
+      ParameterDataType	      "sfix(16)"
+      ParameterScalingMode    "Best Precision: Matrix-wise"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Goto
+      IconDisplay	      "Tag"
+    }
+    Block {
+      BlockType		      Ground
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Lookup
+      InputValues	      "[-4:5]"
+      OutputValues	      " rand(1,10)-0.5"
+      LookUpMeth	      "Interpolation-Extrapolation"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+      LUTDesignTableMode      "Redesign Table"
+      LUTDesignDataSource     "Block Dialog"
+      LUTDesignFunctionName   "sqrt(x)"
+      LUTDesignUseExistingBP  on
+      LUTDesignRelError	      "0.01"
+      LUTDesignAbsError	      "1e-6"
+    }
+    Block {
+      BlockType		      MagnitudeAngleToComplex
+      Input		      "Magnitude and angle"
+      ConstantPart	      "0"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Math
+      Operator		      "exp"
+      OutputSignalType	      "auto"
+      SampleTime	      "-1"
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Merge
+      Inputs		      "2"
+      InitialOutput	      "[]"
+      AllowUnequalInputPortWidths off
+      InputPortOffsets	      "[]"
+    }
+    Block {
+      BlockType		      Mux
+      Inputs		      "4"
+      DisplayOption	      "none"
+      BusObject		      "BusObject"
+      NonVirtualBus	      off
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      PMComponent
+      SubClassName	      "unknown"
+    }
+    Block {
+      BlockType		      PMIOPort
+    }
+    Block {
+      BlockType		      Probe
+      ProbeWidth	      on
+      ProbeSampleTime	      on
+      ProbeComplexSignal      on
+      ProbeSignalDimensions   off
+      ProbeFramedSignal	      off
+      ProbeWidthDataType      "double"
+      ProbeSampleTimeDataType "double"
+      ProbeComplexityDataType "double"
+      ProbeDimensionsDataType "double"
+      ProbeFrameDataType      "double"
+    }
+    Block {
+      BlockType		      Product
+      Inputs		      "2"
+      Multiplication	      "Element-wise(.*)"
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      RealImagToComplex
+      Input		      "Real and imag"
+      ConstantPart	      "0"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Saturate
+      UpperLimit	      "0.5"
+      LowerLimit	      "-0.5"
+      LinearizeAsGain	      on
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Selector
+      InputType		      "Vector"
+      IndexMode		      "One-based"
+      ElementSrc	      "Internal"
+      Elements		      "1"
+      RowSrc		      "Internal"
+      Rows		      "1"
+      ColumnSrc		      "Internal"
+      Columns		      "1"
+      InputPortWidth	      "-1"
+      IndexIsStartValue	      off
+      OutputPortSize	      "1"
+    }
+    Block {
+      BlockType		      Sensor
+      SubClassName	      "unknown"
+      PortType		      "blob"
+    }
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      PortCounts	      "[]"
+      SFunctionModules	      "''"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Sum
+      IconShape		      "rectangular"
+      Inputs		      "++"
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Terminator
+    }
+    Block {
+      BlockType		      Trigonometry
+      Operator		      "sin"
+      OutputSignalType	      "auto"
+      SampleTime	      "-1"
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "comparison_amp"
+    Location		    [4, 74, 961, 541]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      Reference
+      Name		      "Amplifier \nHyperbolic Tangent"
+      Ports		      [1, 1]
+      Position		      [460, 86, 560, 134]
+      SourceBlock	      "rfmathmodels1/Amplifier"
+      SourceType	      "Amplifier"
+      ShowPortLabels	      on
+      model_select	      "Hyperbolic tangent"
+      linGaindB		      "22"
+      GindB		      "0"
+      iip3		      "35"
+      am2pm		      "0"
+      amam		      "[2.1587 1.1517]"
+      ampm		      "[4.0033 9.1040]"
+      x			      "[8.1081 1.5413 6.5202 -0.0718]"
+      y			      "[4.6645 2.0965 10.88 -0.003]"
+      p			      "0.5"
+      GoutdB		      "0"
+      vsat		      "1"
+      method_select	      "Noise figure"
+      ntemp		      "290"
+      nfigure		      "3.01"
+      nfactor		      "2"
+      seed		      "67987"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+      Port {
+	PortNumber		1
+	Name			"Math Non-linear"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Amplifier Linear"
+      Ports		      [1, 1]
+      Position		      [460, 21, 560, 69]
+      SourceBlock	      "rfmathmodels1/Amplifier"
+      SourceType	      "Amplifier"
+      ShowPortLabels	      on
+      model_select	      "Linear"
+      linGaindB		      "22"
+      GindB		      "0"
+      iip3		      "30"
+      am2pm		      "0"
+      amam		      "[2.1587 1.1517]"
+      ampm		      "[4.0033 9.1040]"
+      x			      "[8.1081 1.5413 6.5202 -0.0718]"
+      y			      "[4.6645 2.0965 10.88 -0.003]"
+      p			      "0.5"
+      GoutdB		      "0"
+      vsat		      "1"
+      method_select	      "Noise figure"
+      ntemp		      "290"
+      nfigure		      "3.01"
+      nfactor		      "2"
+      seed		      "67987"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+      Port {
+	PortNumber		1
+	Name			"Math Linear"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Baseband Equivalent\nMulti-Tone Signal"
+      Ports		      [0, 1]
+      Position		      [35, 126, 125, 174]
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskType		      "Baseband Equivalent Multi-Tone Sine Wave"
+      MaskDescription	      "Generate a baseband equivalent multi-tone compl"
+"ex sinusoid signal. The frequency of the output multi-tone signal is the diff"
+"erence between the Tone frequency and the Center frequency.\n\nThe values spe"
+"cified here for the Center frequency and Sample time parameters should be equ"
+"al to the values specified in the 'Input Port' block."
+      MaskPromptString	      "Center frequency (Hz)|Tone frequency (Hz):|Tone"
+" amplitude:|Tone phase offset (rad):|Sample time:|Samples per frame:"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit"
+      MaskTunableValueString  "off,on,on,on,on,on"
+      MaskCallbackString      "|||||"
+      MaskEnableString	      "on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,"
+      MaskVariables	      "Fc=@1;Frequency=@2;Amplitude=@3;Phase=@4;Sample"
+"Time=@5;SamplesPerFrame=@6;"
+      MaskInitialization      "if ~isscalar(Fc)\n	error('Center frequen"
+"cy must be a scalar');\nend\nif ~isnumeric(Frequency)\n	error('Tone fr"
+"equency must be a real vector');\nend\nif any(Frequency>=2*Fc)\n	error"
+"('Tone frequency is too large compared to the Center frequency');\nend\n\nFre"
+"quency = Frequency-Fc;\n"
+      MaskDisplay	      "plot(-0.5,-3,1.5,1,[0:0.005:1], [0.25*sin(2*pi*"
+"5*[0:0.005:1])+0.5*sin(2*pi*10*[0:0.005:1]) ]);\ndisp('\\nMulti-Tone');\n"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "2.1e9|[2.07e9 2.12e9]|[0.1 0.05]|[0 pi/4]|3e-9|"
+"256"
+      MaskTabNameString	      ",,,,,"
+      Port {
+	PortNumber		1
+	Name			"Pre-amplified"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+	ShowSigGenPortName	on
+      }
+      System {
+	Name			"Baseband Equivalent\nMulti-Tone Signal"
+	Location		[479, 359, 959, 566]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  "Cosine Wave"
+	  Ports			  [0, 1]
+	  Position		  [55, 53, 100, 97]
+	  AncestorBlock		  "dspsrcs4/Sine Wave"
+	  FunctionName		  "sdspsine2"
+	  Parameters		  "Amplitude,Frequency,Phase,SampleMode,OutCom"
+"plex,CompMethod,SampleTime,SamplesPerFrame,ResetState,TableSize,isCustomFloat"
+",isSigned,dTypeID,wordLength,fracBits"
+	  MaskType		  "Sine Wave"
+	  MaskDescription	  "Output samples of a sinusoid.  To generate "
+"more than one sinusoid simultaneously, enter a vector of values for the ampli"
+"tude, frequency, and phase parameters."
+	  MaskHelp		  "web(dspbhelp);\n"
+	  MaskPromptString	  "Amplitude:|Frequency (Hz):|Phase offset (ra"
+"d):|Sample mode:|Output complexity:|Computation method:|Optimize table for:|S"
+"ample time:|Samples per frame:|------- Show additional parameters --------|Al"
+"low overrides from DSP Fixed-Point Attributes blocks|Output data type:|Word l"
+"ength:|User-defined data type (e.g. sfix(16), float('single')):|Set fraction "
+"length in output to:|Fraction length:|State when re-enabled:"
+	  MaskStyleString	  "edit,edit,edit,popup(Discrete|Continuous),p"
+"opup(Real|Complex),popup(Trigonometric fcn|Table lookup|Differential),popup(S"
+"peed|Memory),edit,edit,checkbox,checkbox,popup(double|single|Fixed-point|User"
+"-defined|Inherit via back propagation),edit,edit,popup(Best precision|User-de"
+"fined),edit,popup(Restart at time zero|Catch up to simulation time)"
+	  MaskTunableValueString  "on,on,on,off,off,off,off,off,off,off,off,of"
+"f,off,off,off,off,off"
+	  MaskCallbackString	  "|||dspblksine;||dspblksine;||||dspblksine|d"
+"spblksine|dspblksine||dspblksine|dspblksine||"
+	  MaskEnableString	  "on,on,on,on,on,on,on,on,on,on,on,on,on,on,o"
+"n,on,on"
+	  MaskVisibilityString	  "on,on,on,on,on,on,off,on,on,on,off,off,off,"
+"off,off,off,off"
+	  MaskToolTipString	  "on,on,on,on,on,on,on,on,on,on,on,on,on,on,o"
+"n,on,on"
+	  MaskVarAliasString	  ",,,,,,,,,,,dType,,,,,"
+	  MaskVariables		  "Amplitude=@1;Frequency=@2;Phase=@3;SampleMo"
+"de=@4;OutComplex=@5;CompMethod=@6;TableSize=@7;SampleTime=@8;SamplesPerFrame="
+"@9;additionalParams=@10;allowOverrides=@11;dataType=@12;wordLen=@13;udDataTyp"
+"e=@14;fracBitsMode=@15;numFracBits=@16;ResetState=@17;"
+	  MaskInitialization	  "[x,y] = dspblksine('icon');\n[dtInfo,dTypeI"
+"D]=dspblksine('init');\nisSigned=dtInfo.DataTypeIsSigned;\nisCustomFloat=dtIn"
+"fo.DataTypeIsCustomFloat;\nwordLength=dtInfo.DataTypeWordLength;\nfracBits=dt"
+"Info.DataTypeFracOrMantBits;\ndType=dataType;"
+	  MaskDisplay		  "plot(x,y)\ntext(3.25,.75,'DSP');"
+	  MaskSelfModifiable	  on
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "Amplitude|Frequency|Phase+(pi/2)|Discrete|R"
+"eal|Trigonometric fcn|Speed|SampleTime|SamplesPerFrame|off|on|double|16|sfix("
+"16)|Best precision|15|Restart at time zero"
+	  MaskTabNameString	  ",,,,,,,,,,,,,,,,"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Matrix\nSum"
+	  Ports			  [1, 1]
+	  Position		  [250, 95, 315, 135]
+	  DialogController	  "dspDDGCreate"
+	  DialogControllerArgs	  "DataTag0"
+	  SourceBlock		  "dspmtrx3/Matrix\nSum"
+	  SourceType		  "Matrix Sum"
+	  Dim			  "Rows"
+	  additionalParams	  off
+	  allowOverrides	  on
+	  outputMode		  "Same as input"
+	  outputWordLength	  "16"
+	  outputFracLength	  "15"
+	  accumMode		  "Inherit via internal rule"
+	  accumWordLength	  "32"
+	  accumFracLength	  "30"
+	  roundingMode		  "Floor"
+	  overflowMode		  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  RealImagToComplex
+	  Name			  "Real-Imag to\nComplex"
+	  Ports			  [2, 1]
+	  Position		  [160, 98, 190, 127]
+	  Input			  "Real and imag"
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	  Port {
+	    PortType		    0
+	    PortNumber		    2
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  "Sine Wave"
+	  Ports			  [0, 1]
+	  Position		  [55, 128, 100, 172]
+	  AncestorBlock		  "dspsrcs4/Sine Wave"
+	  FunctionName		  "sdspsine2"
+	  Parameters		  "Amplitude,Frequency,Phase,SampleMode,OutCom"
+"plex,CompMethod,SampleTime,SamplesPerFrame,ResetState,TableSize,isCustomFloat"
+",isSigned,dTypeID,wordLength,fracBits"
+	  MaskType		  "Sine Wave"
+	  MaskDescription	  "Output samples of a sinusoid.  To generate "
+"more than one sinusoid simultaneously, enter a vector of values for the ampli"
+"tude, frequency, and phase parameters."
+	  MaskHelp		  "web(dspbhelp);\n"
+	  MaskPromptString	  "Amplitude:|Frequency (Hz):|Phase offset (ra"
+"d):|Sample mode:|Output complexity:|Computation method:|Optimize table for:|S"
+"ample time:|Samples per frame:|------- Show additional parameters --------|Al"
+"low overrides from DSP Fixed-Point Attributes blocks|Output data type:|Word l"
+"ength:|User-defined data type (e.g. sfix(16), float('single')):|Set fraction "
+"length in output to:|Fraction length:|State when re-enabled:"
+	  MaskStyleString	  "edit,edit,edit,popup(Discrete|Continuous),p"
+"opup(Real|Complex),popup(Trigonometric fcn|Table lookup|Differential),popup(S"
+"peed|Memory),edit,edit,checkbox,checkbox,popup(double|single|Fixed-point|User"
+"-defined|Inherit via back propagation),edit,edit,popup(Best precision|User-de"
+"fined),edit,popup(Restart at time zero|Catch up to simulation time)"
+	  MaskTunableValueString  "on,on,on,off,off,off,off,off,off,off,off,of"
+"f,off,off,off,off,off"
+	  MaskCallbackString	  "|||dspblksine;||dspblksine;||||dspblksine|d"
+"spblksine|dspblksine||dspblksine|dspblksine||"
+	  MaskEnableString	  "on,on,on,on,on,on,on,on,on,on,on,on,on,on,o"
+"n,on,on"
+	  MaskVisibilityString	  "on,on,on,on,on,on,off,on,on,on,off,off,off,"
+"off,off,off,off"
+	  MaskToolTipString	  "on,on,on,on,on,on,on,on,on,on,on,on,on,on,o"
+"n,on,on"
+	  MaskVarAliasString	  ",,,,,,,,,,,dType,,,,,"
+	  MaskVariables		  "Amplitude=@1;Frequency=@2;Phase=@3;SampleMo"
+"de=@4;OutComplex=@5;CompMethod=@6;TableSize=@7;SampleTime=@8;SamplesPerFrame="
+"@9;additionalParams=@10;allowOverrides=@11;dataType=@12;wordLen=@13;udDataTyp"
+"e=@14;fracBitsMode=@15;numFracBits=@16;ResetState=@17;"
+	  MaskInitialization	  "[x,y] = dspblksine('icon');\n[dtInfo,dTypeI"
+"D]=dspblksine('init');\nisSigned=dtInfo.DataTypeIsSigned;\nisCustomFloat=dtIn"
+"fo.DataTypeIsCustomFloat;\nwordLength=dtInfo.DataTypeWordLength;\nfracBits=dt"
+"Info.DataTypeFracOrMantBits;\ndType=dataType;"
+	  MaskDisplay		  "plot(x,y)\ntext(3.25,.75,'DSP');"
+	  MaskSelfModifiable	  on
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "Amplitude|Frequency|Phase|Discrete|Real|Tri"
+"gonometric fcn|Speed|SampleTime|SamplesPerFrame|off|on|double|16|sfix(16)|Bes"
+"t precision|15|Restart at time zero"
+	  MaskTabNameString	  ",,,,,,,,,,,,,,,,"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  Position		  [365, 108, 395, 122]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	  Port {
+	    PortType		    0
+	    PortNumber		    1
+	    ShowSigGenPortName	    on
+	  }
+	}
+	Line {
+	  SrcBlock		  "Real-Imag to\nComplex"
+	  SrcPort		  1
+	  DstBlock		  "Matrix\nSum"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sine Wave"
+	  SrcPort		  1
+	  Points		  [20, 0; 0, -30]
+	  DstBlock		  "Real-Imag to\nComplex"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Cosine Wave"
+	  SrcPort		  1
+	  Points		  [20, 0; 0, 30]
+	  DstBlock		  "Real-Imag to\nComplex"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Matrix\nSum"
+	  SrcPort		  1
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Double click\nto change gain"
+      Ports		      [1, 1]
+      Position		      [165, 129, 220, 171]
+      BackgroundColor	      "[0.125490, 0.560784, 1.000000]"
+      SourceBlock	      "simulink/Math\nOperations/Slider\nGain"
+      SourceType	      "Slider Gain"
+      ShowPortLabels	      on
+      low		      "1"
+      gain		      "1"
+      high		      "10"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Input  Port1"
+      Description	      "source block"
+      Ports		      [1, 0, 0, 0, 0, 0, 1]
+      Position		      [385, 195, 430, 255]
+      SourceBlock	      "rfports1/Input Port"
+      SourceType	      "Input Port"
+      ShowPortLabels	      on
+      MaxLength		      "128"
+      Fc		      "2.1e9"
+      Ts		      "3e-9"
+      Zs		      "50"
+      NoiseFlag		      off
+      seed		      "67987"
+      GoToTag		      "BBBCDGBCCQXBBIGOALUIQHV"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Input  Port2"
+      Description	      "source block"
+      Ports		      [1, 0, 0, 0, 0, 0, 1]
+      Position		      [385, 270, 430, 330]
+      SourceBlock	      "rfports1/Input Port"
+      SourceType	      "Input Port"
+      ShowPortLabels	      on
+      MaxLength		      "128"
+      Fc		      "2.1e9"
+      Ts		      "3e-9"
+      Zs		      "50"
+      NoiseFlag		      off
+      seed		      "67987"
+      GoToTag		      "ACCDEHCDDRYCCJHPBMVJRIW"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Input  Port3"
+      Description	      "source block"
+      Ports		      [1, 0, 0, 0, 0, 0, 1]
+      Position		      [385, 350, 430, 410]
+      SourceBlock	      "rfports1/Input Port"
+      SourceType	      "Input Port"
+      ShowPortLabels	      on
+      MaxLength		      "128"
+      Fc		      "2.1e9"
+      Ts		      "3e-9"
+      Zs		      "50"
+      NoiseFlag		      off
+      seed		      "67987"
+      GoToTag		      "BADEFIDEESZDDKIQCNWKSJX"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Mathematical\nOutputs"
+      Ports		      [1]
+      Position		      [890, 55, 925, 105]
+      SourceBlock	      "dspsnks4/Spectrum\nScope"
+      SourceType	      "Spectrum Scope"
+      ShowPortLabels	      off
+      ScopeProperties	      on
+      Domain		      "Frequency"
+      HorizSpan		      "1"
+      UseBuffer		      off
+      BufferSize	      "128"
+      Overlap		      "64"
+      inpFftLenInherit	      off
+      FFTlength		      "1024"
+      numAvg		      "10"
+      DisplayProperties	      off
+      AxisGrid		      on
+      Memory		      off
+      FrameNumber	      off
+      AxisLegend	      on
+      AxisZoom		      off
+      OpenScopeAtSimStart     on
+      OpenScopeImmediately    off
+      FigPos		      "[5 288 496 142]"
+      AxisProperties	      off
+      XUnits		      "Hertz"
+      XRange		      "[-Fs/2...Fs/2]"
+      InheritXIncr	      on
+      XIncr		      "1.0"
+      XLabel		      "Samples"
+      YUnits		      "dB"
+      YMin		      "-131.600810004824"
+      YMax		      "51.0081898868428"
+      YLabel		      "Magnitude, dB"
+      LineProperties	      off
+      LineColors	      "[0 0 0]|[1 0 0]|[0 1 0]"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Mathematical Amplifier"
+      Ports		      []
+      Position		      [95, 334, 155, 374]
+      BackgroundColor	      "cyan"
+      DropShadow	      on
+      ShowName		      off
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskDisplay	      "disp('Info')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"Mathematical Amplifier"
+	Location		[8, 146, 625, 519]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Annotation {
+	  Name			  "Comparison of Amplifiers: Linear vs Nonline"
+"ar\n\nThe RF Blockset has two kinds of amplifier blocks: mathematical and phy"
+"sical amplifiers.\n\nThis demo shows the two-tone intermodulation performance"
+" of \n2 mathematical amplifiers and 3 physical amplifiers:\n\nMath Linear: de"
+"scribed by a linear gain and noise figure\n\nMath Non-linear: tanh model usin"
+"g input-referenced IP3\n\nS-para Linear: described by the S-parameters in 'de"
+"fault.s2p' file\n\nOIP3 Non-linear: described by the S-parameters in 'default"
+".s2p' file and OIP3 parameter\n \nPin-Pout Non-linear: described by the S-par"
+"ameters and Pin-Pout date in 'default.amp' file\n\nTo view the intermodulatio"
+"n performance at the outputs,\ndouble click the 'Slider Gain' block and chang"
+"e the value of the gain \nwhile the model is running.\n"
+	  Position		  [311, 187]
+	  FontName		  "Arial"
+	  FontSize		  14
+	}
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Matrix\nConcatenation"
+      Ports		      [2, 1]
+      Position		      [805, 59, 860, 101]
+      SourceBlock	      "simulink/Math\nOperations/Matrix\nConcatenation"
+      SourceType	      "Matrix Concatenation"
+      numInports	      "2"
+      catMethod		      "Horizontal"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+      Port {
+	PortType		0
+	PortNumber		2
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Matrix\nConcatenation1"
+      Ports		      [3, 1]
+      Position		      [805, 279, 860, 321]
+      ShowName		      off
+      SourceBlock	      "simulink/Math\nOperations/Matrix\nConcatenation"
+      SourceType	      "Matrix Concatenation"
+      numInports	      "3"
+      catMethod		      "Horizontal"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+      Port {
+	PortType		0
+	PortNumber		2
+	ShowSigGenPortName	on
+      }
+      Port {
+	PortType		0
+	PortNumber		3
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "OIP3 Non-linear"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [470, 276, 560, 324]
+      SourceBlock	      "rfamplifiers1/General Amplifier"
+      SourceType	      "General Amplifier"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "general-amplifier"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      RFDATA		      "read(rfdata.data, 'default.s2p')"
+      InterpMethod	      "Cubic"
+      IP3Type		      "OIP3"
+      IIP3		      "inf"
+      OIP3		      "30"
+      NF		      "0"
+      DisplayData	      off
+      PlotFreq		      "Derived from Input Port parameters"
+      PlotFreqNoSim	      "Extracted from RFDATA object"
+      Freq		      "[1.0e9:1.0e8:3e9]"
+      AllPlotType	      "X-Y plane"
+      NetworkData	      "S21"
+      PowerData		      "S11"
+      SmithData		      "S11"
+      PolarData		      "S11"
+      ComplexFormat	      "Magnitude (decibels)"
+      DBFormat		      "Magnitude (decibels)"
+      PowerFormat	      "dBm"
+      PhaseFormat	      "Angle (degrees)"
+      NoneFormat	      "None"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Output Port1"
+      Ports		      [0, 1, 0, 0, 0, 1]
+      Position		      [595, 195, 640, 255]
+      SourceBlock	      "rfports1/Output Port"
+      SourceType	      "Output Port"
+      ShowPortLabels	      on
+      Zl		      "50"
+      num_Models	      "1"
+      GoToTag		      "BBBCDGBCCQXBBIGOALUIQHV"
+      DisplayData	      off
+      PlotFreq		      "Derived from Input Port parameters"
+      Freq		      "1e9:1e8:3e9"
+      AllPlotType	      "Composite data"
+      NoBudgetPlot	      "Composite data"
+      NetworkData	      "S11"
+      SmithData		      "S11"
+      PolarData		      "S11"
+      ComplexFormat	      "Magnitude (decibels)"
+      DBFormat		      "Magnitude (decibels)"
+      DBMFormat		      "dBm"
+      NoneFormat	      "None"
+      Port {
+	PortNumber		1
+	Name			"S-param Linear"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Output Port2"
+      Ports		      [0, 1, 0, 0, 0, 1]
+      Position		      [595, 270, 640, 330]
+      SourceBlock	      "rfports1/Output Port"
+      SourceType	      "Output Port"
+      ShowPortLabels	      on
+      Zl		      "50"
+      num_Models	      "3"
+      GoToTag		      "ACCDEHCDDRYCCJHPBMVJRIW"
+      DisplayData	      off
+      PlotFreq		      "Derived from Input Port parameters"
+      Freq		      "1e9:1e8:3e9"
+      AllPlotType	      "Composite data"
+      NoBudgetPlot	      "Composite data"
+      NetworkData	      "S11"
+      SmithData		      "S11"
+      PolarData		      "S11"
+      ComplexFormat	      "Magnitude (decibels)"
+      DBFormat		      "Magnitude (decibels)"
+      DBMFormat		      "dBm"
+      NoneFormat	      "None"
+      Port {
+	PortNumber		1
+	Name			"OIP3 Non-linear"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Output Port3"
+      Ports		      [0, 1, 0, 0, 0, 1]
+      Position		      [595, 350, 640, 410]
+      SourceBlock	      "rfports1/Output Port"
+      SourceType	      "Output Port"
+      ShowPortLabels	      on
+      Zl		      "50"
+      num_Models	      "3"
+      GoToTag		      "BADEFIDEESZDDKIQCNWKSJX"
+      DisplayData	      off
+      PlotFreq		      "Derived from Input Port parameters"
+      Freq		      "1e9:1e8:3e9"
+      AllPlotType	      "Composite data"
+      NoBudgetPlot	      "Composite data"
+      NetworkData	      "S11"
+      SmithData		      "S11"
+      PolarData		      "S11"
+      ComplexFormat	      "Magnitude (decibels)"
+      DBFormat		      "Magnitude (decibels)"
+      DBMFormat		      "dBm"
+      NoneFormat	      "None"
+      Port {
+	PortNumber		1
+	Name			"Pin-Pout Non-linear"
+	RTWStorageClass		"Auto"
+	DataLoggingNameMode	"SignalName"
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Physical\nOutputs"
+      Ports		      [1]
+      Position		      [890, 275, 925, 325]
+      SourceBlock	      "dspsnks4/Spectrum\nScope"
+      SourceType	      "Spectrum Scope"
+      ShowPortLabels	      off
+      ScopeProperties	      on
+      Domain		      "Frequency"
+      HorizSpan		      "1"
+      UseBuffer		      off
+      BufferSize	      "128"
+      Overlap		      "64"
+      inpFftLenInherit	      off
+      FFTlength		      "1024"
+      numAvg		      "10"
+      DisplayProperties	      off
+      AxisGrid		      on
+      Memory		      off
+      FrameNumber	      off
+      AxisLegend	      on
+      AxisZoom		      off
+      OpenScopeAtSimStart     on
+      OpenScopeImmediately    off
+      FigPos		      "[508 287 501 144]"
+      AxisProperties	      off
+      XUnits		      "Hertz"
+      XRange		      "[-Fs/2...Fs/2]"
+      InheritXIncr	      on
+      XIncr		      "1.0"
+      XLabel		      "Samples"
+      YUnits		      "dB"
+      YMin		      "-131.600810004824"
+      YMax		      "51.0081898868428"
+      YLabel		      "Magnitude, dB"
+      LineProperties	      off
+      LineColors	      "[0 0 0]|[1 0 0]|[0 1 0]"
+      Port {
+	PortType		0
+	PortNumber		1
+	ShowSigGenPortName	on
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Pin-Pout Non-linear"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [470, 356, 560, 404]
+      SourceBlock	      "rfamplifiers1/General Amplifier"
+      SourceType	      "General Amplifier"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "general-amplifier"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      RFDATA		      "read(rfdata.data, 'default.amp')"
+      InterpMethod	      "Cubic"
+      IP3Type		      "OIP3"
+      IIP3		      "inf"
+      OIP3		      "30"
+      NF		      "0"
+      DisplayData	      off
+      PlotFreq		      "Derived from Input Port parameters"
+      PlotFreqNoSim	      "Extracted from RFDATA object"
+      Freq		      "[1.0e9:1.0e8:3e9]"
+      AllPlotType	      "X-Y plane"
+      NetworkData	      "S21"
+      PowerData		      "S11"
+      SmithData		      "S11"
+      PolarData		      "S11"
+      ComplexFormat	      "Magnitude (decibels)"
+      DBFormat		      "Magnitude (decibels)"
+      PowerFormat	      "dBm"
+      PhaseFormat	      "Angle (degrees)"
+      NoneFormat	      "None"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "S-param Linear"
+      Ports		      [0, 0, 0, 0, 0, 1, 1]
+      Position		      [470, 201, 560, 249]
+      SourceBlock	      "rfamplifiers1/General Amplifier"
+      SourceType	      "General Amplifier"
+      PhysicalDomain	      "rfsystemsdomain"
+      SubClassName	      "general-amplifier"
+      LeftPortType	      "p1"
+      RightPortType	      "p1"
+      LConnTagsString	      "__newl0"
+      RConnTagsString	      "__newr0"
+      RFDATA		      "read(rfdata.data, 'default.s2p')"
+      InterpMethod	      "Cubic"
+      IP3Type		      "OIP3"
+      IIP3		      "inf"
+      OIP3		      "inf"
+      NF		      "0"
+      DisplayData	      off
+      PlotFreq		      "Derived from Input Port parameters"
+      PlotFreqNoSim	      "Extracted from RFDATA object"
+      Freq		      "[1.0e9:1.0e8:3e9]"
+      AllPlotType	      "X-Y plane"
+      NetworkData	      "S21"
+      PowerData		      "S11"
+      SmithData		      "S11"
+      PolarData		      "S11"
+      ComplexFormat	      "Magnitude (decibels)"
+      DBFormat		      "Magnitude (decibels)"
+      PowerFormat	      "dBm"
+      PhaseFormat	      "Angle (degrees)"
+      NoneFormat	      "None"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "aSubsystem"
+      Ports		      []
+      Position		      [411, 15, 606, 163]
+      BackgroundColor	      "[1.000000, 1.000000, 0.549020]"
+      ShowName		      off
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskDisplay	      "disp('')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"aSubsystem"
+	Location		[463, 581, 676, 663]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "aSubsystem1"
+      Ports		      []
+      Position		      [334, 185, 682, 423]
+      BackgroundColor	      "[1.000000, 1.000000, 0.549020]"
+      ShowName		      off
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskDisplay	      "disp('')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"aSubsystem1"
+	Location		[463, 581, 676, 663]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+      }
+    }
+    Line {
+      Name		      "Pre-amplified"
+      SrcBlock		      "Baseband Equivalent\nMulti-Tone Signal"
+      SrcPort		      1
+      DstBlock		      "Double click\nto change gain"
+      DstPort		      1
+    }
+    Line {
+      Name		      "Math Non-linear"
+      Labels		      [1, 1]
+      SrcBlock		      "Amplifier \nHyperbolic Tangent"
+      SrcPort		      1
+      Points		      [165, 0; 0, -20]
+      DstBlock		      "Matrix\nConcatenation"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Matrix\nConcatenation"
+      SrcPort		      1
+      DstBlock		      "Mathematical\nOutputs"
+      DstPort		      1
+    }
+    Line {
+      LineType		      "Connection"
+      SrcBlock		      "Input  Port1"
+      SrcPort		      RConn1
+      DstBlock		      "S-param Linear"
+      DstPort		      LConn1
+    }
+    Line {
+      LineType		      "Connection"
+      SrcBlock		      "S-param Linear"
+      SrcPort		      RConn1
+      DstBlock		      "Output Port1"
+      DstPort		      LConn1
+    }
+    Line {
+      Name		      "S-param Linear"
+      Labels		      [2, 0]
+      SrcBlock		      "Output Port1"
+      SrcPort		      1
+      Points		      [90, 0; 0, 60]
+      DstBlock		      "Matrix\nConcatenation1"
+      DstPort		      1
+    }
+    Line {
+      Name		      "Math Linear"
+      Labels		      [1, 0]
+      SrcBlock		      "Amplifier Linear"
+      SrcPort		      1
+      Points		      [165, 0; 0, 25]
+      DstBlock		      "Matrix\nConcatenation"
+      DstPort		      1
+    }
+    Line {
+      LineType		      "Connection"
+      SrcBlock		      "Input  Port2"
+      SrcPort		      RConn1
+      DstBlock		      "OIP3 Non-linear"
+      DstPort		      LConn1
+    }
+    Line {
+      SrcBlock		      "Matrix\nConcatenation1"
+      SrcPort		      1
+      DstBlock		      "Physical\nOutputs"
+      DstPort		      1
+    }
+    Line {
+      LineType		      "Connection"
+      SrcBlock		      "Input  Port3"
+      SrcPort		      RConn1
+      DstBlock		      "Pin-Pout Non-linear"
+      DstPort		      LConn1
+    }
+    Line {
+      LineType		      "Connection"
+      SrcBlock		      "Pin-Pout Non-linear"
+      SrcPort		      RConn1
+      DstBlock		      "Output Port3"
+      DstPort		      LConn1
+    }
+    Line {
+      Name		      "Pin-Pout Non-linear"
+      Labels		      [2, 1]
+      SrcBlock		      "Output Port3"
+      SrcPort		      1
+      Points		      [90, 0; 0, -65]
+      DstBlock		      "Matrix\nConcatenation1"
+      DstPort		      3
+    }
+    Line {
+      LineType		      "Connection"
+      SrcBlock		      "OIP3 Non-linear"
+      SrcPort		      RConn1
+      DstBlock		      "Output Port2"
+      DstPort		      LConn1
+    }
+    Line {
+      Name		      "OIP3 Non-linear"
+      Labels		      [-1, 0]
+      SrcBlock		      "Output Port2"
+      SrcPort		      1
+      DstBlock		      "Matrix\nConcatenation1"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Double click\nto change gain"
+      SrcPort		      1
+      Points		      [50, 0]
+      Branch {
+	Points			[0, -45]
+	Branch {
+	  Points		  [0, -60]
+	  DstBlock		  "Amplifier Linear"
+	  DstPort		  1
+	}
+	Branch {
+	  Points		  [0, 5]
+	  DstBlock		  "Amplifier \nHyperbolic Tangent"
+	  DstPort		  1
+	}
+      }
+      Branch {
+	Points			[0, 75]
+	Branch {
+	  DstBlock		  "Input  Port1"
+	  DstPort		  1
+	}
+	Branch {
+	  Points		  [0, 75]
+	  Branch {
+	    Points		    [0, 80]
+	    DstBlock		    "Input  Port3"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Input  Port2"
+	    DstPort		    1
+	  }
+	}
+      }
+    }
+    Annotation {
+      Name		      "Comparison of Amplifiers:\nLinear vs Nonlinear"
+      Position		      [128, 65]
+      FontName		      "Arial"
+      FontSize		      14
+      FontWeight	      "bold"
+    }
+    Annotation {
+      Name		      "3 RF Physical Amplifiers\nCenter frequency: 2.1"
+"GHz"
+      Position		      [518, 442]
+      FontName		      "Arial"
+      FontSize		      12
+      FontWeight	      "bold"
+      FontAngle		      "italic"
+    }
+    Annotation {
+      Name		      "2 RF Mathematical Amplifiers\n"
+      Position		      [508, 182]
+      FontName		      "Arial"
+      FontSize		      12
+      FontWeight	      "bold"
+      FontAngle		      "italic"
+    }
+    Annotation {
+      Name		      "The baseband equivalent\n two-tone frequencies:"
+"\n-30MHz and 20MHz"
+      Position		      [78, 234]
+    }
+  }
+}
+MatData {
+  NumRecords		  1
+  DataRecord {
+    Tag			    DataTag0
+    Data		    "  %)30     .    <     8    (     0         %    "
+"\"     $    !     0         .    0     8    (    !          %    \"     $    "
+"-     0         0    #0   $UA=')I>%-U;5!R;V0    "
+  }
+}

@@ -1,0 +1,229 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>polarplot3d_demo</title>
+      <meta name="generator" content="MATLAB 7.3">
+      <meta name="date" content="2006-12-03">
+      <meta name="m-file" content="polarplot3d_demo"><style>
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head>
+   <body>
+      <div class="content">
+         <h2>Contents</h2>
+         <div>
+            <ul>
+               <li><a href="#1">Test the polarplot3d function</a></li>
+               <li><a href="#2">plot using default arguments</a></li>
+               <li><a href="#3">plot of an incomplete polar annulus</a></li>
+               <li><a href="#4">3d surface plot with contours</a></li>
+               <li><a href="#5">mesh plot with polar axis at mean value, reversed angular sense</a></li>
+               <li><a href="#6">mesh plot with polar axis along edge of surface</a></li>
+               <li><a href="#7">mesh plot with contours, overlay 8 by 8 polar grid</a></li>
+               <li><a href="#8">wireframe plot</a></li>
+               <li><a href="#9">2d contour plot, reversed radial sense, contour levels at integer boundaries</a></li>
+            </ul>
+         </div>
+         <h2>Test the polarplot3d function<a name="1"></a></h2><pre class="codeinput"><span class="comment">% Ken Garrard</span>
+<span class="comment">% North Carolina State University</span>
+<span class="comment">% December 2006</span>
+
+<span class="comment">% generate interesting data using the peaks function</span>
+P = peaks(101);
+P = (P+rot90(P)-rot90(3*fliplr(P)));
+Q = P;
+P(62:end,:) = [];
+
+<span class="comment">% angular and radial range vectors for plots</span>
+t1 = 2*pi;
+t2 = [30 270]*pi/180;
+r1 = 400;
+r2 = [80 400];
+t3 = fliplr(t2);
+r3 = fliplr(r2);
+
+<span class="comment">% axis property cell array</span>
+axprop = {<span class="string">'DataAspectRatio'</span>,[10 10 1],<span class="string">'View'</span>,[-74 40],<span class="keyword">...</span>
+          <span class="string">'Xlim'</span>, [-450 450],           <span class="string">'Ylim'</span>,[-450 450],<span class="keyword">...</span>
+          <span class="string">'XTick'</span>,[-400 -200 0 200 400],<span class="string">'YTick'</span>,[-400 -200 0 200 400]};
+</pre><h2>plot using default arguments<a name="2"></a></h2><pre class="codeinput">figure;
+polarplot3d(P);
+set(gca,<span class="string">'DataAspectRatio'</span>,[1 1 40],<span class="string">'View'</span>,[-14 40],<span class="keyword">...</span>
+        <span class="string">'Xlim'</span>, [-1.5 1.5],       <span class="string">'Ylim'</span>, [-1.5 1.5],<span class="keyword">...</span>
+        <span class="string">'XTick'</span>,[-1 -0.5 0 0.5 1],<span class="string">'YTick'</span>,[-1 -0.5 0 0.5 1]);
+</pre><img vspace="5" hspace="5" src="polarplot3d_demo_01.png"> <h2>plot of an incomplete polar annulus<a name="3"></a></h2><pre class="codeinput">figure;
+polarplot3d(P,<span class="string">'plottype'</span>,<span class="string">'surf'</span>,<span class="string">'angularrange'</span>,t2,<span class="string">'radialrange'</span>,r2,<span class="keyword">...</span>
+              <span class="string">'polargrid'</span>,[0 48],<span class="string">'tickspacing'</span>,8,<span class="keyword">...</span>
+              <span class="string">'plotprops'</span>,{<span class="string">'Linestyle'</span>,<span class="string">'none'</span>});
+set(gca,axprop{:});
+</pre><img vspace="5" hspace="5" src="polarplot3d_demo_02.png"> <h2>3d surface plot with contours<a name="4"></a></h2><pre class="codeinput">figure;
+polarplot3d(P,<span class="string">'plottype'</span>,<span class="string">'surfcn'</span>,<span class="string">'angularrange'</span>,t2,<span class="string">'radialrange'</span>,r2,<span class="keyword">...</span>
+              <span class="string">'polargrid'</span>,[10 24],<span class="string">'tickspacing'</span>,15);
+set(gca,axprop{:});
+</pre><img vspace="5" hspace="5" src="polarplot3d_demo_03.png"> <h2>mesh plot with polar axis at mean value, reversed angular sense<a name="5"></a></h2><pre class="codeinput">figure;
+polarplot3d(P,<span class="string">'plottype'</span>,<span class="string">'mesh'</span>,<span class="string">'angularrange'</span>,t3,<span class="string">'radialrange'</span>,r2,<span class="keyword">...</span>
+              <span class="string">'meshscale'</span>,2,<span class="string">'polargrid'</span>,[0 0],<span class="string">'axislocation'</span>,<span class="string">'mean'</span>);
+set(gca,axprop{:});
+</pre><img vspace="5" hspace="5" src="polarplot3d_demo_04.png"> <h2>mesh plot with polar axis along edge of surface<a name="6"></a></h2><pre class="codeinput">figure;
+polarplot3d(P,<span class="string">'plottype'</span>,<span class="string">'meshl'</span>,<span class="string">'angularrange'</span>,t2,<span class="string">'radialrange'</span>,r2,<span class="keyword">...</span>
+              <span class="string">'polargrid'</span>,[10 24],<span class="string">'tickspacing'</span>,8,<span class="keyword">...</span>
+              <span class="string">'plotprops'</span>,{<span class="string">'Linestyle'</span>,<span class="string">'none'</span>});
+set(gca,axprop{:});
+</pre><img vspace="5" hspace="5" src="polarplot3d_demo_05.png"> <h2>mesh plot with contours, overlay 8 by 8 polar grid<a name="7"></a></h2><pre class="codeinput">figure;
+polarplot3d(P,<span class="string">'plottype'</span>,<span class="string">'meshc'</span>,<span class="string">'angularrange'</span>,t2,<span class="string">'radialrange'</span>,r3,<span class="keyword">...</span>
+              <span class="string">'meshscale'</span>,2,<span class="string">'polargrid'</span>,[8 8]);
+set(gca,axprop{:});
+</pre><img vspace="5" hspace="5" src="polarplot3d_demo_06.png"> <h2>wireframe plot<a name="8"></a></h2><pre class="codeinput">figure;
+polarplot3d(P,<span class="string">'plottype'</span>,<span class="string">'wire'</span>,<span class="string">'angularrange'</span>,t2,<span class="string">'radialrange'</span>,r2,<span class="keyword">...</span>
+              <span class="string">'polargrid'</span>,[12 24]);
+set(gca,axprop{:});
+</pre><img vspace="5" hspace="5" src="polarplot3d_demo_07.png"> <h2>2d contour plot, reversed radial sense, contour levels at integer boundaries<a name="9"></a></h2><pre class="codeinput">cl = round(min(Q(:))-1):1:round(max(Q(:))+1);
+figure;
+polarplot3d(Q,<span class="string">'plottype'</span>,<span class="string">'contour'</span>,<span class="string">'angularrange'</span>,t1,<span class="string">'radialrange'</span>,r3,<span class="keyword">...</span>
+              <span class="string">'meshscale'</span>,2,<span class="string">'polargrid'</span>,[0 0],<span class="string">'contourlines'</span>,cl);
+</pre><img vspace="5" hspace="5" src="polarplot3d_demo_08.png"> <p class="footer"><br>
+            Published with MATLAB&reg; 7.3<br></p>
+      </div>
+      <!--
+##### SOURCE BEGIN #####
+%% Test the polarplot3d function
+
+% Ken Garrard
+% North Carolina State University
+% December 2006
+
+% generate interesting data using the peaks function
+P = peaks(101);
+P = (P+rot90(P)-rot90(3*fliplr(P)));
+Q = P;
+P(62:end,:) = [];
+
+% angular and radial range vectors for plots
+t1 = 2*pi;
+t2 = [30 270]*pi/180;
+r1 = 400;
+r2 = [80 400];
+t3 = fliplr(t2);
+r3 = fliplr(r2);
+
+% axis property cell array
+axprop = {'DataAspectRatio',[10 10 1],'View',[-74 40],...
+          'Xlim', [-450 450],           'Ylim',[-450 450],...
+          'XTick',[-400 -200 0 200 400],'YTick',[-400 -200 0 200 400]};
+
+%% plot using default arguments
+figure;
+polarplot3d(P);
+set(gca,'DataAspectRatio',[1 1 40],'View',[-14 40],...
+        'Xlim', [-1.5 1.5],       'Ylim', [-1.5 1.5],...
+        'XTick',[-1 -0.5 0 0.5 1],'YTick',[-1 -0.5 0 0.5 1]);
+
+%% plot of an incomplete polar annulus
+figure;
+polarplot3d(P,'plottype','surf','angularrange',t2,'radialrange',r2,...
+              'polargrid',[0 48],'tickspacing',8,...
+              'plotprops',{'Linestyle','none'});
+set(gca,axprop{:});
+
+%% 3d surface plot with contours
+figure;
+polarplot3d(P,'plottype','surfcn','angularrange',t2,'radialrange',r2,...
+              'polargrid',[10 24],'tickspacing',15);
+set(gca,axprop{:});
+
+%% mesh plot with polar axis at mean value, reversed angular sense
+figure;
+polarplot3d(P,'plottype','mesh','angularrange',t3,'radialrange',r2,...
+              'meshscale',2,'polargrid',[0 0],'axislocation','mean');
+set(gca,axprop{:});
+
+%% mesh plot with polar axis along edge of surface
+figure;
+polarplot3d(P,'plottype','meshl','angularrange',t2,'radialrange',r2,...
+              'polargrid',[10 24],'tickspacing',8,...
+              'plotprops',{'Linestyle','none'});
+set(gca,axprop{:});
+
+%% mesh plot with contours, overlay 8 by 8 polar grid
+figure;
+polarplot3d(P,'plottype','meshc','angularrange',t2,'radialrange',r3,...
+              'meshscale',2,'polargrid',[8 8]);
+set(gca,axprop{:});
+
+%% wireframe plot
+figure;
+polarplot3d(P,'plottype','wire','angularrange',t2,'radialrange',r2,...
+              'polargrid',[12 24]);
+set(gca,axprop{:});
+
+%% 2d contour plot, reversed radial sense, contour levels at integer boundaries
+cl = round(min(Q(:))-1):1:round(max(Q(:))+1);
+figure;
+polarplot3d(Q,'plottype','contour','angularrange',t1,'radialrange',r3,...
+              'meshscale',2,'polargrid',[0 0],'contourlines',cl);
+
+##### SOURCE END #####
+-->
+   </body>
+</html>

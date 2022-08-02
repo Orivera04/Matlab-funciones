@@ -1,0 +1,1 @@
+class(pi), class(@sin), class('toto')

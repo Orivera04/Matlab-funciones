@@ -1,0 +1,113 @@
+%  curvfit1.m
+% Matlab file for Part 1 of the Curve Fitting module
+
+disp('*********************************************')
+disp('Part 1:  Example:  Quadratic Fit to U.S.')
+disp('                   Population Data ')
+disp('*********************************************')
+disp('  ')
+
+    format short
+
+    disp('Steps 1 thru 6:')
+    disp('Answer the questions using MATLAB comments')
+    disp('in your diary file. ')
+    disp(' ')
+    disp('To continue afterwards, type the word return')
+    disp('and hit enter!')
+    disp(' ')
+
+    keyboard;
+    disp(' ')
+
+    disp('Step 7: ') 
+    disp('Enter the data vectors: ')
+    disp('  (Note: the times in t are decades past 1900) ')
+    disp(' ')
+    disp('Enter: ')
+    disp(' ')
+    disp('  times = 1900:10:1990; ')
+    disp('  one = ones(10,1); ')
+    disp('  t = (times - 1900)''; ') 
+    disp('  t2 = t.^2; ')
+    disp('  y = [75.996,91.972,105.711,122.775,131.669,...')
+    disp('       150.697,179.323,203.185,226.546,248.710]''; ') 
+    disp(' ') 
+    disp('To continue afterwards, type the word return')
+    disp('and hit enter!')
+    disp(' ')
+
+    keyboard;   
+    disp(' ')
+
+    disp('----------------------------------------------------')
+    disp('Step 7 (cont.): ')
+    disp('Enter the command to form the matrix X whose ')
+    disp('columns are one, t, and t^2. ')
+    disp(' ')
+    disp('Then solve the normal equations for the coefficients ')
+    disp('a, b, and c. ') 
+    disp(' ')
+    disp('Enter ')
+    disp(' ')
+    disp(' X = [one, t, t2] ')
+    disp(' ')
+    disp('To continue afterwards, type the word return')
+    disp('and hit enter!')
+    disp(' ')
+
+    keyboard;   
+    disp(' ')
+    
+    disp('----------------------------------------------------')
+    disp('Step 8: ')
+    disp('Assuming the coefficients a, b, and c are ')
+    disp('entered into MATLAB, the following commands ')
+    disp('allow you to plot the least squares quadratic ')
+    disp('together with the U.S. Population data set. ')
+    disp(' ')
+    disp('Enter: ')
+    disp(' ')
+    disp('  clf ')
+    disp('  plot(times,y,''bo''); hold on ')
+    disp('  taxis = 1890:2:2000; ')
+    disp('  tvals = taxis - 1900; ')
+    disp('  ypred = a + b*tvals + c*tvals.^2; ')
+    disp('  plot(taxis,ypred,''r'') ')
+    disp('  axis([1890,2000,0,300]); ')
+    disp(' ')
+    disp('To continue afterwards, type the word return')
+    disp('and hit enter!')
+    disp(' ')
+
+    keyboard;   
+    disp(' ')
+    
+    disp('----------------------------------------------------')
+    disp('Step 9:')
+    disp('Using what you learned in step 5, compute the  ')
+    disp('projection of y onto the subspace W.  Then compute ')
+    disp('y - p.  Explain the relation between the components of')
+    disp('these vectors and features of your plot from Step 8. ')
+    disp(' ')
+    disp('----------------------------------------------')
+    disp('Use MATLAB comments in your diary file to')
+    disp('comment on the goodness of fit. ')
+    disp(' ')
+    disp('To continue afterwards, type the word return')
+    disp('and hit enter!')
+    disp(' ')
+
+    keyboard;
+    disp(' ')
+
+    disp('----------------------------------------------------')
+    disp('Step 10: ')
+    disp('Compute S.  Answer the question using MATLAB ')
+    disp('comments in your diary file. ')
+    disp(' ')
+    disp(' ')
+    disp('----------------------------------------------')
+    disp('To go on to part 2 of this module, ')
+    disp('type: curvfit2')
+    disp(' ')

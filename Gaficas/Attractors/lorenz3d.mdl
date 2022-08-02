@@ -1,0 +1,1498 @@
+Model {
+  Name			  "lorenz3d"
+  Version		  3.00
+  SimParamPage		  "Solver"
+  SampleTimeColors	  off
+  InvariantConstants	  off
+  WideVectorLines	  off
+  ShowLineWidths	  off
+  ShowPortDataTypes	  off
+  StartTime		  "0.0"
+  StopTime		  "inf"
+  SolverMode		  "SingleTasking"
+  Solver		  "ode45"
+  RelTol		  "1e-3"
+  AbsTol		  "1e-6"
+  Refine		  "1"
+  MaxStep		  "auto"
+  InitialStep		  "auto"
+  FixedStep		  "auto"
+  MaxOrder		  5
+  OutputOption		  "RefineOutputTimes"
+  OutputTimes		  "[]"
+  LoadExternalInput	  off
+  ExternalInput		  "[]"
+  SaveTime		  off
+  TimeSaveName		  "tout"
+  SaveState		  off
+  StateSaveName		  "xout"
+  SaveOutput		  off
+  OutputSaveName	  "yout"
+  LoadInitialState	  off
+  InitialState		  "[]"
+  SaveFinalState	  off
+  FinalStateName	  "xFinal"
+  SaveFormat		  "Matrix"
+  LimitMaxRows		  off
+  MaxRows		  "1000"
+  Decimation		  "1"
+  AlgebraicLoopMsg	  "warning"
+  MinStepSizeMsg	  "warning"
+  UnconnectedInputMsg	  "warning"
+  UnconnectedOutputMsg	  "warning"
+  UnconnectedLineMsg	  "warning"
+  InheritedTsInSrcMsg	  "warning"
+  IntegerOverflowMsg	  "none"
+  UnnecessaryDatatypeConvMsg "none"
+  Int32ToFloatConvMsg	  "warning"
+  SignalLabelMismatchMsg  "none"
+  ConsistencyChecking	  "off"
+  ZeroCross		  on
+  SimulationMode	  "normal"
+  BlockDataTips		  on
+  BlockParametersDataTip  on
+  BlockAttributesDataTip  off
+  BlockPortWidthsDataTip  off
+  BlockDescriptionStringDataTip	off
+  BlockMaskParametersDataTip off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  OptimizeBlockIOStorage  on
+  BufferReuse		  on
+  BooleanDataType	  off
+  RTWSystemTargetFile	  "grt.tlc"
+  RTWOptions		  "-aEnforceIntegerDowncast=1 -aFoldNonRolledExpr=1 -a"
+"InlineInvariantSignals=1 -aInlineParameters=0 -aLocalBlockOutputs=1 -aRollThr"
+"eshold=5 -aZeroInternalMemoryAtStartup=1 -aZeroExternalMemoryAtStartup=1 -aIn"
+"itFltsAndDblsToZero=1 -aGenerateReport=0 -aGenCodeOnly=0 -aRTWVerbose=1 -aInc"
+"ludeHyperlinkInReport=0 -aLaunchReport=0 -aForceParamTrailComments=0 -aGenera"
+"teComments=1 -aIgnoreCustomStorageClasses=1 -aIncHierarchyInIds=0 -aMaxRTWIdL"
+"en=31 -aShowEliminatedStatements=0 -aPrefixModelToSubsysFcnNames=1 -aIncDataT"
+"ypeInIds=0 -aInsertBlockDesc=0 -aSimulinkBlockComments=1 -aInlinedPrmAccess="
+"\"Literals\"  -aSuppressErrorStatus=0 -aModelReferenceCompliant=1 -aSupportNo"
+"nInlinedSFcns=1 -aSupportContinuousTime=1 -aSupportComplex=1 -aSupportNonFini"
+"te=1 -aSupportAbsoluteTime=1 -aTargetFcnLib=\"ansi_tfl_tmw.mat\" -aMultiInsta"
+"nceERTCode=0 -aLogVarNameModifier=\"rt_\" -aIsPILTarget=0 -aCombineOutputUpda"
+"teFcns=0 -aGenerateASAP2=0 -aGenerateSampleERTMain=0 -aGenerateFullHeader=1 -"
+"aUtilityFuncGeneration=\"Auto\" -aIncludeFileDelimiter=\"Auto\" -aIncludeMdlT"
+"erminateFcn=1 -aPurelyIntegerCode=0 -aERTCustomFileBanners=0 -aRTWCAPIStates="
+"0 -aRTWCAPIParams=0 -aRTWCAPISignals=0 -aMatFileLogging=1 -aGenFloatMathFcnCa"
+"lls=\"ANSI_C\" -aExtModeMexFile=\"ext_comm\" -aExtModeTransport=0 -aExtModeSt"
+"aticAllocSize=1000000 -aExtModeTesting=0 -aExtModeStaticAlloc=0 -aExtMode=0  "
+"-aInitFltsAndDblsToZero=1 "
+  RTWInlineParameters	  off
+  RTWRetainRTWFile	  off
+  RTWTemplateMakefile	  "grt_default_tmf"
+  RTWMakeCommand	  "make_rtw"
+  RTWGenerateCodeOnly	  off
+  ExtModeMexFile	  "ext_comm"
+  ExtModeBatchMode	  off
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "oneshot"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  off
+  Created		  "Wed Jul 22 05:30:07 1998"
+  Creator		  "The MathWorks Inc."
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "campa"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Mon Apr 25 00:51:53 2005"
+  ModelVersionFormat	  "1.%<AutoIncrement:25>"
+  ConfigurationManager	  "none"
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "lorenz3d"
+    Location		    [172, 225, 507, 593]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    AutoZoom		    on
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      "Lorenz1"
+      Ports		      [0, 1, 0, 0, 0]
+      Position		      [40, 40, 80, 100]
+      ShowPortLabels	      on
+      MaskType		      "Lorenz Attractor System"
+      MaskDescription	      "This autonomous system generates the lorentz at"
+"tractor:\nxdot=sigma*(x-y); ydot=rho*x-y-x*z; zdot=-beta*z+x*y;\nParameters a"
+"nd initial state can be selected from the mask."
+      MaskHelp		      "This autonomous system generates the lorentz at"
+"tractor.\nParameters and initial state can be selected from the mask.\n<p>\nT"
+"he system equations are: \nxdot = sigma*(x-y),\nydot = rho*x-y-x*z,\nzdot = -"
+"beta*z+x*y,"
+      MaskPromptString	      "sigma|rho|beta|Initial State (x0, y0, y0)"
+      MaskStyleString	      "edit,edit,edit,edit"
+      MaskTunableValueString  "on,on,on,on"
+      MaskCallbackString      "|||"
+      MaskEnableString	      "on,on,on,on"
+      MaskVisibilityString    "on,on,on,on"
+      MaskVariables	      "s=@1;r=@2;b=@3;xyz0=@4;"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "10|28|2+2/3|[1 1 1]"
+      System {
+	Name			"Lorenz1"
+	Location		[95, 138, 546, 569]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	AutoZoom		on
+	Block {
+	  BlockType		  Sum
+	  Name			  "-Bz+xy"
+	  Ports			  [2, 1, 0, 0, 0]
+	  Position		  [150, 335, 170, 355]
+	  NamePlacement		  "alternate"
+	  IconShape		  "round"
+	  Inputs		  "|-+"
+	  SaturateOnIntegerOverflow on
+	  Port {
+	    PortNumber		    1
+	    Name		    "zdot"
+	    TestPoint		    off
+	    RTWStorageClass	    "Auto"
+	  }
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Beta * z"
+	  Position		  [75, 325, 130, 365]
+	  Gain			  "b"
+	  SaturateOnIntegerOverflow on
+	}
+	Block {
+	  BlockType		  Integrator
+	  Name			  "Integrator"
+	  Ports			  [1, 1, 0, 0, 0]
+	  Position		  [245, 85, 275, 105]
+	  ShowName		  off
+	  ExternalReset		  "none"
+	  InitialConditionSource  "internal"
+	  InitialCondition	  "xyz0(1)"
+	  LimitOutput		  off
+	  UpperSaturationLimit	  "inf"
+	  LowerSaturationLimit	  "-inf"
+	  ShowSaturationPort	  off
+	  ShowStatePort		  off
+	  AbsoluteTolerance	  "auto"
+	  Port {
+	    PortNumber		    1
+	    Name		    "x"
+	    TestPoint		    off
+	    RTWStorageClass	    "Auto"
+	  }
+	}
+	Block {
+	  BlockType		  Integrator
+	  Name			  "Integrator1"
+	  Ports			  [1, 1, 0, 0, 0]
+	  Position		  [245, 210, 275, 230]
+	  ShowName		  off
+	  ExternalReset		  "none"
+	  InitialConditionSource  "internal"
+	  InitialCondition	  "xyz0(2)"
+	  LimitOutput		  off
+	  UpperSaturationLimit	  "inf"
+	  LowerSaturationLimit	  "-inf"
+	  ShowSaturationPort	  off
+	  ShowStatePort		  off
+	  AbsoluteTolerance	  "auto"
+	  Port {
+	    PortNumber		    1
+	    Name		    "y"
+	    TestPoint		    off
+	    RTWStorageClass	    "Auto"
+	  }
+	}
+	Block {
+	  BlockType		  Integrator
+	  Name			  "Integrator2"
+	  Ports			  [1, 1, 0, 0, 0]
+	  Position		  [245, 335, 275, 355]
+	  ShowName		  off
+	  ExternalReset		  "none"
+	  InitialConditionSource  "internal"
+	  InitialCondition	  "xyz0(3)"
+	  LimitOutput		  off
+	  UpperSaturationLimit	  "inf"
+	  LowerSaturationLimit	  "-inf"
+	  ShowSaturationPort	  off
+	  ShowStatePort		  off
+	  AbsoluteTolerance	  "auto"
+	  Port {
+	    PortNumber		    1
+	    Name		    "z"
+	    TestPoint		    off
+	    RTWStorageClass	    "Auto"
+	  }
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux1"
+	  Ports			  [3, 1, 0, 0, 0]
+	  Position		  [345, 33, 350, 407]
+	  ShowName		  off
+	  Inputs		  "3"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Rho * x"
+	  Position		  [75, 254, 110, 276]
+	  Gain			  "r"
+	  SaturateOnIntegerOverflow on
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Rx-y-xz"
+	  Ports			  [3, 1, 0, 0, 0]
+	  Position		  [150, 210, 170, 230]
+	  IconShape		  "round"
+	  Inputs		  "--+"
+	  SaturateOnIntegerOverflow on
+	  Port {
+	    PortNumber		    1
+	    Name		    "ydot"
+	    TestPoint		    off
+	    RTWStorageClass	    "Auto"
+	  }
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Sigma(y-x)"
+	  Position		  [165, 81, 200, 109]
+	  Gain			  "s"
+	  SaturateOnIntegerOverflow on
+	  Port {
+	    PortNumber		    1
+	    Name		    "xdot"
+	    TestPoint		    off
+	    RTWStorageClass	    "Auto"
+	  }
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "x * y"
+	  Ports			  [2, 1, 0, 0, 0]
+	  Position		  [75, 380, 105, 400]
+	  Inputs		  "2"
+	  SaturateOnIntegerOverflow on
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "x * z"
+	  Ports			  [2, 1, 0, 0, 0]
+	  Position		  [75, 210, 105, 230]
+	  Inputs		  "2"
+	  SaturateOnIntegerOverflow on
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "y - x"
+	  Ports			  [2, 1, 0, 0, 0]
+	  Position		  [80, 85, 100, 105]
+	  IconShape		  "round"
+	  Inputs		  "-+|"
+	  SaturateOnIntegerOverflow on
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "xyz"
+	  Position		  [375, 213, 405, 227]
+	  Port			  "1"
+	  OutputWhenDisabled	  "held"
+	  InitialOutput		  "[]"
+	}
+	Line {
+	  Name			  "xdot"
+	  Labels		  [1, 0]
+	  SrcBlock		  "Sigma(y-x)"
+	  SrcPort		  1
+	  DstBlock		  "Integrator"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "y - x"
+	  SrcPort		  1
+	  DstBlock		  "Sigma(y-x)"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "ydot"
+	  Labels		  [-1, 1]
+	  SrcBlock		  "Rx-y-xz"
+	  SrcPort		  1
+	  DstBlock		  "Integrator1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "x * z"
+	  SrcPort		  1
+	  DstBlock		  "Rx-y-xz"
+	  DstPort		  2
+	}
+	Line {
+	  Name			  "z"
+	  Labels		  [0, 1]
+	  SrcBlock		  "Integrator2"
+	  SrcPort		  1
+	  Points		  [0, 0; 25, 0]
+	  Branch {
+	    Points		    [0, -45; -280, 0]
+	    Branch {
+	      Points		      [0, -75]
+	      DstBlock		      "x * z"
+	      DstPort		      2
+	    }
+	    Branch {
+	      Points		      [0, 45]
+	      DstBlock		      "Beta * z"
+	      DstPort		      1
+	    }
+	  }
+	  Branch {
+	    DstBlock		    "Mux1"
+	    DstPort		    3
+	  }
+	}
+	Line {
+	  Name			  "y"
+	  Labels		  [0, 1]
+	  SrcBlock		  "Integrator1"
+	  SrcPort		  1
+	  Points		  [0, 0; 20, 0]
+	  Branch {
+	    Points		    [0, -45; -140, 0]
+	    Branch {
+	      DstBlock		      "Rx-y-xz"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [-125, 0]
+	      Branch {
+		Points			[0, -80]
+		DstBlock		"y - x"
+		DstPort			2
+	      }
+	      Branch {
+		Points			[0, 220]
+		DstBlock		"x * y"
+		DstPort			2
+	      }
+	    }
+	  }
+	  Branch {
+	    DstBlock		    "Mux1"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  Name			  "x"
+	  Labels		  [0, 1]
+	  SrcBlock		  "Integrator"
+	  SrcPort		  1
+	  Points		  [0, 0; 35, 0]
+	  Branch {
+	    Points		    [0, -30; -225, 0]
+	    Branch {
+	      DstBlock		      "y - x"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [-40, 0; 0, 150]
+	      Branch {
+		DstBlock		"x * z"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 50]
+		Branch {
+		  DstBlock		  "Rho * x"
+		  DstPort		  1
+		}
+		Branch {
+		  Points		  [0, 120]
+		  DstBlock		  "x * y"
+		  DstPort		  1
+		}
+	      }
+	    }
+	  }
+	  Branch {
+	    DstBlock		    "Mux1"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  Name			  "zdot"
+	  Labels		  [-1, 1]
+	  SrcBlock		  "-Bz+xy"
+	  SrcPort		  1
+	  DstBlock		  "Integrator2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Beta * z"
+	  SrcPort		  1
+	  DstBlock		  "-Bz+xy"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "x * y"
+	  SrcPort		  1
+	  Points		  [50, 0]
+	  DstBlock		  "-Bz+xy"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Mux1"
+	  SrcPort		  1
+	  DstBlock		  "xyz"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rho * x"
+	  SrcPort		  1
+	  Points		  [45, 0]
+	  DstBlock		  "Rx-y-xz"
+	  DstPort		  3
+	}
+	Annotation {
+	  Position		  [192, 42]
+	  Text			  "Lorenz Attractor"
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Lorenz2"
+      Ports		      [0, 1, 0, 0, 0]
+      Position		      [40, 130, 80, 190]
+      ShowPortLabels	      on
+      MaskType		      "Lorenz Attractor System"
+      MaskDescription	      "This autonomous system generates the lorentz at"
+"tractor:\nxdot=sigma*(x-y); ydot=rho*x-y-x*z; zdot=-beta*z+x*y;\nParameters a"
+"nd initial state can be selected from the mask."
+      MaskHelp		      "This autonomous system generates the lorentz at"
+"tractor.\nParameters and initial state can be selected from the mask.\n<p>\nT"
+"he system equations are: \nxdot = sigma*(x-y),\nydot = rho*x-y-x*z,\nzdot = -"
+"beta*z+x*y,"
+      MaskPromptString	      "sigma|rho|beta|Initial State (x0, y0, y0)"
+      MaskStyleString	      "edit,edit,edit,edit"
+      MaskTunableValueString  "on,on,on,on"
+      MaskCallbackString      "|||"
+      MaskEnableString	      "on,on,on,on"
+      MaskVisibilityString    "on,on,on,on"
+      MaskVariables	      "s=@1;r=@2;b=@3;xyz0=@4;"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "10|28|2+2/3|[2 2 2]"
+      System {
+	Name			"Lorenz2"
+	Location		[95, 138, 546, 569]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	AutoZoom		on
+	Block {
+	  BlockType		  Sum
+	  Name			  "-Bz+xy"
+	  Ports			  [2, 1, 0, 0, 0]
+	  Position		  [150, 335, 170, 355]
+	  NamePlacement		  "alternate"
+	  IconShape		  "round"
+	  Inputs		  "|-+"
+	  SaturateOnIntegerOverflow on
+	  Port {
+	    PortNumber		    1
+	    Name		    "zdot"
+	    TestPoint		    off
+	    RTWStorageClass	    "Auto"
+	  }
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Beta * z"
+	  Position		  [75, 325, 130, 365]
+	  Gain			  "b"
+	  SaturateOnIntegerOverflow on
+	}
+	Block {
+	  BlockType		  Integrator
+	  Name			  "Integrator"
+	  Ports			  [1, 1, 0, 0, 0]
+	  Position		  [245, 85, 275, 105]
+	  ShowName		  off
+	  ExternalReset		  "none"
+	  InitialConditionSource  "internal"
+	  InitialCondition	  "xyz0(1)"
+	  LimitOutput		  off
+	  UpperSaturationLimit	  "inf"
+	  LowerSaturationLimit	  "-inf"
+	  ShowSaturationPort	  off
+	  ShowStatePort		  off
+	  AbsoluteTolerance	  "auto"
+	  Port {
+	    PortNumber		    1
+	    Name		    "x"
+	    TestPoint		    off
+	    RTWStorageClass	    "Auto"
+	  }
+	}
+	Block {
+	  BlockType		  Integrator
+	  Name			  "Integrator1"
+	  Ports			  [1, 1, 0, 0, 0]
+	  Position		  [245, 210, 275, 230]
+	  ShowName		  off
+	  ExternalReset		  "none"
+	  InitialConditionSource  "internal"
+	  InitialCondition	  "xyz0(2)"
+	  LimitOutput		  off
+	  UpperSaturationLimit	  "inf"
+	  LowerSaturationLimit	  "-inf"
+	  ShowSaturationPort	  off
+	  ShowStatePort		  off
+	  AbsoluteTolerance	  "auto"
+	  Port {
+	    PortNumber		    1
+	    Name		    "y"
+	    TestPoint		    off
+	    RTWStorageClass	    "Auto"
+	  }
+	}
+	Block {
+	  BlockType		  Integrator
+	  Name			  "Integrator2"
+	  Ports			  [1, 1, 0, 0, 0]
+	  Position		  [245, 335, 275, 355]
+	  ShowName		  off
+	  ExternalReset		  "none"
+	  InitialConditionSource  "internal"
+	  InitialCondition	  "xyz0(3)"
+	  LimitOutput		  off
+	  UpperSaturationLimit	  "inf"
+	  LowerSaturationLimit	  "-inf"
+	  ShowSaturationPort	  off
+	  ShowStatePort		  off
+	  AbsoluteTolerance	  "auto"
+	  Port {
+	    PortNumber		    1
+	    Name		    "z"
+	    TestPoint		    off
+	    RTWStorageClass	    "Auto"
+	  }
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux1"
+	  Ports			  [3, 1, 0, 0, 0]
+	  Position		  [345, 33, 350, 407]
+	  ShowName		  off
+	  Inputs		  "3"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Rho * x"
+	  Position		  [75, 254, 110, 276]
+	  Gain			  "r"
+	  SaturateOnIntegerOverflow on
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Rx-y-xz"
+	  Ports			  [3, 1, 0, 0, 0]
+	  Position		  [150, 210, 170, 230]
+	  IconShape		  "round"
+	  Inputs		  "--+"
+	  SaturateOnIntegerOverflow on
+	  Port {
+	    PortNumber		    1
+	    Name		    "ydot"
+	    TestPoint		    off
+	    RTWStorageClass	    "Auto"
+	  }
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Sigma(y-x)"
+	  Position		  [165, 81, 200, 109]
+	  Gain			  "s"
+	  SaturateOnIntegerOverflow on
+	  Port {
+	    PortNumber		    1
+	    Name		    "xdot"
+	    TestPoint		    off
+	    RTWStorageClass	    "Auto"
+	  }
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "x * y"
+	  Ports			  [2, 1, 0, 0, 0]
+	  Position		  [75, 380, 105, 400]
+	  Inputs		  "2"
+	  SaturateOnIntegerOverflow on
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "x * z"
+	  Ports			  [2, 1, 0, 0, 0]
+	  Position		  [75, 210, 105, 230]
+	  Inputs		  "2"
+	  SaturateOnIntegerOverflow on
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "y - x"
+	  Ports			  [2, 1, 0, 0, 0]
+	  Position		  [80, 85, 100, 105]
+	  IconShape		  "round"
+	  Inputs		  "-+|"
+	  SaturateOnIntegerOverflow on
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "xyz"
+	  Position		  [375, 213, 405, 227]
+	  Port			  "1"
+	  OutputWhenDisabled	  "held"
+	  InitialOutput		  "[]"
+	}
+	Line {
+	  SrcBlock		  "Mux1"
+	  SrcPort		  1
+	  DstBlock		  "xyz"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "x * y"
+	  SrcPort		  1
+	  Points		  [50, 0]
+	  DstBlock		  "-Bz+xy"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Beta * z"
+	  SrcPort		  1
+	  DstBlock		  "-Bz+xy"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "zdot"
+	  Labels		  [-1, 1]
+	  SrcBlock		  "-Bz+xy"
+	  SrcPort		  1
+	  DstBlock		  "Integrator2"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "x"
+	  Labels		  [0, 1]
+	  SrcBlock		  "Integrator"
+	  SrcPort		  1
+	  Points		  [0, 0; 35, 0]
+	  Branch {
+	    DstBlock		    "Mux1"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, -30; -225, 0]
+	    Branch {
+	      Points		      [-40, 0; 0, 150]
+	      Branch {
+		Points			[0, 50]
+		Branch {
+		  Points		  [0, 120]
+		  DstBlock		  "x * y"
+		  DstPort		  1
+		}
+		Branch {
+		  DstBlock		  "Rho * x"
+		  DstPort		  1
+		}
+	      }
+	      Branch {
+		DstBlock		"x * z"
+		DstPort			1
+	      }
+	    }
+	    Branch {
+	      DstBlock		      "y - x"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Line {
+	  Name			  "y"
+	  Labels		  [0, 1]
+	  SrcBlock		  "Integrator1"
+	  SrcPort		  1
+	  Points		  [0, 0; 20, 0]
+	  Branch {
+	    DstBlock		    "Mux1"
+	    DstPort		    2
+	  }
+	  Branch {
+	    Points		    [0, -45; -140, 0]
+	    Branch {
+	      Points		      [-125, 0]
+	      Branch {
+		Points			[0, 220]
+		DstBlock		"x * y"
+		DstPort			2
+	      }
+	      Branch {
+		Points			[0, -80]
+		DstBlock		"y - x"
+		DstPort			2
+	      }
+	    }
+	    Branch {
+	      DstBlock		      "Rx-y-xz"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Line {
+	  Name			  "z"
+	  Labels		  [0, 1]
+	  SrcBlock		  "Integrator2"
+	  SrcPort		  1
+	  Points		  [0, 0; 25, 0]
+	  Branch {
+	    DstBlock		    "Mux1"
+	    DstPort		    3
+	  }
+	  Branch {
+	    Points		    [0, -45; -280, 0]
+	    Branch {
+	      Points		      [0, 45]
+	      DstBlock		      "Beta * z"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [0, -75]
+	      DstBlock		      "x * z"
+	      DstPort		      2
+	    }
+	  }
+	}
+	Line {
+	  SrcBlock		  "x * z"
+	  SrcPort		  1
+	  DstBlock		  "Rx-y-xz"
+	  DstPort		  2
+	}
+	Line {
+	  Name			  "ydot"
+	  Labels		  [-1, 1]
+	  SrcBlock		  "Rx-y-xz"
+	  SrcPort		  1
+	  DstBlock		  "Integrator1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "y - x"
+	  SrcPort		  1
+	  DstBlock		  "Sigma(y-x)"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "xdot"
+	  Labels		  [1, 0]
+	  SrcBlock		  "Sigma(y-x)"
+	  SrcPort		  1
+	  DstBlock		  "Integrator"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rho * x"
+	  SrcPort		  1
+	  Points		  [45, 0]
+	  DstBlock		  "Rx-y-xz"
+	  DstPort		  3
+	}
+	Annotation {
+	  Position		  [192, 42]
+	  Text			  "Lorenz Attractor"
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Lorenz3"
+      Ports		      [0, 1, 0, 0, 0]
+      Position		      [40, 220, 80, 280]
+      ShowPortLabels	      on
+      MaskType		      "Lorenz Attractor System"
+      MaskDescription	      "This autonomous system generates the lorentz at"
+"tractor:\nxdot=sigma*(x-y); ydot=rho*x-y-x*z; zdot=-beta*z+x*y;\nParameters a"
+"nd initial state can be selected from the mask."
+      MaskHelp		      "This autonomous system generates the lorentz at"
+"tractor.\nParameters and initial state can be selected from the mask.\n<p>\nT"
+"he system equations are: \nxdot = sigma*(x-y),\nydot = rho*x-y-x*z,\nzdot = -"
+"beta*z+x*y,"
+      MaskPromptString	      "sigma|rho|beta|Initial State (x0, y0, y0)"
+      MaskStyleString	      "edit,edit,edit,edit"
+      MaskTunableValueString  "on,on,on,on"
+      MaskCallbackString      "|||"
+      MaskEnableString	      "on,on,on,on"
+      MaskVisibilityString    "on,on,on,on"
+      MaskVariables	      "s=@1;r=@2;b=@3;xyz0=@4;"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "10|28|2+2/3|[3 3 3]"
+      System {
+	Name			"Lorenz3"
+	Location		[95, 138, 546, 569]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	AutoZoom		on
+	Block {
+	  BlockType		  Sum
+	  Name			  "-Bz+xy"
+	  Ports			  [2, 1, 0, 0, 0]
+	  Position		  [150, 335, 170, 355]
+	  NamePlacement		  "alternate"
+	  IconShape		  "round"
+	  Inputs		  "|-+"
+	  SaturateOnIntegerOverflow on
+	  Port {
+	    PortNumber		    1
+	    Name		    "zdot"
+	    TestPoint		    off
+	    RTWStorageClass	    "Auto"
+	  }
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Beta * z"
+	  Position		  [75, 325, 130, 365]
+	  Gain			  "b"
+	  SaturateOnIntegerOverflow on
+	}
+	Block {
+	  BlockType		  Integrator
+	  Name			  "Integrator"
+	  Ports			  [1, 1, 0, 0, 0]
+	  Position		  [245, 85, 275, 105]
+	  ShowName		  off
+	  ExternalReset		  "none"
+	  InitialConditionSource  "internal"
+	  InitialCondition	  "xyz0(1)"
+	  LimitOutput		  off
+	  UpperSaturationLimit	  "inf"
+	  LowerSaturationLimit	  "-inf"
+	  ShowSaturationPort	  off
+	  ShowStatePort		  off
+	  AbsoluteTolerance	  "auto"
+	  Port {
+	    PortNumber		    1
+	    Name		    "x"
+	    TestPoint		    off
+	    RTWStorageClass	    "Auto"
+	  }
+	}
+	Block {
+	  BlockType		  Integrator
+	  Name			  "Integrator1"
+	  Ports			  [1, 1, 0, 0, 0]
+	  Position		  [245, 210, 275, 230]
+	  ShowName		  off
+	  ExternalReset		  "none"
+	  InitialConditionSource  "internal"
+	  InitialCondition	  "xyz0(2)"
+	  LimitOutput		  off
+	  UpperSaturationLimit	  "inf"
+	  LowerSaturationLimit	  "-inf"
+	  ShowSaturationPort	  off
+	  ShowStatePort		  off
+	  AbsoluteTolerance	  "auto"
+	  Port {
+	    PortNumber		    1
+	    Name		    "y"
+	    TestPoint		    off
+	    RTWStorageClass	    "Auto"
+	  }
+	}
+	Block {
+	  BlockType		  Integrator
+	  Name			  "Integrator2"
+	  Ports			  [1, 1, 0, 0, 0]
+	  Position		  [245, 335, 275, 355]
+	  ShowName		  off
+	  ExternalReset		  "none"
+	  InitialConditionSource  "internal"
+	  InitialCondition	  "xyz0(3)"
+	  LimitOutput		  off
+	  UpperSaturationLimit	  "inf"
+	  LowerSaturationLimit	  "-inf"
+	  ShowSaturationPort	  off
+	  ShowStatePort		  off
+	  AbsoluteTolerance	  "auto"
+	  Port {
+	    PortNumber		    1
+	    Name		    "z"
+	    TestPoint		    off
+	    RTWStorageClass	    "Auto"
+	  }
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux1"
+	  Ports			  [3, 1, 0, 0, 0]
+	  Position		  [345, 33, 350, 407]
+	  ShowName		  off
+	  Inputs		  "3"
+	  DisplayOption		  "bar"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Rho * x"
+	  Position		  [75, 254, 110, 276]
+	  Gain			  "r"
+	  SaturateOnIntegerOverflow on
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Rx-y-xz"
+	  Ports			  [3, 1, 0, 0, 0]
+	  Position		  [150, 210, 170, 230]
+	  IconShape		  "round"
+	  Inputs		  "--+"
+	  SaturateOnIntegerOverflow on
+	  Port {
+	    PortNumber		    1
+	    Name		    "ydot"
+	    TestPoint		    off
+	    RTWStorageClass	    "Auto"
+	  }
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Sigma(y-x)"
+	  Position		  [165, 81, 200, 109]
+	  Gain			  "s"
+	  SaturateOnIntegerOverflow on
+	  Port {
+	    PortNumber		    1
+	    Name		    "xdot"
+	    TestPoint		    off
+	    RTWStorageClass	    "Auto"
+	  }
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "x * y"
+	  Ports			  [2, 1, 0, 0, 0]
+	  Position		  [75, 380, 105, 400]
+	  Inputs		  "2"
+	  SaturateOnIntegerOverflow on
+	}
+	Block {
+	  BlockType		  Product
+	  Name			  "x * z"
+	  Ports			  [2, 1, 0, 0, 0]
+	  Position		  [75, 210, 105, 230]
+	  Inputs		  "2"
+	  SaturateOnIntegerOverflow on
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "y - x"
+	  Ports			  [2, 1, 0, 0, 0]
+	  Position		  [80, 85, 100, 105]
+	  IconShape		  "round"
+	  Inputs		  "-+|"
+	  SaturateOnIntegerOverflow on
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "xyz"
+	  Position		  [375, 213, 405, 227]
+	  Port			  "1"
+	  OutputWhenDisabled	  "held"
+	  InitialOutput		  "[]"
+	}
+	Line {
+	  Name			  "xdot"
+	  Labels		  [1, 0]
+	  SrcBlock		  "Sigma(y-x)"
+	  SrcPort		  1
+	  DstBlock		  "Integrator"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "y - x"
+	  SrcPort		  1
+	  DstBlock		  "Sigma(y-x)"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "ydot"
+	  Labels		  [-1, 1]
+	  SrcBlock		  "Rx-y-xz"
+	  SrcPort		  1
+	  DstBlock		  "Integrator1"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "x * z"
+	  SrcPort		  1
+	  DstBlock		  "Rx-y-xz"
+	  DstPort		  2
+	}
+	Line {
+	  Name			  "z"
+	  Labels		  [0, 1]
+	  SrcBlock		  "Integrator2"
+	  SrcPort		  1
+	  Points		  [0, 0; 25, 0]
+	  Branch {
+	    Points		    [0, -45; -280, 0]
+	    Branch {
+	      Points		      [0, -75]
+	      DstBlock		      "x * z"
+	      DstPort		      2
+	    }
+	    Branch {
+	      Points		      [0, 45]
+	      DstBlock		      "Beta * z"
+	      DstPort		      1
+	    }
+	  }
+	  Branch {
+	    DstBlock		    "Mux1"
+	    DstPort		    3
+	  }
+	}
+	Line {
+	  Name			  "y"
+	  Labels		  [0, 1]
+	  SrcBlock		  "Integrator1"
+	  SrcPort		  1
+	  Points		  [0, 0; 20, 0]
+	  Branch {
+	    Points		    [0, -45; -140, 0]
+	    Branch {
+	      DstBlock		      "Rx-y-xz"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [-125, 0]
+	      Branch {
+		Points			[0, -80]
+		DstBlock		"y - x"
+		DstPort			2
+	      }
+	      Branch {
+		Points			[0, 220]
+		DstBlock		"x * y"
+		DstPort			2
+	      }
+	    }
+	  }
+	  Branch {
+	    DstBlock		    "Mux1"
+	    DstPort		    2
+	  }
+	}
+	Line {
+	  Name			  "x"
+	  Labels		  [0, 1]
+	  SrcBlock		  "Integrator"
+	  SrcPort		  1
+	  Points		  [0, 0; 35, 0]
+	  Branch {
+	    Points		    [0, -30; -225, 0]
+	    Branch {
+	      DstBlock		      "y - x"
+	      DstPort		      1
+	    }
+	    Branch {
+	      Points		      [-40, 0; 0, 150]
+	      Branch {
+		DstBlock		"x * z"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 50]
+		Branch {
+		  DstBlock		  "Rho * x"
+		  DstPort		  1
+		}
+		Branch {
+		  Points		  [0, 120]
+		  DstBlock		  "x * y"
+		  DstPort		  1
+		}
+	      }
+	    }
+	  }
+	  Branch {
+	    DstBlock		    "Mux1"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  Name			  "zdot"
+	  Labels		  [-1, 1]
+	  SrcBlock		  "-Bz+xy"
+	  SrcPort		  1
+	  DstBlock		  "Integrator2"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Beta * z"
+	  SrcPort		  1
+	  DstBlock		  "-Bz+xy"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "x * y"
+	  SrcPort		  1
+	  Points		  [50, 0]
+	  DstBlock		  "-Bz+xy"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Mux1"
+	  SrcPort		  1
+	  DstBlock		  "xyz"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Rho * x"
+	  SrcPort		  1
+	  Points		  [45, 0]
+	  DstBlock		  "Rx-y-xz"
+	  DstPort		  3
+	}
+	Annotation {
+	  Position		  [192, 42]
+	  Text			  "Lorenz Attractor"
+	}
+      }
+    }
+    Block {
+      BlockType		      Mux
+      Name		      "Mux"
+      Ports		      [3, 1, 0, 0, 0]
+      Position		      [110, 24, 115, 296]
+      ShowName		      off
+      Inputs		      "[3 3 3]"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      Selector
+      Name		      "Selector"
+      Position		      [170, 115, 210, 135]
+      Elements		      "[1 4 7]"
+      InputPortWidth	      "9"
+      Port {
+	PortNumber		1
+	Name			"x1x2x3"
+	TestPoint		off
+	RTWStorageClass		"Auto"
+      }
+    }
+    Block {
+      BlockType		      Selector
+      Name		      "Selector1"
+      Position		      [170, 150, 210, 170]
+      Elements		      "[2 5 8]"
+      InputPortWidth	      "9"
+      Port {
+	PortNumber		1
+	Name			"y1y2y3"
+	TestPoint		off
+	RTWStorageClass		"Auto"
+      }
+    }
+    Block {
+      BlockType		      Selector
+      Name		      "Selector2"
+      Position		      [170, 185, 210, 205]
+      Elements		      "[3 6 9]"
+      InputPortWidth	      "9"
+      Port {
+	PortNumber		1
+	Name			"z1z2z3"
+	TestPoint		off
+	RTWStorageClass		"Auto"
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "XYZ Graph"
+      Ports		      [3, 0, 0, 0, 0]
+      Position		      [265, 106, 305, 214]
+      CopyFcn		      "sfunxyz([],[],[],'CopyBlock')"
+      DeleteFcn		      "sfunxyz([],[],[],'DeleteBlock')"
+      LoadFcn		      "sfunxyz([],[],[],'LoadBlock')"
+      StartFcn		      "sfunxyz([],[],[],'Start')"
+      StopFcn		      "sfunxyz([],[],[],'Stop')"
+      NameChangeFcn	      "sfunxyz([],[],[],'NameChange')"
+      ShowPortLabels	      on
+      MaskType		      "XYZ multiscope"
+      MaskDescription	      "   Multidimensional XYZ scope using MATLAB grap"
+"h window.  \n   X,Y,Z coordinates are respectively the first,second, and thir"
+"d input.\n   Enter the number of lines, the XYZ ranges, the camera position, "
+"\n   and the sampling time, as mask parameters."
+      MaskHelp		      "   This block can be used to explore limit cycl"
+"es. \n   Look at the m-file sfunxyz.m to see how it works."
+      MaskPromptString	      "Number of lines|[xmin xmax]|[ymin ymax]|[zmin z"
+"max]|Camera position (use [0 0 1] for 2D XY view)|Grid|Sample time:"
+      MaskStyleString	      "edit,edit,edit,edit,edit,checkbox,edit"
+      MaskTunableValueString  "on,on,on,on,on,on,on"
+      MaskCallbackString      "||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on"
+      MaskVariables	      "np=@1;xlim=@2;ylim=@3;zlim=@4;cp=@5;gd=@6;st=@7"
+";"
+      MaskDisplay	      "plot([.05 .95 .95 .05 .05],[.45 .45 .95 .95 .45"
+"], 0.5+cos(0:0.1:2*pi)*0.3,0.7+sin(0:0.1:2*pi)*0.2)"
+      MaskSelfModifiable      on
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "normalized"
+      MaskValueString	      "3|[-30 30]|[-20 30]|[0 50]|[1 1 20]|on|0.01"
+      System {
+	Name			"XYZ Graph"
+	Location		[94, 121, 400, 327]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	AutoZoom		on
+	Block {
+	  BlockType		  Inport
+	  Name			  "x"
+	  Position		  [35, 37, 65, 53]
+	  Port			  "1"
+	  PortWidth		  "-1"
+	  SampleTime		  "-1"
+	  DataType		  "auto"
+	  SignalType		  "auto"
+	  Interpolate		  on
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "y"
+	  Position		  [35, 72, 65, 88]
+	  Port			  "2"
+	  PortWidth		  "-1"
+	  SampleTime		  "-1"
+	  DataType		  "auto"
+	  SignalType		  "auto"
+	  Interpolate		  on
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "z"
+	  Position		  [35, 107, 65, 123]
+	  Port			  "3"
+	  PortWidth		  "-1"
+	  SampleTime		  "-1"
+	  DataType		  "auto"
+	  SignalType		  "auto"
+	  Interpolate		  on
+	}
+	Block {
+	  BlockType		  Mux
+	  Name			  "Mux"
+	  Ports			  [3, 1, 0, 0, 0]
+	  Position		  [105, 29, 135, 131]
+	  ShowName		  off
+	  Inputs		  "[np np np]"
+	  DisplayOption		  "none"
+	}
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  "sfunxy"
+	  Ports			  [1, 0, 0, 0, 0]
+	  Position		  [175, 70, 225, 90]
+	  ShowName		  off
+	  FunctionName		  "sfunxyz"
+	  Parameters		  "[xlim ylim zlim],st,np,cp,gd"
+	  PortCounts		  "[]"
+	  SFunctionModules	  "''"
+	}
+	Line {
+	  SrcBlock		  "Mux"
+	  SrcPort		  1
+	  DstBlock		  "sfunxy"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "x"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "y"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "z"
+	  SrcPort		  1
+	  DstBlock		  "Mux"
+	  DstPort		  3
+	}
+      }
+    }
+    Line {
+      SrcBlock		      "Lorenz1"
+      SrcPort		      1
+      DstBlock		      "Mux"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Lorenz2"
+      SrcPort		      1
+      DstBlock		      "Mux"
+      DstPort		      2
+    }
+    Line {
+      SrcBlock		      "Mux"
+      SrcPort		      1
+      Points		      [20, 0]
+      Branch {
+	Points			[0, -35]
+	DstBlock		"Selector"
+	DstPort			1
+      }
+      Branch {
+	DstBlock		"Selector1"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, 35]
+	DstBlock		"Selector2"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "Lorenz3"
+      SrcPort		      1
+      DstBlock		      "Mux"
+      DstPort		      3
+    }
+    Line {
+      Name		      "x1x2x3"
+      Labels		      [0, 0]
+      SrcBlock		      "Selector"
+      SrcPort		      1
+      DstBlock		      "XYZ Graph"
+      DstPort		      1
+    }
+    Line {
+      Name		      "y1y2y3"
+      Labels		      [0, 0]
+      SrcBlock		      "Selector1"
+      SrcPort		      1
+      DstBlock		      "XYZ Graph"
+      DstPort		      2
+    }
+    Line {
+      Name		      "z1z2z3"
+      Labels		      [0, 0]
+      SrcBlock		      "Selector2"
+      SrcPort		      1
+      DstBlock		      "XYZ Graph"
+      DstPort		      3
+    }
+    Annotation {
+      Position		      [44, 330]
+      HorizontalAlignment     "left"
+      Text		      "See the effect of a small change in the initial"
+" conditions."
+    }
+  }
+}

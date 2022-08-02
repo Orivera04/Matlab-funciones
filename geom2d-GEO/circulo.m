@@ -1,0 +1,5 @@
+%Programa para calcular el area de un circulo
+disp('Introducir el valor del radio');
+d = input('radio ');
+Area = (2*Pi*d^2)/3;
+disp('El valor del area es: '); disp(Area)

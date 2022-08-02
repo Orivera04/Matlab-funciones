@@ -1,0 +1,200 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>De-embedding S-parameters</title>
+      <meta name="generator" content="MATLAB 7.0.0.5322a (R14) Prerelease">
+      <meta name="date" content="2004-04-05">
+      <meta name="m-file" content="de_embed_sparams">
+      <meta name="title" content="De-embedding S-parameters">
+      <meta name="description" content="The S-parameter data in the file &#34;samplebjt2.s2p&#34; was collected from a bipolar transistor in a fixture with a bond wire (series inductance 1nH) connected to a bond pad (shunt capacitance 100fF) on the input, and a bond pad (shunt capacitance 100fF) connected to a bond wire (series inductance 1nH) on the output.This demo shows how you can remove the effect of the fixture and extract the S-parameters of the device under test itself."><style>
+body {
+  background-color: white;
+}
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+pre.codeinput {
+  margin-left: 30px;
+}
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.showbuttons {
+  margin-left: 30px;
+  border: solid black 2px;
+  padding: 4px;
+  background: #EBEFF3;
+}
+
+pre.codeoutput {
+  color: gray;
+  font-style: italic;
+}
+pre.error {
+  color: red;
+}
+    </style></head>
+   <body>
+      <h1>De-embedding S-parameters</h1>
+      <p>The S-parameter data in the file "samplebjt2.s2p" was collected from a bipolar transistor in a fixture with a bond wire (series
+         inductance 1nH) connected to a bond pad (shunt capacitance 100fF) on the input, and a bond pad (shunt capacitance 100fF) connected
+         to a bond wire (series inductance 1nH) on the output.
+      </p>
+      <p>This demo shows how you can remove the effect of the fixture and extract the S-parameters of the device under test itself.</p>
+      <h2>Contents</h2>
+      <ul>
+         <li><a href="#1">Create RF objects</a></li>
+         <li><a href="#2">Analyze the circuit objects in frequency domain</a></li>
+         <li><a href="#3">De-embed the S-parameters</a></li>
+         <li><a href="#4">Plot both measured and de-embedded S11 on a Z Smith chart</a></li>
+         <li><a href="#5">Plot both measured and de-embedded S22 on a Z Smith chart</a></li>
+         <li><a href="#6">Plot the measured and de-embedded S21, in dB, on an X-Y plane</a></li>
+      </ul>
+      <h2>Create RF objects<a name="1"></a></h2>
+      <p>Create a data object for the measured S-parameters, by reading a Touchstone data file 'samplebjt2.s2p', and create two circuit
+         objects for the input pad and output pad.
+      </p><pre class="codeinput">measured_data = read(rfdata.data, <span class="string">'samplebjt2.s2p'</span>);
+input_pad = rfckt.cascade(<span class="string">'Ckts'</span>, {rfckt.seriesrlc(<span class="string">'L'</span>, 1e-9), <span class="keyword">...</span>
+    rfckt.shuntrlc(<span class="string">'C'</span>, 100e-15)});  <span class="comment">% L = 1nH, C = 100fF</span>
+output_pad = rfckt.cascade(<span class="string">'Ckts'</span>, {rfckt.shuntrlc(<span class="string">'C'</span>, 100e-15),<span class="keyword">...</span>
+    rfckt.seriesrlc(<span class="string">'L'</span>, 1e-9)});    <span class="comment">% L = 1nH, C = 100fF</span>
+</pre><h2>Analyze the circuit objects in frequency domain<a name="2"></a></h2>
+      <p>Analyze the input pad and output pad circuit objects at the same frequencies at which the S-parameters of the bjt were measured.</p><pre class="codeinput">freq = measured_data.Freq;
+analyze(input_pad, freq);
+analyze(output_pad, freq);
+</pre><h2>De-embed the S-parameters<a name="3"></a></h2>
+      <p>De-embed the S-parameters from the measured S-parameters by removing the effects of input and output pads. Create a data object
+         for plotting the de-embedded S-parameters.
+      </p><pre class="codeinput">z0 = measured_data.Z0;
+input_pad_sparams = extract(input_pad.RFdata, <span class="string">'S_Parameters'</span>, z0);
+output_pad_sparams = extract(output_pad.RFdata, <span class="string">'S_Parameters'</span>, z0);
+de_embedded_sparams = deembedsparams(measured_data.S_Parameters, <span class="keyword">...</span>
+    input_pad_sparams, output_pad_sparams);
+de_embedded_data = rfdata.data(<span class="string">'Z0'</span>, z0, <span class="string">'S_Parameters'</span>, <span class="keyword">...</span>
+    de_embedded_sparams, <span class="string">'Freq'</span>, freq);
+</pre><h2>Plot both measured and de-embedded S11 on a Z Smith chart<a name="4"></a></h2><pre class="codeinput">hold <span class="string">off</span>;
+h = smith(measured_data, <span class="string">'S11'</span>);
+set(h, <span class="string">'Color'</span>, [1 0 0]);
+hold <span class="string">on</span>;
+h = smith(de_embedded_data, <span class="string">'S11'</span>);
+set(h, <span class="string">'Color'</span>, [0 0 1]);
+l = legend; legend(l, {<span class="string">'Measured S_{11}'</span>, <span class="string">'De-embedded S_{11}'</span>});
+legend <span class="string">show</span>;
+</pre><img vspace="5" hspace="5" src="de_embed_sparams_01.png"><h2>Plot both measured and de-embedded S22 on a Z Smith chart<a name="5"></a></h2><pre class="codeinput">hold <span class="string">off</span>;
+h = smith(measured_data, <span class="string">'S22'</span>);
+set(h, <span class="string">'Color'</span>, [1 0 0]);
+hold <span class="string">on</span>;
+h = smith(de_embedded_data, <span class="string">'S22'</span>);
+set(h, <span class="string">'Color'</span>, [0 0 1]);
+l = legend; legend(l, {<span class="string">'Measured S_{22}'</span>, <span class="string">'De-embedded S_{22}'</span>});
+legend <span class="string">show</span>;
+</pre><img vspace="5" hspace="5" src="de_embed_sparams_02.png"><h2>Plot the measured and de-embedded S21, in dB, on an X-Y plane<a name="6"></a></h2><pre class="codeinput">hold <span class="string">off</span>;
+h = plot(measured_data, <span class="string">'S21'</span>, <span class="string">'db'</span>);
+set(h, <span class="string">'Color'</span>, [1 0 0]);
+hold <span class="string">on</span>;
+h = plot(de_embedded_data, <span class="string">'S21'</span>, <span class="string">'db'</span>);
+set(h, <span class="string">'Color'</span>, [0 0 1]);
+l = legend; legend(l, {<span class="string">'Measured S_{21}'</span>, <span class="string">'De-embedded S_{21}'</span>});
+legend <span class="string">show</span>;
+hold <span class="string">off</span>;
+</pre><img vspace="5" hspace="5" src="de_embed_sparams_03.png"><p class="footer">Copyright 2004 The MathWorks, Inc.<br></p>
+      <!--
+##### SOURCE BEGIN #####
+%% De-embedding S-parameters 
+% The S-parameter data in the file "samplebjt2.s2p" was collected from a
+% bipolar transistor in a fixture with a bond wire (series inductance 1nH)
+% connected to a bond pad (shunt capacitance 100fF) on the input, and a
+% bond pad (shunt capacitance 100fF) connected to a bond wire (series
+% inductance 1nH) on the output.
+% 
+% This demo shows how you can remove the effect of the fixture and extract 
+% the S-parameters of the device under test itself.
+
+%   Copyright 2004 The MathWorks, Inc.
+%   $Revision: 1.1.8.3 $  $Date: 2004/04/20 23:19:50 $
+
+%% Create RF objects
+% Create a data object for the measured S-parameters, by reading a
+% Touchstone data file 'samplebjt2.s2p', and create two circuit objects
+% for the input pad and output pad.
+measured_data = read(rfdata.data, 'samplebjt2.s2p');
+input_pad = rfckt.cascade('Ckts', {rfckt.seriesrlc('L', 1e-9), ...
+    rfckt.shuntrlc('C', 100e-15)});  % L = 1nH, C = 100fF
+output_pad = rfckt.cascade('Ckts', {rfckt.shuntrlc('C', 100e-15),...
+    rfckt.seriesrlc('L', 1e-9)});    % L = 1nH, C = 100fF
+
+%% Analyze the circuit objects in frequency domain
+% Analyze the input pad and output pad circuit objects at the same 
+% frequencies at which the S-parameters of the bjt were measured.
+freq = measured_data.Freq;
+analyze(input_pad, freq);
+analyze(output_pad, freq);
+
+%% De-embed the S-parameters
+% De-embed the S-parameters from the measured S-parameters by removing
+% the effects of input and output pads. Create a data object for plotting
+% the de-embedded S-parameters.
+z0 = measured_data.Z0;
+input_pad_sparams = extract(input_pad.RFdata, 'S_Parameters', z0);
+output_pad_sparams = extract(output_pad.RFdata, 'S_Parameters', z0);
+de_embedded_sparams = deembedsparams(measured_data.S_Parameters, ...
+    input_pad_sparams, output_pad_sparams);
+de_embedded_data = rfdata.data('Z0', z0, 'S_Parameters', ...
+    de_embedded_sparams, 'Freq', freq);
+
+%% Plot both measured and de-embedded S11 on a Z Smith chart
+hold off;
+h = smith(measured_data, 'S11');
+set(h, 'Color', [1 0 0]);
+hold on;
+h = smith(de_embedded_data, 'S11');
+set(h, 'Color', [0 0 1]);
+l = legend; legend(l, {'Measured S_{11}', 'De-embedded S_{11}'});
+legend show;
+
+%% Plot both measured and de-embedded S22 on a Z Smith chart
+hold off;
+h = smith(measured_data, 'S22');
+set(h, 'Color', [1 0 0]);
+hold on;
+h = smith(de_embedded_data, 'S22');
+set(h, 'Color', [0 0 1]);
+l = legend; legend(l, {'Measured S_{22}', 'De-embedded S_{22}'});
+legend show;
+
+%% Plot the measured and de-embedded S21, in dB, on an X-Y plane
+hold off;
+h = plot(measured_data, 'S21', 'db');
+set(h, 'Color', [1 0 0]);
+hold on;
+h = plot(de_embedded_data, 'S21', 'db');
+set(h, 'Color', [0 0 1]);
+l = legend; legend(l, {'Measured S_{21}', 'De-embedded S_{21}'});
+legend show;
+hold off;
+##### SOURCE END #####
+-->
+   </body>
+</html>

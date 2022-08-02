@@ -1,0 +1,704 @@
+%% File: toolbox/rtw/targets/c166/c166/c166timers.tlc
+%%
+%% Abstract:
+%%   Library functions for code generation with c166
+%%
+%% $Revision: 1.1.6.4 $
+%% $Date: 2004/01/22 18:20:12 $
+%%
+%% Copyright 2003 The MathWorks, Inc.
+
+%% Function: FcnGetSystemTimerRecord ================================================
+%% Abstract:
+%%   Get information containing information relating to the system timer.
+%%
+%function FcnGetSystemTimerRecord() void
+
+%% Should an assertion occur here, uncomment
+%%
+%%    %setcommandswitch "-v1" 
+%%
+%% to see a stack trace
+  %assert EXISTS("CompiledModel.C166Properties.SystemTimerProperties")  
+  %if !EXISTS("CompiledModel.C166Properties.SystemTimerProperties")
+    %exit "Field SystemTimerProperties was not found"
+  %endif
+  %return CompiledModel.C166Properties.SystemTimerProperties
+%endfunction
+
+%% Function: SLibC166TimersInfoAvailable  ================================================
+%% Abstract:
+%%   Returns 1 if information on timers is availale, 0 otherwise. Typically zero is returned
+%%   if a model with no resource configuration block is being build.
+%%
+%function SLibC166TimersInfoAvailable() void
+  %if !EXISTS("CompiledModel.C166Properties.SystemTimerProperties")
+    %% Occurs if there is no C166 Resource Configuration block in
+    %% the model.
+    %assign rtnVal = 0
+  %else 
+    %assign rtnVal = 1
+  %endif
+  %return rtnVal
+%endfunction
+
+
+%% Function: SLibC166TimersSetProperties ================================================
+%% Abstract:
+%%   Set properties related to C166 timers. The properties that must be set are
+%%
+%%   SystemFrequency - system frequency in MHz
+%%   OscillatorFrequency - external oscillator frequency in MHz
+%%   SystemTimer - name of the system timer
+%%   SystemTimerInterruptLevel - interrupt level for system timer
+%%   SystemTimerInterruptLevelGroup - interrupt level group for system timer
+%%   ReloadTimer - name of the timer used to automatically reload the system timer
+%%   FreeTimer - name of free runnning timer
+%%
+%function SLibC166TimersSetProperties(SystemFrequency, OscillatorFrequency,\
+  SystemTimer, SystemTimerInterruptLevel, SystemTimerInterruptLevelGroup,\
+  ReloadTimer, FreeTimer) void
+  %createrecord systemTimerRecord { \
+    fSystemFrequency SystemFrequency \
+    fOscillatorFrequency OscillatorFrequency \
+    fSystemTimer SystemTimer \
+    fSystemTimerInterruptLevel SystemTimerInterruptLevel \
+    fSystemTimerInterruptLevelGroup SystemTimerInterruptLevelGroup \
+    fReloadTimer ReloadTimer \
+    fFreeTimer FreeTimer \
+  }
+  
+  %createrecord tmp { SystemTimerProperties systemTimerRecord }
+  %addtorecord CompiledModel C166Properties tmp
+%endfunction
+
+%function FcnGetStepSizeAchieved() void
+  %return CompiledModel.C166Properties.SystemTimerProperties.fStepSizeAchieved
+%endfunction
+
+
+%function SLibC166TimersGetReloadTimer() void
+  %return CompiledModel.C166Properties.SystemTimerProperties.fReloadTimer
+%endfunction
+
+%function FcnGetTimerRTCPrescaler() void
+  %return CompiledModel.C166Properties.SystemTimerProperties.fRtcpre
+%endfunction
+  
+%function FcnGetTimerAuxiliaryOscillatorFreq() void
+  %return CompiledModel.C166Properties.SystemTimerProperties.fAuxiliaryOscFreq
+%endfunction
+
+%function FcnSetTimerStepSizeAchieved(tmpStepSizeAchieved) void
+  %addtorecord CompiledModel.C166Properties.SystemTimerProperties ...
+    fStepSizeAchieved tmpStepSizeAchieved
+  %return
+%endfunction
+
+%function FcnGetTimerPrescaleValue() void
+  %return CompiledModel.C166Properties.SystemTimerProperties.fTimerPrescaleValue
+%endfunction
+
+%function FcnSetTimerPrescaleValue(tmpTimerPrescaleValue) void
+  %addtorecord CompiledModel.C166Properties.SystemTimerProperties ...
+    fTimerPrescaleValue tmpTimerPrescaleValue
+  %return
+%endfunction
+
+%function FcnSetTimerReloadValue(tmpTimerReloadValue) void
+  %addtorecord CompiledModel.C166Properties.SystemTimerProperties ...
+    fTimerReloadValue tmpTimerReloadValue
+  %return
+%endfunction
+
+%function FcnSetTimerRTCPrescaler(tmpRtcpre) void
+  %addtorecord CompiledModel.C166Properties.SystemTimerProperties ...
+    fRtcpre tmpRtcpre
+  %return
+%endfunction
+  
+%function FcnSetTimerAuxiliaryOscillatorFreq(tmpAuxiliaryOscFreq) void
+  %addtorecord CompiledModel.C166Properties.SystemTimerProperties ...
+    fAuxiliaryOscFreq tmpAuxiliaryOscFreq
+  %return
+%endfunction
+  
+
+
+
+%% Function: SLibC166TimersGetTimerReloadValue ================================================
+%% Abstract:
+%%   Get the system timer reload value
+%%
+%function SLibC166TimersGetTimerReloadValue() void
+  %return CompiledModel.C166Properties.SystemTimerProperties.fTimerReloadValue
+%endfunction
+
+%% Function: SLibC166TimersInitSystemTimer ================================================
+%% Abstract:
+%%   Emit code for system timer initialization
+%%
+%function SLibC166TimersInitSystemTimer() Output
+  %assign t = FcnGetSystemTimerRecord()
+  
+  %if t.fSystemTimer == "T14"
+    %<FcnInitSystemTimerRTC()>
+  %else
+    %<FcnInitSystemTimerGPT()>
+  %endif      
+  
+%endfunction
+
+%% Function: FcnInitSystemTimerGPT ================================================
+%% Abstract:
+%%   Emit code for initialization of a General Purpose Timer (GPT) for use
+%%   as the system timer.
+%%
+%function FcnInitSystemTimerGPT() Output
+  %assign t = FcnGetSystemTimerRecord()
+  
+  %if t.fReloadTimer != ""
+    /* Configure automatic reload of system timer, %<t.fSystemTimer>, from reload timer, %<t.fReloadTimer> */
+    %if t.fReloadTimer == "CAPREL"
+      %<C166Reg.caprel> = TIMER_RELOAD;
+    %endif
+    %if t.fReloadTimer == "T2"
+      %<C166Reg.t2> = TIMER_RELOAD;
+      %<C166Reg.t2con> = 0x0027;
+    %endif
+    %if t.fReloadTimer == "T4"
+      %<C166Reg.t4> = TIMER_RELOAD;
+      %<C166Reg.t4con> = 0x0027;
+    %endif
+  %endif
+  
+  /* Initialize the system timer initial value, control register,
+  * and interrupts */
+  %switch t.fSystemTimer
+    %case "T2"
+      %<C166Reg.t2> = TIMER_RELOAD;
+      %<C166Reg.t2con> = SYSTEM_TIMER_CON;
+      %<C166Reg.t2ic>  = SYSTEM_TIMER_IC;
+      %break
+    %case "T3"
+      %<C166Reg.t3> = TIMER_RELOAD;
+      %<C166Reg.t3con> = SYSTEM_TIMER_CON;
+      %<C166Reg.t3ic>  = SYSTEM_TIMER_IC;
+      %break
+    %case "T4"
+      %<C166Reg.t4> = TIMER_RELOAD;
+      %<C166Reg.t4con> = SYSTEM_TIMER_CON;
+      %<C166Reg.t4ic>  = SYSTEM_TIMER_IC;
+      %break
+    %case "T5"
+      %<C166Reg.t5> = TIMER_RELOAD;
+      %<C166Reg.t5con> = SYSTEM_TIMER_CON;
+      %<C166Reg.t5ic>  = SYSTEM_TIMER_IC;
+      %break
+    %case "T6"
+      %<C166Reg.t6> = TIMER_RELOAD;
+      %<C166Reg.t6con> = SYSTEM_TIMER_CON;
+      %<C166Reg.t6ic>  = SYSTEM_TIMER_IC;
+      %break
+    %default
+      %exit "Invalid value for system timer"
+  %endswitch
+  
+%endfunction  
+
+
+%% Function: FcnInitSystemTimerRTC ================================================
+%% Abstract:
+%%   Emit code for initialization of the Real Time Clock RTC for use
+%%   as the system timer.
+%%
+%function FcnInitSystemTimerRTC() Output
+
+  %assign t = FcnGetSystemTimerRecord()
+
+  /* Set value to automatically reload into %<t.fSystemTimer> */
+  %<C166Reg.t14rel> = TIMER_RELOAD;
+    
+  /* Load initial value into timer */
+  %<C166Reg.t14> = TIMER_RELOAD;
+  
+  %if EXISTS(C166Reg.rtcpre)
+    /* Set the RTC pre-scaler to achieve the required sample period */
+    /* Workaround error in Tasking v8.0r1 .def file to achieve 
+    RTCPRE = %<FcnGetTimerRTCPrescaler()>;
+    */
+    #pragma asm
+    EXTR #1
+    %if FcnGetTimerRTCPrescaler() == 0
+      BCLR 0xf110.1
+    %else
+      BSET 0xf110.1
+    %endif
+    #pragma endasm    
+  %endif
+
+  /*
+  * Enable timer interrupts
+  */
+  %if C166Reg.rtc_ic == "RTC_IC"
+    /* Workaround error in Tasking v8.0r1 .def file to achieve RTC_IC = SYSTEM_TIMER_IC; */
+    {
+      unsigned int * p = (unsigned int *) 0xF1A0;
+      *p = SYSTEM_TIMER_IC;
+    }
+  %else
+    %<C166Reg.rtc_ic> = SYSTEM_TIMER_IC;
+  %endif
+    
+  /* 
+  * The RTC has a shared interrupt node. The corresponding sub-node must 
+  * be enabled in the interrupt sub-node control (ISNC) register.
+  */
+  %if C166Reg.rtc_ic == "RTC_IC"
+    /* Workaround error in Tasking v8.0r1 .def file to achieve 
+    %<C166Reg.rtcie> = 1;
+    %<C166Reg.rtcir> = 0;
+    */
+    #pragma asm
+    EXTR #2
+    BSET 0xf10c.0
+    BCLR 0xf10c.1
+    #pragma endasm
+  %else
+    %<C166Reg.rtcie> = 1;
+    %<C166Reg.rtcir> = 0;
+  %endif    
+  
+%endfunction  
+
+%% Function: SLibC166TimersInterruptPending ================================================
+%% Abstract:
+%%   Returns variable to test to establish if a system timer interrupt is pending
+%%
+%function SLibC166TimersInterruptPending() void
+
+  %if SLibC166TimersInfoAvailable() == 0
+    %% Generating code that is not driven by timer interrupts
+    %return "0"
+  %endif
+
+  %assign t = FcnGetSystemTimerRecord()
+  
+  %if t.fSystemTimer == "T14"
+    %assign rootName = "XP3"
+  %else
+    %assign rootName = t.fSystemTimer
+  %endif
+  
+  %return "%<rootName>IR"
+
+
+%endfunction
+
+%% Function: FcnGetInterruptControlRegVal ================================================
+%% Abstract:
+%%   Returns value to set for the system timer interrupt control register
+%%
+%function FcnGetInterruptControlRegVal(timerInterruptLevel, timerInterruptLevelGroup) void  
+  %assign IE = (1<<6) %% interrupt enable bit
+  %assign tmp = IE +  (timerInterruptLevel << 2) + timerInterruptLevelGroup
+  %return SPRINTF("0x%x", %<tmp>)
+%endfunction
+
+
+%% Function: SLibC166TimersSystemTimer ================================================
+%% Abstract:
+%%   Returns the name of the system timer.
+%%
+%function SLibC166TimersSystemTimer() void
+
+  %assign t = FcnGetSystemTimerRecord()
+  %if TYPE(t) != "Scope"
+    return ""
+  %else
+    %return t.fSystemTimer
+  %endif
+%endfunction
+  
+
+%% Function: SLibC166TimersLowerCPULevel ================================================
+%% Abstract:
+%%   Emits code to lower the CPU priority to re-enable interrupts from the system timer
+%%
+%function SLibC166TimersLowerCPULevel() Output
+  %if SLibC166TimersInfoAvailable() == 0
+    /* Code generation for simulator no priority change required */
+  %else
+    %assign t = FcnGetSystemTimerRecord()
+    %<SLibC166TimersSetCPULevel(t.fSystemTimerInterruptLevel-1)>
+  %endif
+%endfunction
+
+%% Function: SLibC166TimersRaiseCPUPriority ================================================
+%% Abstract:
+%%   Emit code to raise the CPU priority and inhibit interrupts from
+%%   any source with that priority level or lower
+%%
+%function SLibC166TimersRaiseCPUPriority(client,IRQLEVEL) Output 
+  %assign t = FcnGetSystemTimerRecord()
+  %if t.fSystemTimerInterruptLevel > IRQLEVEL
+    %assign msg = ...
+      "The interrupt priority level for %<client> is %<IRQLEVEL> lower than "...
+      "the timer interrupt priority level. This is unsupported. To resolve this "...
+      "You must change the interrupt priority levels in the C166 Resource "...
+      "Configuration"
+    %exit %<msg>
+  %endif
+  /* Raise current CPU priority level to prevent interrupts from %<client>. */
+  %<SLibC166TimersSetCPULevel(IRQLEVEL)>
+%endfunction
+
+%% Function: SLibC166TimersRestoreCPULevel ================================================
+%% Abstract:
+%%   Emit code to raise the CPU priority level to disable system timer interrupts
+%%
+%function SLibC166TimersRestoreCPULevel() Output
+  
+  %if SLibC166TimersInfoAvailable() == 0
+    %% Generating code that is not driven by timer interrupts
+    %return ""
+  %endif
+  
+  %if SLibC166TimersInfoAvailable() == 0
+    /* Code generation for simulator no priority change required */
+  %else
+    %assign t = FcnGetSystemTimerRecord()
+    /* Restore the CPU priority level that was previously lowered. This
+    * takes effect for the next but one instruction and ensures that
+    * the program will not be pre-empted by further timer interrupts.
+    */
+    %<SLibC166TimersSetCPULevel(t.fSystemTimerInterruptLevel)>
+  %endif
+%endfunction
+
+%% Function: SLibC166TimersSetCPULevel ================================================
+%% Abstract:
+%%   Emit code to set the CPU priority level.
+%%
+%function SLibC166TimersSetCPULevel(level) Output
+  %assign tmpLevel = SPRINTF("#0%xh",(level)<<4)
+  #pragma asm
+  BFLDH PSW,#0F0h,%<tmpLevel>
+  #pragma endasm
+%endfunction
+
+%% Function: SLibC166TimersInit ================================================
+%% Abstract:
+%%   Initialize internal variables
+%%
+%function SLibC166TimersInitialize() Output
+  %assign t = FcnGetSystemTimerRecord()
+  %if t.fSystemTimer == "T14"
+    %if EXISTS(C166Reg.rtcpre)
+      %<FcnTimerInitRTCWithPrescaler()>
+    %else
+      %<FcnTimerInitRTC()>
+    %endif
+  %else
+    %<FcnTimerInitGPT()>
+  %endif      
+  
+%endfunction
+  
+
+%% Function: SLibC166TimersDefines ================================================
+%% Abstract:
+%%   Emit code to define timer settings
+%%
+%function SLibC166TimersDefines() Output
+  
+  %assign t = FcnGetSystemTimerRecord()
+
+  /* 
+  * System timer interrupt control register:
+  *    Interrupt priority level = %<t.fSystemTimerInterruptLevel>
+  *    Interrupt group level = %<t.fSystemTimerInterruptLevelGroup>
+  */
+  #define SYSTEM_TIMER_IC ...
+    %<FcnGetInterruptControlRegVal(t.fSystemTimerInterruptLevel, ...
+    t.fSystemTimerInterruptLevelGroup)>
+  
+  %if t.fSystemTimer == "T14"
+    %if EXISTS(C166Reg.rtcpre)
+      %<FcnTimerDefinesRTCWithPrescaler()>
+    %else
+      %<FcnTimerDefinesRTC()>
+    %endif
+  %else
+    %<FcnTimerDefinesGPT()>
+  %endif      
+  
+%endfunction
+  
+%% Function: SLibC166TimersSystemTimerTrap ================================================
+%% Abstract:
+%%   Get trap number for system timer. SLibC166TimersSystemTimerTrap("h") returns
+%%   the trap number in the format e.g. 0026h, otherwise the trap number is formatted 
+%%   as e.g. 0x26.
+%%
+%function SLibC166TimersSystemTimerTrap(format) void
+
+  %assign t = FcnGetSystemTimerRecord()
+
+  %switch t.fSystemTimer
+    %case "T2"
+      %assign trapNumber = 34
+      %break
+    %case "T3"
+      %assign trapNumber = 35
+      %break
+    %case "T4"
+      %assign trapNumber = 36
+      #define T4_TRAP 0x24
+      %break
+    %case "T5"
+      %assign trapNumber = 37
+      %break
+    %case "T6"
+      %assign trapNumber = 38
+      %break
+    %case "T14"
+      %if C166Reg.rtc_ic == "RTC_IC"
+	%assign trapNumber = 93 %% XC16x
+      %elseif C166Reg.rtc_ic == "XP3IC"
+	%assign trapNumber = 67 %% C167CS & similiar
+      %else
+	%exit "Invalid value for C166Reg.rtc_ic"
+      %endif
+      %break
+  %endswitch
+
+  %if format =="h"
+    %return SPRINTF("%xh",trapNumber)
+  %else
+    %return SPRINTF("0x%x",trapNumber)
+  %endif
+%endfunction
+
+
+%function FcnTimerInitGPT() void
+
+  %assign t = FcnGetSystemTimerRecord()
+  %assign stepSize = %<CompiledModel.FundamentalStepSize>
+  %assign rtnValues = FEVAL("gpt_params","SystemTimer",t.fSystemFrequency,t.fSystemTimer,stepSize)
+  %assign timerReloadValue = CAST("Number",rtnValues[0])
+  %assign timerPrescaleValue = CAST("Number",rtnValues[1])
+  %assign stepSizeAchieved = rtnValues[2]
+  %assign systemTimerNsPerTick = rtnValues[3]
+
+  %<FcnSetTimerReloadValue(timerReloadValue)>
+  %<FcnSetTimerStepSizeAchieved(stepSizeAchieved)>
+  %<FcnSetTimerPrescaleValue(timerPrescaleValue)>
+
+%endfunction
+
+
+%function FcnTimerDefinesGPT() Output
+
+  %assign t = FcnGetSystemTimerRecord()
+  %assign stepSize = %<CompiledModel.FundamentalStepSize>
+  %assign timerReloadValue = SLibC166TimersGetTimerReloadValue()
+  %assign timerPrescaleValue = FcnGetTimerPrescaleValue()
+  %assign stepSizeAchieved = FcnGetStepSizeAchieved()
+
+  /*
+  * Using timer %<t.fSystemTimer> to generate interrupts at the model base sample rate 
+  *
+  * Ideal sample period                    = %<stepSize> seconds
+  * Achieved sample period                 = %<stepSizeAchieved> seconds
+  * Calculations based on System Frequency = %<t.fSystemFrequency> Hz
+  */
+  #define TIMER_RELOAD %<SPRINTF("0x%x",timerReloadValue)>
+
+  
+  %assign timerMode = 0
+  %assign timerRun = 1
+  %assign timerUpDown = 1 %% 1: count down, 0: count up
+  %assign tmp = (timerUpDown<<7) + (timerRun<<6) + (timerMode<<3) \
+  + timerPrescaleValue
+  %if t.fReloadTimer == "CAPREL"
+    %assign t6sr = 1
+    %assign tmp = tmp + (t6sr<<15)
+  %endif
+  %assign timerModeControlRegVal = SPRINTF("0x%x",%<tmp>)  
+  /* 
+  * Initial value for system timer control register %<t.fSystemTimer>CON
+  *    Prescaler field:  %<t.fSystemTimer>I  = %<timerPrescaleValue> 
+  *    Mode Control:     %<t.fSystemTimer>M  = %<timerMode>
+  *    Up/down field:    %<t.fSystemTimer>UD = %<timerUpDown> 
+  %if t.fReloadTimer == ""
+    *    Automatic reload: None
+  %else
+    *    Reload:           automatically from %<t.fReloadTimer>
+  %endif
+  */
+  #define SYSTEM_TIMER_CON %<timerModeControlRegVal>
+    
+%endfunction
+
+
+%function FcnTimerInitRTC() Output
+  
+  %assign t = FcnGetSystemTimerRecord()
+  %assign stepSize = %<CompiledModel.FundamentalStepSize>
+  %assign rtnValues = FEVAL("rtc_params","SystemTimer",t.fOscillatorFrequency,stepSize)
+  %assign timerReloadValue = CAST("Number",rtnValues[0])
+  %assign stepSizeAchieved = rtnValues[1]
+  %assign systemTimerNsPerTick = rtnValues[2]
+  
+  %<FcnSetTimerReloadValue(timerReloadValue)>
+  %<FcnSetTimerStepSizeAchieved(stepSizeAchieved)>
+%endfunction
+
+%function FcnTimerInitRTCWithPrescaler() Output
+  
+  %assign auxiliaryOscFreq = 32000
+  %assign t = FcnGetSystemTimerRecord()
+  %assign stepSize = %<CompiledModel.FundamentalStepSize>
+  %assign rtnValues = FEVAL("rtc_xc_params","SystemTimer",32000,stepSize)
+  %assign timerReloadValue = CAST("Number",rtnValues[0])
+  %assign stepSizeAchieved = rtnValues[1]
+  %assign systemTimerNsPerTick = rtnValues[2]
+  %assign rtcpre = CAST("Unsigned", rtnValues[3])
+  
+  %<FcnSetTimerReloadValue(timerReloadValue)>
+  %<FcnSetTimerStepSizeAchieved(stepSizeAchieved)>
+  %<FcnSetTimerRTCPrescaler(rtcpre)>
+  %<FcnSetTimerAuxiliaryOscillatorFreq(auxiliaryOscFreq)>
+%endfunction
+
+
+%function FcnTimerDefinesRTC() Output
+  
+  %assign t = FcnGetSystemTimerRecord()
+      
+  /*
+  * Using timer %<t.fSystemTimer> to generate interrupts at the model base sample rate 
+  *
+  * Ideal sample period                                 = %<CompiledModel.FundamentalStepSize> seconds
+  * Achieved sample period                              = %<FcnGetStepSizeAchieved()> seconds
+  * Calculations based on External Oscillator Frequency = %<t.fOscillatorFrequency> Hz
+  */
+  #define TIMER_RELOAD %<SPRINTF("0x%x",SLibC166TimersGetTimerReloadValue())>
+
+%endfunction
+
+%function FcnTimerDefinesRTCWithPrescaler() Output
+  
+  %assign t = FcnGetSystemTimerRecord()
+      
+  /*
+  * Using timer %<t.fSystemTimer> to generate interrupts at the model base sample rate 
+  *
+  * Ideal sample period                                 = %<CompiledModel.FundamentalStepSize> seconds
+  * Achieved sample period                              = %<FcnGetStepSizeAchieved()> seconds
+  * RTC prescaler (RTCPRE) enabled                      = %<FcnGetTimerRTCPrescaler()>
+  * Calculations based on Auxiliary Oscillator Frequency = %<FcnGetTimerAuxiliaryOscillatorFreq()> Hz
+  */
+  #define TIMER_RELOAD %<SPRINTF("0x%x",SLibC166TimersGetTimerReloadValue())>
+
+%endfunction
+
+
+%% Function: SLibC166TimersInitFreeRunningTimer ================================================
+%% Abstract:
+%%   Emit code to initialize the free running timer
+%%
+%function SLibC166TimersInitFreeRunningTimer() Output
+  
+  %if SLibC166TimersInfoAvailable() == 0
+    %% Generating code that is not driven by timer interrupts
+    %return
+  %endif
+  
+  %assign t = FcnGetSystemTimerRecord()
+
+  %assign freeRunningTimer = t.fFreeTimer
+  
+  %if freeRunningTimer != "None"
+    /* Initialize %<freeRunningTimer> as free running timer for use with
+    * execution profiling.
+    */
+    %if freeRunningTimer == "T14"
+      /* No initialization is required for T14 */
+    %else
+      %<freeRunningTimer>CON = FREE_TIMER_CON;
+    %endif
+  %endif
+%endfunction  
+
+
+%% Function: SLibC166TimersFreeRunningTimerDefines ================================================
+%% Abstract:
+%%    Emit code to define macros required to use the free running timer for
+%%    execution profiling.  
+%% 
+%function SLibC166TimersFreeRunningTimerDefines() Output
+  
+  %if SLibC166TimersInfoAvailable() == 0
+    /* No free running timer has been configured for use with execution 
+    * profiling.
+    */
+  %else
+    %assign t = FcnGetSystemTimerRecord()
+    %assign freeTimer = t.fFreeTimer
+    %if freeTimer == "None"
+      %if ExecutionProfilingEnabled != 0
+	%assign errMsg = ...
+	  "Execution profiling is enabled, but no free running timer is currrently " \
+	  "selected. To correct this problem, you must ensure that your model contains " \
+	  "a C166 Resource Configuration block, then open it and select a free " \
+	  "running timer for use with execution profiling."
+	%exit %<errMsg>
+      %else
+	/* No free running timer has been configured for use with execution 
+	* profiling.
+	*/
+      %endif	
+    %else
+      %if freeTimer == "T14"
+	%if EXISTS(C166Reg.rtcpre)
+	  %assign oscFreq = FcnGetTimerAuxiliaryOscillatorFreq()
+	  %assign rtnValues = FEVAL("rtc_xc_params","FreeRunningTimer",oscFreq)
+	%else
+	  %assign rtnValues = FEVAL("rtc_params","FreeRunningTimer",t.fOscillatorFrequency)
+	%endif
+	%assign nsPerTick = rtnValues[0]
+      %else 
+	%assign rtnValues = FEVAL("gpt_params","FreeRunningTimer",...
+	  t.fSystemFrequency,t.fFreeTimer,CompiledModel.FundamentalStepSize)
+	%assign nsPerTick = rtnValues[0]
+	%assign timerPrescaleValue = CAST("Number",rtnValues[1])
+	
+	%assign timerMode = 0
+	%assign timerRun = 1
+	%assign timerUpDown = 1 %% 1: count down, 0: count up
+	%assign tmp = (timerUpDown<<7) + (timerRun<<6) + (timerMode<<3) + ...
+	  timerPrescaleValue
+	%assign timerModeControlRegVal = SPRINTF("0x%x",%<tmp>)  
+	/* 
+	* Initial value for timer control register %<t.fFreeTimer>CON
+	*    Prescaler field:  %<t.fFreeTimer>I  = %<timerPrescaleValue> 
+	*    Mode Control:     %<t.fFreeTimer>M  = %<timerMode>
+	*    Up/down field:    %<t.fFreeTimer>UD = %<timerUpDown> 
+	*/
+	#define FREE_TIMER_CON %<timerModeControlRegVal>
+      
+      %endif
+      /* Number of nano seconds per tick for free running timer %<freeTimer> */
+      #define PROFILING_TIME_PER_TICK %<CAST("Number",nsPerTick)>
+      
+      /* Macro for use by execution profiling to read the allocated free running
+      timer */
+      #define profileReadTimer() %<t.fFreeTimer>
+    %endif
+  %endif
+
+%endfunction  
+
+

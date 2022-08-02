@@ -1,0 +1,399 @@
+<!--
+Copyright 2001-2004 The MathWorks, Inc.
+$Revision: 1.1.6.2 $ $Date: 2004/03/24 20:39:40 $
+-->
+
+<!--
+This HTML is auto-generated from an m-file.
+Your changes will be overwritten.
+--><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:x-large">Averaging Images Over Time</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">For some advanced applications, the acquisition process may require that
+images be processed as they are acquired, while your processing results are
+recorded to disk.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Using Image Acquisition Toolbox callbacks, triggering, and logging
+features, this demonstration illustrates how to accomplish the following
+task:
+</p><ul xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd"><li>acquire 5 frames every 10 seconds
+</li><li>repeat the acquisition 10 times
+</li><li>while acquiring images, average the acquired frames and save results
+to disk.
+</li></ul><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">The experimental setup consists of an hourglass with white sand trickling down
+over time. The demonstration uses a callback function, found in the
+</p><ul xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd"><li>MATLABROOT\toolbox\imaq\imaqdemos\html\applications\averaging
+</li></ul><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">directory, that averages acquired image frames using Image Processing
+Toolbox functions.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium;">Overview</p><ul xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd"><li><a href="#Configuring the Acquisition">Configuring the Acquisition</a></li><li><a href="#Frame Rate Based Acquisition (Solution 1)">Frame Rate Based Acquisition (Solution 1)</a></li><li><a href="#Image Averaging">Image Averaging</a></li><li><a href="#Timer Based Acquisition (Solution 2)">Timer Based Acquisition (Solution 2)</a></li></ul><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Configuring the Acquisition<a name="Configuring the Acquisition"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Create and configure a video input object for the acquisition.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Add the callback function used for this demo to the MATLAB path.</span>
+utilpath = fullfile(matlabroot, <span style="color:#B20000">'toolbox'</span>, <span style="color:#B20000">'imaq'</span>, <span style="color:#B20000">'imaqdemos'</span>, <span style="color:#B20000">'html'</span>, <span style="color:#B20000">'applications'</span>, <span style="color:#B20000">'averaging'</span>);
+addpath(utilpath);
+
+<span style="color:green">% Access a device using a 24 bit RGB format.</span>
+vid = videoinput(<span style="color:#B20000">'winvideo'</span>, 1, <span style="color:#B20000">'RGB24_320x240'</span>);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Assuming data logging can begin immediately upon START,</span>
+<span style="color:green">% an immediate trigger is used.</span>
+triggerconfig(vid, <span style="color:#B20000">'immediate'</span>);
+
+<span style="color:green">% Configure the acquisition to collect 5 frames...</span>
+framesPerTrigger = 5;
+set(vid, <span style="color:#B20000">'FramesPerTrigger'</span>, framesPerTrigger)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% ...and repeat the trigger 9 additional times </span>
+<span style="color:green">% (for a total of 10 trigger executions).</span>
+nAdditionalTrigs = 9;
+set(vid, <span style="color:#B20000">'TriggerRepeat'</span>, nAdditionalTrigs)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">To control the rate at which frames will be logged, there are 2
+options available:
+</p><ul xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd"><li>configure the device frame rate
+</li><li>use a TimerFcn to execute a callback
+</li></ul><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">First, a solution using the device's frame rate will be shown, followed
+by an alternative solution using a timer callback.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Using the frame rate option will provide acquisition results that are
+most closely aligned with the device's actual video stream rate, whereas using
+the timer approach provides acquisition results independent of the device's
+streaming rate.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"> </pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Frame Rate Based Acquisition (Solution 1)<a name="Frame Rate Based Acquisition (Solution 1)"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">The device frame rate can only be configured if it is supported by the
+device. As it is a device specific property, it can be found on the
+video source object.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Access the video source selected for acquisition.</span>
+src = getselectedsource(vid);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Notice this device provides a FrameRate property.</span>
+get(src)</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">  General Settings:
+    Parent = [1x1 videoinput]
+    Selected = on
+    SourceName = input1
+    Tag = 
+    Type = videosource
+    UserData = []
+
+  Device Specific Properties:
+    BacklightCompensation = on
+    Brightness = 255
+    BrightnessMode = auto
+    Contrast = 127
+    Exposure = 511
+    ExposureMode = auto
+    Focus = 58
+    FrameRate = 15.1500
+    Gamma = 0
+    Iris = 4
+    Saturation = 108
+    Sharpness = 127
+    WhiteBalance = 100
+    WhiteBalanceMode = auto
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Using the FrameRate property, one can configure the acquisition source </span>
+<span style="color:green">% to provide the toolbox 30 frames per second.</span>
+fps = 30;
+set(src, <span style="color:#B20000">'FrameRate'</span>, num2str(fps))</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Since the goal is to acquire 5 frames every 10 seconds, the toolbox </span>
+<span style="color:green">% should not acquire any frames until the device provides the 300'th</span>
+<span style="color:green">% frame:</span>
+acqPeriod = 10;
+frameDelay = fps * acqPeriod</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+frameDelay =
+
+   300
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% If the trigger is delayed by this value, the toolbox will not buffer</span>
+<span style="color:green">% any frames until the 300'th frame is provided by the device.</span>
+set(vid, <span style="color:#B20000">'TriggerFrameDelay'</span>, frameDelay)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% To ensure the acquisition does not come close to timing out, configure</span>
+<span style="color:green">% the time out value slightly above the expected acquisition duration.</span>
+totalTrigs = nAdditionalTrigs + 1;
+acqDuration = (acqPeriod * totalTrigs) + 3</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+acqDuration =
+
+   103
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px">vid.Timeout = acqDuration;</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Image Averaging<a name="Image Averaging"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">In order to save processed images to disk, a MATLAB AVIFILE object is
+used. Each set of acquired frames is averaged using Image Processing
+Toolbox functions, and then written to disk.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Create an AVI file and configure it.</span>
+aviobj = avifile(<span style="color:#B20000">'imaverages.avi'</span>);
+aviobj.Fps = fps;</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Use the video input object's UserData to store processing information.</span>
+userdata.average = {};
+userdata.avi = aviobj;
+vid.UserData = userdata;
+
+<span style="color:green">% Configure the video input object to process every 5 acquired frames by</span>
+<span style="color:green">% specifying a callback routine that is executed upon every trigger.</span>
+vid.TriggerFcn = {<span style="color:#B20000">'util_imaverage'</span>, framesPerTrigger};</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Now that the image acquisition and processing configuration is complete,</span>
+<span style="color:green">% the acquisition is started.</span>
+start(vid)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Wait for the acquisition to complete. This provides the acquisition</span>
+<span style="color:green">% time to complete before the object is deleted.</span>
+wait(vid, acqDuration);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Verify the averaged frames were saved to the AVI file.</span>
+userdata = vid.UserData;
+aviobj = userdata.avi;
+framesWritten1 = aviobj.TotalFrames</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+framesWritten1 =
+
+    10
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Display the resulting averages of the acquired frames.</span>
+<span style="color:green">% Notice the change in the lower chamber of the hourglass over time.</span>
+imaqmontage(userdata.average);
+title(<span style="color:#B20000">'Averaging Results - Frame Rate Based'</span>);</pre><img xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" src="demoimaq_Averaging_img_18_01.gif"><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Once the video input object is no longer needed, delete</span>
+<span style="color:green">% it and clear it from the workspace.</span>
+delete(vid)
+clear vid</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;">Timer Based Acquisition (Solution 2)<a name="Timer Based Acquisition (Solution 2)"></a></p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">An alternative solution for this task is to use a TimerFcn. The TimerFcn can
+be executed every 10 seconds, at which point 5 frames are acquired and
+averaged. In order to initiate the acquisition at the correct moment, manual
+triggers are used.
+</p><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">Note, this approach is independent of configuring the device's frame rate.
+</p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Access a device and configure the acquisition. Have </span>
+<span style="color:green">% the TimerFcn trigger the acquisition every 10 seconds.</span>
+vid = videoinput(<span style="color:#B20000">'winvideo'</span>, 1, <span style="color:#B20000">'RGB24_320x240'</span>);
+triggerconfig(vid, <span style="color:#B20000">'manual'</span>);
+vid.TimerFcn = @trigger;
+vid.TimerPeriod = acqPeriod;</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Configure the acquisition to collect 5 frames each time the </span>
+<span style="color:green">% device is triggered. Repeat the trigger 9 additional times.</span>
+set(vid, <span style="color:#B20000">'FramesPerTrigger'</span>, framesPerTrigger)
+set(vid, <span style="color:#B20000">'TriggerRepeat'</span>, nAdditionalTrigs)</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Configure the processing routine and AVI file.</span>
+vid.TriggerFcn = {<span style="color:#B20000">'util_imaverage'</span>, framesPerTrigger};
+aviobj2 = avifile(<span style="color:#B20000">'imaverages2.avi'</span>);
+aviobj2.Fps = fps;
+
+<span style="color:green">% Use the video input object's UserData to store processing information.</span>
+userdata2.average = {};
+userdata2.avi = aviobj2;
+vid.UserData = userdata2;</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Start the acquisition.</span>
+start(vid);
+wait(vid, acqDuration);</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Verify the averaged frames were saved to the AVI file.</span>
+userdata2 = vid.UserData;
+aviobj2 = userdata2.avi;
+framesWritten2 = aviobj2.TotalFrames</pre><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:gray; font-style:italic;">
+framesWritten2 =
+
+    10
+
+</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Display the resulting averages of the acquired frames.</span>
+<span style="color:green">% Notice the change in the lower chamber of the hourglass over time.</span>
+imaqmontage(userdata2.average);
+title(<span style="color:#B20000">'Averaging Results - Timer Based'</span>);</pre><img xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" src="demoimaq_Averaging_img_26_01.gif"><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Once the video input object is no longer needed, delete</span>
+<span style="color:green">% it and clear it from the workspace.</span>
+delete(vid)
+clear vid</pre><p xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="color:#990000; font-weight:bold; font-size:medium; page-break-before: auto;"><a name=""></a></p><pre xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" style="position: relative; left:30px"><span style="color:green">% Restore the MATLAB path.</span>
+rmpath(utilpath);</pre><originalCode xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd" code="%% Averaging Images Over Time
+&#xA;% For some advanced applications, the acquisition process may require that
+&#xA;% images be processed as they are acquired, while your processing results are 
+&#xA;% recorded to disk.
+&#xA;%
+&#xA;% Using Image Acquisition Toolbox callbacks, triggering, and logging
+&#xA;% features, this demonstration illustrates how to accomplish the following
+&#xA;% task:
+&#xA;%
+&#xA;% * acquire 5 frames every 10 seconds
+&#xA;% * repeat the acquisition 10 times 
+&#xA;% * while acquiring images, average the acquired frames and save results
+&#xA;% to disk.
+&#xA;%
+&#xA;% The experimental setup consists of an hourglass with white sand trickling down 
+&#xA;% over time. The demonstration uses a callback function, found in the 
+&#xA;%
+&#xA;% * MATLABROOT\toolbox\imaq\imaqdemos\html\applications\averaging
+&#xA;%
+&#xA;% directory, that averages acquired image frames using Image Processing 
+&#xA;% Toolbox functions.
+&#xA;%
+&#xA;
+&#xA;%% Configuring the Acquisition
+&#xA;% Create and configure a video input object for the acquisition.
+&#xA;
+&#xA;% Add the callback function used for this demo to the MATLAB path.
+&#xA;rootdir = 'S:\tmsandbox';
+&#xA;utilpath = fullfile(rootdir, 'toolbox', 'imaq', 'imaqdemos', 'html', 'applications', 'averaging');
+&#xA;addpath(utilpath);
+&#xA;
+&#xA;% Access a device using a 24 bit RGB format.
+&#xA;vid = videoinput('winvideo', 1, 'RGB24_320x240');
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Assuming data logging can begin immediately upon START,
+&#xA;% an immediate trigger is used.
+&#xA;triggerconfig(vid, 'immediate');
+&#xA;
+&#xA;% Configure the acquisition to collect 5 frames...
+&#xA;framesPerTrigger = 5;
+&#xA;set(vid, 'FramesPerTrigger', framesPerTrigger)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% ...and repeat the trigger 9 additional times 
+&#xA;% (for a total of 10 trigger executions).
+&#xA;nAdditionalTrigs = 9;
+&#xA;set(vid, 'TriggerRepeat', nAdditionalTrigs)
+&#xA;
+&#xA;%%
+&#xA;% To control the rate at which frames will be logged, there are 2
+&#xA;% options available:
+&#xA;%
+&#xA;% * configure the device frame rate
+&#xA;% * use a TimerFcn to execute a callback
+&#xA;%
+&#xA;% First, a solution using the device's frame rate will be shown, followed
+&#xA;% by an alternative solution using a timer callback. 
+&#xA;%
+&#xA;% Using the frame rate option will provide acquisition results that are 
+&#xA;% most closely aligned with the device's actual video stream rate, whereas using 
+&#xA;% the timer approach provides acquisition results independent of the device's 
+&#xA;% streaming rate.
+&#xA; 
+&#xA;%% Frame Rate Based Acquisition (Solution 1)
+&#xA;% The device frame rate can only be configured if it is supported by the
+&#xA;% device. As it is a device specific property, it can be found on the
+&#xA;% video source object. 
+&#xA;
+&#xA;% Access the video source selected for acquisition.
+&#xA;src = getselectedsource(vid);
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Notice this device provides a FrameRate property.
+&#xA;get(src)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Using the FrameRate property, one can configure the acquisition source 
+&#xA;% to provide the toolbox 30 frames per second.
+&#xA;fps = 30;
+&#xA;set(src, 'FrameRate', num2str(fps))
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Since the goal is to acquire 5 frames every 10 seconds, the toolbox 
+&#xA;% should not acquire any frames until the device provides the 300'th
+&#xA;% frame:
+&#xA;acqPeriod = 10;
+&#xA;frameDelay = fps * acqPeriod
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% If the trigger is delayed by this value, the toolbox will not buffer
+&#xA;% any frames until the 300'th frame is provided by the device.
+&#xA;set(vid, 'TriggerFrameDelay', frameDelay)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% To ensure the acquisition does not come close to timing out, configure
+&#xA;% the time out value slightly above the expected acquisition duration.
+&#xA;totalTrigs = nAdditionalTrigs + 1;
+&#xA;acqDuration = (acqPeriod * totalTrigs) + 3
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;vid.Timeout = acqDuration;
+&#xA;
+&#xA;%% Image Averaging
+&#xA;% In order to save processed images to disk, a MATLAB AVIFILE object is
+&#xA;% used. Each set of acquired frames is averaged using Image Processing
+&#xA;% Toolbox functions, and then written to disk.
+&#xA;
+&#xA;% Create an AVI file and configure it.
+&#xA;aviobj = avifile('imaverages.avi');
+&#xA;aviobj.Fps = fps;
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Use the video input object's UserData to store processing information.
+&#xA;userdata.average = {};
+&#xA;userdata.avi = aviobj;
+&#xA;vid.UserData = userdata;
+&#xA;
+&#xA;% Configure the video input object to process every 5 acquired frames by
+&#xA;% specifying a callback routine that is executed upon every trigger.
+&#xA;vid.TriggerFcn = {'util_imaverage', framesPerTrigger};
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Now that the image acquisition and processing configuration is complete,
+&#xA;% the acquisition is started.
+&#xA;start(vid)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Wait for the acquisition to complete. This provides the acquisition
+&#xA;% time to complete before the object is deleted.
+&#xA;wait(vid, acqDuration);
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Verify the averaged frames were saved to the AVI file.
+&#xA;userdata = vid.UserData;
+&#xA;aviobj = userdata.avi;
+&#xA;framesWritten1 = aviobj.TotalFrames
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Display the resulting averages of the acquired frames.
+&#xA;% Notice the change in the lower chamber of the hourglass over time.
+&#xA;imaqmontage(userdata.average);
+&#xA;title('Averaging Results - Frame Rate Based');
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Once the video input object is no longer needed, delete
+&#xA;% it and clear it from the workspace.
+&#xA;delete(vid)
+&#xA;clear vid
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;%% Timer Based Acquisition (Solution 2)
+&#xA;% An alternative solution for this task is to use a TimerFcn. The TimerFcn can
+&#xA;% be executed every 10 seconds, at which point 5 frames are acquired and
+&#xA;% averaged. In order to initiate the acquisition at the correct moment, manual 
+&#xA;% triggers are used.
+&#xA;%
+&#xA;% Note, this approach is independent of configuring the device's frame rate.
+&#xA;
+&#xA;% Access a device and configure the acquisition. Have 
+&#xA;% the TimerFcn trigger the acquisition every 10 seconds.
+&#xA;vid = videoinput('winvideo', 1, 'RGB24_320x240');
+&#xA;triggerconfig(vid, 'manual');
+&#xA;vid.TimerFcn = @trigger;
+&#xA;vid.TimerPeriod = acqPeriod;
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Configure the acquisition to collect 5 frames each time the 
+&#xA;% device is triggered. Repeat the trigger 9 additional times.
+&#xA;set(vid, 'FramesPerTrigger', framesPerTrigger)
+&#xA;set(vid, 'TriggerRepeat', nAdditionalTrigs)
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Configure the processing routine and AVI file.
+&#xA;vid.TriggerFcn = {'util_imaverage', framesPerTrigger};
+&#xA;aviobj2 = avifile('imaverages2.avi');
+&#xA;aviobj2.Fps = fps;
+&#xA;
+&#xA;% Use the video input object's UserData to store processing information.
+&#xA;userdata2.average = {};
+&#xA;userdata2.avi = aviobj2;
+&#xA;vid.UserData = userdata2;
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Start the acquisition.
+&#xA;start(vid);
+&#xA;wait(vid, acqDuration);
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Verify the averaged frames were saved to the AVI file.
+&#xA;userdata2 = vid.UserData;
+&#xA;aviobj2 = userdata2.avi;
+&#xA;framesWritten2 = aviobj2.TotalFrames
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Display the resulting averages of the acquired frames.
+&#xA;% Notice the change in the lower chamber of the hourglass over time.
+&#xA;imaqmontage(userdata2.average);
+&#xA;title('Averaging Results - Timer Based');
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Once the video input object is no longer needed, delete
+&#xA;% it and clear it from the workspace.
+&#xA;delete(vid)
+&#xA;clear vid
+&#xA;
+&#xA;%%
+&#xA;
+&#xA;% Restore the MATLAB path.
+&#xA;rmpath(utilpath);
+&#xA;"></originalCode>

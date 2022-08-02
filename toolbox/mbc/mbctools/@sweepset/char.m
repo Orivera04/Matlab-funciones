@@ -1,0 +1,13 @@
+function B=char(A);
+% SWEEPSET/CHAR char converter for sweepset object
+
+%  Copyright 2000-2004 The MathWorks, Inc. and Ford Global Technologies, Inc.
+%   $Revision: 1.4.4.2 $  $Date: 2004/02/09 08:06:05 $
+
+
+
+B=str2mat(...
+   sprintf(' Source File : %s',A.number),...
+   sprintf(' Size        : %d Record(s) x %d Variable(s) (%d Test(s))',size(A)),...
+   sprintf(' Date        : %s',A.datetime),...
+   sprintf(' Comment     : %s',A.comment));

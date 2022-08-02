@@ -1,0 +1,68 @@
+%  leastsq2.m
+% Matlab file for Part 2 of the Least Squares module
+
+disp('*********************************************')
+disp('Part 2:  Modeling the cancer death data')
+disp('*********************************************')
+disp('  ')    
+
+    format short
+    
+    disp('Enter the data vectors and the vector one.')
+    disp(' ')
+    disp('Enter: ')
+    disp(' ')
+    disp('  one = ones(9,1)  ')
+    disp('  x  = [2.5, 2.6, 3.4, 1.3, 1.6, 3.8 11.6, 6.4, 8.3]'' ')
+    disp('  y  = [147, 130, 130, 114, 138, 162, 208, 178, 210]'' ')
+    disp(' ')
+    disp('To continue afterwards, type the word return')
+    disp('and hit enter!')
+    disp(' ')
+
+    keyboard;   
+    disp(' ')
+
+    disp('----------------------------------------------------')
+    disp('Step 1:')
+    disp('We learned in the Orthogonality module how to use')
+    disp('the Gram-Schmidt process to generate an orthonormal')
+    disp('set of vectors.  We also learned that MATLAB has ')
+    disp('a built in command to automatically generate a matrix')
+    disp('U whose columns are this orthonormal set. ')
+    disp('   (We put in a minus sign since the orthogonal set ')
+    disp('    is determined only up to + or - and we thought ')
+    disp('    a positive first column of U looked better.) ')
+    disp(' ')
+    disp('Enter ')
+    disp(' ')
+    disp(' X = [one, x] ')
+    disp(' [U,R] = qr(X,0) ')
+    disp(' U = -U  ')    
+    disp(' ')
+    disp('----------------------------------------------------')
+    disp('Explain how the Gram-Schmidt process generated the')
+    disp('matrix U.  Use MATLAB comments. ')
+    disp(' ')
+    disp('To continue afterwards, type the word return')
+    disp('and hit enter!')
+    disp(' ')
+
+    keyboard;   
+    disp(' ')
+    
+    disp('----------------------------------------------')
+    disp('Step 2: ')
+    disp('Now use U to find the projection p of y on the ')
+    disp('subspace of 9-space spanned by the vectors one and x. ')
+    disp(' ')
+    disp('----------------------------------------------')
+    disp('Explain carefully where the entries of p are found ')
+    disp('in the figure showing the original data points. ')
+    disp('Use MATLAB comments in your diary file. ')
+    disp(' ')
+    disp(' ')
+    disp('----------------------------------------------')
+    disp('To go on to part 3 of this module, ')
+    disp('type: leastsq3')
+    disp(' ')

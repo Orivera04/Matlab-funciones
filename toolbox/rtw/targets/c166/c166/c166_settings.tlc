@@ -1,0 +1,124 @@
+%% File: c166_settings.tlc
+%%
+%% Abstract:
+%%   Defines settings for Embedded Target for Infineon C166® Microcontrollers
+%%
+%% $Revision: 1.11.6.3 $
+%% $Date: 2004/04/19 01:18:34 $
+%%
+%% Copyright 2002-2003 The MathWorks, Inc.
+
+%function C166_Settings() void
+
+  %addtorecord CompiledModel      \  
+  PathInfo {			\
+  	MODEL_FILE	""	\
+  	PWD		""	\
+	PATH_SEP        ""	\
+	MODEL_ABS_PATH  ""	\
+	MATLABROOT      ""	\
+	TLC_FILE        ""	\
+	TLC_DIR         ""	\
+	TARGET_TLC_DIR  ""	\
+	TARGET_ROOT_DIR ""	\
+	PIL_TLC_DIR     ""	\
+	BSP_DIR     	""	\
+	BSP_TLC_DIR 	""	\
+	PROFILE_DIR     ""      \
+  }
+
+%%
+%% The determination of TARGET_TLC_DIR comes here because the TLCFILES 
+%% list is simplest. Moving this can change the answer. 
+%%
+
+%% Get (3) files from TLCFILES and find which one if the model file
+%assign LOCAL_MODEL_FILE = ""
+%assign TARGET_TLC_FILE = ""
+%assign TLCFILE_1 = FEVAL("strtokn", "%<TLCFILES>","[, ]",1)
+%assign TLCFILE_2 = FEVAL("strtokn", "%<TLCFILES>","[, ]",2)
+%assign TLCFILE_3 = FEVAL("strtokn", "%<TLCFILES>","[, ]",3)
+
+%assign FILE_EXT = FEVAL("filepart", "%<TLCFILE_1>","ext")
+%if "%<FILE_EXT>" == ".rtw"
+  %assign LOCAL_MODEL_FILE = "%<TLCFILE_1>"
+%endif
+
+%assign FILE_EXT = FEVAL("filepart", "%<TLCFILE_2>","ext")
+%if "%<FILE_EXT>" == ".rtw"
+  %assign LOCAL_MODEL_FILE = "%<TLCFILE_2>"
+%endif
+
+%assign FILE_EXT = FEVAL("filepart", "%<TLCFILE_3>","ext")
+%if "%<FILE_EXT>" == ".rtw"
+  %assign LOCAL_MODEL_FILE = "%<TLCFILE_3>"
+%endif
+
+%if "%<LOCAL_MODEL_FILE>" == ""
+  %assign msg = "Unable to locate RTW file in TLCFILES: %<TLCFILES>"
+  %exit %<msg>
+%endif
+
+%%
+%% PathInfo
+%%
+%with CompiledModel.PathInfo
+	%assign CompiledModel.PathInfo.MODEL_FILE      = "%<LOCAL_MODEL_FILE>"
+	%assign CompiledModel.PathInfo.PWD             = FEVAL("pwd")
+	%assign CompiledModel.PathInfo.PATH_SEP        = FEVAL("filesep")
+	%assign CompiledModel.PathInfo.MATLABROOT      = FEVAL("matlabroot")
+	%assign CompiledModel.PathInfo.MODEL_ABS_PATH  = FEVAL("filepart", "%<LOCAL_MODEL_FILE>","path")
+	%assign CompiledModel.PathInfo.TLC_FILE        = "%<TLCFILE_2>"
+	%assign CompiledModel.PathInfo.TLC_DIR         = FEVAL("filepart", "%<TLC_FILE>","path")
+	%assign CompiledModel.PathInfo.TARGET_TLC_DIR  = FEVAL("filepart", "%<TLC_FILE>","path")
+	%assign CompiledModel.PathInfo.TARGET_ROOT_DIR = FEVAL("filepart", "%<TLC_DIR>","path")
+	%assign CompiledModel.PathInfo.PROFILE_DIR     = ...
+	  "%<TARGET_ROOT_DIR>%<PATH_SEP>common%<PATH_SEP>profile"
+%endwith
+
+%% Read user preferences. 
+%assign prefs = FEVAL("RTW.TargetPrefs.load","c166.prefs","structure")
+
+%% Add the user preferences structure to CompiledModel
+%addtorecord CompiledModel Settings prefs
+
+%% TLC include paths
+%with CompiledModel.PathInfo
+  %addincludepath "%<PROFILE_DIR>"
+  %addincludepath "%<TARGET_ROOT_DIR>%<PATH_SEP>Tasking%<PATH_SEP>tlc"
+  %addincludepath "%<TARGET_ROOT_DIR>%<PATH_SEP>Infineon"
+  %addincludepath "%<TARGET_ROOT_DIR>%<PATH_SEP>c166%<PATH_SEP>@c166Config%<PATH_SEP>tlc_config"
+  %addincludepath "%<TARGET_ROOT_DIR>%<PATH_SEP>..%<PATH_SEP>common%<PATH_SEP>configuration%<PATH_SEP>environment"
+%endwith
+
+%% include environment routines
+%include "env.tlc"
+%% setup environment for c166
+%<set_env("c166")>
+
+%% Import library functions
+%include "c166libfuns.tlc"
+
+%% Evaluate C166 register names according to CPU type
+%<SLibRegNames()>
+
+%if MatFileLogging == 1
+  %assign ::MatFileLogging = 0
+  FEVAL("warndlg","MAT-file logging is not supported. This setting will be ignored.")
+%endif
+
+%if ExtMode == 1
+  %assign ExtMode = 0
+  FEVAL("warndlg","External mode is not supported. This setting will be ignored.")
+%endif
+
+%if IncludeMdlTerminateFcn == 1
+  %assign IncludeMdlTerminateFcn = 0
+  FEVAL("warndlg","Terminate function is not supported. This setting will be ignored.")
+%endif
+
+%endfunction
+
+%<C166_Settings()>
+
+%%EOF

@@ -1,0 +1,9 @@
+THETA=0:pi/12:2*pi;
+ Z=-2:.1:2;
+ [z,theta]=meshgrid(Z,THETA);
+ r=z./(sqrt(cos(theta).^2+4*sin(theta).^2));
+ k=find(real(r)~=r);
+ r(k)=NaN;
+ x=r.*cos(theta);
+ y=r.*sin(theta);
+ mesh(x,y,z)

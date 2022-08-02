@@ -1,0 +1,171 @@
+<html><head>
+
+
+  <style>
+  <!--
+  H1 {color: blue; text-align:center}
+  H2 {color: blue; text-align:left}
+  A:link{color:blue}
+  A:visited{color:red}
+  A:hover{color:blue}
+  A:active{color:blue}
+  code {color:magenta}
+  -->
+  </style><title>DEBtool</title>
+
+  
+
+  <meta name="keywords" content="DEBtool, debtool, Dynamic Energy Budget
+    theory, Dynamic Energy Budgets, DEB theory, DEB theorie, DEB, deb,
+    deb theorie">
+  <meta name="description" content="Software package DEBtool, debtool">
+  <meta name="distribution" content="global"></head><body bgcolor="#eeffee">
+
+<h1>Octave versus Matlab</h1>
+
+Some small differences exist between Octave and Matlab. The following
+list is not meant to be exhaustive, but aims the solve practical
+problems in conversions
+
+<table>
+<tbody><tr>
+ <th align="left">Octave</th>
+ <th align="left">Matlab</th>
+ <th align="left">remarks</th>
+</tr>
+ 
+<tr>
+ <td><code>\</code> or <code>...</code></td>
+ <td><code>...</code></td>
+ <td>catenate following line; Emacs don't respond nice on <code>...</code>
+ </td>
+</tr>
+
+<tr>
+  <td><code>#</code> or <code>%</code></td>
+  <td><code>%</code></td>
+  <td>start comment on a line; Emacs don't respond nice on <code>%</code>
+  </td>
+</tr>
+
+<tr>
+  <td><code>"txt"</code> or <code>'txt'</code></td>
+  <td><code>'txt'</code></td>
+  <td>text <code>txt</code>; Emacs don't respond nice on Matlab's version</td>
+</tr>
+
+<tr>
+  <td>yes</td>
+  <td>no</td>
+  <td>end-of-function required to close a function</td>
+</tr>
+
+<tr>
+  <td>yes</td>
+  <td>no </td>
+  <td>function definition allowed in script file</td>
+</tr>
+   
+<tr>
+  <td><code>exist("in")==0</code></td>
+  <td><code>in==[]</code></td>
+  <td>check existence of input in: <code>function f = fnname(in)</code></td>
+</tr>
+   
+<tr>
+  <td></td>
+  <td><code>end</code></td>
+  <td>last element in a vector: <code>a=0:5; a(end)</code></td>
+</tr>
+   
+<tr>
+  <td><code>x</code></td>
+  <td><code>[t,x]</code></td>
+  <td>result of ODE-solver: <code>x = lsode("nm",x0,t)</code>
+      versus <code>[t,x] = ode45("nm",t,x0)</code></td>
+</tr>
+   
+<tr>
+  <td><code>(x,t)</code></td>
+  <td><code>(t,x)</code></td>
+  <td>arguments for user defined functions for ODE-solver.
+      Matlab's output <code>t</code> and <code>x</code> are large 
+      if the input <code>t</code> has 2 elements.</td>
+</tr>
+   
+<tr>
+  <td><code>[x,err]</code></td>
+  <td><code>[x,flag,err]</code></td>
+  <td>result of root finder: <code>fsolve("name",x0)</code></td>
+</tr>
+   
+<tr>
+  <td><code>e^()</code> or <code>exp()</code></td>
+  <td><code>exp()</code></td>
+  <td>exponent</td>
+</tr>
+   
+<tr>
+  <td><code>!=</code> or <code>~=</code></td>
+  <td><code>~=</code></td>
+  <td>is not equal to</td>
+</tr>
+   
+<tr>
+  <td><code>x=y=1;</code></td>
+  <td><code>x=1;y=1;</code></td>
+  <td>Octave's shortcut not allowed in Matlab</td>
+</tr>
+   
+<tr>
+  <td><code>i++;</code></td>
+  <td><code>i=i+1;</code></td>
+  <td>Octave's shortcut not allowed in Matlab</td>
+</tr>
+   
+<tr>
+  <td><code>clear</code></td>
+  <td><code>clear all</code></td>
+  <td>erase all variables</td>
+</tr>
+   
+<tr>
+  <td><code>clg</code></td>
+  <td><code>clf</code></td>
+  <td>clear plot</td>
+</tr>
+   
+</tbody></table>
+
+Other differences: 
+<ul>
+ <li>Octave versions earlier than 2.1.50 handle variable number of inputs
+     different from Matlab; Octave's manual (2005/02/01) describes the old
+     way, which no longer works</li>
+ <li>Unused variables in Octave functions, that are declared global, can have
+     numerical values. In Matlab they exist, but are empty (0 x 0); <code>
+     clear</code> does not affect the values of global variables inside
+     functions</li>
+ <li>plot text before plot in Octave, after plot in Matlab. Many uses of
+     gnuplot don't work in Matlab. Matlab does not have a facility for two
+     x-axes in a single plot; it does have <code>rotate3D</code> which
+     allows the users to rotate a 3-dim plot with the mouse. </li>
+ <li>initiate multiple plots with <code>multiplot</code> in Octave, 
+     directly call <code>subplot</code> in Matlab</li>
+ <li>Matlab knows &gt;2-dimensional arrays, Octave 2-dim only (i.e. matrices)</li>
+ <li>set path with <code>LOADPATH=" ";</code> under Octave 
+     and in the menu-bar under Matlab</li>
+</ul>
+
+<p>
+The Student Edition of Matlab is sufficient for most applications,
+although it has the problem of an upper boundary of array sizes, which
+is easily exceeded when integrating a system over a longer time
+interval. Another problem is that the Student Edition has no routine
+for solving vector-valued <code>x</code> from <code>0 =
+f(x)</code>. If you go for the professional edition of Matlab, you
+will probably also need the optimization toolbox, which comes under a
+separate license requirement.
+
+
+</p></body></html>

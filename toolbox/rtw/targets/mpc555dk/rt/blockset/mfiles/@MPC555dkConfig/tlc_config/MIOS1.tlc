@@ -1,0 +1,76 @@
+%% File: toolbox/rtw/targets/mpc555dk/rt/blockset/mfiles/@MPC555dkConfig/tlc_config/MIOS1.tlc
+%%
+%% Abstract:
+%%   
+%%
+%% $Revision: 1.6.4.3 $
+%% $Date: 2004/04/19 01:29:18 $
+%%
+%% Copyright 2001-2003 The MathWorks, Inc.
+
+%implements * "C"
+
+%include "ObjectRef.tlc"
+
+%function DriverConfiguration(R) void
+
+    %openfile buffer
+        #include "mpc5xx.h"
+        #ifndef MPC555_VARIANT
+        /* For processors other than mpc555 such as the mpc565 the MIOS is now known as
+        the MIOS14 which is backward compatible with the MPC555 */
+        #define MIOS1 MIOS14
+        #endif
+    %closefile buffer
+    %<LibCacheIncludes(buffer)>
+
+%endfunction
+
+%function Start(R) Output
+
+        /* -- Main MIOS Configuration --- */
+
+        MIOS1.MCPSMSCR.B.FREN = %<SLibSubsRef(R,"Freeze_Enable")>;   
+        MIOS1.MCPSMSCR.B.PREN = %<SLibSubsRef(R,"Prescaler_Enable")>;
+        MIOS1.MCPSMSCR.B.PSL  = %<SLibSubsRef(R,"Prescaler")>;
+
+        /* -- Modulus Counter --- 6 */
+
+        /* Freeze Enable */
+        MIOS1.MMCSM6SCRD.B.FREN = %<SLibSubsRef(R,"Modulus_Counter_6.Freeze_Enable")>;
+
+        /* Clock Prescaler */
+        MIOS1.MMCSM6SCRD.B.CP = %<SLibSubsRef(R,"Modulus_Counter_6.Clock_Prescaler")>;
+
+        /* Modulus Latch Register */
+        MIOS1.MMCSM6MLR.R  = %<SLibSubsRef(R,"Modulus_Counter_6.Modulus_Latch_Register")>;
+
+        /* Clock Select = %<SLibSubsRef(R,"Modulus_Counter_6.Clock_Select")> */
+        MIOS1.MMCSM6SCRD.B.CLS = %<SLibEnumSubsRef(R,"MIOSCounterClockSelect","Modulus_Counter_6.Clock_Select")>;
+
+        /* Modulus Load Sensitivity = %<SLibSubsRef(R,"Modulus_Counter_6.Modulus_Load_Sensitivity")> */
+        %assign mls = %<SLibEnumSubsRef(R,"ModulusLoadSensitivity","Modulus_Counter_6.Modulus_Load_Sensitivity")>
+        MIOS1.MMCSM6SCRD.B.EDGN = %< CAST("Number",FEVAL("floor",mls / 2))>;
+        MIOS1.MMCSM6SCRD.B.EDGP = %< FEVAL("rem", 2 )>;
+
+        /*-- Modulus Counter 22 ---*/
+
+        /* Freeze Enable */
+        MIOS1.MMCSM22SCRD.B.FREN = %<SLibSubsRef(R,"Modulus_Counter_22.Freeze_Enable")>;
+
+        /* Clock Prescaler */
+        MIOS1.MMCSM22SCRD.B.CP = %<SLibSubsRef(R,"Modulus_Counter_22.Clock_Prescaler")>;
+
+        /* Clock Select = %<SLibSubsRef(R,"Modulus_Counter_22.Clock_Select")> */
+        MIOS1.MMCSM22SCRD.B.CLS = %<SLibEnumSubsRef(R,"MIOSCounterClockSelect","Modulus_Counter_22.Clock_Select")>;
+
+        /* Modulus Latch Register */
+        MIOS1.MMCSM22MLR.R  = %<SLibSubsRef(R,"Modulus_Counter_22.Modulus_Latch_Register")>;
+
+        /* Modulus Load Sensitivity = %<SLibSubsRef(R,"Modulus_Counter_22.Modulus_Load_Sensitivity")> : EDGN + EDGP */
+        %assign mls = %<SLibEnumSubsRef(R,"ModulusLoadSensitivity","Modulus_Counter_22.Modulus_Load_Sensitivity")>
+        MIOS1.MMCSM22SCRD.B.EDGN = %< CAST("Number",FEVAL("floor",mls / 2))>;
+        MIOS1.MMCSM22SCRD.B.EDGP = %< FEVAL("rem", 2 )>;
+
+%endfunction
+

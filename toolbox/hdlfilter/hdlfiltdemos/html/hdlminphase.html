@@ -1,0 +1,315 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>HDL Minimum Phase FIRT Filter</title>
+      <meta name="generator" content="MATLAB 7.0">
+      <meta name="date" content="2004-03-26">
+      <meta name="m-file" content="hdlminphase"><style>
+body {
+  background-color: white;
+  margin:10px;
+}
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+pre.codeinput {
+  margin-left: 30px;
+}
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.showbuttons {
+  margin-left: 30px;
+  border: solid black 2px;
+  padding: 4px;
+  background: #EBEFF3;
+}
+
+pre.codeoutput {
+  color: gray;
+  font-style: italic;
+}
+pre.error {
+  color: red;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows.  On Gecko-based browsers, the shrink-to-fit doesn't work. */ 
+p,h1,h2,div {
+  /* for MATLAB's browser */
+  width: 600px;
+  /* for Mozilla, but the "width" tag overrides it anyway */
+  max-width: 600px;
+  /* for IE */
+  width:expression(document.body.clientWidth > 620 ? "600px": "auto" );
+}
+
+    </style></head>
+   <body>
+      <h1>HDL Minimum Phase FIRT Filter</h1>
+      <introduction>
+         <p>This demonstration illustrates how to generate HDL code for a minimum phase FIRT filter with 10-bit input data and 10-bit
+            output data.  This is a bandpass filter with sample rate of 96 kHz and passband from approximately 19 kHz to 29 kHz.  This
+            type of filter is commonly used in feedback loops where linear phase is not sufficient and minimum phase or as close as is
+            achievable is required.
+         </p>
+      </introduction>
+      <h2>Contents</h2>
+      <div>
+         <ul>
+            <li><a href="#1">Set up the coefficients</a></li>
+            <li><a href="#2">Examine the phase response</a></li>
+            <li><a href="#3">Create the quantized FIRT fixed-point filter</a></li>
+            <li><a href="#4">Check the fixed-point filter relative to the reference design</a></li>
+            <li><a href="#5">Check the impulse response</a></li>
+            <li><a href="#6">Generate HDL code from the quantized filter</a></li>
+            <li><a href="#7">Generate a test bench from the quantized filter</a></li>
+            <li><a href="#8">Plot the test bench stimulus and the filter response</a></li>
+            <li><a href="#9">Conclusion</a></li>
+         </ul>
+      </div>
+      <h2>Set up the coefficients<a name="1"></a></h2>
+      <p>Design the filter using firgr, which uses the generalized Remez design method. The use of the 'minphase' argument to firgr
+         forces a minimum phase filter design. Then, use fvtool to visualize the filter response.
+      </p><pre class="codeinput">Fs  = 96000;
+Fn  = Fs/2;
+f   = [0 17000 20000 28000 31000 Fn]/Fn;
+a   = [0     0     1     1     0  0];
+w   = [5 1 5];
+b   = firgr(44, f, a, w, <span class="string">'minphase'</span>);
+hfvt = fvtool(b,<span class="string">'Fs'</span>, Fs, <span class="string">'MagnitudeDisplay'</span>, <span class="string">'Magnitude (dB)'</span>);
+legend(hfvt, <span class="string">'Min. Phase'</span>);
+</pre><img vspace="5" hspace="5" src="hdlminphase_01.png"> <h2>Examine the phase response<a name="2"></a></h2>
+      <p>Check the phase response of the filter.</p><pre class="codeinput">set(hfvt, <span class="string">'Analysis'</span>, <span class="string">'phase'</span>);
+legend(hfvt, <span class="string">'Min. Phase'</span>);
+</pre><img vspace="5" hspace="5" src="hdlminphase_02.png"> <h2>Create the quantized FIRT fixed-point filter<a name="3"></a></h2>
+      <p>Having checked the minimum phase filter design, construct a fixed-point version. Use 10-bit input and output with the internal
+         products automatically scaled. Set the coefficient word length to 15 bits. Set the accumulator word length to 31 bits and
+         let the fraction length be computed automatically.
+      </p><pre class="codeinput">Hd = dfilt.dffirt(b);
+Hd.Arithmetic = <span class="string">'fixed'</span>;
+Hd.CastBeforeSum = false;
+Hd.RoundMode = <span class="string">'floor'</span>;
+Hd.OverflowMode = <span class="string">'saturate'</span>;
+Hd.InputWordLength = 10;
+Hd.InputFracLength = 9;
+Hd.OutputWordLength = 10;
+Hd.OutputMode = <span class="string">'SpecifyPrecision'</span>;
+Hd.OutputFracLength = 9;
+Hd.AccumWordLength = 33;
+Hd.StateWordLength = 33;
+Hd.StateAutoScale  = false;
+Hd.StateFracLength = Hd.AccumFracLength;
+Hd.CoeffWordLength = 14;
+</pre><h2>Check the fixed-point filter relative to the reference design<a name="4"></a></h2>
+      <p>Check the quantized filter relative to the reference design. The magnitude response is correct but the phase response is no
+         longer min-phase, due to quantization.
+      </p><pre class="codeinput">hfvt = fvtool(Hd, <span class="string">'Fs'</span>, Fs, <span class="string">'Analysis'</span>, <span class="string">'freq'</span>);
+legend(hfvt, <span class="string">'on'</span>);
+</pre><img vspace="5" hspace="5" src="hdlminphase_03.png"> <h2>Check the impulse response<a name="5"></a></h2>
+      <p>Plot the impulse response of the quantized filter. Many of the coefficients have quantized to zero and the overall response
+         still meets the specification, even though the zeros have made the phase response non-minimum. These zeros lead to a smaller
+         implementation because HDL code is not generated for multiplies by zero.
+      </p><pre class="codeinput">set(hfvt, <span class="string">'Analysis'</span>, <span class="string">'Impulse'</span>);
+</pre><img vspace="5" hspace="5" src="hdlminphase_04.png"> <h2>Generate HDL code from the quantized filter<a name="6"></a></h2>
+      <p>Starting from the quantized filter, generate VHDL or Verilog.  You have the option of generating a VHDL, Verilog, or ModelSim
+         .do file test bench to functionally verify that the HDL design matches the MATLAB filter exactly.
+      </p>
+      <p>Create a temporary work directory. After generating the HDL code (Verilog in this case), open the generated file in the editor.</p>
+      <p>To generate VHDL instead, change the property 'TargetLanguage', from 'Verilog' to 'VHDL'.</p><pre class="codeinput">workingdir = tempname;
+generatehdl(Hd,<span class="string">'Name'</span>, <span class="string">'hdlminphasefilt'</span>, <span class="string">'TargetLanguage'</span>, <span class="string">'Verilog'</span>,<span class="keyword">...</span>
+            <span class="string">'TargetDirectory'</span>, workingdir);
+edit(fullfile(workingdir, <span class="string">'hdlminphasefilt.v'</span>));
+</pre><pre class="codeoutput">### Starting Verilog code generation process for filter: hdlminphasefilt
+### Generating hdlminphasefilt.v file in: C:\Temp\tp025562
+### Starting generation of hdlminphasefilt Verilog module
+### Starting generation of hdlminphasefilt Verilog module body
+### HDL latency is 2 samples
+### Successful completion of Verilog code generation process for filter: hdlminphasefilt
+
+</pre><h2>Generate a test bench from the quantized filter<a name="7"></a></h2>
+      <p>Generate a Verilog test bench to verify that the result match the results in MATLAB.  Use the chirp predefined input stimulus.
+         After generating the test bench code, open the generated file in the editor. To generate a VHDL test bench instead, change
+         the second argument from 'Verilog' to 'VHDL'.
+      </p><pre class="codeinput">generatetb(Hd, <span class="string">'Verilog'</span>, <span class="string">'TestBenchName'</span>, <span class="string">'hdlminphasefilt_tb'</span>,<span class="keyword">...</span>
+           <span class="string">'TestBenchStimulus'</span>, <span class="string">'chirp'</span>,<span class="keyword">...</span>
+           <span class="string">'TargetDirectory'</span>, workingdir);
+edit(fullfile(workingdir, <span class="string">'hdlminphasefilt_tb.v'</span>));
+</pre><pre class="codeoutput">### Starting generation of Verilog Test Bench
+### Generating input stimulus
+### Done generating input stimulus; length 1069 samples.
+Warning: Integers greater than 32 bits not supported in the INT method.  Returning DOUBLE instead.
+To get exact integer representation for any arbitrary word length, use INTARRAY, BIN, OCT, DEC, or HEX.
+Warning: Integers greater than 32 bits not supported in the INT method.  Returning DOUBLE instead.
+To get exact integer representation for any arbitrary word length, use INTARRAY, BIN, OCT, DEC, or HEX.
+### Generating Verilog file hdlminphasefilt_tb.v in: C:\Temp\tp025562
+### Done generating Verilog test bench.
+
+</pre><h2>Plot the test bench stimulus and the filter response<a name="8"></a></h2>
+      <p>Plot the filter input stimulus and output response on separate plots.</p><pre class="codeinput">x = generatetbstimulus(Hd,<span class="string">'TestBenchStimulus'</span>,<span class="string">'chirp'</span>);
+xrange = (0:length(x) - 1).*( Fn / (length(x) - 1))/1e3;
+y = filter(Hd,x);
+subplot(2,1,1); plot(xrange, x); ylim(ylim.*1.1);
+title(<span class="string">'HDL Min Phase Filter Chirp Stimulus.'</span>);
+xlabel(<span class="string">'Frequency in kHz'</span>);
+subplot(2,1,2); plot(xrange, y); ylim(ylim.*1.1);
+title(<span class="string">'HDL Min Phase Filter Response.'</span>);
+xlabel(<span class="string">'Frequency in kHz'</span>);
+</pre><img vspace="5" hspace="5" src="hdlminphase_05.png"> <h2>Conclusion<a name="9"></a></h2>
+      <p>You designed a double-precision for minimum phase and then converted it to a quantized fixed-point filter. You then generated
+         Verilog code for the filter design and a Verilog test bench to functionally verify the results.
+      </p>
+      <p>You can use a Verilog simulator, such as ModelSim, to verify these results.</p>
+      <p class="footer">Copyright 2004 The MathWorks, Inc.<br>
+         Published with MATLAB&reg; 7.0<br></p>
+      <!--
+##### SOURCE BEGIN #####
+%% HDL Minimum Phase FIRT Filter
+% This demonstration illustrates how to generate HDL code for a minimum
+% phase FIRT filter with 10-bit input data and 10-bit output data.  This
+% is a bandpass filter with sample rate of 96 kHz and passband from
+% approximately 19 kHz to 29 kHz.  This type of filter is commonly used
+% in feedback loops where linear phase is not sufficient and minimum
+% phase or as close as is achievable is required.
+
+% Copyright 2004 The MathWorks, Inc. 
+% $Revision: 1.1.6.1 $  $Date: 2004/04/08 20:51:45 $
+
+%% Set up the coefficients
+% Design the filter using firgr, which uses the generalized Remez design
+% method. The use of the 'minphase' argument to firgr forces a minimum
+% phase filter design. Then, use fvtool to visualize the filter
+% response.
+
+Fs  = 96000;
+Fn  = Fs/2;
+f   = [0 17000 20000 28000 31000 Fn]/Fn;
+a   = [0     0     1     1     0  0];
+w   = [5 1 5];
+b   = firgr(44, f, a, w, 'minphase');
+hfvt = fvtool(b,'Fs', Fs, 'MagnitudeDisplay', 'Magnitude (dB)');
+legend(hfvt, 'Min. Phase');
+
+%% Examine the phase response
+% Check the phase response of the filter.
+
+set(hfvt, 'Analysis', 'phase');
+legend(hfvt, 'Min. Phase');
+
+%% Create the quantized FIRT fixed-point filter
+% Having checked the minimum phase filter design, construct a
+% fixed-point version. Use 10-bit input and output with the internal
+% products automatically scaled. Set the coefficient word length to 15
+% bits. Set the accumulator word length to 31 bits and let the fraction
+% length be computed automatically.
+
+Hd = dfilt.dffirt(b);
+Hd.Arithmetic = 'fixed';
+Hd.CastBeforeSum = false;
+Hd.RoundMode = 'floor';
+Hd.OverflowMode = 'saturate';
+Hd.InputWordLength = 10;
+Hd.InputFracLength = 9;
+Hd.OutputWordLength = 10;
+Hd.OutputMode = 'SpecifyPrecision';
+Hd.OutputFracLength = 9;
+Hd.AccumWordLength = 33;
+Hd.StateWordLength = 33;
+Hd.StateAutoScale  = false;
+Hd.StateFracLength = Hd.AccumFracLength;
+Hd.CoeffWordLength = 14;
+
+%% Check the fixed-point filter relative to the reference design
+% Check the quantized filter relative to the reference design. The
+% magnitude response is correct but the phase response is no longer
+% min-phase, due to quantization.
+
+hfvt = fvtool(Hd, 'Fs', Fs, 'Analysis', 'freq');
+legend(hfvt, 'on');
+
+%% Check the impulse response
+% Plot the impulse response of the quantized filter. Many of the
+% coefficients have quantized to zero and the overall response still
+% meets the specification, even though the zeros have made the phase
+% response non-minimum. These zeros lead to a smaller implementation
+% because HDL code is not generated for multiplies by zero.
+
+set(hfvt, 'Analysis', 'Impulse');
+
+%% Generate HDL code from the quantized filter
+% Starting from the quantized filter, generate VHDL or Verilog.  You
+% have the option of generating a VHDL, Verilog, or ModelSim .do file
+% test bench to functionally verify that the HDL design matches the
+% MATLAB filter exactly.
+%
+% Create a temporary work directory. After generating the HDL code
+% (Verilog in this case), open the generated file in the editor.  
+%
+% To generate VHDL instead, change the property 'TargetLanguage', from
+% 'Verilog' to 'VHDL'.
+
+workingdir = tempname;
+generatehdl(Hd,'Name', 'hdlminphasefilt', 'TargetLanguage', 'Verilog',...
+            'TargetDirectory', workingdir);
+edit(fullfile(workingdir, 'hdlminphasefilt.v'));
+
+%% Generate a test bench from the quantized filter
+% Generate a Verilog test bench to verify that the result match the
+% results in MATLAB.  Use the chirp predefined input stimulus. After
+% generating the test bench code, open the generated file in the editor.
+% To generate a VHDL test bench instead, change the second argument from
+% 'Verilog' to 'VHDL'.
+
+generatetb(Hd, 'Verilog', 'TestBenchName', 'hdlminphasefilt_tb',...
+           'TestBenchStimulus', 'chirp',...
+           'TargetDirectory', workingdir);
+edit(fullfile(workingdir, 'hdlminphasefilt_tb.v'));
+
+%% Plot the test bench stimulus and the filter response
+% Plot the filter input stimulus and output response on separate plots.
+
+x = generatetbstimulus(Hd,'TestBenchStimulus','chirp');
+xrange = (0:length(x) - 1).*( Fn / (length(x) - 1))/1e3;
+y = filter(Hd,x);
+subplot(2,1,1); plot(xrange, x); ylim(ylim.*1.1);
+title('HDL Min Phase Filter Chirp Stimulus.');
+xlabel('Frequency in kHz');
+subplot(2,1,2); plot(xrange, y); ylim(ylim.*1.1);
+title('HDL Min Phase Filter Response.');
+xlabel('Frequency in kHz');
+
+%% Conclusion
+% You designed a double-precision for minimum phase and then converted
+% it to a quantized fixed-point filter. You then generated Verilog code
+% for the filter design and a Verilog test bench to functionally verify
+% the results.
+%
+% You can use a Verilog simulator, such as ModelSim, to verify these
+% results.
+
+##### SOURCE END #####
+-->
+   </body>
+</html>

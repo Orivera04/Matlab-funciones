@@ -1,0 +1,27 @@
+function ecua=RotaCuadComp(A,B,C,D,E,F,G,H,M,N)
+%Rotación de una cuádrica con ecua=AX^2+BY^2+CZ^2+DXY+EXZ+FYZ+GX+HY+MZ+N 
+%La ecuación no tiene términos lineales; es decir en X,Y,Z.
+%clc;
+syms X Y Z x y z real;
+R11=A;R22=B;R33=C;
+R12=D/2; R13=E/2; R23=F/2;
+R21=D/2; R31=E/2; R32=F/2;
+R=[R11,R12,R13;R21,R22,R23;R31,R32,R33]
+[v,d]=eig(R);
+Q=v*[X,Y,Z]';
+x=Q(1);y=Q(2);z=Q(3);
+if G==0 && H==0 && M==0
+    ecua1=A*x^2+B*y^2+C*z^2+D*x*y+E*x*z+F*y*z;
+    ecua2=simplify(ecua1);
+    CP=coefpol3(char(ecua2));
+    pol=sym2poly(CP);
+    pol(4)=0;pol(5)=0;pol(6)=0;
+    ecua=pol;
+else
+    ecua1= A*x^2+B*y^2+C*z^2+D*x*y+E*x*z+F*y*z+G*x+H*y+M*z;
+    ecua2=simplify(ecua1);
+    CP=coefpol3(char(ecua2));
+    pol=sym2poly(CP);
+    pol(4)=0;pol(5)=0;pol(6)=0;
+    ecua=pol;   
+end

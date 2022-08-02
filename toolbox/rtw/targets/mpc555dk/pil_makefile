@@ -1,0 +1,137 @@
+# File: toolbox/rtw/targets/mpc555dk/pil_makefile
+#
+# Abstract:
+#   Top level makefile to build all code associated with 
+#   processor-in-the-loop target
+#
+# $Revision: 1.8.2.3 $
+# $Date: 2004/04/19 01:28:17 $
+#
+# Copyright 2001-2004 The MathWorks, Inc.
+
+##############################################################
+# Import global macro definitions:
+# - DIAB_ERT_ROOT
+# - GPC_ROOT
+# - SLIB_CAN_ROOT
+# - MPC555_DRIVERS_ROOT
+
+##############################################################
+ifndef MAKEVARS_MPCPIL_DEFINED
+  include pil_makevars.mk
+endif
+
+##############################################################
+# Define local symbols
+##############################################################
+
+PHYCORE_UART_DIR    = $(PHYCORE_TMW_BSP)/uart_diab.a
+PHYCORE_COMMAPI_DIR = $(PHYCORE_TMW_BSP)/commapi.a
+PHYCORE_MW_BSP_DIR  = $(PHYCORE_TMW_BSP)/mw_bsp.a
+WIN32_COMMAPI_DIR   = $(MPC555DK_ROOT)/pil/internal/BSPs/win32/CommAPI_DLL
+DEVEL_LIB_DIR       = $(PHYCORE_TMW_BSP)/lib
+
+##############################################################
+# TARGETS
+##############################################################
+#
+#ALLTARGETS = WIN32_COMMAPI PHYCORE555_UART PHYCORE555_COMMAPI
+#ALLTARGETS_clean = WIN32_COMMAPI_clean PHYCORE555_UART_clean PHYCORE555_COMMAPI_clean
+#
+# Not building WIN32_COMMAPI. This is built through the makefile.nt in 
+# that directory
+#
+# now build WIN32_COMMAPI, makefile.nt get removed
+
+MK_DIRS = $(DEVEL_LIB_DIR)
+
+ALLTARGETS       = PHYCORE555_UART PHYCORE555_MW_BSP PHYCORE555_COMMAPI WIN32_COMMAPI DEVEL_LIB_DIR
+ALLTARGETS_clean = PHYCORE555_UART_clean PHYCORE555_MW_BSP_clean PHYCORE555_COMMAPI_clean WIN32_COMMAPI_clean
+
+.PHONY: all INFO $(ALLTARGETS) $(ALLTARGETS_clean) clean
+
+all: $(ALLTARGETS)
+	@echo ----------------------------------
+	@echo --- Completed make process: [$@]
+	@echo ----------------------------------
+
+$(MK_DIRS) :
+	mkdir $@
+
+INFO :
+	@echo @
+	@echo @ MPC555RT_ROOT : $(DIAB_ERT_ROOT)
+	@echo @ GPC_ROOT      : $(GPC_ROOT)
+	@echo @ CANLIB_ROOT   : $(SLIB_CAN_ROOT)
+	@echo @ DRIVERS_ROOT  : $(MPC555_DRIVERS_ROOT)
+	@echo @ DIABROOT      : $(DIABROOT)
+	@echo @
+
+export PATH:=$(DIABBIN);$(PATH)
+
+PHYCORE555_MW_BSP_clean :
+	@echo ---
+	@echo --- [$@] Starting 
+	$(MAKE) -C $(PHYCORE_MW_BSP_DIR) -f makefile clean_ALL
+	@echo --- [$@] complete ---
+	@echo ---
+
+PHYCORE555_MW_BSP :
+	@echo ---
+	@echo --- [$@] Starting 
+	$(MAKE) -C $(PHYCORE_MW_BSP_DIR) -f makefile all
+	@echo --- [$@] complete ---
+	@echo ---
+
+PHYCORE555_UART_clean:
+	@echo ---
+	@echo --- [$@] Starting 
+	$(MAKE) -C $(PHYCORE_UART_DIR) -f makefile clean_ALL
+	@echo --- [$@] complete ---
+	@echo ---
+
+PHYCORE555_UART:
+	@echo ---
+	@echo --- [$@] Starting 
+	$(MAKE) -C $(PHYCORE_UART_DIR) -f makefile all 
+	@echo --- [$@] complete ---
+	@echo ---
+
+WIN32_COMMAPI_clean:
+	@echo ---
+	@echo --- [$@] Starting
+	$(MAKE) -C $(WIN32_COMMAPI_DIR) -f makefile clean_ALL
+	@echo --- [$@] complete ---
+	@echo ---
+
+WIN32_COMMAPI:
+	@echo ---
+	@echo --- [$@] Starting 
+	$(MAKE) -C $(WIN32_COMMAPI_DIR) -f makefile
+	@echo --- [$@] complete ---
+	@echo ---
+
+PHYCORE555_COMMAPI_clean:
+	@echo ---
+	@echo --- [$@] Starting 
+	$(MAKE) -C $(PHYCORE_COMMAPI_DIR) -f makefile clean_ALL
+	@echo --- [$@] complete ---
+	@echo ---
+
+PHYCORE555_COMMAPI:
+	@echo ---
+	@echo --- [$@] Starting 
+	$(MAKE) -C $(PHYCORE_COMMAPI_DIR) -f makefile all 
+	@echo --- [$@] complete ---
+	@echo ---
+
+clean: $(ALLTARGETS_clean)
+	@echo ---
+	@echo --- Completed process: [$@]
+	@echo ---
+
+MEXFILES_clean: $(MEXTARGETS_clean)
+	@echo ---
+	@echo --- Completed process: [$@]
+	@echo ---
+

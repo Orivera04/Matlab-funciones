@@ -1,0 +1,146 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Data values and line styles</title>
+<style>
+<!--
+span.mcode   { font-family: Fixedsys; color: #993300 }
+-->
+</style>
+</head>
+
+<body>
+
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1" height="1">
+  <tr>
+    <td width="71%" height="1">
+    <h2>Calling sequence and line styles</h2>
+    </td>
+    <td width="5%" height="1"></td>
+    <td width="24%" height="1">
+    <img border="0" src="../images/plt.png" width="210" height="98" align="right"></td>
+  </tr>
+</table>
+
+<p><i>Note: The strings in the cursor and auxiliary commands are case sensitive. All 
+other plt string arguments are case insensitive.</i></p>
+
+<p>If no arguments are specified, plt will display the
+<a href="../Quick%20start/Workspace%20plotting.htm">workspace plotter</a>. For 
+plt to plot data it must have at least one argument specifying the y-values to 
+be displayed. More often you will call plt with two arguments:</p>
+<p><span class="mcode">plt(x,y);</span></p>
+
+<p>This plots the data in vector x along the horizontal axis and the data in 
+vector y along the vertical axis. x and y may be row or column vectors. Plt 
+will transpose one of the arguments if needed to line things up, so x could be a 
+row vector while y was a column vector. x and y must be the same length however. 
+If not you will get an error message saying that the vectors must be the same 
+length.</p>
+
+<p>If y is a real vector, <span class="mcode">plt(y)</span> is equivalent to
+<span class="mcode">plt(1:length(y),y)</span>.</p>
+
+<p>If y is a complex vector, <span class="mcode">plt(y)</span> is equivalent to
+<span class="mcode">plt(real(y),imag(y))</span>.</p>
+
+<p>To plot more than one trace include the x and y vectors for each 
+trace in the argument list. For example <span class="mcode">
+plt(x1,y1,x2,y2,x3,y3)</span> plots three traces. Quite often several traces 
+share the same x vector. In this case we can simply repeat the x vector in the 
+argument list, as in <span class="mcode">plt(x,y1,x,y2,x,y3)</span> or a 
+shorthand way of writing that is <span class="mcode">plt(x,[y1;y2;y3])</span>. 
+That would work only if the y1,y2,y3 were row vectors. If they were column 
+vectors you would need to write <span class="mcode">plt(x,[y1 y2 y3])</span>.</p>
+
+<p>Plt returns a column vector of handles to the lines that it creates. For 
+instance the above command returns a 3x1 vector. The first element of that 
+vector is the line handle associated with the y1 trace. Most often when you type 
+the plt command at the command prompt you don't need to save plt's return value. 
+However when plt is called from a program the line handles are often required to 
+allow further manipulations of the plot.</p>
+
+<p>None of this so far should come as a surprise since it is identical to 
+Matlab's <span class="mcode">plot</span> command. Also like the plot command you 
+can include any line property in the argument list. For example:</p>
+
+<p><span class="mcode">plt(x,y,'LineWidth',2)</span> is equivalent to<span class="mcode"> set(plt(x,y),'LineWidth',2)</span></p>
+
+<p>One difference in the behaviors of plt and plot is that with plot these line 
+properties must follow all the data vectors. (plot gives an error otherwise). With plt the line properties may 
+occur in the middle of the argument list. In that case, the line property is 
+applied only to the lines listed in previous arguments. For example:</p>
+
+<p><span class="mcode">plt(x,[y1;y2],'Marker','Diamond',x,[y3;y4]);</span><br>
+<br>
+only sets the Marker property for the first two traces. An equivalent to the 
+above is:</p>
+<p><span class="mcode">a=plt(x,[y1;y2;y3;y4]); set(a(1:2),'Marker','Diamond');</span></p>
+<p>You can't use this method to set the Marker or LineStyle properties differently on each 
+trace. To do that use set commands on the line handles, or you can use the plt Markers or 
+Styles parameter as shown in the next section.</p>
+<p>You can plot vector fields by using the <span class="mcode">'Quiver'</span> 
+parameter. For instance if tx/ty are the coordinates of the vector arrow tails, 
+and hx,hy are the coordinates of the vector arrow heads, then you could plot 
+them with:</p>
+<p><span class="mcode">plt('Quiver',2,tx,ty,hx,hy,'TraceID',['Tails';'Heads']);</span></p>
+<p>The Quiver parameter must appear in the argument list before the coordinates 
+of the arrow heads. Thus you could have:</p>
+<p><span class="mcode">plt(tx,ty,'Quiver',2,hx,hy);</span></p>
+<p>However the Quiver parameter would be ignored if it appeared after the hx,hy 
+in the argument list. In addition to plotting the arrows, plt also draws a line 
+connecting all the tails together. To suppress the line connecting the tails, 
+add this parameter to the plt calls above: <span class="mcode">'DIStrace',[1 0]. </span>
+More than one vector field may be plotted by specifying a vector argument to 
+Quiver. For example, this command plots two vector fields:</p>
+<p><span class="mcode">plt('Quiver',[2 4],tx1,ty1,hx1,hy1,tx2,ty2,hx2,hy2);</span></p>
+<p>Often two or more vector fields will share the tail coordinates. If that is 
+the case you don't have to repeat the coordinates of the tail for each field.</p>
+<p><span class="mcode">plt('Quiver',[2 3],tx,ty,hx1,hy1,hx2,hy2);</span></p>
+<p>By default, cursors are enabled for the tail coordinates but disabled for the 
+head coordinates. This can be altered by using the <span class="mcode">'ENAcur'</span>
+parameter. You can specify the size of the arrow head (relative to the size of the 
+vector) using the <span class="mcode">'Qhead'</span> parameter with a two 
+element argument. For example <span class="mcode">'Qhead',[.25 .2] </span>
+specifies that the length of the arrow head should be one fourth the length of 
+the vector and the width of the arrow should be one fifth the vector length. Use <span class="mcode">
+'Qhead',[0 0]</span> to plot the vectors without displaying any arrow heads. See
+<a href="Programming%20examples.htm">pltquiv.m</a> for an example of how to plot 
+vector fields.</p>
+<h4>Single argument actions:</h4>
+
+<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#C0C0C0" id="AutoNumber2" width="651">
+  <tr>
+    <td width="180"> <span class="mcode">&nbsp;plt help</span></td>
+    <td width="448">Displays the plt help file. You could also use the 
+    functional form of this command: <span class="mcode">plt('help')</span>. To 
+get a much shorter help system display type <span class="mcode">help plt</span>.</td>
+  </tr>
+  <tr>
+    <td width="180"> <span class="mcode">
+&nbsp;plt version</span></td>
+    <td width="448">Returns the plt version. Same as: <span class="mcode">
+    plt('version')</span></td>
+  </tr>
+  <tr>
+    <td width="180"> <span class="mcode">
+&nbsp;plt close</span><p> <span class="mcode">
+&nbsp;plt closefigs</span></td>
+    <td width="448">If a programming error causes plt to crash, you may find it 
+    difficult to close the plt figure windows (because they use the close 
+    request function). This command solves the problem by closing all currently 
+    open plt figure windows. Figure windows not created by plt are not closed. (The shorter and longer forms are equivalent 
+    and of course the functional forms also work)</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+</body>
+
+</html>

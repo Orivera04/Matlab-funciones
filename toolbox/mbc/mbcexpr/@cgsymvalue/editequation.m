@@ -1,0 +1,89 @@
+function [obj, ok] = editequation(obj, pDD, srcVar)
+%EDITEQUATION GUI for editing equation string
+%
+%  [OBJ, OK] = EDITEQUATION(OBJ, PDD)
+
+%  Copyright 2000-2004 The MathWorks, Inc. and Ford Global Technologies, Inc.
+
+%  $Revision: 1.2.6.3 $    $Date: 2004/04/04 03:27:46 $ 
+
+if nargin<3
+    dlgstr = 'Enter right-hand side of new formula:';
+    dlgtitle = 'New Formula';
+else
+    dlgstr = ['Convert ',srcVar,' to a formula by entering its right-hand side below:'];
+    dlgtitle = 'Convert To Formula';
+end
+
+
+% Create dialog
+f=xregdialog('name',dlgtitle,...
+	'resize','off');
+xregcenterfigure(f,[400 120])
+label=uicontrol('style','text',...
+	'parent',f,...
+	'string',dlgstr,...
+	'horizontalalignment','left');
+formulaEdit=uicontrol('style','edit',...
+	'parent',f,...
+    'string', getequation(obj), ...
+	'backgroundcolor','w',...
+	'horizontalalignment','left');
+rangeCheck = uicontrol('style', 'checkbox', ...
+    'parent', f, ...
+    'string', 'Calculate formula range from input range', ...
+    'value', 1);
+ok=uicontrol('parent',f,...
+	'style','pushbutton',...
+	'string','OK',...
+	'callback','set(gcbf,''tag'',''ok'',''visible'',''off'');');
+cancel=uicontrol('parent',f,...
+	'style','pushbutton',...
+	'string','Cancel',...
+	'callback','set(gcbf,''visible'',''off'');');
+helpbtn = cghelpbutton(f, 'CGEDITEQUATION');
+
+grd=xreggridbaglayout(f,'dimension',[5 4],...
+	'gapy', 5, 'gapx',7,...
+	'rowsizes',[15 20 20 0 25],...
+	'colsizes',[-1 65 65 65],...
+	'mergeblock',{[1 1],[1 4]},...
+	'mergeblock',{[2 2],[1 4]},...
+    'mergeblock',{[3 3],[1 4]},...
+	'elements',{label,formulaEdit,rangeCheck, [],[],...
+        [],[],[],[],ok,[],[],[],[],cancel,[],[],[],[],helpbtn},...
+	'packstatus','off',...
+	'border',[10 10 10 10]);
+
+f.LayoutManager=grd;
+set(grd,'packstatus','on');
+f.showDialog(ok);
+
+% GUI blocks here until OK/cancel pressed
+
+tg = get(f, 'tag');
+if strcmp(tg, 'ok')
+    neweq = get(formulaEdit, 'string');
+    [obj, flags, msg, newptrs] = setequation(obj, neweq, pDD);
+    ok = all(flags);
+    if ok
+        % Update range if desired
+        if get(rangeCheck, 'value')
+            obj = updaterange(obj);
+        end
+        % check the formula evaluates
+        [flags, msg] = checkevaluation(obj);
+        ok = all(flags);
+    end
+    if ~ok
+        % remove any new pointers from dictionary
+        for n = 1:length(newptrs)
+            pDD.remove(newptrs);
+        end
+        showerrordialog(obj, msg, dlgtitle);
+    end
+else
+    ok=0;
+end
+
+delete(f);

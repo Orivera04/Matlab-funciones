@@ -1,0 +1,36 @@
+<html>
+<!-- $New for R14 $  $Date: 2003/09/01 09:17:34 $ -->
+<head><title>Embedded Target for Motorola MPC555 Demo: demos</title></head>
+<body>
+
+<p style="color:#990000; font-weight:bold; font-size:x-large">Real-Time CAN Messaging Protocol Demo Model</p>
+<p> This model illustrates how to use the CANdb Packing and Unpacking blocks to construct and inspect CAN messages. You can use the mpc555rt_candb model to generate code from a subsystem to run on MPC555 target hardware. If you have Vector-Informatik CAN hardware and drivers installed, you can use the companion model mpc555rt_candbhost to exchange CAN messages with the mpc555rt_candb model running on hardware.
+</p>
+<p>You can examine the settings in these models to see the effect of mode signals and how to pack signals into messages depending on the mode signal, and also how to map more than one signal to the same location in the message. See the block reference page for the CAN Message Unpacking (CANdb) block for more information about signal types and modes.
+</p>
+
+<p>
+<h3>How to open this demo:</h3>
+</p>
+<p>Click the link below or at the command line type </a><a href="matlab:mpc555rt_candb">mpc555rt_candb</a>.</p>
+
+
+<p><em>Note: To run this demo, you must have Vector-Informatik CAN hardware and drivers. If you have a CAN board and Vector-Informatik CAN drivers installed, you can use the 
+companion model </a><a href="matlab:mpc555rt_candbhost">mpc555rt_candbhost</a> to exchange CAN messages with this model (running 
+on MPC555 hardware)</em></p>
+
+<a name="mpc555_candb_host_demo"></a><!-- H2 --><p><font size=+1 color="#990000"><b>CANdb Host Demo</b></font><br>
+<p>The demo <code>mpc555rt_candbhost</code> is intended for use as a companion model to <code>mpc555rt_candb</code> which can run on the MPC555 target hardware. You can run both these models to exchange CAN messages (in the same way as the two I/O demos -- see also <a href="IO.html">MPC555 I/O Host Demo</a>).</p>
+<p>To use the model <code>mpc555rt_candbhost</code>, you must have suitable CAN hardware and CAN drivers from Vector-Informatik installed on your PC.</p>
+<p>To open this model, click the link below or at the command line type</p>
+<ul class=continued><li class=continued><pre><a name="15040"></a><a href="matlab:mpc555rt_candbhost">mpc555rt_candbhost
+</a></pre></li></ul>
+<p>Start the model <code>mpc555rt_candb</code> running on the MPC555 target hardware.</p>
+<p>Open the <code>CANdb_Host</code> subsystem and double-click on the block Vector CAN Configuration. Set the <strong>Channel parameter</strong> according to your installed CAN hardware. Make sure you also set this parameter in the companion model.</p>
+<p>Run <code>mpc555rt_candbhost</code> in Simulink on your host PC.</p>
+<p>CAN messages are sent between this model and the companion model. Unpacked messages are displayed in the numeric display blocks, and on the scopes. The messages transmitted by this model are used to control MIOS Digital Outputs on the MPC555.</p>
+
+
+
+</body>
+</html>

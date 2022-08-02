@@ -1,0 +1,915 @@
+%% File: gen_xml.tlc
+%%
+%% $Revision: 1.19.2.1 $
+%% $Date: 2004/04/19 01:27:17 $
+%%
+%% Copyright 2001-2002 The MathWorks, Inc.
+%%
+%% Abstract: Embedded real-time system target file for Processor in 
+%% the Loop Simulation generation of a Metrowerks CodeWarrior project to
+%% build the generated code.
+%%
+
+%% Global references to:
+%%	BSP_DIR; MODEL_ABS_PATH; TARGET_TLC_DIR; MATLABROOT; 
+%%	model_defined_file; DK_TLC_TYPE; ModelName; PWD; link_cmd_file; 
+%%	bspFiles; CommAPIFiles; CommFiles; CommTimeout; 
+
+%% Function: CreateXMLProject ==================================================
+%% Abstract: Generate and XML project for Metrowerks and the MPC555.
+%%
+
+%include "gen_xml_lib.tlc"
+
+%if (!EXISTS("CommTimeout"))
+  %assign DK_TLC_TYPE = "PIL"
+%endif  
+
+%function CreateXMLProject() Output
+
+  %assign ModelName = ::CompiledModel.Name
+
+  %% NAME AND OPEN OUTPUT XML FILE
+<?xml version="1.0"?>
+<?codewarrior exportversion="1.0" ideversion="4.2"?>
+<!DOCTYPE PROJECT [
+
+<!ELEMENT PROJECT (TARGETLIST, TARGETORDER, GROUPLIST, DESIGNLIST?)>
+<!ELEMENT TARGETLIST (TARGET+)>
+<!ELEMENT TARGET (NAME, SETTINGLIST, FILELIST?, LINKORDER?, SEGMENTLIST?, OVERLAYGROUPLIST?, SUBTARGETLIST?, SUBPROJECTLIST?)>
+<!ELEMENT NAME (#PCDATA)>
+<!ELEMENT USERSOURCETREETYPE (#PCDATA)>
+<!ELEMENT PATH (#PCDATA)>
+<!ELEMENT FILELIST (FILE*)>
+<!ELEMENT FILE (PATHTYPE, PATHROOT?, ACCESSPATH?, PATH, PATHFORMAT?, ROOTFILEREF?, FILEKIND?, FILEFLAGS?)>
+<!ELEMENT PATHTYPE (#PCDATA)>
+<!ELEMENT PATHROOT (#PCDATA)>
+<!ELEMENT ACCESSPATH (#PCDATA)>
+<!ELEMENT PATHFORMAT (#PCDATA)>
+<!ELEMENT ROOTFILEREF (PATHTYPE, PATHROOT?, ACCESSPATH?, PATH, PATHFORMAT?)>
+<!ELEMENT FILEKIND (#PCDATA)>
+<!ELEMENT FILEFLAGS (#PCDATA)>
+<!ELEMENT FILEREF (TARGETNAME?, PATHTYPE, PATHROOT?, ACCESSPATH?, PATH, PATHFORMAT?)>
+<!ELEMENT TARGETNAME (#PCDATA)>
+<!ELEMENT SETTINGLIST ((SETTING|PANELDATA)+)>
+<!ELEMENT SETTING (NAME?, (VALUE|(SETTING+)))>
+<!ELEMENT PANELDATA (NAME, VALUE)>
+<!ELEMENT VALUE (#PCDATA)>
+<!ELEMENT LINKORDER (FILEREF*)>
+<!ELEMENT SEGMENTLIST (SEGMENT+)>
+<!ELEMENT SEGMENT (NAME, ATTRIBUTES?, FILEREF*)>
+<!ELEMENT ATTRIBUTES (#PCDATA)>
+<!ELEMENT OVERLAYGROUPLIST (OVERLAYGROUP+)>
+<!ELEMENT OVERLAYGROUP (NAME, BASEADDRESS, OVERLAY*)>
+<!ELEMENT BASEADDRESS (#PCDATA)>
+<!ELEMENT OVERLAY (NAME, FILEREF*)>
+<!ELEMENT SUBTARGETLIST (SUBTARGET+)>
+<!ELEMENT SUBTARGET (TARGETNAME, ATTRIBUTES?)>
+<!ELEMENT SUBPROJECTLIST (SUBPROJECT+)>
+<!ELEMENT SUBPROJECT (FILEREF, SUBPROJECTTARGETLIST)>
+<!ELEMENT SUBPROJECTTARGETLIST (SUBPROJECTTARGET*)>
+<!ELEMENT SUBPROJECTTARGET (TARGETNAME, ATTRIBUTES?)>
+<!ELEMENT TARGETORDER (ORDEREDTARGET|ORDEREDDESIGN)*>
+<!ELEMENT ORDEREDTARGET (NAME)>
+<!ELEMENT ORDEREDDESIGN (NAME, ORDEREDTARGET+)>
+<!ELEMENT GROUPLIST (GROUP|FILEREF)*>
+<!ELEMENT GROUP (NAME, (GROUP|FILEREF)*)>
+<!ELEMENT DESIGNLIST (DESIGN+)>
+<!ELEMENT DESIGN (NAME, DESIGNDATA)>
+<!ELEMENT DESIGNDATA (#PCDATA)>
+]>
+<PROJECT>
+    <TARGETLIST>
+        <TARGET>
+            <NAME>555 Phytec Debug Version</NAME>
+            <SETTINGLIST>
+
+                <!-- Settings for "Source Trees" panel -->
+                <SETTING><NAME>UserSourceTrees</NAME><VALUE></VALUE></SETTING>
+
+                <!-- Settings for "Custom Keywords" panel -->
+                <SETTING><NAME>CustomColor1</NAME>
+                    <SETTING><NAME>Red</NAME><VALUE>0</VALUE></SETTING>
+                    <SETTING><NAME>Green</NAME><VALUE>32767</VALUE></SETTING>
+                    <SETTING><NAME>Blue</NAME><VALUE>0</VALUE></SETTING>
+                </SETTING>
+                <SETTING><NAME>CustomColor2</NAME>
+                    <SETTING><NAME>Red</NAME><VALUE>0</VALUE></SETTING>
+                    <SETTING><NAME>Green</NAME><VALUE>32767</VALUE></SETTING>
+                    <SETTING><NAME>Blue</NAME><VALUE>0</VALUE></SETTING>
+                </SETTING>
+                <SETTING><NAME>CustomColor3</NAME>
+                    <SETTING><NAME>Red</NAME><VALUE>0</VALUE></SETTING>
+                    <SETTING><NAME>Green</NAME><VALUE>32767</VALUE></SETTING>
+                    <SETTING><NAME>Blue</NAME><VALUE>0</VALUE></SETTING>
+                </SETTING>
+                <SETTING><NAME>CustomColor4</NAME>
+                    <SETTING><NAME>Red</NAME><VALUE>0</VALUE></SETTING>
+                    <SETTING><NAME>Green</NAME><VALUE>32767</VALUE></SETTING>
+                    <SETTING><NAME>Blue</NAME><VALUE>0</VALUE></SETTING>
+                </SETTING>
+
+                <!-- Settings for "Debugger EPPC Target" panel -->
+                <SETTING><NAME>MWDebugger_EPPC_target</NAME><VALUE>Mot555</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_protocol</NAME><VALUE>MSIBDM</VALUE></SETTING>
+                <SETTING><NAME>Connection</NAME><VALUE>SerialConnection</VALUE></SETTING>
+                <SETTING><NAME>UseInitFile</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_parallel</NAME><VALUE>LPTP1</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_hostname</NAME><VALUE></VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_logdata</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_breaktype</NAME><VALUE>Software</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_watchtype</NAME><VALUE>DataChanges</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_amcTapForceShell</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_amcTapVerifyMemWrites</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_amcCodeTapSerializeInstExec</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_polltime</NAME><VALUE>500</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_amcPowerTapMemRdDelay</NAME><VALUE>350</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_amcPowerTapMemWtDelay</NAME><VALUE>350</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_amcCodeTapShowInstCycles</NAME><VALUE>None</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_amcCodeTapClockFreq</NAME><VALUE>MHz_7_34</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_amcPowerTapClockFreq</NAME><VALUE>MHz_5</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_msiSpeed</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_msiDevice</NAME><VALUE>Wiggler</VALUE></SETTING>
+		%%  Set the fpu buffer address to 0xfff00000 
+                <SETTING><NAME>MWDebugger_EPPC_fpuBuffAddr</NAME><VALUE>-1048576</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_ipAddrStr</NAME><VALUE></VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_pDebug_StdinFilename</NAME><VALUE></VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_pDebug_StdoutFilename</NAME><VALUE></VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_pDebug_StderrFilename</NAME><VALUE></VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_pDebug_Stdin</NAME><VALUE>stdFile1</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_pDebug_Stdout</NAME><VALUE>stdFile1</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_pDebug_Stderr</NAME><VALUE>stdFile1</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_TS_Name</NAME><VALUE></VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_TS_Entry</NAME><VALUE></VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_TS_TaskPriority</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_TS_TaskOptions</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_TS_TaskStackSize</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_TS_Arguments</NAME><VALUE></VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_TS_KillThreads</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_TS_UnloadModule</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_targetos</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_RtosPluginName</NAME><VALUE></VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_IMMRValue</NAME><VALUE>2</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_pdebugShellName</NAME><VALUE></VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_EPPC_ResetOnConnectionName</NAME><VALUE>0</VALUE></SETTING>
+
+                <!-- Settings for "Debugger Remote" panel -->
+                <SETTING><NAME>MWDebugger_Remote_useconfig</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_IDexecutable</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_IDconstant</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_IDinitialized</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_IDuninitialized</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_IVexecutable</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_IVconstant</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_IVinitialized</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_IVuninitialized</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_SDexecutable</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_SDconstant</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_SDinitialized</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_SDuninitialized</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_SVexecutable</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_SVconstant</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_SVinitialized</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_SVuninitialized</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_configpath</NAME><VALUE></VALUE></SETTING>
+
+                <!-- Settings for "EPPC Debugger" panel -->
+                <SETTING><NAME>Processor</NAME><VALUE>555</VALUE></SETTING>
+                <SETTING><NAME>UseInitFile</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>UseConfigFile</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>IDexecutable</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>IDinitialized</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>IDuninitialized</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>IDconstant</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>SDexecutable</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>SDinitialized</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>SDuninitialized</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>SDconstant</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>VerifyMemWrites</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>ShowMPC107regs</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>InitializationFile</NAME><VALUE>%<BSP_DIR>\src\phyCORE-MPC555_BDM_relocate_init.cfg</VALUE></SETTING>
+                <SETTING><NAME>ConfigurationFile</NAME><VALUE></VALUE></SETTING>
+                <SETTING><NAME>BreakpointType</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>WatchpointType</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>TargetOS</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>RTOSPluginName</NAME><VALUE></VALUE></SETTING>
+
+                <!-- Settings for "Access Paths" panel -->
+                <SETTING><NAME>AlwaysSearchUserPaths</NAME><VALUE>true</VALUE></SETTING>
+                <SETTING><NAME>InterpretDOSAndUnixPaths</NAME><VALUE>true</VALUE></SETTING>
+                <SETTING><NAME>UserSearchPaths</NAME>
+                    <SETTING>
+                        <SETTING><NAME>SearchPath</NAME>
+                            <SETTING><NAME>Path</NAME><VALUE></VALUE></SETTING>
+                            <SETTING><NAME>PathFormat</NAME><VALUE>Windows</VALUE></SETTING>
+                            <SETTING><NAME>PathRoot</NAME><VALUE>Project</VALUE></SETTING>
+                        </SETTING>
+                        <SETTING><NAME>Recursive</NAME><VALUE>true</VALUE></SETTING>
+                        <SETTING><NAME>HostFlags</NAME><VALUE>All</VALUE></SETTING>
+                    </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>SearchPath</NAME>
+                            <SETTING><NAME>Path</NAME><VALUE>%<MODEL_ABS_PATH></VALUE></SETTING>
+                            <SETTING><NAME>PathFormat</NAME><VALUE>Windows</VALUE></SETTING>
+                            <SETTING><NAME>PathRoot</NAME><VALUE>Absolute</VALUE></SETTING>
+                        </SETTING>
+                        <SETTING><NAME>Recursive</NAME><VALUE>true</VALUE></SETTING>
+                        <SETTING><NAME>HostFlags</NAME><VALUE>All</VALUE></SETTING>
+                    </SETTING>
+
+		    %assign path1 = "%<TARGET_TLC_DIR>\\..\\pil"
+		    %<insertSearchPath(path1,"absolute")>
+
+		    %assign path1 = "%<TARGET_TLC_DIR>\\..\\pil\\api\\commapi\\include"
+		    %<insertSearchPath(path1,"absolute")>
+
+		    %assign path1 = "%<BSP_DIR>\\lib"
+		    %<insertSearchPath(path1,"absolute")>
+
+		    %assign path1 = "%<BSP_DIR>\\src"
+		    %<insertSearchPath(path1,"absolute")>
+		    
+		    %%Add recursive search path for driver blocksets
+		    %assign CommonDrivers = "%<TARGET_TLC_DIR>\\..\\common\\drivers"
+		    %assign path1 = "%<CommonDrivers>"
+		    %<insertSearchPath(path1,"absolute")>
+		    %assign path1 = "%<TARGET_TLC_DIR>\\..\\common\\canlib\\can_common\\general"
+		    %<insertSearchPath(path1,"absolute")>
+		    %assign path1 = "%<TARGET_TLC_DIR>\\..\\rt\\blockset\\tlc_c"
+		    %<insertSearchPath(path1,"absolute")>
+
+                    <SETTING>
+                        <SETTING><NAME>SearchPath</NAME>
+                            <SETTING><NAME>Path</NAME><VALUE>%<MATLABROOT>\extern\include</VALUE></SETTING>
+                            <SETTING><NAME>PathFormat</NAME><VALUE>Windows</VALUE></SETTING>
+                            <SETTING><NAME>PathRoot</NAME><VALUE>Absolute</VALUE></SETTING>
+                        </SETTING>
+                        <SETTING><NAME>Recursive</NAME><VALUE>true</VALUE></SETTING>
+                        <SETTING><NAME>HostFlags</NAME><VALUE>All</VALUE></SETTING>
+                    </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>SearchPath</NAME>
+                            <SETTING><NAME>Path</NAME><VALUE>%<MATLABROOT>\simulink\include</VALUE></SETTING>
+                            <SETTING><NAME>PathFormat</NAME><VALUE>Windows</VALUE></SETTING>
+                            <SETTING><NAME>PathRoot</NAME><VALUE>Absolute</VALUE></SETTING>
+                        </SETTING>
+                        <SETTING><NAME>Recursive</NAME><VALUE>true</VALUE></SETTING>
+                        <SETTING><NAME>HostFlags</NAME><VALUE>All</VALUE></SETTING>
+                    </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>SearchPath</NAME>
+                            <SETTING><NAME>Path</NAME><VALUE>%<MATLABROOT>\rtw\c\ert</VALUE></SETTING>
+                            <SETTING><NAME>PathFormat</NAME><VALUE>Windows</VALUE></SETTING>
+                            <SETTING><NAME>PathRoot</NAME><VALUE>Absolute</VALUE></SETTING>
+                        </SETTING>
+                        <SETTING><NAME>Recursive</NAME><VALUE>true</VALUE></SETTING>
+                        <SETTING><NAME>HostFlags</NAME><VALUE>All</VALUE></SETTING>
+                    </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>SearchPath</NAME>
+                            <SETTING><NAME>Path</NAME><VALUE>%<MATLABROOT>\rtw\c\libsrc</VALUE></SETTING>
+                            <SETTING><NAME>PathFormat</NAME><VALUE>Windows</VALUE></SETTING>
+                            <SETTING><NAME>PathRoot</NAME><VALUE>Absolute</VALUE></SETTING>
+                        </SETTING>
+                        <SETTING><NAME>Recursive</NAME><VALUE>true</VALUE></SETTING>
+                        <SETTING><NAME>HostFlags</NAME><VALUE>All - 10000000</VALUE></SETTING>
+                    </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>SearchPath</NAME>
+                            <SETTING><NAME>Path</NAME><VALUE>%<TARGET_TLC_DIR></VALUE></SETTING>
+                            <SETTING><NAME>PathFormat</NAME><VALUE>Windows</VALUE></SETTING>
+                            <SETTING><NAME>PathRoot</NAME><VALUE>Absolute</VALUE></SETTING>
+                        </SETTING>
+                        <SETTING><NAME>Recursive</NAME><VALUE>true</VALUE></SETTING>
+                        <SETTING><NAME>HostFlags</NAME><VALUE>All</VALUE></SETTING>
+                    </SETTING>
+                </SETTING>
+                <SETTING><NAME>SystemSearchPaths</NAME>
+                    <SETTING>
+                        <SETTING><NAME>SearchPath</NAME>
+                            <SETTING><NAME>Path</NAME><VALUE>PowerPC_EABI_Support\Runtime</VALUE></SETTING>
+                            <SETTING><NAME>PathFormat</NAME><VALUE>Windows</VALUE></SETTING>
+                            <SETTING><NAME>PathRoot</NAME><VALUE>CodeWarrior</VALUE></SETTING>
+                        </SETTING>
+                        <SETTING><NAME>Recursive</NAME><VALUE>true</VALUE></SETTING>
+                        <SETTING><NAME>HostFlags</NAME><VALUE>All</VALUE></SETTING>
+                    </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>SearchPath</NAME>
+                            <SETTING><NAME>Path</NAME><VALUE>PowerPC_EABI_Support\MSL\MSL_C</VALUE></SETTING>
+                            <SETTING><NAME>PathFormat</NAME><VALUE>Windows</VALUE></SETTING>
+                            <SETTING><NAME>PathRoot</NAME><VALUE>CodeWarrior</VALUE></SETTING>
+                        </SETTING>
+                        <SETTING><NAME>Recursive</NAME><VALUE>true</VALUE></SETTING>
+                        <SETTING><NAME>HostFlags</NAME><VALUE>All</VALUE></SETTING>
+                    </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>SearchPath</NAME>
+                            <SETTING><NAME>Path</NAME><VALUE>PowerPC_EABI_Support\Documentation</VALUE></SETTING>
+                            <SETTING><NAME>PathFormat</NAME><VALUE>Windows</VALUE></SETTING>
+                            <SETTING><NAME>PathRoot</NAME><VALUE>CodeWarrior</VALUE></SETTING>
+                        </SETTING>
+                        <SETTING><NAME>Recursive</NAME><VALUE>true</VALUE></SETTING>
+                        <SETTING><NAME>HostFlags</NAME><VALUE>All</VALUE></SETTING>
+                    </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>SearchPath</NAME>
+                            <SETTING><NAME>Path</NAME><VALUE>PowerPC_EABI_Tools</VALUE></SETTING>
+                            <SETTING><NAME>PathFormat</NAME><VALUE>Windows</VALUE></SETTING>
+                            <SETTING><NAME>PathRoot</NAME><VALUE>CodeWarrior</VALUE></SETTING>
+                        </SETTING>
+                        <SETTING><NAME>Recursive</NAME><VALUE>true</VALUE></SETTING>
+                        <SETTING><NAME>HostFlags</NAME><VALUE>All</VALUE></SETTING>
+                    </SETTING>
+                </SETTING>
+
+                <!-- Settings for "Target Settings" panel -->
+                <SETTING><NAME>Linker</NAME><VALUE>Embedded PPC Linker</VALUE></SETTING>
+                <SETTING><NAME>PreLinker</NAME><VALUE></VALUE></SETTING>
+                <SETTING><NAME>PostLinker</NAME><VALUE></VALUE></SETTING>
+                <SETTING><NAME>Targetname</NAME><VALUE>555 Phytec Debug Version</VALUE></SETTING>
+                <SETTING><NAME>OutputDirectory</NAME>
+                    <SETTING><NAME>Path</NAME><VALUE>Bin</VALUE></SETTING>
+                    <SETTING><NAME>PathFormat</NAME><VALUE>Windows</VALUE></SETTING>
+                    <SETTING><NAME>PathRoot</NAME><VALUE>Project</VALUE></SETTING>
+                </SETTING>
+                <SETTING><NAME>SaveEntriesUsingRelativePaths</NAME><VALUE>false</VALUE></SETTING>
+
+                <!-- Settings for "File Mappings" panel -->
+                <SETTING><NAME>FileMappings</NAME>
+                    <SETTING>
+                        <SETTING><NAME>FileType</NAME><VALUE>ELF </VALUE></SETTING>
+                        <SETTING><NAME>FileExtension</NAME><VALUE></VALUE></SETTING>
+                        <SETTING><NAME>Compiler</NAME><VALUE>MW Lib Import PPC EABI</VALUE></SETTING>
+                        <SETTING><NAME>Precompile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>Launchable</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>ResourceFile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>IgnoredByMake</NAME><VALUE>false</VALUE></SETTING>
+                    </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>FileType</NAME><VALUE>MPLF</VALUE></SETTING>
+                        <SETTING><NAME>FileExtension</NAME><VALUE></VALUE></SETTING>
+                        <SETTING><NAME>Compiler</NAME><VALUE>MW Lib Import PPC EABI</VALUE></SETTING>
+                        <SETTING><NAME>Precompile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>Launchable</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>ResourceFile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>IgnoredByMake</NAME><VALUE>false</VALUE></SETTING>
+                    </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>FileType</NAME><VALUE>TEXT</VALUE></SETTING>
+                        <SETTING><NAME>FileExtension</NAME><VALUE>.asm</VALUE></SETTING>
+                        <SETTING><NAME>Compiler</NAME><VALUE>MW Assembler PPC EABI</VALUE></SETTING>
+                        <SETTING><NAME>Precompile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>Launchable</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>ResourceFile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>IgnoredByMake</NAME><VALUE>false</VALUE></SETTING>
+                    </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>FileType</NAME><VALUE>TEXT</VALUE></SETTING>
+                        <SETTING><NAME>FileExtension</NAME><VALUE>.c</VALUE></SETTING>
+                        <SETTING><NAME>Compiler</NAME><VALUE>MW C/C++ PPC EABI</VALUE></SETTING>
+                        <SETTING><NAME>Precompile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>Launchable</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>ResourceFile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>IgnoredByMake</NAME><VALUE>false</VALUE></SETTING>
+                    </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>FileType</NAME><VALUE>TEXT</VALUE></SETTING>
+                        <SETTING><NAME>FileExtension</NAME><VALUE>.c++</VALUE></SETTING>
+                        <SETTING><NAME>Compiler</NAME><VALUE>MW C/C++ PPC EABI</VALUE></SETTING>
+                        <SETTING><NAME>Precompile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>Launchable</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>ResourceFile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>IgnoredByMake</NAME><VALUE>false</VALUE></SETTING>
+                    </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>FileType</NAME><VALUE>TEXT</VALUE></SETTING>
+                        <SETTING><NAME>FileExtension</NAME><VALUE>.cc</VALUE></SETTING>
+                        <SETTING><NAME>Compiler</NAME><VALUE>MW C/C++ PPC EABI</VALUE></SETTING>
+                        <SETTING><NAME>Precompile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>Launchable</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>ResourceFile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>IgnoredByMake</NAME><VALUE>false</VALUE></SETTING>
+                    </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>FileType</NAME><VALUE>TEXT</VALUE></SETTING>
+                        <SETTING><NAME>FileExtension</NAME><VALUE>.cp</VALUE></SETTING>
+                        <SETTING><NAME>Compiler</NAME><VALUE>MW C/C++ PPC EABI</VALUE></SETTING>
+                        <SETTING><NAME>Precompile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>Launchable</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>ResourceFile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>IgnoredByMake</NAME><VALUE>false</VALUE></SETTING>
+                    </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>FileType</NAME><VALUE>TEXT</VALUE></SETTING>
+                        <SETTING><NAME>FileExtension</NAME><VALUE>.cpp</VALUE></SETTING>
+                        <SETTING><NAME>Compiler</NAME><VALUE>MW C/C++ PPC EABI</VALUE></SETTING>
+                        <SETTING><NAME>Precompile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>Launchable</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>ResourceFile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>IgnoredByMake</NAME><VALUE>false</VALUE></SETTING>
+                    </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>FileType</NAME><VALUE>TEXT</VALUE></SETTING>
+                        <SETTING><NAME>FileExtension</NAME><VALUE>.h</VALUE></SETTING>
+                        <SETTING><NAME>Compiler</NAME><VALUE>MW C/C++ PPC EABI</VALUE></SETTING>
+                        <SETTING><NAME>Precompile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>Launchable</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>ResourceFile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>IgnoredByMake</NAME><VALUE>true</VALUE></SETTING>
+                    </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>FileType</NAME><VALUE>TEXT</VALUE></SETTING>
+                        <SETTING><NAME>FileExtension</NAME><VALUE>.lcf</VALUE></SETTING>
+                        <SETTING><NAME>Compiler</NAME><VALUE></VALUE></SETTING>
+                        <SETTING><NAME>Precompile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>Launchable</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>ResourceFile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>IgnoredByMake</NAME><VALUE>false</VALUE></SETTING>
+                    </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>FileType</NAME><VALUE>TEXT</VALUE></SETTING>
+                        <SETTING><NAME>FileExtension</NAME><VALUE>.pch</VALUE></SETTING>
+                        <SETTING><NAME>Compiler</NAME><VALUE>MW C/C++ PPC EABI</VALUE></SETTING>
+                        <SETTING><NAME>Precompile</NAME><VALUE>true</VALUE></SETTING>
+                        <SETTING><NAME>Launchable</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>ResourceFile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>IgnoredByMake</NAME><VALUE>false</VALUE></SETTING>
+                    </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>FileType</NAME><VALUE>TEXT</VALUE></SETTING>
+                        <SETTING><NAME>FileExtension</NAME><VALUE>.pch++</VALUE></SETTING>
+                        <SETTING><NAME>Compiler</NAME><VALUE>MW C/C++ PPC EABI</VALUE></SETTING>
+                        <SETTING><NAME>Precompile</NAME><VALUE>true</VALUE></SETTING>
+                        <SETTING><NAME>Launchable</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>ResourceFile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>IgnoredByMake</NAME><VALUE>false</VALUE></SETTING>
+                    </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>FileType</NAME><VALUE>TEXT</VALUE></SETTING>
+                        <SETTING><NAME>FileExtension</NAME><VALUE>.s</VALUE></SETTING>
+                        <SETTING><NAME>Compiler</NAME><VALUE>MW Assembler PPC EABI</VALUE></SETTING>
+                        <SETTING><NAME>Precompile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>Launchable</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>ResourceFile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>IgnoredByMake</NAME><VALUE>false</VALUE></SETTING>
+                    </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>FileType</NAME><VALUE>TEXT</VALUE></SETTING>
+                        <SETTING><NAME>FileExtension</NAME><VALUE>.txt</VALUE></SETTING>
+                        <SETTING><NAME>Compiler</NAME><VALUE></VALUE></SETTING>
+                        <SETTING><NAME>Precompile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>Launchable</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>ResourceFile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>IgnoredByMake</NAME><VALUE>false</VALUE></SETTING>
+                    </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>FileExtension</NAME><VALUE>.a</VALUE></SETTING>
+                        <SETTING><NAME>Compiler</NAME><VALUE>MW Lib Import PPC EABI</VALUE></SETTING>
+                        <SETTING><NAME>Precompile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>Launchable</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>ResourceFile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>IgnoredByMake</NAME><VALUE>false</VALUE></SETTING>
+                    </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>FileExtension</NAME><VALUE>.bin</VALUE></SETTING>
+                        <SETTING><NAME>Compiler</NAME><VALUE></VALUE></SETTING>
+                        <SETTING><NAME>Precompile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>Launchable</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>ResourceFile</NAME><VALUE>true</VALUE></SETTING>
+                        <SETTING><NAME>IgnoredByMake</NAME><VALUE>false</VALUE></SETTING>
+                    </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>FileExtension</NAME><VALUE>.elf</VALUE></SETTING>
+                        <SETTING><NAME>Compiler</NAME><VALUE>MW Lib Import PPC EABI</VALUE></SETTING>
+                        <SETTING><NAME>Precompile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>Launchable</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>ResourceFile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>IgnoredByMake</NAME><VALUE>false</VALUE></SETTING>
+                    </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>FileExtension</NAME><VALUE>.o</VALUE></SETTING>
+                        <SETTING><NAME>Compiler</NAME><VALUE>MW Lib Import PPC EABI</VALUE></SETTING>
+                        <SETTING><NAME>Precompile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>Launchable</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>ResourceFile</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>IgnoredByMake</NAME><VALUE>false</VALUE></SETTING>
+                    </SETTING>
+                </SETTING>
+
+                <!-- Settings for "Build Extras" panel -->
+                <SETTING><NAME>CacheModDates</NAME><VALUE>true</VALUE></SETTING>
+                <SETTING><NAME>ActivateBrowser</NAME><VALUE>true</VALUE></SETTING>
+                <SETTING><NAME>DumpBrowserInfo</NAME><VALUE>true</VALUE></SETTING>
+                <SETTING><NAME>CacheSubprojects</NAME><VALUE>true</VALUE></SETTING>
+                <SETTING><NAME>UseThirdPartyDebugger</NAME><VALUE>false</VALUE></SETTING>
+                <SETTING><NAME>DebuggerCommandLine</NAME><VALUE></VALUE></SETTING>
+
+                <!-- Settings for "Remote Debug" panel -->
+                <SETTING><NAME>Enabled</NAME><VALUE>true</VALUE></SETTING>
+                <SETTING><NAME>ConnectionName</NAME><VALUE>MPC555DK Wiggler</VALUE></SETTING>
+                <SETTING><NAME>DownloadPath</NAME><VALUE></VALUE></SETTING>
+                <SETTING><NAME>LaunchRemoteApp</NAME><VALUE>false</VALUE></SETTING>
+                <SETTING><NAME>RemoteAppPath</NAME><VALUE></VALUE></SETTING>
+
+                <!-- Settings for "Debugger Target" panel -->
+                <SETTING><NAME>LogSystemMessages</NAME><VALUE>flase</VALUE></SETTING>
+                <SETTING><NAME>AutoTargetDLLs</NAME><VALUE>false</VALUE></SETTING>
+                <SETTING><NAME>StopAtWatchpoints</NAME><VALUE>true</VALUE></SETTING>
+                <SETTING><NAME>PauseWhileRunning</NAME><VALUE>false</VALUE></SETTING>
+                <SETTING><NAME>PauseInterval</NAME><VALUE>5</VALUE></SETTING>
+                <SETTING><NAME>PauseUIFlags</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>AltExePath</NAME>
+                    <SETTING><NAME>Path</NAME><VALUE></VALUE></SETTING>
+                    <SETTING><NAME>PathFormat</NAME><VALUE>Generic</VALUE></SETTING>
+                    <SETTING><NAME>PathRoot</NAME><VALUE>Absolute</VALUE></SETTING>
+                </SETTING>
+                <SETTING><NAME>StopAtTempBPOnLaunch</NAME><VALUE>false</VALUE></SETTING>
+                <SETTING><NAME>CacheSymbolics</NAME><VALUE>true</VALUE></SETTING>
+                <SETTING><NAME>TempBPFunctionName</NAME><VALUE>__start</VALUE></SETTING>
+                <SETTING><NAME>TempBPType</NAME><VALUE>false</VALUE></SETTING>
+
+                <!-- Settings for "EPPC Exceptions" panel -->
+                <SETTING><NAME>MWDebugger_EPPC_Exceptions</NAME>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+				%%Note: The exception selections are arranged in column major order.
+				%% This one is for the decrementer exception/interrupt.
+                    <SETTING><VALUE>0</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                </SETTING>
+
+                <!-- Settings for "Debugger Remote" panel -->
+                <SETTING><NAME>MWDebugger_Remote_useconfig</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_IDexecutable</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_IDconstant</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_IDinitialized</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_IDuninitialized</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_IVexecutable</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_IVconstant</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_IVinitialized</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_IVuninitialized</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_SDexecutable</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_SDconstant</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_SDinitialized</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_SDuninitialized</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_SVexecutable</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_SVconstant</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_SVinitialized</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_SVuninitialized</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebugger_Remote_configpath</NAME><VALUE></VALUE></SETTING>
+
+                <!-- Settings for "C/C++ Compiler" panel -->
+                <SETTING><NAME>MWFrontEnd_C_cplusplus</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_checkprotos</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_arm</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_trigraphs</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_onlystdkeywords</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_enumsalwaysint</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_mpwpointerstyle</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_prefixname</NAME><VALUE>%<model_defines_file></VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_ansistrict</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_mpwcnewline</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_wchar_type</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_enableexceptions</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_dontreusestrings</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_poolstrings</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_dontinline</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_useRTTI</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_multibyteaware</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_unsignedchars</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_autoinline</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_booltruefalse</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_direct_to_som</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_som_env_check</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_alwaysinline</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_inlinelevel</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_ecplusplus</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_objective_c</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_defer_codegen</NAME><VALUE>0</VALUE></SETTING>
+
+                <!-- Settings for "PPC EABI Assembler" panel -->
+                <SETTING><NAME>MWAssembler_generate_listing_file</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWAssembler_bra_l_16</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWAssembler_prefix</NAME><VALUE></VALUE></SETTING>
+                <SETTING><NAME>MWAssembler_colon</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWAssembler_period</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWAssembler_space</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWAssembler_case_sensitive</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWAssembler_processor</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWAssembler_model</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWAssembler_big_endian</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWAssembler_allow_64_bit</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWAssembler_perform_C_preprocessing</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWAssembler_expand_trigraph_sequences</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWAssembler_embedded_pic</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWAssembler_gnu_mode</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWAssembler_debug</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWAssembler_preprocess</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWAssembler_source</NAME><VALUE></VALUE></SETTING>
+                <SETTING><NAME>MWAssembler_dest</NAME><VALUE></VALUE></SETTING>
+                <SETTING><NAME>MWAssembler_list</NAME><VALUE></VALUE></SETTING>
+                <SETTING><NAME>MWAssembler_include_path</NAME><VALUE></VALUE></SETTING>
+                <SETTING><NAME>MWAssembler_define</NAME><VALUE></VALUE></SETTING>
+                <SETTING><NAME>MWAssembler_progress</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWAssembler_warnings</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWAssembler_code</NAME><VALUE>0</VALUE></SETTING>
+
+                <!-- Settings for "PPC EABI CodeGen" panel -->
+                <SETTING><NAME>MWCodeGen_EPPC_structalignment</NAME><VALUE>PPC</VALUE></SETTING>
+                <SETTING><NAME>MWCodeGen_EPPC_readonlystrings</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWCodeGen_EPPC_pooldata</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWCodeGen_EPPC_peephole</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWCodeGen_EPPC_scheduling</NAME><VALUE>None</VALUE></SETTING>
+                <SETTING><NAME>MWCodeGen_EPPC_commonsect</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWCodeGen_EPPC_floatingpoint</NAME><VALUE>Hardware</VALUE></SETTING>
+                <SETTING><NAME>MWCodeGen_EPPC_use_lmw_stmw</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWCodeGen_EPPC_processor</NAME><VALUE>PPC_555</VALUE></SETTING>
+                <SETTING><NAME>MWCodeGen_EPPC_function_align</NAME><VALUE>Align_4</VALUE></SETTING>
+                <SETTING><NAME>MWCodeGen_EPPC_fpcontract</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWCodeGen_EPPC_altivec</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWCodeGen_EPPC_vrsave</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWCodeGen_EPPC_profiler</NAME><VALUE>0</VALUE></SETTING>
+
+                <!-- Settings for "PPC EABI Disassembler" panel -->
+                <SETTING><NAME>MWDisassembler_EPPC_verbose</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWDisassembler_EPPC_showDWARF</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWDisassembler_EPPC_relocateDWARF</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDisassembler_EPPC_showcode</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWDisassembler_EPPC_extended</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWDisassembler_EPPC_nohex</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDisassembler_EPPC_showdata</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWDisassembler_EPPC_showexceptions</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDisassembler_EPPC_showheaders</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWDisassembler_EPPC_showsymtab</NAME><VALUE>1</VALUE></SETTING>
+
+                <!-- Settings for "EPPC Global Optimizer" panel -->
+                <SETTING><NAME>GlobalOptimizer_EPPC_optimizationlevel</NAME><VALUE>Level0</VALUE></SETTING>
+                <SETTING><NAME>GlobalOptimizer_EPPC_optfor</NAME><VALUE>Speed</VALUE></SETTING>
+
+                <!-- Settings for "PPC EABI Linker" panel -->
+                <SETTING><NAME>MWLinker_EPPC_linksym</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_EPPC_symfullpath</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_EPPC_linkmap</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_EPPC_nolinkwarnings</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_EPPC_genSrecFile</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_EPPC_linkunused</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_EPPC_use_lcf</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_EPPC_use_codeaddr</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_EPPC_use_dataaddr</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_EPPC_use_sdataaddr</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_EPPC_use_sdata2addr</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_EPPC_use_stackaddr</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_EPPC_use_heapaddr</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_EPPC_genROMimage</NAME><VALUE>0</VALUE></SETTING>
+		%% Set the code address to 0xfff02000
+                <SETTING><NAME>MWLinker_EPPC_codeaddr</NAME><VALUE>-1040384</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_EPPC_dataaddr</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_EPPC_smalldataaddr</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_EPPC_smalldata2addr</NAME><VALUE>0</VALUE></SETTING>
+		%% Set the stack address to 0xfff3fff0
+                <SETTING><NAME>MWLinker_EPPC_stackaddr</NAME><VALUE>-786448</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_EPPC_rambuffer</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_EPPC_romimage_addr</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_EPPC_srecLength</NAME><VALUE>26</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_EPPC_srecEOL</NAME><VALUE>DOS</VALUE></SETTING>
+                %if DK_TLC_TYPE == "EXP"
+                  <SETTING><NAME>MWLinker_EPPC_mainname</NAME><VALUE>%<ModelName>_initialize</VALUE></SETTING>
+                %else
+                  <SETTING><NAME>MWLinker_EPPC_mainname</NAME><VALUE>__start</VALUE></SETTING>
+                %endif
+                <SETTING><NAME>MWLinker_EPPC_heapaddr</NAME><VALUE>0</VALUE></SETTING>
+
+                <!-- Settings for "PPC EABI Project" panel -->
+                <SETTING><NAME>MWProject_EPPC_projtype</NAME><VALUE>Application</VALUE></SETTING>
+<!-- There is an issue with the length of the path being supplied. This works around a long absolute path. -->
+<!--                <SETTING><NAME>MWProject_EPPC_outfile</NAME><VALUE>%<PWD>\%<ModelName>.elf</VALUE></SETTING> -->
+                <SETTING><NAME>MWProject_EPPC_outfile</NAME><VALUE>..\..\%<ModelName>.elf</VALUE></SETTING>
+                <SETTING><NAME>MWProject_EPPC_heapsize</NAME><VALUE>32</VALUE></SETTING>
+                <SETTING><NAME>MWProject_EPPC_stacksize</NAME><VALUE>32</VALUE></SETTING>
+                <SETTING><NAME>MWProject_EPPC_bigendian</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWProject_EPPC_datathreshold</NAME><VALUE>8</VALUE></SETTING>
+                <SETTING><NAME>MWProject_EPPC_sdata2threshold</NAME><VALUE>8</VALUE></SETTING>
+                <SETTING><NAME>MWProject_EPPC_codeModel</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWProject_EPPC_disable_extensions</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWProject_EPPC_deadstrip_partiallink</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWProject_EPPC_final_partiallink</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWProject_EPPC_resolved_partiallink</NAME><VALUE>0</VALUE></SETTING>
+
+                <!-- Settings for "Target Connection" panel -->
+                <SETTING><NAME>MWDebug_Connection_port</NAME><VALUE>Com1</VALUE></SETTING>
+                <SETTING><NAME>MWDebug_Connection_rate</NAME><VALUE>Baud19200</VALUE></SETTING>
+                <SETTING><NAME>MWDebug_Connection_databits</NAME><VALUE>Bits8</VALUE></SETTING>
+                <SETTING><NAME>MWDebug_Connection_stopbits</NAME><VALUE>Bits1</VALUE></SETTING>
+                <SETTING><NAME>MWDebug_Connection_parity</NAME><VALUE>None</VALUE></SETTING>
+                <SETTING><NAME>MWDebug_Connection_flowcontrol</NAME><VALUE>None</VALUE></SETTING>
+                <SETTING><NAME>MWDebug_Connection_logdata</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebug_Connection_port2</NAME><VALUE>Com1</VALUE></SETTING>
+                <SETTING><NAME>MWDebug_Connection_rate2</NAME><VALUE>Baud38400</VALUE></SETTING>
+                <SETTING><NAME>MWDebug_Connection_databits2</NAME><VALUE>Bits8</VALUE></SETTING>
+                <SETTING><NAME>MWDebug_Connection_stopbits2</NAME><VALUE>Bits1</VALUE></SETTING>
+                <SETTING><NAME>MWDebug_Connection_parity2</NAME><VALUE>None</VALUE></SETTING>
+                <SETTING><NAME>MWDebug_Connection_flowcontrol2</NAME><VALUE>None</VALUE></SETTING>
+                <SETTING><NAME>MWDebug_Connection_logdata2</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebug_Connection_connectiontype</NAME><VALUE>Serial</VALUE></SETTING>
+                <SETTING><NAME>MWDebug_Connection_useglobal_serial1</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebug_Connection_useglobal_serial2</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebug_Connection_useglobal_tcpip</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWDebug_Connection_hostname</NAME><VALUE>hostname</VALUE></SETTING>
+
+                <!-- Settings for "C/C++ Warnings" panel -->
+                <SETTING><NAME>MWWarning_C_warn_illpragma</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWWarning_C_warn_emptydecl</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWWarning_C_warn_possunwant</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWWarning_C_warn_unusedvar</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWWarning_C_warn_unusedarg</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWWarning_C_warn_extracomma</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWWarning_C_pedantic</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWWarning_C_warningerrors</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWWarning_C_warn_hidevirtual</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWWarning_C_warn_implicitconv</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWWarning_C_warn_notinlined</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWWarning_C_warn_structclass</NAME><VALUE>1</VALUE></SETTING>
+            </SETTINGLIST>
+            <FILELIST>
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>__ppc_eabi_init.c</PATH>
+                    <PATHFORMAT>Windows</PATHFORMAT>
+                    <FILEKIND>Text</FILEKIND>
+                    <FILEFLAGS>Debug</FILEFLAGS>
+                </FILE>
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>Runtime.PPCEABI.H.a</PATH>
+                    <PATHFORMAT>Windows</PATHFORMAT>
+                    <FILEKIND>Unknown</FILEKIND>
+                    <FILEFLAGS>Debug</FILEFLAGS>
+                </FILE>
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    %if DK_TLC_TYPE == "EXP"
+                    <PATH>%<link_cmd_file></PATH>
+                    %else
+                    <PATH>555_phytec_SRAM.lcf</PATH>
+                    %endif
+                    <PATHFORMAT>Windows</PATHFORMAT>
+                    <FILEKIND>Text</FILEKIND>
+                    <FILEFLAGS>Debug</FILEFLAGS>
+                </FILE>
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>MSL_C.PPCEABI.bare.H.a</PATH>
+                    <PATHFORMAT>Windows</PATHFORMAT>
+                    <FILEKIND>Unknown</FILEKIND>
+                    <FILEFLAGS>Debug</FILEFLAGS>
+                </FILE>
+		%<insertCWFiles(ModelSourceFiles)>
+		%if DK_TLC_TYPE != "EXP"
+		%<insertCWFiles(bspFiles)>
+		%<insertCWFiles(CommAPIFiles)>
+		%<insertCWFiles(CommFiles)>
+		%endif
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>rtwlib.PPCEABI.H.a</PATH>
+                    <PATHFORMAT>Windows</PATHFORMAT>
+                    <FILEKIND>Unknown</FILEKIND>
+                    <FILEFLAGS>Debug</FILEFLAGS>
+                </FILE>
+            </FILELIST>
+            <LINKORDER>
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>__ppc_eabi_init.c</PATH>
+                    <PATHFORMAT>Windows</PATHFORMAT>
+                </FILEREF>
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>Runtime.PPCEABI.H.a</PATH>
+                    <PATHFORMAT>Windows</PATHFORMAT>
+                </FILEREF>
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>MSL_C.PPCEABI.bare.H.a</PATH>
+                    <PATHFORMAT>Windows</PATHFORMAT>
+                </FILEREF>
+		%<insertCWFileRefs(ModelSourceFiles)>
+		%if DK_TLC_TYPE != "EXP"
+		%<insertCWFileRefs(bspFiles)>
+		%<insertCWFileRefs(CommAPIFiles)>
+		%<insertCWFileRefs(CommFiles)>
+		%endif
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>rtwlib.PPCEABI.H.a</PATH>
+                    <PATHFORMAT>Windows</PATHFORMAT>
+                </FILEREF>
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    %if DK_TLC_TYPE == "EXP"
+                    <PATH>%<link_cmd_file></PATH>
+                    %else
+                    <PATH>555_phytec_SRAM.lcf</PATH>
+                    %endif
+                    <PATHFORMAT>Windows</PATHFORMAT>
+                </FILEREF>
+            </LINKORDER>
+        </TARGET>
+	</TARGETLIST>
+
+    <TARGETORDER>
+        <ORDEREDTARGET><NAME>555 Phytec Debug Version</NAME></ORDEREDTARGET>
+    </TARGETORDER>
+
+    <GROUPLIST>
+        <GROUP><NAME>Linker Command File</NAME>
+            <FILEREF>
+                <TARGETNAME>555 Phytec Debug Version</TARGETNAME>
+                <PATHTYPE>Name</PATHTYPE>
+                %if DK_TLC_TYPE == "EXP"
+                <PATH>%<link_cmd_file></PATH>
+                %else
+                <PATH>555_phytec_SRAM.lcf</PATH>
+                %endif
+                <PATHFORMAT>Windows</PATHFORMAT>
+            </FILEREF>
+        </GROUP>
+        <GROUP><NAME>MSL</NAME>
+            <FILEREF>
+                <TARGETNAME>555 Phytec Debug Version</TARGETNAME>
+                <PATHTYPE>Name</PATHTYPE>
+                <PATH>MSL_C.PPCEABI.bare.H.a</PATH>
+                <PATHFORMAT>Windows</PATHFORMAT>
+            </FILEREF>
+        </GROUP>
+        <GROUP><NAME>Runtime</NAME>
+            <FILEREF>
+                <TARGETNAME>555 Phytec Debug Version</TARGETNAME>
+                <PATHTYPE>Name</PATHTYPE>
+                <PATH>Runtime.PPCEABI.H.a</PATH>
+                <PATHFORMAT>Windows</PATHFORMAT>
+            </FILEREF>
+            <FILEREF>
+                <TARGETNAME>555 Phytec Debug Version</TARGETNAME>
+                <PATHTYPE>Name</PATHTYPE>
+                <PATH>__ppc_eabi_init.c</PATH>
+                <PATHFORMAT>Windows</PATHFORMAT>
+            </FILEREF>
+        </GROUP>
+
+        <GROUP><NAME>RTWlibraries</NAME>
+            <FILEREF>
+                <TARGETNAME>555 Phytec Debug Version</TARGETNAME>
+                <PATHTYPE>Name</PATHTYPE>
+                <PATH>rtwlib.PPCEABI.H.a</PATH>
+                <PATHFORMAT>Windows</PATHFORMAT>
+            </FILEREF>
+	</GROUP>
+
+	%if DK_TLC_TYPE != "EXP"
+        <GROUP><NAME>BSP Files</NAME>
+	%<insertCWFileRef1s(bspFiles)>
+	</GROUP>
+        <GROUP><NAME>CommFiles</NAME>
+	%<insertCWFileRef1s(CommFiles)>
+	</GROUP>
+        <GROUP><NAME>CommAPIFiles</NAME>
+	%<insertCWFileRef1s(CommAPIFiles)>
+	</GROUP>
+	%endif
+	
+        <GROUP><NAME>ModelFiles</NAME>
+	%<insertCWFileRef1s(ModelSourceFiles)>
+	</GROUP>
+    </GROUPLIST>
+
+</PROJECT>
+%%  %closefile XMLProjectFile
+%%  %selectfile NULL_FILE
+
+%endfunction %% CreateXMLProject
+
+%%assign FILEFLAGS = "Debug" | ""
+%%assign FILEKIND  = "Text" | "Unknown" 
+%assign FILEFLAGS = "Debug"
+%assign FILEKIND  = "Text"
+
+%%<CreateXMLProject("blank.txt")>
+
+%% end file

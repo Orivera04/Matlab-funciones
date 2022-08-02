@@ -1,0 +1,15 @@
+function R=grafrutas1(e1,e2)
+%k=1;
+N=numel(e1);
+t=e1';u=e2';
+P=[t,u];
+R1=[];
+for i=1:N-1
+for j=1:N 
+   A=t(i)~=t(i+1);B=u(i)==t(j);C=t(i)~=u(j);
+   if u(i)==t(j) &  t(i)~=u(j)
+   R1=[R1,t(i),u(i),u(j)] 
+   end
+end
+end
+R=R1;

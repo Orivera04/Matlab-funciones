@@ -1,0 +1,270 @@
+%% $RCSfile: ti_c2000_grtmain.tlc,v $
+%% $Revision: 1.6.6.5 $ $Date: 2004/04/08 20:58:58 $
+%% Copyright 2003-2004 The MathWorks, Inc.
+
+
+%selectfile NULL_FILE
+%include "ti_c2000_main_common.tlc"
+
+
+%% ==========================================================================
+%% Function: GenMTOneStepFcnForGRTWrapper
+%% Abstract: Generate the function that executes one time step of the model
+%%           in a multitasking environment
+%%
+
+%function GenMTOneStepFcnForGRTWrapper() void
+%openfile buff
+
+	/* Function: rtOneStep ---------------------------------------
+     *
+     * Abstract:
+     *      This function performs one step of the model in multitasking mode. It
+     *      is fully re-entrant when it is called from an ISR.
+     */
+
+	void rt_OneStep(void)
+	{
+        int_T eventFlags[NUMST];
+        volatile int_T i;
+        real_T tnext;
+        int_T *sampleHit = rtmGetSampleHitPtr(S);
+		
+        disable_interrupts();
+		if (OverrunFlags[FIRST_TID]++) { // Check if base step time is too fast
+            %<render_multitasking_task_overrun_handling("FIRST_TID",0)>            
+		}
+		enable_interrupts();
+		
+		tnext = rt_SimUpdateDiscreteEvents (rtmGetNumSampleTimes(S), rtmGetTimingData(S),
+                                   rtmGetSampleHitPtr(S), rtmGetPerTaskSampleHitsPtr(S));
+                                           
+		rtsiSetSolverStopTime(rtmGetRTWSolverInfo(S),tnext);
+		
+        for (i=FIRST_TID+1; i < NUMST; i++) {
+            eventFlags[i] = sampleHit[i];
+        }
+			
+		MdlOutputs(FIRST_TID);		            
+		MdlUpdate(FIRST_TID);
+		OverrunFlags[FIRST_TID]--;
+
+        for (i=FIRST_TID+1; i < NUMST; i++) {
+            if (eventFlags[i]) {
+                disable_interrupts();             
+                if (OverrunFlags[i]++) { // Check if sample time "i" is too fast 
+                    %<render_multitasking_task_overrun_handling("i",1)>                    
+                }
+                enable_interrupts();                
+                MdlOutputs(i);	
+                MdlUpdate(i);
+                OverrunFlags[i]--;
+			}
+		}
+	}
+	
+%closefile buff
+%return buff
+%endfunction %% GenMTOneStepFcnForGRTWrapper
+
+
+
+%% ==========================================================================
+%% Function: GenMainForGRTWrapper
+%% Abstract: Autogenerate main() function for both GRT and ERT based target
+%%
+
+%function GenMainForGRTWrapper() void
+
+%openfile buff
+
+	/* Function: main --------------------------------------------
+     *
+     * Abstract:
+     *      Initialize the model for execution, setup the target hardware and 
+     *      enable the interrupts. Execute the model until the stop time is
+     *      reached or an error condition is encountered.
+     */
+ 
+	int_T main(void)
+	{
+        const char *status;
+        
+        %if !SLibSingleTasking()
+            memset ((void*) OverrunFlags,0, NUMST);
+            
+        %endif
+        %%
+        %<render_target_setup()>
+        
+        %% IMPORTANT: c24xx and c28xx compiler returns size in 16-bit "bytes".
+        %%            The size of real_T (which is 32 bits big) is two 16-bit
+        %%            "bytes". To get correct beahvior from rt_InitInfAndNaN
+        %%            one must pass the number of 8-bit bytes, hence, the
+        %%            factor of two in the function call
+        rt_InitInfAndNaN(2*sizeof(real_T));
+        
+        S = MODEL();
+        if (rtmGetErrorStatus(S) != NULL)
+            exit(EXIT_FAILURE);  
+      
+        rtmSetTFinal(S,%<CompiledModel.StopTime>);
+        
+        MdlInitializeSizes();
+        MdlInitializeSampleTimes();
+        
+        status = (const char *)  rt_SimInitTimingEngine(rtmGetNumSampleTimes(S),
+                                        rtmGetStepSize(S),
+                                        rtmGetSampleTimePtr(S),
+                                        rtmGetOffsetTimePtr(S),
+                                        rtmGetSampleHitPtr(S),
+                                        rtmGetSampleTimeTaskIDPtr(S),
+                                        rtmGetTStart(S),
+                                        &rtmGetSimTimeStep(S),
+                                        &rtmGetTimingData(S));
+        if (status != NULL)
+            exit(EXIT_FAILURE);
+        
+        MdlStart();
+        %%if (rtmGetErrorStatus(S) != NULL) {
+        %%    StopExecutionFlag = 1;
+        %%}    
+	
+        config_schedulerTimer();
+        
+        enable_interrupts(); 
+	
+        while (rtmGetTFinal(S) == RUN_FOREVER || rtmGetTFinal(S) - rtmGetT(S) > rtmGetT(S) * DBL_EPSILON) {
+            %if SLibSingleTasking()
+                while (!pendingInterrupt) { /* wait */ };
+                pendingInterrupt = 0;      
+                MdlOutputs(0);
+                MdlUpdate(0);
+            %else
+                %% do nothing; hardware interrupt is tied directly
+            %endif                
+            %<render_main_interrupt_overrun_handling()>
+        }
+        
+        disable_interrupts();
+	
+        if (rtmGetErrorStatus(S) != NULL) {
+            exit(EXIT_FAILURE);
+        }
+	
+        %if SLibSingleTasking()
+            if (pendingInterrupt) {
+                exit(EXIT_FAILURE);
+            }
+        %else
+            {
+                int_T i;
+                for (i=1; i<NUMST; i++) {
+                    if (OverrunFlags[i]) {
+                        exit(EXIT_FAILURE);
+                    }
+                }
+            }
+		%endif
+	
+        MdlTerminate();
+        return(EXIT_SUCCESS);
+	}
+
+%closefile buff
+%return buff
+%endfunction %% GenMainForGRTWrapper
+
+
+
+%% ==========================================================================
+%% Function: GenerateCommonCodeForGRTWrapper
+%% Abstract: Render files includes as well as global/extern variable and 
+%% function declarations
+%%
+
+%function GenerateCommonCodeForGRTWrapper() void
+%openfile buff
+	#include "rtwtypes.h"
+	#include "%<CompiledModel.Name>.h"
+	%if useDSPBIOS
+        #include "%<CompiledModel.Name>cfg.h"
+	%endif
+	#include "rt_nonfinite.h"
+	#include "rt_sim.h"	
+	
+	#ifndef EXIT_FAILURE
+	#define EXIT_FAILURE  1
+	#endif
+	#ifndef EXIT_SUCCESS
+	#define EXIT_SUCCESS  0
+	#endif
+	
+	#define RUN_FOREVER -1.0
+	
+	%<LibDeclareERTDefines(0)>
+	
+	extern %<CompiledModel.Name>_rtModel *%<CompiledModel.Name>(void);
+	extern void MdlInitializeSizes(void);
+	extern void MdlInitializeSampleTimes(void);
+	extern void MdlStart(void);
+	extern void MdlOutputs(int_T tid);
+	extern void MdlUpdate(int_T tid);
+	extern void MdlTerminate(void);
+
+	%if !SLibSingleTasking()
+		extern time_T rt_SimUpdateDiscreteEvents(int_T  rtmNumSampTimes,
+		void *rtmTimingData,
+		int_T *rtmSampleHitPtr,
+		int_T *rtmPerTaskSampleHits);
+	%endif
+	
+	extern volatile int pendingInterrupt;
+    %if !SLibSingleTasking()		
+	    volatile int_T IsrOverrun = 0;
+	    volatile boolean_T OverrunFlags[NUMST];
+	%endif
+
+	%<CompiledModel.Name>_rtModel *S;
+	
+%closefile buff
+%return buff
+%endfunction %% GenerateCommonCodeForGRTWrapper  
+
+
+
+%%   **********************************************************************
+%%   This is the entry point for generating main.c for GRT-based target
+%%   **********************************************************************
+
+%function SLibCreatec2000GRTMain(fileroot) void
+   
+	%openfile autoMain = "%<fileroot>.c"
+	
+	/*
+     *   This file is auto-generated by Embedded Target for TI c2000 DSP. The source
+     *   code reflects model-specific SINGLETASKING or MULTITASKING mode, and user-
+     *   specified option OVERRUN_ACTION.
+     */
+	
+    %<GenerateCommonCodeForGRTWrapper()>
+
+	%if !SLibSingleTasking()
+		%if CompiledModel.FixedStepOpts.TID01EQ == 1
+            #define FIRST_TID 1
+        %else
+            #define FIRST_TID 0
+        %endif
+		%<GenMTOneStepFcnForGRTWrapper()>
+	%endif
+	
+	%<GenMainForGRTWrapper()>
+	
+	%closefile autoMain
+	
+	%<LibAddToModelSources(fileroot)>
+	
+%endfunction
+
+%% [EOF] ti_c2000_grtmain.tlc
+

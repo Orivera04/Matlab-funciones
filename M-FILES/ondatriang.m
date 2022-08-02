@@ -1,0 +1,15 @@
+%Onda triangular
+x=[0,1.5,3];
+X=x;
+for i=1:3
+X=cat(2,X,x+3);
+end
+X;
+y=[0,2,0];
+Y=repmat(y,1,4);
+plot(X,Y,'r-');
+axis([-4.5 4.5 -1 5]);
+hold on;
+X=-X;
+plot(X,Y,'r-');
+drawAxes(2, 'k');

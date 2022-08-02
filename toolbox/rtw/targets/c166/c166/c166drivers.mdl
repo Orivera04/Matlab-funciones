@@ -1,0 +1,4160 @@
+# $Revision: 1.1.6.11 $
+Library {
+  Name			  "c166drivers"
+  Version		  6.0
+  PreLoadFcn		  "RTWConfigurationCB('preloadfcn', bdroot);"
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  off
+  StatusBar		  off
+  BrowserShowLibraryLinks on
+  BrowserLookUnderMasks	  on
+  Created		  "Mon Dec 04 16:02:02 2000"
+  Creator		  "The MathWorks Inc."
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "batserve"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Wed Apr 21 04:03:42 2004"
+  ModelVersionFormat	  "1.%<AutoIncrement:268>"
+  ConfigurationManager	  "sourcesafe"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock off
+  ProdHWDeviceType	  "Specified"
+  ShowModelReferenceBlockVersion off
+  ShowModelReferenceBlockIO off
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.0.4"
+      Array {
+	Type			"Handle"
+	Dimension		7
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.0.4"
+	  StartTime		  "0.0"
+	  StopTime		  "10.0"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  RelTol		  "1e-3"
+	  SolverMode		  "SingleTasking"
+	  Solver		  "ode45"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.0.4"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SaveTime		  on
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsOut"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    5
+	    Cell		    "ZeroExternalMemoryAtStartup"
+	    Cell		    "ZeroInternalMemoryAtStartup"
+	    Cell		    "InitFltsAndDblsToZero"
+	    Cell		    "OptimizeModelRefInitCode"
+	    Cell		    "NoFixptDivByZeroProtection"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.0.4"
+	  BlockReduction	  on
+	  BooleanDataType	  off
+	  ConditionallyExecuteInputs on
+	  ConditionalExecOptimization "on_for_testing"
+	  InlineParams		  off
+	  InlineInvariantSignals  on
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  on
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  ParameterPooling	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.0.4"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg on
+	  CheckExecutionContextRuntimeOutputMsg	on
+	  SignalResolutionControl "TryResolveAllWithWarning"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  SolverPrmCheckMsg	  "none"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  TasksWithSamePriorityMsg "warning"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterPrecisionLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  ModelReferenceSimTargetVerbose off
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	  ModelReferenceSymbolNameMessage "warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.0.4"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "Specified"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  on
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.0.4"
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    1
+	    Cell		    "IncludeHyperlinkInReport"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.0.4"
+	  SystemTargetFile	  "grt.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  TemplateMakefile	  "grt_default_tmf"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Array {
+		Type			"Cell"
+		Dimension		9
+		Cell			"IgnoreCustomStorageClasses"
+		Cell			"InsertBlockDesc"
+		Cell			"SFDataObjDesc"
+		Cell			"SimulinkDataObjDesc"
+		Cell			"DefineNamingRule"
+		Cell			"SignalNamingRule"
+		Cell			"ParamNamingRule"
+		Cell			"InlinedPrmAccess"
+		Cell			"CustomSymbolStr"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.0.4"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      CustomSymbolStr	      "$R$N$M"
+	      MangleLength	      1
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    Simulink.GRTTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Array {
+		Type			"Cell"
+		Dimension		13
+		Cell			"IncludeMdlTerminateFcn"
+		Cell			"CombineOutputUpdateFcns"
+		Cell			"SuppressErrorStatus"
+		Cell			"ERTCustomFileBanners"
+		Cell			"GenerateSampleERTMain"
+		Cell			"MultiInstanceERTCode"
+		Cell			"PurelyIntegerCode"
+		Cell			"SupportNonFinite"
+		Cell			"SupportComplex"
+		Cell			"SupportAbsoluteTime"
+		Cell			"SupportContinuousTime"
+		Cell			"SupportNonInlinedSFcns"
+		Cell			"LifeSpan"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.0.4"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns off
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      ExtMode		      off
+	      ExtModeStaticAlloc      off
+	      ExtModeTesting	      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTransport	      0
+	      ExtModeMexFile	      "ext_comm"
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	      GenerateASAP2	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      SimulationMode	      "normal"
+      CurrentDlgPage	      "Solver"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Constant
+      Value		      "1"
+      VectorParams1D	      on
+      OutDataTypeMode	      "Inherit from 'Constant value'"
+      OutDataType	      "sfix(16)"
+      ConRadixGroup	      "Use specified scaling"
+      OutScaling	      "2^0"
+      SampleTime	      "inf"
+    }
+    Block {
+      BlockType		      Demux
+      Outputs		      "4"
+      DisplayOption	      "none"
+      BusSelectionMode	      off
+    }
+    Block {
+      BlockType		      EnablePort
+      StatesWhenEnabling      "held"
+      ShowOutputPort	      off
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      Ground
+    }
+    Block {
+      BlockType		      Inport
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      Reference
+    }
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      PortCounts	      "[]"
+      SFunctionModules	      "''"
+    }
+    Block {
+      BlockType		      SignalSpecification
+      Dimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Terminator
+    }
+    Block {
+      BlockType		      TriggerPort
+      TriggerType	      "rising"
+      StatesWhenEnabling      "inherit"
+      ShowOutputPort	      off
+      OutputDataType	      "auto"
+      SampleTimeType	      "triggered"
+      SampleTime	      "1"
+      ZeroCross		      on
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "c166drivers"
+    Location		    [24, 82, 525, 371]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    282
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      "Asynchronous/Synchronous\nSerial Interface"
+      Ports		      []
+      Position		      [45, 20, 145, 70]
+      DropShadow	      on
+      FontName		      "Arial"
+      ShowPortLabels	      off
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskDisplay	      "disp('Serial')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"Asynchronous/Synchronous\nSerial Interface"
+	Location		[68, 107, 249, 380]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	212
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Reference
+	  Name			  "ASC_Serial\nConfiguration\nClass"
+	  Tag			  "CONFIGURATION DATA CLASS"
+	  Ports			  []
+	  Position		  [75, 180, 115, 220]
+	  SourceBlock		  "config_library/Subsystem\nResource\nConfigu"
+"ration\nClass"
+	  SourceType		  "Subsystem Resource Configuration Class"
+	  ShowPortLabels	  "on"
+	  dClassName		  "c166Config.ASC_SERIAL"
+	  rClassName		  " "
+	}
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  "Serial Receive"
+	  Ports			  [1, 2]
+	  Position		  [45, 106, 145, 144]
+	  FunctionName		  "asc0_rx"
+	  Parameters		  "T,show_length,show_bytes_read, max_length"
+	  MaskType		  "C166 Serial Interface ASC0 Receive"
+	  MaskDescription	  "Receive bytes over the serial interface ASC"
+"0. Note that if the number of bytes available is smaller than the number of b"
+"ytes requested then the actual number of bytes read is equal to the number of"
+" bytes available."
+	  MaskHelp		  "helpview([docroot '/toolbox/c166/c166.map']"
+", 'Serial_Receive');"
+	  MaskPromptString	  "Show input port for the requested number of"
+" bytes|Show output port for the actual number of bytes read|Maximum number of"
+" bytes:|Sample time:"
+	  MaskStyleString	  "checkbox,checkbox,edit,edit"
+	  MaskTunableValueString  "off,off,on,off"
+	  MaskCallbackString	  "s = get_param(gcb,'show_length');\nif strcm"
+"p(s,'on')\n   simUtil_maskParam('show',gcb,'max_length');\nelse\n   simUtil_m"
+"askParam('hide',gcb,'max_length');\nend\n|||"
+	  MaskEnableString	  "on,on,on,on"
+	  MaskVisibilityString	  "on,on,on,on"
+	  MaskToolTipString	  "on,on,on,on"
+	  MaskVarAliasString	  ",,,"
+	  MaskVariables		  "show_length=@1;show_bytes_read=@2;max_lengt"
+"h=@3;T=@4;"
+	  MaskInitialization	  "% Check for a C166 Resource Configuration b"
+"lock\ntarget = RTWConfigurationCB('get_target', gcb);                        "
+"    \ntarget.checkName('C166');        \n\n% Allocate the serial transmit int"
+"erface\nserial_interface = mask_resource_validator(gcb,@c166_serial_resource,"
+"'ASC0_RX');\nif round(max_length)~=max_length | max_length<1\n	error('"
+"The maximum length of data parameter must be a positive integer')\nend"
+	  MaskDisplay		  "text(0.5, 0.5, 'ASC0\\nReceive','horizontal"
+"Alignment','center')\nport_label('output',1,'Data')\n"
+	  MaskSelfModifiable	  on
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "normalized"
+	  MaskValueString	  "on|on|1|1"
+	  MaskTabNameString	  ",,,"
+	}
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  "Serial Transmit"
+	  Ports			  [2, 1]
+	  Position		  [45, 25, 145, 65]
+	  FunctionName		  "asc0_tx"
+	  Parameters		  "T,show_length,show_num_sent"
+	  MaskType		  "C166 Serial Interface ASC0 Transmit"
+	  MaskDescription	  "Transmit bytes over the serial interface AS"
+"C0. Note that if the number of available spaces in the buffer is smaller than"
+" the requested number of bytes to transmit then the actual number of bytes tr"
+"ansmitted is equal to the number of spaces available."
+	  MaskHelp		  "helpview([docroot '/toolbox/c166/c166.map']"
+", 'Serial_Transmit');"
+	  MaskPromptString	  "Show input port for the number of bytes to "
+"transmit|Show output port for the actual number of bytes transmitted|Sample t"
+"ime:"
+	  MaskStyleString	  "checkbox,checkbox,edit"
+	  MaskTunableValueString  "off,off,off"
+	  MaskCallbackString	  "||"
+	  MaskEnableString	  "on,on,on"
+	  MaskVisibilityString	  "on,on,on"
+	  MaskToolTipString	  "on,on,on"
+	  MaskVarAliasString	  ",,"
+	  MaskVariables		  "show_length=@1;show_num_sent=@2;T=@3;"
+	  MaskInitialization	  "% Check for a C166 Resource Configuration b"
+"lock\ntarget = RTWConfigurationCB('get_target', gcb);                        "
+"    \ntarget.checkName('C166');        \n\n% Allocate the serial transmit int"
+"erface\nserial_interface = mask_resource_validator(gcb,@c166_serial_resource,"
+"'ASC0_TX');"
+	  MaskDisplay		  "text(0.5, 0.5, 'ASC0\\nTransmit','horizonta"
+"lAlignment','center')\nport_label('input',1,'Data')\n"
+	  MaskSelfModifiable	  on
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "normalized"
+	  MaskValueString	  "on|on|-1"
+	  MaskTabNameString	  ",,"
+	}
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "C166\nConfiguration\nClass"
+      Tag		      "CONFIGURATION DATA CLASS"
+      Ports		      []
+      Position		      [360, 125, 400, 165]
+      FontName		      "Arial"
+      SourceBlock	      "config_library/Subsystem\nResource\nConfigurati"
+"on\nClass"
+      SourceType	      "Subsystem Resource Configuration Class"
+      ShowPortLabels	      on
+      dClassName	      "c166Config.C166System"
+      rClassName	      "c166Config.C166SystemResources"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "C166\nResource\nConfiguration"
+      Tag		      "RTW CONFIGURATION BLOCK"
+      Ports		      []
+      Position		      [75, 125, 118, 165]
+      AncestorBlock	      "config_library/Subsystem\nResource\nConfigurati"
+"on"
+      UserDataPersistent      on
+      UserData		      "DataTag0"
+      CopyFcn		      "RTWConfigurationCB('copyfcn',gcb);"
+      DeleteFcn		      "RTWConfigurationCB('deletefcn',gcb);"
+      UndoDeleteFcn	      "RTWConfigurationCB('NameChangeFcn',gcb);"
+      PreSaveFcn	      "RTWConfigurationCB('presavefcn',gcb);"
+      NameChangeFcn	      "RTWConfigurationCB('NameChangeFcn',gcb);"
+      OpenFcn		      "RTWConfigurationCB('openfcn',gcb);"
+      FontName		      "Arial"
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskType		      "Subsystem Resource Configuration"
+      MaskPromptString	      "Old Parent Name|Old Block Name|Default Configur"
+"ation Library"
+      MaskStyleString	      "edit,edit,edit"
+      MaskTunableValueString  "off,off,off"
+      MaskCallbackString      "||"
+      MaskEnableString	      "on,on,on"
+      MaskVisibilityString    "on,on,on"
+      MaskToolTipString	      "on,on,on"
+      MaskVarAliasString      ",,"
+      MaskVariables	      "oldParentName=&1;oldBlockName=&2;defaultConfigL"
+"ibrary=&3;"
+      MaskDisplay	      "image(imread('target_icon.jpg'))"
+      MaskSelfModifiable      on
+      MaskIconFrame	      off
+      MaskIconOpaque	      off
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "untitled2|untitled2/C166\nResource\nConfigurati"
+"on|"
+      MaskTabNameString	      ",,"
+      System {
+	Name			"C166\nResource\nConfiguration"
+	Location		[62, 88, 414, 214]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  "config"
+	  Ports			  [1, 1]
+	  Position		  [115, 45, 250, 75]
+	  FunctionName		  "sfunRTWConfig"
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "CAN Interface"
+      Ports		      []
+      Position		      [185, 20, 285, 70]
+      DropShadow	      on
+      FontName		      "Arial"
+      ShowPortLabels	      off
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskDisplay	      "disp('CAN')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"CAN Interface"
+	Location		[58, 111, 398, 500]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Reference
+	  Name			  "CAN\nConfiguration\nClass"
+	  Tag			  "CONFIGURATION DATA CLASS"
+	  Ports			  []
+	  Position		  [145, 285, 185, 325]
+	  SourceBlock		  "config_library/Subsystem\nResource\nConfigu"
+"ration\nClass"
+	  SourceType		  "Subsystem Resource Configuration Class"
+	  ShowPortLabels	  "on"
+	  dClassName		  "c166Config.CAN_C166"
+	  rClassName		  " c166Config.CAN_RESOURCES"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "CAN Bus Status"
+	  Ports			  [0, 1]
+	  Position		  [40, 105, 140, 145]
+	  FontName		  "Arial"
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  MaskType		  "C166 CAN Bus Status"
+	  MaskDescription	  "Use this block to determine if the CAN cont"
+"roller is in either Bus Off state or Error Warning state."
+	  MaskHelp		  "helpview([docroot '/toolbox/c166/c166.map']"
+", 'CAN_bus_status');"
+	  MaskPromptString	  "Module:|Status type:|Sample time:"
+	  MaskStyleString	  "popup(A|B),popup(Bus Off|Error Warning),edi"
+"t"
+	  MaskTunableValueString  "off,off,off"
+	  MaskCallbackString	  "||"
+	  MaskEnableString	  "on,on,on"
+	  MaskVisibilityString	  "on,on,on"
+	  MaskToolTipString	  "on,on,on"
+	  MaskVarAliasString	  ",,"
+	  MaskVariables		  "module=@1;status_type=@2;t=@3;"
+	  MaskInitialization	  "dispstr = sprintf('CAN_%s\\n%s Status', get"
+"_param(gcb,'module'),get_param(gcb,'status_type'));\n\n% Check for a C166 Res"
+"ource Configuration block\ntarget = RTWConfigurationCB('get_target', gcb);   "
+"                         \ntarget.checkName('C166');        \n\nif status_typ"
+"e == 1\n	status_str = 'Bus Off';\nelseif status_type == 2\n	sta"
+"tus_str = 'Error Warning';\nend\n"
+	  MaskDisplay		  "disp(dispstr)"
+	  MaskSelfModifiable	  on
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "A|Bus Off|1"
+	  MaskTabNameString	  ",,"
+	  System {
+	    Name		    "CAN Bus Status"
+	    Location		    [47, 159, 330, 282]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      "S-Function"
+	      Name		      "can_status"
+	      Ports		      [0, 1]
+	      Position		      [35, 34, 140, 66]
+	      FunctionName	      "c166_can_status"
+	      Parameters	      "module, status_str, t"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "FCS"
+	      Position		      [195, 43, 225, 57]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "can_status"
+	      SrcPort		      1
+	      DstBlock		      "FCS"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "CAN Calibration Protocol"
+	  Ports			  []
+	  Position		  [40, 186, 141, 236]
+	  UserDataPersistent	  on
+	  UserData		  "DataTag1"
+	  CopyFcn		  "ccp_init_mask('copyfcn', gcb)"
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  MaskType		  "CAN Calibration Protocol (C166)"
+	  MaskDescription	  "Implements CAN Calibration Protocol (CCP v2"
+".1) on the target processor.\n\nThis block processes Command Receive Object ("
+"CRO) messages and outputs the resulting Data Transmission Object (DTO) and Da"
+"ta Acquisition (DAQ) messages."
+	  MaskHelp		  "helpview([docroot '/toolbox/c166/c166.map']"
+", 'target_CCP');"
+	  MaskPromptString	  "CCP station address (16-bit integer):|CAN m"
+"odule:|CAN message identifier (CRO):|CAN message type (CRO):|CAN message iden"
+"tifier (DTO/DAQ):|CAN message type (DTO/DAQ):|Total Number of Object Descript"
+"or Tables (ODTs):|CRO sample time:"
+	  MaskStyleString	  "edit,popup(A|B),edit,popup(Standard (11-bit"
+" identifier)|Extended (29-bit identifier)),edit,popup(Standard (11-bit identi"
+"fier)|Extended (29-bit identifier)),edit,edit"
+	  MaskTunableValueString  "off,off,off,off,off,off,off,off"
+	  MaskCallbackString	  "|||||||"
+	  MaskEnableString	  "on,on,on,on,on,on,on,on"
+	  MaskVisibilityString	  "on,on,on,on,on,on,on,on"
+	  MaskToolTipString	  "on,on,on,on,on,on,on,on"
+	  MaskVarAliasString	  ",,,,,,,"
+	  MaskVariables		  "CCP_STATION_ID=@1;module=&2;ccp_cro_id=@3;c"
+"cp_cro_message_type=&4;ccp_return_id=@5;ccp_return_message_type=&6;TOTAL_NUM_"
+"ODTS=@7;cro_sample_time=@8;"
+	  MaskInitialization	  "% Propagate DTO message type to underlying "
+"blocks\nset_param([gcb, '/DAQ Processing/Send DAQ Message/CAN Message Packing"
+"'], 'message_type', ccp_return_message_type);\nset_param([gcb, '/DTO Processi"
+"ng/CCP (Termination)/CAN Transmit/DTO_Constructor'], 'message_type', ccp_retu"
+"rn_message_type);\n% Propagate CRO message type to underlying blocks\nset_par"
+"am([gcb, '/CAN Receive'], 'message_type', ccp_cro_message_type);\n% Propagate"
+" CAN module to underlying blocks\nset_param([gcb, '/DAQ Processing/Send DAQ M"
+"essage/CAN Transmit'], 'module', module);\nset_param([gcb, '/DTO Processing/C"
+"CP (Termination)/CAN Transmit/CAN Transmit'], 'module', module);\nset_param(["
+"gcb, '/CAN Receive'], 'module', module);\n\n% check for a Resource Config blo"
+"ck, and make sure it is C166\ntarget = RTWConfigurationCB('get_target', gcb);"
+"\ntarget.checkName('C166');"
+	  MaskDisplay		  "disp('CCP');"
+	  MaskSelfModifiable	  on
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "hex2dec('1')|A|hex2dec('6FA')|Extended (29-"
+"bit identifier)|hex2dec('6FB')|Extended (29-bit identifier)|8|0.01"
+	  MaskTabNameString	  ",,,,,,,"
+	  System {
+	    Name		    "CAN Calibration Protocol"
+	    Location		    [90, 162, 446, 422]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Reference
+	      Name		      "CAN Receive"
+	      Ports		      [0, 2]
+	      Position		      [15, 25, 115, 65]
+	      FontName		      "Arial"
+	      SourceBlock	      "c166drivers/CAN Interface/CAN Receive"
+	      SourceType	      "C166 CAN Receive"
+	      ShowPortLabels	      "on"
+	      module		      "A"
+	      ids		      "ccp_cro_id"
+	      buffer_select_mode      "Automatic"
+	      bufferids		      "1"
+	      message_type	      "Extended (29-bit identifier)"
+	      t			      "cro_sample_time"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "DAQ Processing"
+	      Ports		      []
+	      Position		      [50, 160, 90, 220]
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      MaskDisplay	      "disp('DAQ');"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      System {
+		Name			"DAQ Processing"
+		Location		[112, 212, 642, 401]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Reference
+		  Name			  "Function Definition"
+		  Ports			  [0, 1]
+		  Position		  [25, 46, 355, 84]
+		  FontName		  "Arial"
+		  SourceBlock		  "driver_interface_library/Function D"
+"efinition"
+		  SourceType		  "Function Definition"
+		  function_name		  "'void exported_ccp_daq_trigger(uint"
+"8_T * msg_pointer)'"
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "Send DAQ Message"
+		  Ports			  [0, 0, 0, 1]
+		  Position		  [405, 95, 505, 165]
+		  TreatAsAtomicUnit	  on
+		  MinAlgLoopOccurrences	  off
+		  PropExecContextAcrossSSBoundary on
+		  RTWSystemCode		  "Auto"
+		  MaskType		  "Send DAQ Message"
+		  MaskSelfModifiable	  on
+		  MaskIconFrame		  on
+		  MaskIconOpaque	  on
+		  MaskIconRotate	  "none"
+		  MaskIconUnits		  "autoscale"
+		  System {
+		    Name		    "Send DAQ Message"
+		    Location		    [139, 262, 750, 459]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "A4"
+		    PaperUnits		    "centimeters"
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    TriggerPort
+		    Name		    "function"
+		    Ports		    []
+		    Position		    [210, 15, 230, 35]
+		    TriggerType		    "function-call"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "CAN Message Packing"
+		    Ports		    [1, 1]
+		    Position		    [315, 80, 415, 130]
+		    FontName		    "Arial"
+		    SourceBlock		    "canblocks/CAN Message Packing"
+		    SourceType		    "CAN Message Packing"
+		    id			    "ccp_return_id"
+		    message_type	    "Extended (29-bit identifier)"
+		    endian		    "Little Endian (Intel)"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "CAN Transmit"
+		    Ports		    [1]
+		    Position		    [470, 85, 570, 125]
+		    FontName		    "Arial"
+		    SourceBlock		    "c166drivers/CAN Interface/CAN Tra"
+"nsmit"
+		    SourceType		    "C166 CAN Transmit"
+		    ShowPortLabels	    "on"
+		    module		    "A"
+		    tx_mode		    "FIFO queued transmission with ded"
+"icated buffer"
+		    fifo_queue_length	    "8"
+		    buffer_select_mode	    "Automatic"
+		    bufferids		    "0"
+		    t			    "-1"
+		    irq_level		    "0"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Input Driver"
+		    Ports		    [0, 1]
+		    Position		    [15, 80, 125, 130]
+		    List {
+		    ListType		    RTWdata
+		    expr		    "msg_pointer[%<i>]"
+		    src			    ""
+		    header		    ""
+		    }
+		    Diagnostics		    "AllowInheritedTsInSrc"
+		    FontName		    "Arial"
+		    SourceBlock		    "driver_interface_library/Input Dr"
+"iver"
+		    SourceType		    "RTW Memory Get"
+		    t			    "-1"
+		    expr		    "'msg_pointer[%<i>]'"
+		    portWidth		    "8"
+		    pOpt		    "[]"
+		    expression_type	    "Not expression"
+		    }
+		    Block {
+		    BlockType		    SignalSpecification
+		    Name		    "Signal Specification"
+		    Position		    [175, 94, 265, 116]
+		    DataType		    "uint8"
+		    }
+		    Line {
+		    SrcBlock		    "Signal Specification"
+		    SrcPort		    1
+		    DstBlock		    "CAN Message Packing"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Input Driver"
+		    SrcPort		    1
+		    DstBlock		    "Signal Specification"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "CAN Message Packing"
+		    SrcPort		    1
+		    DstBlock		    "CAN Transmit"
+		    DstPort		    1
+		    }
+		    Annotation {
+		    Position		    [620, 80]
+		    }
+		  }
+		}
+		Line {
+		  SrcBlock		  "Function Definition"
+		  SrcPort		  1
+		  Points		  [95, 0]
+		  DstBlock		  "Send DAQ Message"
+		  DstPort		  trigger
+		}
+		Annotation {
+		  Name			  "Must use \"RTW memory get\" block t"
+"o access the msg_pointer"
+		  Position		  [187, 28]
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "DTO Processing"
+	      Ports		      [1, 0, 0, 1]
+	      Position		      [165, 67, 260, 143]
+	      TreatAsAtomicUnit	      on
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      MaskDisplay	      "disp('DTO');"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      System {
+		Name			"DTO Processing"
+		Location		[45, 218, 562, 494]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "CRO"
+		  Position		  [15, 178, 45, 192]
+		  Port			  "1"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  TriggerPort
+		  Name			  "function"
+		  Ports			  []
+		  Position		  [210, 15, 230, 35]
+		  TriggerType		  "function-call"
+		  StatesWhenEnabling	  "held"
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "CAN Unpacking"
+		  Ports			  [1, 1]
+		  Position		  [85, 154, 170, 216]
+		  TreatAsAtomicUnit	  off
+		  MinAlgLoopOccurrences	  off
+		  PropExecContextAcrossSSBoundary on
+		  RTWSystemCode		  "Auto"
+		  System {
+		    Name		    "CAN Unpacking"
+		    Location		    [53, 273, 441, 433]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "A4"
+		    PaperUnits		    "centimeters"
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "CRO"
+		    Position		    [25, 53, 55, 67]
+		    Port		    "1"
+		    IconDisplay		    "Port number"
+		    LatchInput		    off
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "CAN Message Unpacking"
+		    Ports		    [1, 1]
+		    Position		    [75, 29, 195, 91]
+		    FontName		    "Arial"
+		    SourceBlock		    "canblocks/CAN Message Unpacking/C"
+"AN Message Unpacking"
+		    SourceType		    "CAN Message Unpacking"
+		    showData		    "on"
+		    showID		    "off"
+		    showLength		    "off"
+		    endian		    "Little Endian (Intel)"
+		    }
+		    Block {
+		    BlockType		    SignalSpecification
+		    Name		    "Signal Specification"
+		    Position		    [220, 48, 295, 72]
+		    Dimensions		    "8"
+		    DataType		    "uint8"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "CRO Data"
+		    Position		    [320, 53, 350, 67]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "Signal Specification"
+		    SrcPort		    1
+		    DstBlock		    "CRO Data"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "CRO"
+		    SrcPort		    1
+		    DstBlock		    "CAN Message Unpacking"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "CAN Message Unpacking"
+		    SrcPort		    1
+		    DstBlock		    "Signal Specification"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "CCP"
+		  Ports			  [1, 0, 0, 1]
+		  Position		  [205, 145, 305, 225]
+		  UserDataPersistent	  on
+		  TreatAsAtomicUnit	  on
+		  MinAlgLoopOccurrences	  off
+		  PropExecContextAcrossSSBoundary on
+		  RTWSystemCode		  "Auto"
+		  MaskType		  "CCP"
+		  MaskSelfModifiable	  on
+		  MaskIconFrame		  on
+		  MaskIconOpaque	  on
+		  MaskIconRotate	  "none"
+		  MaskIconUnits		  "autoscale"
+		  System {
+		    Name		    "CCP"
+		    Location		    [47, 268, 410, 510]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "A4"
+		    PaperUnits		    "centimeters"
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [25, 98, 55, 112]
+		    Port		    "1"
+		    IconDisplay		    "Port number"
+		    LatchInput		    off
+		    }
+		    Block {
+		    BlockType		    TriggerPort
+		    Name		    "function"
+		    Ports		    []
+		    Position		    [210, 15, 230, 35]
+		    TriggerType		    "function-call"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "CAN Calibration Protocol"
+		    Ports		    [1]
+		    Position		    [115, 66, 310, 144]
+		    AttributesFormatString  "\\n\\n"
+		    UserDataPersistent	    on
+		    FontName		    "Arial"
+		    SourceBlock		    "canblocks_extras/CAN Calibration "
+"Protocol"
+		    SourceType		    "CAN Calibration Protocol (Target-"
+"side)"
+		    ShowPortLabels	    "on"
+		    CCP_STATION_ID	    "CCP_STATION_ID"
+		    TOTAL_NUM_ODTS	    "TOTAL_NUM_ODTS"
+		    show_commands	    "off"
+		    GET_CCP_VERSIONenabled  "on"
+		    EXCHANGE_IDenabled	    "on"
+		    SET_MTAenabled	    "on"
+		    DNLOADenabled	    "on"
+		    DNLOAD_6enabled	    "on"
+		    UPLOADenabled	    "on"
+		    SHORT_UPenabled	    "on"
+		    GET_DAQ_SIZEenabled	    "on"
+		    SET_DAQ_PTRenabled	    "on"
+		    WRITE_DAQenabled	    "on"
+		    START_STOPenabled	    "on"
+		    SET_S_STATUSenabled	    "on"
+		    GET_S_STATUSenabled	    "on"
+		    START_STOP_ALLenabled   "on"
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    DstBlock		    "CAN Calibration Protocol"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "CCP (Termination)"
+		  Ports			  [0, 0, 0, 1]
+		  Position		  [335, 144, 435, 216]
+		  TreatAsAtomicUnit	  on
+		  MinAlgLoopOccurrences	  off
+		  PropExecContextAcrossSSBoundary on
+		  RTWSystemCode		  "Auto"
+		  MaskType		  "CCP (Termination)"
+		  MaskSelfModifiable	  on
+		  MaskIconFrame		  on
+		  MaskIconOpaque	  on
+		  MaskIconRotate	  "none"
+		  MaskIconUnits		  "autoscale"
+		  System {
+		    Name		    "CCP (Termination)"
+		    Location		    [51, 269, 549, 569]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "A4"
+		    PaperUnits		    "centimeters"
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    TriggerPort
+		    Name		    "function"
+		    Ports		    []
+		    Position		    [210, 15, 230, 35]
+		    TriggerType		    "function-call"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "CAN Calibration Protocol (Termina"
+"tion)"
+		    Ports		    [0, 2]
+		    Position		    [65, 94, 215, 176]
+		    AttributesFormatString  "\\n\\n"
+		    SourceBlock		    "canblocks_extras/CAN Calibration "
+"Protocol (Termination)"
+		    SourceType		    "Unknown"
+		    }
+		    Block {
+		    BlockType		    SubSystem
+		    Name		    "CAN Transmit"
+		    Ports		    [1, 0, 0, 1]
+		    Position		    [290, 138, 395, 212]
+		    TreatAsAtomicUnit	    on
+		    MinAlgLoopOccurrences   off
+		    PropExecContextAcrossSSBoundary on
+		    RTWSystemCode	    "Auto"
+		    MaskType		    "CAN Transmit"
+		    MaskSelfModifiable	    on
+		    MaskIconFrame	    on
+		    MaskIconOpaque	    on
+		    MaskIconRotate	    "none"
+		    MaskIconUnits	    "autoscale"
+		    System {
+		    Name		    "CAN Transmit"
+		    Location		    [44, 413, 542, 713]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "A4"
+		    PaperUnits		    "centimeters"
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "DTO Data"
+		    Position		    [40, 113, 70, 127]
+		    Port		    "1"
+		    IconDisplay		    "Port number"
+		    LatchInput		    off
+		    }
+		    Block {
+		    BlockType		    TriggerPort
+		    Name		    "function"
+		    Ports		    []
+		    Position		    [225, 25, 245, 45]
+		    TriggerType		    "function-call"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "CAN Transmit"
+		    Ports		    [1]
+		    Position		    [280, 100, 380, 140]
+		    FontName		    "Arial"
+		    SourceBlock		    "c166drivers/CAN Interface/CAN Tra"
+"nsmit"
+		    SourceType		    "C166 CAN Transmit"
+		    ShowPortLabels	    "on"
+		    module		    "A"
+		    tx_mode		    "Queued transmission with shared b"
+"uffer"
+		    fifo_queue_length	    "8"
+		    buffer_select_mode	    "Automatic"
+		    bufferids		    "0"
+		    t			    "-1"
+		    irq_level		    "0"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "DTO_Constructor"
+		    Ports		    [1, 1]
+		    Position		    [95, 97, 245, 143]
+		    FontName		    "Arial"
+		    SourceBlock		    "canblocks/CAN Message Packing"
+		    SourceType		    "CAN Message Packing"
+		    id			    "ccp_return_id"
+		    message_type	    "Extended (29-bit identifier)"
+		    endian		    "Little Endian (Intel)"
+		    }
+		    Line {
+		    SrcBlock		    "DTO Data"
+		    SrcPort		    1
+		    DstBlock		    "DTO_Constructor"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "DTO_Constructor"
+		    SrcPort		    1
+		    DstBlock		    "CAN Transmit"
+		    DstPort		    1
+		    }
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "CAN Calibration Protocol (Termina"
+"tion)"
+		    SrcPort		    1
+		    Points		    [120, 0]
+		    DstBlock		    "CAN Transmit"
+		    DstPort		    trigger
+		    }
+		    Line {
+		    SrcBlock		    "CAN Calibration Protocol (Termina"
+"tion)"
+		    SrcPort		    2
+		    Points		    [55, 0]
+		    DstBlock		    "CAN Transmit"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "Chart"
+		  Ports			  [0, 2]
+		  Position		  [35, 60, 95, 115]
+		  TreatAsAtomicUnit	  off
+		  MinAlgLoopOccurrences	  off
+		  PropExecContextAcrossSSBoundary on
+		  RTWSystemCode		  "Auto"
+		  MaskType		  "Stateflow"
+		  MaskDescription	  "Stateflow diagram"
+		  MaskDisplay		  "plot(sf('Private','sfblk','xIcon'),"
+"sf('Private','sfblk','yIcon'));text(0.5,0,sf('Private', 'sfblk', 'tIcon'),'Ho"
+"rizontalAl','Center','VerticalAl','Bottom');"
+		  MaskSelfModifiable	  on
+		  MaskIconFrame		  off
+		  MaskIconOpaque	  off
+		  MaskIconRotate	  "none"
+		  MaskIconUnits		  "autoscale"
+		  System {
+		    Name		    "Chart"
+		    Location		    [257, 457, 812, 717]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "A4"
+		    PaperUnits		    "centimeters"
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Demux
+		    Name		    " Demux "
+		    Ports		    [1, 2]
+		    Position		    [270, 100, 320, 160]
+		    Outputs		    "2"
+		    Port {
+		    PortNumber		    1
+		    Name		    "f1"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    ShowSigGenPortName	    on
+		    }
+		    Port {
+		    PortNumber		    2
+		    Name		    "f2"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    ShowSigGenPortName	    on
+		    }
+		    }
+		    Block {
+		    BlockType		    Ground
+		    Name		    " Ground "
+		    Position		    [20, 111, 40, 129]
+		    }
+		    Block {
+		    BlockType		    "S-Function"
+		    Name		    " SFunction "
+		    Tag			    "Stateflow S-Function c166drivers "
+"2"
+		    Ports		    [1, 1]
+		    Position		    [180, 100, 230, 140]
+		    FunctionName	    "sf_sfun"
+		    PortCounts		    "[1 1]"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "f1"
+		    Position		    [460, 101, 480, 119]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "f2"
+		    Position		    [460, 136, 480, 154]
+		    Port		    "2"
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    " SFunction "
+		    SrcPort		    1
+		    Points		    [20, 0]
+		    DstBlock		    " Demux "
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    " Ground "
+		    SrcPort		    1
+		    DstBlock		    " SFunction "
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "f1"
+		    Labels		    [0, 0]
+		    SrcBlock		    " Demux "
+		    SrcPort		    1
+		    Points		    [0, -5]
+		    DstBlock		    "f1"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "f2"
+		    Labels		    [0, 0]
+		    SrcBlock		    " Demux "
+		    SrcPort		    2
+		    DstBlock		    "f2"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Line {
+		  SrcBlock		  "CRO"
+		  SrcPort		  1
+		  DstBlock		  "CAN Unpacking"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Chart"
+		  SrcPort		  2
+		  Points		  [285, 0]
+		  DstBlock		  "CCP (Termination)"
+		  DstPort		  trigger
+		}
+		Line {
+		  SrcBlock		  "CAN Unpacking"
+		  SrcPort		  1
+		  DstBlock		  "CCP"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Chart"
+		  SrcPort		  1
+		  Points		  [155, 0]
+		  DstBlock		  "CCP"
+		  DstPort		  trigger
+		}
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "CAN Receive"
+	      SrcPort		      1
+	      Points		      [90, 0]
+	      DstBlock		      "DTO Processing"
+	      DstPort		      trigger
+	    }
+	    Line {
+	      SrcBlock		      "CAN Receive"
+	      SrcPort		      2
+	      Points		      [20, 0; 0, 50]
+	      DstBlock		      "DTO Processing"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "CAN Receive"
+	  Ports			  [0, 2]
+	  Position		  [40, 20, 140, 60]
+	  FontName		  "Arial"
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  MaskType		  "C166 CAN Receive"
+	  MaskDescription	  "Receives CAN messages from the selected CAN"
+" module."
+	  MaskHelp		  "helpview([docroot '/toolbox/c166/c166.map']"
+", 'CAN_RX');"
+	  MaskPromptString	  "CAN module:|CAN message identifier:|Buffer "
+"selection:|Buffer number [1..15]:|CAN message type:|Sample time:"
+	  MaskStyleString	  "popup(A|B),edit,popup(Automatic|Manual),edi"
+"t,popup(Standard (11-bit identifier)|Extended (29-bit identifier)),edit"
+	  MaskTunableValueString  "off,off,off,off,off,off"
+	  MaskCallbackString	  "||switch get_param(gcb,'buffer_select_mode'"
+");\n	case 'Automatic'\n		simUtil_maskParam('disable',gcb"
+",'bufferids');\n	case 'Manual'\n         simUtil_maskParam('enable',gc"
+"b,'bufferids');\n end\n |||"
+	  MaskEnableString	  "on,on,on,off,on,on"
+	  MaskVisibilityString	  "on,on,on,on,on,on"
+	  MaskToolTipString	  "on,on,on,on,on,on"
+	  MaskVarAliasString	  ",,,,,"
+	  MaskVariables		  "module=@1;ids=@2;buffer_select_mode=@3;buff"
+"erids=@4;message_type=@5;t=@6;"
+	  MaskInitialization	  "dispstr = sprintf('CAN_%s\\nReceive',get_pa"
+"ram(gcb,'module'));\n\n% Check for a C166 Resource Configuration block\ntarge"
+"t = RTWConfigurationCB('get_target', gcb);                            \ntarge"
+"t.checkName('C166');        \n\nif any(bufferids>15) | any(bufferids<1) | any"
+"( ~[bufferids==fix(bufferids)] )\n	error('Invalid CAN hardware buffer "
+"number specified. The buffer number number must be an integer in the range 1 "
+"to 15');\nend\n\n% Possibly auto-allocate the buffer\nbufferids = mask_resour"
+"ce_validator(gcb,@c166_can_rx_validate, bufferids);\n\n% check for valid CAN "
+"message identifier\ncan_msg_id_check(ids,message_type);\nmessage_type=message"
+"_type-1;\n\n% Check that module is enabled\nc166_can_enabled_check(gcb,'CAN')"
+";\n"
+	  MaskDisplay		  "disp(dispstr)\nport_label('output',1,'f()')"
+";\nport_label('output',2,'Msg');"
+	  MaskSelfModifiable	  on
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "normalized"
+	  MaskValueString	  "A|hex2dec('0001')|Automatic|1|Standard (11-"
+"bit identifier)|1 "
+	  MaskTabNameString	  ",,,,,"
+	  System {
+	    Name		    "CAN Receive"
+	    Location		    [48, 159, 273, 309]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      "S-Function"
+	      Name		      "CAN Receive\n(S-Function)"
+	      Ports		      [0, 2]
+	      Position		      [15, 33, 100, 102]
+	      FontName		      "Arial"
+	      FunctionName	      "c166_can_rx"
+	      Parameters	      "module uint32(ids) t message_type uint3"
+"2(bufferids)"
+	      Port {
+		PortNumber		1
+		Name			"Fcn-Call (real-time)"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortNumber		2
+		Name			"Data (real-time)"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Fcn-Call"
+	      Position		      [150, 43, 180, 57]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Message"
+	      Position		      [150, 78, 180, 92]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      Name		      "Fcn-Call (real-time)"
+	      Labels		      [0, 0]
+	      SrcBlock		      "CAN Receive\n(S-Function)"
+	      SrcPort		      1
+	      DstBlock		      "Fcn-Call"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "Data (real-time)"
+	      Labels		      [0, 0]
+	      SrcBlock		      "CAN Receive\n(S-Function)"
+	      SrcPort		      2
+	      DstBlock		      "Message"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "CAN Reset"
+	  Ports			  []
+	  Position		  [190, 105, 290, 145]
+	  FontName		  "Arial"
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  MaskType		  "C166 CAN Reset"
+	  MaskDescription	  "Place this block inside a triggered sub-sys"
+"tem to reset the CAN module, for example, following entry to the Bus Off stat"
+"e."
+	  MaskHelp		  "helpview([docroot '/toolbox/c166/c166.map']"
+", 'CAN_reset');"
+	  MaskPromptString	  "Module:|Sample time:"
+	  MaskStyleString	  "popup(A|B),edit"
+	  MaskTunableValueString  "off,off"
+	  MaskCallbackString	  "|"
+	  MaskEnableString	  "on,on"
+	  MaskVisibilityString	  "on,on"
+	  MaskToolTipString	  "on,on"
+	  MaskVarAliasString	  ","
+	  MaskVariables		  "module=@1;t=@2;"
+	  MaskInitialization	  "dispstr = sprintf('CAN_%s\\nReset', get_par"
+"am(gcb,'module'));\n\n% Check for a C166 Resource Configuration block\ntarget"
+" = RTWConfigurationCB('get_target', gcb);                            \ntarget"
+".checkName('C166');        \n\n"
+	  MaskDisplay		  "disp(dispstr)"
+	  MaskSelfModifiable	  on
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "A|-1"
+	  MaskTabNameString	  ","
+	  System {
+	    Name		    "CAN Reset"
+	    Location		    [47, 159, 243, 317]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      "S-Function"
+	      Name		      "can_reset"
+	      Ports		      []
+	      Position		      [35, 34, 140, 66]
+	      FunctionName	      "c166_can_reset"
+	      Parameters	      "module, t"
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "CAN Transmit"
+	  Ports			  [1]
+	  Position		  [190, 20, 290, 60]
+	  FontName		  "Arial"
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  MaskType		  "C166 CAN Transmit"
+	  MaskDescription	  "Transmits a CAN message via the selected CA"
+"N module."
+	  MaskHelp		  "helpview([docroot '/toolbox/c166/c166.map']"
+", 'CAN_TX');"
+	  MaskPromptString	  "Module:|Transmit mode:|Length (number of me"
+"ssages) of FIFO queue:|Buffer selection:|Buffer number [1..14]:|Sample time:|"
+"Interrupt level (hidden)"
+	  MaskStyleString	  "popup(A|B),popup(Queued transmission with s"
+"hared buffer|Direct transmission with dedicated buffer|FIFO queued transmissi"
+"on with dedicated buffer),edit,popup(Automatic|Manual),edit,edit,edit"
+	  MaskTunableValueString  "off,off,off,off,off,off,off"
+	  MaskCallbackString	  "|tempCanTxTxMode = get_param(gcb,'tx_mode')"
+";\nswitch tempCanTxTxMode\n	case {'Queued transmission with shared buf"
+"fer'}\n		simUtil_maskParam('hide',gcb,'fifo_queue_length');\n"
+"		simUtil_maskParam('hide',gcb,'buffer_select_mode');\n	"
+"	simUtil_maskParam('hide',gcb,'bufferids');\n	case {'Direct tra"
+"nsmission with dedicated buffer'}\n		simUtil_maskParam('hide',g"
+"cb,'fifo_queue_length');\n		simUtil_maskParam('show',gcb,'buffe"
+"r_select_mode');\n		simUtil_maskParam('show',gcb,'bufferids');"
+"\n    case 'FIFO queued transmission with dedicated buffer'\n	    simU"
+"til_maskParam('show',gcb,'fifo_queue_length');\n		simUtil_maskP"
+"aram('show',gcb,'buffer_select_mode');\n		simUtil_maskParam('sh"
+"ow',gcb,'bufferids');\n	otherwise\n		error(['Unrecognize"
+"d value for tx_mode in ' gcb ]);\nend\nclear tempCanTxTxMode||switch get_para"
+"m(gcb,'buffer_select_mode');\n	case 'Automatic'\n		simUt"
+"il_maskParam('disable',gcb,'bufferids');\n	case 'Manual'\n         sim"
+"Util_maskParam('enable',gcb,'bufferids');\n end\n |\n ||"
+	  MaskEnableString	  "on,on,on,on,off,on,on"
+	  MaskVisibilityString	  "on,on,off,off,off,on,off"
+	  MaskToolTipString	  "on,on,on,on,on,on,on"
+	  MaskVarAliasString	  ",,,,,,"
+	  MaskVariables		  "module=@1;tx_mode=@2;fifo_queue_length=@3;b"
+"uffer_select_mode=@4;bufferids=@5;t=@6;irq_level=@7;"
+	  MaskInitialization	  "dispstr=sprintf('CAN_%s\\nTransmit', get_pa"
+"ram(gcb,'module'));\n\n% Check for a C166 Resource Configuration block\ntarge"
+"t = RTWConfigurationCB('get_target', gcb);                            \ntarge"
+"t.checkName('C166');        \n\nif bufferids==0 % special handling for un-ini"
+"tialized value\n	bufferids=1;\nend\n\nif any(bufferids>14) | any(buffe"
+"rids<1) | any( ~[bufferids==fix(bufferids)] )\n	error('Invalid CAN har"
+"dware buffer number specified. The buffer number number must be an integer in"
+" the range 1 to 14 (it is not possible to use buffer 15 for transmit).');\nen"
+"d\n\n\n% Check that module is enabled\nc166_can_enabled_check(gcb,'CAN');\n\n"
+"% Possibly auto-allocate the buffer\nbufferids = mask_resource_validator(gcb,"
+"@c166_can_tx_validate,bufferids);\n\nirq_level = 0;\n\n  switch tx_mode\n   c"
+"ase 1\n    % no action\n   case 2\n    % no action\n   case 3\n    CAN = targ"
+"et.findConfigForClass('c166Config.CAN_C166');\n	if module == 1\n      "
+"  CAN.CAN_A.RequireIntDrivenFifoTx = 1;\n		irq_level = str2num("
+"CAN.CAN_A.CAN_interrupt_level);\n	elseif module == 2\n        CAN.CAN_"
+"B.RequireIntDrivenFifoTx = 1;\n		irq_level = str2num(CAN.CAN_B."
+"CAN_Interrupt_Level);\n	end\n   otherwise\n    error('Invalid value fo"
+"r tx_mode')\n  end"
+	  MaskDisplay		  "disp(dispstr)\nport_label('input',1,'Msg');"
+"\n\n"
+	  MaskSelfModifiable	  on
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "normalized"
+	  MaskValueString	  "A|Queued transmission with shared buffer|8|"
+"Automatic|1|-1|0"
+	  MaskTabNameString	  ",,,,,,"
+	  System {
+	    Name		    "CAN Transmit"
+	    Location		    [48, 160, 349, 287]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Message"
+	      Position		      [25, 43, 55, 57]
+	      Port		      "1"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      "S-Function"
+	      Name		      "CAN Transmit"
+	      Ports		      [1]
+	      Position		      [115, 30, 245, 70]
+	      FontName		      "Arial"
+	      FunctionName	      "c166_can_tx"
+	      Parameters	      "module, tx_mode, uint32(bufferids), fif"
+"o_queue_length, irq_level, t"
+	    }
+	    Line {
+	      SrcBlock		      "Message"
+	      SrcPort		      1
+	      DstBlock		      "CAN Transmit"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Open CAN\nMessage Blocks"
+	  Ports			  []
+	  Position		  [235, 195, 260, 220]
+	  SourceBlock		  "vector_candrivers/Open CAN\nMessage Blocks"
+	  SourceType		  "Unknown"
+	  ShowPortLabels	  "on"
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Execution Profiling"
+      Ports		      []
+      Position		      [325, 20, 425, 70]
+      DropShadow	      on
+      FontName		      "Arial"
+      ShowPortLabels	      off
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskDisplay	      "disp('Execution\\nProfiling')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"Execution Profiling"
+	Location		[58, 102, 479, 301]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "C166 Execution Profiling\nvia ASC0"
+	  Ports			  []
+	  Position		  [65, 115, 168, 156]
+	  CopyFcn		  "exprofile_copyfcn(gcb);"
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  MaskType		  "C166  Execution Profiling via Serial Port A"
+"SC0"
+	  MaskDescription	  "Provides a serial interface to the executio"
+"n profiling engine. On receipt of a start command to the serial port, logging"
+" of execution profile data begins. On completion of a logging run, the record"
+"ed data is automatically returned via serial.  \n\nNo other serial blocks may"
+" be used in the model if a C166 Execution Profiling via ASC0 block is present"
+".\n\nSee also the MATLAB command profile_c166."
+	  MaskHelp		  "helpview([docroot '/toolbox/c166/c166.map']"
+", 'Execution_Profiling_ASC0');"
+	  MaskPromptString	  "Sample time:|Execute CopyFcn"
+	  MaskStyleString	  "edit,edit"
+	  MaskTunableValueString  "off,off"
+	  MaskCallbackString	  "|"
+	  MaskEnableString	  "on,on"
+	  MaskVisibilityString	  "on,off"
+	  MaskToolTipString	  "on,on"
+	  MaskVarAliasString	  ","
+	  MaskVariables		  "t=@1;execCopyFcn=@2;"
+	  MaskDisplay		  "disp('Execution Profiling\\nvia Serial')"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "1|on"
+	  MaskTabNameString	  ","
+	  System {
+	    Name		    "C166 Execution Profiling\nvia ASC0"
+	    Location		    [92, 148, 478, 441]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant"
+	      Position		      [15, 67, 35, 93]
+	      ShowName		      off
+	      OutDataTypeMode	      "uint8"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Execution Profiling\nOutput Data"
+	      Ports		      [0, 2]
+	      Position		      [55, 148, 155, 192]
+	      SourceBlock	      "exprofilelib/Execution Profiling\nOutpu"
+"t Data"
+	      SourceType	      "Output execution profiling data"
+	      t			      "t"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Send data over serial"
+	      Ports		      [1, 0, 1]
+	      Position		      [210, 158, 335, 202]
+	      TreatAsAtomicUnit	      on
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"Send data over serial"
+		Location		[127, 183, 744, 528]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [50, 48, 80, 62]
+		  Port			  "1"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  EnablePort
+		  Name			  "Enable"
+		  Ports			  []
+		  Position		  [45, 100, 65, 120]
+		}
+		Block {
+		  BlockType		  Constant
+		  Name			  "Constant"
+		  Position		  [85, 62, 105, 88]
+		  ShowName		  off
+		  Value			  "8"
+		  OutDataTypeMode	  "uint8"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Serial Transmit1"
+		  Ports			  [2]
+		  Position		  [125, 45, 225, 85]
+		  SourceBlock		  "c166drivers/Asynchronous//Synchrono"
+"us\nSerial Interface/Serial Transmit"
+		  SourceType		  "C166 Serial Interface ASC0 Transmit"
+		  show_length		  "on"
+		  show_num_sent		  "off"
+		  T			  "-1"
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "Serial Transmit1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Constant"
+		  SrcPort		  1
+		  DstBlock		  "Serial Transmit1"
+		  DstPort		  2
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Serial Receive"
+	      Ports		      [1, 2]
+	      Position		      [55, 61, 155, 99]
+	      SourceBlock	      "c166drivers/Asynchronous//Synchronous\n"
+"Serial Interface/Serial Receive"
+	      SourceType	      "C166 Serial Interface ASC0 Receive"
+	      show_length	      "on"
+	      show_bytes_read	      "on"
+	      max_length	      "1"
+	      T			      "t"
+	      Port {
+		PortNumber		2
+		Name			"num bytes received"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Start Profiling"
+	      Ports		      [1, 0, 1]
+	      Position		      [205, 50, 335, 90]
+	      NamePlacement	      "alternate"
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"Start Profiling"
+		Location		[475, 723, 771, 881]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "Data In"
+		  Position		  [25, 28, 55, 42]
+		  Port			  "1"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  EnablePort
+		  Name			  "Enable"
+		  Ports			  []
+		  Position		  [55, 80, 75, 100]
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Recognise Start Byte"
+		  Ports			  [1, 1]
+		  Position		  [110, 25, 155, 45]
+		  NamePlacement		  "alternate"
+		  SourceBlock		  "simulink/Logic and Bit\nOperations/"
+"Compare\nTo Constant"
+		  SourceType		  "Compare To Constant"
+		  ShowPortLabels	  "on"
+		  relop			  "=="
+		  const			  "201"
+		  LogicOutDataTypeMode	  "uint8"
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "Start execution profiling"
+		  Ports			  [0, 0, 1]
+		  Position		  [135, 59, 224, 104]
+		  TreatAsAtomicUnit	  off
+		  MinAlgLoopOccurrences	  off
+		  PropExecContextAcrossSSBoundary on
+		  RTWSystemCode		  "Auto"
+		  System {
+		    Name		    "Start execution profiling"
+		    Location		    [130, 191, 432, 426]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "A4"
+		    PaperUnits		    "centimeters"
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    EnablePort
+		    Name		    "Enable"
+		    Ports		    []
+		    Position		    [135, 30, 155, 50]
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Execution Profiling\nStart"
+		    Ports		    []
+		    Position		    [85, 81, 190, 129]
+		    SourceBlock		    "exprofilelib/Execution Profiling"
+"\nStart"
+		    SourceType		    "Start Execution Profiling"
+		    }
+		  }
+		}
+		Line {
+		  SrcBlock		  "Data In"
+		  SrcPort		  1
+		  DstBlock		  "Recognise Start Byte"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Recognise Start Byte"
+		  SrcPort		  1
+		  Points		  [20, 0]
+		  DstBlock		  "Start execution profiling"
+		  DstPort		  enable
+		}
+	      }
+	    }
+	    Line {
+	      Name		      "num bytes received"
+	      Labels		      [-1, 1]
+	      SrcBlock		      "Serial Receive"
+	      SrcPort		      2
+	      Points		      [25, 0; 0, 15]
+	      DstBlock		      "Start Profiling"
+	      DstPort		      enable
+	    }
+	    Line {
+	      SrcBlock		      "Serial Receive"
+	      SrcPort		      1
+	      DstBlock		      "Start Profiling"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Constant"
+	      SrcPort		      1
+	      DstBlock		      "Serial Receive"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Execution Profiling\nOutput Data"
+	      SrcPort		      1
+	      Points		      [25, 0; 0, -20; 85, 0]
+	      DstBlock		      "Send data over serial"
+	      DstPort		      enable
+	    }
+	    Line {
+	      SrcBlock		      "Execution Profiling\nOutput Data"
+	      SrcPort		      2
+	      DstBlock		      "Send data over serial"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "C166 Execution Profiling\nvia CAN A"
+	  Ports			  []
+	  Position		  [65, 35, 168, 76]
+	  CopyFcn		  "exprofile_copyfcn(gcb);"
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  MaskType		  "C166 Execution Profiling via CAN Channel A"
+	  MaskDescription	  "Provides a CAN interface to the execution p"
+"rofiling engine. On receipt of a start command message, logging of execution "
+"profile data begins. On completion of a logging run, the recorded data is aut"
+"omatically returned via CAN.\n\nYou must specify the message identifiers for "
+"the start command and the returned data. These identifiers must be compatible"
+" with the values used by the host-side part of the execution profiling utilit"
+"y. See also the MATLAB command profile_c166."
+	  MaskHelp		  "helpview([docroot '/toolbox/c166/c166.map']"
+", 'Execution_Profiling_Can_A');"
+	  MaskPromptString	  "Start command CAN message identifier:|Retur"
+"ned data CAN message identifier:|Sample time:|Execute CopyFcn"
+	  MaskStyleString	  "edit,edit,edit,edit"
+	  MaskTunableValueString  "off,off,off,off"
+	  MaskCallbackString	  "|||"
+	  MaskEnableString	  "on,on,on,on"
+	  MaskVisibilityString	  "on,on,on,off"
+	  MaskToolTipString	  "on,on,on,on"
+	  MaskVarAliasString	  ",,,"
+	  MaskVariables		  "commandId=@1;dataId=@2;t=@3;execCopyFcn=@4;"
+	  MaskDisplay		  "disp('Execution Profiling\\nvia CAN')"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "hex2dec('1FFFFF00')|hex2dec('1FFFFF01')|1|o"
+"n"
+	  MaskTabNameString	  ",,,"
+	  System {
+	    Name		    "C166 Execution Profiling\nvia CAN A"
+	    Location		    [90, 145, 494, 436]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Execution Profiling\nOutput Data1"
+	      Ports		      [0, 2]
+	      Position		      [50, 153, 155, 202]
+	      SourceBlock	      "exprofilelib/Execution Profiling\nOutpu"
+"t Data"
+	      SourceType	      "Output execution profiling data"
+	      t			      "t"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Send data over CAN"
+	      Ports		      [1, 0, 1]
+	      Position		      [230, 168, 325, 212]
+	      TreatAsAtomicUnit	      on
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"Send data over CAN"
+		Location		[127, 183, 598, 339]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [50, 48, 80, 62]
+		  Port			  "1"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  EnablePort
+		  Name			  "Enable"
+		  Ports			  []
+		  Position		  [70, 95, 90, 115]
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "CAN Message Packing"
+		  Ports			  [1, 1]
+		  Position		  [125, 30, 225, 80]
+		  FontName		  "Arial"
+		  SourceBlock		  "canblocks/CAN Message Packing"
+		  SourceType		  "CAN Message Packing"
+		  id			  "dataId"
+		  message_type		  "Extended (29-bit identifier)"
+		  endian		  "Little Endian (Intel)"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "CAN Transmit"
+		  Ports			  [1]
+		  Position		  [275, 35, 375, 75]
+		  FontName		  "Arial"
+		  SourceBlock		  "c166drivers/CAN Interface/CAN Trans"
+"mit"
+		  SourceType		  "C166 CAN Transmit"
+		  ShowPortLabels	  "on"
+		  module		  "A"
+		  tx_mode		  "FIFO queued transmission with dedic"
+"ated buffer"
+		  fifo_queue_length	  "8"
+		  buffer_select_mode	  "Automatic"
+		  bufferids		  "0"
+		  t			  "-1"
+		  irq_level		  "0"
+		}
+		Line {
+		  SrcBlock		  "CAN Message Packing"
+		  SrcPort		  1
+		  DstBlock		  "CAN Transmit"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "CAN Message Packing"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Start execution profiling"
+	      Ports		      [0, 0, 0, 1]
+	      Position		      [230, 59, 319, 104]
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"Start execution profiling"
+		Location		[130, 191, 432, 426]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  TriggerPort
+		  Name			  "function"
+		  Ports			  []
+		  Position		  [120, 25, 140, 45]
+		  TriggerType		  "function-call"
+		  ZeroCross		  off
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Execution Profiling\nStart"
+		  Ports			  []
+		  Position		  [85, 81, 190, 129]
+		  SourceBlock		  "exprofilelib/Execution Profiling\nS"
+"tart"
+		  SourceType		  "Start Execution Profiling"
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Start execution profiling\ncommand"
+	      Ports		      [0, 2]
+	      Position		      [55, 60, 155, 100]
+	      FontName		      "Arial"
+	      SourceBlock	      "c166drivers/CAN Interface/CAN Receive"
+	      SourceType	      "C166 CAN Receive"
+	      ShowPortLabels	      "on"
+	      module		      "A"
+	      ids		      "commandId"
+	      buffer_select_mode      "Automatic"
+	      bufferids		      "2"
+	      message_type	      "Extended (29-bit identifier)"
+	      t			      "t"
+	    }
+	    Block {
+	      BlockType		      Terminator
+	      Name		      "Terminator"
+	      Position		      [190, 80, 210, 100]
+	      ShowName		      off
+	    }
+	    Line {
+	      SrcBlock		      "Start execution profiling\ncommand"
+	      SrcPort		      2
+	      DstBlock		      "Terminator"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Start execution profiling\ncommand"
+	      SrcPort		      1
+	      Points		      [15, 0; 0, -40; 100, 0]
+	      DstBlock		      "Start execution profiling"
+	      DstPort		      trigger
+	    }
+	    Line {
+	      SrcBlock		      "Execution Profiling\nOutput Data1"
+	      SrcPort		      1
+	      Points		      [30, 0; 0, -15; 85, 0]
+	      DstBlock		      "Send data over CAN"
+	      DstPort		      enable
+	    }
+	    Line {
+	      SrcBlock		      "Execution Profiling\nOutput Data1"
+	      SrcPort		      2
+	      DstBlock		      "Send data over CAN"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "C166 Execution Profiling\nvia TwinCAN A"
+	  Ports			  []
+	  Position		  [220, 35, 323, 76]
+	  CopyFcn		  "exprofile_copyfcn(gcb);"
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  MaskType		  "C166 Execution Profiling via CAN Channel A"
+	  MaskDescription	  "Provides a CAN interface to the execution p"
+"rofiling engine. On receipt of a start command message, logging of execution "
+"profile data begins. On completion of a logging run, the recorded data is aut"
+"omatically returned via CAN.\n\nYou must specify the message identifiers for "
+"the start command and the returned data. These identifiers must be compatible"
+" with the values used by the host-side part of the execution profiling utilit"
+"y. See also the MATLAB command profile_c166."
+	  MaskHelp		  "helpview([docroot '/toolbox/c166/c166.map']"
+", 'Execution_Profiling_Can_A');"
+	  MaskPromptString	  "Start command CAN message identifier:|Retur"
+"ned data CAN message identifier:|Sample time:|Execute CopyFcn"
+	  MaskStyleString	  "edit,edit,edit,edit"
+	  MaskTunableValueString  "off,off,off,off"
+	  MaskCallbackString	  "|||"
+	  MaskEnableString	  "on,on,on,on"
+	  MaskVisibilityString	  "on,on,on,off"
+	  MaskToolTipString	  "on,on,on,on"
+	  MaskVarAliasString	  ",,,"
+	  MaskVariables		  "commandId=@1;dataId=@2;t=@3;execCopyFcn=@4;"
+	  MaskDisplay		  "disp('Execution Profiling\\nvia CAN')"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "hex2dec('1FFFFF00')|hex2dec('1FFFFF01')|1|o"
+"n"
+	  MaskTabNameString	  ",,,"
+	  System {
+	    Name		    "C166 Execution Profiling\nvia TwinCAN A"
+	    Location		    [90, 145, 494, 436]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Reference
+	      Name		      "CAN Receive"
+	      Ports		      [0, 2]
+	      Position		      [55, 60, 155, 100]
+	      FontName		      "Arial"
+	      SourceBlock	      "c166drivers/TwinCAN Interface/TwinCAN R"
+"eceive"
+	      SourceType	      "C166 TwinCAN Receive"
+	      ShowPortLabels	      "on"
+	      module		      "A"
+	      ids		      "commandId"
+	      message_type	      "Extended (29-bit identifier)"
+	      bufferids		      "0"
+	      t			      "t"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Execution Profiling\nOutput Data1"
+	      Ports		      [0, 2]
+	      Position		      [50, 153, 155, 202]
+	      SourceBlock	      "exprofilelib/Execution Profiling\nOutpu"
+"t Data"
+	      SourceType	      "Output execution profiling data"
+	      t			      "t"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Send data over CAN"
+	      Ports		      [1, 0, 1]
+	      Position		      [230, 168, 325, 212]
+	      TreatAsAtomicUnit	      on
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"Send data over CAN"
+		Location		[127, 183, 598, 339]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [50, 48, 80, 62]
+		  Port			  "1"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  EnablePort
+		  Name			  "Enable"
+		  Ports			  []
+		  Position		  [70, 95, 90, 115]
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "CAN Message Packing"
+		  Ports			  [1, 1]
+		  Position		  [125, 30, 225, 80]
+		  FontName		  "Arial"
+		  SourceBlock		  "canblocks/CAN Message Packing"
+		  SourceType		  "CAN Message Packing"
+		  id			  "dataId"
+		  message_type		  "Extended (29-bit identifier)"
+		  endian		  "Little Endian (Intel)"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "CAN Transmit"
+		  Ports			  [1]
+		  Position		  [275, 35, 375, 75]
+		  FontName		  "Arial"
+		  SourceBlock		  "c166drivers/TwinCAN Interface/TwinC"
+"AN Transmit"
+		  SourceType		  "C166 TwinCAN Transmit"
+		  module		  "A"
+		  tx_mode		  "FIFO queued transmission with dedic"
+"ated buffer"
+		  fifo_queue_length	  "8"
+		  buffer_select_mode	  "Manual"
+		  bufferids		  "28"
+		  t			  "-1"
+		  irq_level		  "0"
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "CAN Message Packing"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "CAN Message Packing"
+		  SrcPort		  1
+		  DstBlock		  "CAN Transmit"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Start execution profiling"
+	      Ports		      [0, 0, 0, 1]
+	      Position		      [230, 59, 319, 104]
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"Start execution profiling"
+		Location		[130, 191, 432, 426]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  TriggerPort
+		  Name			  "function"
+		  Ports			  []
+		  Position		  [120, 25, 140, 45]
+		  TriggerType		  "function-call"
+		  ZeroCross		  off
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Execution Profiling\nStart"
+		  Ports			  []
+		  Position		  [85, 81, 190, 129]
+		  SourceBlock		  "exprofilelib/Execution Profiling\nS"
+"tart"
+		  SourceType		  "Start Execution Profiling"
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Terminator
+	      Name		      "Terminator"
+	      Position		      [190, 80, 210, 100]
+	      ShowName		      off
+	    }
+	    Line {
+	      SrcBlock		      "Execution Profiling\nOutput Data1"
+	      SrcPort		      2
+	      DstBlock		      "Send data over CAN"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Execution Profiling\nOutput Data1"
+	      SrcPort		      1
+	      Points		      [30, 0; 0, -15; 85, 0]
+	      DstBlock		      "Send data over CAN"
+	      DstPort		      enable
+	    }
+	    Line {
+	      SrcBlock		      "CAN Receive"
+	      SrcPort		      1
+	      Points		      [15, 0; 0, -40; 100, 0]
+	      DstBlock		      "Start execution profiling"
+	      DstPort		      trigger
+	    }
+	    Line {
+	      SrcBlock		      "CAN Receive"
+	      SrcPort		      2
+	      DstBlock		      "Terminator"
+	      DstPort		      1
+	    }
+	  }
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "TwinCAN Interface"
+      Ports		      []
+      Position		      [185, 120, 285, 170]
+      DropShadow	      on
+      FontName		      "Arial"
+      ShowPortLabels	      off
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskDisplay	      "disp('TwinCAN')"
+      MaskIconFrame	      on
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"TwinCAN Interface"
+	Location		[60, 112, 399, 499]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Reference
+	  Name			  "CAN\nConfiguration\nClass"
+	  Tag			  "CONFIGURATION DATA CLASS"
+	  Ports			  []
+	  Position		  [145, 285, 185, 325]
+	  SourceBlock		  "config_library/Subsystem\nResource\nConfigu"
+"ration\nClass"
+	  SourceType		  "Subsystem Resource Configuration Class"
+	  ShowPortLabels	  "on"
+	  dClassName		  "c166Config.TwinCAN_C166"
+	  rClassName		  " c166Config.TwinCAN_RESOURCES"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "CAN Calibration Protocol"
+	  Ports			  []
+	  Position		  [40, 191, 141, 241]
+	  UserDataPersistent	  on
+	  UserData		  "DataTag2"
+	  CopyFcn		  "ccp_init_mask('copyfcn', gcb)"
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  MaskType		  "CAN Calibration Protocol (C166, TwinCAN)"
+	  MaskDescription	  "Implements CAN Calibration Protocol (CCP v2"
+".1) on the target processor with TwinCAN module.\n\nThis block processes Comm"
+"and Receive Object (CRO) messages and outputs the resulting Data Transmission"
+" Object (DTO) and Data Acquisition (DAQ) messages."
+	  MaskHelp		  "helpview([docroot '/toolbox/c166/c166.map']"
+", 'TWINCAN_target_CCP');"
+	  MaskPromptString	  "CCP station address (16-bit integer):|CAN m"
+"odule:|CAN message identifier (CRO):|CAN message type (CRO):|CAN message iden"
+"tifier (DTO/DAQ):|CAN message type (DTO/DAQ):|Total Number of Object Descript"
+"or Tables (ODTs):|CRO sample time:"
+	  MaskStyleString	  "edit,popup(A|B),edit,popup(Standard (11-bit"
+" identifier)|Extended (29-bit identifier)),edit,popup(Standard (11-bit identi"
+"fier)|Extended (29-bit identifier)),edit,edit"
+	  MaskTunableValueString  "off,off,off,off,off,off,off,off"
+	  MaskCallbackString	  "|||||||"
+	  MaskEnableString	  "on,on,on,on,on,on,on,on"
+	  MaskVisibilityString	  "on,on,on,on,on,on,on,on"
+	  MaskToolTipString	  "on,on,on,on,on,on,on,on"
+	  MaskVarAliasString	  ",,,,,,,"
+	  MaskVariables		  "CCP_STATION_ID=@1;module=&2;ccp_cro_id=@3;c"
+"cp_cro_message_type=&4;ccp_return_id=@5;ccp_return_message_type=&6;TOTAL_NUM_"
+"ODTS=@7;cro_sample_time=@8;"
+	  MaskInitialization	  "% Propagate DTO message type to underlying "
+"blocks\nset_param([gcb, '/DAQ Processing/Send DAQ Message/CAN Message Packing"
+"'], 'message_type', ccp_return_message_type);\nset_param([gcb, '/DTO Processi"
+"ng/CCP (Termination)/CAN Transmit/DTO_Constructor'], 'message_type', ccp_retu"
+"rn_message_type);\n% Propagate CRO message type to underlying blocks\nset_par"
+"am([gcb, '/CAN Receive'], 'message_type', ccp_cro_message_type);\n% Propagate"
+" CAN module to underlying blocks\nset_param([gcb, '/DAQ Processing/Send DAQ M"
+"essage/CAN Transmit'], 'module', module);\nset_param([gcb, '/DTO Processing/C"
+"CP (Termination)/CAN Transmit/CAN Transmit'], 'module', module);\nset_param(["
+"gcb, '/CAN Receive'], 'module', module);\n\n% check for a Resource Config blo"
+"ck, and make sure it is C166\ntarget = RTWConfigurationCB('get_target', gcb);"
+"\ntarget.checkName('C166');"
+	  MaskDisplay		  "disp('CCP\\n(TwinCAN)');"
+	  MaskSelfModifiable	  on
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "hex2dec('1')|A|hex2dec('6FA')|Extended (29-"
+"bit identifier)|hex2dec('6FB')|Extended (29-bit identifier)|8|0.01"
+	  MaskTabNameString	  ",,,,,,,"
+	  System {
+	    Name		    "CAN Calibration Protocol"
+	    Location		    [86, 163, 442, 423]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Reference
+	      Name		      "CAN Receive"
+	      Ports		      [0, 2]
+	      Position		      [15, 30, 115, 70]
+	      FontName		      "Arial"
+	      SourceBlock	      "c166drivers/TwinCAN Interface/TwinCAN R"
+"eceive"
+	      SourceType	      "C166 TwinCAN Receive"
+	      ShowPortLabels	      "on"
+	      module		      "A"
+	      ids		      "ccp_cro_id"
+	      message_type	      "Extended (29-bit identifier)"
+	      bufferids		      "0"
+	      t			      "cro_sample_time"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "DAQ Processing"
+	      Ports		      []
+	      Position		      [50, 160, 90, 220]
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      MaskDisplay	      "disp('DAQ');"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      System {
+		Name			"DAQ Processing"
+		Location		[116, 210, 646, 399]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Reference
+		  Name			  "Function Definition"
+		  Ports			  [0, 1]
+		  Position		  [25, 46, 355, 84]
+		  FontName		  "Arial"
+		  SourceBlock		  "driver_interface_library/Function D"
+"efinition"
+		  SourceType		  "Function Definition"
+		  function_name		  "'void exported_ccp_daq_trigger(uint"
+"8_T * msg_pointer)'"
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "Send DAQ Message"
+		  Ports			  [0, 0, 0, 1]
+		  Position		  [405, 95, 505, 165]
+		  TreatAsAtomicUnit	  on
+		  MinAlgLoopOccurrences	  off
+		  PropExecContextAcrossSSBoundary on
+		  RTWSystemCode		  "Auto"
+		  MaskType		  "Send DAQ Message"
+		  MaskSelfModifiable	  on
+		  MaskIconFrame		  on
+		  MaskIconOpaque	  on
+		  MaskIconRotate	  "none"
+		  MaskIconUnits		  "autoscale"
+		  System {
+		    Name		    "Send DAQ Message"
+		    Location		    [137, 260, 748, 474]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "A4"
+		    PaperUnits		    "centimeters"
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    TriggerPort
+		    Name		    "function"
+		    Ports		    []
+		    Position		    [210, 15, 230, 35]
+		    TriggerType		    "function-call"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "CAN Message Packing"
+		    Ports		    [1, 1]
+		    Position		    [315, 80, 415, 130]
+		    FontName		    "Arial"
+		    SourceBlock		    "canblocks/CAN Message Packing"
+		    SourceType		    "CAN Message Packing"
+		    id			    "ccp_return_id"
+		    message_type	    "Extended (29-bit identifier)"
+		    endian		    "Little Endian (Intel)"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "CAN Transmit"
+		    Ports		    [1]
+		    Position		    [470, 85, 570, 125]
+		    FontName		    "Arial"
+		    SourceBlock		    "c166drivers/TwinCAN Interface/Twi"
+"nCAN Transmit"
+		    SourceType		    "C166 TwinCAN Transmit"
+		    module		    "A"
+		    tx_mode		    "FIFO queued transmission with ded"
+"icated buffer"
+		    fifo_queue_length	    "8"
+		    buffer_select_mode	    "Automatic"
+		    bufferids		    "0"
+		    t			    "-1"
+		    irq_level		    "0"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Input Driver"
+		    Ports		    [0, 1]
+		    Position		    [15, 80, 125, 130]
+		    List {
+		    ListType		    RTWdata
+		    expr		    "msg_pointer[%<i>]"
+		    src			    ""
+		    header		    ""
+		    }
+		    Diagnostics		    "AllowInheritedTsInSrc"
+		    FontName		    "Arial"
+		    SourceBlock		    "driver_interface_library/Input Dr"
+"iver"
+		    SourceType		    "RTW Memory Get"
+		    t			    "-1"
+		    expr		    "'msg_pointer[%<i>]'"
+		    portWidth		    "8"
+		    pOpt		    "[]"
+		    expression_type	    "Not expression"
+		    }
+		    Block {
+		    BlockType		    SignalSpecification
+		    Name		    "Signal Specification"
+		    Position		    [175, 94, 265, 116]
+		    DataType		    "uint8"
+		    }
+		    Line {
+		    SrcBlock		    "Signal Specification"
+		    SrcPort		    1
+		    DstBlock		    "CAN Message Packing"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Input Driver"
+		    SrcPort		    1
+		    DstBlock		    "Signal Specification"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "CAN Message Packing"
+		    SrcPort		    1
+		    DstBlock		    "CAN Transmit"
+		    DstPort		    1
+		    }
+		    Annotation {
+		    Position		    [620, 80]
+		    }
+		  }
+		}
+		Line {
+		  SrcBlock		  "Function Definition"
+		  SrcPort		  1
+		  Points		  [95, 0]
+		  DstBlock		  "Send DAQ Message"
+		  DstPort		  trigger
+		}
+		Annotation {
+		  Name			  "Must use \"RTW memory get\" block t"
+"o access the msg_pointer"
+		  Position		  [187, 28]
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "DTO Processing"
+	      Ports		      [1, 0, 0, 1]
+	      Position		      [165, 67, 260, 143]
+	      TreatAsAtomicUnit	      on
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      MaskDisplay	      "disp('DTO');"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      System {
+		Name			"DTO Processing"
+		Location		[117, 213, 634, 489]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "CRO"
+		  Position		  [15, 178, 45, 192]
+		  Port			  "1"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  TriggerPort
+		  Name			  "function"
+		  Ports			  []
+		  Position		  [210, 15, 230, 35]
+		  TriggerType		  "function-call"
+		  StatesWhenEnabling	  "held"
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "CAN Unpacking"
+		  Ports			  [1, 1]
+		  Position		  [85, 154, 170, 216]
+		  TreatAsAtomicUnit	  off
+		  MinAlgLoopOccurrences	  off
+		  PropExecContextAcrossSSBoundary on
+		  RTWSystemCode		  "Auto"
+		  System {
+		    Name		    "CAN Unpacking"
+		    Location		    [53, 273, 441, 433]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "A4"
+		    PaperUnits		    "centimeters"
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "CRO"
+		    Position		    [25, 53, 55, 67]
+		    Port		    "1"
+		    IconDisplay		    "Port number"
+		    LatchInput		    off
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "CAN Message Unpacking"
+		    Ports		    [1, 1]
+		    Position		    [75, 29, 195, 91]
+		    FontName		    "Arial"
+		    SourceBlock		    "canblocks/CAN Message Unpacking/C"
+"AN Message Unpacking"
+		    SourceType		    "CAN Message Unpacking"
+		    showData		    "on"
+		    showID		    "off"
+		    showLength		    "off"
+		    endian		    "Little Endian (Intel)"
+		    }
+		    Block {
+		    BlockType		    SignalSpecification
+		    Name		    "Signal Specification"
+		    Position		    [220, 48, 295, 72]
+		    Dimensions		    "8"
+		    DataType		    "uint8"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "CRO Data"
+		    Position		    [320, 53, 350, 67]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "Signal Specification"
+		    SrcPort		    1
+		    DstBlock		    "CRO Data"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "CRO"
+		    SrcPort		    1
+		    DstBlock		    "CAN Message Unpacking"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "CAN Message Unpacking"
+		    SrcPort		    1
+		    DstBlock		    "Signal Specification"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "CCP"
+		  Ports			  [1, 0, 0, 1]
+		  Position		  [205, 145, 305, 225]
+		  UserDataPersistent	  on
+		  TreatAsAtomicUnit	  on
+		  MinAlgLoopOccurrences	  off
+		  PropExecContextAcrossSSBoundary on
+		  RTWSystemCode		  "Auto"
+		  MaskType		  "CCP"
+		  MaskSelfModifiable	  on
+		  MaskIconFrame		  on
+		  MaskIconOpaque	  on
+		  MaskIconRotate	  "none"
+		  MaskIconUnits		  "autoscale"
+		  System {
+		    Name		    "CCP"
+		    Location		    [47, 268, 410, 510]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "A4"
+		    PaperUnits		    "centimeters"
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [25, 98, 55, 112]
+		    Port		    "1"
+		    IconDisplay		    "Port number"
+		    LatchInput		    off
+		    }
+		    Block {
+		    BlockType		    TriggerPort
+		    Name		    "function"
+		    Ports		    []
+		    Position		    [210, 15, 230, 35]
+		    TriggerType		    "function-call"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "CAN Calibration Protocol"
+		    Ports		    [1]
+		    Position		    [115, 66, 310, 144]
+		    AttributesFormatString  "\\n\\n"
+		    UserDataPersistent	    on
+		    FontName		    "Arial"
+		    SourceBlock		    "canblocks_extras/CAN Calibration "
+"Protocol"
+		    SourceType		    "CAN Calibration Protocol (Target-"
+"side)"
+		    ShowPortLabels	    "on"
+		    CCP_STATION_ID	    "CCP_STATION_ID"
+		    TOTAL_NUM_ODTS	    "TOTAL_NUM_ODTS"
+		    show_commands	    "off"
+		    GET_CCP_VERSIONenabled  "on"
+		    EXCHANGE_IDenabled	    "on"
+		    SET_MTAenabled	    "on"
+		    DNLOADenabled	    "on"
+		    DNLOAD_6enabled	    "on"
+		    UPLOADenabled	    "on"
+		    SHORT_UPenabled	    "on"
+		    GET_DAQ_SIZEenabled	    "on"
+		    SET_DAQ_PTRenabled	    "on"
+		    WRITE_DAQenabled	    "on"
+		    START_STOPenabled	    "on"
+		    SET_S_STATUSenabled	    "on"
+		    GET_S_STATUSenabled	    "on"
+		    START_STOP_ALLenabled   "on"
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    DstBlock		    "CAN Calibration Protocol"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "CCP (Termination)"
+		  Ports			  [0, 0, 0, 1]
+		  Position		  [335, 144, 435, 216]
+		  TreatAsAtomicUnit	  on
+		  MinAlgLoopOccurrences	  off
+		  PropExecContextAcrossSSBoundary on
+		  RTWSystemCode		  "Auto"
+		  MaskType		  "CCP (Termination)"
+		  MaskSelfModifiable	  on
+		  MaskIconFrame		  on
+		  MaskIconOpaque	  on
+		  MaskIconRotate	  "none"
+		  MaskIconUnits		  "autoscale"
+		  System {
+		    Name		    "CCP (Termination)"
+		    Location		    [144, 261, 642, 561]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "A4"
+		    PaperUnits		    "centimeters"
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    TriggerPort
+		    Name		    "function"
+		    Ports		    []
+		    Position		    [210, 15, 230, 35]
+		    TriggerType		    "function-call"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "CAN Calibration Protocol (Termina"
+"tion)"
+		    Ports		    [0, 2]
+		    Position		    [65, 94, 215, 176]
+		    AttributesFormatString  "\\n\\n"
+		    SourceBlock		    "canblocks_extras/CAN Calibration "
+"Protocol (Termination)"
+		    SourceType		    "Unknown"
+		    }
+		    Block {
+		    BlockType		    SubSystem
+		    Name		    "CAN Transmit"
+		    Ports		    [1, 0, 0, 1]
+		    Position		    [290, 138, 395, 212]
+		    TreatAsAtomicUnit	    on
+		    MinAlgLoopOccurrences   off
+		    PropExecContextAcrossSSBoundary on
+		    RTWSystemCode	    "Auto"
+		    MaskType		    "CAN Transmit"
+		    MaskSelfModifiable	    on
+		    MaskIconFrame	    on
+		    MaskIconOpaque	    on
+		    MaskIconRotate	    "none"
+		    MaskIconUnits	    "autoscale"
+		    System {
+		    Name		    "CAN Transmit"
+		    Location		    [168, 310, 666, 610]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "A4"
+		    PaperUnits		    "centimeters"
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "DTO Data"
+		    Position		    [40, 113, 70, 127]
+		    Port		    "1"
+		    IconDisplay		    "Port number"
+		    LatchInput		    off
+		    }
+		    Block {
+		    BlockType		    TriggerPort
+		    Name		    "function"
+		    Ports		    []
+		    Position		    [225, 25, 245, 45]
+		    TriggerType		    "function-call"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "CAN Transmit"
+		    Ports		    [1]
+		    Position		    [280, 100, 380, 140]
+		    FontName		    "Arial"
+		    SourceBlock		    "c166drivers/TwinCAN Interface/Twi"
+"nCAN Transmit"
+		    SourceType		    "C166 TwinCAN Transmit"
+		    module		    "A"
+		    tx_mode		    "Direct transmission with dedicate"
+"d buffer"
+		    fifo_queue_length	    "8"
+		    buffer_select_mode	    "Automatic"
+		    bufferids		    "0"
+		    t			    "-1"
+		    irq_level		    "0"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "DTO_Constructor"
+		    Ports		    [1, 1]
+		    Position		    [95, 97, 245, 143]
+		    FontName		    "Arial"
+		    SourceBlock		    "canblocks/CAN Message Packing"
+		    SourceType		    "CAN Message Packing"
+		    id			    "ccp_return_id"
+		    message_type	    "Extended (29-bit identifier)"
+		    endian		    "Little Endian (Intel)"
+		    }
+		    Line {
+		    SrcBlock		    "DTO Data"
+		    SrcPort		    1
+		    DstBlock		    "DTO_Constructor"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "DTO_Constructor"
+		    SrcPort		    1
+		    DstBlock		    "CAN Transmit"
+		    DstPort		    1
+		    }
+		    }
+		    }
+		    Line {
+		    SrcBlock		    "CAN Calibration Protocol (Termina"
+"tion)"
+		    SrcPort		    1
+		    Points		    [120, 0]
+		    DstBlock		    "CAN Transmit"
+		    DstPort		    trigger
+		    }
+		    Line {
+		    SrcBlock		    "CAN Calibration Protocol (Termina"
+"tion)"
+		    SrcPort		    2
+		    Points		    [55, 0]
+		    DstBlock		    "CAN Transmit"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "Chart"
+		  Ports			  [0, 2]
+		  Position		  [35, 60, 95, 115]
+		  TreatAsAtomicUnit	  off
+		  MinAlgLoopOccurrences	  off
+		  PropExecContextAcrossSSBoundary on
+		  RTWSystemCode		  "Auto"
+		  MaskType		  "Stateflow"
+		  MaskDescription	  "Stateflow diagram"
+		  MaskDisplay		  "plot(sf('Private','sfblk','xIcon'),"
+"sf('Private','sfblk','yIcon'));text(0.5,0,sf('Private', 'sfblk', 'tIcon'),'Ho"
+"rizontalAl','Center','VerticalAl','Bottom');"
+		  MaskSelfModifiable	  on
+		  MaskIconFrame		  off
+		  MaskIconOpaque	  off
+		  MaskIconRotate	  "none"
+		  MaskIconUnits		  "autoscale"
+		  System {
+		    Name		    "Chart"
+		    Location		    [257, 457, 812, 717]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "A4"
+		    PaperUnits		    "centimeters"
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Demux
+		    Name		    " Demux "
+		    Ports		    [1, 2]
+		    Position		    [270, 100, 320, 160]
+		    Outputs		    "2"
+		    Port {
+		    PortNumber		    1
+		    Name		    "f1"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    ShowSigGenPortName	    on
+		    }
+		    Port {
+		    PortNumber		    2
+		    Name		    "f2"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    ShowSigGenPortName	    on
+		    }
+		    }
+		    Block {
+		    BlockType		    Ground
+		    Name		    " Ground "
+		    Position		    [20, 111, 40, 129]
+		    }
+		    Block {
+		    BlockType		    "S-Function"
+		    Name		    " SFunction "
+		    Tag			    "Stateflow S-Function c166drivers "
+"1"
+		    Ports		    [1, 1]
+		    Position		    [180, 100, 230, 140]
+		    FunctionName	    "sf_sfun"
+		    PortCounts		    "[1 1]"
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "f1"
+		    Position		    [460, 101, 480, 119]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "f2"
+		    Position		    [460, 136, 480, 154]
+		    Port		    "2"
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    " SFunction "
+		    SrcPort		    1
+		    Points		    [20, 0]
+		    DstBlock		    " Demux "
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    " Ground "
+		    SrcPort		    1
+		    DstBlock		    " SFunction "
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "f1"
+		    Labels		    [0, 0]
+		    SrcBlock		    " Demux "
+		    SrcPort		    1
+		    Points		    [0, -5]
+		    DstBlock		    "f1"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "f2"
+		    Labels		    [0, 0]
+		    SrcBlock		    " Demux "
+		    SrcPort		    2
+		    DstBlock		    "f2"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Line {
+		  SrcBlock		  "CRO"
+		  SrcPort		  1
+		  DstBlock		  "CAN Unpacking"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Chart"
+		  SrcPort		  2
+		  Points		  [285, 0]
+		  DstBlock		  "CCP (Termination)"
+		  DstPort		  trigger
+		}
+		Line {
+		  SrcBlock		  "CAN Unpacking"
+		  SrcPort		  1
+		  DstBlock		  "CCP"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Chart"
+		  SrcPort		  1
+		  Points		  [155, 0]
+		  DstBlock		  "CCP"
+		  DstPort		  trigger
+		}
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "CAN Receive"
+	      SrcPort		      1
+	      Points		      [90, 0]
+	      DstBlock		      "DTO Processing"
+	      DstPort		      trigger
+	    }
+	    Line {
+	      SrcBlock		      "CAN Receive"
+	      SrcPort		      2
+	      Points		      [20, 0; 0, 45]
+	      DstBlock		      "DTO Processing"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Open CAN\nMessage Blocks"
+	  Ports			  []
+	  Position		  [225, 205, 250, 230]
+	  SourceBlock		  "vector_candrivers/Open CAN\nMessage Blocks"
+	  SourceType		  "Unknown"
+	  ShowPortLabels	  "on"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "TwinCAN Bus Status"
+	  Ports			  [0, 1]
+	  Position		  [40, 105, 140, 145]
+	  FontName		  "Arial"
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  MaskType		  "C166 TwinCAN Bus Status"
+	  MaskDescription	  "Use this block to determine if the CAN cont"
+"roller is in either Bus Off state or Error Warning state."
+	  MaskHelp		  "helpview([docroot '/toolbox/c166/c166.map']"
+", 'TWINCAN_bus_status');"
+	  MaskPromptString	  "TwinCAN node:|Status type:|Sample time:"
+	  MaskStyleString	  "popup(A|B),popup(Bus Off|Error Warning),edi"
+"t"
+	  MaskTunableValueString  "off,off,off"
+	  MaskCallbackString	  "||"
+	  MaskEnableString	  "on,on,on"
+	  MaskVisibilityString	  "on,on,on"
+	  MaskToolTipString	  "on,on,on"
+	  MaskVarAliasString	  ",,"
+	  MaskVariables		  "module=@1;status_type=@2;t=@3;"
+	  MaskInitialization	  "dispstr = sprintf('TwinCAN_%s\\n%s Status',"
+" get_param(gcb,'module'),get_param(gcb,'status_type'));\n\n% Check for a C166"
+" Resource Configuration block\ntarget = RTWConfigurationCB('get_target', gcb)"
+";                            \ntarget.checkName('C166');        \n\nif status"
+"_type == 1\n	status_str = 'Bus Off';\nelseif status_type == 2\n"
+"	status_str = 'Error Warning';\nend\n"
+	  MaskDisplay		  "disp(dispstr)"
+	  MaskSelfModifiable	  on
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "A|Bus Off|1"
+	  MaskTabNameString	  ",,"
+	  System {
+	    Name		    "TwinCAN Bus Status"
+	    Location		    [47, 159, 322, 283]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      "S-Function"
+	      Name		      "can_status"
+	      Ports		      [0, 1]
+	      Position		      [35, 34, 140, 66]
+	      FunctionName	      "c166_twincan_status"
+	      Parameters	      "module, status_str, t"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "FCS"
+	      Position		      [190, 43, 220, 57]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "can_status"
+	      SrcPort		      1
+	      DstBlock		      "FCS"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "TwinCAN Receive"
+	  Ports			  [0, 2]
+	  Position		  [40, 20, 140, 60]
+	  FontName		  "Arial"
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  MaskType		  "C166 TwinCAN Receive"
+	  MaskDescription	  "Receives CAN messages from the selected Twi"
+"nCAN module."
+	  MaskHelp		  "helpview([docroot '/toolbox/c166/c166.map']"
+", 'TWINCAN_RX');"
+	  MaskPromptString	  "TwinCAN node:|CAN message identifier:|CAN m"
+"essage type:|Buffers (hidden)|Sample time:"
+	  MaskStyleString	  "popup(A|B),edit,popup(Standard (11-bit iden"
+"tifier)|Extended (29-bit identifier)),edit,edit"
+	  MaskTunableValueString  "off,off,off,off,off"
+	  MaskCallbackString	  "||||"
+	  MaskEnableString	  "on,on,on,on,on"
+	  MaskVisibilityString	  "on,on,on,off,on"
+	  MaskToolTipString	  "on,on,on,on,on"
+	  MaskVarAliasString	  ",,,,"
+	  MaskVariables		  "module=@1;ids=@2;message_type=@3;bufferids="
+"@4;t=@5;"
+	  MaskInitialization	  "dispstr = sprintf('TwinCAN_%s\\nReceive',ge"
+"t_param(gcb,'module'));\n\n% Check for a C166 Resource Configuration block\nt"
+"arget = RTWConfigurationCB('get_target', gcb);                            \nt"
+"arget.checkName('C166');        \n\n% Auto-allocate the buffer\nbufferids = m"
+"ask_resource_validator(gcb,@c166_twincan_rx_validate, bufferids);\n\n% Check "
+"for valid CAN message identifier\ncan_msg_id_check(ids,message_type);\nmessag"
+"e_type=message_type-1;\n\n% Check that module is enabled\nc166_can_enabled_ch"
+"eck(gcb,'TwinCAN');\n"
+	  MaskDisplay		  "disp(dispstr)\nport_label('output',1,'f()')"
+";\nport_label('output',2,'Msg');"
+	  MaskSelfModifiable	  on
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "normalized"
+	  MaskValueString	  "A|hex2dec('0001')|Standard (11-bit identifi"
+"er)|0|1 "
+	  MaskTabNameString	  ",,,,"
+	  System {
+	    Name		    "TwinCAN Receive"
+	    Location		    [101, 161, 427, 311]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      "S-Function"
+	      Name		      "TwinCAN Receive\n(S-Function)"
+	      Ports		      [0, 2]
+	      Position		      [15, 32, 145, 103]
+	      FontName		      "Arial"
+	      FunctionName	      "c166_twincan_rx"
+	      Parameters	      "module uint32(ids) t message_type uint3"
+"2(bufferids)"
+	      Port {
+		PortNumber		1
+		Name			"Fcn-Call (real-time)"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortNumber		2
+		Name			"Data (real-time)"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Fcn-Call"
+	      Position		      [270, 43, 300, 57]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Message"
+	      Position		      [270, 78, 300, 92]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      Name		      "Data (real-time)"
+	      Labels		      [0, 0]
+	      SrcBlock		      "TwinCAN Receive\n(S-Function)"
+	      SrcPort		      2
+	      DstBlock		      "Message"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "Fcn-Call (real-time)"
+	      Labels		      [0, 0]
+	      SrcBlock		      "TwinCAN Receive\n(S-Function)"
+	      SrcPort		      1
+	      DstBlock		      "Fcn-Call"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "TwinCAN Reset"
+	  Ports			  []
+	  Position		  [190, 105, 290, 145]
+	  FontName		  "Arial"
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  MaskType		  "C166 TwinCAN Reset"
+	  MaskDescription	  "Place this block inside a triggered sub-sys"
+"tem to reset the TwinCAN module, for example, following entry of one of the n"
+"odes into Bus Off state."
+	  MaskHelp		  "helpview([docroot '/toolbox/c166/c166.map']"
+", 'TWINCAN_reset');"
+	  MaskPromptString	  "Sample time:"
+	  MaskStyleString	  "edit"
+	  MaskTunableValueString  "off"
+	  MaskEnableString	  "on"
+	  MaskVisibilityString	  "on"
+	  MaskToolTipString	  "on"
+	  MaskVariables		  "t=@1;"
+	  MaskInitialization	  "dispstr = sprintf('TwinCAN\\nReset');\n\n% "
+"Check for a C166 Resource Configuration block\ntarget = RTWConfigurationCB('g"
+"et_target', gcb);                            \ntarget.checkName('C166');     "
+"   \n\n"
+	  MaskDisplay		  "disp(dispstr)"
+	  MaskSelfModifiable	  on
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "-1"
+	  System {
+	    Name		    "TwinCAN Reset"
+	    Location		    [47, 159, 243, 317]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      "S-Function"
+	      Name		      "can_reset"
+	      Ports		      []
+	      Position		      [35, 34, 140, 66]
+	      FunctionName	      "c166_twincan_reset"
+	      Parameters	      "t"
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  "TwinCAN Transmit"
+	  Ports			  [1]
+	  Position		  [190, 20, 290, 60]
+	  FontName		  "Arial"
+	  FunctionName		  "c166_twincan_tx"
+	  Parameters		  "module, tx_mode, fifo_queue_length, uint32("
+"bufferids), irq_level, t"
+	  MaskType		  "C166 TwinCAN Transmit"
+	  MaskDescription	  "Transmits a CAN message via the selected Tw"
+"inCAN module."
+	  MaskHelp		  "helpview([docroot '/toolbox/c166/c166.map']"
+", 'TWINCAN_TX');"
+	  MaskPromptString	  "TwinCAN Node:|Transmit mode:|Length (number"
+" of messages) of FIFO queue:|Buffer selection:|Buffer number [0..31]:|Sample "
+"time:|Interrupt Level (hidden):"
+	  MaskStyleString	  "popup(A|B),popup(Direct transmission with d"
+"edicated buffer|FIFO queued transmission with dedicated buffer),edit,popup(Au"
+"tomatic|Manual),edit,edit,edit"
+	  MaskTunableValueString  "off,off,off,off,off,off,off"
+	  MaskCallbackString	  "|tempCanTxTxMode = get_param(gcb,'tx_mode')"
+";\nswitch tempCanTxTxMode\n	case {'Direct transmission with dedicated "
+"buffer'}\n		simUtil_maskParam('hide',gcb,'fifo_queue_length');"
+"\n    case 'FIFO queued transmission with dedicated buffer'\n	    simU"
+"til_maskParam('show',gcb,'fifo_queue_length');\n	otherwise\n	"
+"	error(['Unrecognized value for tx_mode in ' gcb ]);\nend\nclear tempC"
+"anTxTxMode||switch get_param(gcb,'buffer_select_mode');\n	case 'Automa"
+"tic'\n		simUtil_maskParam('disable',gcb,'bufferids');\n	"
+"case 'Manual'\n         simUtil_maskParam('enable',gcb,'bufferids');\n end\n "
+"|||"
+	  MaskEnableString	  "on,on,on,on,off,on,on"
+	  MaskVisibilityString	  "on,on,off,on,on,on,off"
+	  MaskToolTipString	  "on,on,on,on,on,on,on"
+	  MaskVarAliasString	  ",,,,,,"
+	  MaskVariables		  "module=@1;tx_mode=@2;fifo_queue_length=@3;b"
+"uffer_select_mode=@4;bufferids=@5;t=@6;irq_level=@7;"
+	  MaskInitialization	  "dispstr=sprintf('TwinCAN_%s\\nTransmit', ge"
+"t_param(gcb,'module'));\n\n% Check for a C166 Resource Configuration block\nt"
+"arget = RTWConfigurationCB('get_target', gcb);                            \nt"
+"arget.checkName('C166');        \n\nif any(bufferids>31) | any(bufferids<0) |"
+" any( ~[bufferids==fix(bufferids)] )\n	error('Invalid CAN hardware buf"
+"fer number specified. The buffer number number must be an integer in the rang"
+"e 0 to 31');\nend\n\n% Check that module is enabled\nc166_can_enabled_check(g"
+"cb,'TwinCAN');\n\n% Auto-allocate the buffer\nbufferids = mask_resource_valid"
+"ator(gcb,@c166_twincan_tx_validate,bufferids);\n\nirq_level = 0;\n\n% Registe"
+"r any requirement to use interrupt driven FIFO transmit\n  switch tx_mode\n  "
+" case 1\n    % no action\n   case 2\n    twinCAN = target.findConfigForClass("
+"'c166Config.TwinCAN_C166');\n	if module == 1\n        twinCAN.CAN_A.Re"
+"quireIntDrivenFifoTx = 1;\n		irq_level = str2num(twinCAN.CAN_A."
+"CAN_Interrupt_Level);\n	elseif module == 2\n        twinCAN.CAN_B.Requ"
+"ireIntDrivenFifoTx = 1;\n		irq_level = str2num(twinCAN.CAN_B.CA"
+"N_Interrupt_Level);\n	end\n   otherwise\n    error('Invalid value for "
+"tx_mode')\n  end"
+	  MaskDisplay		  "disp(dispstr)\nport_label('input',1,'Msg');"
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  on
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  MaskValueString	  "A|Direct transmission with dedicated buffer"
+"|8|Automatic|0|-1|0"
+	  MaskTabNameString	  ",,,,,,"
+	}
+      }
+    }
+    Annotation {
+      Name		      "Embedded Target for Infineon C166(R) Microcontr"
+"ollers\nCopyright (c) 1990-2003 The MathWorks, Inc."
+      Position		      [243, 242]
+      FontName		      "Arial"
+    }
+  }
+}
+MatData {
+  NumRecords		  3
+  DataRecord {
+    Tag			    DataTag2
+    Data		    "  %)30     .    B     8    (     @         %    "
+"\"     $    !     0         %  0 #0    $    -    87!P;'EC;W!Y9F-N      X    X"
+"    !@    @    &          4    (     0    $    !          D    (            "
+"\\#\\"
+  }
+  DataRecord {
+    Tag			    DataTag1
+    Data		    "  %)30     .    B     8    (     @         %    "
+"\"     $    !     0         %  0 #0    $    -    87!P;'EC;W!Y9F-N      X    X"
+"    !@    @    &          4    (     0    $    !          D    (            "
+"\\#\\"
+  }
+  DataRecord {
+    Tag			    DataTag0
+    Data		    "  %)30     .    0!\\   8    (    $0         !    "
+"      $    &    :&%N9&QE   !    %P   %)45T-O;F9I9W5R871I;VXN5&%R9V5T  X   #P'"
+"@  !@    @    !          4    (    -0    $    !          X   \"@#P  !@    @  "
+"  )          4    (    < \\   $    !          (   !P#P   0   %(   !@!0  D 8  "
+")@&  \"X\"@  : \\  ' /             %)45T-O;F9I9W5R871I;VX 5&%R9V5T &%C=&EV94Q"
+"I<W0 3&ES=$AE860 9&]W;@!.;V1E &1A=&$ 5&%R9V5T<T-O;6UO;D-O;F9I9P!#0U  8V]N9FEG"
+"=7)A=&EO;E]T>7!E $-#4\"!#;VYF:6=U<F%T:6]N &AI9&1E;E]C;VYF:6=U<F%T:6]N ')E<V]U"
+"<F-E<P!#0U!?4D533U520T53 ')I9VAT &,Q-C9#;VYF:6< 0S$V-E-Y<W1E;0!3>7-T96T@0V]N9"
+"FEG=7)A=&EO;@!&<F5E7W)U;FYI;F=?=&EM97( 3F]N90!3:6UU;&EN:U]E>'1E<FYA;%]M;V1E %"
+"1I;65R7VEN=&5R<G5P=%]L979E;%]G<F]U<  P $,Q-C93>7-T96U297-O=7)C97, 5'=I;D-!3E]"
+"#,38V $,Q-C8@5'=I;D-!3B!#;VYF:6=U<F%T:6]N $-!3E]! %1W:6Y#04Y?4%)/4%, 0T%.7VEN"
+"=%]L979E;%]G<F]U<  Q %1I;6EN9P!4=VEN0T%.7U1)34E.1P!296=I<W1E<E]#;VYF:6=U<F%T:"
+"6]N %)E<75I<F5);G1$<FEV96Y&:69O5'@ 0T%.7T( 5'=I;D-!3E]215-/55)#15, 0T%.7T,Q-C"
+"8 0S$V-B!#04X@0V]N9FEG=7)A=&EO;@!#04Y?4%)/4%, 36%S:W, 0T%.7TU!4TM3 $-!3E]424U"
+")3D< 4F5Q=6ER95-H87)E9%1X0G5F9F5R $-!3E]215-/55)#15, 05-#7U-%4DE!3 !-;V1E7V-O"
+";G1R;VP .\"UB:70@9&%T82P@87-Y;F-H<F]N;W5S %-T;W!?8FET<P!/;F4@<W1O<\"!B:70 4&%"
+"R:71Y7V-H96-K7V5N86)L90!)9VYO<F4@<&%R:71Y $9R86UI;F=?8VAE8VM?96YA8FQE $EG;F]R"
+"92!F<F%M:6YG(&5R<F]R<P!/=F5R<G5N7V-H96-K7V5N86)L90!)9VYO<F4@;W9E<G)U;B!E<G)O<"
+"G, 0FET7W)A=&5?86-H:65V960 4S!#3TY?4S!\"4E-?0F%U9%]396QE8W1I;VX 4S!\"1U]\"875"
+"D7T=E;F5R871I;VX (#!X-#  3&]O<&)A8VM?;6]D95]E;F%B;&4 4W1A;F1A<F0@=')A;G-M:70O"
+"<F5C96EV92!M;V1E %1R86YS;6ET7VEN=&5R<G5P=%]L979E;  Q- !4<F%N<VUI=%]I;G1E<G)U<"
+"'1?;&5V96Q?9W)O=7  4F5C96EV95]I;G1E<G)U<'1?;&5V96P 4S!#3TX ,'@X,#$Q %1E<FUI;F"
+"%T;W( 8VQA<W-K97D 8S$V-D-O;F9I9RY!4T-?4T5224%, '-O=7)C94QI8G)A<GD 8S$V-F1R:79"
+"E<G,O07-Y;F-H<F]N;W5S+R]3>6YC:')O;F]U<PI397)I86P@26YT97)F86-E &,Q-C9#;VYF:6<N"
+"0T%.7T,Q-C8 8S$V-F1R:79E<G,O0T%.($EN=&5R9F%C90!C,38V0V]N9FEG+E1W:6Y#04Y?0S$V-"
+"@!C,38V9')I=F5R<R]4=VEN0T%.($EN=&5R9F%C90!C,38V0V]N9FEG+D,Q-C93>7-T96T 8S$V-F"
+"1R:79E<G, 5&%R9V5T<T-O;6UO;D-O;F9I9RY#0U  8V%N8FQO8VMS7V5X=')A<P!B;&]C:P!C,38"
+"V9')I=F5R<R]#,38V\"E)E<V]U<F-E\"D-O;F9I9W5R871I;VX                          0"
+"    (               $    $               !    !@              \"     D       "
+"        @    .               0    $0              $    !@              !     "
+"9               0    '               $    \"               !     D           "
+"    0    )0              $    \"<              !     I               0    *@ "
+"             $    \"P              !     M               !    1              "
+"                                            !                     0         "
+"\"     0               @         #     @               P         $     0     "
+"         !          %     0    0         !0         #     @    ,         !@  "
+"       &     0    4         !P         '     0    <         \"          #    "
+" @    8         \"0         (     0              \"@         )               "
+"     \"P         *                    #          )                    #0     "
+"    *                    #@         +     0    H         #P         #     @  "
+"  D         $          ,     0    @         $0         -                    $"
+"@         .                    $P         /                    %          -  "
+"                  %0         .                    %@         /               "
+"     %P         0     0   !$         &          #     @   !          &0      "
+"   1     0    (         &@         2                               \"     0  "
+"            &P         2                               \"     0    \\        "
+" '          2                               \"     0   !X         '0         "
+"2                               \"     0   \"          '@         2          "
+"                     \"     0   \"(         'P         2                     "
+"          \"     0   \"0         (          2                               "
+"\"     0   \"8         (0         2                               \"     0   "
+"\"@         (@         2                                          (    #     "
+"0   \"H   !1         %(          0    4    !    *0    4    '     0    $    - "
+"    0    (    /     0   \"@   !%         $\\   !'         %     \"    \"@    "
+"     +    #     $                         !0    <    !    !0    T    !    !@ "
+"   \\    !    )P   $4         30   $<         3@    4    *         !(    ,   "
+"  0    ,    3         !0    5     0    0    6         !<               4    '"
+"     0   !     -     0   !$    /     0   \"8   !%         $L   !'         $P "
+"   $    \"@         :    #     $    '    &P    $    +    (P    $    /        "
+"  ,    =         !X    ?     0    D    B     0    H    !    (0    $    (     "
+"P   !T         %P   !\\    !    #0   \"(    !    #@    $    A     0    P     "
+"          4    '     0   !\\    -     0   \"     /     0   \"4   !%         $"
+"D   !'         $H    $    \"@         F    #     $    2    &P    $    8    (P"
+"    $    >          4    =         !X    H     0   !,    ?     0   !4    K   "
+"  0   !8    B     0   !<               $    A     0   !0    %    '0         7"
+"    *     $    9    'P    $    ;    *P    $    <    (@    $    =             "
+"  !    (0    $    :               $    !P    $    C    #P    $    D    10    "
+"    !&    1P        !(          X    ,     0   \"$    N         \"\\    P    "
+"     #$    R         #,    T         #4    V         #<    X     0   \"(    Y"
+"         !<    Z         #L    \\         #T    ^         #\\   !          !<"
+"   !!         #\\   !\"         $,          0    4    !    *P    $    %     0"
+"   \"P    !    !0    $    M     0    4    !    +@    $    %     0   \"\\    !"
+"    !0    $    P     0    4    !    ,0    $    %     0   #(               X  "
+" !X    !@    @    !          4    (     0    $    !          X   !(    !@    "
+"@    -          4    (    !0    $    !          8    4        W0(    !     0 "
+"   $         #@   #     &    \"     D\"        !0    @    !     0    $       "
+"   @ !  $    .    2     8    (    #0         %    \"     4    !     0        "
+" &    %        -T\"     0    $    $          X   !(    !@    @    -          "
+"4    (    !0    $    !          8    4        W0(    !     0    4         #@ "
+"  #     &    \"     D\"        !0    @    !     0    $          @ !       .  "
+"  ,     8    (    \"0(        %    \"     $    !     0         \"  $       X "
+"  !(    !@    @    -          4    (    !0    $    !          8    4        W"
+"0(    !     0    <         #@   $@    &    \"     T         !0    @    %     "
+"0    $         !@   !0       #= @    $    !    \"          .    ,     8    ( "
+"   \"0(        %    \"     $    !     0         \"  $       X   !     !@    @"
+"    -          4    (     0    0    !          8    0     @    <    (    !   "
+"  X   !(    !@    @    -          4    (    !0    $    !          8    4     "
+"   W0(    !     0    P         #@   #     &    \"     D\"        !0    @    !"
+"     0    $          @ !  $    .    2     8    (    #0         %    \"     4 "
+"   !     0         &    %        -T\"     0    $    +          X   !     !@  "
+"  @    -          4    (     0    0    !          8    0     @    <    (    !"
+"     X   !(    !@    @    -          4    (    !0    $    !          8    4  "
+"      W0(    !     0    X         #@   #     &    \"     D\"        !0    @  "
+"  !     0    $          @ !       .    2     8    (    #0         %    \"    "
+" 4    !     0         &    %        -T\"     0    $    -          X   !(    !"
+"@    @    -          4    (    !0    $    !          8    4        W0(    !  "
+"   0    H         #@   $@    &    \"     T         !0    @    %     0    $   "
+"      !@   !0       #= @    $    !    #P         .    ,     8    (    \"0(   "
+"     %    \"     $    !     0         \"  $       X   !(    !@    @    -     "
+"     4    (    !0    $    !          8    4        W0(    !     0   !,       "
+"  #@   $     &    \"     T         !0    @    !    !     $         !@   !    "
+" !    !P    @    $    #@   $@    &    \"     T         !0    @    %     0    "
+"$         !@   !0       #= @    $    !    %          .    ,     8    (    \"0"
+"(        %    \"     $    !     0         \"  $       X    P    !@    @    ) "
+"@        4    (     0    $    !          (  0 !    #@   $@    &    \"     T  "
+"       !0    @    %     0    $         !@   !0       #= @    $    !    $@    "
+"     .    2     8    (    #0         %    \"     4    !     0         &    % "
+"       -T\"     0    $    6          X   !     !@    @    -          4    (  "
+"   0    0    !          8    0     0    <    (    !     X   !(    !@    @    "
+"-          4    (    !0    $    !          8    4        W0(    !     0   !< "
+"        #@   #     &    \"     D\"        !0    @    !     0    $          @ "
+"!       .    ,     8    (    \"0(        %    \"     $    !     0         \" "
+" $       X   !(    !@    @    -          4    (    !0    $    !          8   "
+" 4        W0(    !     0   !4         #@   $@    &    \"     T         !0    "
+"@    %     0    $         !@   !0       #= @    $    !    $0         .    2  "
+"   8    (    #0         %    \"     4    !     0         &    %        -T\"  "
+"   0    $    8          X    P    !@    @    ) @        4    (     0    $    "
+"!          (  0      #@   #@    &    \"     8         !0    @    !     0    $"
+"         \"0    @    [L1,[L<?\"0 X   !(    !@    @    -          4    (    !0"
+"    $    !          8    4        W0(    !     0   !H         #@   $@    &   "
+" \"     T         !0    @    %     0    $         !@   !0       #= @    $    "
+"!    &P         .    2     8    (    #0         %    \"     4    !     0     "
+"    &    %        -T\"     0    $    9          X   !(    !@    @    -       "
+"   4    (    !0    $    !          8    4        W0(    !     0   !          "
+"#@   $@    &    \"     T         !0    @    %     0    $         !@   !0     "
+"  #= @    $    !    \"0         .    2     8    (    #0         %    \"     4"
+"    !     0         &    %        -T\"     0    $    &          X   !(    !@ "
+"   @    -          4    (    !0    $    !          8    4        W0(    !    "
+" 0    ,         #@   $@    &    \"     T         !0    @    %     0    $     "
+"    !@   !0       #= @    $    !     @         .    2     8    (    #0       "
+"  %    \"     4    !     0         &    %        -T\"     0    $    =        "
+"  X   !(    !@    @    -          4    (    !0    $    !          8    4     "
+"   W0(    !     0   !\\         #@   $@    &    \"     T         !0    @    %"
+"     0    $         !@   !0       #= @    $    !    (0         .    2     8  "
+"  (    #0         %    \"     4    !     0         &    %        -T\"     0  "
+"  $    C          X   !(    !@    @    -          4    (    !0    $    !     "
+"     8    4        W0(    !     0   \"4         #@   $@    &    \"     T     "
+"    !0    @    %     0    $         !@   !0       #= @    $    !    )P       "
+"  .    2     8    (    #0         %    \"     4    !     0         &    %    "
+"    -T\"     0    $    I          X   !(    !@    @    -          4    (    !"
+"0    $    !          8    4        W0(    !     0   \"L         #@   (@    & "
+"   \"     D         !0    @    !    6     $          @   %@      4E-      X  "
+" !(    !@    @    \"          4    (     0    $    !          4 !  '     0   "
+" <   !H86YD;&4   X         "
+  }
+}
+
+# Finite State Machines
+#
+#    Stateflow Version 6.0 (R14) dated Apr 19 2004, 12:10:15
+#
+#
+
+Stateflow {
+
+	machine {
+		id                   		1
+		name                 		"c166drivers"
+		created              		"02-Jul-2003 14:44:53"
+		isLibrary            		1
+		firstTarget          		14
+		defaultActionLanguage		CLASSIC_BITOPS
+		sfVersion            		60014000.000006
+		sfDemoChecksum       		[313682183 52803792 3294696572 2788035215]
+	}
+
+	chart {
+		id                       		2
+		name                     		"TwinCAN Interface/CAN Calibration Protocol/DTO Processing/Chart"
+		windowPosition           		[74.25 365.25 315 208.5]
+		viewLimits               		[0 271.5 0 172.5]
+		screen                   		[1 1 1600 1200 1.333333333333333]
+		firstTransition          		4
+		firstJunction            		3
+		viewObj                  		2
+		machine                  		1
+		toolbarMode              		LIBRARY_TOOLBAR
+		decomposition            		CLUSTER_CHART
+		firstEvent               		5
+		chartFileNumber          		1
+		disableImplicitCasting   		1
+		actionLanguage           		1
+	}
+
+	junction {
+		id         		3
+		position   		[15.9497 60.4497 7]
+		chart      		2
+		linkNode   		[2 0 0]
+		subviewer  		2
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	transition {
+		id             		4
+		labelString    		"{f1;f2;}"
+		labelPosition  		[26.5 22.333 34.405 14.935]
+		fontSize       		12
+		src {
+			intersection		[0 0 1 0 15.9497 10.125 0 0]
+		}
+		dst {
+			id          		3
+			intersection		[0 0 -1 -1 15.9497 53.4497 0 0]
+		}
+		midPoint       		[15.9497 28.4685]
+		chart          		2
+		linkNode       		[2 0 0]
+		dataLimits     		[13.55 18.35 10.125 53.45]
+		subviewer      		2
+		drawStyle      		SMART
+	}
+
+	event {
+		id         		5
+		name       		"f1"
+		linkNode   		[2 0 6]
+		scope      		OUTPUT_EVENT
+		trigger    		FUNCTION_CALL_EVENT
+		machine    		1
+	}
+
+	event {
+		id         		6
+		name       		"f2"
+		linkNode   		[2 5 0]
+		scope      		OUTPUT_EVENT
+		trigger    		FUNCTION_CALL_EVENT
+		machine    		1
+	}
+
+	instance {
+		id     		7
+		name   		"TwinCAN Interface/CAN Calibration Protocol/DTO Processing/Chart"
+		machine		1
+		chart  		2
+	}
+
+	chart {
+		id                       		8
+		name                     		"CAN Interface/CAN Calibration Protocol/DTO Processing/Chart"
+		windowPosition           		[59.25 380.25 315 208.5]
+		viewLimits               		[0 271.5 0 172.5]
+		screen                   		[1 1 1280 1024 1.333333333333333]
+		firstTransition          		10
+		firstJunction            		9
+		viewObj                  		8
+		machine                  		1
+		toolbarMode              		LIBRARY_TOOLBAR
+		decomposition            		CLUSTER_CHART
+		firstEvent               		11
+		chartFileNumber          		2
+		disableImplicitCasting   		1
+		actionLanguage           		1
+	}
+
+	junction {
+		id         		9
+		position   		[15.9497 60.4497 7]
+		chart      		8
+		linkNode   		[8 0 0]
+		subviewer  		8
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	transition {
+		id             		10
+		labelString    		"{f1;f2;}"
+		labelPosition  		[26.5 22.333 34.405 14.935]
+		fontSize       		12
+		src {
+			intersection		[0 0 1 0 15.9497 10.125 0 0]
+		}
+		dst {
+			id          		9
+			intersection		[0 0 -1 -1 15.9497 53.4497 0 0]
+		}
+		midPoint       		[15.9497 28.4685]
+		chart          		8
+		linkNode       		[8 0 0]
+		dataLimits     		[13.55 18.35 10.125 53.45]
+		subviewer      		8
+		drawStyle      		SMART
+	}
+
+	event {
+		id         		11
+		name       		"f1"
+		linkNode   		[8 0 12]
+		scope      		OUTPUT_EVENT
+		trigger    		FUNCTION_CALL_EVENT
+		machine    		1
+	}
+
+	event {
+		id         		12
+		name       		"f2"
+		linkNode   		[8 11 0]
+		scope      		OUTPUT_EVENT
+		trigger    		FUNCTION_CALL_EVENT
+		machine    		1
+	}
+
+	instance {
+		id     		13
+		name   		"CAN Interface/CAN Calibration Protocol/DTO Processing/Chart"
+		machine		1
+		chart  		8
+	}
+
+	target {
+		id               		14
+		name             		"sfun"
+		description      		"Default Simulink S-Function Target."
+		machine          		1
+		linkNode         		[1 0 15]
+	}
+
+	target {
+		id               		15
+		name             		"rtw"
+		codeFlags        		" comments=1 statebitsets=1 databitsets=1 emitlogicalops=1 el"
+						"seifdetection=1 constantfolding=1 redundantloadelimination=0"
+						" preserveconstantnames=0 preservenames=0 preservenameswithpa"
+						"rent=0 exportcharts=0"
+		machine          		1
+		linkNode         		[1 14 0]
+	}
+}

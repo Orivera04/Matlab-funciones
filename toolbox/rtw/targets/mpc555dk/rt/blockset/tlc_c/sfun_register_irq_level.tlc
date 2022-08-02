@@ -1,0 +1,49 @@
+%% File: toolbox/rtw/targets/mpc555dk/rt/blockset/tlc_c/RCS/sfun_register_irq_level.tlc
+%%
+%% Abstract: Block to register an interrupt level
+%%   To be used, for example, with the QSPI driver 
+%%   implementation to register the interrupt level that has 
+%%   been requested for this device. Causes an error to be
+%%   thrown at build time if another device has is using the 
+%%   same interrupt level.
+%%   
+%%
+%% $Revision: 1.8.4.2 $
+%% $Date: 2004/04/19 01:30:24 $
+%%
+%% Copyright 2001-2003 The MathWorks, Inc.
+
+%implements sfun_register_irq_level "C"
+%include "mpc555_common_includes.tlc"
+
+%%include "can_comm_setup.tlc"
+%%include "irq_registration.tlc"
+
+
+%% Function: BlockTypeSetup
+%% Abstract:
+%%
+%function BlockTypeSetup(block,system) void
+%endfunction %% BlockTypeSetup
+
+%% Function: BlockInstanceSetup =============================================
+%% Abstract:
+%%
+%function BlockInstanceSetup(block, system) void 
+%endfunction %% BlockInstanceSetup
+
+%% Function: BlockInstanceData =============================================
+%% Abstract:
+%%
+%function BlockInstanceData(block,system) Output
+
+%with SFcnParamSettings
+       %% Reserve the interrupt level
+       %assign _tmp = IRQRegister(Name,IRQ_LEVEL)
+%endwith
+%endfunction %% BlockInstanceData
+
+%function Start(block,system) Output
+%endfunction
+
+%% [EOF] mpc555_register_irq_level.tlc

@@ -1,0 +1,188 @@
+#
+# $RCSfile: GNU.rul,v $
+# $Revision: 1.4 $
+# $Date: 2002/12/17 01:14:05 $
+#
+# Copyright 2002 The MathWorks, Inc.
+#
+# Abstract: This file defines pattern match rule for map2IR tool, it
+also has
+#	    internal knowledge of sections.
+#
+# Compiler: GNU
+#
+#
+# Limition: Can't have leading space before each macro definition line;
+#	    For comma seperated values, don't put space between comma;
+#		We are processing diab m6 format (most detailed) only!
+
+
+#
+# system variables definition
+Compiler = GNU		#compiler vendor name
+
+CompilerOption = 0	#will be available later
+
+ExistStartLine = 1      # whether start line exists
+StartLine = Linker script and memory map   
+                        # start line of useful info in MAP file, everything above this line will be discarded.
+
+ExistSummary = 0	#whether exists summary sections in MAP file
+			#	1 - exist summary, so the summary sections will be
+			#		identified by SummaryPrefix and SummaryEnd
+			#	0  - don't have summary, the summary will be
+			#		identified by line pattern
+
+SummaryPrefix =
+			# summary section start pattern
+			# it's imply a space seperated (add comma manually) string which
+			# appears just before Summary Section; to improve robustness,
+			# it's allowed to have multiple lines happen to match SummaryPrefix;
+			# i.e.,
+			# 	       address           Offset
+            		#	.init  fff02000 00000484 00000180
+            		# "address	Offset" is summary prefix, and added comma it will
+            		# become "address,Offset"
+
+SummaryEnd = 		# summary section ends pattern
+			#	EMPTYLINE - Empty Line
+			#	or other comma seperated (WITHOUT space) strings
+
+
+LineException = 0	# Whether exists valid lines but doesn't fit LinePattern
+			# This only meaningful when ExistSummary = 1
+			#	We will ignore these lines;
+			#	1 - YES
+			#	0 - NO
+
+Line1stCharPos = 0	# The 1st non blank character of line must be at position
+			#
+			#	n - no requirement
+			#	0 - 1st character
+
+LinePattern = NAME,n,HEX3,10,HEX3,n
+#LinePattern = ._\*stack_addr,n,HEX,8,HEX,8,HEX,8
+			# The section definition line pattern description, must be paired
+			#	NAME,n - one or more characters
+			#	HEX,8 - 8 digit HEX, 	ffff0000
+			#	DEC,8 - 8 digit dec	12345678
+			#	HEX2,9 - 9 digit HEX2	1234ffffH (used by Visual C)
+			#	HEX3,10 - 9 digit HEX3	0x1234678 
+			#	n,HEX - any length HEX	12345678abcdef
+			#	any other string,1 - must be that string appeared once
+
+SectionNamePos = 0	# position of section name appeared at the line (in terms of
+			#	string)
+
+SectionStartAddrPos = 1 # position of section start addr appeared at the line
+
+SectionStartAddrFmt = HEX3 # format of section start addr appeared at the line
+
+SectionSizePos = 2	# position of section size appeared at the line
+
+SectionSizeFmt = HEX3	# section size format
+			#    HEX  - 0000003d
+			#    DEC  - 1048576
+			#    HEX2 - 00000004H (used by Visual C)
+
+
+#
+# Definitions for heap and stack
+#
+#
+# Heap and Stack info isnot always available at Diab MAP file
+HeapDefinedAsSection = 1	# whether Heap is defined in the same format as section
+				#	1 - Yes, then HeapName take effect, Heap info
+				#	    will be extracted from LinePattern
+				#	i.e., GreenHills
+				#.stack           00118e10  00080000       524288    0008d18
+   				#.comment         00000000  000000d0          208    0008d18
+				#	0 - No, the compiler has different format when define
+				#	   Heap, then HeapStartLinePattern & HeapEndLinePattern
+				#	   will be used to extract heap info
+				#	i.e., CodeWarrior
+				#               _heap_addr 00020000
+                		#		_heap_end 00028000
+
+HeapName = 			# name of Heap section used by this compiler
+				# only make sense when HeapDefinedAsSection = 1
+
+HeapStartLinePattern =
+				# the line pattern for Heap start address definition
+				# see  LinePattern for description
+HeapEndLinePattern =
+				# the line pattern for Heap end address definition
+				# see  LinePattern for description
+
+HeapAddrPos = 1 # position of start/end addr appeared at the line
+
+HeapAddrFmt = HEX # format of start/end addr appeared at the line
+
+# same as Stack
+StackDefinedAsSection = 1
+
+StackName =
+
+StackStartLinePattern = _stack_addr,1,HEX,8
+StackEndLinePattern = _stack_end,1,HEX,8
+
+StackAddrPos = 1 # position of start/end addr appeared at the line
+
+StackAddrFmt = HEX # format of start/end addr appeared at the line
+
+
+#
+# Definitions for section layout: section, file and functions correlation
+#
+
+SectionLayoutLinePattern = THERE_IS_NO_VALUE_HERE,100
+SLFuncNamePos = 0
+SLLibNamePos = 1000 #take care later
+SLFileNamePos = 3
+SLAddrPos = 1
+SLAddrFmt = HEX
+SLSizePos = 2
+SLSizeFmt = HEX
+
+# This pattern is for symbols which doesn't have filename on the line
+SectionLayoutLinePattern2 = THERE_IS_NO_VALUE_HERE,100
+SLFuncNamePos2 = 0
+SLLibNamePos2 = 1000
+SLFileNamePos2 = 3	
+SLAddrPos2 = 1
+SLSizePos2 = 2
+
+
+# File extension used by ERT
+ModelFileExtension = c,o
+
+# section group definitons
+#	CODE - Code
+#	CONST - read only data
+#	DATA - dynamic data
+#	HEAP - heap (if exist)
+#	STACK - stack (if exist)
+#	DWARF - DWARF debug info
+#	UNKNOWN - can't identified
+#
+# All user defined sections will be treated as Code, and we make the 
+assumption that no
+# conflicts exist at section name;
+#
+CODE = .text,.init,.fini,.eini,.data,.sdata,.ext500_vtbl_rom,.abs*,resetexc,machinecheckexc,external_ioexc,alignmentexc,programexc,fp_unavailexc,decrementerexc,systemcallexc,fp_assistexc,sw_emulationexc,instr_protectionexc,data_protectionexc
+CONST  = .rodata,.sdata2
+DATA  = .data,.sdata,.sbss,.bss,.ext500_vtbl_ram
+UNKNOWN =
+#
+# From DWARF documentation, Revision: 2.0.0 (July 27, 1993)
+# .debug_abbrev, .debug_aranges, .debug_frame, .debug_info, .debug_line, 
+# .debug_loc, .debug_macinfo, .debug_pubnames, .debug_str,
+#
+# From older (??) DWARF, seen in submission comments for: 
+#    RCS file: /cvs/gcc/gcc/gcc/dwarfout.c,v 1.85
+# .line, .debug_sfnames, .debug_srcinfo  
+#
+# From observation
+# .comment, .debug
+#
+DWARF = .debug.*,.line,.comment

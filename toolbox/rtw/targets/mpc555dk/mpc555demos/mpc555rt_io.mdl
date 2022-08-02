@@ -1,0 +1,4151 @@
+# $Revision: 1.5.4.6 $
+Model {
+  Name			  "mpc555rt_io"
+  Version		  6.0
+  GraphicalInterface {
+    NumRootInports	    0
+    NumRootOutports	    0
+    ParameterArgumentNames  ""
+    ComputedModelVersion    "1.276"
+    NumModelReferences	    0
+    NumTestPointedSignals   0
+  }
+  PreLoadFcn		  "RTWConfigurationCB('preloadfcn', bdroot);"
+  SaveDefaultBlockParams  on
+  SampleTimeColors	  on
+  LibraryLinkDisplay	  "none"
+  WideLines		  on
+  ShowLineDimensions	  on
+  ShowPortDataTypes	  on
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  ShowStorageClass	  off
+  ShowTestPointIcons	  on
+  ShowViewerIcons	  on
+  SortedOrder		  off
+  ExecutionContextIcon	  off
+  ShowLinearizationAnnotations on
+  RecordCoverage	  off
+  CovPath		  "/"
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeVarName	  "covCumulativeData"
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  DataTypeOverride	  "UseLocalSettings"
+  MinMaxOverflowLogging	  "UseLocalSettings"
+  MinMaxOverflowArchiveMode "Overwrite"
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks on
+  BrowserLookUnderMasks	  on
+  CloseFcn		  "rtwprivate ssgencode ModelCloseRequest mpc555iodemo"
+  Created		  "Wed Oct 10 16:06:54 2001"
+  Creator		  "The MathWorks Inc."
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "batserve"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Wed Apr 21 04:03:26 2004"
+  ModelVersionFormat	  "1.%<AutoIncrement:276>"
+  ConfigurationManager	  "None"
+  TargetProperties	  "DataTag0"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  AccelSystemTargetFile	  "accel.tlc"
+  AccelTemplateMakefile	  "accel_default_tmf"
+  AccelMakeCommand	  "make_rtw"
+  TryForcingSFcnDF	  off
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock off
+  BufferReuse		  on
+  ProdHWDeviceType	  "Motorola PowerPC"
+  ShowModelReferenceBlockVersion off
+  ShowModelReferenceBlockIO off
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.0.4"
+      Array {
+	Type			"Handle"
+	Dimension		7
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.0.4"
+	  StartTime		  "0.0"
+	  StopTime		  "inf"
+	  AbsTol		  "auto"
+	  FixedStep		  "0.01"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  RelTol		  "1e-3"
+	  SolverMode		  "Auto"
+	  Solver		  "FixedStepDiscrete"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.0.4"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "StructureWithTime"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SaveTime		  on
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "sigsOut"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Version		  "1.0.4"
+	  BlockReduction	  on
+	  BooleanDataType	  off
+	  ConditionallyExecuteInputs on
+	  ConditionalExecOptimization "on_for_testing"
+	  InlineParams		  on
+	  InlineInvariantSignals  off
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  on
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  ParameterPooling	  on
+	  RollThreshold		  10
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  OptimizeModelRefInitCode on
+	  LifeSpan		  "1"
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.0.4"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg on
+	  CheckExecutionContextRuntimeOutputMsg	on
+	  SignalResolutionControl "TryResolveAllWithWarning"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  SolverPrmCheckMsg	  "none"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  TasksWithSamePriorityMsg "warning"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterPrecisionLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  ModelReferenceSimTargetVerbose off
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	  ModelReferenceSymbolNameMessage "warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.0.4"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "BigEndian"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "Motorola PowerPC"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "32-bit Generic"
+	  TargetUnknown		  off
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.0.4"
+	  UpdateModelReferenceTargets "IfOutOfDate"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Version		  "1.0.4"
+	  SystemTargetFile	  "mpc555rt.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  TemplateMakefile	  "mpc555rt.tmf"
+	  Description		  "Embedded Target for Motorola MPC555 (real-t"
+"ime target)"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ProcessScript		  "mpc555rt_make_rtw_hook"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Version		      "1.0.4"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses off
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement on
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      CustomSymbolStr	      "$R$N$M"
+	      MangleLength	      1
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    Simulink.STFCustomTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Version		      "1.0.4"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant off
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns on
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    on
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      off
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      SystemTargetFile	      "mpc555rt.tlc"
+	      DialogCategory	      0
+	      Array {
+		Type			"Handle"
+		Dimension		1
+		Simulink.ERTTargetCC {
+		  $BackupClass		  "Simulink.TargetCC"
+		  $ObjectID		  11
+		  Version		  "1.0.4"
+		  TargetFcnLib		  "ansi_tfl_tmw.mat"
+		  GenFloatMathFcnCalls	  "ANSI_C"
+		  UtilityFuncGeneration	  "Auto"
+		  GenerateFullHeader	  on
+		  GenerateSampleERTMain	  off
+		  IsPILTarget		  off
+		  ModelReferenceCompliant off
+		  IncludeMdlTerminateFcn  on
+		  CombineOutputUpdateFcns on
+		  SuppressErrorStatus	  off
+		  IncludeFileDelimiter	  "Auto"
+		  ERTCustomFileBanners	  on
+		  SupportAbsoluteTime	  on
+		  LogVarNameModifier	  "rt_"
+		  MatFileLogging	  off
+		  MultiInstanceERTCode	  off
+		  SupportNonFinite	  on
+		  SupportComplex	  on
+		  PurelyIntegerCode	  off
+		  SupportContinuousTime	  on
+		  SupportNonInlinedSFcns  on
+		  GenerateErtSFunction	  off
+		  GenerateASAP2		  off
+		  ExtMode		  off
+		  ExtModeTransport	  0
+		  ExtModeStaticAlloc	  off
+		  ExtModeStaticAllocSize  1000000
+		  ExtModeTesting	  off
+		  ExtModeMexFile	  "ext_comm"
+		  InlinedParameterPlacement "Hierarchical"
+		  TargetOS		  "BareBoardExample"
+		  MultiInstanceErrorCode  "Error"
+		  RateGroupingCode	  on
+		  RootIOFormat		  "Individual Arguments"
+		  RTWCAPISignals	  off
+		  RTWCAPIParams		  off
+		  RTWCAPIStates		  off
+		  ERTSrcFileBannerTemplate "ert_code_template.cgt"
+		  ERTHdrFileBannerTemplate "ert_code_template.cgt"
+		  ERTDataSrcFileTemplate  "ert_code_template.cgt"
+		  ERTDataHdrFileTemplate  "ert_code_template.cgt"
+		  ERTCustomFileTemplate	  "example_file_process.tlc"
+		  InitialValueSource	  "Model"
+		  ModuleNamingRule	  "Unspecified"
+		  SignalDisplayLevel	  10
+		  ParamTuneLevel	  10
+		  GlobalDataDefinition	  "Auto"
+		  GlobalDataReference	  "Auto"
+		  GRTInterface		  off
+		}
+		PropName		"Components"
+	      }
+	      CustomProperty {
+		DataType		"RTWOptions_EnumType__toolbox_rtw_targ"
+"ets_mpc555dk_mpc555dk_mpc555rt_MPC555_OPTIMIZATION_SWITCH"
+		EnumStrPairs {
+		  Value			  0
+		  String		  "speed"
+		  Value			  1
+		  String		  "size"
+		  Value			  2
+		  String		  "debug"
+		  Value			  3
+		  String		  "custom"
+		}
+		Name			"MPC555_OPTIMIZATION_SWITCH"
+		Value			"speed"
+	      }
+	      CustomProperty {
+		DataType		"string"
+		Name			"MPC555_OPTIMIZATION_FLAGS"
+		Value			"' -XO '"
+	      }
+	      CustomProperty {
+		DataType		"RTWOptions_EnumType__toolbox_rtw_targ"
+"ets_mpc555dk_mpc555dk_mpc555rt_TARGET_MEMORY_MODEL"
+		EnumStrPairs {
+		  Value			  0
+		  String		  "RAM"
+		  Value			  1
+		  String		  "FLASH"
+		}
+		Name			"TARGET_MEMORY_MODEL"
+		Value			"RAM"
+	      }
+	      CustomProperty {
+		DataType		"RTWOptions_EnumType__toolbox_rtw_targ"
+"ets_mpc555dk_mpc555dk_mpc555rt_BuildAction"
+		EnumStrPairs {
+		  Value			  0
+		  String		  "None"
+		  Value			  1
+		  String		  "Launch_Download_Control_Panel"
+		  Value			  2
+		  String		  "Run_via_BDM"
+		  Value			  3
+		  String		  "Debug_via_BDM"
+		}
+		Name			"BuildAction"
+		Value			"None"
+	      }
+	      CustomProperty {
+		DataType		"slbool"
+		Name			"STATIC_RTWLIB"
+		Value			on
+	      }
+	      CustomProperty {
+		DataType		"int32"
+		Name			"BaseRateMaxOverrunsValue"
+		Value			5
+	      }
+	      CustomProperty {
+		DataType		"int32"
+		Name			"SubRateMaxOverrunsValue"
+		Value			0
+	      }
+	      CustomProperty {
+		DataType		"slbool"
+		Name			"ExecutionProfilingEnabled"
+		Value			on
+	      }
+	      CustomProperty {
+		DataType		"int32"
+		Name			"ExecutionProfilingNumSamples"
+		Value			500
+	      }
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      SimulationMode	      "normal"
+      CurrentDlgPage	      "Real-Time Workshop"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      BusCreator
+      Inputs		      "4"
+      DisplayOption	      "none"
+      BusObject		      "BusObject"
+      NonVirtualBus	      off
+    }
+    Block {
+      BlockType		      BusSelector
+      MuxedOutput	      off
+    }
+    Block {
+      BlockType		      DataTypeConversion
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      ConvertRealWorld	      "Real World Value (RWV)"
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      DiscretePulseGenerator
+      PulseType		      "Sample based"
+      TimeSource	      "Use simulation time"
+      Amplitude		      "1"
+      Period		      "2"
+      PulseWidth	      "1"
+      PhaseDelay	      "0"
+      SampleTime	      "1"
+      VectorParams1D	      on
+    }
+    Block {
+      BlockType		      Inport
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      RateTransition
+      Integrity		      on
+      Deterministic	      on
+      X0		      "0"
+      OutPortSampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Reference
+    }
+    Block {
+      BlockType		      SignalSpecification
+      Dimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+    }
+    Block {
+      BlockType		      Sin
+      SineType		      "Time based"
+      TimeSource	      "Use simulation time"
+      Amplitude		      "1"
+      Bias		      "0"
+      Frequency		      "1"
+      Phase		      "0"
+      Samples		      "10"
+      Offset		      "0"
+      SampleTime	      "-1"
+      VectorParams1D	      on
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      TriggerPort
+      TriggerType	      "rising"
+      StatesWhenEnabling      "inherit"
+      ShowOutputPort	      off
+      OutputDataType	      "auto"
+      SampleTimeType	      "triggered"
+      SampleTime	      "1"
+      ZeroCross		      on
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "mpc555rt_io"
+    Location		    [33, 119, 728, 461]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    224
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      "Target_IO"
+      Ports		      []
+      Position		      [80, 46, 162, 126]
+      InitFcn		      "% START RTW CONFIGURATION CODE %\nRTWConfigurat"
+"ionCB('rtw_target_initfcn',gcb);\n% END RTW CONFIGURATION CODE %\n"
+      FontName		      "Arial"
+      FontSize		      12
+      FontWeight	      "bold"
+      TreatAsAtomicUnit	      off
+      MinAlgLoopOccurrences   off
+      PropExecContextAcrossSSBoundary on
+      RTWSystemCode	      "Auto"
+      MaskDisplay	      "image(imread('target_affordance_icon.jpg'),'bot"
+"tom-right')\n\n"
+      MaskIconFrame	      on
+      MaskIconOpaque	      off
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      System {
+	Name			"Target_IO"
+	Location		[41, 152, 602, 635]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"89"
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Algorithm"
+	  Ports			  [6, 5]
+	  Position		  [280, 182, 430, 478]
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "Algorithm"
+	    Location		    [71, 206, 893, 601]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In1"
+	      Position		      [25, 48, 55, 62]
+	      Port		      "1"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In2"
+	      Position		      [25, 93, 55, 107]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In3"
+	      Position		      [25, 138, 55, 152]
+	      Port		      "3"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In4"
+	      Position		      [25, 218, 55, 232]
+	      Port		      "4"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In5"
+	      Position		      [25, 258, 55, 272]
+	      Port		      "5"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In6"
+	      Position		      [25, 338, 55, 352]
+	      Port		      "6"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      BusCreator
+	      Name		      "Bus\nCreator"
+	      Ports		      [3, 1]
+	      Position		      [420, 64, 425, 256]
+	      ShowName		      off
+	      DialogController	      "Simulink.DDGSource_Bus"
+	      Inputs		      "3"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      BusCreator
+	      Name		      "Bus\nCreator1"
+	      Ports		      [3, 1]
+	      Position		      [535, 246, 540, 284]
+	      ShowName		      off
+	      DialogController	      "Simulink.DDGSource_Bus"
+	      Inputs		      "3"
+	      DisplayOption	      "bar"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "MIOS outputs: digital output \nand PWM"
+	      Ports		      [0, 2]
+	      Position		      [575, 34, 695, 116]
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"MIOS outputs: digital output \nand PW"
+"M"
+		Location		[36, 342, 373, 593]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  BusCreator
+		  Name			  "Bus\nCreator"
+		  Ports			  [2, 1]
+		  Position		  [200, 7, 210, 138]
+		  ShowName		  off
+		  DialogController	  "Simulink.DDGSource_Bus"
+		  Inputs		  "2"
+		  DisplayOption		  "bar"
+		}
+		Block {
+		  BlockType		  DiscretePulseGenerator
+		  Name			  "Pulse\nGenerator"
+		  Ports			  [0, 1]
+		  Position		  [40, 23, 110, 57]
+		  Amplitude		  "ones(1,8)"
+		  Period		  "15"
+		  PhaseDelay		  "[0 1 2 3 4 5 6 7]"
+		  SampleTime		  "0.1"
+		  Port {
+		    PortNumber		    1
+		    Name		    "MIOS dig out"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  DiscretePulseGenerator
+		  Name			  "Pulse\nGenerator1"
+		  Ports			  [0, 1]
+		  Position		  [40, 183, 110, 217]
+		  Amplitude		  "uint8(1)"
+		  Period		  "5"
+		  SampleTime		  "0.01"
+		  Port {
+		    PortNumber		    1
+		    Name		    "MIOS PWM_17"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Sin
+		  Name			  "Sine Wave\nmin = 0.1\nmax = 0.9"
+		  Ports			  [0, 1]
+		  Position		  [60, 90, 90, 120]
+		  SineType		  "Sample based"
+		  Amplitude		  "0.4"
+		  Bias			  "0.5"
+		  Samples		  "5000"
+		  SampleTime		  "0.01"
+		  Port {
+		    PortNumber		    1
+		    Name		    "MIOS PWM_0"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "MIOS_Out_double"
+		  Position		  [255, 68, 285, 82]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "MIOS_Out_uint8"
+		  Position		  [205, 193, 235, 207]
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  Name			  "MIOS dig out"
+		  Labels		  [0, 0]
+		  SrcBlock		  "Pulse\nGenerator"
+		  SrcPort		  1
+		  DstBlock		  "Bus\nCreator"
+		  DstPort		  1
+		}
+		Line {
+		  Name			  "MIOS PWM_0"
+		  Labels		  [0, 0]
+		  SrcBlock		  "Sine Wave\nmin = 0.1\nmax = 0.9"
+		  SrcPort		  1
+		  DstBlock		  "Bus\nCreator"
+		  DstPort		  2
+		}
+		Line {
+		  Name			  "MIOS PWM_17"
+		  Labels		  [0, 0]
+		  SrcBlock		  "Pulse\nGenerator1"
+		  SrcPort		  1
+		  DstBlock		  "MIOS_Out_uint8"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Bus\nCreator"
+		  SrcPort		  1
+		  DstBlock		  "MIOS_Out_double"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Process TPU"
+	      Ports		      [1, 1]
+	      Position		      [145, 320, 370, 370]
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"Process TPU"
+		Location		[36, 341, 660, 442]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "TPU Digital In"
+		  Position		  [25, 48, 55, 62]
+		  Port			  "1"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		  Port {
+		    PortNumber		    1
+		    PropagatedSignals	    "TPU dig in"
+		    ShowPropagatedSignals   "on"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  DataTypeConversion
+		  Name			  "Data Type Conversion3"
+		  Position		  [215, 42, 285, 68]
+		  OutDataTypeMode	  "uint8"
+		  Port {
+		    PortNumber		    1
+		    Name		    "TPU Digital Input"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "TPU Digital In1"
+		  Position		  [540, 48, 570, 62]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  Labels		  [0, 0]
+		  SrcBlock		  "TPU Digital In"
+		  SrcPort		  1
+		  DstBlock		  "Data Type Conversion3"
+		  DstPort		  1
+		}
+		Line {
+		  Name			  "TPU Digital Input"
+		  Labels		  [1, 1]
+		  SrcBlock		  "Data Type Conversion3"
+		  SrcPort		  1
+		  DstBlock		  "TPU Digital In1"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Process analog inputs"
+	      Ports		      [2, 2]
+	      Position		      [145, 203, 370, 287]
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"Process analog inputs"
+		Location		[35, 341, 668, 590]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "QADC analog in"
+		  Position		  [55, 63, 85, 77]
+		  Port			  "1"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		  Port {
+		    PortNumber		    1
+		    PropagatedSignals	    "QADC analog inputs"
+		    ShowPropagatedSignals   "on"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "QADC digital in"
+		  Position		  [55, 153, 85, 167]
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		  Port {
+		    PortNumber		    1
+		    PropagatedSignals	    "QADC digital inputs"
+		    ShowPropagatedSignals   "on"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  DataTypeConversion
+		  Name			  "Data Type Conversion"
+		  Position		  [265, 56, 320, 84]
+		  OutDataTypeMode	  "single"
+		  Port {
+		    PortNumber		    1
+		    Name		    "QADC analog inputs"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  DataTypeConversion
+		  Name			  "Data Type Conversion1"
+		  Position		  [265, 146, 320, 174]
+		  OutDataTypeMode	  "uint8"
+		  Port {
+		    PortNumber		    1
+		    Name		    "QADC digital inputs"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "QADC analog inputs"
+		  Position		  [525, 63, 555, 77]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "QADC digital inputs"
+		  Position		  [530, 153, 560, 167]
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  Name			  "QADC analog inputs"
+		  FontSize		  10
+		  Labels		  [1, 1]
+		  SrcBlock		  "Data Type Conversion"
+		  SrcPort		  1
+		  DstBlock		  "QADC analog inputs"
+		  DstPort		  1
+		}
+		Line {
+		  Labels		  [0, 0]
+		  SrcBlock		  "QADC digital in"
+		  SrcPort		  1
+		  DstBlock		  "Data Type Conversion1"
+		  DstPort		  1
+		}
+		Line {
+		  Labels		  [0, 0]
+		  SrcBlock		  "QADC analog in"
+		  SrcPort		  1
+		  DstBlock		  "Data Type Conversion"
+		  DstPort		  1
+		}
+		Line {
+		  Name			  "QADC digital inputs"
+		  Labels		  [1, 1]
+		  SrcBlock		  "Data Type Conversion1"
+		  SrcPort		  1
+		  DstBlock		  "QADC digital inputs"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Process digital inputs"
+	      Ports		      [3, 3]
+	      Position		      [145, 30, 370, 170]
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"Process digital inputs"
+		Location		[113, 267, 777, 514]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "MIOS dig in"
+		  Position		  [45, 38, 75, 52]
+		  Port			  "1"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		  Port {
+		    PortNumber		    1
+		    PropagatedSignals	    "MIOS dig in"
+		    ShowPropagatedSignals   "on"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "Pulse Width"
+		  Position		  [45, 123, 75, 137]
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		  Port {
+		    PortNumber		    1
+		    PropagatedSignals	    "Pulse Width In"
+		    ShowPropagatedSignals   "on"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Inport
+		  Name			  "Pulse Period"
+		  Position		  [45, 193, 75, 207]
+		  Port			  "3"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		  Port {
+		    PortNumber		    1
+		    PropagatedSignals	    "Pulse Period In"
+		    ShowPropagatedSignals   "on"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  DataTypeConversion
+		  Name			  "Data Type Conversion"
+		  Position		  [235, 117, 305, 143]
+		  OutDataTypeMode	  "single"
+		  Port {
+		    PortNumber		    1
+		    Name		    "MIOS pulse width measurement"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  DataTypeConversion
+		  Name			  "Data Type Conversion1"
+		  Position		  [230, 187, 305, 213]
+		  OutDataTypeMode	  "single"
+		  Port {
+		    PortNumber		    1
+		    Name		    "MIOS period measurement"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  DataTypeConversion
+		  Name			  "Data Type Conversion2"
+		  Position		  [235, 32, 305, 58]
+		  OutDataTypeMode	  "uint8"
+		  Port {
+		    PortNumber		    1
+		    Name		    "MIOS digital inputs"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "MIOS dig in1"
+		  Position		  [560, 38, 590, 52]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "MIOS pulse widh measurement"
+		  Position		  [560, 123, 590, 137]
+		  Port			  "2"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "MIOS period measurement"
+		  Position		  [560, 193, 590, 207]
+		  Port			  "3"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  Name			  "MIOS pulse width measurement"
+		  Labels		  [1, 1]
+		  SrcBlock		  "Data Type Conversion"
+		  SrcPort		  1
+		  DstBlock		  "MIOS pulse widh measurement"
+		  DstPort		  1
+		}
+		Line {
+		  Name			  "MIOS period measurement"
+		  Labels		  [1, 1]
+		  SrcBlock		  "Data Type Conversion1"
+		  SrcPort		  1
+		  DstBlock		  "MIOS period measurement"
+		  DstPort		  1
+		}
+		Line {
+		  Name			  "MIOS digital inputs"
+		  Labels		  [1, 1]
+		  SrcBlock		  "Data Type Conversion2"
+		  SrcPort		  1
+		  DstBlock		  "MIOS dig in1"
+		  DstPort		  1
+		}
+		Line {
+		  Labels		  [0, 0]
+		  SrcBlock		  "Pulse Width"
+		  SrcPort		  1
+		  DstBlock		  "Data Type Conversion"
+		  DstPort		  1
+		}
+		Line {
+		  Labels		  [0, 0]
+		  SrcBlock		  "Pulse Period"
+		  SrcPort		  1
+		  DstBlock		  "Data Type Conversion1"
+		  DstPort		  1
+		}
+		Line {
+		  Labels		  [0, 0]
+		  SrcBlock		  "MIOS dig in"
+		  SrcPort		  1
+		  DstBlock		  "Data Type Conversion2"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "TPU outputs: digital output \nand PWM"
+	      Ports		      [0, 1]
+	      Position		      [575, 158, 700, 202]
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"TPU outputs: digital output \nand PWM"
+		Location		[35, 342, 391, 599]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	212
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  BusCreator
+		  Name			  "Bus\nCreator"
+		  Ports			  [2, 1]
+		  Position		  [235, 116, 240, 154]
+		  ShowName		  off
+		  DialogController	  "Simulink.DDGSource_Bus"
+		  Inputs		  "2"
+		  DisplayOption		  "bar"
+		}
+		Block {
+		  BlockType		  BusCreator
+		  Name			  "Bus\nCreator2"
+		  Ports			  [2, 1]
+		  Position		  [170, 93, 175, 222]
+		  ShowName		  off
+		  DialogController	  "Simulink.DDGSource_Bus"
+		  Inputs		  "2"
+		  DisplayOption		  "bar"
+		  Port {
+		    PortNumber		    1
+		    Name		    "TPU PWM"
+		    PropagatedSignals	    "PWM Duty Cycle, PWM Period"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  DiscretePulseGenerator
+		  Name			  "Digital Output"
+		  Ports			  [0, 1]
+		  Position		  [50, 33, 95, 67]
+		  Port {
+		    PortNumber		    1
+		    Name		    "TPU dig out"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Sin
+		  Name			  "Duty Cycle Input"
+		  Ports			  [0, 1]
+		  Position		  [50, 110, 80, 140]
+		  SineType		  "Sample based"
+		  Amplitude		  ".5"
+		  Bias			  ".5"
+		  Samples		  "200"
+		  SampleTime		  "0.01"
+		  Port {
+		    PortNumber		    1
+		    Name		    "PWM Duty Cycle"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Sin
+		  Name			  "Pulse Period Input"
+		  Ports			  [0, 1]
+		  Position		  [50, 175, 80, 205]
+		  SineType		  "Sample based"
+		  Amplitude		  "10000"
+		  Bias			  "20000"
+		  Samples		  "100"
+		  SampleTime		  "0.5"
+		  Port {
+		    PortNumber		    1
+		    Name		    "PWM Period"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    ShowSigGenPortName	    on
+		  }
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "TPU_Out_double"
+		  Position		  [270, 128, 300, 142]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  Name			  "TPU PWM"
+		  Labels		  [0, 0]
+		  SrcBlock		  "Bus\nCreator2"
+		  SrcPort		  1
+		  Points		  [40, 0]
+		  DstBlock		  "Bus\nCreator"
+		  DstPort		  2
+		}
+		Line {
+		  Name			  "TPU dig out"
+		  Labels		  [0, 0]
+		  SrcBlock		  "Digital Output"
+		  SrcPort		  1
+		  Points		  [120, 0]
+		  DstBlock		  "Bus\nCreator"
+		  DstPort		  1
+		}
+		Line {
+		  Name			  "PWM Duty Cycle"
+		  Labels		  [0, 0]
+		  SrcBlock		  "Duty Cycle Input"
+		  SrcPort		  1
+		  DstBlock		  "Bus\nCreator2"
+		  DstPort		  1
+		}
+		Line {
+		  Name			  "PWM Period"
+		  Labels		  [0, 0]
+		  SrcBlock		  "Pulse Period Input"
+		  SrcPort		  1
+		  DstBlock		  "Bus\nCreator2"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "Bus\nCreator"
+		  SrcPort		  1
+		  DstBlock		  "TPU_Out_double"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "MIOS_Out_double"
+	      Position		      [750, 48, 780, 62]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "MIOS_Out_uint8"
+	      Position		      [750, 88, 780, 102]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "TPU_Out_double"
+	      Position		      [750, 173, 780, 187]
+	      Port		      "3"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Inputs_single"
+	      Position		      [470, 153, 500, 167]
+	      Port		      "4"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Inputs_uint8"
+	      Position		      [575, 258, 605, 272]
+	      Port		      "5"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "Process digital inputs"
+	      SrcPort		      1
+	      Points		      [145, 0]
+	      DstBlock		      "Bus\nCreator1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Process digital inputs"
+	      SrcPort		      2
+	      Points		      [30, 0]
+	      DstBlock		      "Bus\nCreator"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Process digital inputs"
+	      SrcPort		      3
+	      Points		      [30, 0]
+	      DstBlock		      "Bus\nCreator"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Process analog inputs"
+	      SrcPort		      1
+	      DstBlock		      "Bus\nCreator"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "In1"
+	      SrcPort		      1
+	      DstBlock		      "Process digital inputs"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "MIOS outputs: digital output \nand PWM"
+	      SrcPort		      1
+	      DstBlock		      "MIOS_Out_double"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "In2"
+	      SrcPort		      1
+	      DstBlock		      "Process digital inputs"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "In3"
+	      SrcPort		      1
+	      DstBlock		      "Process digital inputs"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "MIOS outputs: digital output \nand PWM"
+	      SrcPort		      2
+	      DstBlock		      "MIOS_Out_uint8"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "In4"
+	      SrcPort		      1
+	      DstBlock		      "Process analog inputs"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "In5"
+	      SrcPort		      1
+	      DstBlock		      "Process analog inputs"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "TPU outputs: digital output \nand PWM"
+	      SrcPort		      1
+	      DstBlock		      "TPU_Out_double"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Process analog inputs"
+	      SrcPort		      2
+	      DstBlock		      "Bus\nCreator1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Process TPU"
+	      SrcPort		      1
+	      Points		      [145, 0]
+	      DstBlock		      "Bus\nCreator1"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Bus\nCreator"
+	      SrcPort		      1
+	      DstBlock		      "Inputs_single"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Bus\nCreator1"
+	      SrcPort		      1
+	      DstBlock		      "Inputs_uint8"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "In6"
+	      SrcPort		      1
+	      DstBlock		      "Process TPU"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "CAN handshake:\non receipt of CAN message S"
+"td ID=1, send a response"
+	  Ports			  []
+	  Position		  [255, 24, 422, 90]
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "CAN handshake:\non receipt of CAN message"
+" Std ID=1, send a response"
+	    Location		    [32, 259, 722, 471]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Real Time Transmit \nStd ID = 2"
+	      Ports		      [1, 0, 0, 1]
+	      Position		      [230, 55, 330, 115]
+	      TreatAsAtomicUnit	      on
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"Real Time Transmit \nStd ID = 2"
+		Location		[37, 342, 795, 524]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "Message"
+		  Position		  [15, 103, 45, 117]
+		  Port			  "1"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  TriggerPort
+		  Name			  "function"
+		  Ports			  []
+		  Position		  [355, 15, 375, 35]
+		  TriggerType		  "function-call"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "CAN Message Packing\nStd Id = 2"
+		  Ports			  [1, 1]
+		  Position		  [460, 86, 565, 134]
+		  FontName		  "Arial"
+		  SourceBlock		  "canblocks/CAN Message Packing"
+		  SourceType		  "CAN Message Packing"
+		  id			  "2"
+		  message_type		  "Standard (11-bit identifier)"
+		  endian		  "Big Endian (Motorola)"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "CAN Message Unpacking"
+		  Ports			  [1, 1]
+		  Position		  [195, 86, 290, 134]
+		  FontName		  "Arial"
+		  SourceBlock		  "canblocks/CAN Message Unpacking/CAN"
+" Message Unpacking"
+		  SourceType		  "CAN Message Unpacking"
+		  showData		  "on"
+		  showID		  "off"
+		  showLength		  "off"
+		  endian		  "Little Endian (Intel)"
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "CAN TX"
+		  Ports			  [1]
+		  Position		  [705, 80, 745, 140]
+		  TreatAsAtomicUnit	  off
+		  MinAlgLoopOccurrences	  off
+		  PropExecContextAcrossSSBoundary on
+		  RTWSystemCode		  "Auto"
+		  System {
+		    Name		    "CAN TX"
+		    Location		    [41, 425, 434, 598]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "A4"
+		    PaperUnits		    "centimeters"
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [25, 43, 55, 57]
+		    Port		    "1"
+		    IconDisplay		    "Port number"
+		    LatchInput		    off
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "TouCAN Transmit"
+		    Ports		    [1]
+		    Position		    [200, 27, 350, 73]
+		    FontName		    "Arial"
+		    SourceBlock		    "mpc555toucan/TouCAN Transmit"
+		    SourceType		    "MPC555 TouCAN Transmit"
+		    ShowPortLabels	    "on"
+		    module		    "A"
+		    tx_mode		    "Queued transmission with shared b"
+"uffer"
+		    fifo_queue_length	    "8"
+		    bufferids		    "0"
+		    t			    "-1"
+		    enablePassThru	    "off"
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    DstBlock		    "TouCAN Transmit"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
+		  BlockType		  SignalSpecification
+		  Name			  "Signal Specification"
+		  Position		  [335, 98, 410, 122]
+		  Dimensions		  "8"
+		  DataType		  "uint8"
+		}
+		Line {
+		  SrcBlock		  "Signal Specification"
+		  SrcPort		  1
+		  DstBlock		  "CAN Message Packing\nStd Id = 2"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "CAN Message Unpacking"
+		  SrcPort		  1
+		  DstBlock		  "Signal Specification"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Message"
+		  SrcPort		  1
+		  DstBlock		  "CAN Message Unpacking"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "CAN Message Packing\nStd Id = 2"
+		  SrcPort		  1
+		  DstBlock		  "CAN TX"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "TouCAN Receive1"
+	      Ports		      [0, 2]
+	      Position		      [30, 18, 120, 67]
+	      FontName		      "Arial"
+	      SourceBlock	      "mpc555toucan/TouCAN Receive"
+	      SourceType	      "MPC555 TouCAN Receive"
+	      ShowPortLabels	      "on"
+	      module		      "A"
+	      ids		      "1"
+	      notification_type	      "Function Call Outport"
+	      auto_select_buffer      "on"
+	      bufferids		      "3"
+	      use_queue		      "off"
+	      queue_length	      "3"
+	      message_type	      "Standard (11-bit identifier)"
+	      t			      "1 "
+	    }
+	    Line {
+	      SrcBlock		      "TouCAN Receive1"
+	      SrcPort		      1
+	      Points		      [155, 0]
+	      DstBlock		      "Real Time Transmit \nStd ID = 2"
+	      DstPort		      trigger
+	    }
+	    Line {
+	      SrcBlock		      "TouCAN Receive1"
+	      SrcPort		      2
+	      Points		      [90, 0]
+	      DstBlock		      "Real Time Transmit \nStd ID = 2"
+	      DstPort		      1
+	    }
+	    Annotation {
+	      Name		      "HANDSHAKE TEST"
+	      Position		      [76, 140]
+	      ForegroundColor	      "red"
+	      FontName		      "Arial"
+	      FontSize		      12
+	    }
+	    Annotation {
+	      Name		      "On receipt of CAN message with standard"
+" ID=1 a response message with standard ID=2 is constructed from the data in t"
+"he received message. \nIf you have appropriate CAN hardware on your PC, you c"
+"an use the corresponding host-side model to transmit the message with ID=1."
+	      Position		      [18, 181]
+	      HorizontalAlignment     "left"
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "MIOS inputs: digital input \nand waveform m"
+"easurement"
+	  Ports			  [0, 3]
+	  Position		  [15, 186, 240, 294]
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "MIOS inputs: digital input \nand waveform"
+" measurement"
+	    Location		    [34, 260, 398, 636]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Reference
+	      Name		      "MIOS Digital In"
+	      Ports		      [0, 1]
+	      Position		      [55, 57, 120, 93]
+	      SourceBlock	      "mpc555drivers/Modular Input//Output\nSy"
+"stem (MIOS1)/MIOS Digital In"
+	      SourceType	      "MPC555 Digital Input (MPIOSM)"
+	      ShowPortLabels	      "on"
+	      bits		      "[8 9 10 11 12 13 14 15]"
+	      t			      "0.1"
+	      enablePassThru	      "off"
+	      Port {
+		PortNumber		1
+		Name			"MIOS dig in"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "MIOS Digital In\nOutput Signal Info"
+	      Ports		      []
+	      Position		      [171, 42, 207, 65]
+	      Orientation	      "left"
+	      BackgroundColor	      "lightBlue"
+	      DropShadow	      on
+	      NamePlacement	      "alternate"
+	      FontName		      "Arial"
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      MaskDisplay	      "disp('Info')"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      System {
+		Name			"MIOS Digital In\nOutput Signal Info"
+		Location		[39, 340, 393, 418]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Annotation {
+		  Name			  "The output is a boolean, either tru"
+"e or false"
+		  Position		  [29, 29]
+		  HorizontalAlignment	  "left"
+		  VerticalAlignment	  "top"
+		  DropShadow		  on
+		  FontName		  "Arial"
+		  FontSize		  14
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "MIOS Waveform Measurement"
+	      Ports		      [0, 1]
+	      Position		      [55, 307, 120, 343]
+	      SourceBlock	      "mpc555drivers/Modular Input//Output\nSy"
+"stem (MIOS1)/MIOS Waveform Measurement"
+	      SourceType	      "MPC555 Waveform Measurement (MDASM)"
+	      ShowPortLabels	      "on"
+	      module		      "12"
+	      operation		      "Pulse period"
+	      bsl		      "Counter Bus 6 (CB6)"
+	      range		      "[ 0.0002048 , 13.4218 ]"
+	      t			      "0.1  "
+	      edpol		      "off"
+	      fren		      "off"
+	      enablePassThru	      "off"
+	      Port {
+		PortNumber		1
+		Name			"Pulse Period In"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "MIOS Waveform Measurement\nOutput Signa"
+"l Info"
+	      Ports		      []
+	      Position		      [171, 202, 207, 225]
+	      Orientation	      "left"
+	      BackgroundColor	      "lightBlue"
+	      DropShadow	      on
+	      NamePlacement	      "alternate"
+	      FontName		      "Arial"
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      MaskDisplay	      "disp('Info')"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      System {
+		Name			"MIOS Waveform Measurement\nOutput Sig"
+"nal Info"
+		Location		[37, 345, 542, 511]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Annotation {
+		  Name			  "The output signal is the pulse widt"
+"h or pulse period, measured \nin seconds. The valid range is determined by th"
+"e dialog settings\nin the MIOS Waveform Measurement block and the correspondi"
+"ng\nsettings in the MPC555 Resource Configuration block. The allowed\ndatatyp"
+"e for this signal is either double or single.\n"
+		  Position		  [29, 24]
+		  HorizontalAlignment	  "left"
+		  VerticalAlignment	  "top"
+		  DropShadow		  on
+		  FontName		  "Arial"
+		  FontSize		  14
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "MIOS Waveform Measurement2"
+	      Ports		      [0, 1]
+	      Position		      [55, 217, 120, 253]
+	      SourceBlock	      "mpc555drivers/Modular Input//Output\nSy"
+"stem (MIOS1)/MIOS Waveform Measurement"
+	      SourceType	      "MPC555 Waveform Measurement (MDASM)"
+	      ShowPortLabels	      "on"
+	      module		      "11"
+	      operation		      "Pulse width"
+	      bsl		      "Counter Bus 6 (CB6)"
+	      range		      "[ 0.0002048 , 13.4218 ]"
+	      t			      "0.1"
+	      edpol		      "off"
+	      fren		      "off"
+	      enablePassThru	      "off"
+	      Port {
+		PortNumber		1
+		Name			"Pulse Width In"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "MIOS dig in"
+	      Position		      [255, 68, 285, 82]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "MIOS pulse widh measurement"
+	      Position		      [255, 228, 285, 242]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "MIOS period measurement"
+	      Position		      [255, 318, 285, 332]
+	      Port		      "3"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      Name		      "MIOS dig in"
+	      Labels		      [0, 0]
+	      SrcBlock		      "MIOS Digital In"
+	      SrcPort		      1
+	      DstBlock		      "MIOS dig in"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "Pulse Period In"
+	      Labels		      [0, 0]
+	      SrcBlock		      "MIOS Waveform Measurement"
+	      SrcPort		      1
+	      DstBlock		      "MIOS period measurement"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "Pulse Width In"
+	      Labels		      [0, 0]
+	      SrcBlock		      "MIOS Waveform Measurement2"
+	      SrcPort		      1
+	      DstBlock		      "MIOS pulse widh measurement"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "MIOS outputs: digital output \nand PWM"
+	  Ports			  [2]
+	  Position		  [480, 179, 590, 301]
+	  NamePlacement		  "alternate"
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "MIOS outputs: digital output \nand PWM"
+	    Location		    [35, 259, 501, 736]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In1"
+	      Position		      [15, 128, 45, 142]
+	      Port		      "1"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	      Port {
+		PortNumber		1
+		PropagatedSignals	"MIOS dig out, MIOS PWM_0"
+		ShowPropagatedSignals	"on"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In4"
+	      Position		      [55, 383, 85, 397]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	      Port {
+		PortNumber		1
+		PropagatedSignals	"MIOS PWM_17"
+		ShowPropagatedSignals	"on"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      BusSelector
+	      Name		      "Bus\nSelector"
+	      Ports		      [1, 2]
+	      Position		      [210, 116, 215, 154]
+	      ShowName		      off
+	      DialogController	      "Simulink.DDGSource_Bus"
+	      OutputSignals	      "MIOS dig out,MIOS PWM_0"
+	      Port {
+		PortNumber		1
+		Name			"<MIOS dig out>"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortNumber		2
+		Name			"<MIOS PWM_0>"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "MIOS Digital Out"
+	      Ports		      [1]
+	      Position		      [335, 62, 400, 98]
+	      SourceBlock	      "mpc555drivers/Modular Input//Output\nSy"
+"stem (MIOS1)/MIOS Digital Out"
+	      SourceType	      "MPC555 Digital Output (MPIOSM)"
+	      ShowPortLabels	      "on"
+	      bits		      "[0 1 2 3 4 5 6 7]"
+	      init		      "0"
+	      t			      "-1"
+	      enablePassThru	      "off"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "MIOS Digital Out\n(MPWMSM)1"
+	      Ports		      [1]
+	      Position		      [335, 372, 400, 408]
+	      Priority		      "2"
+	      SourceBlock	      "mpc555drivers/Modular Input//Output\nSy"
+"stem (MIOS1)/MIOS Digital Out\n(MPWMSM)"
+	      SourceType	      "MPC555 Digital Output (MPWMSM)"
+	      ShowPortLabels	      "on"
+	      module		      "17"
+	      init		      "0"
+	      t			      "-1"
+	      enablePassThru	      "off"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "MIOS Digital Out\nInput Signal Info"
+	      Ports		      []
+	      Position		      [256, 37, 292, 60]
+	      Orientation	      "left"
+	      BackgroundColor	      "lightBlue"
+	      DropShadow	      on
+	      NamePlacement	      "alternate"
+	      FontName		      "Arial"
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      MaskDisplay	      "disp('Info')"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      System {
+		Name			"MIOS Digital Out\nInput Signal Info"
+		Location		[38, 338, 424, 414]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Annotation {
+		  Name			  "The input signal is interpreted as "
+"either true or false"
+		  Position		  [24, 24]
+		  HorizontalAlignment	  "left"
+		  VerticalAlignment	  "top"
+		  DropShadow		  on
+		  FontName		  "Arial"
+		  FontSize		  14
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "MIOS Digital Out (MPWMSM)\nInput Signal"
+" Info"
+	      Ports		      []
+	      Position		      [256, 337, 292, 360]
+	      Orientation	      "left"
+	      BackgroundColor	      "lightBlue"
+	      DropShadow	      on
+	      NamePlacement	      "alternate"
+	      FontName		      "Arial"
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      MaskDisplay	      "disp('Info')"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      System {
+		Name			"MIOS Digital Out (MPWMSM)\nInput Sign"
+"al Info"
+		Location		[39, 339, 430, 419]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Annotation {
+		  Name			  "The input signal is interpreted as "
+"either true or false"
+		  Position		  [24, 24]
+		  HorizontalAlignment	  "left"
+		  VerticalAlignment	  "top"
+		  DropShadow		  on
+		  FontName		  "Arial"
+		  FontSize		  14
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "MIOS PWM Out\nInput Signal Info"
+	      Ports		      []
+	      Position		      [256, 202, 292, 225]
+	      Orientation	      "left"
+	      BackgroundColor	      "lightBlue"
+	      DropShadow	      on
+	      NamePlacement	      "alternate"
+	      FontName		      "Arial"
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      MaskDisplay	      "disp('Info')"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      System {
+		Name			"MIOS PWM Out\nInput Signal Info"
+		Location		[38, 341, 509, 419]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Annotation {
+		  Name			  "The input signal must be scaled in "
+"the range 0 to 1, the datatype\nmay be either double or single."
+		  Position		  [24, 19]
+		  HorizontalAlignment	  "left"
+		  VerticalAlignment	  "top"
+		  DropShadow		  on
+		  FontName		  "Arial"
+		  FontSize		  14
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "MIOS Pulse Width Modulation Out"
+	      Ports		      [1]
+	      Position		      [335, 217, 400, 253]
+	      Priority		      "2"
+	      List {
+		ListType		RTWdata
+		TLCFile			"extended_custcode"
+		Location		"Header File"
+		Top			"/* MIOS Digital Out Required Header F"
+"iles*/\n#include \"isr.h\"                           \n"
+		ReferenceMask		""
+	      }
+	      Diagnostics	      "AllowInheritedTsInSrc"
+	      SourceBlock	      "mpc555drivers/Modular Input//Output\nSy"
+"stem (MIOS1)/MIOS Pulse Width Modulation Out"
+	      SourceType	      "MPC555 Pulse Width Modulation Output (M"
+"PWMSM)"
+	      ShowPortLabels	      "on"
+	      module		      "0"
+	      timing_settings	      "off"
+	      period		      "0.01 "
+	      initpw		      "0.5"
+	      cp		      "255"
+	      pp		      "12500"
+	      t			      "-1"
+	      pol		      "on"
+	      trsp		      "on"
+	      fren		      "off"
+	      enablePassThru	      "off"
+	    }
+	    Line {
+	      Name		      "<MIOS dig out>"
+	      Labels		      [1, 1]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      1
+	      Points		      [0, -45]
+	      DstBlock		      "MIOS Digital Out"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<MIOS PWM_0>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      2
+	      Points		      [0, 90]
+	      DstBlock		      "MIOS Pulse Width Modulation Out"
+	      DstPort		      1
+	    }
+	    Line {
+	      Labels		      [0, 0]
+	      SrcBlock		      "In4"
+	      SrcPort		      1
+	      DstBlock		      "MIOS Digital Out\n(MPWMSM)1"
+	      DstPort		      1
+	    }
+	    Line {
+	      Labels		      [0, 0]
+	      SrcBlock		      "In1"
+	      SrcPort		      1
+	      DstBlock		      "Bus\nSelector"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "MPC555\nResource\nConfiguration\n"
+	  Tag			  "RTW CONFIGURATION BLOCK"
+	  Ports			  []
+	  Position		  [35, 15, 75, 55]
+	  Priority		  "-100000"
+	  UserDataPersistent	  on
+	  UserData		  "DataTag1"
+	  FontName		  "Arial"
+	  FontWeight		  "bold"
+	  SourceBlock		  "mpc555drivers/MPC555\nResource\nConfigurati"
+"on"
+	  SourceType		  "Subsystem Resource Configuration"
+	  ShowPortLabels	  "on"
+	  oldParentName		  "Target_IO_lib5/Target_IO"
+	  oldBlockName		  "Target_IO_lib5/Target_IO/MPC555\nResource\n"
+"Configuration\n"
+	  defaultConfigLibrary	  "mpc555drivers"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "MPC555 Execution Profiling\nvia SCI1"
+	  Ports			  []
+	  Position		  [485, 35, 588, 76]
+	  SourceBlock		  "mpc555drivers/Execution Profiling/MPC555 Ex"
+"ecution Profiling\nvia SCI1"
+	  SourceType		  "MPC555  Execution Profiling via Serial Port"
+" SCI1"
+	  ShowPortLabels	  "on"
+	  t			  "0.01"
+	  execCopyFcn		  "off"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "QADC inputs: analog input\nand digital inpu"
+"t"
+	  Ports			  [0, 2]
+	  Position		  [15, 328, 240, 432]
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "QADC inputs: analog input\nand digital in"
+"put"
+	    Location		    [36, 259, 423, 539]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Reference
+	      Name		      "QADC Analog In"
+	      Ports		      [0, 1]
+	      Position		      [15, 65, 95, 105]
+	      SourceBlock	      "mpc555drivers/Queued\nAnalog-To-Digital"
+"\nConverter Module-64/QADC Analog In"
+	      SourceType	      "MPC555 Analog Input (QADC64, Continuous"
+"-scan)"
+	      ShowPortLabels	      "on"
+	      module		      "B"
+	      channels		      "[0 1]"
+	      justification	      "Right-justified (unsigned)"
+	      t			      "0.1"
+	      enablePassThru	      "off"
+	      Port {
+		PortNumber		1
+		Name			"QADC analog inputs"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "QADC Analog In\nOutput Signal Info"
+	      Ports		      []
+	      Position		      [136, 42, 172, 65]
+	      Orientation	      "left"
+	      BackgroundColor	      "lightBlue"
+	      DropShadow	      on
+	      NamePlacement	      "alternate"
+	      FontName		      "Arial"
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      MaskDisplay	      "disp('Info')"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      System {
+		Name			"QADC Analog In\nOutput Signal Info"
+		Location		[41, 343, 589, 492]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Annotation {
+		  Name			  "The output signal is either a uint1"
+"6 or an int16 depending on whether signed\nor unsigned is selected in the mas"
+"k dialog. While the value is provided\nas a 16 bit word, the actual resolutio"
+"n is only 10 bits. The 10 bit ADC \nreading is either right or left justified"
+" within the 16 bit word depending\non the option selected in the mask dialog."
+"\n"
+		  Position		  [29, 24]
+		  HorizontalAlignment	  "left"
+		  VerticalAlignment	  "top"
+		  DropShadow		  on
+		  FontName		  "Arial"
+		  FontSize		  14
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "QADC Digital In"
+	      Ports		      [0, 1]
+	      Position		      [15, 206, 95, 244]
+	      SourceBlock	      "mpc555drivers/Queued\nAnalog-To-Digital"
+"\nConverter Module-64/QADC Digital In"
+	      SourceType	      "MPC555 Digital Input (QADC64)"
+	      ShowPortLabels	      "on"
+	      module		      "A"
+	      port		      "B"
+	      bits		      "[0 1 2 3]"
+	      t			      "1"
+	      enablePassThru	      "off"
+	      Port {
+		PortNumber		1
+		Name			"QADC digital inputs"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "QADC Digital In\nOutput Signal Info"
+	      Ports		      []
+	      Position		      [136, 182, 172, 205]
+	      Orientation	      "left"
+	      BackgroundColor	      "lightBlue"
+	      DropShadow	      on
+	      NamePlacement	      "alternate"
+	      FontName		      "Arial"
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      MaskDisplay	      "disp('Info')"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      System {
+		Name			"QADC Digital In\nOutput Signal Info"
+		Location		[42, 340, 350, 408]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		ZoomFactor		"100"
+		Annotation {
+		  Name			  "The output signal is either true or"
+" false"
+		  Position		  [24, 24]
+		  HorizontalAlignment	  "left"
+		  VerticalAlignment	  "top"
+		  DropShadow		  on
+		  FontName		  "Arial"
+		  FontSize		  14
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "QADC Analog Inputs"
+	      Position		      [270, 78, 300, 92]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "QADC Digital Inputs"
+	      Position		      [270, 218, 300, 232]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      Name		      "QADC analog inputs"
+	      Labels		      [0, 0]
+	      SrcBlock		      "QADC Analog In"
+	      SrcPort		      1
+	      DstBlock		      "QADC Analog Inputs"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "QADC digital inputs"
+	      Labels		      [0, 0]
+	      SrcBlock		      "QADC Digital In"
+	      SrcPort		      1
+	      DstBlock		      "QADC Digital Inputs"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "TPU inputs: digital input"
+	  Ports			  [0, 1]
+	  Position		  [15, 463, 240, 517]
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "TPU inputs: digital input"
+	    Location		    [33, 259, 344, 389]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "TPU Digital In\nOutput Signal Info"
+	      Ports		      []
+	      Position		      [136, 52, 172, 75]
+	      Orientation	      "left"
+	      BackgroundColor	      "lightBlue"
+	      DropShadow	      on
+	      NamePlacement	      "alternate"
+	      FontName		      "Arial"
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      MaskDisplay	      "disp('Info')"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      System {
+		Name			"TPU Digital In\nOutput Signal Info"
+		Location		[38, 340, 392, 418]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Annotation {
+		  Name			  "The output is a boolean, either tru"
+"e or false"
+		  Position		  [29, 29]
+		  HorizontalAlignment	  "left"
+		  VerticalAlignment	  "top"
+		  DropShadow		  on
+		  FontName		  "Arial"
+		  FontSize		  14
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "TPU3 Digital In"
+	      Ports		      [0, 1]
+	      Position		      [15, 66, 85, 104]
+	      SourceBlock	      "mpc555drivers/Time Processor\nUnit (TPU"
+"3)/TPU3 Digital In"
+	      SourceType	      "MPC555 Digital Input (TPU3)"
+	      ShowPortLabels	      "on"
+	      module		      "B"
+	      channel		      "0"
+	      channel_priority	      "Low"
+	      sampleTime	      "0.1"
+	      enablePassThru	      "off"
+	      Port {
+		PortNumber		1
+		Name			"TPU dig in"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "TPU dig in"
+	      Position		      [220, 78, 250, 92]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      Name		      "TPU dig in"
+	      Labels		      [0, 0]
+	      SrcBlock		      "TPU3 Digital In"
+	      SrcPort		      1
+	      DstBlock		      "TPU dig in"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "TPU outputs: digital output \nand PWM"
+	  Ports			  [1]
+	  Position		  [480, 315, 585, 365]
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "TPU outputs: digital output \nand PWM"
+	    Location		    [34, 256, 675, 605]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In1"
+	      Position		      [20, 193, 50, 207]
+	      Port		      "1"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	      Port {
+		PortNumber		1
+		PropagatedSignals	"TPU dig out, TPU PWM"
+		ShowPropagatedSignals	"on"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      BusSelector
+	      Name		      "Bus\nSelector"
+	      Ports		      [1, 2]
+	      Position		      [180, 139, 185, 261]
+	      ShowName		      off
+	      DialogController	      "Simulink.DDGSource_Bus"
+	      OutputSignals	      "TPU dig out,TPU PWM"
+	      Port {
+		PortNumber		1
+		Name			"<TPU dig out>"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortNumber		2
+		Name			"<TPU PWM>"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      BusSelector
+	      Name		      "Bus\nSelector1"
+	      Ports		      [1, 2]
+	      Position		      [245, 253, 250, 322]
+	      ShowName		      off
+	      DialogController	      "Simulink.DDGSource_Bus"
+	      OutputSignals	      "PWM Duty Cycle,PWM Period"
+	      Port {
+		PortNumber		1
+		Name			"<PWM Duty Cycle>"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortNumber		2
+		Name			"<PWM Period>"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      RateTransition
+	      Name		      "Rate Transition1"
+	      Position		      [435, 280, 460, 300]
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "TPU Digital Out\nInput Signal Info"
+	      Ports		      []
+	      Position		      [241, 42, 277, 65]
+	      Orientation	      "left"
+	      BackgroundColor	      "lightBlue"
+	      DropShadow	      on
+	      NamePlacement	      "alternate"
+	      FontName		      "Arial"
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      MaskDisplay	      "disp('Info')"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      System {
+		Name			"TPU Digital Out\nInput Signal Info"
+		Location		[56, 359, 442, 435]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Annotation {
+		  Name			  "The input signal is interpreted as "
+"either true or false"
+		  Position		  [24, 24]
+		  HorizontalAlignment	  "left"
+		  VerticalAlignment	  "top"
+		  DropShadow		  on
+		  FontName		  "Arial"
+		  FontSize		  14
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "TPU PWM Out\nInput Signal Info"
+	      Ports		      []
+	      Position		      [421, 167, 457, 190]
+	      Orientation	      "left"
+	      BackgroundColor	      "lightBlue"
+	      DropShadow	      on
+	      NamePlacement	      "alternate"
+	      FontName		      "Arial"
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      MaskDisplay	      "disp('Info')"
+	      MaskIconFrame	      on
+	      MaskIconOpaque	      on
+	      MaskIconRotate	      "none"
+	      MaskIconUnits	      "autoscale"
+	      System {
+		Name			"TPU PWM Out\nInput Signal Info"
+		Location		[40, 337, 548, 441]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Annotation {
+		  Name			  "Input signal 1, the Duty Cycle inpu"
+"t, must be scaled in the range 0 to 1, \nthe datatype may be either double or"
+" single.\n\nInput signal 2 (optional), the Period Register input, must be a u"
+"int16 value."
+		  Position		  [24, 19]
+		  HorizontalAlignment	  "left"
+		  VerticalAlignment	  "top"
+		  DropShadow		  on
+		  FontName		  "Arial"
+		  FontSize		  14
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "TPU3 Digital Out"
+	      Ports		      [1]
+	      Position		      [325, 62, 395, 98]
+	      SourceBlock	      "mpc555drivers/Time Processor\nUnit (TPU"
+"3)/TPU3 Digital Out"
+	      SourceType	      "MPC555 Digital Output (TPU3)"
+	      ShowPortLabels	      "on"
+	      module		      "A"
+	      channel		      "0"
+	      channel_priority	      "Medium"
+	      sampleTime	      "-1"
+	      enablePassThru	      "off"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "TPU3 Pulse Width\nModulation Out"
+	      Ports		      [1]
+	      Position		      [505, 187, 575, 223]
+	      SourceBlock	      "mpc555drivers/Time Processor\nUnit (TPU"
+"3)/TPU3 Pulse Width\nModulation Out"
+	      SourceType	      "MPC555 Pulse Width Modulation Output (T"
+"PU3)"
+	      ShowPortLabels	      "on"
+	      module		      "A"
+	      channel		      "1"
+	      channel_priority	      "Medium"
+	      block_period	      "off"
+	      timing_settings	      "off"
+	      ideal_period	      "0.02"
+	      PWMPER		      "12500"
+	      actual_period	      "0.02"
+	      sampleTime	      "-1"
+	      enablePassThru	      "off"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "TPU3 Pulse Width\nModulation Out1"
+	      Ports		      [2]
+	      Position		      [505, 262, 575, 298]
+	      SourceBlock	      "mpc555drivers/Time Processor\nUnit (TPU"
+"3)/TPU3 Pulse Width\nModulation Out"
+	      SourceType	      "MPC555 Pulse Width Modulation Output (T"
+"PU3)"
+	      ShowPortLabels	      "on"
+	      module		      "B"
+	      channel		      "1"
+	      channel_priority	      "Medium"
+	      block_period	      "on"
+	      timing_settings	      "off"
+	      ideal_period	      "0.02"
+	      PWMPER		      "12500"
+	      actual_period	      "0.02"
+	      sampleTime	      "0.01"
+	      enablePassThru	      "off"
+	    }
+	    Block {
+	      BlockType		      DataTypeConversion
+	      Name		      "dtc1"
+	      Position		      [335, 294, 380, 316]
+	      OutDataTypeMode	      "uint16"
+	    }
+	    Line {
+	      Name		      "<TPU PWM>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      2
+	      Points		      [25, 0; 0, 60]
+	      DstBlock		      "Bus\nSelector1"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<TPU dig out>"
+	      Labels		      [-1, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      1
+	      Points		      [20, 0; 0, -90]
+	      DstBlock		      "TPU3 Digital Out"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<PWM Duty Cycle>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector1"
+	      SrcPort		      1
+	      Points		      [0, 0; 80, 0]
+	      Branch {
+		DstBlock		"TPU3 Pulse Width\nModulation Out1"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, -65]
+		DstBlock		"TPU3 Pulse Width\nModulation Out"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      Name		      "<PWM Period>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector1"
+	      SrcPort		      2
+	      DstBlock		      "dtc1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "dtc1"
+	      SrcPort		      1
+	      Points		      [35, 0]
+	      DstBlock		      "Rate Transition1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Rate Transition1"
+	      SrcPort		      1
+	      DstBlock		      "TPU3 Pulse Width\nModulation Out1"
+	      DstPort		      2
+	    }
+	    Line {
+	      Labels		      [0, 0]
+	      SrcBlock		      "In1"
+	      SrcPort		      1
+	      DstBlock		      "Bus\nSelector"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Transmit measured \ninputs over CAN"
+	  Ports			  [2]
+	  Position		  [495, 395, 540, 470]
+	  TreatAsAtomicUnit	  off
+	  MinAlgLoopOccurrences	  off
+	  PropExecContextAcrossSSBoundary on
+	  RTWSystemCode		  "Auto"
+	  System {
+	    Name		    "Transmit measured \ninputs over CAN"
+	    Location		    [35, 260, 721, 804]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In1"
+	      Position		      [25, 133, 55, 147]
+	      Port		      "1"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In2"
+	      Position		      [30, 393, 60, 407]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	      LatchInput	      off
+	    }
+	    Block {
+	      BlockType		      BusSelector
+	      Name		      "Bus\nSelector"
+	      Ports		      [1, 3]
+	      Position		      [95, 12, 105, 268]
+	      ShowName		      off
+	      DialogController	      "Simulink.DDGSource_Bus"
+	      OutputSignals	      "MIOS pulse width measurement,MIOS perio"
+"d measurement,QADC analog inputs"
+	      Port {
+		PortNumber		1
+		Name			"<MIOS pulse width measurement>"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortNumber		2
+		Name			"<MIOS period measurement>"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortNumber		3
+		Name			"<QADC analog inputs>"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      BusSelector
+	      Name		      "Bus\nSelector1"
+	      Ports		      [1, 3]
+	      Position		      [95, 275, 105, 525]
+	      ShowName		      off
+	      DialogController	      "Simulink.DDGSource_Bus"
+	      OutputSignals	      "MIOS digital inputs,QADC digital inputs"
+",TPU Digital Input"
+	      Port {
+		PortNumber		1
+		Name			"<MIOS digital inputs>"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortNumber		2
+		Name			"<QADC digital inputs>"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+		ShowSigGenPortName	on
+	      }
+	      Port {
+		PortNumber		3
+		Name			"<TPU Digital Input>"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+		ShowSigGenPortName	on
+	      }
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "CAN Message Packing\nExtd Id 1"
+	      Ports		      [1, 1]
+	      Position		      [275, 30, 375, 80]
+	      FontName		      "Arial"
+	      SourceBlock	      "canblocks/CAN Message Packing"
+	      SourceType	      "CAN Message Packing"
+	      id		      "1"
+	      message_type	      "Extended (29-bit identifier)"
+	      endian		      "Big Endian (Motorola)"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "CAN Message Packing\nExtd Id 2"
+	      Ports		      [1, 1]
+	      Position		      [275, 115, 375, 165]
+	      FontName		      "Arial"
+	      SourceBlock	      "canblocks/CAN Message Packing"
+	      SourceType	      "CAN Message Packing"
+	      id		      "2"
+	      message_type	      "Extended (29-bit identifier)"
+	      endian		      "Big Endian (Motorola)"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "CAN Message Packing\nExtd Id 3"
+	      Ports		      [1, 1]
+	      Position		      [275, 200, 375, 250]
+	      FontName		      "Arial"
+	      SourceBlock	      "canblocks/CAN Message Packing"
+	      SourceType	      "CAN Message Packing"
+	      id		      "3"
+	      message_type	      "Extended (29-bit identifier)"
+	      endian		      "Big Endian (Motorola)"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "CAN Message Packing\nExtd Id 4"
+	      Ports		      [1, 1]
+	      Position		      [275, 290, 375, 340]
+	      FontName		      "Arial"
+	      SourceBlock	      "canblocks/CAN Message Packing"
+	      SourceType	      "CAN Message Packing"
+	      id		      "4"
+	      message_type	      "Extended (29-bit identifier)"
+	      endian		      "Big Endian (Motorola)"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "CAN Message Packing\nExtd Id 5"
+	      Ports		      [1, 1]
+	      Position		      [270, 375, 370, 425]
+	      FontName		      "Arial"
+	      SourceBlock	      "canblocks/CAN Message Packing"
+	      SourceType	      "CAN Message Packing"
+	      id		      "5"
+	      message_type	      "Extended (29-bit identifier)"
+	      endian		      "Big Endian (Motorola)"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "CAN Message Packing\nExtd Id 6"
+	      Ports		      [1, 1]
+	      Position		      [270, 460, 370, 510]
+	      FontName		      "Arial"
+	      SourceBlock	      "canblocks/CAN Message Packing"
+	      SourceType	      "CAN Message Packing"
+	      id		      "6"
+	      message_type	      "Extended (29-bit identifier)"
+	      endian		      "Big Endian (Motorola)"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "CAN TX"
+	      Ports		      [1]
+	      Position		      [520, 25, 560, 85]
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"CAN TX"
+		Location		[40, 342, 550, 589]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [25, 58, 55, 72]
+		  Port			  "1"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "TouCAN Transmit"
+		  Ports			  [1]
+		  Position		  [175, 40, 275, 90]
+		  FontName		  "Arial"
+		  SourceBlock		  "mpc555toucan/TouCAN Transmit"
+		  SourceType		  "MPC555 TouCAN Transmit"
+		  ShowPortLabels	  "on"
+		  module		  "A"
+		  tx_mode		  "Queued transmission with shared buf"
+"fer"
+		  fifo_queue_length	  "8"
+		  bufferids		  "0"
+		  t			  "-1"
+		  enablePassThru	  "off"
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "TouCAN Transmit"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "CAN TX1"
+	      Ports		      [1]
+	      Position		      [520, 110, 560, 170]
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"CAN TX1"
+		Location		[42, 341, 508, 624]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [25, 88, 55, 102]
+		  Port			  "1"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "TouCAN Transmit1"
+		  Ports			  [1]
+		  Position		  [175, 70, 275, 120]
+		  FontName		  "Arial"
+		  SourceBlock		  "mpc555toucan/TouCAN Transmit"
+		  SourceType		  "MPC555 TouCAN Transmit"
+		  ShowPortLabels	  "on"
+		  module		  "A"
+		  tx_mode		  "Queued transmission with shared buf"
+"fer"
+		  fifo_queue_length	  "8"
+		  bufferids		  "0"
+		  t			  "-1"
+		  enablePassThru	  "off"
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "TouCAN Transmit1"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "CAN TX2"
+	      Ports		      [1]
+	      Position		      [520, 195, 560, 255]
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"CAN TX2"
+		Location		[40, 341, 483, 563]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [25, 88, 55, 102]
+		  Port			  "1"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "TouCAN Transmit2"
+		  Ports			  [1]
+		  Position		  [190, 70, 290, 120]
+		  FontName		  "Arial"
+		  SourceBlock		  "mpc555toucan/TouCAN Transmit"
+		  SourceType		  "MPC555 TouCAN Transmit"
+		  ShowPortLabels	  "on"
+		  module		  "A"
+		  tx_mode		  "Queued transmission with shared buf"
+"fer"
+		  fifo_queue_length	  "8"
+		  bufferids		  "0"
+		  t			  "-1"
+		  enablePassThru	  "off"
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "TouCAN Transmit2"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "CAN TX3"
+	      Ports		      [1]
+	      Position		      [520, 285, 560, 345]
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"CAN TX3"
+		Location		[37, 342, 468, 565]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [25, 103, 55, 117]
+		  Port			  "1"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "TouCAN Transmit3"
+		  Ports			  [1]
+		  Position		  [190, 85, 290, 135]
+		  FontName		  "Arial"
+		  SourceBlock		  "mpc555toucan/TouCAN Transmit"
+		  SourceType		  "MPC555 TouCAN Transmit"
+		  ShowPortLabels	  "on"
+		  module		  "A"
+		  tx_mode		  "Queued transmission with shared buf"
+"fer"
+		  fifo_queue_length	  "8"
+		  bufferids		  "0"
+		  t			  "-1"
+		  enablePassThru	  "off"
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "TouCAN Transmit3"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "CAN TX4"
+	      Ports		      [1]
+	      Position		      [520, 370, 560, 430]
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"CAN TX4"
+		Location		[41, 342, 611, 568]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [25, 108, 55, 122]
+		  Port			  "1"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "TouCAN Transmit4"
+		  Ports			  [1]
+		  Position		  [200, 90, 300, 140]
+		  FontName		  "Arial"
+		  SourceBlock		  "mpc555toucan/TouCAN Transmit"
+		  SourceType		  "MPC555 TouCAN Transmit"
+		  ShowPortLabels	  "on"
+		  module		  "A"
+		  tx_mode		  "Queued transmission with shared buf"
+"fer"
+		  fifo_queue_length	  "8"
+		  bufferids		  "0"
+		  t			  "-1"
+		  enablePassThru	  "off"
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "TouCAN Transmit4"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "CAN TX5"
+	      Ports		      [1]
+	      Position		      [520, 455, 560, 515]
+	      TreatAsAtomicUnit	      off
+	      MinAlgLoopOccurrences   off
+	      PropExecContextAcrossSSBoundary on
+	      RTWSystemCode	      "Auto"
+	      System {
+		Name			"CAN TX5"
+		Location		[39, 341, 626, 593]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [25, 43, 55, 57]
+		  Port			  "1"
+		  IconDisplay		  "Port number"
+		  LatchInput		  off
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "TouCAN Transmit5"
+		  Ports			  [1]
+		  Position		  [230, 25, 330, 75]
+		  FontName		  "Arial"
+		  SourceBlock		  "mpc555toucan/TouCAN Transmit"
+		  SourceType		  "MPC555 TouCAN Transmit"
+		  ShowPortLabels	  "on"
+		  module		  "A"
+		  tx_mode		  "Queued transmission with shared buf"
+"fer"
+		  fifo_queue_length	  "8"
+		  bufferids		  "0"
+		  t			  "-1"
+		  enablePassThru	  "off"
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  DstBlock		  "TouCAN Transmit5"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "In1"
+	      SrcPort		      1
+	      DstBlock		      "Bus\nSelector"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "In2"
+	      SrcPort		      1
+	      DstBlock		      "Bus\nSelector1"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<MIOS pulse width measurement>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      1
+	      DstBlock		      "CAN Message Packing\nExtd Id 1"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<MIOS period measurement>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      2
+	      DstBlock		      "CAN Message Packing\nExtd Id 2"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<QADC analog inputs>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector"
+	      SrcPort		      3
+	      DstBlock		      "CAN Message Packing\nExtd Id 3"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<MIOS digital inputs>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector1"
+	      SrcPort		      1
+	      DstBlock		      "CAN Message Packing\nExtd Id 4"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<QADC digital inputs>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector1"
+	      SrcPort		      2
+	      DstBlock		      "CAN Message Packing\nExtd Id 5"
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "<TPU Digital Input>"
+	      Labels		      [0, 0]
+	      SrcBlock		      "Bus\nSelector1"
+	      SrcPort		      3
+	      DstBlock		      "CAN Message Packing\nExtd Id 6"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "CAN Message Packing\nExtd Id 1"
+	      SrcPort		      1
+	      DstBlock		      "CAN TX"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "CAN Message Packing\nExtd Id 2"
+	      SrcPort		      1
+	      DstBlock		      "CAN TX1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "CAN Message Packing\nExtd Id 3"
+	      SrcPort		      1
+	      DstBlock		      "CAN TX2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "CAN Message Packing\nExtd Id 4"
+	      SrcPort		      1
+	      DstBlock		      "CAN TX3"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "CAN Message Packing\nExtd Id 5"
+	      SrcPort		      1
+	      DstBlock		      "CAN TX4"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "CAN Message Packing\nExtd Id 6"
+	      SrcPort		      1
+	      DstBlock		      "CAN TX5"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "watchdog"
+	  Ports			  []
+	  Position		  [125, 24, 210, 59]
+	  SourceBlock		  "mpc555drivers/Watchdog"
+	  SourceType		  "MPC555 Watchdog"
+	  ShowPortLabels	  "on"
+	  timeout		  "0.1"
+	}
+	Line {
+	  SrcBlock		  "MIOS inputs: digital input \nand waveform m"
+"easurement"
+	  SrcPort		  1
+	  DstBlock		  "Algorithm"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Algorithm"
+	  SrcPort		  1
+	  DstBlock		  "MIOS outputs: digital output \nand PWM"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "MIOS inputs: digital input \nand waveform m"
+"easurement"
+	  SrcPort		  2
+	  Points		  [15, 0; 0, 15]
+	  DstBlock		  "Algorithm"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "MIOS inputs: digital input \nand waveform m"
+"easurement"
+	  SrcPort		  3
+	  Points		  [15, 0; 0, 30]
+	  DstBlock		  "Algorithm"
+	  DstPort		  3
+	}
+	Line {
+	  SrcBlock		  "QADC inputs: analog input\nand digital inpu"
+"t"
+	  SrcPort		  1
+	  DstBlock		  "Algorithm"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "QADC inputs: analog input\nand digital inpu"
+"t"
+	  SrcPort		  2
+	  DstBlock		  "Algorithm"
+	  DstPort		  5
+	}
+	Line {
+	  SrcBlock		  "Algorithm"
+	  SrcPort		  2
+	  DstBlock		  "MIOS outputs: digital output \nand PWM"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Algorithm"
+	  SrcPort		  3
+	  Points		  [30, 0]
+	  DstBlock		  "TPU outputs: digital output \nand PWM"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "TPU inputs: digital input"
+	  SrcPort		  1
+	  Points		  [15, 0; 0, -35]
+	  DstBlock		  "Algorithm"
+	  DstPort		  6
+	}
+	Line {
+	  SrcBlock		  "Algorithm"
+	  SrcPort		  4
+	  Points		  [45, 0]
+	  DstBlock		  "Transmit measured \ninputs over CAN"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Algorithm"
+	  SrcPort		  5
+	  DstBlock		  "Transmit measured \ninputs over CAN"
+	  DstPort		  2
+	}
+      }
+    }
+    Annotation {
+      Name		      "This model illustrates how to use MPC555 I/O \n"
+"blocks for digital input/output, PWM, waveform \nmeasurement, analog input, a"
+"nd Controller Area Network (CAN). \n\nYou can run this model in simulation, o"
+"r generate \ncode for the subsystem Target_IO and run it on \nMPC555 hardware"
+".\n\nIf you have a serial cable connecting your PC to the SCI1 \nport on your"
+" target, you can use the command \nprofile_mpc555('serial') to analyse execut"
+"ion profiling data.\n\nIf you have a CAN board and Vector-Informatik \nCAN dr"
+"ivers installed, you can exchange CAN messages \nwith the companion model mpc"
+"555rt_iohost.\n"
+      Position		      [238, 176]
+      HorizontalAlignment     "left"
+      DropShadow	      on
+      FontName		      "Arial"
+      FontSize		      14
+    }
+  }
+}
+MatData {
+  NumRecords		  2
+  DataRecord {
+    Tag			    DataTag1
+    Data		    "  %)30     .    H#0   8    (    $0         !     "
+"     $    &    :&%N9&QE   !    %P   %)45T-O;F9I9W5R871I;VXN5&%R9V5T  X   !0- "
+"  !@    @    !          4    (    :0    $    !          X   \"(%P  !@    @   "
+" )          4    (    6!<   $    !          (   !8%P   0   '\\   !8\"   Z D  "
+"/ )  #0#@  4!<  %@7             %)45T-O;F9I9W5R871I;VX 5&%R9V5T &%C=&EV94QI<W"
+"0 3&ES=$AE860 9&]W;@!.;V1E &1A=&$ 35!#-34U9&M#;VYF:6< 4UE35$5-7T-,3T-+4P!C;VY"
+"F:6=U<F%T:6]N7W1Y<&4 4WES=&5M($-O;F9I9W5R871I;VX :&ED9&5N7V-O;F9I9W5R871I;VX "
+"35!#-7AX7U9A<FEA;G0 -34U $]S8VEL;&%T;W)?1G)E<75E;F-Y #(P %53255?4$Q04D-27T)?3"
+"48 55-)55]03%!20U)?0E]$259& %53255?4T-#4E]\"7T1&3D@ 55-)55]30T-27T)?1$9.3 !54"
+"TE57U-#0U)?0E]%0D1& $5X=%]-;V1E7U-E<FEA; !%>'1?36]D95]397)I86Q?4W1A=&4 4WES=&"
+"5M7T9R97%U96YC>0!3>7-T96U?0VQO8VL 0TQ+3U54 ')E<V]U<F-E<P!3>7-T96U297-O=7)C97,"
+" <FEG:'0 45--0TT 4T-)($-O;F9I9W5R871I;VX 4T-),0!14TU#35]30TD 4T-)7VUO9&5?8V]N"
+"=')O;  X+6)I=\"!D871A $QO;W!B86-K7VUO9&4 4W1A;F1A<F0@=')A;G-M:70O<F5C96EV90!"
+"\":71?<F%T95]I9&5A; !\":71?<F%T95]A8VAI979E9 !30WA\"4@!3>7-T96U?8VQO8VL 4T-),"
+"@!44%4 5%!5($-O;F9I9W5R871I;VX 5%!57T$ 5%!57U!23U!3 $E245],979E; !);G1E<G)U<'"
+"1S($1I<V%B;&5D %1#4C$ 5%!57U1#4C$ 5$-2,5]#;&]C:U]&<F5Q=65N8WD 5%!534-2,E]$258"
+"R %5S92!0<F5S8V%L97)S(\"@P*0!40U(Q4%]$:79I9&4 4')E<V-A;&5R($-L;V-K(\"\\@,0!%;"
+"FAA;F-E9%]0<F5S8V%L97)?16YA8FQE $1I<V%B;&4@96YH86YC960@<')E<V-A;&5R(\"@P*0!3="
+"&%N9&%R9%]0<F5S8V%L97)?1&EV:61E $E-0B!#;&]C:R O(#,R(\"@P*0!44%5?0@!44%5?0P!.;"
+"W1!=F%I;&%B;&4 365S<V%G90!44%5?0R!I<R!N;W0@879A:6QA8FQE('=I=&@@=&AI<R!-4$,U>'"
+"@@<')O8V5S<V]R('9A<FEA;G0 5%!57T-? %1055]#7TY! %1055]215-/55)#15, 44%$0S8T %%"
+"!1$,V-\"!#;VYF:6=U<F%T:6]N %%!1$-?00!1041#-C1?4%)/4%, 375L=&EP;&5X7TUO9&4 ,\""
+" ]($EN=&5R;F%L;'D@;75L=&EP;&5X960@.B Q-B!P;W-S:6)L92!C:&%N;F5L<P!0<F5S8V%L97)"
+"?0VQO8VM?2&EG:%]4:6UE %!R97-C86QE<E]#;&]C:U],;W=?5&EM90!1041#7T( 44%$0U]297-O"
+"=7)C97, 34E/4S$ 34E/4S$@0V]N9FEG=7)A=&EO;@!0<F5S8V%L97( 36]D=6QU<U]#;W5N=&5R7"
+"S8 34E/4U]#3U5.5$52 $UO9'5L=7-?3&]A9%]396YS:71I=FET>0!$:7-A8FQE9 !#;&]C:U]0<F"
+"5S8V%L97( 36]D=6QU<U],871C:%]296=I<W1E<@!-;V1U;'5S7T-O=6YT97)?,C( 36EO<U)E<V]"
+"U<F-E<P!43U5#04X 5$]50T%.($-O;F9I9W5R871I;VX 0T%.7T$ 5$]50T%.7U!23U!3 %1R86YS"
+";6ET7T)U9F9E<E].=6UB97( , !)3E1?3$5614PQ $UA<VMS %1/54-!3E]-05-+4P!4:6UI;F< 5"
+"$]50T%.7U1)34E.1P!#04Y?0F%U9%]2871E %)E9VES=&5R7T-O;F9I9W5R871I;VX 4F5Q=6ER95"
+"-H87)E9%1X0G5F9F5R $-!3E]\" $E.5%],159%3#( 0T%.7T, 0T%.7T,@:7,@;F]T(&%V86EL86"
+")L92!W:71H('1H:7,@35!#-7AX('!R;V-E<W-O<B!V87)I86YT+@!#04Y?0U\\ 24Y47TQ%5D5,,P"
+"!#04Y?0U].00!43U5#04Y?4D533U520T53 %1E<FUI;F%T;W( 8VQA<W-K97D 35!#-34U9&M#;VY"
+"F:6<N5$]50T%. '-O=7)C94QI8G)A<GD ;7!C-34U9')I=F5R<R]#04X@,BXP0@I#;VYT<F]L;&5R"
+"($UO9'5L90!-4$,U-35D:T-O;F9I9RY-24]3,0!M<&,U-35D<FEV97)S+TUO9'5L87(@26YP=70O+"
+"T]U='!U= I3>7-T96T@*$U)3U,Q*0!-4$,U-35D:T-O;F9I9RY1041#-C0 ;7!C-34U9')I=F5R<R"
+"]1=65U960*06YA;&]G+51O+41I9VET86P*0V]N=F5R=&5R($UO9'5L92TV- !-4$,U-35D:T-O;F9"
+"I9RY44%4 ;7!C-34U9')I=F5R<R]4:6UE(%!R;V-E<W-O<@I5;FET(\"A44%4S*0!-4$,U-35D:T-"
+"O;F9I9RY14TU#30!M<&,U-35D<FEV97)S+U-E<FEA;\"!#;VUM=6YI8V%T:6]N<PI);G1E<F9A8V4"
+"@*%-#22D 35!#-34U9&M#;VYF:6<N4UE35$5-7T-,3T-+4P!M<&,U-35D<FEV97)S &)L;V-K &UP"
+"8S4U-7)T7VEO+U1A<F=E=%])3R]-4$,U-34*4F5S;W5R8V4*0V]N9FEG=7)A=&EO;@H          "
+"                 $    \"               !    !                0    8          "
+"     @    )               (    '               \"    !X               @    A "
+"              (    *P              \"    \"X               @    R            "
+"   (    /@              \"    $,               @   !$               (    1P  "
+"            \"    $T               @   !.               (    4@              "
+"\"    %@               @   !9               (    7               \"    &$    "
+"           @   !C               (    ;@               0   &\\                "
+"                                          0                    $          @  "
+"  $               (          P    (               ,         !     $          "
+"     0         !0    $    $          4          P    (    #          8       "
+"  !@    $               <         !P    <               @         !P    <    "
+"(          D          P    (    &          H         \"     $    '          L"
+"         \"0    L               P         \"@    P               T         \""
+"0    L    ,          X         \"@    X               \\         \"P         "
+"          !          \"0                   !$         \"@   !$              !"
+"(         #     $    +         !,          P    (    *         !0         #0 "
+"   $    %         !4         #@                   !8         #@              "
+"     !<         #P    $              !@          P    (    4         !D      "
+"   $     $    5         !H         $0   !H              !L         $0   !H   "
+" ;         !P         $@    $    3         !T          P    (    9         !X"
+"         $P    $    :         !\\         %    !\\              \"          %"
+"0                   \"$         %@                   \"(         %    !\\    "
+"@         \",         %0                   \"0         %@                   "
+"\"4         \"P                   \"8         %                    \"<       "
+"  %0                   \"@         %@                   \"D         %P    $  "
+"  ?         \"H         &                                @    $              "
+"\"L         &                                @    $    \"         \"P        "
+" &                                @    $    8         \"T         &          "
+"                      @    $    P         \"X         &                      "
+"                    \"     P    $   !B    ?@        !_          $    %     0 "
+"  &$    %    !P    $    +    &P    $    ,    '0    $   !@    <         !\\   "
+" <@        !]    #@    H         \"P    P    !          T         #@    \\   "
+"      $    !$    !     0   !(    !     @   !,    !     P   !0    !    !    !4"
+"    !    !0   !8    !    !@   !<    !    !P   !@    !    \"    !D    !    \"0"
+"   !H    !    \"@                    0    '     0   !D    =     0   %\\   !P "
+"        'H   !R         'L         !     H         'P    P    !    #0   \"   "
+"  !    $P   \"H    !    &          '    #     $    .    (@         C    )    "
+"      E    )@    $    /    )P    $    0    *     $    1    *0    $    2    !@"
+"    P    !    %    \"(         (P   \"0         )0   \"<    !    %0   \"@    "
+"!    %@   \"D    !    %P         %    !P    $    L    &P    $    M    '0    $"
+"   !>    <         !X    <@        !Y    \"     H         +     P    !    &@ "
+"  \"T    !    'P   #P    !    )    #T    !    )0   $$    !    *@   $(    !   "
+" *P    T         #@         #    #     $    ;    +P         P    ,0    $    >"
+"    !@    P    !    '    #,    !    '0   #0         -0   #8         -P   #@  "
+"       .0   #H         .P         #    #     $    @    +P         P    ,0    "
+"$    C    !@    P    !    (0   #,    !    (@   #0         -0   #8         -P "
+"  #@         .0   #H         .P         !    /P        !      P    P    !    "
+")@   \"\\         ,    #$    !    *0    8    ,     0   \"<    S     0   \"@  "
+"  T         #4    V         #<    X         #D    Z         #L               "
+"     %    !P    $    W    &P    $    X    '0    $   !=    <         !V    <@ "
+"       !W    !     H         10    P    !    +@   $8    !    ,@   $P    !    "
+"-@         $    #     $    O    2         !)    2@    $    P    2P    $    Q "
+"         0    ,     0   #,   !(         $D   !*     0   #0   !+     0   #4   "
+"                 %    !P    $   !#    &P    $   !$    '0    $   !<    <      "
+"   !T    <@        !U    !0    H         3P    P    !    .0   %     !    .@  "
+" %$    !    /@   %<    !    0@    0    ,     0   #L   !3         %0   !5     "
+"0   #P   !6     0   #T         !     P    !    /P   %,         5    %4    !  "
+"  0    %8    !    00                    4    '     0   %D    ;     0   %H    "
+"=     0   %L   !P         '$   !R         ',    (    \"@        !:    #     $"
+"   !%    6P    $   !+    9P    $   !1    :0    $   !2    :P    $   !7    ;0  "
+"  $   !8    #0         .          4   !=         %X    O         %\\   !@    "
+" 0   $8   !B     0   $D   !F     0   $H               (   !D     0   $<   !E "
+"    0   $@         !0   %T         7@   \"\\         :    &     !    3    &( "
+"   !    3P   &8    !    4                @   &0    !    30   &4    !    3@   "
+"      !    /P        !J    !0   %T         7@   \"\\         ;    &     !    "
+"4P   &(    !    50   &8    !    5@               0   &0    !    5            "
+"    0    4    !    8P    $    %     0   &0    !    !0    $   !E     0    4   "
+" !    9@              #@   '@    &    \"     $         !0    @    !     0    "
+"$         #@   $@    &    \"     T         !0    @    %     0    $         !@"
+"   !0       #= @    $    !     0         .    ,     8    (    \"0(        %  "
+"  \"     $    !     0         \"  $       X    X    !@    @    &          4  "
+"  (     0    $    !          D    (               .    .     8    (    !@    "
+"     %    \"     $    !     0         )    \"               #@   #@    &    "
+"\"     8         !0    @    !     0    $         \"0    @               X    "
+"X    !@    @    &          4    (     0    $    !          D    (            "
+"   .    .     8    (    !@         %    \"     $    !     0         )    \"  "
+"             #@   #     &    \"     D\"        !0    @    !     0    $       "
+"   @ !       .    ,     8    (    \"0(        %    \"     $    !     0       "
+"  \"  $       X    X    !@    @    &          4    (     0    $    !         "
+" D    (         - 2@T$.    .     8    (    !@         %    \"     $    !     "
+"0         )    \"         #0$G-!#@   #@    &    \"     8         !0    @    !"
+"     0    $         \"0    @         T!)S00X   !(    !@    @    -          4 "
+"   (    !0    $    !          8    4        W0(    !     0    0         #@   "
+"$@    &    \"     T         !0    @    %     0    $         !@   !0       #= "
+"@    $    !    !0         .    ,     8    (    \"0(        %    \"     $    !"
+"     0         \"  $       X    P    !@    @    ) @        4    (     0    $ "
+"   !          (  0      #@   #@    &    \"     8         !0    @    !     0  "
+"  $         \"0    @          \"#L0 X    X    !@    @    &          4    (   "
+"  0    $    !          D    (    %UUTT46^ZT .    .     8    (    !@         %"
+"    \"     $    !     0         )    \"            \"9 #@   #@    &    \"    "
+" 8         !0    @    !     0    $         \"0    @         T!)S00X   !(    !"
+"@    @    -          4    (    !0    $    !          8    4        W0(    !  "
+"   0    @         #@   #     &    \"     D\"        !0    @    !     0    $  "
+"        @ !       .    .     8    (    !@         %    \"     $    !     0   "
+"      )    \"    #NQ$SNQQ\\) #@   #@    &    \"     8         !0    @    !   "
+"  0    $         \"0    @          $!00 X    X    !@    @    &          4    "
+"(     0    $    !          D    (         - 2<T$.    2     8    (    #0      "
+"   %    \"     4    !     0         &    %        -T\"     0    $    )       "
+"   X   !(    !@    @    -          4    (    !0    $    !          8    4    "
+"    W0(    !     0    <         #@   #     &    \"     D\"        !0    @    "
+"!     0    $          @ !       .    ,     8    (    \"0(        %    \"     "
+"$    !     0         \"  $       X    P    !@    @    ) @        4    (     0"
+"    $    !          (  0      #@   #@    &    \"     8         !0    @    !  "
+"   0    $         \"0    @         T!(C00X   !(    !@    @    -          4   "
+" (    !0    $    !          8    4        W0(    !     0    T         #@   $@"
+"    &    \"     T         !0    @    %     0    $         !@   !0       #= @ "
+"   $    !    #          .    ,     8    (    \"0(        %    \"     $    !  "
+"   0         \"  $       X    P    !@    @    ) @        4    (     0    $   "
+" !          (  0      #@   #@    &    \"     8         !0    @    !     0    "
+"$         \"0    @         T!(C00X   !(    !@    @    -          4    (    !0"
+"    $    !          8    4        W0(    !     0    \\         #@   $@    &  "
+"  \"     T         !0    @    %     0    $         !@   !0       #= @    $   "
+" !    #@         .    2     8    (    #0         %    \"     4    !     0    "
+"     &    %        -T\"     0    $    0          X    P    !@    @    ) @    "
+"    4    (     0    $    !          (  0      #@   #     &    \"     D\"     "
+"   !0    @    !     0    $          @ !       .    .     8    (    !@        "
+" %    \"     $    !     0         )    \"               #@   $@    &    \"   "
+"  T         !0    @    %     0    $         !@   !0       #= @    $    !    $"
+"@         .    2     8    (    #0         %    \"     4    !     0         & "
+"   %        -T\"     0    $    1          X   !(    !@    @    -          4  "
+"  (    !0    $    !          8    4        W0(    !     0   !          #@   $"
+"@    &    \"     T         !0    @    %     0    $         !@   !0       #= @"
+"    $    !    \"P         .    2     8    (    #0         %    \"     4    ! "
+"    0         &    %        -T\"     0    $    3          X    P    !@    @  "
+"  ) @        4    (     0    $    !          (  0      #@   #     &    \"    "
+" D\"        !0    @    !     0    $          @ !       .    .     8    (    !"
+"@         %    \"     $    !     0         )    \"               #@   #@    &"
+"    \"     8         !0    @    !     0    $         \"0    @               X"
+"   !(    !@    @    -          4    (    !0    $    !          8    4        "
+"W0(    !     0   !8         #@   #     &    \"     D\"        !0    @    !   "
+"  0    $          @ !       .    .     8    (    !@         %    \"     $    "
+"!     0         )    \"               #@   #@    &    \"     8         !0    "
+"@    !     0    $         \"0    @               X   !(    !@    @    -      "
+"    4    (    !0    $    !          8    4        W0(    !     0   !<        "
+" #@   $@    &    \"     T         !0    @    %     0    $         !@   !0    "
+"   #= @    $    !    %0         .    2     8    (    #0         %    \"     4"
+"    !     0         &    %        -T\"     0    $    8          X    P    !@ "
+"   @    ) @        4    (     0    $    !          (  0      #@   #@    &    "
+"\"     8         !0    @    !     0    $         \"0    @               X    "
+"P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@ "
+"   &    \"     8         !0    @    !     0    $         \"0    @            "
+"   X    X    !@    @    &          4    (     0    $    !          D    (    "
+"           .    2     8    (    #0         %    \"     4    !     0         &"
+"    %        -T\"     0    $    ;          X    P    !@    @    ) @        4 "
+"   (     0    $    !          (  0      #@   #@    &    \"     8         !0  "
+"  @    !     0    $         \"0    @               X    X    !@    @    &    "
+"      4    (     0    $    !          D    (               .    2     8    ( "
+"   #0         %    \"     4    !     0         &    %        -T\"     0    $ "
+"   <          X   !(    !@    @    -          4    (    !0    $    !         "
+" 8    4        W0(    !     0   !H         #@   $@    &    \"     T         !"
+"0    @    %     0    $         !@   !0       #= @    $    !    '0         .  "
+"  ,     8    (    \"0(        %    \"     $    !     0         \"  $       X "
+"  !(    !@    @    -          4    (    !0    $    !          8    4        W"
+"0(    !     0   \"$         #@   #@    &    \"     8         !0    @    !    "
+" 0    $         \"0    @               X   !     !@    @    -          4    ("
+"     0    0    !          8    0     @    <    (    !     X   !(    !@    @  "
+"  -          4    (    !0    $    !          8    4        W0(    !     0   "
+"\"(         #@   #     &    \"     D\"        !0    @    !     0    $        "
+"  @ !       .    2     8    (    #0         %    \"     4    !     0         "
+"&    %        -T\"     0    $    @          X   !(    !@    @    -          4"
+"    (    !0    $    !          8    4        W0(    !     0   \"0         #@ "
+"  #@    &    \"     8         !0    @    !     0    $         \"0    @       "
+"        X   !     !@    @    -          4    (     0    0    !          8    "
+"0     @    <    (    !     X   !(    !@    @    -          4    (    !0    $ "
+"   !          8    4        W0(    !     0   \"4         #@   #     &    \"  "
+"   D\"        !0    @    !     0    $          @ !       .    2     8    (   "
+" #0         %    \"     4    !     0         &    %        -T\"     0    $   "
+" C          X   !(    !@    @    -          4    (    !0    $    !          8"
+"    4        W0(    !     0   \"8         #@   $@    &    \"     T         !0"
+"    @    %     0    $         !@   !0       #= @    $    !    *          .   "
+" .     8    (    !@         %    \"     $    !     0         )    \"         "
+"      #@   $@    &    \"     T         !0    @    %     0    $         !@   !"
+"0       #= @    $    !    *0         .    ,     8    (    \"0(        %    \""
+"     $    !     0         \"  $       X   !(    !@    @    -          4    ( "
+"   !0    $    !          8    4        W0(    !     0   \"<         #@   $@  "
+"  &    \"     T         !0    @    %     0    $         !@   !0       #= @   "
+" $    !    )@         .    2     8    (    #0         %    \"     4    !     "
+"0         &    %        -T\"     0    $    ?          X   !(    !@    @    - "
+"         4    (    !0    $    !          8    4        W0(    !     0   \"H  "
+"       #@   $@    &    \"     T         !0    @    %     0    $         !@   "
+"!0       #= @    $    !    *P         .    2     8    (    #0         %    \""
+"     4    !     0         &    %        -T\"     0    $    >          X   !( "
+"   !@    @    -          4    (    !0    $    !          8    4        W0(   "
+" !     0   !D         #@   $@    &    \"     T         !0    @    %     0    "
+"$         !@   !0       #= @    $    !    %          .    2     8    (    #0 "
+"        %    \"     4    !     0         &    %        -T\"     0    $    *  "
+"        X   !(    !@    @    -          4    (    !0    $    !          8    "
+"4        W0(    !     0    8         #@   $@    &    \"     T         !0    @"
+"    %     0    $         !@   !0       #= @    $    !     P         .    2   "
+"  8    (    #0         %    \"     4    !     0         &    %        -T\"   "
+"  0    $    \"          X   !(    !@    @    -          4    (    !0    $    "
+"!          8    4        W0(    !     0   \"T         #@   $@    &    \"     "
+"T         !0    @    %     0    $         !@   !0       #= @    $    !    +P "
+"        .    2     8    (    #0         %    \"     4    !     0         &   "
+" %        -T\"     0    $    Q          X   !(    !@    @    -          4    "
+"(    !0    $    !          8    4        W0(    !     0   #,         #@   (@ "
+"   &    \"     D         !0    @    !    6     $          @   %@      4E-    "
+"  X   !(    !@    @    \"          4    (     0    $    !          4 !  '    "
+" 0    <   !H86YD;&4   X         "
+  }
+  DataRecord {
+    Tag			    DataTag0
+    Data		    "  %)30     .    H#0   8    (    $0         !     "
+"     $    &    :&%N9&QE   !    %P   %)45T-O;F9I9W5R871I;VXN5&%R9V5T  X   !0- "
+"  !@    @    !          4    (    :0    $    !          X   \"(%P  !@    @   "
+" )          4    (    6!<   $    !          (   !8%P   0   '\\   !8\"   Z D  "
+"/ )  #0#@  4!<  %@7             %)45T-O;F9I9W5R871I;VX 5&%R9V5T &%C=&EV94QI<W"
+"0 3&ES=$AE860 9&]W;@!.;V1E &1A=&$ 35!#-34U9&M#;VYF:6< 4UE35$5-7T-,3T-+4P!C;VY"
+"F:6=U<F%T:6]N7W1Y<&4 4WES=&5M($-O;F9I9W5R871I;VX :&ED9&5N7V-O;F9I9W5R871I;VX "
+"35!#-7AX7U9A<FEA;G0 -34U $]S8VEL;&%T;W)?1G)E<75E;F-Y #(P %53255?4$Q04D-27T)?3"
+"48 55-)55]03%!20U)?0E]$259& %53255?4T-#4E]\"7T1&3D@ 55-)55]30T-27T)?1$9.3 !54"
+"TE57U-#0U)?0E]%0D1& $5X=%]-;V1E7U-E<FEA; !%>'1?36]D95]397)I86Q?4W1A=&4 4WES=&"
+"5M7T9R97%U96YC>0!3>7-T96U?0VQO8VL 0TQ+3U54 ')E<V]U<F-E<P!3>7-T96U297-O=7)C97,"
+" <FEG:'0 45--0TT 4T-)($-O;F9I9W5R871I;VX 4T-),0!14TU#35]30TD 4T-)7VUO9&5?8V]N"
+"=')O;  X+6)I=\"!D871A $QO;W!B86-K7VUO9&4 4W1A;F1A<F0@=')A;G-M:70O<F5C96EV90!"
+"\":71?<F%T95]I9&5A; !\":71?<F%T95]A8VAI979E9 !30WA\"4@!3>7-T96U?8VQO8VL 4T-),"
+"@!44%4 5%!5($-O;F9I9W5R871I;VX 5%!57T$ 5%!57U!23U!3 $E245],979E; !);G1E<G)U<'"
+"1S($1I<V%B;&5D %1#4C$ 5%!57U1#4C$ 5$-2,5]#;&]C:U]&<F5Q=65N8WD 5%!534-2,E]$258"
+"R %5S92!0<F5S8V%L97)S(\"@P*0!40U(Q4%]$:79I9&4 4')E<V-A;&5R($-L;V-K(\"\\@,0!%;"
+"FAA;F-E9%]0<F5S8V%L97)?16YA8FQE $1I<V%B;&4@96YH86YC960@<')E<V-A;&5R(\"@P*0!3="
+"&%N9&%R9%]0<F5S8V%L97)?1&EV:61E $E-0B!#;&]C:R O(#,R(\"@P*0!44%5?0@!44%5?0P!.;"
+"W1!=F%I;&%B;&4 365S<V%G90!44%5?0R!I<R!N;W0@879A:6QA8FQE('=I=&@@=&AI<R!-4$,U>'"
+"@@<')O8V5S<V]R('9A<FEA;G0 5%!57T-? %1055]#7TY! %1055]215-/55)#15, 44%$0S8T %%"
+"!1$,V-\"!#;VYF:6=U<F%T:6]N %%!1$-?00!1041#-C1?4%)/4%, 375L=&EP;&5X7TUO9&4 ,\""
+" ]($EN=&5R;F%L;'D@;75L=&EP;&5X960@.B Q-B!P;W-S:6)L92!C:&%N;F5L<P!0<F5S8V%L97)"
+"?0VQO8VM?2&EG:%]4:6UE %!R97-C86QE<E]#;&]C:U],;W=?5&EM90!1041#7T( 44%$0U]297-O"
+"=7)C97, 34E/4S$ 34E/4S$@0V]N9FEG=7)A=&EO;@!0<F5S8V%L97( 36]D=6QU<U]#;W5N=&5R7"
+"S8 34E/4U]#3U5.5$52 $UO9'5L=7-?3&]A9%]396YS:71I=FET>0!$:7-A8FQE9 !#;&]C:U]0<F"
+"5S8V%L97( 36]D=6QU<U],871C:%]296=I<W1E<@!-;V1U;'5S7T-O=6YT97)?,C( 36EO<U)E<V]"
+"U<F-E<P!43U5#04X 5$]50T%.($-O;F9I9W5R871I;VX 0T%.7T$ 5$]50T%.7U!23U!3 %1R86YS"
+";6ET7T)U9F9E<E].=6UB97( , !)3E1?3$5614PQ $UA<VMS %1/54-!3E]-05-+4P!4:6UI;F< 5"
+"$]50T%.7U1)34E.1P!#04Y?0F%U9%]2871E %)E9VES=&5R7T-O;F9I9W5R871I;VX 4F5Q=6ER95"
+"-H87)E9%1X0G5F9F5R $-!3E]\" $E.5%],159%3#( 0T%.7T, 0T%.7T,@:7,@;F]T(&%V86EL86"
+")L92!W:71H('1H:7,@35!#-7AX('!R;V-E<W-O<B!V87)I86YT+@!#04Y?0U\\ 24Y47TQ%5D5,,P"
+"!#04Y?0U].00!43U5#04Y?4D533U520T53 %1E<FUI;F%T;W( 8VQA<W-K97D 35!#-34U9&M#;VY"
+"F:6<N5$]50T%. '-O=7)C94QI8G)A<GD ;7!C-34U9')I=F5R<R]#04X@,BXP0@I#;VYT<F]L;&5R"
+"($UO9'5L90!-4$,U-35D:T-O;F9I9RY-24]3,0!M<&,U-35D<FEV97)S+TUO9'5L87(@26YP=70O+"
+"T]U='!U= I3>7-T96T@*$U)3U,Q*0!-4$,U-35D:T-O;F9I9RY1041#-C0 ;7!C-34U9')I=F5R<R"
+"]1=65U960*06YA;&]G+51O+41I9VET86P*0V]N=F5R=&5R($UO9'5L92TV- !-4$,U-35D:T-O;F9"
+"I9RY44%4 ;7!C-34U9')I=F5R<R]4:6UE(%!R;V-E<W-O<@I5;FET(\"A44%4S*0!-4$,U-35D:T-"
+"O;F9I9RY14TU#30!M<&,U-35D<FEV97)S+U-E<FEA;\"!#;VUM=6YI8V%T:6]N<PI);G1E<F9A8V4"
+"@*%-#22D 35!#-34U9&M#;VYF:6<N4UE35$5-7T-,3T-+4P!M<&,U-35D<FEV97)S &)L;V-K &UP"
+"8S4U-7)T7VEO+U1A<F=E=%])3R]-4$,U-34*4F5S;W5R8V4*0V]N9FEG=7)A=&EO;@H          "
+"                 $    \"               !    !                0    8          "
+"     @    )               (    '               \"    !X               @    A "
+"              (    *P              \"    \"X               @    R            "
+"   (    /@              \"    $,               @   !$               (    1P  "
+"            \"    $T               @   !.               (    4@              "
+"\"    %@               @   !9               (    7               \"    &$    "
+"           @   !C               (    ;@               0   &\\                "
+"                                          0                    $          @  "
+"  $               (          P    (               ,         !     $          "
+"     0         !0    $    $          4          P    (    #          8       "
+"  !@    $               <         !P    <               @         !P    <    "
+"(          D          P    (    &          H         \"     $    '          L"
+"         \"0    L               P         \"@    P               T         \""
+"0    L    ,          X         \"@    X               \\         \"P         "
+"          !          \"0                   !$         \"@   !$              !"
+"(         #     $    +         !,          P    (    *         !0         #0 "
+"   $    %         !4         #@                   !8         #@              "
+"     !<         #P    $              !@          P    (    4         !D      "
+"   $     $    5         !H         $0   !H              !L         $0   !H   "
+" ;         !P         $@    $    3         !T          P    (    9         !X"
+"         $P    $    :         !\\         %    !\\              \"          %"
+"0                   \"$         %@                   \"(         %    !\\    "
+"@         \",         %0                   \"0         %@                   "
+"\"4         \"P                   \"8         %                    \"<       "
+"  %0                   \"@         %@                   \"D         %P    $  "
+"  ?         \"H         &                                @    $              "
+"\"L         &                                @    $    \"         \"P        "
+" &                                @    $    8         \"T         &          "
+"                      @    $    P         \"X         &                      "
+"                    \"     P    $   !B    ?@        !_          $    %     0 "
+"  &$    %    !P    $    +    &P    $    ,    '0    $   !@    <         !\\   "
+" <@        !]    #@    H         \"P    P    !          T         #@    \\   "
+"      $    !$    !     0   !(    !     @   !,    !     P   !0    !    !    !4"
+"    !    !0   !8    !    !@   !<    !    !P   !@    !    \"    !D    !    \"0"
+"   !H    !    \"@                    0    '     0   !D    =     0   %\\   !P "
+"        'H   !R         'L         !     H         'P    P    !    #0   \"   "
+"  !    $P   \"H    !    &          '    #     $    .    (@         C    )    "
+"      E    )@    $    /    )P    $    0    *     $    1    *0    $    2    !@"
+"    P    !    %    \"(         (P   \"0         )0   \"<    !    %0   \"@    "
+"!    %@   \"D    !    %P         %    !P    $    L    &P    $    M    '0    $"
+"   !>    <         !X    <@        !Y    \"     H         +     P    !    &@ "
+"  \"T    !    'P   #P    !    )    #T    !    )0   $$    !    *@   $(    !   "
+" *P    T         #@         #    #     $    ;    +P         P    ,0    $    >"
+"    !@    P    !    '    #,    !    '0   #0         -0   #8         -P   #@  "
+"       .0   #H         .P         #    #     $    @    +P         P    ,0    "
+"$    C    !@    P    !    (0   #,    !    (@   #0         -0   #8         -P "
+"  #@         .0   #H         .P         !    /P        !      P    P    !    "
+")@   \"\\         ,    #$    !    *0    8    ,     0   \"<    S     0   \"@  "
+"  T         #4    V         #<    X         #D    Z         #L               "
+"     %    !P    $    W    &P    $    X    '0    $   !=    <         !V    <@ "
+"       !W    !     H         10    P    !    +@   $8    !    ,@   $P    !    "
+"-@         $    #     $    O    2         !)    2@    $    P    2P    $    Q "
+"         0    ,     0   #,   !(         $D   !*     0   #0   !+     0   #4   "
+"                 %    !P    $   !#    &P    $   !$    '0    $   !<    <      "
+"   !T    <@        !U    !0    H         3P    P    !    .0   %     !    .@  "
+" %$    !    /@   %<    !    0@    0    ,     0   #L   !3         %0   !5     "
+"0   #P   !6     0   #T         !     P    !    /P   %,         5    %4    !  "
+"  0    %8    !    00                    4    '     0   %D    ;     0   %H    "
+"=     0   %L   !P         '$   !R         ',    (    \"@        !:    #     $"
+"   !%    6P    $   !+    9P    $   !1    :0    $   !2    :P    $   !7    ;0  "
+"  $   !8    #0         .          4   !=         %X    O         %\\   !@    "
+" 0   $8   !B     0   $D   !F     0   $H               (   !D     0   $<   !E "
+"    0   $@         !0   %T         7@   \"\\         :    &     !    3    &( "
+"   !    3P   &8    !    4                @   &0    !    30   &4    !    3@   "
+"      !    /P        !J    !0   %T         7@   \"\\         ;    &     !    "
+"4P   &(    !    50   &8    !    5@               0   &0    !    5            "
+"    0    4    !    8P    $    %     0   &0    !    !0    $   !E     0    4   "
+" !    9@              #@   '@    &    \"     $         !0    @    !     0    "
+"$         #@   $@    &    \"     T         !0    @    %     0    $         !@"
+"   !0       #= @    $    !     0         .    ,     8    (    \"0(        %  "
+"  \"     $    !     0         \"  $       X    X    !@    @    &          4  "
+"  (     0    $    !          D    (               .    .     8    (    !@    "
+"     %    \"     $    !     0         )    \"               #@   #@    &    "
+"\"     8         !0    @    !     0    $         \"0    @               X    "
+"X    !@    @    &          4    (     0    $    !          D    (            "
+"   .    .     8    (    !@         %    \"     $    !     0         )    \"  "
+"             #@   #     &    \"     D\"        !0    @    !     0    $       "
+"   @ !       .    ,     8    (    \"0(        %    \"     $    !     0       "
+"  \"  $       X    X    !@    @    &          4    (     0    $    !         "
+" D    (         - 2@T$.    .     8    (    !@         %    \"     $    !     "
+"0         )    \"         #0$G-!#@   #@    &    \"     8         !0    @    !"
+"     0    $         \"0    @         T!)S00X   !(    !@    @    -          4 "
+"   (    !0    $    !          8    4        W0(    !     0    0         #@   "
+"$@    &    \"     T         !0    @    %     0    $         !@   !0       #= "
+"@    $    !    !0         .    ,     8    (    \"0(        %    \"     $    !"
+"     0         \"  $       X    P    !@    @    ) @        4    (     0    $ "
+"   !          (  0      #@   #@    &    \"     8         !0    @    !     0  "
+"  $         \"0    @          \"#L0 X    X    !@    @    &          4    (   "
+"  0    $    !          D    (    %UUTT46^ZT .    .     8    (    !@         %"
+"    \"     $    !     0         )    \"            \"9 #@   #@    &    \"    "
+" 8         !0    @    !     0    $         \"0    @         T!)S00X   !(    !"
+"@    @    -          4    (    !0    $    !          8    4        W0(    !  "
+"   0    @         #@   #     &    \"     D\"        !0    @    !     0    $  "
+"        @ !       .    .     8    (    !@         %    \"     $    !     0   "
+"      )    \"    #NQ$SNQQ\\) #@   #@    &    \"     8         !0    @    !   "
+"  0    $         \"0    @          $!00 X    X    !@    @    &          4    "
+"(     0    $    !          D    (         - 2<T$.    2     8    (    #0      "
+"   %    \"     4    !     0         &    %        -T\"     0    $    )       "
+"   X   !(    !@    @    -          4    (    !0    $    !          8    4    "
+"    W0(    !     0    <         #@   #     &    \"     D\"        !0    @    "
+"!     0    $          @ !       .    ,     8    (    \"0(        %    \"     "
+"$    !     0         \"  $       X    P    !@    @    ) @        4    (     0"
+"    $    !          (  0      #@   #@    &    \"     8         !0    @    !  "
+"   0    $         \"0    @         T!(C00X   !(    !@    @    -          4   "
+" (    !0    $    !          8    4        W0(    !     0    T         #@   $@"
+"    &    \"     T         !0    @    %     0    $         !@   !0       #= @ "
+"   $    !    #          .    ,     8    (    \"0(        %    \"     $    !  "
+"   0         \"  $       X    P    !@    @    ) @        4    (     0    $   "
+" !          (  0      #@   #@    &    \"     8         !0    @    !     0    "
+"$         \"0    @         T!(C00X   !(    !@    @    -          4    (    !0"
+"    $    !          8    4        W0(    !     0    \\         #@   $@    &  "
+"  \"     T         !0    @    %     0    $         !@   !0       #= @    $   "
+" !    #@         .    2     8    (    #0         %    \"     4    !     0    "
+"     &    %        -T\"     0    $    0          X    P    !@    @    ) @    "
+"    4    (     0    $    !          (  0      #@   #     &    \"     D\"     "
+"   !0    @    !     0    $          @ !       .    .     8    (    !@        "
+" %    \"     $    !     0         )    \"               #@   $@    &    \"   "
+"  T         !0    @    %     0    $         !@   !0       #= @    $    !    $"
+"@         .    2     8    (    #0         %    \"     4    !     0         & "
+"   %        -T\"     0    $    1          X   !(    !@    @    -          4  "
+"  (    !0    $    !          8    4        W0(    !     0   !          #@   $"
+"@    &    \"     T         !0    @    %     0    $         !@   !0       #= @"
+"    $    !    \"P         .    2     8    (    #0         %    \"     4    ! "
+"    0         &    %        -T\"     0    $    3          X    P    !@    @  "
+"  ) @        4    (     0    $    !          (  0      #@   #     &    \"    "
+" D\"        !0    @    !     0    $          @ !       .    .     8    (    !"
+"@         %    \"     $    !     0         )    \"               #@   #@    &"
+"    \"     8         !0    @    !     0    $         \"0    @               X"
+"   !(    !@    @    -          4    (    !0    $    !          8    4        "
+"W0(    !     0   !8         #@   #     &    \"     D\"        !0    @    !   "
+"  0    $          @ !       .    .     8    (    !@         %    \"     $    "
+"!     0         )    \"               #@   #@    &    \"     8         !0    "
+"@    !     0    $         \"0    @               X   !(    !@    @    -      "
+"    4    (    !0    $    !          8    4        W0(    !     0   !<        "
+" #@   $@    &    \"     T         !0    @    %     0    $         !@   !0    "
+"   #= @    $    !    %0         .    2     8    (    #0         %    \"     4"
+"    !     0         &    %        -T\"     0    $    8          X    P    !@ "
+"   @    ) @        4    (     0    $    !          (  0      #@   #@    &    "
+"\"     8         !0    @    !     0    $         \"0    @               X    "
+"P    !@    @    ) @        4    (     0    $    !          (  0      #@   #@ "
+"   &    \"     8         !0    @    !     0    $         \"0    @            "
+"   X    X    !@    @    &          4    (     0    $    !          D    (    "
+"           .    2     8    (    #0         %    \"     4    !     0         &"
+"    %        -T\"     0    $    ;          X    P    !@    @    ) @        4 "
+"   (     0    $    !          (  0      #@   #@    &    \"     8         !0  "
+"  @    !     0    $         \"0    @               X    X    !@    @    &    "
+"      4    (     0    $    !          D    (               .    2     8    ( "
+"   #0         %    \"     4    !     0         &    %        -T\"     0    $ "
+"   <          X   !(    !@    @    -          4    (    !0    $    !         "
+" 8    4        W0(    !     0   !H         #@   $@    &    \"     T         !"
+"0    @    %     0    $         !@   !0       #= @    $    !    '0         .  "
+"  ,     8    (    \"0(        %    \"     $    !     0         \"  $       X "
+"  !(    !@    @    -          4    (    !0    $    !          8    4        W"
+"0(    !     0   \"$         #@   #@    &    \"     8         !0    @    !    "
+" 0    $         \"0    @               X   !     !@    @    -          4    ("
+"     0    0    !          8    0     @    <    (    !     X   !(    !@    @  "
+"  -          4    (    !0    $    !          8    4        W0(    !     0   "
+"\"(         #@   #     &    \"     D\"        !0    @    !     0    $        "
+"  @ !       .    2     8    (    #0         %    \"     4    !     0         "
+"&    %        -T\"     0    $    @          X   !(    !@    @    -          4"
+"    (    !0    $    !          8    4        W0(    !     0   \"0         #@ "
+"  #@    &    \"     8         !0    @    !     0    $         \"0    @       "
+"        X   !     !@    @    -          4    (     0    0    !          8    "
+"0     @    <    (    !     X   !(    !@    @    -          4    (    !0    $ "
+"   !          8    4        W0(    !     0   \"4         #@   #     &    \"  "
+"   D\"        !0    @    !     0    $          @ !       .    2     8    (   "
+" #0         %    \"     4    !     0         &    %        -T\"     0    $   "
+" C          X   !(    !@    @    -          4    (    !0    $    !          8"
+"    4        W0(    !     0   \"8         #@   $@    &    \"     T         !0"
+"    @    %     0    $         !@   !0       #= @    $    !    *          .   "
+" .     8    (    !@         %    \"     $    !     0         )    \"         "
+"      #@   $@    &    \"     T         !0    @    %     0    $         !@   !"
+"0       #= @    $    !    *0         .    ,     8    (    \"0(        %    \""
+"     $    !     0         \"  $       X   !(    !@    @    -          4    ( "
+"   !0    $    !          8    4        W0(    !     0   \"<         #@   $@  "
+"  &    \"     T         !0    @    %     0    $         !@   !0       #= @   "
+" $    !    )@         .    2     8    (    #0         %    \"     4    !     "
+"0         &    %        -T\"     0    $    ?          X   !(    !@    @    - "
+"         4    (    !0    $    !          8    4        W0(    !     0   \"H  "
+"       #@   $@    &    \"     T         !0    @    %     0    $         !@   "
+"!0       #= @    $    !    *P         .    2     8    (    #0         %    \""
+"     4    !     0         &    %        -T\"     0    $    >          X   !( "
+"   !@    @    -          4    (    !0    $    !          8    4        W0(   "
+" !     0   !D         #@   $@    &    \"     T         !0    @    %     0    "
+"$         !@   !0       #= @    $    !    %          .    2     8    (    #0 "
+"        %    \"     4    !     0         &    %        -T\"     0    $    *  "
+"        X   !(    !@    @    -          4    (    !0    $    !          8    "
+"4        W0(    !     0    8         #@   $@    &    \"     T         !0    @"
+"    %     0    $         !@   !0       #= @    $    !     P         .    2   "
+"  8    (    #0         %    \"     4    !     0         &    %        -T\"   "
+"  0    $    \"          X   !(    !@    @    -          4    (    !0    $    "
+"!          8    4        W0(    !     0   \"T         #@   $@    &    \"     "
+"T         !0    @    %     0    $         !@   !0       #= @    $    !    +P "
+"        .    2     8    (    #0         %    \"     4    !     0         &   "
+" %        -T\"     0    $    Q          X   !(    !@    @    -          4    "
+"(    !0    $    !          8    4        W0(    !     0   #,         #@   (@ "
+"   &    \"     D         !0    @    !    6     $          @   %@      4E-    "
+"  X   !(    !@    @    \"          4    (     0    $    !          4 !  '    "
+" 0    <   !H86YD;&4   X         "
+  }
+}

@@ -1,0 +1,32 @@
+%Introducir elementos a combinar
+clear 
+r=[1,2,3,4,5];
+n=numel(r);
+
+%Formar matriz de combinaciones
+
+for i=1:n-1
+    for j=1:n
+        if i<j
+            a(i,j)=r(i)*r(j);
+        end
+    end
+end
+a
+b=a(a~=0)
+d=diag(b)
+a(5,:)=0;
+e=repmat(a,2,2);
+R=repmat(r,,2);
+for i=1:10
+for j=2:10
+if i<j
+    c(i,j)=e(i,j)*R(i,j);
+elseif i==j 
+    c(i,j)=d(i,j);
+else
+    c(i,j)=0;
+end
+end
+end
+c

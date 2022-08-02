@@ -1,0 +1,185 @@
+%% File: toolbox/rtw/targets/c166/c166/@SimulinkC166/tlc/C166BitField.tlc
+%% $Revision: 1.1 $
+%%
+%% Copyright 1994-2002 The MathWorks, Inc.
+%%
+%% Abstract:
+%%   Version of BitField.tlc modified to take advantage of C166
+%%   bitfield addressing mode.
+%%
+
+%implements * "C"
+%selectfile NULL_FILE
+
+%% BitField is a custom storage class that is used to pack boolean
+%% scalars into a bitfield, in order to minimize the memory used 
+%% for the data.
+
+%% Function: DataAccess ==================================================
+%% Abstract:
+%%   DataAccess provides an API for requesting code fragments or other
+%%   information corresponding to data of this custom storage class.
+%%
+%function DataAccess(record, request, idx, reim) void
+
+  %switch request
+      
+    %case "contents"
+      %% The data is accessed as <BITFIELD_NAME>.<DATA_NAME>
+      %assign props = LibGetCustomStorageAttributes(record)
+      %assign id = LibGetRecordIdentifier(record)
+      %assign name = props.BitFieldName
+      %if name == ""
+	%assign name = "rt_BitField"
+      %endif
+      %return "%<name>.%<id>"
+      %break
+
+    %case "address"
+      %% Bit fields don't support addresses.
+      %return "address not supported for bitfields"
+      %break
+
+    %case "initialize"
+      %% Initialize external I/O to false.
+      %assign props = LibGetCustomStorageAttributes(record)
+      %assign id = LibGetRecordIdentifier(record)
+      %assign name = props.BitFieldName
+      %if name == ""
+	%assign name = "rt_BitField"
+      %endif
+      %return "%<name>.%<id> = 0; /* FALSE */"
+      %break
+
+    %case "declare"
+      %% The data is not individually declared; the bit field as a 
+      %% whole is declared in the storage class setup.
+      %return
+      %break
+
+    %case "define"
+      %% The data is not individually defined; the bit field as a 
+      %% whole is defined in the storage class setup.
+      %return
+      %break
+
+    %case "layout"
+      %% The memory layout does not match The Mathworks'.
+      %return ["other"]
+      %break
+
+    %default
+      %% Unknown access type.
+      %return LibDefaultCustomStorageUnknownDataAccessType ...
+	(record, request, idx, reim)
+      %break
+      
+  %endswitch
+%endfunction
+
+
+
+%% Function: ClassAccess ===========================================
+%% Abstract:
+%%   ClassAccess provides an API for requesting information or action
+%%   corresponding to the custom storage class
+%%
+%function ClassAccess(record, request) void
+
+  %assign comment = "/* Data with custom storage class BitField */"
+  %switch request
+    %case "setup"
+      %% Add a record to maintain subpartitions into separate bitfields.
+      %addtorecord record \
+      bitfields { \
+      }
+    
+      %<LibPrmFileCustomCode(comment, "trailer")>
+
+      %assign numData = LibCustomStorageClassRecordNumData(record)
+      %foreach idx = numData
+	%assign initFieldSep = ","
+	
+	%% Get the idx'th data record with BitField storage
+	%assign item = LibGetDataRecord(record, idx)
+	
+	%% Make sure the record is a non-complex boolean scalar.
+	%<LibCustomStorageVerifyRecordIsScalar(item)>
+	%<LibCustomStorageVerifyRecordIsNonComplex(item)>
+	%if LibGetRecordDataTypeId(item) != tSS_BOOLEAN
+	  %assign errTxt = "BIT storage class only supports booleans"
+	  %<LibReportFatalError(errTxt)>
+	%endif
+	
+	%assign id = LibGetRecordIdentifier(item)
+	%assign props = LibGetCustomStorageAttributes(item)
+	%assign bitfieldname = props.BitFieldName
+	%% If the BitFieldName is left unspecified, assume "rt_BitField".
+	%if bitfieldname == ""
+	  %assign bitfieldname = "rt_BitField"
+	%endif
+	
+	%% If a subpartition corresponding to this record's bit field does
+	%% not exist, create and initialize it, and store the subpartition.
+	%if !ISFIELD(record.bitfields, bitfieldname)
+	  %addtorecord record.bitfields \
+	  %<bitfieldname> { \
+	  typedef "/* Bitfield data */\ntypedef _bita struct %<bitfieldname>_tag {\n" \
+	  initstr "{" \
+	  }
+ 	  %assign initFieldSep = ""
+	%endif
+      
+	%% Increment the typedef and initializer associated with this record's
+	%% bit field.
+        %assign bitfield = record.bitfields.%<bitfieldname>
+	%assign bitfield.typedef = "%<bitfield.typedef>unsigned int %<id>:1;\n"
+	%if LibCustomStorageRecordIsModelParameter(item)
+	  %assign init = LibParameterInstanceInitStr(item)
+	%else
+	  %assign init = "0"
+	%endif
+	%assign bitfield.initstr = "%<bitfield.initstr>%<initFieldSep>%<init>"
+      %endforeach
+      
+      %% Complete the typedef and initializer for each bitfield, then
+      %% cache the typedef in the export header file and the definition
+      %% in the parameter definition file.
+      %assign bitfieldNames = FIELDNAMES(record.bitfields)
+      %assign numBitfieldNames = SIZE(bitfieldNames)[1]
+      %foreach i = numBitfieldNames
+	%assign bitfieldname = bitfieldNames[i]
+	%assign bitfieldInstance = bitfieldname
+	%assign bitfieldType = "%<bitfieldInstance>_bitfield"
+	%assign bitfieldRec = GETFIELD(record.bitfields, bitfieldname)
+	%assign bitfieldTypedef = bitfieldRec.typedef + ...
+	  "} %<bitfieldType>;\n\n"
+	%assign bitfieldInitstr = bitfieldRec.initstr + ...
+	  "}"
+	%<LibHeaderFileCustomCode("%<bitfieldTypedef>\n","trailer")>
+	%<LibHeaderFileCustomCode(...
+	  "extern %<bitfieldType> %<bitfieldInstance>;\n\n","trailer")>
+	%<LibPrmFileCustomCode(...
+	  "%<bitfieldType> %<bitfieldInstance> = %<bitfieldInitstr>;\n","header")>
+      %endforeach
+      %<LibPrmFileCustomCode("\n","trailer")>
+      %return
+      %break
+      
+    %case "comment"
+      %return comment
+      %break
+
+    %default
+      %% Unknown access type.
+      %return LibDefaultCustomStorageUnknownClassAccessType ...
+	(record, request)
+      %break
+      
+  %endswitch
+      
+
+%endfunction
+
+  
+%% [EOF] BIT.tlc

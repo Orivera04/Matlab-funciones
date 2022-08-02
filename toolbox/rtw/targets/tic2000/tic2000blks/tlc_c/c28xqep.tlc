@@ -1,0 +1,139 @@
+%% $RCSfile: c28xqep.tlc,v $
+%% $Revision: 1.1.6.2 $ $Date: 2004/04/08 20:59:47 $
+%% Copyright 2003-2004 The MathWorks, Inc.
+
+
+
+%implements c28xqep "C"
+
+%% Function: GetNextOutput ====================================================
+%% Abstract:
+%%     Build the next output from LibBlockOutputSignal
+%%      
+%function GetNextOutput(block)
+
+    %assign OutputString = "%<LibBlockOutputSignal(0,"","",0)>"
+    %return OutputString
+    
+%endfunction %% GetNextOutput
+
+
+
+%% Function: GetPulseCount ====================================================
+%% Abstract:
+%%     Build the expression for current Pulse Count
+%%      
+%function GetPulseCount(block)
+
+	%if (useModule=="A")   
+        %assign OutputString = "EvaRegs.T2CNT"
+	%else 
+        %assign OutputString = "EvbRegs.T4CNT"
+	%endif   
+    %return OutputString
+    
+%endfunction %% GetPulseCount
+
+
+
+%% Function: BlockTypeSetup ===================================================
+%function BlockTypeSetup(block, system) void
+
+    %openfile buffer
+    #include "DSP281x_Device.h"
+    %closefile buffer
+    %<LibCacheIncludes(buffer)>
+    
+%endfunction %% BlockTypeSetup
+
+
+
+%% Function: BlockInstanceSetup ===============================================
+%function BlockInstanceSetup(block,system) void
+
+    %<AddParamsToBlock(block)>
+    %openfile buffer
+         void config_QEP_%<useModule>(uint16_T initialCount);
+    %closefile buffer
+    %<LibCacheDefine(buffer)>
+    
+%endfunction %% BlockInstanceSetup
+
+
+
+%% Function: Start ============================================================
+%function Start(block,system) Output
+
+    %if (useModule=="A")  
+        config_QEP_A (%<initialCount>);
+    %else     
+        config_QEP_B (%<initialCount>);
+    %endif
+    
+%endfunction %% Start
+
+
+
+%% Function: Outputs ==========================================================
+%%
+%%  Read input buffer (when ready), and convert
+%%  to output format and send out.
+%%
+%function Outputs(block,system) Output
+
+/* %<Type> Block: %<Name> (%<ParamSettings.FunctionName>) */
+{
+	%switch(countingMode)
+        %case 1 
+            %<GetNextOutput(block)> = %<GetPulseCount(block)>;
+        %break
+        %case 2
+            int32_T* ptrOldPulseCount = %<LibBlockDWorkAddr (OLD_PULSE_COUNT, "", "", 0)>;
+            %switch(rotation)
+                %case 1
+				    if (%<GetPulseCount(block)> > *ptrOldPulseCount) {
+                        %<GetNextOutput(block)> = (65535 - %<GetPulseCount(block)> + *ptrOldPulseCount)*60 / (%<sampleTime>)/(%<resolution>*4); 
+                    } else if (%<GetPulseCount(block)> < *ptrOldPulseCount) {
+                        %<GetNextOutput(block)> = (*ptrOldPulseCount - %<GetPulseCount(block)>)*60/(%<sampleTime>)/(%<resolution>*4);                     
+                    } else {
+                        %<GetNextOutput(block)> = 0;
+                    }
+                %break
+                %case 2
+				    if (%<GetPulseCount(block)> > *ptrOldPulseCount) {
+                      	%<GetNextOutput(block)> = (%<GetPulseCount(block)> - *ptrOldPulseCount)*60/(%<sampleTime>)/(%<resolution>*4); 
+                    } else if (%<GetPulseCount(block)> < *ptrOldPulseCount) {
+                        %<GetNextOutput(block)> = (65535 - *ptrOldPulseCount + %<GetPulseCount(block)>)*60 / (%<sampleTime>)/(%<resolution>*4);                      	
+                    } else {
+                        %<GetNextOutput(block)> = 0;
+                    }
+                %break
+            %endswitch
+            *ptrOldPulseCount = %<GetPulseCount(block)>;
+        %break
+	%endswitch
+}
+
+%endfunction %% Outputs
+
+
+
+%% Function: AddParamsToBlock =================================================
+%%
+%%  Rename the S-Function parameter for easy reference.
+%%
+%function AddParamsToBlock(block) void
+
+    %assign useModule    = SFcnParamSettings.useModule
+    %assign initialCount = SFcnParamSettings.initialCount
+    %assign resolution   = SFcnParamSettings.resolution
+    %assign sampleTime   = SFcnParamSettings.sampleTime     
+    %assign dataType     = SFcnParamSettings.dataType  
+    %assign countingMode = SFcnParamSettings.countingMode         
+    %assign rotation     = SFcnParamSettings.rotation
+
+    %assign block = block + useModule + initialCount + resolution + sampleTime + dataType + countingMode + rotation                 
+   
+%endfunction  %% AddParamsToBlock
+
+%% [EOF] c28xqep.tlc

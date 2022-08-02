@@ -1,0 +1,19 @@
+function aplicar(mathandles)
+texto=get(mathandles(1),'String');
+valneg=get(mathandles(2),'Value');
+valcur=get(mathandles(3),'Value');
+valalinea=get(mathandles(4),'Value');
+set(mathandles(5),'String',texto);
+if valneg==1
+    set(mathandles(5),'FontWeight','bold');
+else
+    set(mathandles(5),'FontWeight','normal');
+end
+if valcur==1
+    set(mathandles(5),'FontAngle','italic');
+else
+    set(mathandles(5),'FontAngle','normal');
+end
+switch valalinea
+    case 1
+        set(mathandles(5),'HorizontalAlignment','');

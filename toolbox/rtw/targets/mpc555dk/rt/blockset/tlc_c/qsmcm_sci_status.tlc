@@ -1,0 +1,36 @@
+%% File: qsmcm_sci_status.tlc
+%%
+%% Abstract:
+%%   Read data within the QSMCM SCI status register
+%%
+%% $Revision: 1.1.6.1 $
+%% $Date: 2004/01/22 18:22:15 $
+%%
+%% Copyright 2004 The MathWorks, Inc.
+
+%implements qsmcm_sci_status "C"
+%include "mpc555_common_includes.tlc"
+
+%% Function: BlockTypeSetup
+%% Abstract:
+%%
+%function BlockTypeSetup(block,system) void
+%endfunction %% BlockTypeSetup
+
+%% Function: Outputs ========================================================
+%% Abstract:
+%%
+%function Outputs(block,system) Output
+
+    %if !SLibCodeGenForSim() 
+      
+      %assign moduleNum = "%<CAST("Number",SFcnParamSettings.Module)>"
+      %<LibBlockOutputSignal(0,"","",0)> = QSMCM.SC%<moduleNum>SR.B.TC;
+		
+    %endif
+
+%endfunction %%Outputs
+
+
+
+

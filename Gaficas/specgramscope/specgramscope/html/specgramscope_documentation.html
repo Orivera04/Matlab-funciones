@@ -1,0 +1,192 @@
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>SPECGRAMSCOPE   Live updating spectrogram display</title>
+      <meta name="generator" content="MATLAB 7.0.4">
+      <meta name="date" content="2005-06-13">
+      <meta name="m-file" content="specgramscope_documentation"><style>
+body {
+  background-color: white;
+  margin:10px;
+}
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+pre.codeinput {
+  margin-left: 30px;
+}
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.showbuttons {
+  margin-left: 30px;
+  border: solid black 2px;
+  padding: 4px;
+  background: #EBEFF3;
+}
+
+pre.codeoutput {
+  color: gray;
+  font-style: italic;
+}
+pre.error {
+  color: red;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows.  On Gecko-based browsers, the shrink-to-fit doesn't work. */ 
+p,h1,h2,div {
+  /* for MATLAB's browser */
+  width: 600px;
+  /* for Mozilla, but the "width" tag overrides it anyway */
+  max-width: 600px;
+  /* for IE */
+  width:expression(document.body.clientWidth > 620 ? "600px": "auto" );
+}
+
+    </style></head>
+   <body>
+      <h1>SPECGRAMSCOPE   Live updating spectrogram display</h1>
+      <introduction>
+         <p>SPECGRAMSCOPE makes it fairly easy to include a spectrogram scope in your real-time data acquisition and analysis application.
+            You feed spectrumscope your data, and it plots the FFT - simple enough!  It takes 2 steps to use SPECGRAMSCOPE.  First, you
+            initialize the scope with basic information needed for the FFT (sample rate, fft length, and history length). After that,
+            all you need to do is pass your data to the scope.
+         </p>
+         <p>This documentation starts with the simplest syntax for the two steps, then provides a few more advanced options.</p>
+      </introduction>
+      <h2>Contents</h2>
+      <div>
+         <ul>
+            <li><a href="#1">STEP 1: Initialize the scope</a></li>
+            <li><a href="#2">STEP 2: Update the scope</a></li>
+            <li><a href="#3">Specifying the axes to locate the scope</a></li>
+            <li><a href="#4">Returning a handle to the scope</a></li>
+            <li><a href="#5">Example</a></li>
+            <li><a href="#6">Initialize data</a></li>
+            <li><a href="#7">Initialize scope</a></li>
+            <li><a href="#8">Update scope</a></li>
+         </ul>
+      </div>
+      <h2>STEP 1: Initialize the scope<a name="1"></a></h2>
+      <p>SPECGRAMSCOPE(FS,NFFT) initializes a spectrogram scope in the current axes. This spectrogram scope will compute and displays
+         the NFFT-point FFT of a vector signal with sample rate FS Hz.  It will show the last 10 FFTs
+      </p>
+      <h2>STEP 2: Update the scope<a name="2"></a></h2>
+      <p>SPECGRAMSCOPE(S) updates the spectrogram scope in the current axes with the FFT of vector S.  The scope should first be initialized
+         as above with sample rate and FFT length.  If not, the sample rate will be 1 Hz and the FFT length will be the length of S.
+          Differences between the length of S and the specified FFT length are handled the same as MATLAB's built-in FFT function (i.e.,
+         zero-padding or truncation, as appropriate).
+      </p>
+      <h2>Specifying the axes to locate the scope<a name="3"></a></h2>
+      <p>SPECGRAMSCOPE(HAX, ...) defines the scope in specified axes HAX instead of GCA.  i.e., SPECGRAMSCOPE(HAX,FS,NFFT) initializes
+         axes HAX as a spectrogram scope, and SPECGRAMSCOPE(HAX,S) updates axes HAX with vector S.
+      </p>
+      <h2>Returning a handle to the scope<a name="4"></a></h2>
+      <p>HAX = SPECGRAMSCOPE(...) returns a handle to the axes initialized by the spectrogram scope.  This is useful if you allow SPECGRAMSCOPE
+         to create an axes for you, and want to be able to easily reference the axes for updates.  The surface created by SPECGRAMSCOPE
+         all have the tag 'SpecgramScope'.  If you would like to manually modify the properties of these lines, their handles can be
+         found by:
+      </p><pre>      HAX = SPECGRAMSCOPE(...);
+      HSurf = findobj(HAX,'Tag','SpecgramScope');</pre><h2>Example<a name="5"></a></h2>
+      <h2>Initialize data<a name="6"></a></h2><pre class="codeinput">Fs = 16384;
+Nfft = 2048;
+t = (0:1:Nfft-1)'/Fs;
+fo = logspace(3.5,3.7);         <span class="comment">% Range of fundamental frequencies</span>
+s1 = sin(2*pi*t*fo) + .1*rand(Nfft,length(fo));
+</pre><h2>Initialize scope<a name="7"></a></h2><pre class="codeinput">specgramscope(Fs,Nfft,30);
+view([103 30])
+</pre><img vspace="5" hspace="5" src="specgramscope_documentation_01.png"> <h2>Update scope<a name="8"></a></h2><pre class="codeinput"><span class="keyword">for</span> ii = 1:length(fo)
+    specgramscope(s1(:,ii));
+    drawnow;pause(.01);
+<span class="keyword">end</span>;
+</pre><img vspace="5" hspace="5" src="specgramscope_documentation_02.png"> <p class="footer"><br>
+         Published with MATLAB&reg; 7.0.4<br></p>
+      <!--
+##### SOURCE BEGIN #####
+%% SPECGRAMSCOPE   Live updating spectrogram display
+% SPECGRAMSCOPE makes it fairly easy to include a spectrogram scope in your
+% real-time data acquisition and analysis application.  You feed
+% spectrumscope your data, and it plots the FFT - simple enough!  It takes
+% 2 steps to use SPECGRAMSCOPE.  First, you initialize the scope with basic
+% information needed for the FFT (sample rate, fft length, and history length).
+% After that, all you need to do is pass your data to the scope.
+%
+% This documentation starts with the simplest syntax for the two steps,
+% then provides a few more advanced options.
+
+%% STEP 1: Initialize the scope
+% SPECGRAMSCOPE(FS,NFFT) initializes a spectrogram scope in the current axes.
+% This spectrogram scope will compute and displays the NFFT-point FFT of a vector 
+% signal with sample rate FS Hz.  It will show the last 10 FFTs
+
+%% STEP 2: Update the scope
+% SPECGRAMSCOPE(S) updates the spectrogram scope in the current axes with the
+% FFT of vector S.  The scope should first be initialized as above with
+% sample rate and FFT length.  If not, the sample rate will be 1 Hz and the FFT
+% length will be the length of S.  Differences between the length of S and
+% the specified FFT length are handled the same as MATLAB's built-in FFT
+% function (i.e., zero-padding or truncation, as appropriate).
+
+%% Specifying the axes to locate the scope
+% SPECGRAMSCOPE(HAX, ...) defines the scope in specified axes HAX instead of GCA.  i.e.,
+% SPECGRAMSCOPE(HAX,FS,NFFT) initializes axes HAX as a spectrogram scope, and
+% SPECGRAMSCOPE(HAX,S) updates axes HAX with vector S.
+%
+
+%% Returning a handle to the scope
+% HAX = SPECGRAMSCOPE(...) returns a handle to the axes initialized by the
+% spectrogram scope.  This is useful if you allow SPECGRAMSCOPE to create an
+% axes for you, and want to be able to easily reference the axes for
+% updates.  The surface created by SPECGRAMSCOPE all have the tag
+% 'SpecgramScope'.  If you would like to manually modify the properties of
+% these lines, their handles can be found by:
+%
+%        HAX = SPECGRAMSCOPE(...);
+%        HSurf = findobj(HAX,'Tag','SpecgramScope');
+
+%% Example
+%% Initialize data
+Fs = 16384;
+Nfft = 2048;
+t = (0:1:Nfft-1)'/Fs;
+fo = logspace(3.5,3.7);         % Range of fundamental frequencies
+s1 = sin(2*pi*t*fo) + .1*rand(Nfft,length(fo));
+
+
+%% Initialize scope
+specgramscope(Fs,Nfft,30);
+view([103 30])
+
+%% Update scope
+for ii = 1:length(fo)
+    specgramscope(s1(:,ii));
+    drawnow;pause(.01);
+end;
+
+##### SOURCE END #####
+-->
+   </body>
+</html>

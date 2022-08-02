@@ -1,0 +1,23 @@
+% © Gergo Lajos 1998; program a Grafika c. reszhez
+ x=[1 3 7];
+ y=[6 9 2];
+ s1=subplot(2,2,1);
+ plot(x,y);
+ grid;
+ title('Ez az alapertelmezes');
+ s2=subplot(2,2,2); 
+ plot(x,y); 
+ set(s2,'XTick',x);
+ set(s2,'XGrid','on');
+ title('az x-tengely beosztasat megvaltoztattuk');
+ s3=subplot(2,2,3);  
+ plot(x,y);   
+ set(s3,'YTick',y);   
+ set(s3,'YGrid','on');
+ title('az y-tengely beosztasat megvaltoztattuk');
+ s4=subplot(2,2,4);  
+ plot(x,y);   
+ set(s4,'XTick',x); 
+ set(s4,'YTick',y);
+ grid;
+ title('mindket tengely beosztasat megvaltoztattuk');

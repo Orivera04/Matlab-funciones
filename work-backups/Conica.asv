@@ -1,0 +1,31 @@
+function conica(ecua)
+clc;
+ind1=findstr('x',ecua);
+ind2=findstr('y',ecua);
+A=ecua(ind1+1)=='^';
+B=ecua(ind2+1)=='^';
+C=isreal(ecua(1));
+D=isletter(ecua(1));
+E=ecua(1)=='-';
+F=ecua(ind1+1)=='+';
+G=ecua(ind1+1)=='-';
+H=ecua(ind2+1)=='+';
+I=ecua(ind2+1)=='-';
+J=ecua(ind1+3)=='+';
+K=ecua(ind1+3)=='-';
+if E && K
+    error('Multiplicar por -1 la ecuación')
+end
+if A&&B&&C&&J || A&&B&&D&&J 
+    disp('La cónica es una elipse o circunferencia')
+elseif A&&B&&C&&K ||A&&B&&D&&K || A&&B&&E&&J   
+    disp('La cónica es una hipérbola')
+elseif A&&C&&J || A&&D&&J || A&&E&&J ||...
+       A&&C&&K || A&&D&&K || A&&E&&K ||...
+       B&&C&&F || B&&D&&F || B&&E&&F ||...
+       B&&C&&G || B&&D&&G || B&&E&&G                  
+    disp('La cónica es una parábola')
+else
+    disp('')
+end
+

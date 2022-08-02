@@ -1,0 +1,196 @@
+%% File: toolbox/rtw/targets/mpc555dk/rt/blockset/mfiles/@MPC555dkConfig/tlc_config/SYSTEM_CLOCKS.tlc
+%%
+%% Abstract:
+%%   
+%%
+%% $Revision: 1.8.4.5 $
+%% $Date: 2004/04/19 01:29:22 $
+%%
+%% Copyright 2001-2004 The MathWorks, Inc.
+%% 
+
+
+%implements * "C"
+
+%% NOTE: Is very important that this tlc file includes it's own
+%% required tlc files - since, this code may be invoked by targets other than
+%% mpc555 - the license check below will catch this problem
+%%
+%% include environment routines
+%assign MATLAB_ROOT = FEVAL("matlabroot")
+%assign PATH_SEP = FEVAL("filesep")
+%assign TARGETS_PATH = "%<MATLAB_ROOT>%<PATH_SEP>toolbox%<PATH_SEP>rtw%<PATH_SEP>targets%<PATH_SEP>common%<PATH_SEP>configuration%<PATH_SEP>environment"
+%addincludepath "%<TARGETS_PATH>"
+%include "env.tlc"
+
+%function DriverConfiguration(record) void
+        %% Note: this function will NOT be called if 
+        %% we are in Accelerator mode (or PIL mode) - the Resource Configuration code
+        %% handles this
+
+        %% this is the one place we make sure the system target file is correct
+        %% All driver blocks should require a Resource Configuration block to be in 
+        %% the model and therefore this check will cover all driver blocks.
+        %%
+        %% Note: since only mpc555rt and osek environments are allowed (not mpc555pil, mpc555exp etc),
+        %% we protect from driver code generation for PIL and EXP.   In the case of PIL, this TLC
+        %% function (DriverConfiguration) should not be being called, so we will not throw any 
+        %% error.
+        %%
+        %% This gives the desired behaviour:
+        %%
+        %% mpc555rt - Generate driver code
+        %% mpc555pil - Allow drivers in the model, but do not generate code - throw error if this code is executed
+        %% mpc555exp - Do not allow drivers in the model
+        %% osek - Generate driver code
+        %% any other target - Do not allow drivers in the model.
+        %% 
+        %if (!chk_env("mpc555rt")) && (!chk_env("osek"))
+            %assign errorName = "Code generation is not correctly configured."
+            %assign handle = FEVAL("errordlg", "Code generation is not configured for one of the targets: Embedded Target "...
+                              "for Motorola MPC555 (RT or PIL) or Embedded Target for OSEK/VDX. "... 
+                              "The model includes Embedded Target for Motorola MPC555 driver blocks, "... 
+                              "but the system target file is not set accordingly. You must choose a system target "... 
+                              "file that is compatible with the driver blocks in your model (for example - "...
+                              "mpc555rt.tlc, mpc555pil.tlc or osekworks.tlc).", ...
+                              errorName, "modal")
+            %exit %<errorName>
+        %endif
+
+        %if chk_env("osek")
+          %% Include driver helper library
+          %assign PS = PathInfo.PATH_SEP
+          %assign basePath = "%<PathInfo.MATLABROOT>%<PS>toolbox%<PS>rtw%<PS>targets%<PS>mpc555dk%<PS>drivers%<PS>lib%<PS>"
+          %switch Settings.TargetCompiler
+            %case "Diab"
+              %assign driver_lib = basePath + "DIAB%<PS>lib_pub_mpc555.a"
+              %break
+            %case "GNU_not_yet_ready"
+              %assign driver_lib = basePath + "GNU%<PS>lib_pub_mpc555.a"
+              %break
+            %default
+              %assign msg = "Driver library is not currently supported for the TargetCompiler: %<Settings.TargetCompiler>"
+              %exit %<msg>
+              %break
+          %endswitch
+          %<OSLibOSEKAddMakeVars("LIBS = %<driver_lib>")>
+        %endif
+
+        %% Header Files
+
+        %openfile buffer
+            #include "mpc5xx.h"
+        %closefile buffer
+        %<LibCacheIncludes(buffer)>
+
+        %% Processor Variant Makefile
+        %openfile buffer = "mpc5xxvariant.mk"
+# File : mpc5xxvariant.mk
+# 
+# This file defines some make variables related to the processor
+# configuration such as the processor variant and external
+# osscilator frequency
+
+# The Processor variant
+MPC5XX_VARIANT=%<SLibSubsRef(record,"MPC5xx_Variant")>
+
+# The oscillator frequency of the processor
+%assign osc_freq_enum = %<SLibEnumSubsRef(record, "OscillatorFreqEnum","Oscillator_Frequency")>
+%switch osc_freq_enum
+   %case 0
+      %assign osc_freq_val = 20000000 
+      %break
+   %case 1
+      %assign osc_freq_val = 4000000
+      %break
+   %default
+      %exit "Unknown oscillator frequency enumeration value"
+      %break
+%endswitch
+OSCILLATOR_FREQ = %<osc_freq_val>
+
+        %closefile buffer
+
+        %% Export File Setups
+        %openfile buffer
+
+            /* The interrupt level for rtOnestep function */
+            #define RT_ONE_STEP_IRQ %<SLibSubsRef(record,"RT_ONESTEP_IRQ_LEVEL")>
+
+            /* The oscillator frequency of the processor  */
+            #define OSCILLATOR_FREQ %<osc_freq_val> /* hz */
+        %closefile buffer
+        %<LibExportFileCustomCode(buffer, "header")> %% Needs to be visible to the mpc555dkmain.c file
+
+
+%endfunction
+
+%function Start( record ) Output
+     %assign osc_freq_enum = %<SLibEnumSubsRef(record, "OscillatorFreqEnum","Oscillator_Frequency")>
+     %switch osc_freq_enum
+         %case 0
+         %assign osc_freq_val = 20000000 
+         %break
+         %case 1
+            %assign osc_freq_val = 4000000
+            %break
+         %default
+            %exit "Unknown oscillator frequency enumeration value"
+            %break
+      %endswitch
+            
+            USIU.PLPRCR.B.MF = %<SLibSubsRef(record,"USIU_PLPRCR_B_MF")>;
+
+            /* Wait for PLL to Lock */
+            while(USIU.PLPRCR.B.SPLS == 0); 
+
+            /* Assuming External Oscilator Frequency = %<osc_freq_val> */
+
+            %if !chk_env("osek")
+              %assign period = CompiledModel.FundamentalStepSize
+              %assign osc = %<osc_freq_val> 
+              %assign exclkdiv = 256 %% HardCoding SCCR.RTDIV = 1
+              %assign pitc = CAST("Number",period * ( osc / exclkdiv )) - 1
+
+              %if pitc > FEVAL("hex2dec","ffff") 
+                %assign max_period = (FEVAL("hex2dec","ffff") + 1) * ( CAST("Real",exclkdiv) / CAST("Real",osc) )
+                %openfile err_buffer 
+%% #################################################################
+%<period>s period cannot be achieved for MPC555.
+Choose a faster sample rate.
+
+The longest achievable period for the current processor settings is %<SPRINTF("%g",max_period)> seconds.
+%% #################################################################
+                %closefile err_buffer
+                %exit %<err_buffer>
+              %endif
+
+
+              %if pitc < 0
+                %assign min_period = 1 * ( CAST("Real",exclkdiv) / CAST("Real",osc) )
+                %openfile err_buffer 
+%% #################################################################
+%<period>s period cannot be achieved for MPC555.
+Choose a slower sample rate
+
+The shortest achievable period for the current processor settings is %<SPRINTF("%g",min_period)> seconds.
+%% #################################################################
+                %closefile err_buffer
+                %exit %<err_buffer>
+              %endif
+            %endif
+
+
+            /* The DIVF bits control the value of the pre-divider in the SPLL circuit. */
+            USIU.PLPRCR.B.DIVF = %<SLibSubsRef(record,"USIU_PLPRCR_B_DIVF")>;
+            /* Division factor high frequency. */
+            USIU.SCCR.B.DFNH   = %<SLibSubsRef(record,"USIU_SCCR_B_DFNH")>;
+            /* Division factor low frequency. */
+            USIU.SCCR.B.DFNL   = %<SLibSubsRef(record,"USIU_SCCR_B_DFNL")>;
+            /* RTC (and PIT) clock diver. Divide by 256 */
+            USIU.SCCR.B.RTDIV  = 1;
+            /* External bus division factor. */
+            USIU.SCCR.B.EBDF = %<SLibSubsRef(record,"USIU_SCCR_B_EBDF")>;
+
+%endfunction
+

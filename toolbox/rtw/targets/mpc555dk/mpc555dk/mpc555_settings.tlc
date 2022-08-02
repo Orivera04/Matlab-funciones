@@ -1,0 +1,238 @@
+%% File: mpc555_settings.tlc
+%%
+%% Abstract:
+%%   Defines settings for mpc55DK target.
+%%
+%% $Revision: 1.12.4.6 $
+%% $Date: 2004/04/16 22:19:55 $
+%%
+%% Copyright 2004 The MathWorks, Inc.
+
+%function MPC555_Settings() void
+%addtorecord CompiledModel      \  
+  PathInfo {			\
+  	MODEL_FILE	""	\
+  	MODEL_REL_PATH	""	\
+  	PWD		""	\
+	PATH_SEP        ""	\
+	MODEL_ABS_PATH  ""	\
+	MATLABROOT      ""	\
+	TLC_FILE        ""	\
+	TLC_DIR         ""	\
+	TARGET_TLC_DIR  ""	\
+	TARGET_ROOT_DIR ""	\
+	PIL_TLC_DIR     ""	\
+	BSP_DIR     	""	\
+	BSP_TLC_DIR 	""	\
+	PROFILE_DIR     ""      \
+  }
+
+
+
+%% determine the LOCAL_MODEL_FILE and the TARGET_TLC_FILE
+%%
+%% get files from TLCFILES and find which one is the model file,
+%% and which one is the TARGET_TLC_FILE
+%%
+%assign LOCAL_MODEL_FILE = ""
+%assign TARGET_TLC_FILE = ""
+
+%% use SLibArrayFEVAL so that we can get multiple 
+%% return arguments from MATLAB
+%include "targetlib.tlc"
+
+%% use for loop with large count
+%% in the absence of a while loop
+%assign files = TLCFILES
+%foreach loopCount = 1000
+   %assign result = SLibArrayFEVAL("strtok", 2, Vector(2) ["%<files>", "[, ]"])
+   %assign token = result[0]
+   %assign files = result[1]
+
+   %if ISEMPTY(files)
+      %% strtok returns empty string remainder
+      %% when token is not found --> exit the loop
+      %break
+   %endif
+
+   %% grab the file parts 
+   %assign result = SLibArrayFEVAL("fileparts", 3, Vector(1) ["%<token>"])
+   %assign name = result[1]
+   %assign extension = result[2]
+
+   %if chk_env("%<name>")
+      %assign TARGET_TLC_FILE = "%<token>"
+   %endif
+   
+   %if "%<extension>" == ".rtw"
+      %assign LOCAL_MODEL_FILE = "%<token>"
+   %endif
+   
+   %if (LOCAL_MODEL_FILE != "") && (TARGET_TLC_FILE != "")
+      %% exit the loop, we have found the files
+      %break
+   %endif
+%endforeach
+
+%if "%<LOCAL_MODEL_FILE>" == ""
+  %assign msg = "Unable to locate RTW file in TLCFILES: %<TLCFILES>"
+  %exit %<msg>
+%endif
+
+%if "%<TARGET_TLC_FILE>" == ""
+  %assign msg = "Unable to locate Target TLC file in TLCFILES: %<TLCFILES>"
+  %exit %<msg>
+%endif
+
+%with CompiledModel.PathInfo
+	%assign CompiledModel.PathInfo.MODEL_FILE      = "%<LOCAL_MODEL_FILE>"
+	%assign CompiledModel.PathInfo.PWD             = FEVAL("pwd")
+	%assign CompiledModel.PathInfo.PATH_SEP        = FEVAL("filesep")
+	%assign CompiledModel.PathInfo.MATLABROOT      = FEVAL("matlabroot")
+
+%% MODEL_REL_PATH is no longer available use invoking TLC.
+%%	%assign CompiledModel.PathInfo.MODEL_REL_PATH  = FEVAL("filepart", "%<LOCAL_MODEL_FILE>","path")
+	%assign CompiledModel.PathInfo.MODEL_ABS_PATH  = FEVAL("filepart", "%<LOCAL_MODEL_FILE>","path")
+
+	%assign CompiledModel.PathInfo.TLC_FILE        = "%<TARGET_TLC_FILE>"
+	%assign CompiledModel.PathInfo.TLC_DIR         = FEVAL("filepart", "%<TLC_FILE>","path")
+	%assign CompiledModel.PathInfo.TARGET_TLC_DIR  = FEVAL("filepart", "%<TLC_FILE>","path")
+	%assign CompiledModel.PathInfo.TARGET_ROOT_DIR = FEVAL("filepart", "%<TLC_DIR>","path")
+	%assign CompiledModel.PathInfo.PIL_TLC_DIR     = "%<TARGET_ROOT_DIR>%<PATH_SEP>pil"
+	%assign CompiledModel.PathInfo.PROFILE_DIR     = "%<TARGET_ROOT_DIR>%<PATH_SEP>common%<PATH_SEP>profile"
+%endwith
+
+%% ----------------- Insert the TargetPrefs --------------------------------------------------------
+%assign tgtprefs = FEVAL("RTW.TargetPrefs.load","mpc555.prefs","structure")
+%addtorecord CompiledModel Settings tgtprefs
+
+%with CompiledModel
+%% ------------- Deprecated Fields That Do Not Match----------------------------
+%% ------------- The Target Prefs Fields. Remove all references ----------------
+%% -------------- in the code. This is just to keep PIL working   --------------
+  %addtorecord Settings COM_BAUD CAST("Number",Settings.SerialCommunications.BitRate)
+  %addtorecord Settings COM_PORT Settings.SerialCommunications.HostPort
+
+%% ------------- Derived Settings Not Stored in TargetPrefs --------------------
+  %% translate into digital value
+  %switch FEVAL("lower",Settings.SerialCommunications.TargetPort) 
+      %case "com1" 
+        %addtorecord Settings TGT_COMM_PORT_ID  1
+        %break
+      %case "com2" 
+        %addtorecord Settings TGT_COMM_PORT_ID  2
+        %break
+      %default 
+        %error "%<Settings.SerialCommunications.TargetPort>  is not a valid port"
+  %endswitch 
+  %addtorecord Settings BSP_TARGET  "phyCORE-555"
+  %addtorecord Settings CWDEFINE_PROC   "555"
+%endwith  
+  
+%with CompiledModel.PathInfo  
+	%assign CompiledModel.PathInfo.BSP_DIR     = "%<PIL_TLC_DIR>%<PATH_SEP>BSPs%<PATH_SEP>%<CompiledModel.Settings.BSP_TARGET>"
+	%assign CompiledModel.PathInfo.BSP_TLC_DIR = "%<BSP_DIR>%<PATH_SEP>tlc"
+%endwith
+
+%addincludepath "%<CompiledModel.PathInfo.PIL_TLC_DIR>"
+%addincludepath "%<CompiledModel.PathInfo.BSP_TLC_DIR>"
+%addincludepath "%<CompiledModel.PathInfo.PROFILE_DIR>"
+
+%% common warning string shared between RT and PIL
+%assign RTandPILMainWarning = "The Embedded Target for Motorola MPC555 provides a target-specific main program (mpc555dk_main.c). Do not select the \"Generate an example main program\" option with the Embedded Target for Motorola MPC555."
+
+   %% check ERT/RTW options settings
+   %if (chk_env("mpc555rt"))
+      %assign ::DK_TLC_TYPE = "RT"
+      %if "%<GenerateSampleERTMain>" == "1"
+		   %assign ::GenerateSampleERTMain =0
+			%assign results = FEVAL("warndlg", RTandPILMainWarning)
+		%endif
+      %if "%<GenerateErtSFunction>" != "0"
+         %assign results = FEVAL("warndlg","The RT target can not be used to create an ERT s-function. Disable the s-function creation option under ERT Code Generation options.")
+         %exit The RT target can not be used to create an ERT s-function. Disable the s-function creation option under ERT Code Generation options.
+      %endif
+      %if "%<MultiInstanceERTCode>" == "1"
+         %assign results = FEVAL("warndlg","The RT target doesn't support generate reusable code format yet.")
+         %exit The RT target doesn't support generate reusable code format yet.
+      %endif  
+   %elseif (chk_env("mpc555pil"))
+      %assign ::DK_TLC_TYPE = "PIL"
+      %if "%<GenerateSampleERTMain>" == "1"
+		   %assign ::GenerateSampleERTMain =0
+			%assign results = FEVAL("warndlg", RTandPILMainWarning)
+		%endif
+      %if "%<GenerateErtSFunction>" != "1"
+         %assign results = FEVAL("warndlg","The PIL target require creation of ERT s-function. Enable the s-function creation option under ERT Code Generation options.")
+         %exit The PIL target require creation of ERT s-function. Enable the s-function creation option under ERT Code Generation options.
+      %endif
+      %if "%<ExtMode>" == "1"
+         %assign results = FEVAL("warndlg","The PIL target doesn't support external mode yet.")
+         %exit The PIL target doesn't support external mode yet.
+      %endif
+      %if "%<MultiInstanceERTCode>" == "1"
+         %assign results = FEVAL("warndlg","The PIL target doesn't support generate reusable code format yet.")
+         %exit The PIL target doesn't support generate reusable code format yet.
+      %endif
+   %elseif (chk_env("mpc555exp"))
+      %assign ::DK_TLC_TYPE = "EXP"
+   	%if "%<GenerateSampleERTMain>" == "1"
+	   	%assign ::GenerateSampleERTMain =0
+			%assign results = FEVAL("warndlg","The Embedded Target for Motorola MPC555 provides a target-specific main program (ert_main.c). Do not select the \"Generate an example main program\" option with the Embedded Target for Motorola MPC555.")
+		%endif
+      %if "%<GenerateErtSFunction>" != "0"
+         %assign results = FEVAL("warndlg","The algorithm export target can not be used to create an ERT s-function. Disable the s-function creation option under ERT Code Generation options.")
+         %exit The algorithm export target can not be used to create an ERT s-function. Disable the s-function creation option under ERT Code Generation options.
+      %endif
+      %if "%<ExtMode>" == "1"
+         %assign results = FEVAL("warndlg","The algorithm export target doesn't support external mode yet.")
+         %exit The algorithm export target doesn't support external mode yet.
+      %endif
+   %else
+      %assign results = FEVAL("warndlg","Unsupported target selected. Please choose one of the valid target.")
+      %exit Unsupported target selected. Please choose one of the valid target.
+   %endif
+
+%assign EchoConfigSettings = 0
+%if EchoConfigSettings
+%selectfile STDOUT
+######################################################################
+
+The value for PWD is:
+	%<CompiledModel.PathInfo.PWD>
+
+MODEL_ABS_PATH is:
+	%<CompiledModel.PathInfo.MODEL_ABS_PATH>
+
+TLC_FILE is: 
+	%<CompiledModel.PathInfo.TLC_FILE>
+
+TLC_DIR is:
+	%<CompiledModel.PathInfo.TLC_DIR>
+
+TARGET_ROOT_DIR is:
+	%<CompiledModel.PathInfo.TARGET_ROOT_DIR>
+	
+TGT_COMM_PORT_ID is:
+	%<CompiledModel.Settings.TGT_COMM_PORT_ID>
+
+CommTargetPort is:
+	%<CompiledModel.Settings.CommTargetPort>
+
+Settings are:
+	%<tgtprefs>
+
+PIL_TLC_DIR is:
+    %<CompiledModel.PathInfo.PIL_TLC_DIR>
+
+BSP_TLC_DIR is:
+    %<CompiledModel.PathInfo.BSP_TLC_DIR>
+
+######################################################################
+%selectfile NULL_FILE
+%endif
+%endfunction
+
+%<MPC555_Settings()>
+
+%%EOF

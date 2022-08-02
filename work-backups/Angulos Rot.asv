@@ -1,0 +1,30 @@
+function [alfa,beta,gamma]=angrotcuad(A,B,C,D,E,F)
+%Angulos de Rotación de una cuádrica
+clear;
+clc;
+
+
+  if D~=0 && A-B==0
+      alfa=pi/4;
+  elseif  D/(A-B)<0
+      T2t=D/(A-B);alfa=atan(T2t)/2;      
+  else
+     T2t=D/(A-B); alfa=atan(T2t)/2;        
+  end
+
+  if E~=0 && A-C==0
+      beta=pi/4;
+  elseif  E/(A-C)<0
+      T2t=E/(A-C);beta=atan(T2t)/2;      
+  else
+     T2t=E/(A-C); beta=atan(T2t)/2;        
+  end
+ 
+  if F~=0 && B-C==0
+      gamma=pi/4;
+  elseif  F/(B-C)<0
+      T2t=F/(B-C);gamma=atan(T2t)/2;      
+  else
+     T2t=F/(B-C); gamma=atan(T2t)/2;        
+  end
+  

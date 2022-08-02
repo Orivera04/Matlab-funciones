@@ -1,0 +1,54 @@
+% Ejercicio de laboratorio 2
+clc;
+prof=input('Cual es la profundidad de inmersion (70,80 o 90 pies):  >>');
+durac=input('Cual es la duracion de la inmersion (100,110,120 o 130 minutos: >>');
+min10=0;
+min20=0;
+if prof==70
+    if durac==100
+        min20=0;
+        min10=33;
+    elseif durac==110
+        min20=2;
+        min10=41;
+    elseif durac==120
+        min20=4;
+        min10=47;
+    elseif durac==130
+        min20=6;
+        min10=52;
+    end
+elseif prof==80
+    if durac==100
+        min20=11;
+        min10=46;
+    elseif durac==110
+        min20=13;
+        min10=53;
+    elseif durac==120
+        min20=17;
+        min10=56;
+    elseif durac==130
+        min20=19;
+        min10=63;
+    end
+if prof==90
+    if durac==100
+        min20=21;
+        min10=54;
+    elseif durac==110
+        min20=24;
+        min10=51;
+    elseif durac==120
+        min20=32
+        min10=68
+    elseif durac==130
+        min20=36
+        min10=74
+    end
+end
+fprintf('Para una inmersion a %d pies durante %d minutos se requieren las\n',prof,durac);
+fprintf('siguientes pausas de descompresion:\n\n');
+fprintf('%d minutos a 20 pies\n',min20);
+fprintf('%d minutos a 10 pies\n\n',min10);
+fprintf('PELIGRO: NO SE SUMERJA SIN LOS CONOCIMIENTOS APROPIADOS');
